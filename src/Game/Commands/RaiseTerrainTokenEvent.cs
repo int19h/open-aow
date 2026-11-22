@@ -13,6 +13,7 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Game.World.Terrain;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -59,7 +60,7 @@ public class RaiseTerrainTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenE
                     {
                         field.RestoreTerrain();
                         RaisedMountain mountain = resource.CreateResourceUser<RaisedMountain>();
-                        mountain.Duration = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
+                        mountain.Duration = (((StrategicMap.Current.Random(11) - 5) / 5) + 3).TruncateToSByte();
                         mountain.Player = caster.Player;
                         mountain.OriginalOverlay = field.OverlayType;
                         StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);

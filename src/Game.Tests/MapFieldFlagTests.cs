@@ -19,11 +19,11 @@ public sealed class MapFieldFlagTests
     public void TheFogCountIsByteTwoOfTheFlags()
     {
         MapField field = new(null) { FieldFlags = unchecked((int)0xA5C3_0F1E) };
-        Assert.Equal(ByteOf(field.FieldFlags, index: 2), field.FogCount);
+        Assert.Equal(ByteOf(field.FieldFlags, index: 2), (byte)field.FogCount);
         Assert.Equal(0xC3, field.FogCount);
         for (int value = 0; value <= 255; value++)
         {
-            field.SetFogCount((byte)value);
+            field.SetFogCount(value.TruncateToByte());
             Assert.Equal(value, field.FogCount);
             Assert.Equal(value, ByteOf(field.FieldFlags, index: 2));
             Assert.Equal(unchecked((int)0xA500_0F1E), field.FieldFlags & ~0x00FF0000);

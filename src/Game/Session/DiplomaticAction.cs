@@ -62,9 +62,9 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
             _ = message.Add(line);
         }
 
-        Source = persister.UnsignedByte(name: "Source", value: Source);
-        Target = persister.UnsignedByte(name: "Target", value: Target);
-        OtherPlayer = persister.UnsignedByte(name: "OtherPlayer", value: OtherPlayer);
+        Source = (sbyte)persister.UnsignedByte(name: "Source", value: Source);
+        Target = (sbyte)persister.UnsignedByte(name: "Target", value: Target);
+        OtherPlayer = (sbyte)persister.UnsignedByte(name: "OtherPlayer", value: OtherPlayer);
         gold = persister.Int32("Gold", value: gold);
         mana = persister.Int32("Mana", value: mana);
         Span<byte> kindData = [kind];
@@ -297,7 +297,7 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
     public string GetName(sbyte player) => Proposal.Name(this);
 
     // Diplomacy.pas:527
-    public int GetRelationModifier(sbyte player, sbyte race) => Proposal.RelationModifier(this, player, race);
+    public int GetRelationModifier(sbyte player, int race) => Proposal.RelationModifier(this, player, race);
 
     // Diplomacy.pas:707
     public DiplomaticActionEventLog CreateEventLog()
@@ -326,11 +326,11 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
 
     private static readonly string s_notEnoughManaText = "Not enough mana.";
 
-    private static void RetrieveDefaultDiplomaticActionMessage(sbyte source, sbyte target, sbyte other, DiplomaticProposal proposal, DiplomaticActionReaction reaction, DelphiStringCollection text, GameEngine? engine)
+    private static void RetrieveDefaultDiplomaticActionMessage(int source, int target, int other, DiplomaticProposal proposal, DiplomaticActionReaction reaction, DelphiStringCollection text, GameEngine? engine)
     {
         text.Clear();
         TextControl fTextControl = GamePack.Current.TextControl;
-        DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(source, otherPlayer: target);
+        DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)source, otherPlayer: (sbyte)target);
         Player? players = StrategicMap.Current.Players.GetPlayers(source);
         string sourceRace = AbilityRules.TranslateResourceString(engine, S: GameTables.RaceNamesPluralTexts[players.PlayerRace]);
         Player? players2 = StrategicMap.Current.Players.GetPlayers(target);

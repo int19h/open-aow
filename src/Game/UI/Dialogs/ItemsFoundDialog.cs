@@ -157,7 +157,7 @@ public sealed partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWItemsFoundDlg.pas:173
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {

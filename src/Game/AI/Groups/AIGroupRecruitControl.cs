@@ -123,7 +123,7 @@ public class AIGroupRecruitControl : AIGroupTask
             AIRecruitmentGroup group = _control.RecruitmentGroups.FindUnit(troop);
             if (group is not null && Units.GetUnit(i).Moves != 0)
             {
-                sbyte moves = Units.GetUnit(i).Moves;
+                int moves = Units.GetUnit(i).Moves;
                 int days = (group.MovePoints - 1) / moves;
                 if (days > result)
                 {

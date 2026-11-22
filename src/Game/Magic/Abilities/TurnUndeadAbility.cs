@@ -225,17 +225,17 @@ public class TurnUndeadAbility : TouchAbility
     public override void GetCombatInfo(AbilityOwner? owner, ref AbilityCombatInfo info)
     {
         int level = GetLevel(owner);
-        sbyte touchAttack = GetTouchAttack(level);
-        info.Attack = touchAttack;
-        sbyte turnUndeadDamage = GetTurnUndeadDamage(level);
-        info.Damage = turnUndeadDamage;
+        int touchAttack = GetTouchAttack(level);
+        info.Attack = (sbyte)touchAttack;
+        int turnUndeadDamage = GetTurnUndeadDamage(level);
+        info.Damage = (sbyte)turnUndeadDamage;
         info.DamageTypes = DamageTypes.Holy;
         info.RepeatCount = 1;
         info.TargetTypes = CombatTargetTypes.Enemy;
     }
 
     // AoWAb.PAS:3260
-    public override sbyte GetTouchAttack(int level)
+    public override int GetTouchAttack(int level)
     {
         return level switch
         {
@@ -284,7 +284,7 @@ public class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3271
-    public sbyte GetTurnUndeadDamage(int level)
+    public int GetTurnUndeadDamage(int level)
     {
         return level switch
         {

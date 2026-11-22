@@ -16,10 +16,10 @@ public sealed class Alignment : Persistent
     public AlignHeight AlignHeight { get; set; }
 
     [Published]
-    public byte HeightPercent { get; set; }
+    public int HeightPercent { get; set; }
 
     [Published]
-    public byte WidthPercent { get; set; }
+    public int WidthPercent { get; set; }
 
     [Published]
     public int LeftOffsetPercent { get; set; }

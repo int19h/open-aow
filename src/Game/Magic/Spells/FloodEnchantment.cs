@@ -6,6 +6,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiTextCompare;
 
@@ -18,7 +19,7 @@ public class FloodEnchantment : GlobalEnchantment
     public new const int ClassId = 135_960;
 
     public bool Removed { get; set; }
-    public sbyte RestoreDays { get; set; }
+    public int RestoreDays { get; set; }
     public sbyte DispelPlayer { get; set; }
     // alignment
     public int TurnsActive { get; set; }
@@ -39,8 +40,8 @@ public class FloodEnchantment : GlobalEnchantment
         TurnsActive = persister.Int32("TurnsActive", value: TurnsActive);
         persister.Object("FloodControl", objectValue: FloodControl);
         Removed = persister.Boolean("Removed", value: Removed);
-        DispelPlayer = persister.UnsignedByte(name: "DispelPlayer", value: DispelPlayer);
-        RestoreDays = persister.SByte("RestoreDays", value: RestoreDays, fallback: -1);
+        DispelPlayer = (sbyte)persister.UnsignedByte(name: "DispelPlayer", value: DispelPlayer);
+        RestoreDays = persister.SByte("RestoreDays", value: RestoreDays.TruncateToSByte(), fallback: -1);
     }
 
     // GlobalEnchantmentSpells.pas:1224
@@ -67,7 +68,7 @@ public class FloodEnchantment : GlobalEnchantment
 
             if (message.Payload.Int == DispelPlayer && Removed)
             {
-                RestoreDays = (sbyte)(RestoreDays - 1);
+                RestoreDays = (RestoreDays - 1).TruncateToSByte();
                 if (RestoreDays <= 0)
                 {
                     FloodControl.Restore();
@@ -124,7 +125,7 @@ public class FloodEnchantment : GlobalEnchantment
         {
             DispelPlayer = (sbyte)player;
             Removed = true;
-            RestoreDays = StrategicMap.Current.PlayMode == PlayMode.Simultaneous ? (sbyte)2 : (sbyte)1;
+            RestoreDays = StrategicMap.Current.PlayMode == PlayMode.Simultaneous ? 2 : 1;
 
             StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
             StrategicMap.Current.GlobalMagicControl.Update();

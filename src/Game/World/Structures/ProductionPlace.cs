@@ -54,9 +54,9 @@ public partial class ProductionPlace : PlayerStructure
 
     public ProductionPlaceControl ProductionControl { get; }
 
-    public byte RazedState { get; set; }
+    public int RazedState { get; set; }
 
-    private byte _defenderLevel;
+    private int _defenderLevel;
 
     // PrdPlace.pas:283
     public override void Dispose()
@@ -72,8 +72,8 @@ public partial class ProductionPlace : PlayerStructure
     {
         base.PersistFields(persister);
         persister.Object("ProductionControl", objectValue: ProductionControl);
-        _defenderLevel = persister.RawByte("DefenderLevel", value: _defenderLevel);
-        RazedState = persister.RawByte("RazedState", value: RazedState);
+        _defenderLevel = persister.RawByte("DefenderLevel", value: _defenderLevel.TruncateToByte());
+        RazedState = persister.RawByte("RazedState", value: RazedState.TruncateToByte());
     }
 
     // PrdPlace.pas:352
@@ -401,7 +401,7 @@ public partial class ProductionPlace : PlayerStructure
         {
             if (_defenderLevel == 4)
             {
-                _defenderLevel = (byte)(StrategicMap.Current.Random(3) + 1);
+                _defenderLevel = (StrategicMap.Current.Random(3) + 1).TruncateToByte();
             }
 
             int budget = ((_defenderLevel - 2) * 25) + 25;
@@ -424,7 +424,7 @@ public partial class ProductionPlace : PlayerStructure
                         _ = units.Add(unitIndexListCollection.GetU(collection, index: i));
                     }
 
-                    sbyte hexY = HexY;
+                    int hexY = HexY;
                     _ = AbilityRules.PlaceRandomUnits(HexX, hexY, L: HexLevel, player: 0, units, level: 4, value: budget, types: UnitTypes.Humanoid | UnitTypes.Creature, engine: GetEngine());
                     armyHexSprite = Owner.GetArmyHexSprite();
                     if (armyHexSprite is not null && armyHexSprite.Army.Player == 0)
@@ -499,7 +499,7 @@ public partial class ProductionPlace : PlayerStructure
                 Unit unit = new(null) { Holder = CreationHolder() };
                 unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
                 unit.SetPlayer(Player);
-                sbyte hexY = HexY;
+                int hexY = HexY;
                 ArmyHexSprite? armyHexSprite = unit.Place(HexX, hexY, L: HexLevel, Player, mode: UnitPlaceModes.ScanArea);
                 if (armyHexSprite is not null)
                 {
@@ -508,17 +508,17 @@ public partial class ProductionPlace : PlayerStructure
                         UnitEnchantment? enchantment = unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
                         enchantment.SetUpkeep(SummonedAbility.GetDefaultManaUpkeep(unit));
                         enchantment.SetSource(Player);
-                        enchantment.DispelResistance = (sbyte)SummonedAbility.GetDefaultDispelResistance(unit);
+                        enchantment.DispelResistance = SummonedAbility.GetDefaultDispelResistance(unit).TruncateToSByte();
                     }
 
-                    sbyte armyHexSpriteHexY = armyHexSprite.HexY;
-                    sbyte hexX = armyHexSprite.HexX;
+                    int armyHexSpriteHexY = armyHexSprite.HexY;
+                    int hexX = armyHexSprite.HexX;
                     if (StrategicMap.Current.Visible(hexX, armyHexSpriteHexY, L: armyHexSprite.HexLevel, radius: 0))
                     {
                         ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                         animation.SetImageSequence(GamePack.Current.SpellControl[29].CastImages.GetImageSequence(0));
-                        sbyte hexY2 = HexY;
-                        sbyte hexX2 = HexX;
+                        int hexY2 = HexY;
+                        int hexX2 = HexX;
                         _ = StrategicMap.Current.PlaceHex(animation, hexX2, hexY2, L: HexLevel);
                     }
                 }

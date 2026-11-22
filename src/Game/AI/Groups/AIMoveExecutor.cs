@@ -126,10 +126,10 @@ public sealed class AIMoveExecutor : EngineObject
         }
 
         MapCoordinate coordinate103 = troop.GetLocation();
-        sbyte locationX = coordinate103.X;
-        sbyte locationY = coordinate103.Y;
-        sbyte locationMapLevel = coordinate103.MapLevel;
-        MapCoordinate location = new(locationX, locationY, locationMapLevel);
+        int locationX = coordinate103.X;
+        int locationY = coordinate103.Y;
+        int locationMapLevel = coordinate103.MapLevel;
+        MapCoordinate location = new((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
         AIMoveExecutorUnit unitEntry = new(null) { Holder = CreationHolder() };
         unitEntry.Initialize(troop, location.X, location.Y, L: location.MapLevel);
         unitEntry.Owner = Units;
@@ -146,7 +146,7 @@ public sealed class AIMoveExecutor : EngineObject
     }
 
     // AIGroup.pas:6053
-    public void AddArmy(ArmyHexSprite army, byte selection)
+    public void AddArmy(ArmyHexSprite army, int selection)
     {
         for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
         {
@@ -155,7 +155,7 @@ public sealed class AIMoveExecutor : EngineObject
                 _ = AddUnit(army.Army.Units.GetUnit(i));
             }
 
-            selection = (byte)(selection >>> 1);
+            selection >>>= 1;
         }
     }
 
@@ -174,16 +174,16 @@ public sealed class AIMoveExecutor : EngineObject
         }
 
         MapCoordinate coordinate104 = troop.GetLocation();
-        sbyte locationX = coordinate104.X;
-        sbyte locationY = coordinate104.Y;
-        sbyte locationMapLevel = coordinate104.MapLevel;
-        MapCoordinate location = new(locationX, locationY, locationMapLevel);
+        int locationX = coordinate104.X;
+        int locationY = coordinate104.Y;
+        int locationMapLevel = coordinate104.MapLevel;
+        MapCoordinate location = new((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
         Transporter = new AIMoveExecutorUnit(null) { Holder = CreationHolder() };
         Transporter.Initialize(troop, location.X, location.Y, L: location.MapLevel);
     }
 
     // AIGroup.pas:6077
-    public void InvalidateMove(ArmyHexSprite? army, byte selection)
+    public void InvalidateMove(ArmyHexSprite? army, int selection)
     {
         Status = AIMoveExecutorStatus.Invalidated;
         UpdateMoveResult();
@@ -331,7 +331,7 @@ public sealed class AIMoveExecutor : EngineObject
     {
         if (Moves.Count != 0)
         {
-            byte selection;
+            int selection;
             ArmyHexSprite army;
             if (Moves.Count > 1 && Mode.Contains(AIMoveExecutorModes.Simultaneous))
             {
@@ -536,14 +536,14 @@ public sealed class AIMoveExecutor : EngineObject
     }
 
     // AIGroup.pas:6332
-    public bool ExecuteMove(sbyte X, sbyte Y, sbyte L)
+    public bool ExecuteMove(int X, int Y, int L)
     {
         bool started;
         if (Status != AIMoveExecutorStatus.Busy)
         {
             State = 0;
             _processCycles = 0;
-            Destination = new MapCoordinate(X, Y, L);
+            Destination = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
             AIMoveExecutorArmyList aiMoveExecutorArmyList = CreateArmies(AIMoveExecutorUnitStatuses.Idle);
             for (int i = 0, last = aiMoveExecutorArmyList.Count - 1; i <= last; i++)
             {

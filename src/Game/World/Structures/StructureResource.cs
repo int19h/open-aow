@@ -48,8 +48,8 @@ public class StructureResource : FixedImageLibraryTerrainMapObjectResource
 
     public bool Razeable { get; protected init; }
     public bool CastsShadow { get; protected init; }
-    public byte RebuildGold { get; protected init; }
-    public byte RebuildDays { get; protected init; }
+    public int RebuildGold { get; protected init; }
+    public int RebuildDays { get; protected init; }
     public UnitIndexListCollection Defenders { get; }
     public int RazeDefenderBudget { get; protected init; }
 

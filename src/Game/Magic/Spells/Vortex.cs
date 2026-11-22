@@ -9,6 +9,7 @@ using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -39,7 +40,7 @@ public class Vortex : GlobalTargetSpell
         {
             VortexTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
-            eventValue.SetLocation((sbyte)X, (sbyte)Y, layer: (sbyte)L);
+            eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), layer: L.TruncateToSByte());
             ArmyHexSprite army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
             if (army is not null)
             {

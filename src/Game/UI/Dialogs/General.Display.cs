@@ -12,7 +12,7 @@ public sealed partial class General
     {
         if (GameHost.MainForm is { } form)
         {
-            form.FCursor = (short)Math.Abs(Manager.Cursor);
+            form.FCursor = Math.Abs(Manager.Cursor).TruncateToInt16();
         }
     }
 

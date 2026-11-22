@@ -113,7 +113,7 @@ public sealed class StringBufferTests
         {
             NoFrame = true,
             Font = font,
-            ColorChangeChar = (byte)'#'
+            ColorChangeChar = '#'
         };
         memo.SetWinWidthWithoutInvalidate(28);
         memo.SetWinHeightWithoutInvalidate(30);

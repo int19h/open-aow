@@ -44,7 +44,7 @@ public class WarpPartyTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
         bool result = base.Validate(source) && ArmyId.Valid();
         if (result)
         {
-            byte selection = default;
+            int selection = default;
             ArmyHexSprite? army = default;
             _ = ArmyId.RetrieveArmy(ref army, ref selection);
             return GamePack.Current.SpellControl.GetSpell<WarpParty>(EventSpellId).ValidTarget(army, WarpLocation.X, WarpLocation.Y, layer: WarpLocation.MapLevel);
@@ -56,13 +56,13 @@ public class WarpPartyTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
     // GlobalSpells.pas:590
     public override bool Process(Troop source, int value)
     {
-        byte selection = default;
+        int selection = default;
         ArmyHexSprite? army = default;
         _ = base.Process(source, value);
         MapCoordinate coordinate15 = source.GetLocation();
-        sbyte x = coordinate15.X;
-        sbyte y = coordinate15.Y;
-        sbyte layer = coordinate15.MapLevel;
+        int x = coordinate15.X;
+        int y = coordinate15.Y;
+        int layer = coordinate15.MapLevel;
         _ = ArmyId.RetrieveArmy(ref army, ref selection);
         MapField field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(WarpLocation);
         _ = army.MoveTo(field, moveCost: 0);

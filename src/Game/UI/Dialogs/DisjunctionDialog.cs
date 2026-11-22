@@ -132,10 +132,10 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
             {
                 {
                     MapCoordinate coordinate41 = _caster.Source.GetLocation();
-                    sbyte coordinateX = coordinate41.X;
-                    sbyte coordinateY = coordinate41.Y;
-                    sbyte coordinateMapLevel = coordinate41.MapLevel;
-                    Location = new MapCoordinate(coordinateX, coordinateY, coordinateMapLevel);
+                    int coordinateX = coordinate41.X;
+                    int coordinateY = coordinate41.Y;
+                    int coordinateMapLevel = coordinate41.MapLevel;
+                    Location = new MapCoordinate((sbyte)coordinateX, (sbyte)coordinateY, (sbyte)coordinateMapLevel);
                 }
             }
 
@@ -223,7 +223,7 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
     public void DlgHide() => ClearCaster();
 
     // AoWDisjunctionDlg.pas:142
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {

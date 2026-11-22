@@ -48,7 +48,7 @@ public class MindDecay : CombatSpell
 
         if (target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() != UnitType.Machine && targetUnit.Troop.GetRace() != 11 && !targetUnit.Troop.GetAbilityEnabled(129) && targetUnit.Troop is not Leader)
         {
-            sbyte resistance = target.GetResistance();
+            int resistance = target.GetResistance();
             action.Succeeded = HitChance.HitRole(CombatInfo.Attack - resistance);
         }
 

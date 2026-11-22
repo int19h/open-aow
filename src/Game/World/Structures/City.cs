@@ -62,10 +62,10 @@ public partial class City : PlayerCropStructure
     public new const int ClassId = 131_336;
 
     public Modes Mode { get; set; }
-    public sbyte Race { get; private set; }
+    public int Race { get; private set; }
     public string Name { get; private set; } = "";
-    public byte WallType { get; set; }
-    public byte UpgradeLevel { get; private set; }
+    public int WallType { get; set; }
+    public int UpgradeLevel { get; private set; }
 
     public CityProductionControl Production { get; }
 
@@ -103,9 +103,9 @@ public partial class City : PlayerCropStructure
     {
         base.PersistFields(persister);
         Name = persister.String("Name", value: Name);
-        Race = persister.UnsignedByte(name: "Race", value: Race);
-        WallType = persister.RawByte("WallType", value: WallType);
-        UpgradeLevel = persister.Byte("UpgradeLevel", value: UpgradeLevel);
+        Race = persister.UnsignedByte(name: "Race", value: Race.TruncateToSByte());
+        WallType = persister.RawByte("WallType", value: WallType.TruncateToByte());
+        UpgradeLevel = persister.Byte("UpgradeLevel", value: UpgradeLevel.TruncateToByte());
         persister.Object("Production", objectValue: Production);
         Mode = persister.Set("Mode", value: Mode);
         _defendersMode = persister.Enum("DefendersMode", value: _defendersMode);
@@ -275,7 +275,7 @@ public partial class City : PlayerCropStructure
                                     {
                                         if (this == message.Param[0].As<MapField>().FindNoneTransparentHexSprite(typeof(City)))
                                         {
-                                            message.Result = WallType;
+                                            message.Result = (byte)WallType;
                                         }
                                     }
                                 }
@@ -285,8 +285,8 @@ public partial class City : PlayerCropStructure
                                     {
                                         if (Player == 0)
                                         {
-                                            sbyte independentRelation = GetIndependentRelation();
-                                            message.Result = independentRelation;
+                                            int independentRelation = GetIndependentRelation();
+                                            message.Result = (sbyte)independentRelation;
                                         }
                                     }
                                     else
@@ -369,7 +369,7 @@ public partial class City : PlayerCropStructure
     public override void Select() => base.Select();
 
     // City.pas:1787
-    public override sbyte GetValidTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, defaultValue: -1);
+    public override int GetValidTerrainType(MapLevel mapLevel, int hexX, int hexY) => GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, defaultValue: -1);
 
     // City.pas:2422
     public override LibraryImage? GetTopBorderImage()
@@ -470,7 +470,7 @@ public partial class City : PlayerCropStructure
     {
         if (StrategicMap.Current.Random(8) == 0)
         {
-            sbyte unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(units, defaultRelation: 5);
+            int unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(units, defaultRelation: 5);
             AIGroup? group = StrategicMap.Current.AIGroupManager.CreateGroup(0, relation: unitsToIndependentRelation, behavior: GroupBehavior.Refuge);
             _ = group.AddUnits(units.Units);
             _ = group.Release();
@@ -491,9 +491,9 @@ public partial class City : PlayerCropStructure
         {
             BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, player, relation: 0, requests: BattleFieldInfoRequests.None, damageTypes: AbilityRules.AllDamageTypes & ~DamageTypes.Wall);
             info.Requests |= BattleFieldInfoRequests.IgnorePassiveIndependents;
-            sbyte hexLevel = HexLevel;
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexLevel = HexLevel;
+            int hexY = HexY;
+            int hexX = HexX;
             StrategicMap.Current.RetrieveBattleFieldInfo(hexX, hexY, hexLevel, radius: 10, ref info);
             requirements.Strength = info.Strength;
             int maximum = Round(Size * 5_000);
@@ -566,10 +566,10 @@ public partial class City : PlayerCropStructure
         {
             if (Race < -1 && StrategicMap.Current.GameType == GameType.Campaign)
             {
-                int i = Math.Abs(Race) - 3;
+                int i = Math.Abs((sbyte)Race) - 3;
                 if (i >= 0 && i < GetEngine().Campaign.RaceHistory.Count)
                 {
-                    SetRace((sbyte)GetEngine().Campaign.RaceHistory[i]);
+                    SetRace(GetEngine().Campaign.RaceHistory[i].TruncateToSByte());
                 }
                 else
                 {
@@ -589,7 +589,7 @@ public partial class City : PlayerCropStructure
             GenerateDefenders();
             if (WallType == 3)
             {
-                WallType = (byte)StrategicMap.Current.Random(3);
+                WallType = StrategicMap.Current.Random(3).TruncateToByte();
                 UpdateImages();
             }
         }
@@ -1034,15 +1034,15 @@ public partial class City : PlayerCropStructure
     {
         if (!GetRazed() && ActiveAction != CityAction.Migrate && !Building)
         {
-            SetIncome((byte)((GetCropCount() * 2) + (Size * 5)));
+            SetIncome(((GetCropCount() * 2) + (Size * 5)).TruncateToByte());
             if (ActiveAction is CityAction.None or CityAction.Trade)
             {
-                SetIncome((byte)(Income + Round(Income * 0.25)));
+                SetIncome((Income + Round(Income * 0.25)).TruncateToByte());
             }
 
             if (Enchantments.Contains(CityEnchantmentIds.GoldRush))
             {
-                SetIncome((byte)(Income * 2));
+                SetIncome((Income * 2).TruncateToByte());
             }
         }
         else
@@ -1073,14 +1073,14 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2108
-    public override sbyte GetRace() => Race;
+    public override int GetRace() => Race;
 
     // City.pas:1211
     public override void CropTrampled(sbyte player)
     {
         if (player != Player && player != 0)
         {
-            int race = Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : Race;
+            int race = Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : (sbyte)Race;
 
             int playerRelationValue = StrategicMap.Current.Races.GetRace(race).GetPlayerRelationValue(player);
             StrategicMap.Current.Races.GetRace(race).SetPlayerRelationValue(player, value: playerRelationValue + -5);
@@ -1088,7 +1088,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2097
-    public virtual void SetRace(sbyte race)
+    public virtual void SetRace(int race)
     {
         if (race != Race)
         {
@@ -1203,7 +1203,7 @@ public partial class City : PlayerCropStructure
     // City.pas:955
     public void ListEnhancementsInfo(DelphiStringCollection list)
     {
-        _ = list.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_upgradeLevelFormat), args: [((int)UpgradeLevel).ToString(CultureInfo.InvariantCulture)]));
+        _ = list.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_upgradeLevelFormat), args: [UpgradeLevel.ToString(CultureInfo.InvariantCulture)]));
         if (WallType == 1)
         {
             _ = list.Add(AbilityRules.TranslateResourceString(GetEngine(), S: s_cityWoodenWallText));
@@ -1260,24 +1260,24 @@ public partial class City : PlayerCropStructure
         {
             if (armies[i].Army.HealUnits(255))
             {
-                sbyte hexLevel = armies[i].HexLevel;
-                sbyte hexY = armies[i].HexY;
-                sbyte hexX = armies[i].HexX;
+                int hexLevel = armies[i].HexLevel;
+                int hexY = armies[i].HexY;
+                int hexX = armies[i].HexX;
                 if (StrategicMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, player: StrategicMap.Current.SeatedPlayer))
                 {
                     ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.AbilityControl[47].ImageSequences.ImageSequences[0]);
                     animation.AnimationLevel = 27;
-                    sbyte hexLevel2 = armies[i].HexLevel;
-                    sbyte hexY2 = armies[i].HexY;
-                    sbyte hexX2 = armies[i].HexX;
+                    int hexLevel2 = armies[i].HexLevel;
+                    int hexY2 = armies[i].HexY;
+                    int hexX2 = armies[i].HexX;
                     _ = StrategicMap.Current.PlaceHex(animation, hexX2, hexY2, L: hexLevel2);
                     bool condition = playSound || armies[i].Army.Player == StrategicMap.Current.SeatedPlayer;
                     if (!condition)
                     {
-                        sbyte hexLevel3 = armies[i].HexLevel;
-                        sbyte hexY3 = armies[i].HexY;
-                        sbyte hexX3 = armies[i].HexX;
+                        int hexLevel3 = armies[i].HexLevel;
+                        int hexY3 = armies[i].HexY;
+                        int hexX3 = armies[i].HexX;
                         condition = StrategicMap.Current.Watching(hexX3, hexY3, L: hexLevel3, radius: 1);
                     }
 
@@ -1434,7 +1434,7 @@ public partial class City : PlayerCropStructure
                 ArmyHexSprite army = mapLevel.GetField(walk.X, walk.Y).GetArmyHexSprite();
                 if (army is not null && (!selection.Contains(MoveOutOfCitySelections.SkipOwnPlayer) || army.Army.Player != Player))
                 {
-                    result = army.Place(mapLevel: HexLevel, x: (sbyte)walk.X, y: (sbyte)walk.Y, mode: ArmyPlaceModes.Safe | ArmyPlaceModes.ScanArea);
+                    result = army.Place(mapLevel: HexLevel, x: walk.X.TruncateToSByte(), y: walk.Y.TruncateToSByte(), mode: ArmyPlaceModes.Safe | ArmyPlaceModes.ScanArea);
                 }
             }
 
@@ -1455,8 +1455,8 @@ public partial class City : PlayerCropStructure
         int result = 0;
         int count = TerrainCount;
         MapLevel mapLevel = Owner.Owner;
-        sbyte hexY = HexY;
-        sbyte hexX = HexX;
+        int hexY = HexY;
+        int hexX = HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, radius: 0);
         while (walk.HexNumber < count)
         {
@@ -1677,7 +1677,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1514
-    public int MigrationTime(sbyte race)
+    public int MigrationTime(int race)
     {
         string reason = "";
         if (CanMigrate(race, reason))
@@ -1715,7 +1715,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1544
-    public bool CanMigrate(sbyte race, string reason)
+    public bool CanMigrate(int race, string reason)
     {
         bool result;
         if (Race != race)
@@ -1738,7 +1738,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1561
-    public bool Migrate(sbyte race)
+    public bool Migrate(int race)
     {
         string reason = "";
         if (CanMigrate(race, reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
@@ -1759,7 +1759,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1577
-    public MigrationItem? CreateMigrationItem(sbyte race)
+    public MigrationItem? CreateMigrationItem(int race)
     {
         string reason = "";
         return CanMigrate(race, reason)
@@ -1781,7 +1781,7 @@ public partial class City : PlayerCropStructure
         {
             if (StrategicMap.Current.Races.GetRace(i).Enabled)
             {
-                MigrationItem? item = CreateMigrationItem((sbyte)i);
+                MigrationItem? item = CreateMigrationItem(i.TruncateToSByte());
                 if (item is not null && item.Relation is >= Session.Status.Neutral and <= Session.Status.Friendly)
                 {
                     item.Owner = result;
@@ -1823,9 +1823,9 @@ public partial class City : PlayerCropStructure
                     GenerateRebelUnits(units);
                     for (int i = units.Count - 1; i >= 0; i--)
                     {
-                        sbyte hexLevel2 = HexLevel;
-                        sbyte hexY2 = HexY;
-                        sbyte hexX2 = HexX;
+                        int hexLevel2 = HexLevel;
+                        int hexY2 = HexY;
+                        int hexX2 = HexX;
                         _ = units.GetUnit(i).Place(hexX2, hexY2, L: hexLevel2, player: 0, mode: UnitPlaceModes.None);
                     }
 
@@ -1859,8 +1859,8 @@ public partial class City : PlayerCropStructure
             {
                 RandSeed = StrategicMap.Current.Random(1_048_575);
                 RaceResource? raceResource = GamePack.Current.RaceResources.GetRaceResource(Race);
-                sbyte hexLevel = HexLevel;
-                sbyte hexY = HexY;
+                int hexLevel = HexLevel;
+                int hexY = HexY;
                 _ = AbilityRules.PlaceRandomUnits(HexX, hexY, L: hexLevel, player: 0, units: raceResource.UnitIndexes, level: UpgradeLevel, value, types: UnitTypes.Humanoid | UnitTypes.Creature, engine: GetEngine());
             }
 
@@ -2101,11 +2101,11 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2034
-    public void SetUpgradeLevel(byte level)
+    public void SetUpgradeLevel(int level)
     {
         if (level > Size)
         {
-            level = (byte)Size;
+            level = Size.TruncateToByte();
         }
 
         if (level < 1)
@@ -2113,7 +2113,7 @@ public partial class City : PlayerCropStructure
             level = 1;
         }
 
-        UpgradeLevel = level;
+        UpgradeLevel = level.TruncateToByte();
         if (Race >= 0)
         {
             RaceResource? raceResource = GamePack.Current.RaceResources.GetRaceResource(Race);
@@ -2150,7 +2150,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2091
-    public void SetWallType(byte wallType)
+    public void SetWallType(int wallType)
     {
         WallType = wallType;
         UpdateImages();
@@ -2161,13 +2161,13 @@ public partial class City : PlayerCropStructure
     {
         if (Player == 0)
         {
-            sbyte enemiesIndependentRelation = GetEnemiesIndependentRelation(army.Army.Player);
-            combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer).IndependentRelation = (byte)enemiesIndependentRelation;
+            int enemiesIndependentRelation = GetEnemiesIndependentRelation(army.Army.Player);
+            combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer).IndependentRelation = enemiesIndependentRelation.TruncateToByte();
         }
 
-        sbyte hexLevel = army.HexLevel;
-        sbyte hexY = army.HexY;
-        sbyte hexX = army.HexX;
+        int hexLevel = army.HexLevel;
+        int hexY = army.HexY;
+        int hexX = army.HexX;
         combat.InitializeDefaultArmies(army.Army, hexX, hexY, L: hexLevel);
     }
 
@@ -2206,7 +2206,7 @@ public partial class City : PlayerCropStructure
             {
                 i -= 1;
                 Army? army = armies[i].Army;
-                byte selection = army.GetCanJoinSelection(player);
+                int selection = army.GetCanJoinSelection(player);
                 canJoin = selection == army.ValidateSelection(255);
                 if (canJoin)
                 {
@@ -2217,7 +2217,7 @@ public partial class City : PlayerCropStructure
             if (canJoin)
             {
                 int value = GetObtainValue() / 4;
-                byte relation = (byte)StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(player);
+                int relation = (byte)StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(player);
                 result += JoinPercentByStatus[(int)(Status)relation] * value / 100;
             }
             else
@@ -2325,7 +2325,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2334
-    public sbyte GetEnemiesIndependentRelation(sbyte player)
+    public int GetEnemiesIndependentRelation(sbyte player)
     {
         UnitUserList units = new(null) { Holder = CreationHolder() };
         _ = ListUnits(units);
@@ -2338,18 +2338,18 @@ public partial class City : PlayerCropStructure
         }
 
         // { Original uses the race index as the default relation. }
-        sbyte result = UnitList.UnitsToIndependentRelation(units, defaultRelation: Race);
+        int result = UnitList.UnitsToIndependentRelation(units, defaultRelation: Race);
         units?.Dispose();
         return result;
     }
 
     // City.pas:2345
-    public sbyte GetIndependentRelation()
+    public int GetIndependentRelation()
     {
         UnitUserList units = new(null) { Holder = CreationHolder() };
         _ = ListUnits(units);
         // { Original uses the race index as the default relation. }
-        sbyte result = UnitList.UnitsToIndependentRelation(units, defaultRelation: Race);
+        int result = UnitList.UnitsToIndependentRelation(units, defaultRelation: Race);
         units?.Dispose();
         return result;
     }
@@ -2511,7 +2511,7 @@ public partial class City : PlayerCropStructure
     private static readonly string s_cityStoneWallText = "Stone Wall";
     private static City s_sortingCity;
 
-    private static bool RaceInCity(sbyte race, sbyte player)
+    private static bool RaceInCity(int race, sbyte player)
     {
         bool flag = false;
         Player? players = StrategicMap.Current.Players.GetPlayers(player);

@@ -68,10 +68,10 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     }
 
     // Cave.pas:273
-    public override sbyte GetOverlay(int index)
+    public override int GetOverlay(int index)
     {
-        sbyte result = base.Resource.TerrainList.Terrain[index];
-        return result >= 0 ? (sbyte)-1 : result;
+        int result = base.Resource.TerrainList.Terrain[index];
+        return result >= 0 ? -1 : result;
     }
 
     // Cave.pas:257
@@ -116,12 +116,12 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     }
 
     // Cave.pas:204
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
         // { Original permits an upward cave on level zero; there is no lower-bound test. }
         => base.CanPlace(mapContainer, hexX, hexY, hexLevel) && (hexLevel + 1 < mapContainer.LevelCount || Entrance == CaveEntrance.Up);
 
     // Cave.pas:211
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
         if (result)
@@ -135,7 +135,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                     {
                         up = base.Resource.CreateResourceUser<Cave>();
                         up.Entrance = CaveEntrance.Up;
-                        result = up.PlaceHex(mapContainer, hexX, hexY, (sbyte)(hexLevel + 1));
+                        result = up.PlaceHex(mapContainer, hexX, hexY, (hexLevel + 1).TruncateToSByte());
                     }
                     else
                     {
@@ -159,7 +159,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                     {
                         down = base.Resource.CreateResourceUser<Cave>();
                         down.Entrance = CaveEntrance.Down;
-                        result = down.PlaceHex(mapContainer, hexX, hexY, (sbyte)(hexLevel - 1));
+                        result = down.PlaceHex(mapContainer, hexX, hexY, (hexLevel - 1).TruncateToSByte());
                     }
                     else
                     {
@@ -223,38 +223,38 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         {
             int l = Entrance == CaveEntrance.Down ? HexLevel + 1 : HexLevel - 1;
 
-            byte visibilityRange = armyHexSprite.Army.VisibilityRange();
-            sbyte hexY = armyHexSprite.HexY;
-            sbyte hexX = armyHexSprite.HexX;
+            int visibilityRange = armyHexSprite.Army.VisibilityRange();
+            int hexY = armyHexSprite.HexY;
+            int hexX = armyHexSprite.HexX;
             _ = StrategicMap.Current.MapContainer.GetMapLevel(l).ExploreArea(hexX, hexY, armyHexSprite.Army.Player, radius: visibilityRange);
         }
     }
 
     // Cave.pas:292
-    public sbyte EnterMovePoints(Army army, byte selection)
+    public int EnterMovePoints(Army army, int selection)
     {
         int l = Entrance == CaveEntrance.Down ? HexLevel + 1 : HexLevel - 1;
-        sbyte hexY = HexY;
-        sbyte hexX = HexX;
+        int hexY = HexY;
+        int hexX = HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
-        return (sbyte)army.MoveOnMovePoints(selection, field.TerrainType, field.OverlayType);
+        return army.MoveOnMovePoints(selection, field.TerrainType, field.OverlayType).TruncateToSByte();
     }
 
     // Cave.pas:300
-    public byte CanEnterSelection(UnitCollection units)
+    public int CanEnterSelection(UnitCollection units)
     {
         int l = Entrance == CaveEntrance.Down ? HexLevel + 1 : HexLevel - 1;
 
-        sbyte hexY = HexY;
-        sbyte hexX = HexX;
+        int hexY = HexY;
+        int hexX = HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
-        byte result = 0;
+        int result = 0;
         for (int i = 0, last = units.Count - 1; i <= last; i++)
         {
             Troop? troop = units.GetUnit(i);
             if (troop.MovePointCost(field.TerrainType, field.OverlayType) <= troop.GetMovePoints())
             {
-                result = (byte)(result + (1 << i));
+                result = (result + (1 << i)).TruncateToByte();
             }
         }
 
@@ -275,27 +275,27 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         bool result;
         if (armyHexSprite is not null && CanEnter(armyHexSprite.Army.Player))
         {
-            byte selection = CanEnterSelection(armyHexSprite.Army.Units);
-            sbyte l = 0;
+            int selection = CanEnterSelection(armyHexSprite.Army.Units);
+            int l = 0;
             MovePath path = new();
             switch (Entrance)
             {
                 case CaveEntrance.Down:
-                    l = (sbyte)(HexLevel + 1);
+                    l = (HexLevel + 1).TruncateToSByte();
                     break;
                 case CaveEntrance.Up:
-                    l = (sbyte)(HexLevel - 1);
+                    l = (HexLevel - 1).TruncateToSByte();
                     break;
                 case CaveEntrance.Idle:
                 default:
                     break;
             }
             _ = path.AddMapCoordinate(y: HexY, x: HexX, mapLevel: l);
-            sbyte enterMovePoints = EnterMovePoints(armyHexSprite.Army, selection);
-            path.List[0] = path.List[0] with { MoveCost = enterMovePoints };
+            int enterMovePoints = EnterMovePoints(armyHexSprite.Army, selection);
+            path.List[0] = path.List[0] with { MoveCost = (sbyte)enterMovePoints };
             _ = path.AddMapCoordinate(mapLevel: HexLevel, y: HexY, x: HexX);
-            sbyte hexY3 = HexY;
-            sbyte hexX = HexX;
+            int hexY3 = HexY;
+            int hexX = HexX;
             MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY3, l);
             bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
             if (!condition)

@@ -34,9 +34,9 @@ public partial class DisplayController(Component? owner) : Component(owner)
             {
                 for (int j = 0, lastJ = InverseMatrix.Height - 1; j <= lastJ; j++)
                 {
-                    if (InverseMatrix.GetValue((byte)i, (byte)j) != 0)
+                    if (InverseMatrix.GetValue(i.TruncateToByte(), j.TruncateToByte()) != 0)
                     {
-                        m.SetValue((byte)i, (byte)j, value: 1);
+                        m.SetValue(i.TruncateToByte(), j.TruncateToByte(), value: 1);
                     }
                 }
             }
@@ -53,13 +53,13 @@ public partial class DisplayController(Component? owner) : Component(owner)
                 {
                     if (result >= 0)
                     {
-                        int v = InverseMatrix.GetValue((byte)i, (byte)j);
+                        int v = InverseMatrix.GetValue(i.TruncateToByte(), j.TruncateToByte());
                         if (v != 0)
                         {
-                            InverseMatrix.SetValue((byte)i, (byte)j, value: (byte)(v - 1));
+                            InverseMatrix.SetValue(i.TruncateToByte(), j.TruncateToByte(), value: (v - 1).TruncateToByte());
                         }
 
-                        if (m.GetValue((byte)i, (byte)j) != 0)
+                        if (m.GetValue(i.TruncateToByte(), j.TruncateToByte()) != 0)
                         {
                             _ = GetInverseBlockSize(i, j, matrix: m, ref bw, ref bh);
                             _ = sourceR.Left;
@@ -112,7 +112,7 @@ public partial class DisplayController(Component? owner) : Component(owner)
                             {
                                 for (int y = 0, lastY = bh - 1; y <= lastY; y++)
                                 {
-                                    m.SetValue((byte)(i + x), (byte)(j + y), value: 0);
+                                    m.SetValue((i + x).TruncateToByte(), (j + y).TruncateToByte(), value: 0);
                                 }
                             }
                         }
@@ -131,7 +131,7 @@ public partial class DisplayController(Component? owner) : Component(owner)
     }
 
     private int _lastFrameTime;
-    private ushort _frameCount;
+    private int _frameCount;
 
     internal DisplayControllerStatuses Status { get; private protected set; }
 
@@ -285,7 +285,7 @@ public partial class DisplayController(Component? owner) : Component(owner)
     public virtual Palette? GetPalette() => null;
 
     // DisplayC.pas:873
-    public virtual void InitializeInverseMatrix(byte width, byte height)
+    public virtual void InitializeInverseMatrix(int width, int height)
     {
         _inverseMatrix?.Dispose();
 
@@ -301,7 +301,7 @@ public partial class DisplayController(Component? owner) : Component(owner)
             {
                 for (int j = 0, lastJ = _inverseMatrix.Height - 1; j <= lastJ; j++)
                 {
-                    _inverseMatrix.SetValue((byte)i, (byte)j, value: 1);
+                    _inverseMatrix.SetValue(i.TruncateToByte(), j.TruncateToByte(), value: 1);
                 }
             }
         }
@@ -412,7 +412,7 @@ public partial class DisplayController(Component? owner) : Component(owner)
     // DisplayC.pas:988
     // { Marks the blocks of the pixel rectangle X, Y, W, H with Value. Bug kept from the original:
     //   the range test checks BY2 >= 0 where BX2 >= 0 was meant (and BY1 twice). }
-    public void InverseWndwithValue(int X, int Y, int W, int H, byte value)
+    public void InverseWndwithValue(int X, int Y, int W, int H, int value)
     {
         Rect r = default;
         if (_inverseMatrix is not null)
@@ -454,7 +454,7 @@ public partial class DisplayController(Component? owner) : Component(owner)
                     int limit = by2;
                     for (; Y <= limit; Y += 1)
                     {
-                        m.SetValue((byte)X, (byte)Y, value);
+                        m.SetValue(X.TruncateToByte(), Y.TruncateToByte(), value);
                     }
                 }
             }
@@ -479,7 +479,7 @@ public partial class DisplayController(Component? owner) : Component(owner)
             _lastFrameTime = t;
         }
 
-        _frameCount = (ushort)(_frameCount + 1);
+        _frameCount = (_frameCount + 1).TruncateToUInt16();
     }
 
     // DisplayC.pas:1063

@@ -29,7 +29,7 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
     private ExecuteDoneEvent? _done;
     private JoinEventLog? _joinEvent;
     private bool _detailsOpen;
-    private byte _selection;
+    private int _selection;
     private UnitUserList _units;
     private Hero _faceUnit;
 
@@ -201,7 +201,7 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
     public void DlgHide() => FinishDialog();
 
     // AoWHeroJoinDlg.pas:216
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {
@@ -216,8 +216,8 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
             dialog._units.Clear();
             dialog._faceUnit = StrategicMap.Current.UnitControl.FindUnit<Hero>(dialog._joinEvent.FirstUnitId);
             dialog._selection = dialog._joinEvent.ListJoinUnits(dialog._units);
-            sbyte level = dialog._faceUnit.GetLevel();
-            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [((int)level).ToString(CultureInfo.InvariantCulture)]);
+            int level = dialog._faceUnit.GetLevel();
+            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [level.ToString(CultureInfo.InvariantCulture)]);
             dialog.HeroLevelLabel.Text = format;
             dialog.HeroNameLabel.Text = dialog._faceUnit.HeroName;
             string text = dialog._joinEvent.JoinMessage.Text;

@@ -32,15 +32,15 @@ public sealed partial class ProductionPlaceControl(CustomNode? owner) : Producti
     public override bool UnitProduced()
     {
         ProductionPlace productionPlace = ProductionPlace;
-        sbyte hexY = productionPlace.HexY;
-        sbyte hexX = productionPlace.HexX;
+        int hexY = productionPlace.HexY;
+        int hexX = productionPlace.HexX;
         bool result = Settings.Unit.Place(hexX, hexY, L: productionPlace.HexLevel, productionPlace.Player, mode: UnitPlaceModes.ScanArea) is not null;
         if (result && ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None && Settings.Unit.ExpandAbility(155))
         {
             UnitEnchantment? enchantment = Settings.Unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
             enchantment.SetUpkeep((Settings.Unit.UnitLevel + 1) * 2);
             enchantment.SetSource(ProductionPlace.Player);
-            enchantment.DispelResistance = (sbyte)(Settings.Unit.UnitLevel + 3);
+            enchantment.DispelResistance = (Settings.Unit.UnitLevel + 3).TruncateToSByte();
         }
 
         ProductionPlaceEventLog log = new(null)

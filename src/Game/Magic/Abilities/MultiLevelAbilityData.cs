@@ -18,7 +18,7 @@ public class MultiLevelAbilityData(CustomNode owner) : AbilityData(owner)
     {
         base.PersistFields(persister);
         Level = persister.Byte("Level", value: Level);
-        LevelAbilityId = persister.UInt16("LevelAbilityId", value: LevelAbilityId);
+        LevelAbilityId = (ushort)persister.UInt16("LevelAbilityId", value: LevelAbilityId);
     }
 
     // AoWAb.PAS:243

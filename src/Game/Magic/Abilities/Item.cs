@@ -67,10 +67,10 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     private bool _hidden;
 
     public ItemAvailability Availability { get; private set; }
-    public sbyte Attack { get; set; }
-    public sbyte Defense { get; private set; }
-    public sbyte Damage { get; private set; }
-    public sbyte Resistance { get; private set; }
+    public int Attack { get; set; }
+    public int Defense { get; private set; }
+    public int Damage { get; private set; }
+    public int Resistance { get; private set; }
 
     // Army.PAS:4220
     public override void Dispose()
@@ -138,10 +138,10 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
 
         Name = persister.String("Name", value: Name);
         Availability = persister.Enum("Availability", value: Availability);
-        Attack = persister.UnsignedByte(name: "Attack", value: Attack);
-        Defense = persister.UnsignedByte(name: "Defense", value: Defense);
-        Damage = persister.UnsignedByte(name: "Damage", value: Damage);
-        Resistance = persister.UnsignedByte(name: "Resistance", value: Resistance);
+        Attack = persister.UnsignedByte(name: "Attack", value: Attack.TruncateToSByte());
+        Defense = persister.UnsignedByte(name: "Defense", value: Defense.TruncateToSByte());
+        Damage = persister.UnsignedByte(name: "Damage", value: Damage.TruncateToSByte());
+        Resistance = persister.UnsignedByte(name: "Resistance", value: Resistance.TruncateToSByte());
         ItemType = persister.Enum("ItemType", value: ItemType);
         _hidden = persister.Boolean("Hidden", value: _hidden);
         ItemId = persister.Int32("ItemId", value: ItemId);

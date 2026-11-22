@@ -24,7 +24,7 @@ public class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         base.PersistFields(persister);
         Day = persister.Int32("Day", value: Day);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         Mode = persister.Enum("Mode", value: Mode);
     }
 

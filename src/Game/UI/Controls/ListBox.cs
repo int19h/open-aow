@@ -40,7 +40,7 @@ public partial class ListBox : Control
 
     public int FirstShownItem { get; private set; }
 
-    private byte _textOnly;
+    private int _textOnly;
     private int _imageLibraryIndexFrame;
     private int _imageLibraryIndexTNormal;
     private int _imageLibraryIndexTSelected;
@@ -92,7 +92,7 @@ public partial class ListBox : Control
                 _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryIndexTSelected, count: 1, sender: this);
             }
 
-            _textOnly = _imageLibraryFrame is not null && _imageLibraryTextureNormal is not null && _imageLibraryTextureSelected is not null ? (byte)0 : (byte)1;
+            _textOnly = _imageLibraryFrame is not null && _imageLibraryTextureNormal is not null && _imageLibraryTextureSelected is not null ? 0 : 1;
 
             Valid = true;
         }

@@ -33,9 +33,9 @@ public class EnchantedRoads : GlobalEnchantmentSpell
     {
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate65 = source.GetLocation();
-        sbyte x = coordinate65.X;
-        sbyte y = coordinate65.Y;
-        sbyte l = coordinate65.MapLevel;
+        int x = coordinate65.X;
+        int y = coordinate65.Y;
+        int l = coordinate65.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         Animation animation = new(null, show: ShowAnimation)
         {

@@ -8,6 +8,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -53,8 +54,8 @@ public class UnitSpellTokenEvent : SpellTokenEvent
     {
         bool result = base.Validate(source);
         MapCoordinate coordinate12 = source.GetLocation();
-        sbyte x = coordinate12.X;
-        sbyte y = coordinate12.Y;
+        int x = coordinate12.X;
+        int y = coordinate12.Y;
         _ = coordinate12.MapLevel;
         int i = TargetUnitIds.Count;
         while (result && i != 0)
@@ -65,8 +66,8 @@ public class UnitSpellTokenEvent : SpellTokenEvent
             if (target is not null)
             {
                 MapCoordinate coordinate13 = target.GetLocation();
-                sbyte targetX = coordinate13.X;
-                sbyte targetY = coordinate13.Y;
+                int targetX = coordinate13.X;
+                int targetY = coordinate13.Y;
                 _ = coordinate13.MapLevel;
                 result = target.GetHitPoints() != 0 && (byte)target.Player == TargetPlayer;
                 if (result)
@@ -95,10 +96,10 @@ public class UnitSpellTokenEvent : SpellTokenEvent
         if (_targetUnits.GetCount() != 0)
         {
             MapCoordinate coordinate14 = _targetUnits.GetUnit(0).GetLocation();
-            sbyte x = coordinate14.X;
-            sbyte y = coordinate14.Y;
-            sbyte l = coordinate14.MapLevel;
-            GamePack.Current.SpellControl[EventSpellId].PlayDefaultCastEffects(source.Player, x, y, layer: l);
+            int x = coordinate14.X;
+            int y = coordinate14.Y;
+            int l = coordinate14.MapLevel;
+            GamePack.Current.SpellControl[EventSpellId].PlayDefaultCastEffects(source.Player, x, y, layer: l.TruncateToSByte());
             for (int i = 0, last = _targetUnits.GetCount() - 1; i <= last; i++)
             {
                 Troop? target = _targetUnits.GetUnit(i);

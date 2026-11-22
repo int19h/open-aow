@@ -111,7 +111,7 @@ public sealed class AIMoveControl : EngineObject
         {
             for (int overlay = -1; overlay <= 11; overlay++)
             {
-                sbyte points = _movePointTable[terrain][overlay - MovementTables.FirstOverlay];
+                int points = _movePointTable[terrain][overlay - MovementTables.FirstOverlay];
                 if (points == -1)
                 {
                     points = _transportMovePointTable[terrain][overlay - MovementTables.FirstOverlay];
@@ -122,7 +122,7 @@ public sealed class AIMoveControl : EngineObject
                 }
 
                 MovePointTable movePointTable = _pathSettings.MovePointTable;
-                movePointTable[terrain][overlay - MovementTables.FirstOverlay] = points;
+                movePointTable[terrain][overlay - MovementTables.FirstOverlay] = (sbyte)points;
                 _pathSettings.MovePointTable = movePointTable;
             }
         }
@@ -233,10 +233,10 @@ public sealed class AIMoveControl : EngineObject
                         _state = 2;
                         _pathSettings.MovePointTable = _transportMovePointTable;
                         MapCoordinate coordinate102 = Settings.Transporter.GetLocation();
-                        sbyte locationX = coordinate102.X;
-                        sbyte locationY = coordinate102.Y;
-                        sbyte locationMapLevel = coordinate102.MapLevel;
-                        MapCoordinate mapCoordinate = new(locationX, locationY, locationMapLevel);
+                        int locationX = coordinate102.X;
+                        int locationY = coordinate102.Y;
+                        int locationMapLevel = coordinate102.MapLevel;
+                        MapCoordinate mapCoordinate = new((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
                         _pathSettings.SetSourcePosition(mapCoordinate);
                         MapCoordinate location = Settings.TransportSource;
                         _pathSettings.SetDestinationPosition(location);

@@ -18,13 +18,13 @@ public class EntangledAbility : UnitEnchantmentAbility
     }
 
     // PassiveAb.pas:638
-    public override sbyte GetDefense(AbilityOwner owner) => -2;
+    public override int GetDefense(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:628
     public override DurationMode GetDurationMode() => DurationMode.CombatTurn;
 
     // PassiveAb.pas:633
-    public override sbyte TotalDuration => 3;
+    public override int TotalDuration => 3;
 
     // PassiveAb.pas:643
     public override UnitEnchantment CreateEnchantment()

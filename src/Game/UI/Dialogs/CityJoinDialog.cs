@@ -21,7 +21,7 @@ public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
     public Memo Memo { get; private set; }
     public ArnoLine CityPictureLine { get; private set; }
 
-    private sbyte _race;
+    private int _race;
     private ExecuteDoneEvent? _done;
     private NegotiateRequestEventLog? _event;
 
@@ -92,7 +92,7 @@ public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWCityJoinDlg.pas:113
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {

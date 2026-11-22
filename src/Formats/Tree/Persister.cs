@@ -116,11 +116,11 @@ public interface IPersister
 
     byte Byte(string name, byte value, byte fallback = 0);
 
-    sbyte SByte(string name, sbyte value, sbyte fallback = 0);
+    int SByte(string name, int value, int fallback = 0);
 
-    ushort UInt16(string name, ushort value, ushort fallback = 0);
+    int UInt16(string name, int value, int fallback = 0);
 
-    short Int16(string name, short value, short fallback = 0);
+    int Int16(string name, int value, int fallback = 0);
 
     uint UInt32(string name, uint value, uint fallback = 0);
 
@@ -145,7 +145,7 @@ public interface IPersister
     byte RawByte(string name, byte value);
 
     /// <summary>An rwData signed byte. The value is stored even when it is zero. An absent member on load returns the caller's value.</summary>
-    sbyte RawSByte(string name, sbyte value);
+    int RawSByte(string name, int value);
 
     /// <summary>
     /// An rwData bool. The byte is stored even when false. 0 and 1 load as false and true.

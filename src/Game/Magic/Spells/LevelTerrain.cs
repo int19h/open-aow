@@ -11,6 +11,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -44,7 +45,7 @@ public class LevelTerrain : GlobalTargetSpell
     {
         LevelTerrainTokenEvent eventValue = new(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
-        eventValue.SetLocation((sbyte)X, (sbyte)Y, layer: (sbyte)L);
+        eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), layer: L.TruncateToSByte());
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         _ = eventValue.Release();
         return true;

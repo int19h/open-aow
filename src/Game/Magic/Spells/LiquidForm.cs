@@ -6,6 +6,7 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -27,7 +28,7 @@ public class LiquidForm : UnitSpell
     }
 
     // UnitSpells.pas:783
-    public override void PlayDefaultCastEffects(sbyte player, sbyte X, sbyte Y, sbyte layer)
+    public override void PlayDefaultCastEffects(sbyte player, int X, int Y, int layer)
     {
         base.PlayDefaultCastEffects(player, X, Y, layer);
         if (player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, L: layer, radius: 0))
@@ -54,7 +55,7 @@ public class LiquidForm : UnitSpell
                 UnitEnchantment enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(166).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
-                enchantment.DispelResistance = (sbyte)UnitDispelResistance;
+                enchantment.DispelResistance = UnitDispelResistance.TruncateToSByte();
             }
 
             // { Original succeeds even when expansion fails. }

@@ -9,7 +9,7 @@ public interface IGameHost
 {
     Display Display { get; }
     SdlDisplayController DisplayController { get; }
-    short FCursor { get; set; }
+    int FCursor { get; set; }
     Draw.Images.LibraryImage? FCursorImage { get; set; }
     Rect FLastCursorRectangle { get; }
     bool FCursorChanged { get; }

@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -18,7 +19,7 @@ public class TacticalBattleHighPrayerCombatAction(CustomNode owner) : ExclusiveC
         if (Succeeded)
         {
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
-            target.SetHitPoints((byte)(target.HitPoints + 5));
+            target.SetHitPoints((target.HitPoints + 5).TruncateToByte());
             _ = GamePack.Current.AbilityControl[100].Expand(target.Troop);
         }
     }

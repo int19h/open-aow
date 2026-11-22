@@ -48,7 +48,7 @@ public sealed record Fortify : ProductionOrder
             return;
         }
 
-        control.Settings.TurnsTotal = (sbyte)city.FortifyTime();
+        control.Settings.TurnsTotal = city.FortifyTime().TruncateToSByte();
         control.Settings.TurnsLeft = control.Settings.TurnsTotal;
         control.Settings.Player = control.GetPlayer();
         control.Settings.Gold = city.FortifyCost();

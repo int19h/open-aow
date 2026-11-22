@@ -48,26 +48,26 @@ public class UnitResource : TroopResource
 
     private string _name = "";
 
-    public sbyte Race { get; set; }
+    public int Race { get; set; }
 
     public bool Champion { get; internal set; }
 
     private string _nickname = "";
 
     public Alignment Alignment { get; private set; }
-    public sbyte Attack { get; set; }
-    public sbyte Defense { get; private set; }
-    public sbyte Damage { get; private set; }
-    public sbyte Hits { get; private set; }
-    public sbyte Moves { get; private set; }
-    public sbyte Resistance { get; private set; }
-    public sbyte Level { get; set; }
+    public int Attack { get; set; }
+    public int Defense { get; private set; }
+    public int Damage { get; private set; }
+    public int Hits { get; private set; }
+    public int Moves { get; private set; }
+    public int Resistance { get; private set; }
+    public int Level { get; set; }
     public UnitType UnitType { get; private set; }
     public UnitGender Gender { get; private set; }
 
     public AbilityOwnerArray3 Abilities { get; }
 
-    private byte _transportCapacity;
+    private int _transportCapacity;
 
     public DelphiStringList Description { get; }
 
@@ -95,18 +95,18 @@ public class UnitResource : TroopResource
         _name = persister.String("Name", value: _name);
         _nickname = persister.String("Nickname", value: _nickname);
         Alignment = persister.Enum("Alignment", value: Alignment);
-        Race = persister.UnsignedByte(name: "Race", value: Race);
-        Attack = persister.UnsignedByte(name: "Attack", value: Attack);
-        Defense = persister.UnsignedByte(name: "Defense", value: Defense);
-        Damage = persister.UnsignedByte(name: "Damage", value: Damage);
-        Hits = persister.UnsignedByte(name: "Hits", value: Hits);
-        Moves = persister.UnsignedByte(name: "Moves", value: Moves);
-        Resistance = persister.UnsignedByte(name: "Resistance", value: Resistance);
-        Level = persister.UnsignedByte(name: "Level", value: Level);
+        Race = persister.UnsignedByte(name: "Race", value: Race.TruncateToSByte());
+        Attack = persister.UnsignedByte(name: "Attack", value: Attack.TruncateToSByte());
+        Defense = persister.UnsignedByte(name: "Defense", value: Defense.TruncateToSByte());
+        Damage = persister.UnsignedByte(name: "Damage", value: Damage.TruncateToSByte());
+        Hits = persister.UnsignedByte(name: "Hits", value: Hits.TruncateToSByte());
+        Moves = persister.UnsignedByte(name: "Moves", value: Moves.TruncateToSByte());
+        Resistance = persister.UnsignedByte(name: "Resistance", value: Resistance.TruncateToSByte());
+        Level = persister.UnsignedByte(name: "Level", value: Level.TruncateToSByte());
         UnitType = persister.Enum("UnitType", value: UnitType);
         Champion = persister.RawBool("Champion", value: Champion);
         Gender = persister.Enum("Gender", value: Gender);
-        _transportCapacity = persister.Byte("TransportCapacity", value: _transportCapacity);
+        _transportCapacity = persister.Byte("TransportCapacity", value: _transportCapacity.TruncateToByte());
         persister.Object("NoRankAbilities", objectValue: Abilities[(int)Unit.Rank.None]);
         persister.Lines(name: "Description", lines: Description);
         ObtainValue = persister.Int32("ObtainValue", value: ObtainValue);
@@ -174,14 +174,14 @@ public class UnitResource : TroopResource
     public MoveTypes GetMoveTypes() => Abilities[(int)Unit.Rank.None].GetAbilityMoveTypesAll();
 
     // UnitRes.PAS:111
-    public byte GetTransportCapacity()
+    public int GetTransportCapacity()
     {
-        byte result = (byte)GamePack.Current.AbilityControl[50].GetLevel(Abilities[(int)Unit.Rank.None]);
+        int result = GamePack.Current.AbilityControl[50].GetLevel(Abilities[(int)Unit.Rank.None]).TruncateToByte();
         return result < _transportCapacity ? _transportCapacity : result;
     }
 
     // UnitRes.PAS:118
-    public sbyte GetUpkeep() => (sbyte)(Level + 1);
+    public int GetUpkeep() => (Level + 1).TruncateToSByte();
 
     // UnitRes.PAS:126
     public void SetDescription(DelphiStringCollection value) => Description.Assign(value);

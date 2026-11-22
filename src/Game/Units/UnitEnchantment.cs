@@ -88,9 +88,9 @@ public class UnitEnchantment : Enchantment
     public override void Select()
     {
         MapCoordinate coordinate28 = GetLocation();
-        sbyte hexX = coordinate28.X;
-        sbyte hexY = coordinate28.Y;
-        sbyte hexLevel = coordinate28.MapLevel;
+        int hexX = coordinate28.X;
+        int hexY = coordinate28.Y;
+        int hexLevel = coordinate28.MapLevel;
         if (hexX != -1)
         {
             if (StrategicMap.Current.Visible(hexX, hexY, L: hexLevel, radius: 0))

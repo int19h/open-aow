@@ -60,9 +60,9 @@ public class SpellCastEventLog(CustomNode owner) : EventLog(owner)
         if (troop is not null)
         {
             MapCoordinate coordinate21 = troop.GetLocation();
-            sbyte x = coordinate21.X;
-            sbyte y = coordinate21.Y;
-            sbyte l = coordinate21.MapLevel;
+            int x = coordinate21.X;
+            int y = coordinate21.Y;
+            int l = coordinate21.MapLevel;
             CenterViewTo(x, y, l);
         }
     }

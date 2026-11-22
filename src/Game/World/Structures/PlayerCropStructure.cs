@@ -29,7 +29,7 @@ public class PlayerCropStructure : PlayerStructure
 
     public override PlayerCropStructureResource Resource => GetResource<PlayerCropStructureResource>();
 
-    public byte Income { get; private set; }
+    public int Income { get; private set; }
 
     private bool _changingCrops;
     private readonly PlayerStructureIncomeSource _incomeSource;
@@ -91,7 +91,7 @@ public class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:560
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         bool result = base.CanPlace(mapContainer, hexX, hexY, hexLevel);
         if (result && !EditMode)
@@ -124,7 +124,7 @@ public class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:586
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
         if (result)
@@ -214,7 +214,7 @@ public class PlayerCropStructure : PlayerStructure
     {
         if (!GetRazed() && !Building)
         {
-            SetIncome((byte)(GetCropCount() * 2));
+            SetIncome((GetCropCount() * 2).TruncateToByte());
         }
         else
         {
@@ -241,7 +241,7 @@ public class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:413
-    public virtual sbyte GetRace() => Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : (sbyte)-1;
+    public virtual int GetRace() => Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : -1;
 
     // Crops.pas:339
     public virtual void CropsChanged() => UpdateIncome();
@@ -258,7 +258,7 @@ public class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:302
-    public void SetIncome(byte value)
+    public void SetIncome(int value)
     {
         if (value != Income && Status.Contains(MapObjectStatuses.Activated))
         {
@@ -360,7 +360,7 @@ public class PlayerCropStructure : PlayerStructure
                     {
                         i = StrategicMap.Current.Random(locations.Count);
                         HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, hexNumber: locations.List[i], ref x, ref y);
-                        crop = resource.PlaceCrop((sbyte)x, (sbyte)y, L: (sbyte)mapLevel.HexLevel, cropOwner: this);
+                        crop = resource.PlaceCrop(x.TruncateToSByte(), y.TruncateToSByte(), L: mapLevel.HexLevel.TruncateToSByte(), cropOwner: this);
                         if (crop is not null)
                         {
                             _ = crops.Add(crop);

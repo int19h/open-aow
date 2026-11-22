@@ -10,6 +10,7 @@ using Aow.Game.Net;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -25,7 +26,7 @@ public class DisbandUnitTokenEvent(CustomNode? owner) : TokenEvent(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         UnitId = persister.Int32("UnitId", value: UnitId);
     }
 
@@ -44,9 +45,9 @@ public class DisbandUnitTokenEvent(CustomNode? owner) : TokenEvent(owner)
             if (!troop.GetAbilityEnabled(155))
             {
                 MapCoordinate coordinate5 = troop.GetLocation();
-                sbyte x = coordinate5.X;
-                sbyte y = coordinate5.Y;
-                sbyte l = coordinate5.MapLevel;
+                int x = coordinate5.X;
+                int y = coordinate5.Y;
+                int l = coordinate5.MapLevel;
                 PlayerStructure structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
                 ArmyHexSprite? armyHexSprite;
                 if (troop.Owner is not Army || troop.Owner.Count > 1 || (structure is not null && structure.Player > 0))
@@ -73,13 +74,13 @@ public class DisbandUnitTokenEvent(CustomNode? owner) : TokenEvent(owner)
                     if (i == -1)
                     {
                         int indexOf = armyHexSprite.Army.Units.IndexOf(troop);
-                        armyHexSprite.Army.SetBehavior((byte)(1 << indexOf), behavior);
+                        armyHexSprite.Army.SetBehavior((1 << indexOf).TruncateToByte(), behavior);
                     }
                     else
                     {
                         Troop? unit = armyHexSprite.Army.Units.GetUnit(i);
                         int indexOf = armyHexSprite.Army.Units.IndexOf(troop);
-                        armyHexSprite.Army.SetGroup((byte)(1 << indexOf), unit.Group);
+                        armyHexSprite.Army.SetGroup((1 << indexOf).TruncateToByte(), unit.Group);
                     }
                 }
             }

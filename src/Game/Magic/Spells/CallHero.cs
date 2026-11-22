@@ -35,15 +35,15 @@ public class CallHero : Spell
     {
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate55 = source.GetLocation();
-        sbyte x = coordinate55.X;
-        sbyte y = coordinate55.Y;
-        sbyte layer = coordinate55.MapLevel;
+        int x = coordinate55.X;
+        int y = coordinate55.Y;
+        int layer = coordinate55.MapLevel;
         Hero? hero = FindCallHero(source);
         if (hero is not null)
         {
             if (hero.Owner is null)
             {
-                hero.SetHitPoints(hero.GetHits());
+                hero.SetHitPoints((sbyte)hero.GetHits());
             }
 
             ArmyHexSprite? army = hero.Place(x, y, L: layer, player: 0, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);
@@ -51,9 +51,9 @@ public class CallHero : Spell
             bool condition = StrategicMap.Current.SeatedPlayer == source.Player;
             if (!condition)
             {
-                sbyte hexLevel = army.HexLevel;
-                sbyte hexY = army.HexY;
-                sbyte hexX = army.HexX;
+                int hexLevel = army.HexLevel;
+                int hexY = army.HexY;
+                int hexX = army.HexX;
                 condition = StrategicMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, player: StrategicMap.Current.SeatedPlayer);
             }
 
@@ -75,34 +75,34 @@ public class CallHero : Spell
                 {
                     animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl[SpellId].CastImages.GetImageSequence(0));
-                    sbyte hexLevel = army.HexLevel;
-                    sbyte hexY = army.HexY;
-                    sbyte hexX = army.HexX;
+                    int hexLevel = army.HexLevel;
+                    int hexY = army.HexY;
+                    int hexX = army.HexX;
                     _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, L: hexLevel);
                 }
             }
 
             if (StrategicMap.Current.SeatedPlayer == source.Player)
             {
-                sbyte hexLevel = army.HexLevel;
-                sbyte hexY = army.HexY;
-                sbyte hexX = army.HexX;
+                int hexLevel = army.HexLevel;
+                int hexY = army.HexY;
+                int hexX = army.HexX;
                 StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
             }
             else
             {
-                sbyte hexLevel = army.HexLevel;
-                sbyte hexY = army.HexY;
-                sbyte hexX = army.HexX;
+                int hexLevel = army.HexLevel;
+                int hexY = army.HexY;
+                int hexX = army.HexX;
                 _ = StrategicMap.Current.ValidateObservation(source.Player, hexX, hexY, hexLevel, radius: 0);
             }
 
             bool test = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Watching(x, y, L: layer, radius: 0);
             if (!test)
             {
-                sbyte hexLevel = army.HexLevel;
-                sbyte hexY = army.HexY;
-                sbyte hexX = army.HexX;
+                int hexLevel = army.HexLevel;
+                int hexY = army.HexY;
+                int hexX = army.HexX;
                 test = StrategicMap.Current.Watching(hexX, hexY, L: hexLevel, radius: 0);
             }
 

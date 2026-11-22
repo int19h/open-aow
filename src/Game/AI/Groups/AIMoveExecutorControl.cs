@@ -7,6 +7,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -34,10 +35,10 @@ public partial class AIMoveExecutorControl : EngineObject
     }
 
     // AIGroup.pas:4738
-    public virtual (AIMoveExecutorMove, byte MoveResult) CreateMove(AIMoveExecutorArmy army, byte selection, sbyte x, sbyte y, sbyte mapLevel, CreateMoveModes mode)
+    public virtual (AIMoveExecutorMove, byte MoveResult) CreateMove(AIMoveExecutorArmy army, int selection, int x, int y, int mapLevel, CreateMoveModes mode)
     {
         AIMoveExecutorMove? move = null;
-        army.RetrieveArmy(selection, army: out ArmyHexSprite armyHexSprite, out byte armySelection);
+        army.RetrieveArmy(selection, army: out ArmyHexSprite armyHexSprite, out int armySelection);
         MoveControlSettings settings = new(null) { Holder = CreationHolder() };
         int points;
         if (mode.Contains(CreateMoveModes.SurroundNearest))
@@ -56,9 +57,9 @@ public partial class AIMoveExecutorControl : EngineObject
                     MapField mapField = StrategicMap.Current.MapContainer.GetField(walk.X, walk.Y, mapLevel);
                     if (points != 16777215 && (mapField.GetPlayer() == -1 || mapField.GetPlayer() == army.Player))
                     {
-                        if (CanMoveTo(army, selection, (sbyte)walk.X, (sbyte)walk.Y, mapLevel) == selection)
+                        if (CanMoveTo(army, selection, walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), mapLevel) == selection)
                         {
-                            _ = candidates.Add(new SurroundCandidate(Location: new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, mapLevel), MovePoints: points));
+                            _ = candidates.Add(new SurroundCandidate(Location: new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)mapLevel), MovePoints: points));
                         }
                     }
                 }
@@ -139,7 +140,7 @@ public partial class AIMoveExecutorControl : EngineObject
                     move.MovePoints = points;
                     move.Moves = armyHexSprite.Army.Moves(armySelection);
                     move.Source = new MapCoordinate(armyHexSprite.HexX, armyHexSprite.HexY, armyHexSprite.HexLevel);
-                    move.Destination = new MapCoordinate(x, y, mapLevel);
+                    move.Destination = new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)mapLevel);
                     if (!mode.Contains(CreateMoveModes.DoNotQueue))
                     {
                         move.SetOwner(Executor.Moves);
@@ -164,7 +165,7 @@ public partial class AIMoveExecutorControl : EngineObject
     }
 
     // AIGroup.pas:4854
-    public virtual byte CanMoveTo(AIMoveExecutorArmy army, byte selection, sbyte x, sbyte y, sbyte mapLevel)
+    public virtual int CanMoveTo(AIMoveExecutorArmy army, int selection, int x, int y, int mapLevel)
     {
         int unitCount = 0;
         int transporterCount = 0;
@@ -172,7 +173,7 @@ public partial class AIMoveExecutorControl : EngineObject
         bool allowed = true;
         MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, mapLevel);
         ArmyHexSprite armyHexSprite = mapField.GetArmyHexSprite();
-        byte result = 0;
+        int result = 0;
         int i;
         if (armyHexSprite is not null && armyHexSprite.Army.Player == army.Player)
         {
@@ -252,11 +253,11 @@ public partial class AIMoveExecutorControl : EngineObject
                             i -= 1;
                             if ((selection & 0b1000_0000) != 0)
                             {
-                                result = (byte)(result & ~(1 << i));
+                                result &= ~(1 << i);
                                 excess -= 1;
                             }
 
-                            selection = (byte)((selection & 0b0111_1111) << 1);
+                            selection = (selection & 0b0111_1111) << 1;
                         }
                     }
                     else
@@ -275,7 +276,7 @@ public partial class AIMoveExecutorControl : EngineObject
             }
         }
 
-        return !allowed ? (byte)0 : result;
+        return !allowed ? 0 : result;
     }
 
     // AIGroup.pas:4952

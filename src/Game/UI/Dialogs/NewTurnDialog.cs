@@ -80,7 +80,7 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
 
                 string day = UI.Engine.TranslateResourceString(GameText.DayText);
                 TurnLabel.Text = $"{day} {day2.ToString(CultureInfo.InvariantCulture)}";
-                sbyte race = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer).PlayerRace;
+                int race = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer).PlayerRace;
                 if (race == -1)
                 {
                     race = 12;

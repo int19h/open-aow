@@ -38,9 +38,9 @@ public class SelfDestructAbility : TouchAbility
     {
         if (CanTouchUnit(attacker, target: defender))
         {
-            sbyte hitPoints = defender.GetHitPoints();
-            sbyte defense = defender.GetDefense();
-            sbyte resistance = defender.GetResistance();
+            int hitPoints = defender.GetHitPoints();
+            int defense = defender.GetDefense();
+            int resistance = defender.GetResistance();
             DamageTypes immunityTypes = defender.GetImmunityTypes();
             DamageTypes protectionTypes = defender.GetProtectionTypes();
             return AbilityRules.StatisticsToLimitedDamageValue(8, damage: 6, damageTypes: DamageTypes.Fire | DamageTypes.Wall, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
@@ -57,18 +57,18 @@ public class SelfDestructAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender))
         {
             damageValues.DamageTypes = DamageTypes.Fire | DamageTypes.Wall;
-            sbyte hitPoints = defender.GetHitPoints();
-            sbyte defense = defender.GetDefense();
-            sbyte resistance = defender.GetResistance();
+            int hitPoints = defender.GetHitPoints();
+            int defense = defender.GetDefense();
+            int resistance = defender.GetResistance();
             DamageTypes immunityTypes = defender.GetImmunityTypes();
             DamageTypes protectionTypes = defender.GetProtectionTypes();
             int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(8, damage: 6, damageTypes: DamageTypes.Fire | DamageTypes.Wall, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
             int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: DamageTypes.Fire | DamageTypes.Wall);
             damageValues.SourceCost = statisticsToMaxDamage;
-            sbyte attackerHitPoints = attacker.GetHitPoints();
+            int attackerHitPoints = attacker.GetHitPoints();
             damageValues.TargetDamage = attackerHitPoints * 100;
-            sbyte hitPoints2 = attacker.GetHitPoints();
+            int hitPoints2 = attacker.GetHitPoints();
             damageValues.TargetCost = hitPoints2;
         }
         else
@@ -94,18 +94,18 @@ public class SelfDestructAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouch(attacker, target: defender))
         {
             damageValues.DamageTypes = DamageTypes.Fire | DamageTypes.Wall;
-            sbyte hitPoints = defender.HitPoints;
-            sbyte defense = defender.GetDefense();
-            sbyte resistance = defender.GetResistance();
+            int hitPoints = defender.HitPoints;
+            int defense = defender.GetDefense();
+            int resistance = defender.GetResistance();
             DamageTypes immunityTypes = defender.GetImmunityTypes();
             DamageTypes protectionTypes = defender.GetProtectionTypes();
             int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(8, damage: 6, damageTypes: DamageTypes.Fire | DamageTypes.Wall, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
             int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: DamageTypes.Fire | DamageTypes.Wall);
             damageValues.SourceCost = statisticsToMaxDamage;
-            sbyte attackerHitPoints = attacker.HitPoints;
+            int attackerHitPoints = attacker.HitPoints;
             damageValues.TargetDamage = attackerHitPoints * 100;
-            sbyte hitPoints2 = attacker.HitPoints;
+            int hitPoints2 = attacker.HitPoints;
             damageValues.TargetCost = hitPoints2;
         }
         else

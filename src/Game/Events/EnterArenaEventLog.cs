@@ -15,8 +15,8 @@ public partial class EnterArenaEventLog(CustomNode? owner) : EventLog(owner)
 {
 
     public Arena Arena { get; init; }
-    public byte Selection { get; private set; }
-    public byte Trainable { get; set; }
+    public int Selection { get; private set; }
+    public int Trainable { get; set; }
     public Int32List UnitIds { get; } = [];
 
     // Arena.pas:265
@@ -47,7 +47,7 @@ public partial class EnterArenaEventLog(CustomNode? owner) : EventLog(owner)
     }
 
     // Arena.pas:281
-    public void SetSelection(byte value) => Selection = (byte)(value & Trainable);
+    public void SetSelection(int value) => Selection = value & Trainable;
 
     // Arena.pas:284
     public bool Train(out string errorText)

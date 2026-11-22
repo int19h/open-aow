@@ -90,7 +90,7 @@ public class AIGroupTargetFinder : AIGroupTask
         targetInfo.Player = control.Group.Player;
         Selector.TargetInfo = targetInfo;
         AITargetInfo targetInfo2 = Selector.TargetInfo;
-        targetInfo2.IndependentRelation = control.Group.IndependentRelation;
+        targetInfo2.IndependentRelation = (sbyte)control.Group.IndependentRelation;
         Selector.TargetInfo = targetInfo2;
         AITargetInfo targetInfo3 = Selector.TargetInfo;
         targetInfo3.Mode = AITargetMode.Attack;

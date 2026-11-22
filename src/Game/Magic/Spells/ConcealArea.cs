@@ -38,9 +38,9 @@ public class ConcealArea : Spell
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         CastingDone(source, mana: eventValue.EventMana);
         MapCoordinate coordinate60 = source.GetLocation();
-        sbyte x = coordinate60.X;
-        sbyte y = coordinate60.Y;
-        sbyte layer = coordinate60.MapLevel;
+        int x = coordinate60.X;
+        int y = coordinate60.Y;
+        int layer = coordinate60.MapLevel;
         if (source.Player == StrategicMap.Current.SeatedPlayer)
         {
             ConcealAreaHexSprite conceal = new(null) { Holder = CreationHolder() };
@@ -68,7 +68,7 @@ public class ConcealArea : Spell
                                 log = new LocationTextEventLog(null)
                                 {
                                     Holder = CreationHolder(),
-                                    Location = new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, layer),
+                                    Location = new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)layer),
                                     Player = source.Player
                                 };
                                 string concealArea = AbilityRules.TranslateResourceString(GetEngine(), S: s_concealAreaText);
@@ -89,7 +89,7 @@ public class ConcealArea : Spell
                     log = new LocationTextEventLog(null)
                     {
                         Holder = CreationHolder(),
-                        Location = new MapCoordinate(x, y, layer),
+                        Location = new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)layer),
                         Player = source.Player
                     };
                     string concealArea = AbilityRules.TranslateResourceString(GetEngine(), S: s_concealAreaText);

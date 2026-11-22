@@ -22,7 +22,7 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
         int i;
         int timeLeft;
         int index;
-        byte selection;
+        int selection;
         AIMoveExecutorArmy army;
         AIMoveExecutorMove? move;
         switch (State)
@@ -347,7 +347,7 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
     }
 
     // AIGroup.pas:5465
-    public AIMoveExecutorMove? CreateTransporterMove(sbyte X, sbyte Y, sbyte L, bool queue)
+    public AIMoveExecutorMove? CreateTransporterMove(int X, int Y, int L, bool queue)
     {
         AIMoveExecutorMove? move = null;
         AIMoveExecutorArmy army = new(null) { Holder = CreationHolder() };
@@ -405,7 +405,7 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
                     move.MovePoints = movePoints;
                     move.Moves = armyHexSprite.Army.Moves(255);
                     move.Source = new MapCoordinate(armyHexSprite.HexX, armyHexSprite.HexY, armyHexSprite.HexLevel);
-                    move.Destination = new MapCoordinate(X, Y, L);
+                    move.Destination = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
                     if (queue)
                     {
                         move.Owner = Executor.Moves;
@@ -442,23 +442,23 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
     // AIGroup.pas:5553
     public void DumpTransportUnits(AIMoveExecutorArmy army)
     {
-        byte transporting = 0;
-        byte others = 0;
+        int transporting = 0;
+        int others = 0;
         int i = 0;
         int last = army.Count - 1;
         for (; i <= last; i += 1)
         {
             if (army.GetUnits(i).Troop.GetTransporting())
             {
-                transporting = (byte)(transporting | (1 << i));
+                transporting = (transporting | (1 << i)).TruncateToByte();
             }
             else
             {
-                others = (byte)(others | (1 << i));
+                others = (others | (1 << i)).TruncateToByte();
             }
         }
 
-        byte selection;
+        int selection;
         ArmyHexSprite armyHexSprite;
         MoveControlSettings settings;
         MapField? field;
@@ -599,7 +599,7 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
             if (found)
             {
                 MoveControlSettings settings = new(null) { Holder = CreationHolder() };
-                aiMoveExecutorArmyList.GetArmies(i).RetrieveArmy(255, army: out ArmyHexSprite armyHexSprite, armySelection: out byte selection);
+                aiMoveExecutorArmyList.GetArmies(i).RetrieveArmy(255, army: out ArmyHexSprite armyHexSprite, armySelection: out int selection);
                 settings.SetupArmy(armyHexSprite, selection);
                 settings.SetSourcePosition(_meetingPoint.Location);
                 settings.SetDestinationPosition(Executor.Destination);
@@ -640,7 +640,7 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
     public void CalculateTransportPathCallback(object sender)
     {
         AIMoveExecutorArmyList armies = Executor.CreateArmies(AIMoveExecutorUnitStatuses.Ready);
-        int index = armies.IndexOf(MoveControl.Settings.ArmyHexSprite, selection: (byte)MoveControl.Settings.Selection);
+        int index = armies.IndexOf(MoveControl.Settings.ArmyHexSprite, selection: MoveControl.Settings.Selection.TruncateToByte());
         AIMoveExecutorArmy? army = index != -1 ? armies.GetArmies(index) : null;
 
         if (army is not null && MoveControl.Settings.MovePoints != -1)

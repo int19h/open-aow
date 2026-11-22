@@ -25,9 +25,9 @@ public class WindWalkingEnchantment : UnitEnchantmentAbility
         if (result && owner is Troop troop && owner.Owner is Army army)
         {
             MapCoordinate coordinate90 = troop.GetLocation();
-            sbyte x = coordinate90.X;
-            sbyte y = coordinate90.Y;
-            sbyte l = coordinate90.MapLevel;
+            int x = coordinate90.X;
+            int y = coordinate90.Y;
+            int l = coordinate90.MapLevel;
             if (x != -1)
             {
                 MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);

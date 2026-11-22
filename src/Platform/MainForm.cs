@@ -20,7 +20,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     public Display Display { get; }
     public SdlDisplayController WinDisplayController { get; }
     public SdlDisplayController DisplayController => WinDisplayController;
-    public short FCursor { get; set; }
+    public int FCursor { get; set; }
     public LibraryImage? FCursorImage { get; set; }
     public Rect FLastCursorRectangle { get; private set; }
     public bool FCursorChanged { get; private set; }

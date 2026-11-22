@@ -6,6 +6,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
@@ -60,7 +61,7 @@ public sealed partial class ArmyId(CustomNode? owner) : EngineObject(owner)
     }
 
     // Army.PAS:45
-    public bool RetrieveArmy(ref ArmyHexSprite? armyHexSprite, ref byte selection)
+    public bool RetrieveArmy(ref ArmyHexSprite? armyHexSprite, ref int selection)
     {
         bool result;
         if (Location.X != -1)
@@ -77,7 +78,7 @@ public sealed partial class ArmyId(CustomNode? owner) : EngineObject(owner)
                     int item = UnitIds[i];
                     int index = armyHexSprite.Army.Units.IndexOfId(item);
                     // { Original shifts by the missing unit index before reporting failure. }
-                    selection = (byte)(selection | (1 << index));
+                    selection = (selection | (1 << index)).TruncateToByte();
                     result = index != -1;
                 }
             }

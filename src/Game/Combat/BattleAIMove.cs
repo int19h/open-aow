@@ -14,6 +14,6 @@ public class BattleAIMove
     public int GroupValue { get; set; }
     public TacticalBattleUnitHexSprite? UnitHexSprite { get; init; }
     public CombatObject? Target { get; init; }
-    public ushort X { get; init; }
-    public ushort Y { get; init; }
+    public int X { get; init; }
+    public int Y { get; init; }
 }

@@ -75,7 +75,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
 
     internal void SetBookClosedHandler(NotifyEvent<object>? handler) => _bookClosed = handler;
 
-    public byte BookAction { get; set; }
+    public int BookAction { get; set; }
 
     // The world map screen runs while the engine holds a world map campaign.
     // AoWWorldMap.pas:152
@@ -555,7 +555,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         LeaderSetupControl control = new(null, done: SpheresDone) { Holder = UI.Engine };
         WorldMapCampaign campaign = Campaign;
         control.Leader.Assign(campaign.TransferSettings.Leader, UI.Engine);
-        control.Leader.SetSpherePicksMax((byte)(picks + 2));
+        control.Leader.SetSpherePicksMax((picks + 2).TruncateToByte());
         control.OriginalLeader.Assign(control.Leader, UI.Engine);
         control.Mode = LeaderSetupModes.Spheres;
         UI.LeaderSetupWindow.Execute(control);
@@ -580,7 +580,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
             for (int i = Campaign.TransferSettings.Leader.SphereCount, last = leader.SphereCount - 1; i <= last; i++)
             {
                 MagicSphere sphere = leader.GetSpheres(i);
-                _ = Campaign.TransferSettings.SelectedSpheres.Add((byte)(int)sphere);
+                _ = Campaign.TransferSettings.SelectedSpheres.Add(((int)sphere).TruncateToByte());
             }
 
             WorldPanel.Visible = true;
@@ -1134,7 +1134,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         Rect r = new(InfoPanel.AbsoluteLeft + Ally1Frame.WinLeft, InfoPanel.AbsoluteTop + Ally1Frame.WinTop, InfoPanel.AbsoluteLeft + Ally1Frame.WinLeft + Ally1Frame.WinWidth, InfoPanel.AbsoluteTop + Ally1Frame.WinTop + Ally1Frame.WinHeight);
         if (Campaign.RaceHistory.Count > 0)
         {
-            byte raceHistory = Campaign.RaceHistory[0];
+            int raceHistory = Campaign.RaceHistory[0];
             GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(r, lockedSurface: surface);
         }
     }
@@ -1145,7 +1145,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         Rect r = new(InfoPanel.AbsoluteLeft + Ally2Frame.WinLeft, InfoPanel.AbsoluteTop + Ally2Frame.WinTop, InfoPanel.AbsoluteLeft + Ally2Frame.WinLeft + Ally2Frame.WinWidth, InfoPanel.AbsoluteTop + Ally2Frame.WinTop + Ally2Frame.WinHeight);
         if (Campaign.RaceHistory.Count > 1)
         {
-            byte raceHistory = Campaign.RaceHistory[1];
+            int raceHistory = Campaign.RaceHistory[1];
             GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(r, lockedSurface: surface);
         }
     }
@@ -1156,7 +1156,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         Rect r = new(InfoPanel.AbsoluteLeft + Ally3Frame.WinLeft, InfoPanel.AbsoluteTop + Ally3Frame.WinTop, InfoPanel.AbsoluteLeft + Ally3Frame.WinLeft + Ally3Frame.WinWidth, InfoPanel.AbsoluteTop + Ally3Frame.WinTop + Ally3Frame.WinHeight);
         if (Campaign.RaceHistory.Count > 2)
         {
-            byte raceHistory = Campaign.RaceHistory[2];
+            int raceHistory = Campaign.RaceHistory[2];
             GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(r, lockedSurface: surface);
         }
     }

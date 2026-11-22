@@ -9,6 +9,7 @@ using Aow.Game.Combat;
 using Aow.Game.Draw.Images;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Draw;
 
@@ -23,19 +24,19 @@ public sealed class UnitPositionHexSprite(CustomNode? owner) : SingleHexSprite(o
     private sbyte _index;
     private int _imageIndex;
     private CustomImageLibrary? _images;
-    private byte _direction = 1;
+    private int _direction = 1;
 
     // AoWTC.pas:5060
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _position = persister.UnsignedByte(name: "Position", value: _position);
-        _index = persister.UnsignedByte(name: "Index", value: _index);
-        _direction = persister.Byte("Direction", value: _direction);
+        _position = (sbyte)persister.UnsignedByte(name: "Position", value: _position);
+        _index = (sbyte)persister.UnsignedByte(name: "Index", value: _index);
+        _direction = persister.Byte("Direction", value: _direction.TruncateToByte());
     }
 
     // AoWTC.pas:5021
-    public override byte Level => 27;
+    public override int Level => 27;
 
     // AoWTC.pas:5074
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -58,7 +59,7 @@ public sealed class UnitPositionHexSprite(CustomNode? owner) : SingleHexSprite(o
         else
         {
             MapCoordinate location = new(X: HexX, Y: HexY, MapLevel: 0);
-            CombatMap.Current.UnitPositions.SetUnitPosition(_position, _index, value: new UnitPosition(Location: location, Facing: _direction));
+            CombatMap.Current.UnitPositions.SetUnitPosition(_position, _index, value: new UnitPosition(Location: location, Facing: (byte)_direction));
             Dispose();
         }
     }
@@ -70,12 +71,12 @@ public sealed class UnitPositionHexSprite(CustomNode? owner) : SingleHexSprite(o
         {
             GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TCUNITS.ILB");
             UnitPosition unitPosition = CombatMap.Current.UnitPositions.GetUnitPosition(_position, _index);
-            sbyte hexX = HexX;
+            int hexX = HexX;
             bool condition = unitPosition.Location.X == hexX;
             if (condition)
             {
                 UnitPosition fUnitPositionsUnitPosition = CombatMap.Current.UnitPositions.GetUnitPosition(_position, _index);
-                sbyte hexY = HexY;
+                int hexY = HexY;
                 condition = fUnitPositionsUnitPosition.Location.Y == hexY;
             }
 
@@ -89,7 +90,7 @@ public sealed class UnitPositionHexSprite(CustomNode? owner) : SingleHexSprite(o
     }
 
     // AoWTC.pas:5068
-    public override bool CanPlace(MapContainer? map, sbyte hexX, sbyte hexY, sbyte hexLevel) => map.GetField(hexX, hexY, hexLevel).FindOwnedChild(ClassId) is null && CombatMap.Current.UnitPositions.ValidatePosition(ref _position, ref _index);
+    public override bool CanPlace(MapContainer? map, int hexX, int hexY, int hexLevel) => map.GetField(hexX, hexY, hexLevel).FindOwnedChild(ClassId) is null && CombatMap.Current.UnitPositions.ValidatePosition(ref _position, ref _index);
 
     // AoWTC.pas:5026
     public void UpdateImageIndex() => _imageIndex = (_position * 8) + _index;

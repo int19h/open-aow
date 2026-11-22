@@ -4,6 +4,7 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -34,7 +35,7 @@ public sealed class CombatPartyList(CustomNode? owner) : OwningNode(owner), IChi
                 Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L)
             };
             p.SetArrayOwner(this, index: position);
-            p.Army.SetMapCoordinate((sbyte)(byte)X, (sbyte)(byte)Y, (sbyte)L);
+            p.Army.SetMapCoordinate(X.TruncateToSByte(), Y.TruncateToSByte(), L.TruncateToSByte());
             CombatPlayer players = combat.CombatData.Players.GetPlayers((sbyte)combatPlayer);
             p.Army.SetPlayer(players.Player);
             if (army is not null)

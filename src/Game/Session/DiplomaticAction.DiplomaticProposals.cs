@@ -9,7 +9,7 @@ public partial class DiplomaticAction
 {
     // Replaces the message with the default text of the kind for Reaction (Player.PAS:1188,
     // Diplomacy.pas:826, 950).
-    public void RetrieveDefaultMessage(sbyte source, sbyte target, sbyte other, DiplomaticActionReaction reaction)
+    public void RetrieveDefaultMessage(int source, int target, int other, DiplomaticActionReaction reaction)
     {
         using DelphiStringList text = new();
         RetrieveDefaultDiplomaticActionMessage(source, target, other, Proposal, reaction, text, engine: GetEngine());
@@ -23,10 +23,10 @@ public partial class DiplomaticAction
         for (int i = 0, last = StrategicMap.Current.Races.Count - 1; i <= last; i++)
         {
             int playerRelationValue = StrategicMap.Current.Races.GetRace(i).GetPlayerRelationValue(Source);
-            int relationModifier = GetRelationModifier(Source, race: (sbyte)i);
+            int relationModifier = GetRelationModifier(Source, race: i.TruncateToSByte());
             StrategicMap.Current.Races.GetRace(i).SetPlayerRelationValue(Source, value: relationModifier + playerRelationValue);
             int playerRelationValue2 = StrategicMap.Current.Races.GetRace(i).GetPlayerRelationValue(Target);
-            int relationModifier2 = GetRelationModifier(Target, race: (sbyte)i);
+            int relationModifier2 = GetRelationModifier(Target, race: i.TruncateToSByte());
             StrategicMap.Current.Races.GetRace(i).SetPlayerRelationValue(Target, value: relationModifier2 + playerRelationValue2);
         }
 

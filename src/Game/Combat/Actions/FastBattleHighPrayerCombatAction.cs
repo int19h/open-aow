@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -19,7 +20,7 @@ public class FastBattleHighPrayerCombatAction(CustomNode owner) : MultiTargetCom
         {
             byte targetId = TargetIds[i];
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(targetId);
-            target.SetHitPoints((byte)(target.HitPoints + 5));
+            target.SetHitPoints((target.HitPoints + 5).TruncateToByte());
             _ = GamePack.Current.AbilityControl[100].Expand(target.Troop);
         }
     }

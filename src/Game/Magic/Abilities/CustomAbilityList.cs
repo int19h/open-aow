@@ -111,7 +111,7 @@ public class CustomAbilityList(CustomNode? owner) : EngineObject(owner)
         {
             if (source.GetAbilitySetAt(i) != GetAbilitySetAt(i))
             {
-                SetAbilitySet(i, value: (byte)(source.GetAbilitySetAt(i) ? 1 : 0));
+                SetAbilitySet(i, value: source.GetAbilitySetAt(i) ? 1 : 0);
             }
         }
     }
@@ -188,7 +188,7 @@ public class CustomAbilityList(CustomNode? owner) : EngineObject(owner)
         }
     }
 
-    public virtual void SetAbilitySet(int index, byte value)
+    public virtual void SetAbilitySet(int index, int value)
     {
         if ((uint)index >= (uint)AbilityCount)
         {

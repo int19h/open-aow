@@ -7,15 +7,12 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -29,7 +26,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
 
     private readonly Int32List _unitIds = [];
 
-    public byte Selection { get; protected set; }
+    public int Selection { get; protected set; }
     public ArmyHexSprite? ArmyHexSprite { get; protected set; }
 
     private sbyte _player;
@@ -53,9 +50,9 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     {
         base.PersistFields(persister);
         persister.Int32List(name: "UnitIds", list: _unitIds);
-        _player = persister.UnsignedByte(name: "Player", value: _player);
+        _player = (sbyte)persister.UnsignedByte(name: "Player", value: _player);
         Target = persister.Coordinate(name: "Target", value: Target, width: CoordinateWidth.Byte);
-        TargetPlayer = persister.UnsignedByte(name: "TargetPlayer", value: TargetPlayer);
+        TargetPlayer = (sbyte)persister.UnsignedByte(name: "TargetPlayer", value: TargetPlayer);
         Mode = persister.Set("Mode", value: Mode);
         Destination = persister.Coordinate(name: "Destination", value: Destination, width: CoordinateWidth.Byte);
     }
@@ -87,7 +84,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                     int unitIndex = ArmyHexSprite.Army.Units.IndexOfId(item);
                     if (unitIndex != -1)
                     {
-                        Selection = (byte)(Selection | (1 << unitIndex));
+                        Selection = (Selection | (1 << unitIndex)).TruncateToByte();
                     }
 
                     int fUnitIdsItem = _unitIds[i];
@@ -111,7 +108,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                     bool condition = result;
                     if (condition)
                     {
-                        sbyte movePoints = ArmyHexSprite.Army.MovePoints(Selection);
+                        int movePoints = ArmyHexSprite.Army.MovePoints(Selection);
                         condition = AbilityRules.RoadConstructionCost(_player, Path, movePoints) <= StrategicMap.Current.Players.GetPlayers(_player).Gems;
                     }
 
@@ -137,7 +134,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
         _animate = false;
         int last = Path.Count - 1;
         Selection = ArmyHexSprite.Army.ValidateSelection(Selection);
-        byte validateSelection = ArmyHexSprite.Army.ValidateSelection(255);
+        int validateSelection = ArmyHexSprite.Army.ValidateSelection(255);
         if (Selection != validateSelection)
         {
             ArmyHexSprite armyHexSprite = new(null) { Holder = CreationHolder() };
@@ -207,9 +204,9 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                 StrategicMap.Current.SelectedArmy.Update();
                 if (Mode.Contains(ArmyMoveModes.SelectEndLocation))
                 {
-                    sbyte hexLevel = ArmyHexSprite.HexLevel;
-                    sbyte hexY = ArmyHexSprite.HexY;
-                    sbyte hexX = ArmyHexSprite.HexX;
+                    int hexLevel = ArmyHexSprite.HexLevel;
+                    int hexY = ArmyHexSprite.HexY;
+                    int hexX = ArmyHexSprite.HexX;
                     StrategicMap.Current.Selection.SelectLocationHex(hexX, hexY, hexLevel);
                 }
             }
@@ -239,9 +236,9 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                 bool condition = ArmyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer;
                 if (!condition)
                 {
-                    sbyte hexLevel = ArmyHexSprite.HexLevel;
-                    sbyte hexY = ArmyHexSprite.HexY;
-                    sbyte hexX = ArmyHexSprite.HexX;
+                    int hexLevel = ArmyHexSprite.HexLevel;
+                    int hexY = ArmyHexSprite.HexY;
+                    int hexX = ArmyHexSprite.HexX;
                     condition = StrategicMap.Current.Watching(hexX, hexY, L: hexLevel, radius: 0);
                 }
 
@@ -283,7 +280,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                 instant = false;
             }
 
-            _ = ArmyHexSprite.MoveFirst(direction, instant);
+            _ = (sbyte)ArmyHexSprite.MoveFirst(direction, instant);
             if (ObserveMove(MoveIndex - 1))
             {
                 MapField field = GetMapField(Path[MoveIndex - 1].Location);
@@ -353,7 +350,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
 
             if (direction is > 0 and <= 6)
             {
-                ArmyHexSprite.SetDirection((byte)direction);
+                ArmyHexSprite.SetDirection(direction.TruncateToByte());
             }
             else
             {
@@ -375,7 +372,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     }
 
     // MoveT.PAS:2108
-    public virtual bool Setup(ArmyHexSprite? armyHexSprite, byte selection, MovePath path, ArmyMoveModes mode)
+    public virtual bool Setup(ArmyHexSprite? armyHexSprite, int selection, MovePath path, ArmyMoveModes mode)
     {
         Path.Clear();
         int first = path.MovePointsToPosition(armyHexSprite.Army.MovePoints(selection));

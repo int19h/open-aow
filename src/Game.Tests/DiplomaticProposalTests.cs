@@ -286,8 +286,8 @@ public sealed class DiplomaticProposalTests
     {
         for (int kind = 0; kind <= 9; kind++)
         {
-            Assert.True(DiplomaticProposal.IsRegistered((byte)kind), userMessage: $"kind {kind}");
-            _ = Assert.Throws<InvalidOperationException>(() => DiplomaticProposal.Register((byte)kind, static (gold, mana) => new UnknownProposal(0, gold, mana)));
+            Assert.True(DiplomaticProposal.IsRegistered(kind.TruncateToByte()), userMessage: $"kind {kind}");
+            _ = Assert.Throws<InvalidOperationException>(() => DiplomaticProposal.Register(kind.TruncateToByte(), static (gold, mana) => new UnknownProposal(0, gold, mana)));
         }
         foreach (byte kind in new byte[] { 10, 11, 200, 255 })
         {

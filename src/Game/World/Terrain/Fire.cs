@@ -16,6 +16,7 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 using static Aow.Rtl.DelphiRandom;
 
@@ -30,8 +31,8 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 
     private Modes _mode = Modes.Expandable;
 
-    public sbyte TurnsLeft { get; set; } = 3;
-    public byte Age { get; set; }
+    public int TurnsLeft { get; set; } = 3;
+    public int Age { get; set; }
 
     private int _showPriority = 1_744_830_464;
 
@@ -43,10 +44,10 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        TurnsLeft = persister.UnsignedByte(name: "TurnsLeft", value: TurnsLeft);
+        TurnsLeft = persister.UnsignedByte(name: "TurnsLeft", value: TurnsLeft.TruncateToSByte());
         _mode = persister.Set("Mode", value: _mode);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
-        Age = persister.Byte("Age", value: Age);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Age = persister.Byte("Age", value: Age.TruncateToByte());
     }
 
     // Structur.PAS:3672
@@ -73,10 +74,10 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Structur.PAS:3411
-    public override sbyte GetTerrain(int index)
+    public override int GetTerrain(int index)
     {
-        sbyte result = base.Resource.TerrainList.GetTerrain(index);
-        return result >= 0 ? (sbyte)-1 : result;
+        int result = base.Resource.TerrainList.GetTerrain(index);
+        return result >= 0 ? -1 : result;
     }
 
     // Structur.PAS:3417
@@ -183,7 +184,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     {
         if (!Status.Contains(MapObjectStatuses.Visible) && _explosionFrame != 0 && StrategicMap.Current.Frame == _explosionFrame)
         {
-            sbyte hexX = HexX;
+            int hexX = HexX;
             _ = AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[(hexX + StrategicMap.Current.Frame) % 2]);
         }
 
@@ -191,7 +192,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Structur.PAS:3497
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         bool result = base.CanPlace(mapContainer, hexX, hexY, hexLevel);
         if (result)
@@ -204,17 +205,17 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Structur.PAS:3435
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         CalculateShowPriority(mapContainer.GetField(hexX, hexY, hexLevel));
         return base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
     }
 
     // Structur.PAS:3441
-    public override sbyte GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY, sbyte defaultValue)
+    public override int GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, int hexX, int hexY, int defaultValue)
     {
         Span<byte> counts = stackalloc byte[128];
-        sbyte result = defaultValue;
+        int result = defaultValue;
         TerrainList terrains = base.Resource.TerrainList;
         if (result < 0)
         {
@@ -227,7 +228,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         {
             if (base.Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                sbyte terrainType = mapLevel.GetField(walk.X, walk.Y).TerrainType;
+                int terrainType = mapLevel.GetField(walk.X, walk.Y).TerrainType;
                 if (terrainType >= 0)
                 {
                     counts[terrainType] = (byte)(counts[terrainType] + 1);
@@ -317,7 +318,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     {
         if (Age < 99)
         {
-            Age = (byte)(Age + 1);
+            Age = (Age + 1).TruncateToByte();
         }
     }
 
@@ -327,8 +328,8 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         if (Age > 0)
         {
             MapLevel mapLevel = Owner.Owner;
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexY = HexY;
+            int hexX = HexX;
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 1);
             while (walk.Radius == 1)
             {
@@ -339,7 +340,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
                     if (chance > StrategicMap.Current.Random(1_000))
                     {
                         RandSeed = StrategicMap.Current.Random(16777215);
-                        sbyte hexLevel = HexLevel;
+                        int hexLevel = HexLevel;
                         Fire? fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, L: hexLevel, fireType: FireType.Large);
                         if (fire is not null)
                         {
@@ -355,7 +356,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 
         if (TurnsLeft != 0)
         {
-            TurnsLeft = (sbyte)(TurnsLeft - 1);
+            TurnsLeft = (TurnsLeft - 1).TruncateToSByte();
             if (TurnsLeft != 0)
             {
                 TriggerDamage();

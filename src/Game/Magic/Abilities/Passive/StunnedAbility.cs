@@ -19,7 +19,7 @@ public class StunnedAbility : DurationAbility
     }
 
     // PassiveAb.pas:810
-    public override sbyte GetDefense(AbilityOwner owner) => -2;
+    public override int GetDefense(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:804
     public override int TotalDuration => 1;

@@ -406,7 +406,7 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
     public void SoundTabChange() => UI.General.PlayButtonSound(0);
 
     // AoWSoundDlg.pas:352
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {

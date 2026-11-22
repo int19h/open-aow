@@ -213,10 +213,10 @@ public class StrikeAbility : AdjustableAbility
     {
         if (owner is Troop troop)
         {
-            sbyte attack = troop.GetAttack();
-            info.Attack = attack;
-            sbyte damage = troop.GetDamage();
-            info.Damage = damage;
+            int attack = troop.GetAttack();
+            info.Attack = (sbyte)attack;
+            int damage = troop.GetDamage();
+            info.Damage = (sbyte)damage;
 
             DamageTypes damageTypes = GetDamageTypes(owner);
             info.DamageTypes = damageTypes;

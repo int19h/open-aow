@@ -18,7 +18,7 @@ public sealed class CombatSide(CustomNode? owner) : OwningNode(owner), IChildLis
 
     int IChildSink<CombatObject>.AddChild(CombatObject child) => AddChild(child);
 
-    public byte SideIndex { get; set; }
+    public int SideIndex { get; set; }
     public CombatSide Opponent { get; set; }
     public int Strength { get; private set; }
     public int ConquerCount { get; private set; }

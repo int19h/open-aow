@@ -55,10 +55,10 @@ public class CenterViewLocation(CustomNode owner) : MapObject(owner)
     public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
 
     // CenterViewLoc.pas:52
-    public override bool CanPlace(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => true;
+    public override bool CanPlace(MapContainer? mapContainer, int hexX, int hexY, int hexLevel) => true;
 
     // CenterViewLoc.pas:58
-    public override bool PlaceHex(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
+    public override bool PlaceHex(MapContainer? mapContainer, int hexX, int hexY, int hexLevel) => base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
 
     public new class Resource : MapObjectResource
     {
@@ -71,7 +71,7 @@ public class CenterViewLocation(CustomNode owner) : MapObject(owner)
         public override int ResourceUserClassId() => CenterViewLocation.ClassId;
 
         // CenterViewLoc.pas:94
-        public override void SetLevel(byte value) => base.SetLevel(27);
+        public override void SetLevel(int value) => base.SetLevel(27);
 
         // CenterViewLoc.pas:99
         public override string ResourceEditName() => "Center View Location";

@@ -1,6 +1,7 @@
 
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
@@ -27,7 +28,7 @@ public sealed record Trade(int TurnsTotal) : ProductionOrder
 
     public override void Executed(ProductionControl control)
     {
-        control.Settings.TurnsTotal = (sbyte)TurnsTotal;
+        control.Settings.TurnsTotal = TurnsTotal.TruncateToSByte();
         control.Settings.TurnsLeft = 1;
         control.Settings.Player = control.GetPlayer();
         control.Status = ProductionControlStatus.Producing;

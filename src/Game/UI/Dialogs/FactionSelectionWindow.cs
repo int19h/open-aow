@@ -201,7 +201,7 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWSelFactionWin.pas:210
-    public void FactionPnlKeyDown(in ushort key, ShiftStates shift)
+    public void FactionPnlKeyDown(in int key, ShiftStates shift)
     {
         switch (key)
         {

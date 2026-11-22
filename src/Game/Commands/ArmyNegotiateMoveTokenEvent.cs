@@ -82,7 +82,7 @@ public class ArmyNegotiateMoveTokenEvent(CustomNode? owner) : MoveArmyTokenEvent
 
                 if (direction is > 0 and <= 6)
                 {
-                    ArmyHexSprite.SetDirection((byte)direction);
+                    ArmyHexSprite.SetDirection(direction.TruncateToByte());
                 }
                 else
                 {
@@ -107,7 +107,7 @@ public class ArmyNegotiateMoveTokenEvent(CustomNode? owner) : MoveArmyTokenEvent
         }
     }
 
-    private static void NegotiateArmy(sbyte player, ArmyHexSprite armyHexSprite, byte selection, sbyte X, sbyte Y, sbyte L, int movePoints)
+    private static void NegotiateArmy(sbyte player, ArmyHexSprite armyHexSprite, int selection, int X, int Y, int L, int movePoints)
     {
         MapFieldMessage message = default;
         if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)

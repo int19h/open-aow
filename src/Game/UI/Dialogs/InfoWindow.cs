@@ -131,21 +131,21 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         if (ItemBag is not null)
         {
             ItemHexSprite itemHexSprite = ItemBag;
-            sbyte hexY = ItemBag.HexY;
-            sbyte hexX = itemHexSprite.HexX;
+            int hexY = ItemBag.HexY;
+            int hexX = itemHexSprite.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, ItemBag.HexLevel);
 
-            sbyte fItemBagHexY = ItemBag.HexY;
-            sbyte fItemBagHexX = ItemBag.HexX;
+            int fItemBagHexY = ItemBag.HexY;
+            int fItemBagHexX = ItemBag.HexX;
             StrategicMap.Current.PlayCenterAnimation(fItemBagHexX, fItemBagHexY, L: ItemBag.HexLevel);
         }
         else
         {
-            sbyte hexY = UI.General.Structure.HexY;
-            sbyte hexX = UI.General.Structure.HexX;
+            int hexY = UI.General.Structure.HexY;
+            int hexX = UI.General.Structure.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, UI.General.Structure.HexLevel);
-            sbyte fStructureHexY = UI.General.Structure.HexY;
-            sbyte fStructureHexX = UI.General.Structure.HexX;
+            int fStructureHexY = UI.General.Structure.HexY;
+            int fStructureHexX = UI.General.Structure.HexX;
             StrategicMap.Current.PlayCenterAnimation(fStructureHexX, fStructureHexY, L: UI.General.Structure.HexLevel);
         }
     }
@@ -286,7 +286,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         DelphiStringCollection description = structure.Description;
         dialog.SingleButtonMemo.Items.Assign(description);
         _ = dialog.SingleButtonMemo.Items.Add("");
-        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.IncomeFormat), arguments: [((int)structure.Income).ToString(CultureInfo.InvariantCulture)]);
+        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.IncomeFormat), arguments: [structure.Income.ToString(CultureInfo.InvariantCulture)]);
         _ = dialog.SingleButtonMemo.Items.Add(format);
         dialog.RazePanel.Visible = true;
     }
@@ -419,12 +419,12 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         }
 
         dialog.MainButton.Visible = true;
-        byte rechargeDays = structure.GetRechargeDays();
+        int rechargeDays = structure.GetRechargeDays();
         dialog.AltarChargeBar.Max = rechargeDays;
         dialog.AltarChargeBar.Position = structure.RechargeDays;
-        byte structureRechargeDays = structure.GetRechargeDays();
+        int structureRechargeDays = structure.GetRechargeDays();
         dialog.ChargePercentLabel.Text = $"{Round((double)(structure.RechargeDays * 100) / structureRechargeDays).ToString(CultureInfo.InvariantCulture)}%";
-        byte rechargeDays2 = structure.GetRechargeDays();
+        int rechargeDays2 = structure.GetRechargeDays();
         dialog.DayLabel.Text = (rechargeDays2 - structure.RechargeDays).ToString(CultureInfo.InvariantCulture);
         int targetMana = structure.TargetMana();
         dialog.GemLabel.Text = targetMana.ToString(CultureInfo.InvariantCulture);
@@ -462,8 +462,8 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         string raceNames = dialog.UI.Engine.TranslateResourceString(GameTables.RaceNames[dialog.UI.General.City.Race]);
         string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.RaceFormat), arguments: [raceNames]);
         dialog.CityRaceLabel.Text = format;
-        dialog.CityLevelLabel.Text = ((int)structure.UpgradeLevel).ToString(CultureInfo.InvariantCulture);
-        dialog.CityIncomeLabel.Text = ((int)structure.Income).ToString(CultureInfo.InvariantCulture);
+        dialog.CityLevelLabel.Text = structure.UpgradeLevel.ToString(CultureInfo.InvariantCulture);
+        dialog.CityIncomeLabel.Text = structure.Income.ToString(CultureInfo.InvariantCulture);
         City.CivilStatus civilStatus = structure.GetCivilStatus();
         string civilStatusText = dialog.UI.Engine.TranslateResourceString(CityScreen.CivilStatusTexts[(int)civilStatus]);
         string formattedText = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.StatusFormat), arguments: [civilStatusText]);

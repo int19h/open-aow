@@ -45,7 +45,7 @@ public class Slow : CombatSpell
 
         if (!target.GetAbilityEnabled(132))
         {
-            sbyte resistance = target.GetResistance();
+            int resistance = target.GetResistance();
             action.Succeeded = HitChance.HitRole(CombatInfo.Attack - resistance);
         }
 

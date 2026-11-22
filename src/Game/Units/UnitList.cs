@@ -9,6 +9,7 @@ using Aow.Game.Combat;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
@@ -188,9 +189,9 @@ public class UnitList(CustomNode? owner) : ObservableNode(owner), IChildList<Tro
         }
     }
 
-    internal static sbyte UnitsToIndependentRelation(UnitUserList units, sbyte defaultRelation)
+    internal static int UnitsToIndependentRelation(UnitUserList units, int defaultRelation)
     {
-        sbyte relation = -1;
+        int relation = -1;
         bool sameRace = true;
         int i = units.Count;
         while (sameRace && i != 0)
@@ -201,7 +202,7 @@ public class UnitList(CustomNode? owner) : ObservableNode(owner), IChildList<Tro
             {
                 if (relation == -1)
                 {
-                    relation = (sbyte)race;
+                    relation = race.TruncateToSByte();
                 }
                 else
                 {
@@ -249,7 +250,7 @@ public class UnitList(CustomNode? owner) : ObservableNode(owner), IChildList<Tro
                 neutral = neutral && AlignmentTables.NeutralAlignments.Contains(alignmentAlignment.ToFlag());
             }
 
-            return good && !evil ? (sbyte)-2 : evil && !good ? (sbyte)-4 : (sbyte)-3;
+            return good && !evil ? -2 : evil && !good ? -4 : -3;
         }
         else
         {

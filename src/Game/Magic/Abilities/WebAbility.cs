@@ -64,13 +64,13 @@ public class WebAbility : TouchAbility
         if (wallSituation == WallSituation.None && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && !defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
             float probability = TouchRoleProbability(attacker, target: defender);
-            sbyte hitPoints = defender.GetHitPoints();
+            int hitPoints = defender.GetHitPoints();
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
-            sbyte defenderHitPoints = defender.GetHitPoints();
+            int defenderHitPoints = defender.GetHitPoints();
             damageValues.SourceCost = defenderHitPoints;
             int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, target: attacker);
             damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
-            sbyte damage = defender.GetDamage();
+            int damage = defender.GetDamage();
             damageValues.TargetCost = damage;
             damageValues.DamageTypes = DamageTypes.None;
         }
@@ -100,9 +100,9 @@ public class WebAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouch(attacker, target: defender) && attacker is CombatUnit attackerUnit)
         {
             float probability = CombatTouchRoleProbability(attackerUnit, target: defender);
-            sbyte hitPoints = defender.HitPoints;
+            int hitPoints = defender.HitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
-            sbyte defenderHitPoints = defender.HitPoints;
+            int defenderHitPoints = defender.HitPoints;
             damageValues.SourceCost = defenderHitPoints;
             int strikeDamageValue = CombatObject.StrikeDamageValue(defender, target: attacker);
             damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));
@@ -121,7 +121,7 @@ public class WebAbility : TouchAbility
     }
 
     // AoWAb.PAS:2814
-    public override sbyte GetTouchAttack(int level) => 4;
+    public override int GetTouchAttack(int level) => 4;
 
     // AoWAb.PAS:2825
     public override bool CanTouch(CombatObject? source, CombatObject? target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit && !target.GetAbilityEnabled(97);

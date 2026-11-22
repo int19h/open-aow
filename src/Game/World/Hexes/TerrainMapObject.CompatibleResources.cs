@@ -7,7 +7,7 @@ namespace Aow.Game.World.Hexes;
 
 public partial class TerrainMapObject
 {
-    public virtual TerrainMapObjectResource? FindTerrainResource(byte terrainType)
+    public virtual TerrainMapObjectResource? FindTerrainResource(int terrainType)
     {
         DelphiList<TerrainMapObjectResource> candidates = [];
         MapObjectResourceList resources = GetResourceList(Resource.Engine);
@@ -32,7 +32,7 @@ public partial class TerrainMapObject
         return result;
     }
 
-    public TerrainMapObjectResource? FindCompatibleResource(byte terrainType, sbyte overlayType, int decorationType)
+    public TerrainMapObjectResource? FindCompatibleResource(int terrainType, int overlayType, int decorationType)
     {
         DelphiList<TerrainMapObjectResource> candidates = [];
         MapObjectResourceList resources = GetResourceList(Resource.Engine);

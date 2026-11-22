@@ -11,6 +11,7 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Game.World.Terrain;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -47,7 +48,7 @@ public class HolyGroundSpellTokenEvent(CustomNode? owner) : GlobalTargetSpellTok
                     {
                         field.RestoreTerrain();
                         HolyGround ground = resource.CreateResourceUser<HolyGround>();
-                        ground.Duration = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
+                        ground.Duration = (((StrategicMap.Current.Random(11) - 5) / 5) + 3).TruncateToSByte();
                         ground.Player = caster.Player;
                         ground.OriginalOverlay = field.OverlayType;
                         StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);

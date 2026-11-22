@@ -19,10 +19,10 @@ public class VertigoAbility : DurationAbility
     }
 
     // PassiveAb.pas:969
-    public override sbyte GetAttack(AbilityOwner owner) => -2;
+    public override int GetAttack(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:975
-    public override sbyte GetDefense(AbilityOwner owner) => -2;
+    public override int GetDefense(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:963
     public override int TotalDuration => 3;

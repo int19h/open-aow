@@ -203,7 +203,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
     }
 
     // AoWWinMan.pas:79
-    public void PlayButtonSound(byte kind)
+    public void PlayButtonSound(int kind)
     {
         switch (kind)
         {
@@ -225,7 +225,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
     }
 
     // AoWWinMan.pas:123
-    public void SortLists(DelphiList<ListBox> lists, byte order)
+    public void SortLists(DelphiList<ListBox> lists, int order)
     {
         ListBox? l = lists[0];
         for (int i = 1, last = l.Items.Count - 1; i <= last; i++)
@@ -633,7 +633,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
     public void ManagerDebugMessage(string text) => UI.DebugWindow.AddMessage(text);
 
     // AoWWinMan.pas:351
-    public void ManagerKeyDown(in ushort key, ShiftStates shift)
+    public void ManagerKeyDown(in int key, ShiftStates shift)
     {
         if (UI.Engine.Debug)
         {

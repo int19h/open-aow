@@ -142,9 +142,9 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             bool condition = StrategicMap.Current.SeatedPlayer == armyHexSprite.Army.Player;
             if (!condition)
             {
-                sbyte hexLevel = HexLevel;
-                sbyte hexY = HexY;
-                sbyte hexX = HexX;
+                int hexLevel = HexLevel;
+                int hexY = HexY;
+                int hexX = HexX;
                 condition = StrategicMap.Current.Watching(hexX, hexY, L: hexLevel, radius: 0);
             }
 

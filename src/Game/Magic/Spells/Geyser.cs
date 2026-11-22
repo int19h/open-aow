@@ -39,7 +39,7 @@ public class Geyser : CombatSpell
         };
         if (target.GetAbilityEnabled(1) || target.GetAbilityEnabled(59))
         {
-            action.Generate(source, target, CombatInfo.Attack, damage: (sbyte)(CombatInfo.Damage / 2), CombatInfo.DamageTypes);
+            action.Generate(source, target, CombatInfo.Attack, damage: CombatInfo.Damage / 2, CombatInfo.DamageTypes);
         }
         else
         {

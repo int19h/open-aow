@@ -97,7 +97,7 @@ public sealed class AIMoveTargetSelector : EngineObject
     }
 
     // AIGroup.pas:6421
-    public bool SetupArmy(ArmyHexSprite army, byte selection)
+    public bool SetupArmy(ArmyHexSprite army, int selection)
     {
         Reset();
         MapCoordinate mapCoordinate = army.MapCoordinate;
@@ -109,7 +109,7 @@ public sealed class AIMoveTargetSelector : EngineObject
         if (TargetInfo.Player == 0)
         {
             AITargetInfo targetInfo2 = TargetInfo;
-            targetInfo2.IndependentRelation = army.Army.IndependentRelation;
+            targetInfo2.IndependentRelation = (sbyte)army.Army.IndependentRelation;
             TargetInfo = targetInfo2;
         }
 
@@ -175,10 +175,10 @@ public sealed class AIMoveTargetSelector : EngineObject
             Int32List gaps = [];
             MoveTarget target = _bufferedTargets.GetTarget(0);
             MapCoordinate coordinate106 = _transporter.GetLocation();
-            sbyte locationX = coordinate106.X;
-            sbyte locationY = coordinate106.Y;
-            sbyte locationMapLevel = coordinate106.MapLevel;
-            MapCoordinate location = new(locationX, locationY, locationMapLevel);
+            int locationX = coordinate106.X;
+            int locationY = coordinate106.Y;
+            int locationMapLevel = coordinate106.MapLevel;
+            MapCoordinate location = new((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
             bool valid;
             if (ListMovementGaps(StrategicMap.Current, path: target.MovePath, table: MovePointTable, starts: gaps, ends: null) != 0)
             {

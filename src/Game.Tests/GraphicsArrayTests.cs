@@ -163,7 +163,7 @@ public sealed class GraphicsArrayTests
         Matrix matrix = new(4, 4);
         foreach ((int x, int y) in new[] { (0, 0), (1, 0), (0, 1), (1, 1), (2, 1), (1, 2), (2, 2), (0, 3) })
         {
-            matrix.SetValue((byte)x, (byte)y, value: 1);
+            matrix.SetValue(x.TruncateToByte(), y.TruncateToByte(), value: 1);
         }
 
         int bw = -1, bh = -1;
@@ -177,7 +177,7 @@ public sealed class GraphicsArrayTests
         Matrix column = new(4, 4);
         foreach (int y in new[] { 0, 1, 2 })
         {
-            column.SetValue(0, (byte)y, value: 1);
+            column.SetValue(0, y.TruncateToByte(), value: 1);
         }
 
         Assert.Equal(3, displayController.GetInverseBlockSize(0, 0, matrix: column, ref bw, ref bh));

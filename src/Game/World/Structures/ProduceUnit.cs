@@ -84,7 +84,7 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
         settings.GoldUpkeep = control.UnitProductionGoldUpkeep(Index);
         settings.ManaUpkeep = control.UnitProductionManaUpkeep(Index);
         settings.GroupId = GroupId;
-        settings.TurnsTotal = (sbyte)control.UnitProductionTime(Index);
+        settings.TurnsTotal = control.UnitProductionTime(Index).TruncateToSByte();
         settings.Player = control.GetPlayer();
         settings.TurnsLeft = settings.TurnsTotal;
         Pay(control);

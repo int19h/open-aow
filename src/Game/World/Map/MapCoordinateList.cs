@@ -11,10 +11,10 @@ public sealed class MapCoordinateList : DefaultItemList<MapCoordinate>
     public MapCoordinateList() => Default = MapCoordinate.None;
 
     // HSEngine.pas:1614
-    public int AddMapCoordinate(sbyte x, sbyte y, sbyte mapLevel) => Add(new MapCoordinate(x, y, mapLevel));
+    public int AddMapCoordinate(int x, int y, int mapLevel) => Add(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)mapLevel));
 
     // HSEngine.pas:1698
-    public int IndexOfXY(sbyte X, sbyte Y)
+    public int IndexOfXY(int X, int Y)
     {
         int result = 0;
         while (result < Count && (List[result].X != X || List[result].Y != Y))
@@ -26,7 +26,7 @@ public sealed class MapCoordinateList : DefaultItemList<MapCoordinate>
     }
 
     // HSEngine.pas:1709
-    public int IndexOfMapCoordinate(sbyte X, sbyte Y, sbyte L)
+    public int IndexOfMapCoordinate(int X, int Y, int L)
     {
         int result = 0;
         while (result < Count && (List[result].X != X || List[result].Y != Y || List[result].MapLevel != L))

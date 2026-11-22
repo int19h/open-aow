@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -15,7 +16,7 @@ public class SelfDestructCombatAction(CustomNode owner) : DamageCombatAction(own
     {
         CombatObject source = combat.CombatData.FindId(SourceId);
         CombatObject target = combat.CombatData.FindId(TargetId);
-        DamageDone = (byte)source.DoDamage(target, Damage);
+        DamageDone = source.DoDamage(target, Damage).TruncateToByte();
         if (Effects != DamageTypes.None)
         {
             _ = target.ExecuteDamageEffects(Effects);

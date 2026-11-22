@@ -80,7 +80,7 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
             bool condition = i < StrategicMap.Current.TurnOrder.Count;
             if (condition)
             {
-                byte item = StrategicMap.Current.TurnOrder[i];
+                int item = StrategicMap.Current.TurnOrder[i];
                 condition = StrategicMap.Current.Players.GetPlayers(item).PlayerType != PlayerType.Human;
             }
 

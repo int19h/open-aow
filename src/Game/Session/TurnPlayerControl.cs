@@ -193,7 +193,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
         NewDay();
         if (!StrategicMap.Current.RequestCombatType)
         {
-            byte item = StrategicMap.Current.Players.LocalHumanPlayers[0];
+            int item = StrategicMap.Current.Players.LocalHumanPlayers[0];
             StrategicMap.Current.SetSeatedPlayer((sbyte)item);
             StrategicMap.Current.ResetSeatedPlayerView();
         }
@@ -377,7 +377,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
         }
         else
         {
-            byte item = StrategicMap.Current.Players.LocalHumanPlayers[0];
+            int item = StrategicMap.Current.Players.LocalHumanPlayers[0];
             StrategicMap.Current.SetSeatedPlayer((sbyte)item);
             StrategicMap.Current.ResetSeatedPlayerView();
             if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PlayerType == PlayerType.Human && StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)

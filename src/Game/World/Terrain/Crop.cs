@@ -100,7 +100,7 @@ public class Crop(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     public override bool CanSelect(int pixelX, int pixelY) => false;
 
     // Crops.pas:234
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         MapField field = mapContainer.GetField(hexX, hexY, hexLevel);
         HexSprite? hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
@@ -181,10 +181,10 @@ public class Crop(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
         public override int ResourceUserClassId() => Crop.ClassId;
 
         // Crops.pas:248
-        public override void SetLevel(byte value) => base.SetLevel(5);
+        public override void SetLevel(int value) => base.SetLevel(5);
 
         // Crops.pas:257
-        public Crop? PlaceCrop(sbyte X, sbyte Y, sbyte L, PlayerCropStructure cropOwner)
+        public Crop? PlaceCrop(int X, int Y, int L, PlayerCropStructure cropOwner)
         {
             Crop result = new(null) { Holder = CreationHolder() };
             result.SetResource(this);

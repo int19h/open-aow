@@ -70,7 +70,7 @@ public class AIRecruitmentGroupFinder : AIGroupTask
         targetInfo.Player = control.Group.Player;
         _selector.TargetInfo = targetInfo;
         AITargetInfo targetInfo2 = _selector.TargetInfo;
-        targetInfo2.IndependentRelation = control.Group.IndependentRelation;
+        targetInfo2.IndependentRelation = (sbyte)control.Group.IndependentRelation;
         _selector.TargetInfo = targetInfo2;
         AITargetInfo targetInfo3 = _selector.TargetInfo;
         targetInfo3.Mode = AITargetMode.Recruit;

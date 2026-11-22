@@ -73,7 +73,7 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
                 bool test = combatMode is not (>= CombatMode.ShortRange and <= CombatMode.LongRange) && UI.General.CombatUnit.Abilities[drawItem].Ability != 52;
                 if (!test)
                 {
-                    sbyte moves = UI.General.CombatUnit.Unit.Troop.Moves;
+                    int moves = UI.General.CombatUnit.Unit.Troop.Moves;
                     test = UI.General.CombatUnit.Unit.MovePoints == moves;
                 }
 
@@ -158,13 +158,13 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
     public void CenterClick()
     {
         UI.General.PlayButtonSound(0);
-        sbyte hexLevel = UI.General.CombatUnit.HexLevel;
-        sbyte hexY = UI.General.CombatUnit.HexY;
-        sbyte hexX = UI.General.CombatUnit.HexX;
+        int hexLevel = UI.General.CombatUnit.HexLevel;
+        int hexY = UI.General.CombatUnit.HexY;
+        int hexX = UI.General.CombatUnit.HexX;
         CombatMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-        sbyte fCombatUnitHexLevel = UI.General.CombatUnit.HexLevel;
-        sbyte fCombatUnitHexY = UI.General.CombatUnit.HexY;
-        sbyte fCombatUnitHexX = UI.General.CombatUnit.HexX;
+        int fCombatUnitHexLevel = UI.General.CombatUnit.HexLevel;
+        int fCombatUnitHexY = UI.General.CombatUnit.HexY;
+        int fCombatUnitHexX = UI.General.CombatUnit.HexX;
         CombatMap.Current.PlayCenterAnimation(fCombatUnitHexX, fCombatUnitHexY, L: fCombatUnitHexLevel);
     }
 

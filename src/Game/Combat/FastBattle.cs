@@ -19,7 +19,7 @@ public sealed class FastBattle(CustomNode owner) : Battle(owner)
     public override CombatUnit CreateCombatUnit() => new FastBattleUnit(null) { Holder = CreationHolder() };
 
     // AIGroup.pas:7203
-    public override bool Setup(byte attackerPlayer, byte attackerRelation, int attackerX, int attackerY, int attackerL, byte defenderPlayer, byte defenderRelation, int X, int Y, int L, bool logActions) => base.Setup(attackerPlayer, attackerRelation, attackerX, attackerY, attackerL, defenderPlayer, defenderRelation, X, Y, L, logActions);
+    public override bool Setup(byte attackerPlayer, int attackerRelation, int attackerX, int attackerY, int attackerL, byte defenderPlayer, int defenderRelation, int X, int Y, int L, bool logActions) => base.Setup(attackerPlayer, attackerRelation, attackerX, attackerY, attackerL, defenderPlayer, defenderRelation, X, Y, L, logActions);
 
     // AIGroup.pas:7310
     public override CombatResult Execute()

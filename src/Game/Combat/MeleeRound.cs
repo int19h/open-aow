@@ -6,6 +6,7 @@ using Aow.Game.Combat.Actions;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -152,11 +153,11 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
             }
 
             // { Original uses the attacker's damage types for both sides. }
-            sbyte defense = target.GetDefense();
-            sbyte resistance = target.GetResistance();
+            int defense = target.GetDefense();
+            int resistance = target.GetResistance();
             DamageTypes immunityTypes = target.GetImmunityTypes();
             DamageTypes protectionTypes = target.GetProtectionTypes();
-            sbyte damage = source.GetDamage();
+            int damage = source.GetDamage();
             int statisticsToDamageValue = StatisticsToDamageValue(source.GetAttack() + strike.AttackBonus, damage: damage + strike.DamageBonus, damageTypes: AttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
             strike.DamageValue = statisticsToDamageValue;
             switch (side)
@@ -299,11 +300,11 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
             }
 
             // { Original uses the attacker's damage types for both sides. }
-            sbyte defense = target.GetDefense();
-            sbyte resistance = target.GetResistance();
+            int defense = target.GetDefense();
+            int resistance = target.GetResistance();
             DamageTypes immunityTypes = target.GetImmunityTypes();
             DamageTypes protectionTypes = target.GetProtectionTypes();
-            sbyte damage = source.GetDamage();
+            int damage = source.GetDamage();
             int statisticsToDamageValue = StatisticsToDamageValue(source.GetAttack() + strike.AttackBonus, damage: damage + strike.DamageBonus, damageTypes: AttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
             strike.DamageValue = statisticsToDamageValue;
             switch (side)
@@ -394,9 +395,9 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
                     if (!_attacker.GetLocked())
                     {
                         result = new StrikeCombatAction(null) { Holder = Creator.CreationHolder() };
-                        sbyte damage = _attacker.GetDamage();
-                        sbyte attack = _attacker.GetAttack();
-                        result.Generate(_attacker, target: _defender, attack: (sbyte)(attack + strike.AttackBonus), damage: (sbyte)(damage + strike.DamageBonus), damageTypes: AttackerDamageTypes);
+                        int damage = _attacker.GetDamage();
+                        int attack = _attacker.GetAttack();
+                        result.Generate(_attacker, target: _defender, attack: (attack + strike.AttackBonus).TruncateToSByte(), damage: (damage + strike.DamageBonus).TruncateToSByte(), damageTypes: AttackerDamageTypes);
                         if (_attacker.GetAbilityEnabled(118))
                         {
                             result.StrikeMode |= StrikeModes.LifeStealing;
@@ -409,9 +410,9 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
                     {
                         result = new StrikeCombatAction(null) { Holder = Creator.CreationHolder() };
                         result.SetDefensive(true);
-                        sbyte damage = _defender.GetDamage();
-                        sbyte attack = _defender.GetAttack();
-                        result.Generate(_defender, target: _attacker, attack: (sbyte)(attack + strike.AttackBonus), damage: (sbyte)(damage + strike.DamageBonus), damageTypes: _defenderDamageTypes);
+                        int damage = _defender.GetDamage();
+                        int attack = _defender.GetAttack();
+                        result.Generate(_defender, target: _attacker, attack: (attack + strike.AttackBonus).TruncateToSByte(), damage: (damage + strike.DamageBonus).TruncateToSByte(), damageTypes: _defenderDamageTypes);
                     }
 
                     break;

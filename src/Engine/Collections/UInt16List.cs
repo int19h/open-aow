@@ -19,10 +19,10 @@ public class UInt16List : Persistent, IReadOnlyList<ushort>
     private ushort _default;
 
     // Engine.pas:4336
-    internal ushort Get(int index) => index < 0 || index >= _count ? _default : _list[index];
+    internal int Get(int index) => index < 0 || index >= _count ? _default : _list[index];
 
     // Engine.pas:4390
-    internal void Put(int index, ushort item)
+    internal void Put(int index, int item)
     {
         if (index < 0)
         {
@@ -34,7 +34,7 @@ public class UInt16List : Persistent, IReadOnlyList<ushort>
             SetCount(index + 1);
         }
 
-        _list[index] = item;
+        _list[index] = (ushort)item;
     }
 
     // Engine.pas:4410
@@ -100,7 +100,7 @@ public class UInt16List : Persistent, IReadOnlyList<ushort>
     }
 
     // Engine.pas:4280
-    public int Add(ushort item)
+    public int Add(int item)
     {
         int result = _count;
         if (result == _capacity)
@@ -108,7 +108,7 @@ public class UInt16List : Persistent, IReadOnlyList<ushort>
             Grow();
         }
 
-        _list[result] = item;
+        _list[result] = (ushort)item;
         _count += 1;
         return result;
     }
@@ -163,7 +163,7 @@ public class UInt16List : Persistent, IReadOnlyList<ushort>
     }
 
     // Engine.pas:4331
-    public ushort First() => Get(0);
+    public int First() => Get(0);
 
     // Engine.pas:4354
     public int IndexOf(ushort item)
@@ -178,7 +178,7 @@ public class UInt16List : Persistent, IReadOnlyList<ushort>
     }
 
     // Engine.pas:4361
-    public void Insert(int index, ushort item)
+    public void Insert(int index, int item)
     {
         if (index < 0 || index > _count)
         {
@@ -195,12 +195,12 @@ public class UInt16List : Persistent, IReadOnlyList<ushort>
             Array.Copy(_list, sourceIndex: index, destinationArray: _list, destinationIndex: index + 1, length: _count - index);
         }
 
-        _list[index] = item;
+        _list[index] = (ushort)item;
         _count += 1;
     }
 
     // Engine.pas:4372
-    public ushort Last() => Get(_count - 1);
+    public int Last() => Get(_count - 1);
 
     // Engine.pas:4377
     public void Move(int currentIndex, int newIndex)
@@ -212,16 +212,16 @@ public class UInt16List : Persistent, IReadOnlyList<ushort>
                 Error("List index out of bounds (%d)", data: newIndex);
             }
 
-            ushort item = Get(currentIndex);
+            int item = Get(currentIndex);
             Delete(currentIndex);
             Insert(newIndex, item);
         }
     }
 
     // Engine.pas:4397
-    public int Remove(ushort item)
+    public int Remove(int item)
     {
-        int result = IndexOf(item);
+        int result = IndexOf((ushort)item);
         if (result != -1)
         {
             Delete(result);
@@ -372,9 +372,9 @@ public class UInt16List : Persistent, IReadOnlyList<ushort>
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
     public int Count { get => _count; set => SetCount(value); }
-    public ushort Default { get => _default; set => _default = value; }
+    public int Default { get => _default; set => _default = (ushort)value; }
 
-    public ushort this[int index] { get => Get(index); set => Put(index, item: value); }
+    public ushort this[int index] { get => (ushort)Get(index); set => Put(index, item: value); }
 
     public ushort[] List => _list;
 
@@ -388,15 +388,15 @@ public class UInt16List : Persistent, IReadOnlyList<ushort>
         {
             number2 = L;
             int number3 = R;
-            ushort item = sortList[L + R >>> 1];
+            int item = sortList[L + R >>> 1];
             while (true)
             {
-                if (sCompare(sortList[number2], item) < 0)
+                if (sCompare(sortList[number2], (ushort)item) < 0)
                 {
                     number2++;
                     continue;
                 }
-                while (sCompare(sortList[number3], item) > 0)
+                while (sCompare(sortList[number3], (ushort)item) > 0)
                 {
                     number3--;
                 }
@@ -420,7 +420,7 @@ public class UInt16List : Persistent, IReadOnlyList<ushort>
         while (number2 < R);
     }
 
-    internal static void FillWord(Span<ushort> buffer, int count, ushort value) => buffer[..count].Fill(value);
+    internal static void FillWord(Span<ushort> buffer, int count, int value) => buffer[..count].Fill((ushort)value);
 
     // The values from the first to the last in index order, read through the indexer. Each step
     // reads the count again, as the index loop over a live count does.

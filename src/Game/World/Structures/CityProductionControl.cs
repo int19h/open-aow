@@ -37,14 +37,14 @@ public sealed partial class CityProductionControl(CustomNode? owner) : Productio
         bool valid = false;
         int count = city.TerrainCount;
         MapLevel level = city.Owner.Owner;
-        sbyte hexY = city.HexY;
-        sbyte hexX = city.HexX;
+        int hexY = city.HexY;
+        int hexX = city.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
         while (walk.HexNumber < count && !valid)
         {
             if (city.Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                sbyte hexLevel = city.HexLevel;
+                int hexLevel = city.HexLevel;
                 valid = Settings.Unit.Place(walk.X, walk.Y, L: hexLevel, city.Player, mode: UnitPlaceModes.None) is not null;
             }
 
@@ -53,9 +53,9 @@ public sealed partial class CityProductionControl(CustomNode? owner) : Productio
 
         if (!valid)
         {
-            sbyte hexLevel = city.HexLevel;
-            sbyte cityHexY = city.HexY;
-            sbyte cityHexX = city.HexX;
+            int hexLevel = city.HexLevel;
+            int cityHexY = city.HexY;
+            int cityHexX = city.HexX;
             valid = Settings.Unit.Place(cityHexX, cityHexY, L: hexLevel, city.Player, mode: UnitPlaceModes.ScanArea) is not null;
         }
 

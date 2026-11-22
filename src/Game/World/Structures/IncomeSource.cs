@@ -22,9 +22,9 @@ public class IncomeSource(CustomNode owner) : EngineObject(owner)
     public virtual void CenterToLocation()
     {
         MapCoordinate coordinate33 = Location;
-        sbyte x = coordinate33.X;
-        sbyte y = coordinate33.Y;
-        sbyte l = coordinate33.MapLevel;
+        int x = coordinate33.X;
+        int y = coordinate33.Y;
+        int l = coordinate33.MapLevel;
         if (x != -1)
         {
             StrategicMap.Current.CenterViewTo(x, y, l);

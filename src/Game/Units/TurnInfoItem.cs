@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
+using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
@@ -13,7 +14,7 @@ public sealed class TurnInfoItem(CustomNode owner) : EngineObject(owner)
     public int Mana { get; set; }
     public int Structures { get; set; }
     public int ArmyStrength { get; set; }
-    public byte Heroes { get; set; }
+    public int Heroes { get; set; }
 
     // Player.PAS:161
     public override void PersistFields(IPersister persister)
@@ -23,7 +24,7 @@ public sealed class TurnInfoItem(CustomNode owner) : EngineObject(owner)
         Mana = persister.Int32("Mana", value: Mana);
         Structures = persister.Int32("Structures", value: Structures);
         ArmyStrength = persister.Int32("ArmyStrength", value: ArmyStrength);
-        Heroes = persister.Byte("Heroes", value: Heroes);
+        Heroes = persister.Byte("Heroes", value: Heroes.TruncateToByte());
     }
 
     // Player.PAS:171

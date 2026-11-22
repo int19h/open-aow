@@ -27,7 +27,7 @@ public class BuildRoadsControl(CustomNode owner) : ConstructionControl(owner)
         MapCoordinate coordinate29 = troop.GetLocation();
         _ = coordinate29.X;
         _ = coordinate29.Y;
-        sbyte l = coordinate29.MapLevel;
+        int l = coordinate29.MapLevel;
         if (l == 0)
         {
             return base.CanConstruct(troop, ref reason);

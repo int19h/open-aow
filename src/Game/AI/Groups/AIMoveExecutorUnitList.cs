@@ -69,7 +69,7 @@ public class AIMoveExecutorUnitList(CustomNode? owner) : OwningNode(owner), IChi
     }
 
     // AIGroup.pas:4366
-    public byte ValidateSelection(byte selection)
+    public int ValidateSelection(int selection)
     {
         int n = Count;
         if (n > 8)
@@ -77,11 +77,11 @@ public class AIMoveExecutorUnitList(CustomNode? owner) : OwningNode(owner), IChi
             n = 8;
         }
 
-        return (byte)(selection & AbilityRules.ArmySelectionMasks[n]);
+        return selection & AbilityRules.ArmySelectionMasks[n];
     }
 
     // AIGroup.pas:4375
-    public int SelectionCount(byte selection)
+    public int SelectionCount(int selection)
     {
         selection = ValidateSelection(selection);
         int result = 0;
@@ -92,14 +92,14 @@ public class AIMoveExecutorUnitList(CustomNode? owner) : OwningNode(owner), IChi
                 result += 1;
             }
 
-            selection = (byte)(selection >>> 1);
+            selection >>>= 1;
         }
 
         return result;
     }
 
     // AIGroup.pas:4386
-    public AIMoveExecutorUnit? Transporter(byte selection)
+    public AIMoveExecutorUnit? Transporter(int selection)
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
@@ -111,14 +111,14 @@ public class AIMoveExecutorUnitList(CustomNode? owner) : OwningNode(owner), IChi
                 }
             }
 
-            selection = (byte)(selection >>> 1);
+            selection >>>= 1;
         }
 
         return null;
     }
 
     // AIGroup.pas:4403
-    public void SetMoveResult(byte selection, byte moveResult)
+    public void SetMoveResult(int selection, int moveResult)
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
@@ -127,12 +127,12 @@ public class AIMoveExecutorUnitList(CustomNode? owner) : OwningNode(owner), IChi
                 this[i].MoveResult = moveResult;
             }
 
-            selection = (byte)(selection >>> 1);
+            selection >>>= 1;
         }
     }
 
     // AIGroup.pas:4415
-    public void SetTransportStatus(byte selection, AIMoveExecutorTransportStatus status)
+    public void SetTransportStatus(int selection, AIMoveExecutorTransportStatus status)
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
@@ -141,12 +141,12 @@ public class AIMoveExecutorUnitList(CustomNode? owner) : OwningNode(owner), IChi
                 this[i].TransportStatus = status;
             }
 
-            selection = (byte)(selection >>> 1);
+            selection >>>= 1;
         }
     }
 
     // AIGroup.pas:4428
-    public void SetStatus(byte selection, AIMoveExecutorUnitStatus status)
+    public void SetStatus(int selection, AIMoveExecutorUnitStatus status)
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
@@ -155,7 +155,7 @@ public class AIMoveExecutorUnitList(CustomNode? owner) : OwningNode(owner), IChi
                 this[i].Status = status;
             }
 
-            selection = (byte)(selection >>> 1);
+            selection >>>= 1;
         }
     }
 }

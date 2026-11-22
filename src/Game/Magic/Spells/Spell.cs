@@ -40,7 +40,7 @@ public class Spell : EngineObject
     public int ResearchCost { get; private set; }
     public int ManaUpkeep { get; protected set; }
     public MagicSphere MagicSphere { get; protected set; }
-    public byte SpellLevel { get; protected set; }
+    public int SpellLevel { get; protected set; }
 
     public SpellType SpellType { get; protected init; }
     // stGlobal guard
@@ -69,11 +69,11 @@ public class Spell : EngineObject
         ManaUpkeep = persister.Int32("ManaUpkeep", value: ManaUpkeep);
         ResearchCost = persister.Int32("ResearchCost", value: ResearchCost);
         MagicSphere = persister.Enum("MagicSphere", value: MagicSphere);
-        SpellLevel = persister.Byte("SpellLevel", value: SpellLevel);
+        SpellLevel = persister.Byte("SpellLevel", value: SpellLevel.TruncateToByte());
     }
 
     // Spells.PAS:224
-    public virtual void PlayDefaultCastEffects(sbyte player, sbyte X, sbyte Y, sbyte layer)
+    public virtual void PlayDefaultCastEffects(sbyte player, int X, int Y, int layer)
     {
         if (StrategicMap.Current.Visible(X, Y, L: layer, radius: 0))
         {
@@ -153,9 +153,9 @@ public class Spell : EngineObject
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
             MapCoordinate coordinate77 = source.GetLocation();
-            sbyte x = coordinate77.X;
-            sbyte y = coordinate77.Y;
-            sbyte l = coordinate77.MapLevel;
+            int x = coordinate77.X;
+            int y = coordinate77.Y;
+            int l = coordinate77.MapLevel;
             if (x != -1)
             {
                 StrategicMap.Current.MakeVisible(x, y, l, radius: 3);
@@ -171,9 +171,9 @@ public class Spell : EngineObject
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
             MapCoordinate coordinate78 = source.GetLocation();
-            sbyte x = coordinate78.X;
-            sbyte y = coordinate78.Y;
-            sbyte l = coordinate78.MapLevel;
+            int x = coordinate78.X;
+            int y = coordinate78.Y;
+            int l = coordinate78.MapLevel;
             if (x != -1)
             {
                 StrategicMap.Current.MakeVisible(x, y, l, radius: 3);

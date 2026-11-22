@@ -307,7 +307,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
         if (PreferredRaceComboBox.Selected >= 0)
         {
             object? objectValue = PreferredRaceComboBox.Items.Objects[PreferredRaceComboBox.Selected];
-            SetupControl.SetPreferredRace((byte)ObjectToInt(objectValue));
+            SetupControl.SetPreferredRace(ObjectToInt(objectValue).TruncateToByte());
         }
     }
 
@@ -398,7 +398,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     public void PlayModeCBChange()
     {
         object? objectValue = PlayModeComboBox.Items.Objects[PlayModeComboBox.Selected];
-        SetupControl.SetPlayMode((byte)ObjectToInt(objectValue));
+        SetupControl.SetPlayMode(ObjectToInt(objectValue).TruncateToByte());
         UI.TitleWindow.MainWindow.IsDrawn = false;
     }
 
@@ -410,7 +410,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
         string item = combo.Items[combo.Selected];
         if (SetupControl.PlayerNameToPlayerId(item, ref behavior))
         {
-            int indexOfRace = SetupControl.Settings.IndexOfRace((byte)slot);
+            int indexOfRace = SetupControl.Settings.IndexOfRace(slot.TruncateToByte());
             SetupControl.SetPlayerId(indexOfRace, behavior, forced: true);
         }
 
@@ -421,7 +421,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     public void SideBehaviorComboBoxChange(ComboBox sender, int slot)
     {
         ComboBox control = sender;
-        int indexOfRace = SetupControl.Settings.IndexOfRace((byte)slot);
+        int indexOfRace = SetupControl.Settings.IndexOfRace(slot.TruncateToByte());
         SetupControl.SetPlayerBehavior(indexOfRace, value: (byte)control.Selected);
         UI.TitleWindow.MainWindow.IsDrawn = false;
     }
@@ -602,7 +602,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             setup.TacticalCombatComboBox.Items.Clear();
             for (int bOrdinal = 0; bOrdinal <= 2; bOrdinal++)
             {
-                byte b = (byte)bOrdinal;
+                int b = bOrdinal.TruncateToByte();
                 string tacticalBattleAvailability = setup.UI.Engine.TranslateResourceString(TacticalCombatAvailabilityTexts[b]);
                 _ = setup.TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, item: IntToObject(b));
             }

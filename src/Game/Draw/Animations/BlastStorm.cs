@@ -20,7 +20,7 @@ public class BlastStorm(CustomNode? owner) : Storm(owner)
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int frame = FrameCounter % _stormImages.Count;
-        sbyte hexY = HexY;
+        int hexY = HexY;
         HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
         LibraryImage? stormImageWidth = _stormImages[frame];
         x = x - (stormImageWidth.Width >>> 1) + 10;
@@ -30,7 +30,7 @@ public class BlastStorm(CustomNode? owner) : Storm(owner)
     }
 
     // Storms.pas:358
-    public override StormDamageInfo GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, StormDamageInfo info)
+    public override StormDamageInfo GetTargetDamageInfo(sbyte player, int X, int Y, int L, StormDamageInfo info)
     {
         AbilityRules.RetrieveStormDamageInfo(player, storm: StormType(), X, Y, L, innerRadius: 0, outerRadius: 4, out info);
         return info;
@@ -48,7 +48,7 @@ public class BlastStorm(CustomNode? owner) : Storm(owner)
     }
 
     // Storms.pas:276
-    public override void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
+    public override void InitializeStorm(sbyte player, int X, int Y, int L)
     {
         Rect r = default;
         base.InitializeStorm(player, X, Y, L);
@@ -79,36 +79,36 @@ public class BlastStorm(CustomNode? owner) : Storm(owner)
         NewFrame();
         if (FrameCounter == 8)
         {
-            sbyte hexLevel = HexLevel;
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexLevel = HexLevel;
+            int hexY = HexY;
+            int hexX = HexX;
             _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, L: hexLevel, radius: 1, changeTerrainProc: ChangeStormTerrain, terrainChangedProc: StormTerrainChanged);
         }
         else
         {
             if (FrameCounter == 12)
             {
-                sbyte hexLevel = HexLevel;
-                sbyte hexY = HexY;
-                sbyte hexX = HexX;
+                int hexLevel = HexLevel;
+                int hexY = HexY;
+                int hexX = HexX;
                 _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, L: hexLevel, radius: 2, changeTerrainProc: ChangeStormTerrain, terrainChangedProc: StormTerrainChanged);
             }
             else
             {
                 if (FrameCounter == 18)
                 {
-                    sbyte hexLevel = HexLevel;
-                    sbyte hexY = HexY;
-                    sbyte hexX = HexX;
+                    int hexLevel = HexLevel;
+                    int hexY = HexY;
+                    int hexX = HexX;
                     _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, L: hexLevel, radius: 3, changeTerrainProc: ChangeStormTerrain, terrainChangedProc: StormTerrainChanged);
                 }
                 else
                 {
                     if (FrameCounter == 22)
                     {
-                        sbyte hexLevel = HexLevel;
-                        sbyte hexY = HexY;
-                        sbyte hexX = HexX;
+                        int hexLevel = HexLevel;
+                        int hexY = HexY;
+                        int hexX = HexX;
                         _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, L: hexLevel, radius: 4, changeTerrainProc: ChangeStormTerrain, terrainChangedProc: StormTerrainChanged);
                     }
                 }

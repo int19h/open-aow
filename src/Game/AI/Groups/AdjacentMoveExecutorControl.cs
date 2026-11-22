@@ -60,7 +60,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 if (i < aiMoveExecutorArmyList.Count)
                 {
                     MoveControlSettings settings = new(null) { Holder = CreationHolder() };
-                    byte armySelection = default;
+                    int armySelection = default;
                     ArmyHexSprite? armyHexSprite = default;
                     try
                     {
@@ -374,7 +374,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 AIMoveExecutorArmy army = armies.GetArmies(index);
                 if (army.Location.MapLevel == Executor.Destination.MapLevel && HexGeometry.DeltaHexToRadius(army.Location.X, army.Location.Y, Executor.Destination.X, Executor.Destination.Y) > 1)
                 {
-                    byte moveResult = CreateMove(army, selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: CreateMoveModes.SurroundNearest).MoveResult;
+                    int moveResult = CreateMove(army, selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: CreateMoveModes.SurroundNearest).MoveResult;
                     result = moveResult is not 0 and not 3;
                 }
             }
@@ -477,7 +477,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
             int index = armies.IndexOfLocation(sorted[i].First.Location);
             if (index != -1)
             {
-                byte moveResult = CreateMove(armies.GetArmies(index), selection: 255, mapCoordinate.X, mapCoordinate.Y, mapCoordinate.MapLevel, mode: CreateMoveModes.None).MoveResult;
+                int moveResult = CreateMove(armies.GetArmies(index), selection: 255, mapCoordinate.X, mapCoordinate.Y, mapCoordinate.MapLevel, mode: CreateMoveModes.None).MoveResult;
                 if (moveResult == 0)
                 {
                     result = false;

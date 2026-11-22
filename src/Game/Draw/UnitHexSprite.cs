@@ -7,6 +7,7 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.DelphiRounding;
@@ -19,16 +20,16 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
 
     public new const int ClassId = 131_604;
 
-    public byte Status { get; private set; }
+    public int Status { get; private set; }
 
     // visible, edit, selected, paused, instant move
     private int _showPriority = 1_744_830_464;
 
     public UnitGraphicsResource? UnitGraphicsResource { get; set; }
 
-    public byte Direction { get; set; } = 3;
+    public int Direction { get; set; } = 3;
 
-    public sbyte MoveStep { get; set; } = -1;
+    public int MoveStep { get; set; } = -1;
     // -1 when idle
     public byte FlagId { get; protected set; }
 
@@ -58,7 +59,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Direction = persister.Byte("Direction", value: Direction);
+        Direction = persister.Byte("Direction", value: Direction.TruncateToByte());
         if (Direction == 0)
         {
             Direction = 3;
@@ -66,24 +67,24 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:655
-    public override byte Level => 26;
+    public override int Level => 26;
 
     // UnitHS.PAS:574
     public override bool Visible
     {
         get => (Status & 1) != 0;
         // UnitHS.PAS:569
-        set => Status = value ? (byte)(Status | 1) : (byte)(Status & 0b1111_1110);
+        set => Status = value ? Status | 1 : Status & 0b1111_1110;
     }
 
     // UnitHS.PAS:567
     public override bool GetSelected() => (Status & 0b0100) != 0;
 
     // UnitHS.PAS:228
-    public override sbyte HexX => Owner.HexX;
+    public override sbyte HexX => (sbyte)Owner.HexX;
 
     // UnitHS.PAS:230
-    public override sbyte HexY => Owner.HexY;
+    public override sbyte HexY => (sbyte)Owner.HexY;
 
     // UnitHS.PAS:232
     public override sbyte HexLevel
@@ -91,7 +92,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
         get
         {
             Assert(Owner is not null, message: "Onwer isn't defined", file: "UnitHS.PAS", line: 557);
-            return Owner.HexLevel;
+            return (sbyte)Owner.HexLevel;
         }
     }
 
@@ -100,7 +101,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     {
         get => (Status & 0b0010) != 0;
         // UnitHS.PAS:578
-        set => Status = value ? (byte)(Status | 0b0010) : (byte)(Status & 0b1111_1101);
+        set => Status = value ? Status | 0b0010 : Status & 0b1111_1101;
     }
 
     // UnitHS.PAS:651
@@ -185,7 +186,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     public override bool Place(MapContainer? map, int pixelX, int pixelY, int hexLevel)
     {
         HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int x, out int y);
-        return PlaceHex(map, (sbyte)x, (sbyte)y, (sbyte)hexLevel);
+        return PlaceHex(map, x.TruncateToSByte(), y.TruncateToSByte(), hexLevel.TruncateToSByte());
     }
 
     // UnitHS.PAS:779
@@ -242,7 +243,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     {
         if ((Status & 1) == 0)
         {
-            Status = (byte)(Status | 1);
+            Status |= 1;
             _ = visibilityList.AddSortChild(this, sortValue: _showPriority);
             // { Read Shadow directly. }
             if (_shadow is not null)
@@ -267,12 +268,12 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:560
-    public override void Select() => Status = (byte)(Status | 0b0100);
+    public override void Select() => Status |= 0b0100;
 
     // UnitHS.PAS:562
     public override void Unselect()
     {
-        Status = (byte)(Status & 0b1111_1011);
+        Status &= 0b1111_1011;
         base.Unselect();
     }
 
@@ -322,7 +323,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:793
-    public virtual bool PlaceHex(MapContainer? map, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public virtual bool PlaceHex(MapContainer? map, int hexX, int hexY, int hexLevel)
     {
         MapField field = map.GetField(hexX, hexY, hexLevel);
         SetOwnerWithoutNotify(field);
@@ -338,20 +339,20 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     public virtual void UpdateFlagId() => FlagId = 32;
 
     // UnitHS.PAS:910
-    public virtual sbyte MoveFirst(int direction, bool instant)
+    public virtual int MoveFirst(int direction, bool instant)
     {
         if (MoveStep != -1)
         {
             CancelMove();
         }
 
-        Status = (byte)(Status & 0b1110_0111);
+        Status &= 0b1110_0111;
         if (instant)
         {
-            Status = (byte)(Status | 0b0001_0000);
+            Status |= 0b0001_0000;
         }
 
-        Direction = (byte)direction;
+        Direction = direction.TruncateToByte();
         MoveStep = 0;
         CalculateShowPriority();
         return 0;
@@ -423,7 +424,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:902
-    public void SetDirection(byte value)
+    public void SetDirection(int value)
     {
         if (value != Direction)
         {
@@ -437,7 +438,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:920
-    public sbyte GetMoveStatus()
+    public int GetMoveStatus()
     {
         if (MoveStep >= 0)
         {
@@ -445,7 +446,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
             if (MoveStep < moveSteps)
             {
                 int moveSteps2 = GetMoveSteps();
-                return (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
+                return Round((double)(MoveStep * 100) / moveSteps2).TruncateToSByte();
             }
             else
             {
@@ -459,15 +460,15 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:929
-    public void SetMoveStatus(sbyte value)
+    public void SetMoveStatus(int value)
     {
         if (value >= 0)
         {
-            MoveStep = (sbyte)(((GetMoveSteps() * value) + 50) / 100);
+            MoveStep = (((GetMoveSteps() * value) + 50) / 100).TruncateToSByte();
             int moveSteps = GetMoveSteps();
             if (MoveStep > moveSteps)
             {
-                MoveStep = (sbyte)GetMoveSteps();
+                MoveStep = GetMoveSteps().TruncateToSByte();
                 return;
             }
         }
@@ -482,11 +483,11 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     {
         if (MoveStep >= 0)
         {
-            Status = (byte)(Status & 0b1111_0111);
+            Status &= 0b1111_0111;
             int moveSteps = GetMoveSteps();
             if (MoveStep < moveSteps)
             {
-                MoveStep = (sbyte)(MoveStep + 1);
+                MoveStep = (MoveStep + 1).TruncateToSByte();
                 int moveSteps2 = GetMoveSteps();
                 return (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
             }
@@ -505,7 +506,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     public bool Moving() => MoveStep != -1;
 
     // UnitHS.PAS:960
-    public void PauseMove() => Status = (byte)(Status | 0b1000);
+    public void PauseMove() => Status |= 0b1000;
 
     // UnitHS.PAS:964
     public void CancelMove()
@@ -513,7 +514,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
         if (MoveStep != -1)
         {
             MoveStep = -1;
-            Status = (byte)(Status & 0b1110_0111);
+            Status &= 0b1110_0111;
         }
     }
 }

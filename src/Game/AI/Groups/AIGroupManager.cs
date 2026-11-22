@@ -60,7 +60,7 @@ public sealed class AIGroupManager(CustomNode? owner) : OwningNode(owner), IChil
     }
 
     // AIGroup.pas:600
-    public AIGroup? CreateGroup(sbyte player, sbyte relation, GroupBehavior behavior)
+    public AIGroup? CreateGroup(sbyte player, int relation, GroupBehavior behavior)
     {
         bool found = false;
         int i = RegisteredClasses.Count;
@@ -89,7 +89,7 @@ public sealed class AIGroupManager(CustomNode? owner) : OwningNode(owner), IChil
     }
 
     // The behavior selects the registered group class, which constructs T.
-    public T CreateGroup<T>(sbyte player, sbyte relation) where T : AIGroup, IAIGroupClass
+    public T CreateGroup<T>(sbyte player, int relation) where T : AIGroup, IAIGroupClass
         => (T)CreateGroup(player, relation: relation, behavior: T.Behavior);
 
     // AIGroup.pas:624

@@ -36,9 +36,9 @@ public class EarthMastery : GlobalEnchantmentSpell
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Earth);
         MapCoordinate coordinate64 = source.GetLocation();
-        sbyte x = coordinate64.X;
-        sbyte y = coordinate64.Y;
-        sbyte l = coordinate64.MapLevel;
+        int x = coordinate64.X;
+        int y = coordinate64.Y;
+        int l = coordinate64.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         _ = StrategicMap.Current.AddEffect(WorldEffectType.EarthMastery);
         _ = CastSounds.Play(0);

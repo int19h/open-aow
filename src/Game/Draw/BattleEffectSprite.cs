@@ -2,14 +2,12 @@
 // Translated from AoWTC.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
-
 using Aow.Game.Draw.Images;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 using static Aow.Rtl.PCharStrings;
@@ -406,7 +404,7 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
                                         int random2 = Random(5);
                                         int random3 = Random(100);
                                         Point3DList path18 = effect.Path;
-                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), stepSize: (short)(random2 + 5), height: 100, list: path18);
+                                        EffectPaths.MakeArcPathXY((k - 200).TruncateToInt16(), (x - 200).TruncateToInt16(), (random3 + k - 50).TruncateToInt16(), (random + x - 50).TruncateToInt16(), stepSize: (random2 + 5).TruncateToInt16(), height: 100, list: path18);
                                         effect.Path = path18;
                                     }
                                 }
@@ -446,7 +444,7 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
                                         int random2 = Random(5);
                                         int random3 = Random(100);
                                         Point3DList path20 = effect.Path;
-                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), stepSize: (short)(random2 + 5), height: 100, list: path20);
+                                        EffectPaths.MakeArcPathXY((k - 200).TruncateToInt16(), (x - 200).TruncateToInt16(), (random3 + k - 50).TruncateToInt16(), (random + x - 50).TruncateToInt16(), stepSize: (random2 + 5).TruncateToInt16(), height: 100, list: path20);
                                         effect.Path = path20;
                                     }
                                 }
@@ -864,7 +862,7 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
                                             Point3D? pathZ = Path[Frame - 20];
                                             Point3D? path2 = Path[0];
                                             Target.UnitHexSprite.OffsetY = pathY.Y - pathZ.Z - path2.Y;
-                                            Target.UnitHexSprite.SetDirection((byte)(Target.UnitHexSprite.Direction + 1));
+                                            Target.UnitHexSprite.SetDirection((Target.UnitHexSprite.Direction + 1).TruncateToByte());
                                             if (Target.UnitHexSprite.Direction > 6)
                                             {
                                                 Target.UnitHexSprite.SetDirection(1);
@@ -923,7 +921,7 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
                                 }
 
                                 j = Random(6) + 10;
-                                sbyte hexY = Target.UnitHexSprite.HexY;
+                                int hexY = Target.UnitHexSprite.HexY;
                                 HexGeometry.HexToPixel(Target.UnitHexSprite.HexX, hexY, out k, out x);
                                 {
                                     i = 1;
@@ -1123,7 +1121,7 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
                                     Point3D? path2 = Path[0];
                                     int random5 = Random(50);
                                     Point3DList path39 = effect.Path;
-                                    EffectPaths.MakeArcPathXY((short)(path2.X + random5 + 25), (short)(path.Y + random4 - 225), (short)(pathX.X + random3 - 25), (short)(pathY.Y + random - 25), stepSize: (short)(random2 + 5), height: 100, list: path39);
+                                    EffectPaths.MakeArcPathXY((path2.X + random5 + 25).TruncateToInt16(), (path.Y + random4 - 225).TruncateToInt16(), (pathX.X + random3 - 25).TruncateToInt16(), (pathY.Y + random - 25).TruncateToInt16(), stepSize: (random2 + 5).TruncateToInt16(), height: 100, list: path39);
                                     effect.Path = path39;
                                     i = 0;
                                     for (; i <= 10; i += 1)
@@ -1160,7 +1158,7 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
                                         Point3D? pathZ = effect.Path[count8 - 1];
                                         int count9 = effect.Path.Count;
                                         Point3DList path41 = effect.Path;
-                                        EffectPaths.MakeArcPathXY((short)effect.Path[count9 - 1].X, (short)(path3.Y - pathZ.Z), (short)(x + 16), (short)(y - 8), stepSize: (short)(random6 + 6), height: 100, list: path41);
+                                        EffectPaths.MakeArcPathXY(effect.Path[count9 - 1].X.TruncateToInt16(), (path3.Y - pathZ.Z).TruncateToInt16(), (x + 16).TruncateToInt16(), (y - 8).TruncateToInt16(), stepSize: (random6 + 6).TruncateToInt16(), height: 100, list: path41);
                                         effect.Path = path41;
                                         i = 0;
                                         int last = Random(3) + 5;
@@ -1590,7 +1588,7 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
                                         if (CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i).CombatPlayer == Target.CombatPlayer)
                                         {
                                             effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
-                                            sbyte hexY = CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.HexY;
+                                            int hexY = CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.HexY;
                                             HexGeometry.HexToPixel(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.HexX, hexY, out j, out k);
                                             j = Random(20) + j + 6;
                                             k = Random(20) + k + 6;
@@ -1613,7 +1611,7 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
                                         if (CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i).CombatPlayer == Target.CombatPlayer)
                                         {
                                             effect = CombatMap.Current.AddEffect(BattleEffectType.PrayerGlow);
-                                            sbyte hexY = CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.HexY;
+                                            int hexY = CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.HexY;
                                             HexGeometry.HexToPixel(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.HexX, hexY, out j, out k);
                                             Point3D xyz = new();
                                             effect.Path.Add(xyz);
@@ -1717,7 +1715,7 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
                                 if (Target is not null && Target.GetEnabled())
                                 {
                                     Target.UnitHexSprite.OffsetY = (Frame - 150) * 6;
-                                    Target.UnitHexSprite.SetDirection((byte)((Frame % 6) + 1));
+                                    Target.UnitHexSprite.SetDirection(((Frame % 6) + 1).TruncateToByte());
                                 }
 
                                 break;

@@ -11,6 +11,7 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -35,9 +36,9 @@ public class Crusade : Spell
         if (executeCount == 0)
         {
             MapCoordinate coordinate61 = source.GetLocation();
-            sbyte x = coordinate61.X;
-            sbyte y = coordinate61.Y;
-            sbyte layer = coordinate61.MapLevel;
+            int x = coordinate61.X;
+            int y = coordinate61.Y;
+            int layer = coordinate61.MapLevel;
             _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, radius: 0);
             HexGeometry.HexToPixel(x, y, out int pixelX, out int pixelY);
             WorldEffectHexSprite worldEffectHexSprite = StrategicMap.Current.AddEffect(WorldEffectType.Crusade);
@@ -148,18 +149,18 @@ public class Crusade : Spell
         int targetX = default;
         int targetY = default;
         MapCoordinate coordinate62 = source.GetLocation();
-        sbyte x = coordinate62.X;
-        sbyte y = coordinate62.Y;
-        sbyte layer = coordinate62.MapLevel;
+        int x = coordinate62.X;
+        int y = coordinate62.Y;
+        int layer = coordinate62.MapLevel;
         int radiusToHexNumber = HexGeometry.RadiusToHexNumber(5);
         HexGeometry.CenterHexNumberToHex(hexNumber: StrategicMap.Current.Random(radiusToHexNumber), hexX: x, hexY: y, newHexX: ref targetX, newHexY: ref targetY);
-        if (party.Place((sbyte)targetX, (sbyte)targetY, layer, mode: ArmyPlaceModes.Safe | ArmyPlaceModes.ScanArea))
+        if (party.Place(targetX.TruncateToSByte(), targetY.TruncateToSByte(), layer, mode: ArmyPlaceModes.Safe | ArmyPlaceModes.ScanArea))
         {
             party.Activate();
             party.Army.SetBehavior(255, behavior: GroupBehavior.Suicidal);
-            sbyte hexLevel = party.HexLevel;
-            sbyte hexY = party.HexY;
-            sbyte hexX = party.HexX;
+            int hexLevel = party.HexLevel;
+            int hexY = party.HexY;
+            int hexX = party.HexX;
             if (StrategicMap.Current.Watching(hexX, hexY, L: hexLevel, radius: 0))
             {
                 if (GamePack.Current.SpellControl[34].CastImages.GetImageSequence(0) is not null)
@@ -168,9 +169,9 @@ public class Crusade : Spell
                     ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl[34].CastImages.GetImageSequence(0));
                     animation.AnimationLevel = 28;
-                    sbyte partyHexLevel = party.HexLevel;
-                    sbyte partyHexY = party.HexY;
-                    sbyte partyHexX = party.HexX;
+                    int partyHexLevel = party.HexLevel;
+                    int partyHexY = party.HexY;
+                    int partyHexX = party.HexX;
                     _ = StrategicMap.Current.PlaceHex(animation, partyHexX, partyHexY, L: partyHexLevel);
                 }
             }

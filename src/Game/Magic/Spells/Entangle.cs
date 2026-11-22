@@ -46,7 +46,7 @@ public class Entangle : CombatSpell
 
         if (!target.GetAbilityEnabled(1) && !target.GetAbilityEnabled(94))
         {
-            sbyte resistance = target.GetResistance();
+            int resistance = target.GetResistance();
             action.Succeeded = HitChance.HitRole(CombatInfo.Attack - resistance);
         }
 
@@ -58,11 +58,11 @@ public class Entangle : CombatSpell
     {
         if (!target.GetAbilityEnabled(1) && !target.GetAbilityEnabled(94))
         {
-            sbyte resistance = target.GetResistance();
+            int resistance = target.GetResistance();
             float hitRoleProbability = HitChance.HitRoleProbability(CombatInfo.Attack - resistance);
-            sbyte hitPoints = target.HitPoints;
+            int hitPoints = target.HitPoints;
             values.SourceDamage = Round((double)(hitPoints * 100) * hitRoleProbability);
-            sbyte targetHitPoints = target.HitPoints;
+            int targetHitPoints = target.HitPoints;
             values.SourceCost = targetHitPoints;
             values.TargetDamage = 0;
             values.TargetCost = 0;

@@ -52,7 +52,7 @@ public partial class Sign(CustomNode? owner) : Structure(owner)
     }
 
     // Sign.pas:102
-    public override sbyte GetOverlay(int index) => -1;
+    public override int GetOverlay(int index) => -1;
 
     // Sign.pas:119
     public override void Select()

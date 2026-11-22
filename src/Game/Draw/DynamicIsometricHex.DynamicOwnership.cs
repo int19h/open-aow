@@ -21,10 +21,10 @@ public sealed partial class DynamicIsometricHex
 
     public override GameEngine? GetEngine() => _hex.GetEngine();
 
-    public override byte Level => ((IsometricHexResource)_hex.Resource).DynamicLevel;
-    public override sbyte HexX => Field.HexX;
-    public override sbyte HexY => Field.HexY;
-    public override sbyte HexLevel => Field.HexLevel;
+    public override int Level => ((IsometricHexResource)_hex.Resource).DynamicLevel;
+    public override sbyte HexX => (sbyte)Field.HexX;
+    public override sbyte HexY => (sbyte)Field.HexY;
+    public override sbyte HexLevel => (sbyte)Field.HexLevel;
 
     public override int GetShowPriority()
     {

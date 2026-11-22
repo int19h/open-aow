@@ -43,14 +43,14 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     public UserDrawBox LeftShieldView { get; private set; }
     public UserDrawBox RightShieldView { get; private set; }
 
-    private byte _phase;
+    private int _phase;
     private int _phaseFrame;
     private int _animationFrame;
     private CombatLogbook? _logbook;
     private int _leftShield;
-    private byte _leftOpacity;
+    private int _leftOpacity;
     private int _rightShield;
-    private byte _rightOpacity;
+    private int _rightOpacity;
     private CombatViewer _viewer;
     private ExecuteDoneEvent? _done;
     private EventLog? _event;
@@ -305,14 +305,14 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         if (left != _leftShield || leftOpacity != _leftOpacity)
         {
             _leftShield = left;
-            _leftOpacity = (byte)leftOpacity;
+            _leftOpacity = leftOpacity.TruncateToByte();
             LeftShieldView.IsDrawn = false;
         }
 
         if (right != _rightShield || rightOpacity != _rightOpacity)
         {
             _rightShield = right;
-            _rightOpacity = (byte)rightOpacity;
+            _rightOpacity = rightOpacity.TruncateToByte();
             RightShieldView.IsDrawn = false;
         }
     }
@@ -332,7 +332,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     }
 
     // FastCombatWin.pas:549
-    public void SetPhase(byte phase)
+    public void SetPhase(int phase)
     {
         _phase = phase;
         _phaseFrame = 0;
@@ -575,7 +575,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     public void FCWinHide() => FinishDialog();
 
     // FastCombatWin.pas:544
-    public void FCWinKeyDown(in ushort key, ShiftStates shift)
+    public void FCWinKeyDown(in int key, ShiftStates shift)
     {
         if (key is 27 or 32)
         {

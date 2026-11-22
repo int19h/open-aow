@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Formats.Tree;
+using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
@@ -27,12 +28,12 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     public int MapCrc { get; set; }
     public int SetCrc { get; set; }
     public int MapDay { get; set; }
-    public byte PlayMode { get; set; }
+    public int PlayMode { get; set; }
     public bool ExplorationEnabled { get; set; }
     public bool LeadersOnMap { get; set; }
     public bool AlliedVictory { get; set; }
-    public byte VictoryCondition { get; set; }
-    public byte IndependentAIMode { get; set; }
+    public int VictoryCondition { get; set; }
+    public int IndependentAIMode { get; set; }
     public bool CustomizeLeaders { get; set; }
     public int RandomSeed { get; set; }
     public int DayLimit { get; set; }
@@ -40,7 +41,7 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
 
     public RemotePlayerList RemotePlayers { get; }
 
-    public byte ConnectionType { get; set; }
+    public int ConnectionType { get; set; }
     public byte TacticalBattleAvailability { get; set; }
     public bool AlwaysViewTacticalBattle { get; set; }
 
@@ -58,11 +59,11 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     {
         base.PersistFields(persister);
         FileName = persister.String("FileName", value: FileName);
-        PlayMode = persister.RawByte("PlayMode", value: PlayMode);
+        PlayMode = persister.RawByte("PlayMode", value: PlayMode.TruncateToByte());
         ExplorationEnabled = persister.Boolean("ExplorationEnabled", value: ExplorationEnabled);
         MapName = persister.String("MapName", value: MapName);
-        VictoryCondition = persister.RawByte("VictoryCondition", value: VictoryCondition);
-        IndependentAIMode = persister.RawByte("IndependentAIMode", value: IndependentAIMode);
+        VictoryCondition = persister.RawByte("VictoryCondition", value: VictoryCondition.TruncateToByte());
+        IndependentAIMode = persister.RawByte("IndependentAIMode", value: IndependentAIMode.TruncateToByte());
         CustomizeLeaders = persister.Boolean("CustomizeLeaders", value: CustomizeLeaders);
         RandomSeed = persister.Int32("RandomSeed", value: RandomSeed);
         LeadersOnMap = persister.Boolean("LeadersOnMap", value: LeadersOnMap);
@@ -72,7 +73,7 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
         HostRemoteId = persister.Int32("HostRemoteId", value: HostRemoteId);
         MapDay = persister.Int32("MapDay", value: MapDay);
         AlliedVictory = persister.Boolean("AlliedVictory", value: AlliedVictory);
-        ConnectionType = persister.RawByte("ConnectionType", value: ConnectionType);
+        ConnectionType = persister.RawByte("ConnectionType", value: ConnectionType.TruncateToByte());
         MapCrc = persister.Int32("MapCrc", value: MapCrc);
         SetCrc = persister.Int32("SetCrc", value: SetCrc);
         TacticalBattleAvailability = persister.RawByte("TacticalBattleAvailability", value: TacticalBattleAvailability);
@@ -143,7 +144,7 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     }
 
     // AoWSetup.pas:390
-    public int IndexOfRace(byte race)
+    public int IndexOfRace(int race)
     {
         int result = -1;
         int i = 0;

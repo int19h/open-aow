@@ -10,6 +10,7 @@ using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -28,7 +29,7 @@ public class UnitSpell : Spell
 
     public bool AllowMultipleTargets { get; protected init; }
     public int TargetRange { get; protected init; }
-    public byte UnitDispelResistance { get; protected init; }
+    public int UnitDispelResistance { get; protected init; }
     public int AIValue { get; protected init; }
 
     // Spells.PAS:1444
@@ -178,17 +179,17 @@ public class UnitSpell : Spell
     public virtual bool ValidTargetUnit(Troop? source, Troop? target) => true;
 
     // Spells.PAS:1228
-    public virtual byte ValidateUnitSelection(Troop? source, UnitUserList targets, byte selection)
+    public virtual int ValidateUnitSelection(Troop? source, UnitUserList targets, int selection)
     {
         int count = targets.GetCount();
-        selection = (byte)(selection & SelectionMasks[count]);
+        selection &= SelectionMasks[count];
         for (int i = 0, last = targets.GetCount() - 1; i <= last; i++)
         {
             if ((selection & (1 << i)) != 0)
             {
                 if (!ValidTargetUnit(source, target: targets.GetUnit(i)))
                 {
-                    selection = (byte)(selection & ~(1 << i));
+                    selection &= ~(1 << i);
                 }
             }
         }
@@ -218,7 +219,7 @@ public class UnitSpell : Spell
         {
             if (ValidTargetUnit(source, target: caster.TargetUnits.GetUnit(i)))
             {
-                caster.ValidSelection = (byte)(caster.ValidSelection | (1 << i));
+                caster.ValidSelection = (caster.ValidSelection | (1 << i)).TruncateToByte();
             }
         }
     }
@@ -397,10 +398,10 @@ public class UnitSpell : Spell
         }
 
         MapCoordinate coordinate85 = source.GetLocation();
-        sbyte x = coordinate85.X;
-        sbyte y = coordinate85.Y;
-        sbyte l = coordinate85.MapLevel;
-        control.SourceLocation = new MapCoordinate(x, y, l);
+        int x = coordinate85.X;
+        int y = coordinate85.Y;
+        int l = coordinate85.MapLevel;
+        control.SourceLocation = new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)l);
         control.Changed += OnTargetSelectionChange;
         control.SetValidateTargetHandler(OnValidateTarget);
         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_selectTargetPartyFormat), arguments: [SpellName]);

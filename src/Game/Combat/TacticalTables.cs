@@ -11,7 +11,7 @@ namespace Aow.Game.Combat;
 
 internal static class TacticalTables
 {
-    internal static ushort GetMeleeDirectionIndex(int X, int deltaX, int deltaY)
+    internal static int GetMeleeDirectionIndex(int X, int deltaX, int deltaY)
     {
         switch (deltaY)
         {
@@ -33,9 +33,9 @@ internal static class TacticalTables
                 switch (deltaX)
                 {
                     case -1:
-                        return X / 2 * 2 == X ? (ushort)3 : (ushort)2;
+                        return X / 2 * 2 == X ? 3 : 2;
                     case 1:
-                        return X / 2 * 2 == X ? (ushort)5 : (ushort)6;
+                        return X / 2 * 2 == X ? 5 : 6;
                     default:
                         break;
                 }
@@ -78,7 +78,7 @@ internal static class TacticalTables
 
     internal static ReadOnlySpan<int> WallMaxHitPoints => [7, 13];
 
-    internal static void MakeAbilityPath(CombatSideIndex side, short ability, short spell, short x1, short y1, short x2, short y2, Point3DList path, DelphiList<RangedObstacle> obstacles)
+    internal static void MakeAbilityPath(CombatSideIndex side, short ability, short spell, int x1, int y1, int x2, int y2, Point3DList path, DelphiList<RangedObstacle> obstacles)
     {
         int x;
         int y;
@@ -202,7 +202,7 @@ internal static class TacticalTables
     }
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps unusedHeight on purpose.")]
-    internal static void MakeRangedPath(CombatSideIndex side, short speed, short arc, short unusedHeight, short x1, short y1, short x2, short y2, short offsetX, short offsetY, bool includeUnits, Point3DList path, DelphiList<RangedObstacle> obstacles)
+    internal static void MakeRangedPath(CombatSideIndex side, int speed, int arc, int unusedHeight, int x1, int y1, int x2, int y2, int offsetX, int offsetY, bool includeUnits, Point3DList path, DelphiList<RangedObstacle> obstacles)
     {
         int hexX = default;
         int hexY = default;

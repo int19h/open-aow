@@ -38,8 +38,8 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
     private int _position;
 
     public int PositionCount { get; set; }
-    public byte HeldUpdateCount { get; protected set; }
-    public byte HeldPart { get; protected set; }
+    public int HeldUpdateCount { get; protected set; }
+    public int HeldPart { get; protected set; }
 
     public int TrackClickTarget { get; protected set; }
 
@@ -130,7 +130,7 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
         {
             if (HeldUpdateCount < Delay)
             {
-                HeldUpdateCount = (byte)(HeldUpdateCount + 1);
+                HeldUpdateCount = (HeldUpdateCount + 1).TruncateToByte();
             }
             else
             {
@@ -386,7 +386,7 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
 
     [Published]
     [DefaultValue(20)]
-    public byte Delay { get; set; } = 20;
+    public int Delay { get; set; } = 20;
 
     [Published]
     public int Min { get => _min; set => SetFMin(value); }

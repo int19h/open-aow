@@ -44,7 +44,7 @@ public sealed record DeclareWar : DiplomaticProposal
     public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
         => action.UpdateAIDiplomaticActionsLog(player);
 
-    public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
+    public override int RelationModifier(DiplomaticAction action, sbyte player, int race)
     {
         return player == action.Source && Relation(action.Source, second: action.Target) != DiplomaticRelation.War
 ? RaceModifier(modifier: Relation(action.Source, second: action.Target) == DiplomaticRelation.Alliance

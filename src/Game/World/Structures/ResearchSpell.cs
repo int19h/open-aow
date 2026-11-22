@@ -64,7 +64,7 @@ public sealed record ResearchSpell(int Index) : ProductionOrder
         settings.UnitProductionIndex = Index;
         settings.Gold = control.UnitResearchGold(Index);
         settings.Mana = 0;
-        settings.TurnsTotal = (sbyte)control.UnitResearchTime(Index);
+        settings.TurnsTotal = control.UnitResearchTime(Index).TruncateToSByte();
         settings.Player = control.GetPlayer();
         settings.TurnsLeft = settings.TurnsTotal;
         Pay(control);

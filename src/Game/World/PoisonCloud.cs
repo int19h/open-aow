@@ -13,6 +13,7 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.World;
 
@@ -27,17 +28,17 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     public int TurnsRemaining { get; set; }
 
     private bool _drifting;
-    private byte _direction;
+    private int _direction;
     private bool _updated;
 
     // PoisonC.pas:149
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         TurnsRemaining = persister.Int32("TurnsRemaining", value: TurnsRemaining);
         _drifting = persister.Boolean("Drifting", value: _drifting);
-        _direction = persister.Byte("Direction", value: _direction);
+        _direction = persister.Byte("Direction", value: _direction.TruncateToByte());
     }
 
     // PoisonC.pas:275
@@ -65,8 +66,8 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         bool result = base.PlaceOnMap();
         if (result)
         {
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexY = HexY;
+            int hexX = HexX;
             UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 
@@ -127,7 +128,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         base.Activate();
         if (_direction == 0)
         {
-            _direction = (byte)(StrategicMap.Current.Random(6) + 1);
+            _direction = (StrategicMap.Current.Random(6) + 1).TruncateToByte();
         }
     }
 
@@ -200,8 +201,8 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     {
         MapFieldMessage message = default;
         MapLevel level = Owner.Owner;
-        sbyte hexY = HexY;
-        sbyte hexX = HexX;
+        int hexY = HexY;
+        int hexX = HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData hexNumberWalkData, hexX, hexY, radius: 0);
         message.MessageId = 4432;
         MapFieldMessageParameters param = message.Param;
@@ -231,7 +232,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         int hexX = default;
         int hexY = default;
         MapLevel level = Owner.Owner;
-        sbyte yhx = HexY;
+        int yhx = HexY;
         HexGeometry.CenterHexNumberToHex(HexX, yhx, hexNumber: direction, ref hexX, ref hexY);
         HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: direction, ref hexX, ref hexY);
         return hexX >= 10 && hexY >= 10 && hexX + 10 <= level.Width && hexY + 10 <= level.Height;
@@ -253,10 +254,10 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
                 int direction = 0;
                 ByteList directions = [];
                 bool valid = false;
-                _ = directions.Add(_direction);
-                _ = _direction != 1 ? directions.Add((byte)(_direction - 1)) : directions.Add(6);
+                _ = directions.Add(_direction.TruncateToByte());
+                _ = _direction != 1 ? directions.Add((_direction - 1).TruncateToByte()) : directions.Add(6);
 
-                _ = _direction != 6 ? directions.Add((byte)(_direction + 1)) : directions.Add(1);
+                _ = _direction != 6 ? directions.Add((_direction + 1).TruncateToByte()) : directions.Add(1);
 
                 while (directions.Count != 0 && !valid)
                 {
@@ -264,7 +265,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
                     valid = ValidMoveDirection(direction);
                     if (!valid)
                     {
-                        _ = directions.Remove((byte)direction);
+                        _ = directions.Remove(direction.TruncateToByte());
                     }
                 }
 
@@ -284,17 +285,17 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
                 {
                     int oldHexX = HexX;
                     int oldHexY = HexY;
-                    _direction = (byte)direction;
+                    _direction = direction.TruncateToByte();
                     int hexLevel = HexLevel;
-                    sbyte yhx = HexY;
+                    int yhx = HexY;
                     int hexX = default;
                     int hexY = default;
                     HexGeometry.CenterHexNumberToHex(HexX, yhx, hexNumber: direction, ref hexX, ref hexY);
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: direction, ref hexX, ref hexY);
                     Disconnect();
                     UpdateMapFields(StrategicMap.Current.MapContainer.GetMapLevel(hexLevel), oldHexX, oldHexY);
-                    StoredHexX = (sbyte)hexX;
-                    StoredHexY = (sbyte)hexY;
+                    StoredHexX = hexX.TruncateToSByte();
+                    StoredHexY = hexY.TruncateToSByte();
                     Owner = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
                     Connect();
                     UpdateMapFields(StrategicMap.Current.MapContainer.GetMapLevel(hexLevel), hexX, hexY);

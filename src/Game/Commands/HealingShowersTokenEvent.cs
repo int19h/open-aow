@@ -85,8 +85,8 @@ public class HealingShowersTokenEvent(CustomNode? owner) : GlobalTargetSpellToke
                             bool healed = healed2;
                             if (healed)
                             {
-                                sbyte hexY = army.HexY;
-                                sbyte hexX = army.HexX;
+                                int hexY = army.HexY;
+                                int hexX = army.HexX;
                                 healed = StrategicMap.Current.VisibleForPlayer(hexX, hexY, army.HexLevel, player: StrategicMap.Current.SeatedPlayer);
                             }
 
@@ -95,8 +95,8 @@ public class HealingShowersTokenEvent(CustomNode? owner) : GlobalTargetSpellToke
                                 bool condition = playSound || (byte)army.Army.Player == (byte)StrategicMap.Current.SeatedPlayer;
                                 if (!condition)
                                 {
-                                    sbyte hexY = army.HexY;
-                                    sbyte hexX = army.HexX;
+                                    int hexY = army.HexY;
+                                    int hexX = army.HexX;
                                     condition = StrategicMap.Current.Watching(hexX, hexY, L: army.HexLevel, radius: 1);
                                 }
 
@@ -104,8 +104,8 @@ public class HealingShowersTokenEvent(CustomNode? owner) : GlobalTargetSpellToke
                                 ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                                 animation.SetImageSequence(GamePack.Current.AbilityControl[47].ImageSequences.ImageSequences[0]);
                                 animation.AnimationLevel = 27;
-                                sbyte armyHexY = army.HexY;
-                                sbyte armyHexX = army.HexX;
+                                int armyHexY = army.HexY;
+                                int armyHexX = army.HexX;
                                 _ = StrategicMap.Current.PlaceHex(animation, armyHexX, armyHexY, L: army.HexLevel);
                             }
                         }

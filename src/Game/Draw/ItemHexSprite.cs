@@ -9,6 +9,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 using static Aow.Rtl.DelphiRandom;
 
@@ -54,7 +55,7 @@ public partial class ItemHexSprite : SingleHexSprite
     }
 
     // Army.PAS:5235
-    public override byte Level => 26;
+    public override int Level => 26;
 
     // Army.PAS:5240
     public override int GetShowPriority()
@@ -100,7 +101,7 @@ public partial class ItemHexSprite : SingleHexSprite
     public override string EditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_itemBagText);
 
     // Army.PAS:5297
-    public override bool CanPlace(MapContainer? map, sbyte hexX, sbyte hexY, sbyte hexLevel) => base.CanPlace(map, hexX, hexY, hexLevel);
+    public override bool CanPlace(MapContainer? map, int hexX, int hexY, int hexLevel) => base.CanPlace(map, hexX, hexY, hexLevel);
 
     // Army.PAS:5228
     public void ItemsChanged(object sender)
@@ -130,7 +131,7 @@ public partial class ItemHexSprite : SingleHexSprite
             Items.Clear();
             for (int iOrdinal = 1, last = (int)_generateMode; iOrdinal <= last; iOrdinal++)
             {
-                byte i = (byte)iOrdinal;
+                int i = iOrdinal.TruncateToByte();
                 Item? item = StrategicMap.Current.ItemControl.GenerateItem(ItemTypes.Head | ItemTypes.Torso | ItemTypes.Attack | ItemTypes.Defense | ItemTypes.Ring | ItemTypes.Use, 0, 65535);
                 item?.SetOwner(Items);
             }

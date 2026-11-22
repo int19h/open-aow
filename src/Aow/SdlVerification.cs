@@ -124,7 +124,7 @@ internal static unsafe class SdlVerification
             Keys++;
         }
 
-        public void KeyUp(ushort key, ShiftStates shift) => KeyUps++;
+        public void KeyUp(int key, ShiftStates shift) => KeyUps++;
         public void FocusChanged(bool active) => FocusChanges++;
 
         public bool CloseRequested()

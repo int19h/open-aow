@@ -12,6 +12,7 @@ using Aow.Game.Magic.Spells;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.World;
 
@@ -37,7 +38,7 @@ public class SmokeCloud : MultiHexMapObject
     public int TurnsRemaining { get; set; }
     public bool Drifting { get; set; }
 
-    private byte _direction;
+    private int _direction;
     private bool _updated;
     private bool _visibleForSeatedPlayer;
 
@@ -54,10 +55,10 @@ public class SmokeCloud : MultiHexMapObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         TurnsRemaining = persister.Int32("TurnsRemaining", value: TurnsRemaining);
         Drifting = persister.Boolean("Drifting", value: Drifting);
-        _direction = persister.Byte("Direction", value: _direction);
+        _direction = persister.Byte("Direction", value: _direction.TruncateToByte());
         persister.Object("Enchantment", objectValue: Enchantment);
     }
 
@@ -148,7 +149,7 @@ public class SmokeCloud : MultiHexMapObject
         base.Activate();
         if (_direction == 0)
         {
-            _direction = (byte)(StrategicMap.Current.Random(6) + 1);
+            _direction = (StrategicMap.Current.Random(6) + 1).TruncateToByte();
         }
 
         SmokeCloudEnchantment smokeCloudEnchantment = Enchantment;
@@ -196,7 +197,7 @@ public class SmokeCloud : MultiHexMapObject
     }
 
     // SmokeCloud.pas:216
-    public void UpdateConcealment(sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public void UpdateConcealment(int hexX, int hexY, int hexLevel)
     {
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[hexLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
@@ -216,9 +217,9 @@ public class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:253
     public void UpdateVisibleForSeatedPlayer()
     {
-        sbyte hexLevel = HexLevel;
-        sbyte hexY = HexY;
-        sbyte hexX = HexX;
+        int hexLevel = HexLevel;
+        int hexY = HexY;
+        int hexX = HexX;
         bool visible = StrategicMap.Current.Visible(hexX, hexY, L: hexLevel, radius: 3) || Enchantment.PlayerIndex == StrategicMap.Current.SeatedPlayer;
         if (_visibleForSeatedPlayer ^ visible)
         {
@@ -233,7 +234,7 @@ public class SmokeCloud : MultiHexMapObject
         int hexX = default;
         int hexY = default;
         MapLevel level = Owner.Owner;
-        sbyte yhx = HexY;
+        int yhx = HexY;
         HexGeometry.CenterHexNumberToHex(HexX, yhx, hexNumber: direction, ref hexX, ref hexY);
         HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: direction, ref hexX, ref hexY);
         return hexX >= 10 && hexY >= 10 && level.Width >= hexX + 10 && level.Height >= hexY + 10;
@@ -255,10 +256,10 @@ public class SmokeCloud : MultiHexMapObject
                 int direction = 0;
                 ByteList directions = [];
                 bool valid = false;
-                _ = directions.Add(_direction);
-                _ = _direction != 1 ? directions.Add((byte)(_direction - 1)) : directions.Add(6);
+                _ = directions.Add(_direction.TruncateToByte());
+                _ = _direction != 1 ? directions.Add((_direction - 1).TruncateToByte()) : directions.Add(6);
 
-                _ = _direction != 6 ? directions.Add((byte)(_direction + 1)) : directions.Add(1);
+                _ = _direction != 6 ? directions.Add((_direction + 1).TruncateToByte()) : directions.Add(1);
 
                 while (directions.Count != 0 && !valid)
                 {
@@ -266,7 +267,7 @@ public class SmokeCloud : MultiHexMapObject
                     valid = ValidMoveDirection(direction);
                     if (!valid)
                     {
-                        _ = directions.Remove((byte)direction);
+                        _ = directions.Remove(direction.TruncateToByte());
                     }
                 }
 
@@ -284,20 +285,20 @@ public class SmokeCloud : MultiHexMapObject
 
                 if (valid)
                 {
-                    _direction = (byte)direction;
+                    _direction = direction.TruncateToByte();
                     int hexLevel = HexLevel;
-                    sbyte yhx = HexY;
+                    int yhx = HexY;
                     int hexX = default;
                     int hexY = default;
                     HexGeometry.CenterHexNumberToHex(HexX, yhx, hexNumber: direction, ref hexX, ref hexY);
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: direction, ref hexX, ref hexY);
                     Disconnect();
-                    UpdateConcealment(StoredHexX, StoredHexY, (sbyte)hexLevel);
-                    StoredHexX = (sbyte)hexX;
-                    StoredHexY = (sbyte)hexY;
+                    UpdateConcealment(StoredHexX, StoredHexY, hexLevel.TruncateToSByte());
+                    StoredHexX = hexX.TruncateToSByte();
+                    StoredHexY = hexY.TruncateToSByte();
                     Owner = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
                     Connect();
-                    UpdateConcealment(StoredHexX, StoredHexY, (sbyte)hexLevel);
+                    UpdateConcealment(StoredHexX, StoredHexY, hexLevel.TruncateToSByte());
                 }
             }
         }

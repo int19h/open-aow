@@ -150,7 +150,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
             {
                 StrategicMap.Current.Players.GetPlayers(player).SetGems(0);
                 Player? players2 = StrategicMap.Current.Players.GetPlayers(player);
-                players2.MoraleValue = (sbyte)(players2.MoraleValue - 5);
+                players2.MoraleValue = (players2.MoraleValue - 5).TruncateToSByte();
                 if (StrategicMap.Current.Players.GetPlayers(player).MoraleValue < -50)
                 {
                     StrategicMap.Current.Players.GetPlayers(player).MoraleValue = -50;

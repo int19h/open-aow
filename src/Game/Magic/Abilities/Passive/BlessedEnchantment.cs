@@ -16,10 +16,10 @@ public class BlessedEnchantment : UnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1219
-    public override sbyte GetDefense(AbilityOwner owner) => 1;
+    public override int GetDefense(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:1225
-    public override sbyte GetResistance(AbilityOwner owner) => 1;
+    public override int GetResistance(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:1231
     public override string GetSourceName(AbilityOwner owner)

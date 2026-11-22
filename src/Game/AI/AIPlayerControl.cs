@@ -6,14 +6,11 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.AI;
@@ -301,7 +298,7 @@ public sealed partial class AIPlayerControl : EngineObject
     {
         peace.Clear();
         war.Clear();
-        _ = peace.Add((byte)Player.PlayerIndex);
+        _ = peace.Add(Player.PlayerIndex.TruncateToByte());
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
             if (i != Player.PlayerIndex)
@@ -311,13 +308,13 @@ public sealed partial class AIPlayerControl : EngineObject
                     DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, otherPlayer: (sbyte)i);
                     if (relation is DiplomaticRelation.Peace or DiplomaticRelation.Alliance)
                     {
-                        _ = peace.Add((byte)i);
+                        _ = peace.Add(i.TruncateToByte());
                     }
                     else
                     {
                         if (relation == DiplomaticRelation.War)
                         {
-                            _ = war.Add((byte)i);
+                            _ = war.Add(i.TruncateToByte());
                         }
                         else
                         {
@@ -325,7 +322,7 @@ public sealed partial class AIPlayerControl : EngineObject
                             {
                                 if (Player.GetFirstDaySeen((sbyte)i) != -1)
                                 {
-                                    _ = unknown.Add((byte)i);
+                                    _ = unknown.Add(i.TruncateToByte());
                                 }
                             }
                         }
@@ -352,7 +349,7 @@ public sealed partial class AIPlayerControl : EngineObject
                 Player? players = StrategicMap.Current.Players.GetPlayers(i);
                 Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
                 Status raceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
-                DiplomaticAction action = Player.DiplomaticActions.FindLastAction(DeclareWar.Kind, reaction: DiplomaticActionReaction.None, source: (sbyte)i, target: Player.PlayerIndex, other: -1);
+                DiplomaticAction action = Player.DiplomaticActions.FindLastAction(DeclareWar.Kind, reaction: DiplomaticActionReaction.None, source: i.TruncateToSByte(), target: Player.PlayerIndex, other: -1);
                 if (action is not null)
                 {
                     int days = StrategicMap.Current.Day - action.Day;
@@ -405,13 +402,13 @@ public sealed partial class AIPlayerControl : EngineObject
         for (int i = 0, last = (doubleItemList.Count / 2) - 1; i <= last; i++)
         {
             item = doubleItemList[i];
-            _ = peace.Add((byte)item.First);
+            _ = peace.Add(item.First.TruncateToByte());
         }
 
         for (int i = doubleItemList.Count - 1, last = (doubleItemList.Count + 1) / 2; i >= last; i--)
         {
             item = doubleItemList[i];
-            _ = war.Add((byte)item.First);
+            _ = war.Add(item.First.TruncateToByte());
         }
 
         if ((doubleItemList.Count & 1) != 0)
@@ -423,8 +420,8 @@ public sealed partial class AIPlayerControl : EngineObject
             Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
             Status defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
             _ = defaultRaceRelation is Status.Hostile or Status.Wary
-                ? war.Add((byte)middlePlayer)
-                : peace.Add((byte)middlePlayer);
+                ? war.Add(middlePlayer.TruncateToByte())
+                : peace.Add(middlePlayer.TruncateToByte());
         }
 
         doubleItemList?.Dispose();

@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -10,14 +11,14 @@ public class MoveWallCombatAction(CustomNode owner) : CombatAction(owner)
     public new const int ClassId = 131_767;
 
     public byte CombatObjectId { get; set; }
-    public byte InsideWall { get; set; }
+    public int InsideWall { get; set; }
 
     // Combat2.pas:1075
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         CombatObjectId = persister.RawByte("CombatObjectId", value: CombatObjectId);
-        InsideWall = persister.RawByte("InsideWall", value: InsideWall);
+        InsideWall = persister.RawByte("InsideWall", value: InsideWall.TruncateToByte());
     }
 
     // Combat2.pas:1082

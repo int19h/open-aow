@@ -6,6 +6,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -16,12 +17,12 @@ public class HeroUpgradeTokenEvent : TokenEvent
 
     public int UnitId { get; set; }
     public sbyte Player { get; set; }
-    public sbyte Attack { get; set; }
-    public sbyte Defense { get; set; }
-    public sbyte Resistance { get; set; }
-    public sbyte Damage { get; set; }
-    public sbyte Moves { get; set; }
-    public sbyte Hits { get; set; }
+    public int Attack { get; set; }
+    public int Defense { get; set; }
+    public int Resistance { get; set; }
+    public int Damage { get; set; }
+    public int Moves { get; set; }
+    public int Hits { get; set; }
 
     public AbilityOwner Abilities { get; }
 
@@ -36,15 +37,15 @@ public class HeroUpgradeTokenEvent : TokenEvent
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Attack = persister.UnsignedByte(name: "Attack", value: Attack);
-        Defense = persister.UnsignedByte(name: "Defense", value: Defense);
-        Resistance = persister.UnsignedByte(name: "Resistance", value: Resistance);
-        Damage = persister.UnsignedByte(name: "Damage", value: Damage);
-        Moves = persister.UnsignedByte(name: "Moves", value: Moves);
-        Hits = persister.UnsignedByte(name: "Hits", value: Hits);
+        Attack = persister.UnsignedByte(name: "Attack", value: Attack.TruncateToSByte());
+        Defense = persister.UnsignedByte(name: "Defense", value: Defense.TruncateToSByte());
+        Resistance = persister.UnsignedByte(name: "Resistance", value: Resistance.TruncateToSByte());
+        Damage = persister.UnsignedByte(name: "Damage", value: Damage.TruncateToSByte());
+        Moves = persister.UnsignedByte(name: "Moves", value: Moves.TruncateToSByte());
+        Hits = persister.UnsignedByte(name: "Hits", value: Hits.TruncateToSByte());
         persister.Object("Abilities", objectValue: Abilities);
         UnitId = persister.Int32("UnitId", value: UnitId);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
     }
 
     // Hero.PAS:1
@@ -57,12 +58,12 @@ public class HeroUpgradeTokenEvent : TokenEvent
         Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
         if (hero is not null && hero.GetHitPoints() != 0 && hero.Player == Player)
         {
-            hero.SetUnitAttack((sbyte)(hero.UnitAttack + Attack));
-            hero.SetUnitDefense((sbyte)(hero.UnitDefense + Defense));
-            hero.SetUnitResistance((sbyte)(hero.UnitResistance + Resistance));
-            hero.SetUnitDamage((sbyte)(hero.UnitDamage + Damage));
-            hero.SetUnitMoves((sbyte)(hero.UnitMoves + Moves));
-            hero.SetUnitHits((sbyte)(hero.UnitHits + Hits));
+            hero.SetUnitAttack((hero.UnitAttack + Attack).TruncateToSByte());
+            hero.SetUnitDefense((hero.UnitDefense + Defense).TruncateToSByte());
+            hero.SetUnitResistance((hero.UnitResistance + Resistance).TruncateToSByte());
+            hero.SetUnitDamage((hero.UnitDamage + Damage).TruncateToSByte());
+            hero.SetUnitMoves((hero.UnitMoves + Moves).TruncateToSByte());
+            hero.SetUnitHits((hero.UnitHits + Hits).TruncateToSByte());
             hero.UpdateDefaultAbilities(Abilities);
             hero.UpgradePending = false;
         }

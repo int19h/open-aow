@@ -104,7 +104,7 @@ internal static class PixelRemap
         byte r;
         byte g;
         byte b;
-        byte a;
+        int a;
         switch (sourcePixelFormatId)
         {
             case PixelFormat.Pal8:
@@ -135,7 +135,7 @@ internal static class PixelRemap
                 r = (byte)((pixelInfo >>> 7) & 0b1111_1000);
                 g = (byte)((pixelInfo >>> 2) & 0b1111_1000);
                 b = (byte)((pixelInfo << 3) & 0b1111_1000);
-                a = (byte)((pixelInfo >>> 8) & 1);
+                a = (pixelInfo >>> 8) & 1;
                 break;
             case PixelFormat.Rgb24:
                 r = (byte)((pixelInfo >>> 16) & 0xFF);
@@ -150,7 +150,7 @@ internal static class PixelRemap
                 a = 0;
                 break;
             case PixelFormat.Rgb32:
-                a = (byte)((pixelInfo >>> 24) & 0xFF);
+                a = (pixelInfo >>> 24) & 0xFF;
                 r = (byte)((pixelInfo >>> 16) & 0xFF);
                 g = (byte)((pixelInfo >>> 8) & 0xFF);
                 b = (byte)(pixelInfo & 0xFF);

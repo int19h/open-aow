@@ -8,6 +8,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Events;
 
@@ -17,8 +18,8 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
     public new const int ClassId = 131_825;
 
     public int UnitId { get; set; }
-    public byte OldLevel { get; set; }
-    public byte NewLevel { get; set; }
+    public int OldLevel { get; set; }
+    public int NewLevel { get; set; }
     public int UpgradeDay { get; set; }
 
     // Hero.PAS:57
@@ -26,8 +27,8 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
     {
         base.PersistFields(persister);
         UnitId = persister.Int32("UnitId", value: UnitId);
-        OldLevel = persister.Byte("OldLevel", value: OldLevel);
-        NewLevel = persister.Byte("NewLevel", value: NewLevel);
+        OldLevel = persister.Byte("OldLevel", value: OldLevel.TruncateToByte());
+        NewLevel = persister.Byte("NewLevel", value: NewLevel.TruncateToByte());
         UpgradeDay = persister.Int32("UpgradeDay", value: UpgradeDay);
     }
 
@@ -95,9 +96,9 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
         if (u is not null)
         {
             MapCoordinate coordinate19 = u.GetLocation();
-            sbyte x = coordinate19.X;
-            sbyte y = coordinate19.Y;
-            sbyte l = coordinate19.MapLevel;
+            int x = coordinate19.X;
+            int y = coordinate19.Y;
+            int l = coordinate19.MapLevel;
             if (x != -1)
             {
                 CenterViewTo(x, y, l);

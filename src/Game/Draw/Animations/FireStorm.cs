@@ -21,7 +21,7 @@ public class FireStorm(CustomNode? owner) : Storm(owner)
     // Storms.pas:527
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        sbyte hexY = HexY;
+        int hexY = HexY;
         HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
         x = x - pixelXSurface + 8;
         y -= pixelYSurface;
@@ -39,7 +39,7 @@ public class FireStorm(CustomNode? owner) : Storm(owner)
     }
 
     // Storms.pas:603
-    public override StormDamageInfo GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, StormDamageInfo info)
+    public override StormDamageInfo GetTargetDamageInfo(sbyte player, int X, int Y, int L, StormDamageInfo info)
     {
         AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Fire, X, Y, L, innerRadius: 0, outerRadius: 2, out info);
         return info;
@@ -57,7 +57,7 @@ public class FireStorm(CustomNode? owner) : Storm(owner)
     }
 
     // Storms.pas:545
-    public override void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
+    public override void InitializeStorm(sbyte player, int X, int Y, int L)
     {
         Rect r = default;
         base.InitializeStorm(player, X, Y, L);
@@ -77,9 +77,9 @@ public class FireStorm(CustomNode? owner) : Storm(owner)
         if (FrameCounter == 20)
         {
             AbilityRules.TriggerStormDamage(mapLevel: HexLevel, y: HexY, storm: StormType.Fire, x: HexX, innerRadius: 0, outerRadius: 2, player: StrategicMap.Current.CurrentPlayer);
-            sbyte hexLevel2 = HexLevel;
-            sbyte hexY2 = HexY;
-            sbyte hexX = HexX;
+            int hexLevel2 = HexLevel;
+            int hexY2 = HexY;
+            int hexX = HexX;
             _ = StrategicMap.Current.ChangeTerrain(this, hexX, hexY2, L: hexLevel2, radius: 2, changeTerrainProc: ChangeStormTerrain, terrainChangedProc: null);
         }
 
@@ -96,9 +96,9 @@ public class FireStorm(CustomNode? owner) : Storm(owner)
             bool condition = StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer;
             if (!condition)
             {
-                sbyte hexLevel = HexLevel;
-                sbyte hexY = HexY;
-                sbyte hexX = HexX;
+                int hexLevel = HexLevel;
+                int hexY = HexY;
+                int hexX = HexX;
                 condition = StrategicMap.Current.TerrainVisible(hexX, hexY, L: hexLevel, radius: 2);
             }
 

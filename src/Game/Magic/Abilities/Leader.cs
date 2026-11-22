@@ -10,6 +10,7 @@ using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -19,7 +20,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
 
     public new const int ClassId = 131_634;
 
-    public byte SpherePicksMax { get; private set; } = 5;
+    public int SpherePicksMax { get; private set; } = 5;
 
     private readonly ByteList _spheres = [];
 
@@ -39,7 +40,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        SpherePicksMax = persister.Byte("SpherePicksMax", value: SpherePicksMax, fallback: 5);
+        SpherePicksMax = persister.Byte("SpherePicksMax", value: SpherePicksMax.TruncateToByte(), fallback: 5);
         persister.ByteList(name: "Spheres", list: _spheres);
     }
 
@@ -49,7 +50,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001989)
         {
-            SetSpherePicksMax((byte)StrategicMap.Current.SphereCount);
+            SetSpherePicksMax(StrategicMap.Current.SphereCount.TruncateToByte());
             if (StrategicMap.Current.Players.GetCount() > Player)
             {
                 // { reload FPlayer }
@@ -78,7 +79,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
     }
 
     // Hero.PAS:2975
-    public override byte GetUpkeep() => 0;
+    public override int GetUpkeep() => 0;
 
     // Hero.PAS:2886
     public override int GetPowerGeneration() => GetAbilityEnabled(52) ? (GetAbilityLevel(52) * 5) + 5 : 0;
@@ -101,7 +102,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
     }
 
     // Hero.PAS:2784
-    public override int GetUnitMoraleValue(sbyte player, sbyte independentRelation) => 90;
+    public override int GetUnitMoraleValue(sbyte player, int independentRelation) => 90;
 
     // Hero.PAS:2921
     public override bool CanActivate()
@@ -212,9 +213,9 @@ public class Leader(CustomNode? owner) : Hero(owner)
     }
 
     // Hero.PAS:2800
-    public byte GetSpherePicks(MagicSphere sphere)
+    public int GetSpherePicks(MagicSphere sphere)
     {
-        byte result;
+        int result;
         if (sphere != MagicSphere.Cosmos)
         {
             result = 0;
@@ -222,7 +223,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
             {
                 if (_spheres.List[i] == (byte)sphere)
                 {
-                    result = (byte)(result + 1);
+                    result = (result + 1).TruncateToByte();
                 }
             }
         }
@@ -241,7 +242,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
     public int SphereCount => _spheres.Count;
 
     // Hero.PAS:2818
-    public void SetSpherePicksMax(byte value)
+    public void SetSpherePicksMax(int value)
     {
         SpherePicksMax = value;
         while (_spheres.Count > SpherePicksMax)

@@ -10,7 +10,7 @@ namespace Aow.Game.World.Movement;
 
 public partial class MoveControl
 {
-    public void CalculatePath(MovePath path, sbyte x, sbyte y, sbyte level)
+    public void CalculatePath(MovePath path, int x, int y, int level)
     {
         DelphiAssert.Assert(_status.Contains(Statuses.Activated), message: "Assertion failure", file: @"D:\AoWDev\AoWE\inc\MoveT.PAS", line: 0x7e4f);
         path.Clear();

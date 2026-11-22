@@ -90,36 +90,36 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     // AoWHeroUpgradeDlg.pas:257
     public void UpdateStatistics()
     {
-        sbyte inherentAttack = _hero.GetInherentAttack();
-        AttackBaseLabel.Text = ((int)inherentAttack).ToString(CultureInfo.InvariantCulture);
-        sbyte inherentDefense = _hero.GetInherentDefense();
-        DefenseBaseLabel.Text = ((int)inherentDefense).ToString(CultureInfo.InvariantCulture);
-        sbyte inherentDamage = _hero.GetInherentDamage();
-        DamageBaseLabel.Text = ((int)inherentDamage).ToString(CultureInfo.InvariantCulture);
-        sbyte inherentResistance = _hero.InherentResistance;
-        ResistanceBaseLabel.Text = ((int)inherentResistance).ToString(CultureInfo.InvariantCulture);
-        sbyte hits = _hero.GetHits();
-        HitsBaseLabel.Text = ((int)hits).ToString(CultureInfo.InvariantCulture);
-        sbyte moves = _hero.Moves;
-        MovesBaseLabel.Text = ((int)moves).ToString(CultureInfo.InvariantCulture);
+        int inherentAttack = _hero.GetInherentAttack();
+        AttackBaseLabel.Text = inherentAttack.ToString(CultureInfo.InvariantCulture);
+        int inherentDefense = _hero.GetInherentDefense();
+        DefenseBaseLabel.Text = inherentDefense.ToString(CultureInfo.InvariantCulture);
+        int inherentDamage = _hero.GetInherentDamage();
+        DamageBaseLabel.Text = inherentDamage.ToString(CultureInfo.InvariantCulture);
+        int inherentResistance = _hero.InherentResistance;
+        ResistanceBaseLabel.Text = inherentResistance.ToString(CultureInfo.InvariantCulture);
+        int hits = _hero.GetHits();
+        HitsBaseLabel.Text = hits.ToString(CultureInfo.InvariantCulture);
+        int moves = _hero.Moves;
+        MovesBaseLabel.Text = moves.ToString(CultureInfo.InvariantCulture);
         AttackAddedLabel.Text = (_editedHero.UnitAttack - _hero.UnitAttack).ToString(CultureInfo.InvariantCulture);
         DefenseAddedLabel.Text = (_editedHero.UnitDefense - _hero.UnitDefense).ToString(CultureInfo.InvariantCulture);
         DamageAddedLabel.Text = (_editedHero.UnitDamage - _hero.UnitDamage).ToString(CultureInfo.InvariantCulture);
         ResistanceAddedLabel.Text = (_editedHero.UnitResistance - _hero.UnitResistance).ToString(CultureInfo.InvariantCulture);
         HitsAddedLabel.Text = (_editedHero.UnitHits - _hero.UnitHits).ToString(CultureInfo.InvariantCulture);
         MovesAddedLabel.Text = (_editedHero.UnitMoves - _hero.UnitMoves).ToString(CultureInfo.InvariantCulture);
-        sbyte fEditedHeroInherentAttack = _editedHero.GetInherentAttack();
-        AttackValueLabel.Text = ((int)fEditedHeroInherentAttack).ToString(CultureInfo.InvariantCulture);
-        sbyte fEditedHeroInherentDefense = _editedHero.GetInherentDefense();
-        DefenseValueLabel.Text = ((int)fEditedHeroInherentDefense).ToString(CultureInfo.InvariantCulture);
-        sbyte fEditedHeroInherentDamage = _editedHero.GetInherentDamage();
-        DamageValueLabel.Text = ((int)fEditedHeroInherentDamage).ToString(CultureInfo.InvariantCulture);
-        sbyte fEditedHeroInherentResistance = _editedHero.InherentResistance;
-        ResistanceValueLabel.Text = ((int)fEditedHeroInherentResistance).ToString(CultureInfo.InvariantCulture);
-        sbyte fEditedHeroHits = _editedHero.GetHits();
-        HitsValueLabel.Text = ((int)fEditedHeroHits).ToString(CultureInfo.InvariantCulture);
-        sbyte fEditedHeroMoves = _editedHero.Moves;
-        MovesValueLabel.Text = ((int)fEditedHeroMoves).ToString(CultureInfo.InvariantCulture);
+        int fEditedHeroInherentAttack = _editedHero.GetInherentAttack();
+        AttackValueLabel.Text = fEditedHeroInherentAttack.ToString(CultureInfo.InvariantCulture);
+        int fEditedHeroInherentDefense = _editedHero.GetInherentDefense();
+        DefenseValueLabel.Text = fEditedHeroInherentDefense.ToString(CultureInfo.InvariantCulture);
+        int fEditedHeroInherentDamage = _editedHero.GetInherentDamage();
+        DamageValueLabel.Text = fEditedHeroInherentDamage.ToString(CultureInfo.InvariantCulture);
+        int fEditedHeroInherentResistance = _editedHero.InherentResistance;
+        ResistanceValueLabel.Text = fEditedHeroInherentResistance.ToString(CultureInfo.InvariantCulture);
+        int fEditedHeroHits = _editedHero.GetHits();
+        HitsValueLabel.Text = fEditedHeroHits.ToString(CultureInfo.InvariantCulture);
+        int fEditedHeroMoves = _editedHero.Moves;
+        MovesValueLabel.Text = fEditedHeroMoves.ToString(CultureInfo.InvariantCulture);
         int skillPoints = _editedHero.GetSkillPoints();
         int fHeroSkillPoints = _hero.GetSkillPoints();
         SkillPointsLabel.Text = $"{skillPoints.ToString(CultureInfo.InvariantCulture)}/{fHeroSkillPoints.ToString(CultureInfo.InvariantCulture)}";
@@ -262,7 +262,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     public void AttUpClick()
     {
         UI.General.PlayButtonSound(0);
-        _editedHero.SetUnitAttack((sbyte)(_editedHero.UnitAttack + 1));
+        _editedHero.SetUnitAttack((_editedHero.UnitAttack + 1).TruncateToSByte());
         RefreshStatistics();
     }
 
@@ -272,7 +272,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         if (_editedHero.UnitAttack != _hero.UnitAttack)
         {
-            _editedHero.SetUnitAttack((sbyte)(_editedHero.UnitAttack - 1));
+            _editedHero.SetUnitAttack((_editedHero.UnitAttack - 1).TruncateToSByte());
         }
 
         RefreshStatistics();
@@ -282,7 +282,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     public void DefUpClick()
     {
         UI.General.PlayButtonSound(0);
-        _editedHero.SetUnitDefense((sbyte)(_editedHero.UnitDefense + 1));
+        _editedHero.SetUnitDefense((_editedHero.UnitDefense + 1).TruncateToSByte());
         RefreshStatistics();
     }
 
@@ -292,7 +292,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         if (_editedHero.UnitDefense != _hero.UnitDefense)
         {
-            _editedHero.SetUnitDefense((sbyte)(_editedHero.UnitDefense - 1));
+            _editedHero.SetUnitDefense((_editedHero.UnitDefense - 1).TruncateToSByte());
         }
 
         RefreshStatistics();
@@ -302,7 +302,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     public void DamUpClick()
     {
         UI.General.PlayButtonSound(0);
-        _editedHero.SetUnitDamage((sbyte)(_editedHero.UnitDamage + 1));
+        _editedHero.SetUnitDamage((_editedHero.UnitDamage + 1).TruncateToSByte());
         RefreshStatistics();
     }
 
@@ -312,7 +312,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         if (_editedHero.UnitDamage != _hero.UnitDamage)
         {
-            _editedHero.SetUnitDamage((sbyte)(_editedHero.UnitDamage - 1));
+            _editedHero.SetUnitDamage((_editedHero.UnitDamage - 1).TruncateToSByte());
         }
 
         RefreshStatistics();
@@ -322,7 +322,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     public void ResUpClick()
     {
         UI.General.PlayButtonSound(0);
-        _editedHero.SetUnitResistance((sbyte)(_editedHero.UnitResistance + 1));
+        _editedHero.SetUnitResistance((_editedHero.UnitResistance + 1).TruncateToSByte());
         RefreshStatistics();
     }
 
@@ -332,7 +332,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         if (_editedHero.UnitResistance != _hero.UnitResistance)
         {
-            _editedHero.SetUnitResistance((sbyte)(_editedHero.UnitResistance - 1));
+            _editedHero.SetUnitResistance((_editedHero.UnitResistance - 1).TruncateToSByte());
         }
 
         RefreshStatistics();
@@ -342,7 +342,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     public void HitUpClick()
     {
         UI.General.PlayButtonSound(0);
-        _editedHero.SetUnitHits((sbyte)(_editedHero.UnitHits + 1));
+        _editedHero.SetUnitHits((_editedHero.UnitHits + 1).TruncateToSByte());
         RefreshStatistics();
     }
 
@@ -352,7 +352,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         if (_editedHero.UnitHits != _hero.UnitHits)
         {
-            _editedHero.SetUnitHits((sbyte)(_editedHero.UnitHits - 1));
+            _editedHero.SetUnitHits((_editedHero.UnitHits - 1).TruncateToSByte());
         }
 
         RefreshStatistics();
@@ -362,7 +362,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     public void MovUpClick()
     {
         UI.General.PlayButtonSound(0);
-        _editedHero.SetUnitMoves((sbyte)(_editedHero.UnitMoves + 1));
+        _editedHero.SetUnitMoves((_editedHero.UnitMoves + 1).TruncateToSByte());
         RefreshStatistics();
     }
 
@@ -372,7 +372,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         if (_editedHero.UnitMoves != _hero.UnitMoves)
         {
-            _editedHero.SetUnitMoves((sbyte)(_editedHero.UnitMoves - 1));
+            _editedHero.SetUnitMoves((_editedHero.UnitMoves - 1).TruncateToSByte());
         }
 
         RefreshStatistics();
@@ -490,12 +490,12 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
             {
                 HeroUpgradeTokenEvent eventValue = new(null) { Holder = UI.Engine };
                 eventValue.Setup(_hero);
-                eventValue.Attack = (sbyte)(_editedHero.UnitAttack - _hero.UnitAttack);
-                eventValue.Defense = (sbyte)(_editedHero.UnitDefense - _hero.UnitDefense);
-                eventValue.Damage = (sbyte)(_editedHero.UnitDamage - _hero.UnitDamage);
-                eventValue.Resistance = (sbyte)(_editedHero.UnitResistance - _hero.UnitResistance);
-                eventValue.Hits = (sbyte)(_editedHero.UnitHits - _hero.UnitHits);
-                eventValue.Moves = (sbyte)(_editedHero.UnitMoves - _hero.UnitMoves);
+                eventValue.Attack = (_editedHero.UnitAttack - _hero.UnitAttack).TruncateToSByte();
+                eventValue.Defense = (_editedHero.UnitDefense - _hero.UnitDefense).TruncateToSByte();
+                eventValue.Damage = (_editedHero.UnitDamage - _hero.UnitDamage).TruncateToSByte();
+                eventValue.Resistance = (_editedHero.UnitResistance - _hero.UnitResistance).TruncateToSByte();
+                eventValue.Hits = (_editedHero.UnitHits - _hero.UnitHits).TruncateToSByte();
+                eventValue.Moves = (_editedHero.UnitMoves - _hero.UnitMoves).TruncateToSByte();
                 eventValue.Abilities.AssignAbility(_editedHero);
                 StrategicMap.Current.TokenManager.GetTokenControl(_hero.Player).AddEvent(eventValue);
                 _ = eventValue.Release();
@@ -536,7 +536,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWHeroUpgradeDlg.pas:568
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {
@@ -555,9 +555,9 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
             dialog.UpdateStatistics();
             dialog.RefreshAbilities();
             dialog.UnitNameEdit.Text = dialog._hero.HeroName;
-            sbyte level = dialog._hero.GetLevel();
+            int level = dialog._hero.GetLevel();
             string levelText = dialog.UI.Engine.TranslateResourceString(GameText.LevelText);
-            dialog.LevelLabel.Text = $"{levelText} {((int)level).ToString(CultureInfo.InvariantCulture)}";
+            dialog.LevelLabel.Text = $"{levelText} {level.ToString(CultureInfo.InvariantCulture)}";
             if (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel > 1)
             {
                 string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(ScenarioText.MadeLevelsFormat), arguments: [dialog._hero.HeroName, (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel)]);

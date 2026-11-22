@@ -7,6 +7,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
@@ -15,10 +16,10 @@ public sealed class ProductionSettings(CustomNode? owner) : EngineObject(owner)
 {
     public int Gold { get; set; }
     public int Mana { get; set; }
-    public sbyte TurnsLeft { get; set; }
+    public int TurnsLeft { get; set; }
     public int GoldUpkeep { get; set; }
     public int ManaUpkeep { get; set; }
-    public sbyte TurnsTotal { get; set; }
+    public int TurnsTotal { get; set; }
     public sbyte Player { get; set; }
     public int GroupId { get; set; }
     public Unit? Unit { get; set; }
@@ -37,9 +38,9 @@ public sealed class ProductionSettings(CustomNode? owner) : EngineObject(owner)
         base.PersistFields(persister);
         Gold = persister.Int32("Gold", value: Gold);
         Mana = persister.Int32("Mana", value: Mana);
-        TurnsLeft = persister.UnsignedByte(name: "TurnsLeft", value: TurnsLeft);
-        TurnsTotal = persister.UnsignedByte(name: "TurnsTotal", value: TurnsTotal);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        TurnsLeft = persister.UnsignedByte(name: "TurnsLeft", value: TurnsLeft.TruncateToSByte());
+        TurnsTotal = persister.UnsignedByte(name: "TurnsTotal", value: TurnsTotal.TruncateToSByte());
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         GroupId = persister.Int32("GroupId", value: GroupId);
         UnitProductionIndex = persister.Int32("UnitProductionIndex", value: UnitProductionIndex);
         Unit = persister.Created("Unit", objectValue: Unit);

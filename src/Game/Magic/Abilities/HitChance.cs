@@ -42,7 +42,7 @@ internal static class HitChance
         return (float)((double)chance / 100);
     }
 
-    internal static int HitPointsToHitPercent(sbyte hitPoints, sbyte hits)
+    internal static int HitPointsToHitPercent(int hitPoints, int hits)
     {
         int result = hitPoints * 100 / hits;
         if (result == 0 && hitPoints != 0)

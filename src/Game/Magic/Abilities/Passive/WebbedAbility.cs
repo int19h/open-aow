@@ -19,7 +19,7 @@ public class WebbedAbility : DurationAbility
     }
 
     // PassiveAb.pas:751
-    public override sbyte GetDefense(AbilityOwner owner) => -2;
+    public override int GetDefense(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:746
     public override int TotalDuration => 3;

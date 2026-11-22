@@ -12,7 +12,7 @@ public class AbstractRoad(CustomNode owner) : MapObject(owner)
     public new const int ClassId = 65_906;
 
     // MAPOBJ.PAS:803
-    public override byte Level => 10;
+    public override int Level => 10;
 
     // MAPOBJ.PAS:808
     public override int GetShowPriority()
@@ -33,16 +33,16 @@ public class AbstractRoad(CustomNode owner) : MapObject(owner)
             {
                 SetResource(r);
                 UpdateTransitions();
-                sbyte hexLevel = HexLevel;
-                sbyte hexY = HexY;
-                sbyte hexX = HexX;
+                int hexLevel = HexLevel;
+                int hexY = HexY;
+                int hexX = HexX;
                 Resource.Engine.HexSpriteMap.MapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
             }
             else
             {
-                sbyte hexLevel = HexLevel;
-                sbyte hexY = HexY;
-                sbyte hexX = HexX;
+                int hexLevel = HexLevel;
+                int hexY = HexY;
+                int hexX = HexX;
                 if (Resource.TerrainControl.Place(Owner.Owner.Owner, hexX, hexY, L: hexLevel, message.TerrainType) is null)
                 {
                     Dispose();
@@ -58,13 +58,13 @@ public class AbstractRoad(CustomNode owner) : MapObject(owner)
     public override void Activate() => UpdateTransitions();
 
     // MAPOBJ.PAS:828
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         bool condition = hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount;
         if (condition)
         {
             MapField fieldValue = mapContainer.GetField(hexX, hexY, hexLevel);
-            sbyte terrain = Resource.TerrainList.GetTerrain(0);
+            int terrain = Resource.TerrainList.GetTerrain(0);
             condition = fieldValue.TerrainType == terrain;
         }
         if (condition)

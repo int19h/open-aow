@@ -20,7 +20,7 @@ public class CharmAbility : CommandAbility
     }
 
     // AoWAb.PAS:5346
-    public override sbyte GetTouchAttack(int level) => 5;
+    public override int GetTouchAttack(int level) => 5;
 
     // AoWAb.PAS:5355
     public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && target is CombatUnit combatUnit && combatUnit.Troop.GetUnitType() == UnitType.Humanoid && (ushort)combatUnit.Troop.GetRace() != 11 && !combatUnit.Troop.GetAbilityEnabled(129);

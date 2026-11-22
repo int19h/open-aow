@@ -2,12 +2,10 @@
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine;
-
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
-
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -28,17 +26,17 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
                     result = base.GetName(owner);
                     if (GetDuration(owner) != 0)
                     {
-                        byte duration = GetDuration(owner);
+                        int duration = GetDuration(owner);
                         int totalDuration = TotalDuration;
-                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationDaysFormat), arguments: [((int)duration).ToString(CultureInfo.InvariantCulture), totalDuration.ToString(CultureInfo.InvariantCulture)]);
+                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationDaysFormat), arguments: [duration.ToString(CultureInfo.InvariantCulture), totalDuration.ToString(CultureInfo.InvariantCulture)]);
                         return $"{result} {format}";
                     }
 
                     break;
                 case DurationMode.CombatTurn:
-                    byte duration2 = GetDuration(owner);
+                    int duration2 = GetDuration(owner);
                     int totalDuration2 = TotalDuration;
-                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationCombatTurnFormat), arguments: [((int)duration2).ToString(CultureInfo.InvariantCulture), totalDuration2.ToString(CultureInfo.InvariantCulture)]);
+                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationCombatTurnFormat), arguments: [duration2.ToString(CultureInfo.InvariantCulture), totalDuration2.ToString(CultureInfo.InvariantCulture)]);
                     return $"{base.GetName(owner)} {formattedText}";
                 case DurationMode.EntireCombat:
                     string name = base.GetName(owner);
@@ -77,7 +75,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
             {
                 if (data.Duration != 0 && data.PlayerIndex == player)
                 {
-                    data.Duration = (byte)(data.Duration - 1);
+                    data.Duration = (data.Duration - 1).TruncateToByte();
                     if (data.Duration == 0)
                     {
                         _ = owner.RemoveAbility(AbilityId);
@@ -102,7 +100,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
             {
                 Holder = CreationHolder(),
                 AbilityId = (ushort)AbilityId,
-                Duration = (byte)TotalDuration
+                Duration = TotalDuration.TruncateToByte()
             };
             SetAbility(owner, index: AbilityId, value: 1);
             owner.AddAbilityData(data);
@@ -113,7 +111,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
             if (TotalDuration > data.Duration)
             {
                 result = true;
-                data.Duration = (byte)TotalDuration;
+                data.Duration = TotalDuration.TruncateToByte();
             }
         }
 
@@ -130,7 +128,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
             {
                 if (data.Duration != 0 && data.PlayerIndex == player)
                 {
-                    data.Duration = (byte)(data.Duration - 1);
+                    data.Duration = (data.Duration - 1).TruncateToByte();
                     if (data.Duration == 0)
                     {
                         _ = combatObject.AbilityOwner.RemoveAbility(AbilityId);
@@ -161,10 +159,10 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
     }
 
     // AoWAb.PAS:120
-    public virtual byte GetDuration(AbilityOwner abilityOwner)
+    public virtual int GetDuration(AbilityOwner abilityOwner)
     {
         DurationAbilityData data = GetData(abilityOwner);
-        return data is not null ? data.Duration : (byte)0;
+        return data is not null ? data.Duration : 0;
     }
 
     // AoWAb.PAS:35

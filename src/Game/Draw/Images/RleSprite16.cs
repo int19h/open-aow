@@ -288,14 +288,14 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
     {
         int position;
         Rect gr = default;
-        void AddWord(ushort W)
+        void AddWord(int W)
         {
             if (DataSize <= position)
             {
                 _data = MemorySurfaces.Reallocate(_data, size: position + 4_096);
             }
 
-            BinaryPrimitives.WriteUInt16LittleEndian(_data.AsSpan(position, length: 2), value: W);
+            BinaryPrimitives.WriteUInt16LittleEndian(_data.AsSpan(position, length: 2), value: (ushort)W);
             position += 2;
         }
 
@@ -312,8 +312,8 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
         {
             if (skip != 0)
             {
-                AddWord((ushort)_colorKey);
-                AddWord((ushort)(skip * 2));
+                AddWord(_colorKey.TruncateToUInt16());
+                AddWord((skip * 2).TruncateToUInt16());
                 skip = 0;
             }
         }
@@ -330,7 +330,7 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
 
             if ((position & 0b0011) != 0)
             {
-                AddWord((ushort)_colorKey);
+                AddWord(_colorKey.TruncateToUInt16());
             }
         }
         try
@@ -390,7 +390,7 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
                         if (c != _colorKey)
                         {
                             FlushSkip();
-                            AddWord((ushort)c);
+                            AddWord(c.TruncateToUInt16());
                         }
                         else
                         {

@@ -146,7 +146,7 @@ public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
     public void DlgHide() => FinishDialog();
 
     // AoWHeroInfoDlg.pas:208
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         if (key is 27 or 32)
         {
@@ -166,8 +166,8 @@ public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
         if (hero is not null)
         {
             dialog.HeroNameLabel.Text = hero.HeroName;
-            sbyte level = hero.GetLevel();
-            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [((int)level).ToString(CultureInfo.InvariantCulture)]);
+            int level = hero.GetLevel();
+            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [level.ToString(CultureInfo.InvariantCulture)]);
             dialog.HeroLevelLabel.Text = format;
         }
         else

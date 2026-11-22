@@ -179,8 +179,8 @@ public class HealingAbility : TouchAbility
     {
         if (wallSituation == WallSituation.None && !defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
-            sbyte hits = defender.GetHits();
-            sbyte hitPoints = defender.GetHitPoints();
+            int hits = defender.GetHits();
+            int hitPoints = defender.GetHitPoints();
             damageValues.SourceCost = hits - hitPoints;
             if (damageValues.SourceCost > 5)
             {

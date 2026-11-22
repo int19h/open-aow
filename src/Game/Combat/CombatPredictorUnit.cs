@@ -23,19 +23,19 @@ public sealed partial class CombatPredictorUnit : IDisposable
     private CombatPredictor _predictor;
 
     public int InitialHitPoints { get; private set; }
-    public byte Side { get; private set; }
+    public int Side { get; private set; }
 
     private CombatPredictorSide _opponents;
 
-    public byte Enabled { get; set; }
-    public byte BehindWall { get; set; }
+    public int Enabled { get; set; }
+    public int BehindWall { get; set; }
     public QuadItemList<CombatPredictorUnit>? Targets { get; set; }
     public int CombatValue { get; private set; }
     public QuadItemList<CombatPredictorUnit>? WallTargets { get; private set; }
     public int WallCombatValue { get; private set; }
 
-    private byte _targetsInvalid;
-    private byte _wallTargetsInvalid;
+    private int _targetsInvalid;
+    private int _wallTargetsInvalid;
 
     public QuadItemList<CombatPredictorUnit> RoundTargets { get; }
     public int CombatValueTotal { get; private set; }
@@ -78,7 +78,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
     }
 
     // CombatPredictor.pas:36
-    public void SetEnabled(byte value)
+    public void SetEnabled(int value)
     {
         if (value != Enabled)
         {
@@ -167,7 +167,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
 
         int v;
         CombatPredictorUnit? u;
-        byte mode;
+        int mode;
         if (WallTargets.Count != 0)
         {
             for (int i = _opponents.Count - 1; i >= 0; i--)
@@ -176,7 +176,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
                 j = WallTargets.IndexOfItemC(u.CpuId);
                 if (j == -1)
                 {
-                    mode = !passing ? BehindWall != 0 ? u.BehindWall == 0 ? (byte)1 : (byte)0 : u.BehindWall != 0 ? (byte)2 : (byte)0 : (byte)0;
+                    mode = !passing ? BehindWall != 0 ? u.BehindWall == 0 ? 1 : 0 : u.BehindWall != 0 ? 2 : 0 : 0;
 
                     _predictor.Work += 1;
                     v = Troop.GetCombatValue(u.Troop, mode);
@@ -196,7 +196,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
             for (int i = _opponents.Count - 1; i >= 0; i--)
             {
                 u = _opponents.List[i];
-                mode = !passing ? BehindWall != 0 ? u.BehindWall == 0 ? (byte)1 : (byte)0 : u.BehindWall != 0 ? (byte)2 : (byte)0 : (byte)0;
+                mode = !passing ? BehindWall != 0 ? u.BehindWall == 0 ? 1 : 0 : u.BehindWall != 0 ? 2 : 0 : 0;
 
                 _predictor.Work += 1;
                 v = Troop.GetCombatValue(u.Troop, mode);
@@ -239,7 +239,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
     }
 
     // CombatPredictor.pas:163
-    public void SetupRoundTargets(byte wallStanding)
+    public void SetupRoundTargets(int wallStanding)
     {
         if (Enabled != 0)
         {

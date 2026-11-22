@@ -9,6 +9,7 @@ using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.World;
 
@@ -16,25 +17,25 @@ namespace Aow.Game.World;
 // (the main hexagon, ids 3 and 4)
 public class MultiHexMapObject(CustomNode? owner) : MapObject(owner)
 {
-    protected internal sbyte StoredHexX { get; protected set; }
-    protected internal sbyte StoredHexY { get; protected set; }
+    protected internal int StoredHexX { get; protected set; }
+    protected internal int StoredHexY { get; protected set; }
 
     // MAPOBJ.PAS:923
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        StoredHexX = persister.UnsignedByte(name: "HexX", value: StoredHexX);
-        StoredHexY = persister.UnsignedByte(name: "HexY", value: StoredHexY);
+        StoredHexX = persister.UnsignedByte(name: "HexX", value: StoredHexX.TruncateToSByte());
+        StoredHexY = persister.UnsignedByte(name: "HexY", value: StoredHexY.TruncateToSByte());
     }
 
     // MAPOBJ.PAS:900
-    public override sbyte HexX => StoredHexX;
+    public override sbyte HexX => (sbyte)StoredHexX;
 
     // MAPOBJ.PAS:905
-    public override sbyte HexY => StoredHexY;
+    public override sbyte HexY => (sbyte)StoredHexY;
 
     // MAPOBJ.PAS:910
-    public override MapCoordinate MapCoordinate => new(StoredHexX, StoredHexY, HexLevel);
+    public override MapCoordinate MapCoordinate => new((sbyte)StoredHexX, (sbyte)StoredHexY, HexLevel);
 
     // MAPOBJ.PAS:915
     public override int GetShowPriority()
@@ -135,7 +136,7 @@ public class MultiHexMapObject(CustomNode? owner) : MapObject(owner)
             if (!EditMode)
             {
                 int hexNumberToRadius = HexGeometry.HexNumberToRadius(count);
-                mapLevel.Map.TerrainChangedRadius(StoredHexX, StoredHexY, L: (sbyte)mapLevel.HexLevel, radius: hexNumberToRadius);
+                mapLevel.Map.TerrainChangedRadius(StoredHexX, StoredHexY, L: mapLevel.HexLevel.TruncateToSByte(), radius: hexNumberToRadius);
             }
         }
 
@@ -155,8 +156,8 @@ public class MultiHexMapObject(CustomNode? owner) : MapObject(owner)
                 HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
                 while (walk.HexNumber < count)
                 {
-                    sbyte terrainType = GetTerrain(walk.HexNumber);
-                    sbyte overlayType = GetOverlay(walk.HexNumber);
+                    int terrainType = GetTerrain(walk.HexNumber);
+                    int overlayType = GetOverlay(walk.HexNumber);
                     if ((terrainType >= -1 || overlayType >= -1) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                     {
                         MapField mapField = mapLevel.GetField(walk.X, walk.Y);
@@ -175,7 +176,7 @@ public class MultiHexMapObject(CustomNode? owner) : MapObject(owner)
                 }
 
                 int hexNumberToRadius = HexGeometry.HexNumberToRadius(count);
-                mapLevel.Map.TerrainChangedRadius(StoredHexX, StoredHexY, L: (sbyte)mapLevel.HexLevel, radius: hexNumberToRadius);
+                mapLevel.Map.TerrainChangedRadius(StoredHexX, StoredHexY, L: mapLevel.HexLevel.TruncateToSByte(), radius: hexNumberToRadius);
             }
         }
     }
@@ -196,15 +197,15 @@ public class MultiHexMapObject(CustomNode? owner) : MapObject(owner)
     }
 
     // MAPOBJ.PAS:1096
-    public override bool CanPlace(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool CanPlace(MapContainer? mapContainer, int hexX, int hexY, int hexLevel)
     {
         bool result = true;
         int count = Resource.TerrainList.Count;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
         while (result && walk.HexNumber < count)
         {
-            sbyte terrainType = GetTerrain(walk.HexNumber);
-            sbyte overlayType = GetOverlay(walk.HexNumber);
+            int terrainType = GetTerrain(walk.HexNumber);
+            int overlayType = GetOverlay(walk.HexNumber);
             if ((terrainType >= 0 || overlayType >= 0) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapContainer.Width && walk.Y < mapContainer.Height)
             {
                 HexSprite? hexSprite = mapContainer.GetField(walk.X, walk.Y, hexLevel).GetMaxLevelNoneTransparentHexSprite();
@@ -218,7 +219,7 @@ public class MultiHexMapObject(CustomNode? owner) : MapObject(owner)
     }
 
     // MAPOBJ.PAS:1138
-    public override bool PlaceHex(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer? mapContainer, int hexX, int hexY, int hexLevel)
     {
         StoredHexX = hexX;
         StoredHexY = hexY;
@@ -253,10 +254,10 @@ public class MultiHexMapObject(CustomNode? owner) : MapObject(owner)
 
     // MAPOBJ.PAS:1146
     // { The terrain type that most of the fields under the object have (the counts of Default win ties) }
-    public virtual sbyte GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY, sbyte defaultValue)
+    public virtual int GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, int hexX, int hexY, int defaultValue)
     {
         Span<byte> counts = stackalloc byte[128];
-        sbyte result = defaultValue;
+        int result = defaultValue;
         TerrainList terrainList = Resource.TerrainList;
         if (result < 0)
         {
@@ -269,7 +270,7 @@ public class MultiHexMapObject(CustomNode? owner) : MapObject(owner)
         {
             if ((terrainList.GetTerrain(walk.HexNumber) >= 0 || GetOverlay(walk.HexNumber) >= 0) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                sbyte terrainType = mapLevel.GetField(walk.X, walk.Y).TerrainType;
+                int terrainType = mapLevel.GetField(walk.X, walk.Y).TerrainType;
                 if (terrainType >= 0)
                 {
                     counts[terrainType] = (byte)(counts[terrainType] + 1);
@@ -329,10 +330,10 @@ public class MultiHexMapObject(CustomNode? owner) : MapObject(owner)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                sbyte terrain = GetTerrain(walk.HexNumber);
-                terrainAndOverlay[0] = terrain;
-                sbyte overlay = GetOverlay(walk.HexNumber);
-                terrainAndOverlay[1] = overlay;
+                int terrain = GetTerrain(walk.HexNumber);
+                terrainAndOverlay[0] = (sbyte)terrain;
+                int overlay = GetOverlay(walk.HexNumber);
+                terrainAndOverlay[1] = (sbyte)overlay;
                 MapField mapField = mapLevel.GetField(walk.X, walk.Y);
                 if (terrainAndOverlay[0] >= 0)
                 {

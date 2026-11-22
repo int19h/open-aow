@@ -27,7 +27,7 @@ public class MapObjectResource : EngineResource
         SetLevel(26);
     }
 
-    private byte _level;
+    private int _level;
 
     // MAPOBJ.PAS:391
     public override void Dispose()
@@ -51,7 +51,7 @@ public class MapObjectResource : EngineResource
         bool complex = default;
         base.PersistFields(persister);
         ShowPriorityOffset = persister.Int32("ShowPriorityOffset", value: ShowPriorityOffset);
-        _level = persister.Byte("Level", value: _level);
+        _level = persister.Byte("Level", value: _level.TruncateToByte());
         Name = persister.String("Name", value: Name);
         persister.TerrainList(name: "TerrainList", list: TerrainList);
         _ = ImageLibrary.ReduceCount();
@@ -181,19 +181,19 @@ public class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:550
-    public virtual void SetLevel(byte value)
+    public virtual void SetLevel(int value)
     {
         _level = value;
         CalculateShowPriorityOffset(16, 32, _level);
     }
 
     // MAPOBJ.PAS:556
-    public virtual MapObject? PlaceResourceUser(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public virtual MapObject? PlaceResourceUser(GameMap? hexSpriteMap, int hexX, int hexY, int hexLevel)
         => PlaceCreatedUser(hexSpriteMap, hexX, hexY, hexLevel);
 
     // Places the object this resource creates. A subclass that adjusts the placed object calls this
     // and then the adjustment, so the typed form does not re-enter that override.
-    protected MapObject? PlaceCreatedUser(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    protected MapObject? PlaceCreatedUser(GameMap? hexSpriteMap, int hexX, int hexY, int hexLevel)
     {
         MapObject? result = CreateResourceUser();
         HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
@@ -209,12 +209,12 @@ public class MapObjectResource : EngineResource
     }
 
     // The created user has the caller's class. Another class throws, and null stays null.
-    protected T PlaceCreatedUser<T>(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    protected T PlaceCreatedUser<T>(GameMap? hexSpriteMap, int hexX, int hexY, int hexLevel)
         where T : MapObject
         => (T)PlaceCreatedUser(hexSpriteMap, hexX, hexY, hexLevel);
 
     // The resource's user class selects the map object. Another class throws, and null stays null.
-    public T PlaceResourceUser<T>(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public T PlaceResourceUser<T>(GameMap? hexSpriteMap, int hexX, int hexY, int hexLevel)
         where T : MapObject
         => (T)PlaceResourceUser(hexSpriteMap, hexX, hexY, hexLevel);
 
@@ -278,7 +278,7 @@ public class MapObjectResource : EngineResource
                     ClearTerrain(walk.X, walk.Y, hexLevel);
                 }
 
-                placed = placed && PlaceResourceUser(Engine.HexSpriteMap, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)hexLevel) is not null;
+                placed = placed && PlaceResourceUser(Engine.HexSpriteMap, walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), hexLevel.TruncateToSByte()) is not null;
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -292,7 +292,7 @@ public class MapObjectResource : EngineResource
     public ImageLibrary ImageLibrary { get; }
     public ImageSequenceList? ImageSequenceList { get; set; }
     public TerrainList TerrainList { get; }
-    public byte Level { get => _level; init => SetLevel(value); }
+    public int Level { get => _level; init => SetLevel(value); }
     public string Name { get; private set; } = "";
 
     // MAPOBJ.PAS:415

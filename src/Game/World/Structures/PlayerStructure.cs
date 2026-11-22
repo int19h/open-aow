@@ -47,7 +47,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         _ = persister.BitList(name: "VictoryLocations", list: _victoryLocations);
         ProductionPriority = persister.Byte("ProductionPriority", value: ProductionPriority);
     }
@@ -419,15 +419,15 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
             UpdatePlayerSeen();
             UpdateExploration();
             int hexNumberToRadius = HexGeometry.HexNumberToRadius(Resource.TerrainList.Count);
-            sbyte hexLevel = HexLevel;
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexLevel = HexLevel;
+            int hexY = HexY;
+            int hexX = HexX;
             StrategicMap.Current.ScannerIconsChangedRadius(hexX, hexY, hexLevel, radius: hexNumberToRadius);
             UpdateFlagId();
             FogChanged();
-            sbyte hexLevel2 = HexLevel;
-            sbyte hexY2 = HexY;
-            sbyte hexX2 = HexX;
+            int hexLevel2 = HexLevel;
+            int hexY2 = HexY;
+            int hexX2 = HexX;
             StrategicMap.Current.NotifyPlayerChanged(hexX2, hexY2, L: hexLevel2);
             if (Player != -1)
             {
@@ -726,7 +726,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
                 if (Resource.TerrainList.Terrain[i] >= 0)
                 {
                     HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, hexNumber: i, ref x, ref y);
-                    sbyte hexLevel = HexLevel;
+                    int hexLevel = HexLevel;
                     int visibilityRange = VisibilityRange();
                     int trueVisionRange = TrueVisionRange();
                     StrategicMap.Current.UpdatePlayerSeen(Player, x, y, L: hexLevel, sightRadius: visibilityRange, radius: trueVisionRange);

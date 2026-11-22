@@ -2,6 +2,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
+using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
@@ -24,9 +25,9 @@ public class UnitSelector : IDisposable
     public sbyte Player { get; private set; }
     public string Caption { get; set; } = "";
     public UnitUserList Units { get; }
-    public byte Selection { get; private set; }
+    public int Selection { get; private set; }
     public bool IsCanceled { get; }
-    public byte Selectable { get; private set; }
+    public int Selectable { get; private set; }
     public int SourceUnitId { get; private set; }
 
     private event EventHandler? Selected;
@@ -36,7 +37,7 @@ public class UnitSelector : IDisposable
     public virtual void Dispose() => Units?.Dispose();
 
     // Ability.PAS:605
-    public virtual void SetSelection(byte value) => Selection = (byte)(value & Selectable);
+    public virtual void SetSelection(int value) => Selection = value & Selectable;
 
     // Ability.PAS:656
     public virtual bool CanSelectUnit(Troop? troop) => true;
@@ -59,7 +60,7 @@ public class UnitSelector : IDisposable
             // { The original hard-casts to TUnit, which a hero passes through to the virtual calls. }
             if (CanSelectUnit(Units.GetUnit(i)))
             {
-                Selectable = (byte)(Selectable | (1 << i));
+                Selectable = (Selectable | (1 << i)).TruncateToByte();
             }
         }
     }
@@ -106,7 +107,7 @@ public class UnitSelector : IDisposable
     public int GetSelectionCount()
     {
         int result = 0;
-        uint bits = Selection;
+        uint bits = (byte)Selection;
         while ((int)bits != 0)
         {
             if ((((int)bits) & 1) != 0)

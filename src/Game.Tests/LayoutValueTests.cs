@@ -122,7 +122,7 @@ public sealed class LayoutValueTests
                     continue;
                 }
 
-                Assert.Equal((sbyte)image[1 + costOffset], Tornado.SpellTableCost(army, terrainType: terrain, overlayType: overlay));
+                Assert.Equal((sbyte)image[1 + costOffset], (sbyte)Tornado.SpellTableCost(army, terrainType: terrain, overlayType: overlay));
             }
         }
 
@@ -131,7 +131,7 @@ public sealed class LayoutValueTests
         {
             for (int overlay = -1; overlay <= 14; overlay++)
             {
-                Assert.Equal(army[terrain][overlay - MovementTables.FirstOverlay], Tornado.SpellTableCost(army, terrainType: terrain, overlayType: overlay));
+                Assert.Equal(army[terrain][overlay - MovementTables.FirstOverlay], (sbyte)Tornado.SpellTableCost(army, terrainType: terrain, overlayType: overlay));
             }
         }
     }

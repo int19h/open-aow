@@ -463,9 +463,9 @@ public sealed class TreeTests : FormatsTest
             persister.Lines("Message", lines: Message);
             Title = persister.String("Title", Title);
             Flag = persister.Boolean("Flag", value: Flag);
-            WordFallback = persister.UInt16("WordFallback", WordFallback, fallback: 9);
-            Word = persister.UInt16("Word", Word);
-            SignedByte = persister.SByte("SignedByte", SignedByte);
+            WordFallback = (ushort)persister.UInt16("WordFallback", WordFallback, fallback: 9);
+            Word = (ushort)persister.UInt16("Word", Word);
+            SignedByte = (sbyte)persister.SByte("SignedByte", SignedByte);
             SmallFallback = persister.Byte("SmallFallback", SmallFallback, fallback: 3);
             Small = persister.Byte("Small", Small);
             NumberFallback = persister.Int32("NumberFallback", NumberFallback, fallback: 7);

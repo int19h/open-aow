@@ -33,7 +33,7 @@ public class HealingWater : UnitSpell
         if (ValidTargetUnit(source, target))
         {
             _ = target.RemoveAbility(127);
-            target.SetHitPoints(target.GetHits());
+            target.SetHitPoints((sbyte)target.GetHits());
             return true;
         }
         else

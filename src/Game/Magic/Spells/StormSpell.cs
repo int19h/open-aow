@@ -51,9 +51,9 @@ public class StormSpell : Spell
             if (source.CanCastSpellInstantly(SpellId, mana: BaseManaCost, ref reason))
             {
                 MapCoordinate coordinate80 = source.GetLocation();
-                sbyte x = coordinate80.X;
-                sbyte y = coordinate80.Y;
-                sbyte l = coordinate80.MapLevel;
+                int x = coordinate80.X;
+                int y = coordinate80.Y;
+                int l = coordinate80.MapLevel;
                 Storm storm = CreateStorm();
                 if (storm.GetBestTarget(source.Player, x, y, l, range: 12, out MapCoordinate target, info: out _))
                 {
@@ -97,7 +97,7 @@ public class StormSpell : Spell
             MapCoordinate coordinate81 = source.GetLocation();
             _ = coordinate81.X;
             _ = coordinate81.Y;
-            sbyte l = coordinate81.MapLevel;
+            int l = coordinate81.MapLevel;
             if (l != 0)
             {
                 result = false;
@@ -117,14 +117,14 @@ public class StormSpell : Spell
         {
             _source = source;
             MapCoordinate coordinate82 = source.GetLocation();
-            sbyte x = coordinate82.X;
-            sbyte y = coordinate82.Y;
-            sbyte l = coordinate82.MapLevel;
+            int x = coordinate82.X;
+            int y = coordinate82.Y;
+            int l = coordinate82.MapLevel;
             TargetSelectionControl selection = StrategicMap.Current.TargetSelection;
             _targetStorm = CreateStorm();
             selection.Initialize(this);
             selection.TargetMode |= TargetSelectionModes.ValidateDistance | TargetSelectionModes.ExternalFloater;
-            selection.SourceLocation = new MapCoordinate(x, y, l);
+            selection.SourceLocation = new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)l);
             StrategicMap.Current.MakeVisible(x, y, l, radius: 5);
             string name = _targetStorm.Name();
             string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SelectTargetLocationForOnMapFormat), args: [name]);
@@ -150,13 +150,13 @@ public class StormSpell : Spell
     public virtual Storm CreateStorm() => throw AbstractErrorException.Create("Abstract Error");
 
     // Storms.pas:768
-    public virtual bool ExecuteStormSpell(Troop source, sbyte X, sbyte Y, sbyte L)
+    public virtual bool ExecuteStormSpell(Troop source, int X, int Y, int L)
     {
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             StormSpellTokenEvent tokenEvent = new(null) { Holder = CreationHolder() };
             tokenEvent.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
-            tokenEvent.Location = new MapCoordinate(X, Y, L);
+            tokenEvent.Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
             return true;
@@ -176,9 +176,9 @@ public class StormSpell : Spell
         {
             result = -1;
             MapCoordinate coordinate83 = source.GetLocation();
-            sbyte x = coordinate83.X;
-            sbyte y = coordinate83.Y;
-            sbyte l = coordinate83.MapLevel;
+            int x = coordinate83.X;
+            int y = coordinate83.Y;
+            int l = coordinate83.MapLevel;
             if (l == 0)
             {
                 Storm storm = CreateStorm();

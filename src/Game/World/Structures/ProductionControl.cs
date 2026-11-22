@@ -270,10 +270,10 @@ public partial class ProductionControl : EngineObject
         _ = eventValue.Location.Y;
         _ = eventValue.Location.MapLevel;
         MapCoordinate coordinate35 = Location;
-        sbyte x = coordinate35.X;
-        sbyte y = coordinate35.Y;
-        sbyte mapLevel = coordinate35.MapLevel;
-        eventValue.Location = new MapCoordinate(x, y, mapLevel);
+        int x = coordinate35.X;
+        int y = coordinate35.Y;
+        int mapLevel = coordinate35.MapLevel;
+        eventValue.Location = new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)mapLevel);
         eventValue.Player = GetPlayer();
         return eventValue;
     }
@@ -364,7 +364,7 @@ public partial class ProductionControl : EngineObject
             {
                 if (Settings.TurnsLeft > 0)
                 {
-                    Settings.TurnsLeft = (sbyte)(Settings.TurnsLeft - 1);
+                    Settings.TurnsLeft = (Settings.TurnsLeft - 1).TruncateToSByte();
                 }
 
                 if (Settings.TurnsLeft == 0)

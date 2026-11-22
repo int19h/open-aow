@@ -86,7 +86,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     private ProductionPlace? _place;
     private int _productionIndex;
     private int _queueIndex;
-    private byte _mode;
+    private int _mode;
     private CombatMap? _preview;
     private Int32List _images;
 
@@ -169,7 +169,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     }
 
     // AoWProdScreen.pas:659
-    public void SetMode(byte mode)
+    public void SetMode(int mode)
     {
         _mode = mode;
         switch (_mode)
@@ -274,18 +274,18 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 if (u is not null)
                 {
                     UnitPanel.Visible = true;
-                    sbyte attack = u.GetAttack();
-                    UnitAttackLabel.Text = ((int)attack).ToString(CultureInfo.InvariantCulture);
-                    sbyte defense = u.GetDefense();
-                    UnitDefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
-                    sbyte resistance = u.GetResistance();
-                    UnitResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
-                    sbyte damage = u.GetDamage();
-                    UnitDamageLabel.Text = ((int)damage).ToString(CultureInfo.InvariantCulture);
-                    sbyte hits = u.GetHits();
-                    UnitHitsLabel.Text = ((int)hits).ToString(CultureInfo.InvariantCulture);
-                    sbyte moves = u.Moves;
-                    UnitMovesLabel.Text = ((int)moves).ToString(CultureInfo.InvariantCulture);
+                    int attack = u.GetAttack();
+                    UnitAttackLabel.Text = attack.ToString(CultureInfo.InvariantCulture);
+                    int defense = u.GetDefense();
+                    UnitDefenseLabel.Text = defense.ToString(CultureInfo.InvariantCulture);
+                    int resistance = u.GetResistance();
+                    UnitResistanceLabel.Text = resistance.ToString(CultureInfo.InvariantCulture);
+                    int damage = u.GetDamage();
+                    UnitDamageLabel.Text = damage.ToString(CultureInfo.InvariantCulture);
+                    int hits = u.GetHits();
+                    UnitHitsLabel.Text = hits.ToString(CultureInfo.InvariantCulture);
+                    int moves = u.Moves;
+                    UnitMovesLabel.Text = moves.ToString(CultureInfo.InvariantCulture);
                     MoveTypes moveTypes = u.GetMoveTypes();
                     int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                     UnitMovesIcon.CurrentImage = moveTypesToInt32;
@@ -293,10 +293,10 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     string alignmentText = UI.Engine.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
                     string format = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), arguments: [alignmentText]);
                     UnitAlignmentLabel.Text = format;
-                    sbyte unitLevel = u.UnitLevel;
-                    string formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [((int)unitLevel).ToString(CultureInfo.InvariantCulture)]);
-                    byte upkeep = u.GetUpkeep();
-                    string format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), arguments: [(int)upkeep]);
+                    int unitLevel = u.UnitLevel;
+                    string formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [unitLevel.ToString(CultureInfo.InvariantCulture)]);
+                    int upkeep = u.GetUpkeep();
+                    string format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), arguments: [upkeep]);
                     UnitLevelLabel.Text = $"{formattedText} / {format2}";
                     UnitAbilitiesList.Items.Clear();
                     u.ListAbilities(UnitAbilitiesList.Items);
@@ -567,8 +567,8 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
 
         FreePreview();
         RandomBattleMapGenerator generator = new(UI.Engine);
-        sbyte hexLevel = _place.HexLevel;
-        sbyte hexY = _place.HexY;
+        int hexLevel = _place.HexLevel;
+        int hexY = _place.HexY;
         _preview = generator.RandomMap(null, _place.HexX, hexY, L: hexLevel);
         generator?.Dispose();
         ArmyHexSprite army = _place.Owner.GetArmyHexSprite();
@@ -585,7 +585,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
         HexSprite? center = _preview.CenterViewLocation;
         if (center is not null)
         {
-            sbyte fCenterViewLocationHexY = _preview.CenterViewLocation.HexY;
+            int fCenterViewLocationHexY = _preview.CenterViewLocation.HexY;
             HexGeometry.HexToPixel(center.HexX, fCenterViewLocationHexY, out _viewX, out _viewY);
             _viewX = _viewX + 16 - (MapView.WinWidth / 2);
             _viewY = _viewY + 16 - (MapView.WinHeight / 2);
@@ -995,7 +995,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     }
 
     // AoWProdScreen.pas:510
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         switch (key)
         {

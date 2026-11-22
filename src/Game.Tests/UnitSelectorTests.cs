@@ -23,9 +23,9 @@ public sealed class UnitSelectorTests
 
         public override int UnitGraphicsResourceIndex => 0;
 
-        public override sbyte GetHits() => _hits;
+        public override int GetHits() => _hits;
 
-        public override sbyte GetHitPoints() => _hitPoints;
+        public override int GetHitPoints() => _hitPoints;
     }
 
     // Ability.PAS 686 hard-casts every listed unit to TUnit, and a hero passes through that cast to

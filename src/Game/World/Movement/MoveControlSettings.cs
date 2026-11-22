@@ -145,7 +145,7 @@ public partial class MoveControlSettings : EngineObject
         => SetDestinationPosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // MoveT.PAS:162
-    public void SetupArmy(ArmyHexSprite? army, byte selection)
+    public void SetupArmy(ArmyHexSprite? army, int selection)
     {
         ArmyHexSprite = army;
         Selection = selection;

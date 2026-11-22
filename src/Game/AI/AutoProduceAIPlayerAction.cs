@@ -280,9 +280,9 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
                                 if (player.AIBudget.RequestBudgetExpense(unitResearchGold, mana: unitResearchMana, budget, usePool: false))
                                 {
                                     MapCoordinate coordinate2 = control.Location;
-                                    sbyte x = coordinate2.X;
-                                    sbyte y = coordinate2.Y;
-                                    sbyte l = coordinate2.MapLevel;
+                                    int x = coordinate2.X;
+                                    int y = coordinate2.Y;
+                                    int l = coordinate2.MapLevel;
                                     PlayerStructure structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
                                     int priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                     if (priority != -1)
@@ -361,9 +361,9 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
                                     if (player.AIBudget.RequestProductionExpense(controlUnitProductionGold, goldUpkeep: unitProductionGoldUpkeep, mana: controlUnitProductionMana, manaUpkeep: unitProductionManaUpkeep, budget))
                                     {
                                         MapCoordinate coordinate3 = control.Location;
-                                        sbyte x = coordinate3.X;
-                                        sbyte y = coordinate3.Y;
-                                        sbyte l = coordinate3.MapLevel;
+                                        int x = coordinate3.X;
+                                        int y = coordinate3.Y;
+                                        int l = coordinate3.MapLevel;
                                         PlayerStructure structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
                                         int priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                         if (priority != -1)

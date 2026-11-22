@@ -4,6 +4,7 @@ using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
@@ -232,7 +233,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     public byte NumberOfPlayers => (byte)(Count - 1);
 
     // Player.PAS:1622
-    public int RaceToPlayer(sbyte race)
+    public int RaceToPlayer(int race)
     {
         int result = -1;
         int i = 1;
@@ -335,12 +336,12 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         {
             if (available.Count == 0)
             {
-                this[invalid[i]].SetRace((sbyte)defaultRace);
+                this[invalid[i]].SetRace(defaultRace.TruncateToSByte());
             }
             else
             {
                 int item = available[0];
-                this[invalid[i]].SetRace((sbyte)item);
+                this[invalid[i]].SetRace(item.TruncateToSByte());
                 available.Delete(0);
             }
         }
@@ -437,20 +438,20 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
 
             if (player.GameOverStatus != GameOverStatus.Lost && i != 0)
             {
-                _ = ActivePlayers.Add((byte)i);
+                _ = ActivePlayers.Add(i.TruncateToByte());
             }
 
             if (player.GetLocal())
             {
-                _ = _localControlledPlayers.Add((byte)i);
+                _ = _localControlledPlayers.Add(i.TruncateToByte());
                 if (player.PlayerType == PlayerType.Human)
                 {
-                    _ = LocalHumanPlayers.Add((byte)i);
+                    _ = LocalHumanPlayers.Add(i.TruncateToByte());
                 }
             }
             if (player.PlayerType == PlayerType.Human)
             {
-                _ = LocalPlayers.Add((byte)i);
+                _ = LocalPlayers.Add(i.TruncateToByte());
             }
         }
     }

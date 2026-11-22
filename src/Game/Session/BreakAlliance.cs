@@ -37,7 +37,7 @@ public sealed record BreakAlliance : DiplomaticProposal
         Broadcast(action, exclude: -1, viewer: action.Target);
     }
 
-    public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
+    public override int RelationModifier(DiplomaticAction action, sbyte player, int race)
         => player == action.Source && Relation(action.Source, second: action.Target) == DiplomaticRelation.Alliance
             ? RaceModifier(action.Target, race, modifier: -40)
             : 0;

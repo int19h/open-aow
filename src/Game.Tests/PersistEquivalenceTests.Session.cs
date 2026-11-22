@@ -38,7 +38,7 @@ public sealed partial class PersistEquivalenceTests
     [InlineData(77, 3, 4)]
     public void ADiplomaticActionStoresItsCaseOnBothPaths(int kind, int gold, int mana)
     {
-        DiplomaticProposal proposal = DiplomaticProposal.FromFields((byte)kind, gold: gold, mana: mana) with { Message = ["Hail", "Neighbor"] };
+        DiplomaticProposal proposal = DiplomaticProposal.FromFields(kind.TruncateToByte(), gold: gold, mana: mana) with { Message = ["Hail", "Neighbor"] };
         SchemaClass classValue = s_schema.Get("DiplomaticAction");
         DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Proposal = proposal, Source = 1, Target = 2, OtherPlayer = 3, Day = 9 };
         JsonObject document = DocumentBackend.Write(TreeWriter.Write(action, factory: Factory), classValue: classValue, schema: s_schema, engine: "game");

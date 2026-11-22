@@ -22,7 +22,7 @@ public sealed partial class IntroScene(UIContext ui) : UIModule(ui)
     public void WindowMouseDown(MouseButton button, ShiftStates shift, int X, int Y) => Finish();
 
     // AoWIntroScene.pas:197
-    public void WindowKeyDown(in ushort key, ShiftStates shift)
+    public void WindowKeyDown(in int key, ShiftStates shift)
     {
         if (key is 27 or 32)
         {

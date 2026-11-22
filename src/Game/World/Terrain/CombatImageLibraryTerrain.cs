@@ -36,7 +36,7 @@ public class CombatImageLibraryTerrain(CustomNode? owner) : ImageLibraryTerrainM
                 if (message.Param[0].Int < combatResource.Defense)
                 {
                     MapFieldMessageParameters param = message.Param;
-                    param[0] = combatResource.Defense;
+                    param[0] = (sbyte)combatResource.Defense;
                     message.Param = param;
                 }
             }
@@ -86,10 +86,10 @@ public class CombatImageLibraryTerrain(CustomNode? owner) : ImageLibraryTerrainM
     }
 
     // CombatILTer.pas:87
-    public sbyte GetDefense() => GetResource<CombatImageLibraryTerrainResource>().Defense;
+    public int GetDefense() => GetResource<CombatImageLibraryTerrainResource>().Defense;
 
     // CombatILTer.pas:90
-    public sbyte BurnValue => GetResource<CombatImageLibraryTerrainResource>().BurnValue;
+    public int BurnValue => GetResource<CombatImageLibraryTerrainResource>().BurnValue;
 
     // CombatILTer.pas:118
     public void DestroyShadow()

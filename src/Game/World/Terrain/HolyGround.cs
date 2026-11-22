@@ -15,6 +15,7 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
@@ -29,16 +30,16 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     public HolySummonings Mode { get; set; }
 
     public sbyte Player { get; set; }
-    public sbyte Duration { get; set; }
-    public sbyte OriginalOverlay { get; set; }
+    public int Duration { get; set; }
+    public int OriginalOverlay { get; set; }
 
     // HolyG.pas:201
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = persister.SByte("Player", value: Player, fallback: -1);
-        Duration = persister.SByte("Duration", value: Duration, fallback: -1);
-        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay, fallback: -1);
+        Player = (sbyte)persister.SByte("Player", value: Player, fallback: -1);
+        Duration = persister.SByte("Duration", value: Duration.TruncateToSByte(), fallback: -1);
+        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay.TruncateToSByte(), fallback: -1);
     }
 
     // HolyG.pas:243
@@ -66,8 +67,8 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
         bool result = base.PlaceOnMap();
         if (result)
         {
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexY = HexY;
+            int hexX = HexX;
             UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 
@@ -176,7 +177,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
                     damaged += 1;
                 }
 
-                _ = log.DamageValues.Add((byte)damage);
+                _ = log.DamageValues.Add(damage.TruncateToByte());
                 _ = log.DamageTypes.Add((int)DamageType.Holy);
             }
             else
@@ -209,7 +210,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     public void RestoreTerrain()
     {
         MapField? field = Owner;
-        sbyte overlay = OriginalOverlay;
+        int overlay = OriginalOverlay;
         Dispose();
         if (overlay > 0)
         {
@@ -228,7 +229,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
 
         if (player == Player && Duration > 0)
         {
-            Duration = (sbyte)(Duration - 1);
+            Duration = (Duration - 1).TruncateToSByte();
             if (Duration == 0)
             {
                 RestoreTerrain();
@@ -261,18 +262,18 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     // HolyG.pas:254
     public void ShowSummonAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        sbyte hexLevel = animation.HexLevel;
-        sbyte hexY = animation.HexY;
-        sbyte hexX = animation.HexX;
+        int hexLevel = animation.HexLevel;
+        int hexY = animation.HexY;
+        int hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(ClassId) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
-                sbyte hexLevel2 = HexLevel;
-                sbyte hexY2 = HexY;
-                sbyte hexX2 = HexX;
+                int hexLevel2 = HexLevel;
+                int hexY2 = HexY;
+                int hexX2 = HexX;
                 condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
             }
 
@@ -286,9 +287,9 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     // HolyG.pas:265
     public void NewFrameSummonAnimation(Animation animation, int frameCounter)
     {
-        sbyte hexLevel = animation.HexLevel;
-        sbyte hexY = animation.HexY;
-        sbyte hexX = animation.HexX;
+        int hexLevel = animation.HexLevel;
+        int hexY = animation.HexY;
+        int hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(ClassId) && frameCounter == 9)
         {

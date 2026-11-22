@@ -1,6 +1,7 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities.Passive;
 
@@ -27,7 +28,7 @@ public class CrusaderAbility : DurationAbility
             DurationAbilityData data = GetData(owner);
             if (data is not null && data.Duration != 0 && data.PlayerIndex == player)
             {
-                data.Duration = (byte)(data.Duration - 1);
+                data.Duration = (data.Duration - 1).TruncateToByte();
             }
         }
     }

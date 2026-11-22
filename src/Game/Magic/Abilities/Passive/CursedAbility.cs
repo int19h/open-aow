@@ -18,10 +18,10 @@ public class CursedAbility : DurationAbility
     }
 
     // PassiveAb.pas:1009
-    public override sbyte GetDefense(AbilityOwner owner) => -2;
+    public override int GetDefense(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:1015
-    public override sbyte GetResistance(AbilityOwner owner) => -2;
+    public override int GetResistance(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:991
     public override string GetSourceName(AbilityOwner owner)

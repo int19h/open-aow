@@ -15,7 +15,7 @@ public class Storm(CustomNode owner) : Animation(owner)
     public sbyte Player { get; private set; }
 
     // Storms.pas:34
-    public virtual StormDamageInfo GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, StormDamageInfo info) => throw AbstractErrorException.Create("Abstract Error");
+    public virtual StormDamageInfo GetTargetDamageInfo(sbyte player, int X, int Y, int L, StormDamageInfo info) => throw AbstractErrorException.Create("Abstract Error");
 
     // Storms.pas:236
     public virtual void UpdateTargetSelection(TargetSelectionControl selection)
@@ -25,7 +25,7 @@ public class Storm(CustomNode owner) : Animation(owner)
     }
 
     // Storms.pas:209
-    public virtual void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
+    public virtual void InitializeStorm(sbyte player, int X, int Y, int L)
     {
         Player = player;
         AnimationLevel = 28;
@@ -63,7 +63,7 @@ public class Storm(CustomNode owner) : Animation(owner)
                 ArmyHexSprite armyHexSprite = level.Field[walk.X, walk.Y].GetArmyHexSprite();
                 if (armyHexSprite is not null && armyHexSprite.Army.Player != 0 && AbilityRules.ValidAttackRelation(player, independentRelation: 0, targetPlayer: armyHexSprite.Army.Player, targetRace: 0))
                 {
-                    candidate = GetTargetDamageInfo(player, (sbyte)walk.X, (sbyte)walk.Y, L: (sbyte)L, info: candidate);
+                    candidate = GetTargetDamageInfo(player, walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), L: L.TruncateToSByte(), info: candidate);
                     if (info.EnemyDamage - info.FriendlyDamage < candidate.EnemyDamage - candidate.FriendlyDamage)
                     {
                         info = candidate;

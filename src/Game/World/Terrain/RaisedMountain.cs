@@ -10,6 +10,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Terrain;
 
@@ -23,16 +24,16 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     public RaisedMountainModes Mode { get; set; }
 
     public sbyte Player { get; set; }
-    public sbyte Duration { get; set; }
-    public sbyte OriginalOverlay { get; set; }
+    public int Duration { get; set; }
+    public int OriginalOverlay { get; set; }
 
     // Mountain.pas:181
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = persister.SByte("Player", value: Player, fallback: -1);
-        Duration = persister.SByte("Duration", value: Duration, fallback: -1);
-        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay, fallback: -1);
+        Player = (sbyte)persister.SByte("Player", value: Player, fallback: -1);
+        Duration = persister.SByte("Duration", value: Duration.TruncateToSByte(), fallback: -1);
+        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay.TruncateToSByte(), fallback: -1);
     }
 
     // Mountain.pas:210
@@ -71,7 +72,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     public void RestoreTerrain()
     {
         MapField field = Owner;
-        sbyte overlay = OriginalOverlay;
+        int overlay = OriginalOverlay;
         Dispose();
         if (overlay > 0)
         {
@@ -84,7 +85,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     {
         if (player == Player && Duration > 0)
         {
-            Duration = (sbyte)(Duration - 1);
+            Duration = (Duration - 1).TruncateToSByte();
             if (Duration == 0)
             {
                 RestoreTerrain();
@@ -95,9 +96,9 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     // Mountain.pas:228
     public void ShowRaiseTerrainAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        sbyte hexLevel = animation.HexLevel;
-        sbyte hexY = animation.HexY;
-        sbyte hexX = animation.HexX;
+        int hexLevel = animation.HexLevel;
+        int hexY = animation.HexY;
+        int hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         // { Original tests the base mountain ID, although this object is raised terrain. }
         if (this == field.FindOwnedChild(MountainMapObject.ClassId) && animation.FrameCounter == 0)
@@ -105,9 +106,9 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
-                sbyte hexLevel2 = HexLevel;
-                sbyte hexY2 = HexY;
-                sbyte hexX2 = HexX;
+                int hexLevel2 = HexLevel;
+                int hexY2 = HexY;
+                int hexX2 = HexX;
                 condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
             }
 
@@ -121,9 +122,9 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     // Mountain.pas:240
     public void NewFrameRaiseTerrainAnimation(Animation animation, int frameCounter)
     {
-        sbyte hexLevel = animation.HexLevel;
-        sbyte hexY = animation.HexY;
-        sbyte hexX = animation.HexX;
+        int hexLevel = animation.HexLevel;
+        int hexY = animation.HexY;
+        int hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (field.FindOwnedChild(ClassId) == this && frameCounter == 9)
         {

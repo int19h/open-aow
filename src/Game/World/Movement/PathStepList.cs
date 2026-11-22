@@ -12,10 +12,10 @@ public class PathStepList : DefaultItemList<PathStep>
     public PathStepList() => Default = PathStep.None;
 
     // HSEngine.pas:1614
-    public int AddMapCoordinate(sbyte x, sbyte y, sbyte mapLevel) => Add(new PathStep(Location: new MapCoordinate(x, y, mapLevel), MoveCost: 0));
+    public int AddMapCoordinate(int x, int y, int mapLevel) => Add(new PathStep(Location: new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)mapLevel), MoveCost: 0));
 
     // HSEngine.pas:1709
-    public int IndexOfMapCoordinate(sbyte X, sbyte Y, sbyte L)
+    public int IndexOfMapCoordinate(int X, int Y, int L)
     {
         int result = 0;
         while (result < Count && (List[result].Location.X != X || List[result].Location.Y != Y || List[result].Location.MapLevel != L))

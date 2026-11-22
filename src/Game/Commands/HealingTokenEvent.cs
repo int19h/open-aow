@@ -43,9 +43,9 @@ public class HealingTokenEvent(CustomNode? owner) : TokenEvent(owner)
                 ability.SetEnabled(source, enabled: false);
                 _ = ability.HealUnit(target);
                 MapCoordinate coordinate9 = target.GetLocation();
-                sbyte x = coordinate9.X;
-                sbyte y = coordinate9.Y;
-                sbyte l = coordinate9.MapLevel;
+                int x = coordinate9.X;
+                int y = coordinate9.Y;
+                int l = coordinate9.MapLevel;
                 _ = StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, radius: 0);
                 if (StrategicMap.Current.Visible(x, y, l, radius: 0))
                 {

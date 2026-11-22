@@ -31,9 +31,9 @@ public class Flood : GlobalEnchantmentSpell
     {
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate67 = source.GetLocation();
-        sbyte x = coordinate67.X;
-        sbyte y = coordinate67.Y;
-        sbyte l = coordinate67.MapLevel;
+        int x = coordinate67.X;
+        int y = coordinate67.Y;
+        int l = coordinate67.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl[50].CastImages.ImageSequences[0], mode: TwinkleModes.Rotate, count: 50, radius: 64, duration: 50, startDelay: 30);

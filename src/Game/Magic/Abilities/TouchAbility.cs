@@ -53,8 +53,8 @@ public class TouchAbility : AdjustableAbility
     public override void GetCombatInfo(AbilityOwner? owner, ref AbilityCombatInfo info)
     {
         int level = GetLevel(owner);
-        sbyte attack = GetTouchAttack(level);
-        info.Attack = attack;
+        int attack = GetTouchAttack(level);
+        info.Attack = (sbyte)attack;
         if (attack < 0)
         {
             info.Attack = 0;
@@ -67,7 +67,7 @@ public class TouchAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1855
-    public virtual sbyte GetTouchAttack(int level) => -10;
+    public virtual int GetTouchAttack(int level) => -10;
 
     // AoWAb.PAS:1892
     public virtual bool CombatTouchRole(CombatUnit source, CombatObject? target)

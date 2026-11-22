@@ -12,6 +12,7 @@ using Aow.Game.Session;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Draw;
@@ -22,9 +23,9 @@ public sealed class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1220
     public new const int ClassId = 132_989;
 
-    public byte WatcherState { get; private set; }
+    public int WatcherState { get; private set; }
 
-    private byte _unfogRadius;
+    private int _unfogRadius;
 
     public WatcherEnchantment Enchantment { get; }
 
@@ -80,7 +81,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
     }
 
     // GlobalTargetSpells.pas:1223
-    public override byte Level => 27;
+    public override int Level => 27;
 
     // GlobalTargetSpells.pas:1255
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -88,14 +89,14 @@ public sealed class WatcherHexSprite : SingleHexSprite
         bool condition = StrategicMap.Current.ViewMapLevel == HexLevel;
         if (condition)
         {
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexY = HexY;
+            int hexX = HexX;
             condition = StrategicMap.Current.Visible(hexX, hexY, L: HexLevel, radius: 0);
         }
 
         if (condition)
         {
-            sbyte hexY = HexY;
+            int hexY = HexY;
             HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
             x = x - pixelXSurface + 16;
             y = y - pixelYSurface + 16;
@@ -109,7 +110,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
                 if (GetEngine().AnimationDetail == 2 && StrategicMap.Current.ViewMapLevel == HexLevel)
                 {
                     int intensity = 100 - _animationFrame;
-                    sbyte hexY2 = HexY;
+                    int hexY2 = HexY;
                     HexGeometry.HexToPixel(HexX, hexY2, out x, out y);
                     x = x - pixelXSurface - 8;
                     y -= pixelYSurface;
@@ -253,7 +254,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
     }
 
     // GlobalTargetSpells.pas:1226
-    public void StartAnimation(sbyte X, sbyte Y, sbyte layer)
+    public void StartAnimation(int X, int Y, int layer)
     {
         _animationFrame = 0;
         _ = StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
@@ -303,8 +304,8 @@ public sealed class WatcherHexSprite : SingleHexSprite
                 if (ownerPlayer == i || (byte)StrategicMap.Current.Players.GetPlayers(ownerPlayer).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)i) == 2)
                 {
                     int visibilityRange = VisibilityRange();
-                    sbyte hexY = HexY;
-                    sbyte hexX = HexX;
+                    int hexY = HexY;
+                    int hexX = HexX;
                     _ = StrategicMap.Current.ExploreArea(hexX, hexY, HexLevel, player: (sbyte)i, range: visibilityRange);
                 }
             }
@@ -321,16 +322,16 @@ public sealed class WatcherHexSprite : SingleHexSprite
         {
             if (_unfogRadius != 0)
             {
-                sbyte hexY = HexY;
-                sbyte hexX = HexX;
+                int hexY = HexY;
+                int hexX = HexX;
                 _ = StrategicMap.Current.FogArea(hexX, hexY, HexLevel, range: _unfogRadius);
             }
 
-            _unfogRadius = (byte)radius;
+            _unfogRadius = radius.TruncateToByte();
             if (_unfogRadius != 0)
             {
-                sbyte hexY = HexY;
-                sbyte hexX = HexX;
+                int hexY = HexY;
+                int hexX = HexX;
                 _ = StrategicMap.Current.UnFogArea(hexX, hexY, HexLevel, range: _unfogRadius);
             }
         }

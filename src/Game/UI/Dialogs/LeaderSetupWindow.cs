@@ -190,18 +190,18 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         Setup.OriginalLeader.Assign(Leader, UI.Engine);
         Leader leader = Setup.OriginalLeader;
         LeaderNameLabel.Text = leader.HeroName;
-        sbyte inherentAttack = leader.GetInherentAttack();
-        UnitAttackLabel.Text = ((int)inherentAttack).ToString(CultureInfo.InvariantCulture);
-        sbyte inherentDefense = leader.GetInherentDefense();
-        UnitDefenseLabel.Text = ((int)inherentDefense).ToString(CultureInfo.InvariantCulture);
-        sbyte inherentDamage = leader.GetInherentDamage();
-        UnitDamageLabel.Text = ((int)inherentDamage).ToString(CultureInfo.InvariantCulture);
-        sbyte inherentResistance = leader.InherentResistance;
-        UnitResistanceLabel.Text = ((int)inherentResistance).ToString(CultureInfo.InvariantCulture);
-        sbyte hits = leader.GetHits();
-        UnitHitsLabel.Text = ((int)hits).ToString(CultureInfo.InvariantCulture);
-        sbyte moves = leader.Moves;
-        UnitMovesLabel.Text = ((int)moves).ToString(CultureInfo.InvariantCulture);
+        int inherentAttack = leader.GetInherentAttack();
+        UnitAttackLabel.Text = inherentAttack.ToString(CultureInfo.InvariantCulture);
+        int inherentDefense = leader.GetInherentDefense();
+        UnitDefenseLabel.Text = inherentDefense.ToString(CultureInfo.InvariantCulture);
+        int inherentDamage = leader.GetInherentDamage();
+        UnitDamageLabel.Text = inherentDamage.ToString(CultureInfo.InvariantCulture);
+        int inherentResistance = leader.InherentResistance;
+        UnitResistanceLabel.Text = inherentResistance.ToString(CultureInfo.InvariantCulture);
+        int hits = leader.GetHits();
+        UnitHitsLabel.Text = hits.ToString(CultureInfo.InvariantCulture);
+        int moves = leader.Moves;
+        UnitMovesLabel.Text = moves.ToString(CultureInfo.InvariantCulture);
         UnitAbilitiesList.Items.Clear();
         leader.ListAbilities(UnitAbilitiesList.Items);
         string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[leader.Race]);
@@ -223,30 +223,30 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void UpdateStatistics()
     {
         HeroResource? resource = Leader.HeroResource;
-        AttackBaseLabel.Text = ((int)resource.Attack).ToString(CultureInfo.InvariantCulture);
-        DefenseBaseLabel.Text = ((int)resource.Defense).ToString(CultureInfo.InvariantCulture);
-        DamageBaseLabel.Text = ((int)resource.Damage).ToString(CultureInfo.InvariantCulture);
-        ResistanceBaseLabel.Text = ((int)resource.Resistance).ToString(CultureInfo.InvariantCulture);
-        HitsBaseLabel.Text = ((int)resource.Hits).ToString(CultureInfo.InvariantCulture);
-        MovesBaseLabel.Text = ((int)resource.Moves).ToString(CultureInfo.InvariantCulture);
-        AttackAddedLabel.Text = ((int)Leader.UnitAttack).ToString(CultureInfo.InvariantCulture);
-        DefenseAddedLabel.Text = ((int)Leader.UnitDefense).ToString(CultureInfo.InvariantCulture);
-        DamageAddedLabel.Text = ((int)Leader.UnitDamage).ToString(CultureInfo.InvariantCulture);
-        ResistanceAddedLabel.Text = ((int)Leader.UnitResistance).ToString(CultureInfo.InvariantCulture);
-        HitsAddedLabel.Text = ((int)Leader.UnitHits).ToString(CultureInfo.InvariantCulture);
-        MovesAddedLabel.Text = ((int)Leader.UnitMoves).ToString(CultureInfo.InvariantCulture);
-        sbyte inherentAttack = Leader.GetInherentAttack();
-        AttackValueLabel.Text = ((int)inherentAttack).ToString(CultureInfo.InvariantCulture);
-        sbyte inherentDefense = Leader.GetInherentDefense();
-        DefenseValueLabel.Text = ((int)inherentDefense).ToString(CultureInfo.InvariantCulture);
-        sbyte inherentDamage = Leader.GetInherentDamage();
-        DamageValueLabel.Text = ((int)inherentDamage).ToString(CultureInfo.InvariantCulture);
-        sbyte inherentResistance = Leader.InherentResistance;
-        ResistanceValueLabel.Text = ((int)inherentResistance).ToString(CultureInfo.InvariantCulture);
-        sbyte hits = Leader.GetHits();
-        HitsValueLabel.Text = ((int)hits).ToString(CultureInfo.InvariantCulture);
-        sbyte moves = Leader.Moves;
-        MovesValueLabel.Text = ((int)moves).ToString(CultureInfo.InvariantCulture);
+        AttackBaseLabel.Text = resource.Attack.ToString(CultureInfo.InvariantCulture);
+        DefenseBaseLabel.Text = resource.Defense.ToString(CultureInfo.InvariantCulture);
+        DamageBaseLabel.Text = resource.Damage.ToString(CultureInfo.InvariantCulture);
+        ResistanceBaseLabel.Text = resource.Resistance.ToString(CultureInfo.InvariantCulture);
+        HitsBaseLabel.Text = resource.Hits.ToString(CultureInfo.InvariantCulture);
+        MovesBaseLabel.Text = resource.Moves.ToString(CultureInfo.InvariantCulture);
+        AttackAddedLabel.Text = Leader.UnitAttack.ToString(CultureInfo.InvariantCulture);
+        DefenseAddedLabel.Text = Leader.UnitDefense.ToString(CultureInfo.InvariantCulture);
+        DamageAddedLabel.Text = Leader.UnitDamage.ToString(CultureInfo.InvariantCulture);
+        ResistanceAddedLabel.Text = Leader.UnitResistance.ToString(CultureInfo.InvariantCulture);
+        HitsAddedLabel.Text = Leader.UnitHits.ToString(CultureInfo.InvariantCulture);
+        MovesAddedLabel.Text = Leader.UnitMoves.ToString(CultureInfo.InvariantCulture);
+        int inherentAttack = Leader.GetInherentAttack();
+        AttackValueLabel.Text = inherentAttack.ToString(CultureInfo.InvariantCulture);
+        int inherentDefense = Leader.GetInherentDefense();
+        DefenseValueLabel.Text = inherentDefense.ToString(CultureInfo.InvariantCulture);
+        int inherentDamage = Leader.GetInherentDamage();
+        DamageValueLabel.Text = inherentDamage.ToString(CultureInfo.InvariantCulture);
+        int inherentResistance = Leader.InherentResistance;
+        ResistanceValueLabel.Text = inherentResistance.ToString(CultureInfo.InvariantCulture);
+        int hits = Leader.GetHits();
+        HitsValueLabel.Text = hits.ToString(CultureInfo.InvariantCulture);
+        int moves = Leader.Moves;
+        MovesValueLabel.Text = moves.ToString(CultureInfo.InvariantCulture);
         UpdateSkillPoints();
     }
 
@@ -512,7 +512,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
 
         int sphereCount = Leader.SphereCount;
         string selectedSpheres = UI.Engine.TranslateResourceString(s_selectedSpheresText);
-        SelectedSpheresLabel.Text = $"{selectedSpheres} ({sphereCount.ToString(CultureInfo.InvariantCulture)}/{((int)Leader.SpherePicksMax).ToString(CultureInfo.InvariantCulture)})";
+        SelectedSpheresLabel.Text = $"{selectedSpheres} ({sphereCount.ToString(CultureInfo.InvariantCulture)}/{Leader.SpherePicksMax.ToString(CultureInfo.InvariantCulture)})";
         if (Leader.CanAddSphere(MagicSphere.Life))
         {
             SelectLifeButton.ImageLibraryIndexUp = 27;
@@ -821,7 +821,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void AttUpClick()
     {
         UI.General.PlayButtonSound(0);
-        Leader.SetUnitAttack((sbyte)(Leader.UnitAttack + 1));
+        Leader.SetUnitAttack((Leader.UnitAttack + 1).TruncateToSByte());
         UpdateStatistics();
     }
 
@@ -829,7 +829,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void AttDnClick()
     {
         UI.General.PlayButtonSound(0);
-        Leader.SetUnitAttack((sbyte)(Leader.UnitAttack - 1));
+        Leader.SetUnitAttack((Leader.UnitAttack - 1).TruncateToSByte());
         UpdateStatistics();
     }
 
@@ -837,7 +837,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void DefUpClick()
     {
         UI.General.PlayButtonSound(0);
-        Leader.SetUnitDefense((sbyte)(Leader.UnitDefense + 1));
+        Leader.SetUnitDefense((Leader.UnitDefense + 1).TruncateToSByte());
         UpdateStatistics();
     }
 
@@ -845,7 +845,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void DefDnClick()
     {
         UI.General.PlayButtonSound(0);
-        Leader.SetUnitDefense((sbyte)(Leader.UnitDefense - 1));
+        Leader.SetUnitDefense((Leader.UnitDefense - 1).TruncateToSByte());
         UpdateStatistics();
     }
 
@@ -853,7 +853,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void DamUpClick()
     {
         UI.General.PlayButtonSound(0);
-        Leader.SetUnitDamage((sbyte)(Leader.UnitDamage + 1));
+        Leader.SetUnitDamage((Leader.UnitDamage + 1).TruncateToSByte());
         UpdateStatistics();
     }
 
@@ -861,7 +861,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void DamDnClick()
     {
         UI.General.PlayButtonSound(0);
-        Leader.SetUnitDamage((sbyte)(Leader.UnitDamage - 1));
+        Leader.SetUnitDamage((Leader.UnitDamage - 1).TruncateToSByte());
         UpdateStatistics();
     }
 
@@ -869,7 +869,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void ResUpClick()
     {
         UI.General.PlayButtonSound(0);
-        Leader.SetUnitResistance((sbyte)(Leader.UnitResistance + 1));
+        Leader.SetUnitResistance((Leader.UnitResistance + 1).TruncateToSByte());
         UpdateStatistics();
     }
 
@@ -877,7 +877,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void ResDnClick()
     {
         UI.General.PlayButtonSound(0);
-        Leader.SetUnitResistance((sbyte)(Leader.UnitResistance - 1));
+        Leader.SetUnitResistance((Leader.UnitResistance - 1).TruncateToSByte());
         UpdateStatistics();
     }
 
@@ -885,7 +885,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void HitUpClick()
     {
         UI.General.PlayButtonSound(0);
-        Leader.SetUnitHits((sbyte)(Leader.UnitHits + 1));
+        Leader.SetUnitHits((Leader.UnitHits + 1).TruncateToSByte());
         UpdateStatistics();
     }
 
@@ -893,7 +893,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void HitDnClick()
     {
         UI.General.PlayButtonSound(0);
-        Leader.SetUnitHits((sbyte)(Leader.UnitHits - 1));
+        Leader.SetUnitHits((Leader.UnitHits - 1).TruncateToSByte());
         UpdateStatistics();
     }
 
@@ -901,7 +901,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void MovUpClick()
     {
         UI.General.PlayButtonSound(0);
-        Leader.SetUnitMoves((sbyte)(Leader.UnitMoves + 1));
+        Leader.SetUnitMoves((Leader.UnitMoves + 1).TruncateToSByte());
         UpdateStatistics();
     }
 
@@ -909,7 +909,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void MovDnClick()
     {
         UI.General.PlayButtonSound(0);
-        Leader.SetUnitMoves((sbyte)(Leader.UnitMoves - 1));
+        Leader.SetUnitMoves((Leader.UnitMoves - 1).TruncateToSByte());
         UpdateStatistics();
     }
 
@@ -1085,7 +1085,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     {
         UI.General.PlayButtonSound(0);
         object? objectValue = RaceComboBox.Items.Objects[RaceComboBox.Selected];
-        Leader.SetRace((sbyte)ObjectToInt(objectValue));
+        Leader.SetRace(ObjectToInt(objectValue).TruncateToSByte());
     }
 
     // AoWLeaderSetup.pas:678

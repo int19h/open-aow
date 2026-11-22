@@ -848,16 +848,16 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         {
             string name = hero.GetName();
             dialog.CasterNameLabel.Text = name;
-            sbyte castingPoints = hero.GetCastingPoints();
+            int castingPoints = hero.GetCastingPoints();
             string text = dialog.UI.Engine.TranslateResourceString(GameText.CastingPointsText);
-            sbyte castingPointsMax = hero.GetCastingPointsMax();
+            int castingPointsMax = hero.GetCastingPointsMax();
             dialog.CastingPointsLabel.Text = string.Concat(new string[5]
             {
                 text,
                 ": ",
-                ((int)castingPoints).ToString(CultureInfo.InvariantCulture),
+                castingPoints.ToString(CultureInfo.InvariantCulture),
                 "/",
-                ((int)castingPointsMax).ToString(CultureInfo.InvariantCulture)
+                castingPointsMax.ToString(CultureInfo.InvariantCulture)
             });
         }
         Spell? spell = GamePack.Current.SpellControl[dialog.Caster.CasterSpellId];
@@ -928,7 +928,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         }
         if (dialog.InfoRace != -1)
         {
-            dialog.ShowRaceInformation((byte)dialog.InfoRace);
+            dialog.ShowRaceInformation(dialog.InfoRace.TruncateToByte());
         }
     }
 

@@ -20,7 +20,7 @@ public struct BattleFieldInfo
     public int Strength { get; set; }
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps relation and the original ignores it.")]
-    internal static void SetupBattleFieldInfo(out BattleFieldInfo info, sbyte player, sbyte relation, BattleFieldInfoRequests requests, DamageTypes damageTypes)
+    internal static void SetupBattleFieldInfo(out BattleFieldInfo info, sbyte player, int relation, BattleFieldInfoRequests requests, DamageTypes damageTypes)
     {
         info = default;
         info.Player = player;

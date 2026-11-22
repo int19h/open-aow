@@ -13,6 +13,7 @@ using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Structures;
@@ -127,16 +128,16 @@ public partial class ExplorationSite : Structure
     public virtual void SetupCombat(Battle combat, ArmyHexSprite army)
     {
         combat.SetExecutedHandler(CombatExecuted);
-        sbyte hexY = army.HexY;
-        sbyte hexLevel = army.HexLevel;
-        sbyte hexX = HexX;
-        sbyte hexY2 = HexY;
-        sbyte hexLevel2 = HexLevel;
-        sbyte armyHexX = army.HexX;
-        _ = combat.Setup((byte)army.Army.Player, attackerRelation: (byte)army.Army.IndependentRelation, armyHexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)_defenders.Player, defenderRelation: (byte)_defenders.IndependentRelation, hexX, hexY2, L: hexLevel2, logActions: true);
-        sbyte hexY3 = HexY;
-        sbyte hexLevel3 = HexLevel;
-        sbyte hexX2 = HexX;
+        int hexY = army.HexY;
+        int hexLevel = army.HexLevel;
+        int hexX = HexX;
+        int hexY2 = HexY;
+        int hexLevel2 = HexLevel;
+        int armyHexX = army.HexX;
+        _ = combat.Setup((byte)army.Army.Player, attackerRelation: ((sbyte)army.Army.IndependentRelation).TruncateToByte(), armyHexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)_defenders.Player, defenderRelation: _defenders.IndependentRelation.TruncateToByte(), hexX, hexY2, L: hexLevel2, logActions: true);
+        int hexY3 = HexY;
+        int hexLevel3 = HexLevel;
+        int hexX2 = HexX;
         _ = combat.AddArmy(army.Army, side: CombatSideIndex.Attacker, hexX2, hexY3, L: hexLevel3);
         _ = combat.AddArmy(_defenders, side: CombatSideIndex.Defender, -1, -1, L: -1, position: 1);
         combat.ExplorationSite = 1;
@@ -232,9 +233,9 @@ public partial class ExplorationSite : Structure
             if (playerList.LocalPlayers.Count == 1 || StrategicMap.Current.RequestCombatType)
             {
                 CombatTypeRequestEventLog request = new(null) { Holder = CreationHolder() };
-                sbyte hexLevel = HexLevel;
-                sbyte hexY = HexY;
-                request.SetCenterLocation((byte)HexX, (byte)hexY, L: hexLevel);
+                int hexLevel = HexLevel;
+                int hexY = HexY;
+                request.SetCenterLocation(HexX.TruncateToByte(), hexY.TruncateToByte(), L: hexLevel);
                 request.AttackerPlayer = armyHexSprite.Army.Player;
                 request.DefenderPlayer = 0;
                 StrategicMap.Current.TriggerTypedExecuteEventLog(request, immediate: true, done: RequestCombatTypeCallback);

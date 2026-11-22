@@ -2,12 +2,10 @@
 // Translated from AoWTC.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
-
 using Aow.Game.Draw.Images;
-
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Draw;
 
@@ -20,11 +18,11 @@ public sealed class RangedPathHexSprite(CustomNode? owner) : FixedVisibleHexSpri
 
     private CustomImageLibrary? _miscellaneousImages;
     private CustomImageLibrary? _targetImages;
-    private ushort _frame;
-    private ushort _frameCount;
+    private int _frame;
+    private int _frameCount;
 
     public CombatUnitSelectionControl? Selection { get; set; }
-    public ushort Range { get; set; }
+    public int Range { get; set; }
 
     // AoWTC.pas:4849
     public override int GetShowPriority() => 1_811_939_328;
@@ -51,7 +49,7 @@ public sealed class RangedPathHexSprite(CustomNode? owner) : FixedVisibleHexSpri
                 int last2 = first + count8;
                 for (int i = first; i <= last2 - 1; i++)
                 {
-                    sbyte yhx = Selection.TacticalBattleUnitHexSprite.HexY;
+                    int yhx = Selection.TacticalBattleUnitHexSprite.HexY;
                     HexGeometry.CenterHexNumberToHex(Selection.TacticalBattleUnitHexSprite.HexX, yhx, hexNumber: i, ref hexX, ref hexY);
                     HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                     _targetImages[2].Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface + 2, lockedSurface);
@@ -60,11 +58,11 @@ public sealed class RangedPathHexSprite(CustomNode? owner) : FixedVisibleHexSpri
 
             if (Selection.RangedPath.Count > 0)
             {
-                _frameCount = (ushort)(_frameCount + 1);
+                _frameCount = (_frameCount + 1).TruncateToUInt16();
                 if (_frameCount >= 5)
                 {
                     _frameCount = 0;
-                    _frame = (ushort)(_frame + 1);
+                    _frame = (_frame + 1).TruncateToUInt16();
                 }
 
                 if (_frame > 1)
@@ -96,9 +94,9 @@ public sealed class RangedPathHexSprite(CustomNode? owner) : FixedVisibleHexSpri
                         {
                             for (int i = 0; i <= 11; i++)
                             {
-                                sbyte yhx = Selection.TacticalBattleUnitHexSprite.HexY;
+                                int yhx = Selection.TacticalBattleUnitHexSprite.HexY;
                                 int deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(Selection.TacticalBattleUnitHexSprite.HexX, yhx, x, y);
-                                sbyte hexY2 = Selection.TacticalBattleUnitHexSprite.HexY;
+                                int hexY2 = Selection.TacticalBattleUnitHexSprite.HexY;
                                 HexGeometry.CenterHexNumberToHex(Selection.TacticalBattleUnitHexSprite.HexX, hexY2, hexNumber: TacticalTables.BreathHexNumber[(deltaHexToHexNumber2 * 12) + i - 12], ref hexX, ref hexY);
                                 HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                                 _targetImages[0].ShowClipped(pixelX - 8 - pixelXSurface, pixelY + 2 - pixelYSurface, lockedSurface);

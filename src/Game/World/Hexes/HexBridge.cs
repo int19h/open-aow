@@ -17,9 +17,9 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
     // HxBridge.pas:84
     public new const int ClassId = 133_242;
 
-    private sbyte _terrain;
+    private int _terrain;
 
-    public sbyte Direction { get; private set; } = -1;
+    public int Direction { get; private set; } = -1;
 
     private readonly ByteList _sideA = [];
     private readonly ByteList _sideB = [];
@@ -33,10 +33,10 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
     }
 
     // HxBridge.pas:100
-    public override sbyte GetTerrain(int index) => index == 0 ? _terrain : (sbyte)-2;
+    public override int GetTerrain(int index) => index == 0 ? _terrain : -2;
 
     // HxBridge.pas:89
-    public override byte Level => 26;
+    public override int Level => 26;
 
     // HxBridge.pas:105
     public override int GetShowPriority()
@@ -116,7 +116,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
             {
                 for (int i = 0, last = _sideB.Count - 1; i <= last; i++)
                 {
-                    byte sideB = _sideB[i];
+                    int sideB = _sideB[i];
                     HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: sideB, ref hexX, ref hexY);
                     mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
                     ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: mapField, movePoints: ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
@@ -128,7 +128,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
                 {
                     for (int i = 0, last = _sideA.Count - 1; i <= last; i++)
                     {
-                        byte sideA = _sideA[i];
+                        int sideA = _sideA[i];
                         HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: sideA, ref hexX, ref hexY);
                         mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
                         ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: mapField, movePoints: ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
@@ -163,14 +163,14 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
     }
 
     // HxBridge.pas:200
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
         return base.CanPlace(mapContainer, hexX, hexY, hexLevel) && (DirectionValid(mapField, direction: 0) || DirectionValid(mapField, direction: 1) || DirectionValid(mapField, direction: 2));
     }
 
     // HxBridge.pas:209
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
         HexSprite road = mapField.FindHexSprite(typeof(AbstractRoad));
@@ -229,7 +229,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
     }
 
     // HxBridge.pas:229
-    public bool DirectionValid(MapField mapField, sbyte direction)
+    public bool DirectionValid(MapField mapField, int direction)
     {
         int hexX = default;
         int hexY = default;
@@ -349,7 +349,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
         }
     }
 
-    private static bool Land(sbyte terrain) => (byte)terrain is not (0 or 6 or 9 or 10 or 13);
+    private static bool Land(int terrain) => (byte)terrain is not (0 or 6 or 9 or 10 or 13);
 
     public new class Resource : AbstractRoadResource
     {

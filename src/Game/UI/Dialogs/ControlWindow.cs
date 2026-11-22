@@ -77,7 +77,7 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
     public Label PartyActionLabel1 { get; private set; }
     public Label PartyActionLabel2 { get; private set; }
 
-    private byte _selection;
+    private int _selection;
 
     // AOWControlWin.pas:294
     public void DrawUnit(int index, in Rect R, ref LockedSurface lockedSurface)
@@ -160,42 +160,42 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
         _selection = 0;
         if (!Unit1CheckBox.Checked && UI.General.SelectedUnits[0] != -1)
         {
-            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[0]));
+            _selection = (_selection | (1 << UI.General.SelectedUnits[0])).TruncateToByte();
         }
 
         if (!Unit2CheckBox.Checked && UI.General.SelectedUnits[1] != -1)
         {
-            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[1]));
+            _selection = (_selection | (1 << UI.General.SelectedUnits[1])).TruncateToByte();
         }
 
         if (!Unit3CheckBox.Checked && UI.General.SelectedUnits[2] != -1)
         {
-            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[2]));
+            _selection = (_selection | (1 << UI.General.SelectedUnits[2])).TruncateToByte();
         }
 
         if (!Unit4CheckBox.Checked && UI.General.SelectedUnits[3] != -1)
         {
-            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[3]));
+            _selection = (_selection | (1 << UI.General.SelectedUnits[3])).TruncateToByte();
         }
 
         if (!Unit5CheckBox.Checked && UI.General.SelectedUnits[4] != -1)
         {
-            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[4]));
+            _selection = (_selection | (1 << UI.General.SelectedUnits[4])).TruncateToByte();
         }
 
         if (!Unit6CheckBox.Checked && UI.General.SelectedUnits[5] != -1)
         {
-            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[5]));
+            _selection = (_selection | (1 << UI.General.SelectedUnits[5])).TruncateToByte();
         }
 
         if (!Unit7CheckBox.Checked && UI.General.SelectedUnits[6] != -1)
         {
-            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[6]));
+            _selection = (_selection | (1 << UI.General.SelectedUnits[6])).TruncateToByte();
         }
 
         if (!Unit8CheckBox.Checked && UI.General.SelectedUnits[7] != -1)
         {
-            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[7]));
+            _selection = (_selection | (1 << UI.General.SelectedUnits[7])).TruncateToByte();
         }
     }
 
@@ -227,14 +227,14 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
 
         Unit8Frame.ImageLibraryIndexFrame = Unit8CheckBox.Checked ? 26 : 12;
 
-        byte selection = StrategicMap.Current.SelectedArmy.Selection;
+        int selection = StrategicMap.Current.SelectedArmy.Selection;
         MoveTypes partyMove = UI.General.UnitList.GetPartyMoves(selection);
         int moveTypesToInt32 = UI.General.MoveTypesToInt32(partyMove);
         MoveIcon.CurrentImage = moveTypesToInt32;
-        byte fSelectedArmySelection = StrategicMap.Current.SelectedArmy.Selection;
-        sbyte movePoints = UI.General.UnitList.MovePoints(fSelectedArmySelection);
-        MovesLabel.Text = ((int)movePoints).ToString(CultureInfo.InvariantCulture);
-        byte selection2 = StrategicMap.Current.SelectedArmy.Selection;
+        int fSelectedArmySelection = StrategicMap.Current.SelectedArmy.Selection;
+        int movePoints = UI.General.UnitList.MovePoints(fSelectedArmySelection);
+        MovesLabel.Text = movePoints.ToString(CultureInfo.InvariantCulture);
+        int selection2 = StrategicMap.Current.SelectedArmy.Selection;
         Army.PartyStatus partyStatus = StrategicMap.Current.SelectedArmy.ArmyHexSprite.Army.GetPartyStatus(selection2);
         string partyStatusText = UI.Engine.TranslateResourceString(s_partyStatusTexts[(int)partyStatus]);
         PartyStatusLabel.Text = partyStatusText;
@@ -246,7 +246,7 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right)
         {
             CheckStart();
-            StrategicMap.Current.SelectedArmy.SetSelection((byte)~_selection);
+            StrategicMap.Current.SelectedArmy.SetSelection((~_selection).TruncateToByte());
             CheckEnd();
         }
     }

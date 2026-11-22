@@ -8,35 +8,35 @@ namespace Aow.Game.Magic.Abilities;
 // attack. defense. resistance. hits. damage. immunity. protection. hit points
 public class HypotheticalUnit : Troop
 {
-    private sbyte _attack;
-    private sbyte _defense;
-    private sbyte _resistance;
-    private sbyte _hits;
-    private sbyte _damage;
+    private int _attack;
+    private int _defense;
+    private int _resistance;
+    private int _hits;
+    private int _damage;
     private DamageTypes _immunityTypes;
     private DamageTypes _protectionTypes;
-    private sbyte _hitPoints;
+    private int _hitPoints;
 
     // Unit.PAS:2534
     public HypotheticalUnit(CustomNode owner) : base(owner) => MakeDefaultLevelUnit(1);
 
     // Unit.PAS:2591
-    public override sbyte GetAttack() => _attack;
+    public override int GetAttack() => _attack;
 
     // Unit.PAS:2593
-    public override sbyte GetDefense() => _defense;
+    public override int GetDefense() => _defense;
 
     // Unit.PAS:2595
-    public override sbyte GetDamage() => _damage;
+    public override int GetDamage() => _damage;
 
     // Unit.PAS:2603
-    public override sbyte GetResistance() => _resistance;
+    public override int GetResistance() => _resistance;
 
     // Unit.PAS:2597
-    public override sbyte GetHits() => _hits;
+    public override int GetHits() => _hits;
 
     // Unit.PAS:2599
-    public override sbyte GetHitPoints() => _hitPoints;
+    public override int GetHitPoints() => _hitPoints;
 
     // Unit.PAS:2601
     public override void SetHitPoints(sbyte value) => _hitPoints = value;
@@ -48,7 +48,7 @@ public class HypotheticalUnit : Troop
     public override DamageTypes GetProtectionTypes() => _protectionTypes;
 
     // Unit.PAS:2539
-    public void MakeDefaultLevelUnit(sbyte level)
+    public void MakeDefaultLevelUnit(int level)
     {
         // { Original retains protection from an earlier, higher-level setup. }
         switch (level)

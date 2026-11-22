@@ -549,7 +549,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
                 window.SpellNameLabel.Text = spell.SpellName;
                 string magicSphere = window.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                 string level = window.UI.Engine.TranslateResourceString(GameText.LevelText);
-                window.SpellClassLabel.Text = $"{magicSphere}, {level} {((int)spell.SpellLevel).ToString(CultureInfo.InvariantCulture)}";
+                window.SpellClassLabel.Text = $"{magicSphere}, {level} {spell.SpellLevel.ToString(CultureInfo.InvariantCulture)}";
                 string castingCost = window.UI.Engine.TranslateResourceString(GameText.CastingCostText);
                 string mana = window.UI.Engine.TranslateResourceString(GameText.ManaText);
                 window.SpellCostLabel.Text = $"{castingCost}: {spell.BaseManaCost.ToString(CultureInfo.InvariantCulture)} {mana}";

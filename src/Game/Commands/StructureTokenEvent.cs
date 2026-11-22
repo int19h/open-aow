@@ -35,7 +35,7 @@ public class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
         base.PersistFields(persister);
         Action = persister.Int32("Action", value: Action);
         Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Byte);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         _structureClassId = persister.Int32("StructureClassId", value: _structureClassId);
         _razed = persister.Boolean("Razed", value: _razed);
         Param = persister.Int32("Param", value: Param);
@@ -60,13 +60,13 @@ public class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
     }
 
     // Structur.PAS:2537
-    public void Initialize(int classId, sbyte x, sbyte y, sbyte mapLevel)
+    public void Initialize(int classId, int x, int y, int mapLevel)
     {
         {
-            Location = Location with { X = x };
-            Location = Location with { Y = y };
+            Location = Location with { X = (sbyte)x };
+            Location = Location with { Y = (sbyte)y };
         }
-        Location = Location with { MapLevel = mapLevel };
+        Location = Location with { MapLevel = (sbyte)mapLevel };
         MapField mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
         Structure structure = mapField.FindOwnedChild<Structure>(classId);
         Assert(classId == structure.EngineClass.ClassId, message: "Invalid position (StructureTE)", file: "Structur.PAS", line: 3045);

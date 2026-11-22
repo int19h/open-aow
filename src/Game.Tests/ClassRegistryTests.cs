@@ -96,7 +96,7 @@ public sealed class ClassRegistryTests
             Assert.Equal(c.Fields.Any(f => f.Member == "GroupId"), actual: groupId == 3);
         }
         SchemaMapping diplomacy = schema.Get("DiplomaticAction").Mapping!;
-        Assert.Equal(Enumerable.Range(0, count: 256).Where(k => DiplomaticProposal.IsRegistered((byte)k)).Select(k => (long)k), diplomacy.Cases.Select(c => c.Key!.Value));
+        Assert.Equal(Enumerable.Range(0, count: 256).Where(k => DiplomaticProposal.IsRegistered(k.TruncateToByte())).Select(k => (long)k), diplomacy.Cases.Select(c => c.Key!.Value));
         foreach (SchemaCase c in diplomacy.Cases)
         {
             DiplomaticProposal proposal = DiplomaticProposal.FromFields((byte)c.Key!.Value, gold: 70, mana: 30);

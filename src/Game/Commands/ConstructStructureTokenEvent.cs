@@ -27,7 +27,7 @@ public class ConstructStructureTokenEvent(CustomNode? owner) : TokenEvent(owner)
         base.PersistFields(persister);
         ControlId = persister.Int32("ControlId", value: ControlId);
         UnitId = persister.Int32("UnitId", value: UnitId);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
     }
 
     // Structur.PAS:3106
@@ -43,9 +43,9 @@ public class ConstructStructureTokenEvent(CustomNode? owner) : TokenEvent(owner)
             if (resource is not null)
             {
                 MapCoordinate coordinate4 = troop.GetLocation();
-                sbyte x = coordinate4.X;
-                sbyte y = coordinate4.Y;
-                sbyte l = coordinate4.MapLevel;
+                int x = coordinate4.X;
+                int y = coordinate4.Y;
+                int l = coordinate4.MapLevel;
                 MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(l);
                 HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 0);
                 while (walk.HexNumber < resource.TerrainList.Count)

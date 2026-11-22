@@ -32,10 +32,10 @@ public class HexSprite(CustomNode? owner) : EngineObject(owner), IOwned<MapField
     }
 
     // HXSPRITE.PAS:116
-    public virtual sbyte GetTerrain(int hexNumber) => -2;
+    public virtual int GetTerrain(int hexNumber) => -2;
 
     // HXSPRITE.PAS:121
-    public virtual void SetTerrain(int hexNumber, sbyte value)
+    public virtual void SetTerrain(int hexNumber, int value)
     {
     }
 
@@ -43,10 +43,10 @@ public class HexSprite(CustomNode? owner) : EngineObject(owner), IOwned<MapField
     public virtual int TerrainCount => 0;
 
     // HXSPRITE.PAS:130
-    public virtual sbyte GetOverlay(int hexNumber) => -2;
+    public virtual int GetOverlay(int hexNumber) => -2;
 
     // HXSPRITE.PAS:135
-    public virtual void SetOverlay(int hexNumber, sbyte value)
+    public virtual void SetOverlay(int hexNumber, int value)
     {
     }
 
@@ -54,7 +54,7 @@ public class HexSprite(CustomNode? owner) : EngineObject(owner), IOwned<MapField
     public virtual int OverlayCount => 0;
 
     // HXSPRITE.PAS:52
-    public virtual byte Level => throw new InvalidOperationException("No HexagonSprite Level defined");
+    public virtual int Level => throw new InvalidOperationException("No HexagonSprite Level defined");
 
     // HXSPRITE.PAS:47
     public virtual bool Visible
@@ -70,10 +70,10 @@ public class HexSprite(CustomNode? owner) : EngineObject(owner), IOwned<MapField
     public virtual bool GetSelected() => false;
 
     // HXSPRITE.PAS:87
-    public virtual sbyte HexX => Owner.HexX;
+    public virtual sbyte HexX => (sbyte)Owner.HexX;
 
     // HXSPRITE.PAS:92
-    public virtual sbyte HexY => Owner.HexY;
+    public virtual sbyte HexY => (sbyte)Owner.HexY;
 
     // HXSPRITE.PAS:97
     public virtual sbyte HexLevel => (sbyte)Owner.Owner.HexLevel;

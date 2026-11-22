@@ -35,9 +35,9 @@ public class LifeMastery : GlobalEnchantmentSpell
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Life);
         MapCoordinate coordinate73 = source.GetLocation();
-        sbyte x = coordinate73.X;
-        sbyte y = coordinate73.Y;
-        sbyte l = coordinate73.MapLevel;
+        int x = coordinate73.X;
+        int y = coordinate73.Y;
+        int l = coordinate73.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl[61].CastImages.ImageSequences[0], mode: TwinkleModes.Rotate, count: 100, radius: 64, duration: 50, startDelay: 30);

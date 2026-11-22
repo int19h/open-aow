@@ -16,7 +16,7 @@ public class DarkGiftEnchantment : UnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1256
-    public override sbyte GetDamage(AbilityOwner owner) => 1;
+    public override int GetDamage(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:1261
     public override int GetAIUpkeepPriority(AbilityOwner owner)

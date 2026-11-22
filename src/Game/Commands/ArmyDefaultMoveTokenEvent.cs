@@ -15,5 +15,5 @@ public class ArmyDefaultMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(ow
     public new const int ClassId = 135_428;
 
     // MoveT.PAS:2394
-    public override bool Setup(ArmyHexSprite armyHexSprite, byte selection, MovePath path, ArmyMoveModes mode) => base.Setup(armyHexSprite, selection, path, mode);
+    public override bool Setup(ArmyHexSprite armyHexSprite, int selection, MovePath path, ArmyMoveModes mode) => base.Setup(armyHexSprite, selection, path, mode);
 }

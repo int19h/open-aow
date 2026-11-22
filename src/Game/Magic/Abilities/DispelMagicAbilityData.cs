@@ -2,6 +2,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Formats.Tree;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -11,14 +12,14 @@ public class DispelMagicAbilityData(CustomNode owner) : AbilityData(owner)
     public new const int ClassId = 131_789;
 
     public bool Enabled { get; set; }
-    public byte Level { get; set; }
+    public int Level { get; set; }
 
     // AoWAb.PAS:4034
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         Enabled = persister.Boolean("Enabled", value: Enabled);
-        Level = persister.Byte("Level", value: Level);
+        Level = persister.Byte("Level", value: Level.TruncateToByte());
     }
 
     // AoWAb.PAS:4030

@@ -3,16 +3,12 @@
 using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -181,16 +177,16 @@ public class CombatUnit : CombatObject
     public override bool GetLocked() => Troop.GetAbilityEnabled(95) || Troop.GetAbilityEnabled(97) || Troop.GetAbilityEnabled(92) || Troop.GetAbilityEnabled(94) || Troop.GetAbilityEnabled(34);
 
     // Combat.pas:1459
-    public override sbyte GetAttack() => Troop.GetAttack();
+    public override int GetAttack() => Troop.GetAttack();
 
     // Combat.pas:1462
-    public override sbyte GetDefense() => Troop.GetDefense();
+    public override int GetDefense() => Troop.GetDefense();
 
     // Combat.pas:1465
-    public override sbyte GetResistance() => Troop.GetResistance();
+    public override int GetResistance() => Troop.GetResistance();
 
     // Combat.pas:1468
-    public override sbyte GetDamage() => Troop.GetDamage();
+    public override int GetDamage() => Troop.GetDamage();
 
     // Combat.pas:1471
     public override DamageTypes GetImmunityTypes() => Troop.GetImmunityTypes() | Combat.CombatData.ImmunityTypes;
@@ -199,13 +195,13 @@ public class CombatUnit : CombatObject
     public override DamageTypes GetProtectionTypes() => Troop.GetProtectionTypes();
 
     // Combat.pas:1282
-    public override sbyte GetHits() => Troop is not null ? Troop.GetHits() : (sbyte)0;// { Direct field test retains the receiver. }// { No cast temporary. }
+    public override int GetHits() => Troop is not null ? Troop.GetHits() : 0;// { Direct field test retains the receiver. }// { No cast temporary. }
 
     // Combat.pas:1289
-    public override sbyte HitPoints => Troop is not null ? Troop.GetHitPoints() : (sbyte)0;// { Direct field test retains the receiver. }// { No cast temporary. }
+    public override int HitPoints => Troop is not null ? Troop.GetHitPoints() : 0;// { Direct field test retains the receiver. }// { No cast temporary. }
 
     // Combat.pas:1296
-    public override void SetHitPoints(byte value)
+    public override void SetHitPoints(int value)
         // { Direct nil guard. }
         // { No cast temporary. }
         => Troop?.SetHitPoints((sbyte)value);
@@ -223,7 +219,7 @@ public class CombatUnit : CombatObject
     public override void SetExperience(int value) => Troop.SetExperience(value);
 
     // Combat.pas:1483
-    public override byte Level => (byte)Troop.UnitLevel;
+    public override int Level => Troop.UnitLevel.TruncateToByte();
 
     // Combat.pas:1095
     public override int GetVisibilityRange()
@@ -252,7 +248,7 @@ public class CombatUnit : CombatObject
     public override bool GetAbilityEnabled(int abilityId) => Troop is not null && Troop.GetAbilityEnabled(abilityId);
 
     // Combat.pas:1271
-    public override void SetAbilityEnabled(int abilityId, bool enabled) => Troop.SetAbilitySet(abilityId, value: (byte)(enabled ? 1 : 0));
+    public override void SetAbilityEnabled(int abilityId, bool enabled) => Troop.SetAbilitySet(abilityId, value: enabled ? 1 : 0);
 
     // Combat.pas:1274
     public override int GetAbilityLevel(int abilityId) => Troop.GetAbilityLevel(abilityId);
@@ -300,7 +296,7 @@ public class CombatUnit : CombatObject
         base.Initialize(combat);
         if (Troop is Leader)
         {
-            _ = combat.CombatData.InvolvedLeaders.Add((byte)CombatPlayer);
+            _ = combat.CombatData.InvolvedLeaders.Add(CombatPlayer.TruncateToByte());
         }
     }
 
@@ -398,7 +394,7 @@ public class CombatUnit : CombatObject
     public override WallCombatFeatures WallCombatFeatures() => WallCombatFeaturesValue;
 
     // Combat.pas:1247
-    public override void PlaySfx(byte sound)
+    public override void PlaySfx(int sound)
     {
         switch (sound)
         {
@@ -530,7 +526,7 @@ public class CombatUnit : CombatObject
         ResetTargets();
         if (Troop is Leader)
         {
-            _ = Combat.CombatData.DefeatedLeaders.Add((byte)CombatPlayer);
+            _ = Combat.CombatData.DefeatedLeaders.Add(CombatPlayer.TruncateToByte());
         }
 
         Combat.ObjectDestroyed(this);
@@ -566,7 +562,7 @@ public class CombatUnit : CombatObject
             ResetTargets();
             if (Troop is Leader)
             {
-                _ = Combat.CombatData.DefeatedLeaders.Add((byte)CombatPlayer);
+                _ = Combat.CombatData.DefeatedLeaders.Add(CombatPlayer.TruncateToByte());
             }
 
             Combat.ObjectDestroyed(this);
@@ -636,7 +632,7 @@ public class CombatUnit : CombatObject
     public virtual void KillUnit() => Troop.Killed();
 
     // Combat.pas:1087
-    public void Setup(byte id, byte side, Troop? troop, byte position, byte combatPlayer)
+    public void Setup(byte id, int side, Troop? troop, byte position, byte combatPlayer)
     {
         Id = id;
         Position = position;

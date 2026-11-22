@@ -57,7 +57,7 @@ public class FlagEvent(CustomNode owner) : MapObject(owner)
     public override bool CanSelect(int pixelX, int pixelY) => StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting);
 
     // FlagEvents.pas:105
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => true;
+    public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel) => true;
 
     // FlagEvents.pas:129
     public virtual bool Trigger(sbyte player) => true;

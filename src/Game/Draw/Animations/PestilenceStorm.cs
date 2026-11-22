@@ -21,7 +21,7 @@ public class PestilenceStorm(CustomNode? owner) : Storm(owner)
     // Storms.pas:644
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        sbyte hexY = HexY;
+        int hexY = HexY;
         HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
         x = x - pixelXSurface + 8;
         y -= pixelYSurface;
@@ -42,7 +42,7 @@ public class PestilenceStorm(CustomNode? owner) : Storm(owner)
     }
 
     // Storms.pas:725
-    public override StormDamageInfo GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, StormDamageInfo info)
+    public override StormDamageInfo GetTargetDamageInfo(sbyte player, int X, int Y, int L, StormDamageInfo info)
     {
         AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Pestilence, X, Y, L, innerRadius: 0, outerRadius: 2, out info);
         return info;
@@ -60,7 +60,7 @@ public class PestilenceStorm(CustomNode? owner) : Storm(owner)
     }
 
     // Storms.pas:668
-    public override void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
+    public override void InitializeStorm(sbyte player, int X, int Y, int L)
     {
         Rect r = default;
         _cloudResource = GamePack.Current.MapObjectResourceList.FindChild<PoisonCloud.Resource>(PoisonCloud.Resource.ClassId);
@@ -95,9 +95,9 @@ public class PestilenceStorm(CustomNode? owner) : Storm(owner)
             PoisonCloud cloud = _cloudResource.CreateResourceUser<PoisonCloud>();
             cloud.TurnsRemaining = 3;
             cloud.Player = StrategicMap.Current.CurrentPlayer;
-            sbyte hexLevel = HexLevel;
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexLevel = HexLevel;
+            int hexY = HexY;
+            int hexX = HexX;
             if (StrategicMap.Current.PlaceHex(cloud, hexX, hexY, L: hexLevel))
             {
                 cloud.TriggerDamage();

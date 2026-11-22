@@ -5,6 +5,7 @@ using Aow.Game.Draw;
 
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.World;
 
@@ -17,7 +18,7 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
     // Bridge.pas:48
     public new const int ClassId = 131_444;
 
-    private ushort _transitions;
+    private int _transitions;
 
     // Bridge.pas:53
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -29,7 +30,7 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
     // Bridge.pas:63
     // { Original oddity: the overlay of the owner of the previous owner (a map level, not a map field)
     //   is updated. }
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
         HexSprite oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
@@ -63,7 +64,7 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
             if (hexX >= 0 && hexY >= 0 && level.Width > hexX && level.Height > hexY)
             {
                 MapField mapField = level.GetField(hexX, hexY);
-                sbyte terrainType = mapField.TerrainType;
+                int terrainType = mapField.TerrainType;
                 bool hasRoad = mapField.FindHexSprite(typeof(AbstractRoad)) is not null;
                 bool isShore = terrainType != 0 && base.Resource.TerrainList.GetTerrain(0) != terrainType && mapField.FindHexSprite(typeof(BorderHex)) is null;
                 if (hasRoad)
@@ -203,7 +204,7 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
             }
         }
 
-        _transitions = (ushort)transitions;
+        _transitions = transitions.TruncateToUInt16();
     }
 
     public new class Resource : AbstractRoadResource

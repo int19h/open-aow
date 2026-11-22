@@ -9,6 +9,7 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
@@ -20,7 +21,7 @@ public class Resource : PlayerCropStructureResource
     // City.pas:2628
     public new const int ClassId = 131_337;
 
-    public byte Size { get; private set; }
+    public int Size { get; private set; }
 
     // City.pas:2669
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -69,7 +70,7 @@ public class Resource : PlayerCropStructureResource
         {
             if (TerrainList.Terrain[i] >= 0)
             {
-                Size = (byte)(Size + 1);
+                Size = (Size + 1).TruncateToByte();
             }
         }
     }

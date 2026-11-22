@@ -25,7 +25,7 @@ public class Animation(CustomNode? owner, ShowAnimationEvent? show = null, Actio
     // The stored hex. GetHexX, GetHexY and GetHexLevel read it, and HexSprite.Location returns that.
     public override MapCoordinate Location { get; set; }
 
-    public byte AnimationLevel { get; set; } = 26;
+    public int AnimationLevel { get; set; } = 26;
 
     private States _state;
 
@@ -58,7 +58,7 @@ public class Animation(CustomNode? owner, ShowAnimationEvent? show = null, Actio
     }
 
     // Animation.pas:194
-    public override byte Level => AnimationLevel;
+    public override int Level => AnimationLevel;
 
     // Animation.pas:213
     public override bool Visible
@@ -139,7 +139,7 @@ public class Animation(CustomNode? owner, ShowAnimationEvent? show = null, Actio
     public override bool Place(MapContainer? map, int pixelX, int pixelY, int hexLevel)
     {
         HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int x, out int y);
-        return PlaceHex(map, (sbyte)x, (sbyte)y, L: (sbyte)hexLevel);
+        return PlaceHex(map, x.TruncateToSByte(), y.TruncateToSByte(), L: hexLevel.TruncateToSByte());
     }
 
     // Animation.pas:372
@@ -240,16 +240,16 @@ public class Animation(CustomNode? owner, ShowAnimationEvent? show = null, Actio
     public virtual bool ExecuteTokenEvent(AnimationTokenEvent eventValue, TokenExecutor executor) => false;
 
     // Animation.pas:308
-    public virtual bool CanPlace(MapContainer? map, sbyte X, sbyte Y, sbyte L) => X >= 0 && Y >= 0 && L >= 0 && X < map.Width && Y < map.Height && L < map.LevelCount;
+    public virtual bool CanPlace(MapContainer? map, int X, int Y, int L) => X >= 0 && Y >= 0 && L >= 0 && X < map.Width && Y < map.Height && L < map.LevelCount;
 
     // Animation.pas:357
-    public virtual bool PlaceHex(MapContainer? map, sbyte X, sbyte Y, sbyte L)
+    public virtual bool PlaceHex(MapContainer? map, int X, int Y, int L)
     {
         if (EditMode || CanPlace(map, X, Y, L))
         {
             AnimationMap = map.Map;
             Remove();
-            Location = new MapCoordinate(X, Y, L);
+            Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
             Connect();
             return true;
         }

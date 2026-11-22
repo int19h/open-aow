@@ -8,7 +8,7 @@ internal static class AlignmentTables
 {
     internal static Status AlignmentToStatus(Alignment alignment, Alignment otherAlignment) => Race.StatusValueToStatus(AlignmentStatusValues[(int)alignment][(int)otherAlignment]);
 
-    internal static sbyte AlignmentToIndependentRelation(Alignment alignment)
+    internal static int AlignmentToIndependentRelation(Alignment alignment)
     {
         return alignment switch
         {

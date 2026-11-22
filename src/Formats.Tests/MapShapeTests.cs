@@ -435,7 +435,7 @@ public sealed class MapShapeTests : FormatsTest
         public void Persist(IPersister persister)
         {
             persister.CreatedSequence("HexSpriteList", items: new SpriteList(Sprites));
-            Flags = persister.UInt16("FieldFlags", Flags);
+            Flags = (ushort)persister.UInt16("FieldFlags", Flags);
         }
     }
 
@@ -467,8 +467,8 @@ public sealed class MapShapeTests : FormatsTest
 
         public void Persist(IPersister persister)
         {
-            DaysRemaining = persister.SByte("DaysRemaining", DaysRemaining);
-            CasterPlayer = persister.SByte("CasterPlayer", CasterPlayer);
+            DaysRemaining = (sbyte)persister.SByte("DaysRemaining", DaysRemaining);
+            CasterPlayer = (sbyte)persister.SByte("CasterPlayer", CasterPlayer);
         }
     }
 

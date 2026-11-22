@@ -116,7 +116,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
     private CityAction _action;
     private int _productionIndex;
     private int _queueIndex;
-    private byte _mode;
+    private int _mode;
     private MigrationList? _migrations;
     private int _migrationSort;
     private Int32List _images;
@@ -219,7 +219,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
     }
 
     // AoWCityScreen.pas:836
-    public void SetMode(byte mode)
+    public void SetMode(int mode)
     {
         _mode = mode;
         switch (_mode)
@@ -514,18 +514,18 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
             case CityAction.Produce:
                 Unit? u = _city.Production.CreateUnitProduction(_productionIndex);
                 UnitPanel.Visible = true;
-                sbyte attack = u.GetAttack();
-                UnitAttackLabel.Text = ((int)attack).ToString(CultureInfo.InvariantCulture);
-                sbyte defense = u.GetDefense();
-                UnitDefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
-                sbyte resistance = u.GetResistance();
-                UnitResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
-                sbyte damage = u.GetDamage();
-                UnitDamageLabel.Text = ((int)damage).ToString(CultureInfo.InvariantCulture);
-                sbyte hits = u.GetHits();
-                UnitHitsLabel.Text = ((int)hits).ToString(CultureInfo.InvariantCulture);
-                sbyte moves = u.Moves;
-                UnitMovesLabel.Text = ((int)moves).ToString(CultureInfo.InvariantCulture);
+                int attack = u.GetAttack();
+                UnitAttackLabel.Text = attack.ToString(CultureInfo.InvariantCulture);
+                int defense = u.GetDefense();
+                UnitDefenseLabel.Text = defense.ToString(CultureInfo.InvariantCulture);
+                int resistance = u.GetResistance();
+                UnitResistanceLabel.Text = resistance.ToString(CultureInfo.InvariantCulture);
+                int damage = u.GetDamage();
+                UnitDamageLabel.Text = damage.ToString(CultureInfo.InvariantCulture);
+                int hits = u.GetHits();
+                UnitHitsLabel.Text = hits.ToString(CultureInfo.InvariantCulture);
+                int moves = u.Moves;
+                UnitMovesLabel.Text = moves.ToString(CultureInfo.InvariantCulture);
                 MoveTypes moveTypes = u.GetMoveTypes();
                 int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                 UnitMovesIcon.CurrentImage = moveTypesToInt32;
@@ -533,10 +533,10 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
                 string alignmentText = UI.Engine.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
                 string format4 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), arguments: [alignmentText]);
                 UnitAlignmentLabel.Text = format4;
-                sbyte unitLevel = u.UnitLevel;
-                string format5 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [((int)unitLevel).ToString(CultureInfo.InvariantCulture)]);
-                byte upkeep = u.GetUpkeep();
-                string format6 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), arguments: [(int)upkeep]);
+                int unitLevel = u.UnitLevel;
+                string format5 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [unitLevel.ToString(CultureInfo.InvariantCulture)]);
+                int upkeep = u.GetUpkeep();
+                string format6 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), arguments: [upkeep]);
                 UnitLevelLabel.Text = $"{format5} / {format6}";
                 if (UI.Engine.Debug)
                 {
@@ -613,7 +613,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
         string income = UI.Engine.TranslateResourceString(GameText.IncomeText);
         _ = IncomeHeader.Items.Add(income);
         string xGold = UI.Engine.TranslateResourceString(GameText.GoldFormat);
-        string format = AbilityRules.Format(" " + xGold, arguments: [((int)_city.Income).ToString(CultureInfo.InvariantCulture)]);
+        string format = AbilityRules.Format(" " + xGold, arguments: [_city.Income.ToString(CultureInfo.InvariantCulture)]);
         _ = IncomeHeader.Items.Add(format);
         IncomeMemo.Items.Clear();
         IncomeGoldMemo.Items.Clear();
@@ -776,8 +776,8 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
         }
 
         RandomBattleMapGenerator generator = new(UI.Engine);
-        sbyte hexLevel = _city.HexLevel;
-        sbyte hexY = _city.HexY;
+        int hexLevel = _city.HexLevel;
+        int hexY = _city.HexY;
         _preview = generator.RandomMap(null, _city.HexX, hexY, L: hexLevel);
         generator?.Dispose();
         ArmyHSList armies = new(null) { Holder = UI.Engine };
@@ -785,9 +785,9 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
         for (int i = 0, last = armies.GetCount() - 1; i <= last; i++)
         {
             ArmyHexSprite army = armies[i];
-            sbyte armyHexY = army.HexY;
-            sbyte hexX = army.HexX;
-            sbyte fCityHexY = _city.HexY;
+            int armyHexY = army.HexY;
+            int hexX = army.HexX;
+            int fCityHexY = _city.HexY;
             int direction = HexGeometry.DeltaHexToHexNumber(_city.HexX, fCityHexY, hexX, armyHexY);
             for (int j = 0, lastJ = army.Army.Units.Count - 1; j <= lastJ; j++)
             {
@@ -799,7 +799,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
         MapObject? mapObject = _preview.CenterViewLocation;
         if (_preview.CenterViewLocation is not null)
         {
-            sbyte mapObjectHexY = mapObject.HexY;
+            int mapObjectHexY = mapObject.HexY;
             HexGeometry.HexToPixel(mapObject.HexX, mapObjectHexY, out _viewX, out _viewY);
             _viewX = _viewX + 16 - (MapView.WinWidth / 2);
             _viewY = _viewY + 16 - (MapView.WinHeight / 2);
@@ -980,7 +980,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
 
                         break;
                     case CityAction.Migrate:
-                        sbyte race = MigrationRaceList.Items.Objects[MigrationRaceList.Selected].Race;
+                        int race = MigrationRaceList.Items.Objects[MigrationRaceList.Selected].Race;
                         if (_city.CanMigrate(race, reason))
                         {
                             StrategicMap.Current.TutorialControl.ShowMessage(66, immediate: true, onceOnly: true);
@@ -1347,7 +1347,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
     }
 
     // AoWCityScreen.pas:668
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         switch (key)
         {

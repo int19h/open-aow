@@ -8,6 +8,7 @@ using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -26,16 +27,16 @@ public class CombatWall : CombatObject
         ControlMode = CombatObjectControlModes.None;
     }
 
-    private byte _wallType;
-    private byte _hitPoints;
+    private int _wallType;
+    private int _hitPoints;
     private readonly bool _locked;
 
     // Combat.pas:1724
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _wallType = persister.RawByte("WallType", value: _wallType);
-        _hitPoints = persister.Byte("HitPoints", value: _hitPoints);
+        _wallType = persister.RawByte("WallType", value: _wallType.TruncateToByte());
+        _hitPoints = persister.Byte("HitPoints", value: _hitPoints.TruncateToByte());
     }
 
     // Combat.pas:1673
@@ -73,10 +74,10 @@ public class CombatWall : CombatObject
     public override bool GetLocked() => _locked;
 
     // Combat.pas:1731
-    public override sbyte GetDefense() => 0;
+    public override int GetDefense() => 0;
 
     // Combat.pas:1734
-    public override sbyte GetResistance() => 3;
+    public override int GetResistance() => 3;
 
     // Combat.pas:1746
     public override DamageTypes GetImmunityTypes()
@@ -86,13 +87,13 @@ public class CombatWall : CombatObject
     }
 
     // Combat.pas:1740
-    public override sbyte GetHits() => _wallType == 2 ? (sbyte)10 : (sbyte)5;
+    public override int GetHits() => _wallType == 2 ? 10 : 5;
 
     // Combat.pas:1743
-    public override sbyte HitPoints => (sbyte)_hitPoints;
+    public override int HitPoints => _hitPoints.TruncateToSByte();
 
     // Combat.pas:1755
-    public override void SetHitPoints(byte value) => _hitPoints = value;
+    public override void SetHitPoints(int value) => _hitPoints = value;
 
     // Combat.pas:1712
     public override void Activate(Battle combat)
@@ -125,7 +126,7 @@ public class CombatWall : CombatObject
             default:
                 break;
         }
-        HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: GetHits(), hitPoints: (sbyte)_hitPoints), x: X, y: Y - 10, surface: surface);
+        HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: GetHits(), hitPoints: _hitPoints.TruncateToSByte()), x: X, y: Y - 10, surface: surface);
     }
 
     // Combat.pas:1773
@@ -153,11 +154,11 @@ public class CombatWall : CombatObject
     public override string IdString() => "Wall";
 
     // Combat.pas:1704
-    public void Setup(byte id, byte wallType, byte combatPlayer)
+    public void Setup(byte id, int wallType, byte combatPlayer)
     {
         Id = id;
         _wallType = wallType;
-        _hitPoints = (byte)GetHits();
+        _hitPoints = GetHits().TruncateToByte();
         SetCombatPlayer(combatPlayer);
     }
 }

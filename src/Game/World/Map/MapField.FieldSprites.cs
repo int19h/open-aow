@@ -11,7 +11,7 @@ public partial class MapField
 {
     private byte[] _directions = [];
 
-    public void Resize(byte capacity)
+    public void Resize(int capacity)
     {
         if (capacity is > 0 and < 3)
         {
@@ -23,16 +23,16 @@ public partial class MapField
         Capacity = capacity;
     }
 
-    public byte GetHexNumber(int index) => index >= StoredCount ? throw new IndexOutOfRangeException("Index out of bounds") : _directions[index];
+    public int GetHexNumber(int index) => index >= StoredCount ? throw new IndexOutOfRangeException("Index out of bounds") : _directions[index];
 
-    public void SetHexNumber(int index, byte value)
+    public void SetHexNumber(int index, int value)
     {
         if (index >= StoredCount)
         {
             throw new IndexOutOfRangeException("Index out of bounds");
         }
 
-        _directions[index] = value;
+        _directions[index] = (byte)value;
     }
 
     public int AddHexSprite(HexSprite? sprite, int hexNumber)
@@ -52,7 +52,7 @@ public partial class MapField
         catch { }
         if (Capacity == StoredCount)
         {
-            Resize((byte)(Capacity + 1));
+            Resize((Capacity + 1).TruncateToByte());
         }
 
         int priority = sprite.GetShowPriority();
@@ -72,12 +72,12 @@ public partial class MapField
         }
         if (priority >>> 26 <= 15)
         {
-            StaticCount++;
+            StaticCount = (StaticCount + 1).TruncateToByte();
         }
 
         _hexSpriteList[index] = sprite;
         _directions[index] = (byte)hexNumber;
-        StoredCount++;
+        StoredCount = (StoredCount + 1).TruncateToByte();
         return index;
     }
 
@@ -94,7 +94,7 @@ public partial class MapField
             return -1;
         }
 
-        StoredCount--;
+        StoredCount = (StoredCount - 1).TruncateToByte();
         if (index < StoredCount)
         {
             Array.Copy(_directions, sourceIndex: index + 1, destinationArray: _directions, destinationIndex: index, length: StoredCount - index);
@@ -104,7 +104,7 @@ public partial class MapField
         {
             if (StaticCount != 0)
             {
-                StaticCount--;
+                StaticCount = (StaticCount - 1).TruncateToByte();
             }
             else
             {
@@ -120,7 +120,7 @@ public partial class MapField
 
     public void Remove(int index)
     {
-        StoredCount--;
+        StoredCount = (StoredCount - 1).TruncateToByte();
         if (index < StoredCount)
         {
             Array.Copy(_directions, sourceIndex: index + 1, destinationArray: _directions, destinationIndex: index, length: StoredCount - index);
@@ -153,7 +153,7 @@ public partial class MapField
         StaticCount = 0;
         while (StaticCount != StoredCount && _hexSpriteList[StaticCount].GetShowPriority() >>> 26 <= 15)
         {
-            StaticCount++;
+            StaticCount = (StaticCount + 1).TruncateToByte();
         }
     }
 
@@ -188,7 +188,7 @@ public partial class MapField
 
     public void Initialize()
     {
-        sbyte overlay = -1, terrain = -1;
+        int overlay = -1, terrain = -1;
         for (int i = StoredCount - 1; i >= 0; i--)
         {
             if (terrain < 0)
@@ -201,8 +201,8 @@ public partial class MapField
                 overlay = _hexSpriteList[i].GetOverlay(_directions[i]);
             }
         }
-        OverlayType = Math.Max(overlay, (sbyte)-1);
-        TerrainType = Math.Max(terrain, (sbyte)-1);
+        OverlayType = Math.Max((sbyte)overlay, (sbyte)-1);
+        TerrainType = Math.Max((sbyte)terrain, (sbyte)-1);
         HexSpriteTerrainInfo info = new() { MapField = this, TerrainType = TerrainType, OverlayType = OverlayType };
         for (int i = StoredCount - 1; i >= 0; i--)
         {
@@ -212,12 +212,12 @@ public partial class MapField
         UpdateMapField();
     }
 
-    public int SetHexNumberOfHexSprite(HexSprite sprite, byte hexNumber)
+    public int SetHexNumberOfHexSprite(HexSprite sprite, int hexNumber)
     {
         int index = FindChildIndex(sprite);
         if (index != -1)
         {
-            _directions[index] = hexNumber;
+            _directions[index] = (byte)hexNumber;
         }
 
         return index;
@@ -248,7 +248,7 @@ public partial class MapField
 
     private (sbyte Terrain, sbyte Overlay) ReadTerrain()
     {
-        sbyte terrain = -1, overlay = -1;
+        int terrain = -1, overlay = -1;
         for (int i = StoredCount - 1; i >= 0; i--)
         {
             if (terrain < 0)
@@ -261,7 +261,7 @@ public partial class MapField
                 overlay = _hexSpriteList[i].GetOverlay(_directions[i]);
             }
         }
-        return (Math.Max(terrain, (sbyte)-1), Math.Max(overlay, (sbyte)-1));
+        return (Math.Max((sbyte)terrain, (sbyte)-1), Math.Max((sbyte)overlay, (sbyte)-1));
     }
 
     public void UpdateTerrain()
@@ -289,19 +289,19 @@ public partial class MapField
             return;
         }
 
-        sbyte terrain = -1;
+        int terrain = -1;
         for (int i = StoredCount - 1; i >= 0 && terrain < 0; i--)
         {
             terrain = _hexSpriteList[i].GetTerrain(_directions[i]);
         }
 
-        terrain = Math.Max(terrain, (sbyte)-1);
+        terrain = Math.Max((sbyte)terrain, (sbyte)-1);
         if (terrain == TerrainType)
         {
             return;
         }
 
-        TerrainType = terrain;
+        TerrainType = (sbyte)terrain;
         TerrainChanged();
     }
 
@@ -312,19 +312,19 @@ public partial class MapField
             return;
         }
 
-        sbyte overlay = -1;
+        int overlay = -1;
         for (int i = StoredCount - 1; i >= 0 && overlay < 0; i--)
         {
             overlay = _hexSpriteList[i].GetOverlay(_directions[i]);
         }
 
-        overlay = Math.Max(overlay, (sbyte)-1);
+        overlay = Math.Max((sbyte)overlay, (sbyte)-1);
         if (overlay == OverlayType)
         {
             return;
         }
 
-        OverlayType = overlay;
+        OverlayType = (sbyte)overlay;
         TerrainChanged();
     }
 
@@ -386,33 +386,33 @@ public partial class MapField
         return true;
     }
 
-    public bool CanChangeTerrain(EngineObject sender, sbyte terrain, sbyte overlay)
+    public bool CanChangeTerrain(EngineObject sender, int terrain, int overlay)
     {
         if (Status.Contains(MapFieldStatuses.TerrainLocked))
         {
             return false;
         }
 
-        sbyte oldTerrain = TerrainType, oldOverlay = OverlayType;
+        int oldTerrain = TerrainType, oldOverlay = OverlayType;
         if (terrain >= 0)
         {
-            TerrainType = terrain;
+            TerrainType = (sbyte)terrain;
         }
 
         if (overlay >= 0)
         {
-            OverlayType = overlay;
+            OverlayType = (sbyte)overlay;
         }
 
         bool result = CanChangeTerrain(sender);
         if (terrain >= 0)
         {
-            TerrainType = oldTerrain;
+            TerrainType = (sbyte)oldTerrain;
         }
 
         if (overlay >= 0)
         {
-            OverlayType = oldOverlay;
+            OverlayType = (sbyte)oldOverlay;
         }
 
         return result;

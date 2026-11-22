@@ -14,6 +14,7 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
+using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -39,10 +40,10 @@ public sealed class GroupDefenseSelector : IDisposable
     public void Dispose() => Defenders?.Dispose();
 
     // AIGroup.pas:1652
-    public bool GetDefenders(sbyte player, sbyte X, sbyte Y, sbyte L, UnitUserList units)
+    public bool GetDefenders(sbyte player, int X, int Y, int L, UnitUserList units)
     {
         bool result = false;
-        MapCoordinate location = new(X, Y, L);
+        MapCoordinate location = new((sbyte)X, (sbyte)Y, (sbyte)L);
         DefensePriority priority = (DefensePriority)StrategicMap.Current.MapContainer.GetField(X, Y, L).GetDefensePriority();
         Player? p = StrategicMap.Current.Players.GetPlayers(player);
         for (int i = p.AIGroups.Count - 1; i >= 0; i--)
@@ -103,7 +104,7 @@ public sealed class GroupDefenseSelector : IDisposable
     }
 
     // AIGroup.pas:1728
-    public bool Execute(AIGroup group, sbyte X, sbyte Y, sbyte L, UnitUserList? units)
+    public bool Execute(AIGroup group, int X, int Y, int L, UnitUserList? units)
     {
         DefenseRequirements strengths = default;
         Defenders.Clear();
@@ -123,7 +124,7 @@ public sealed class GroupDefenseSelector : IDisposable
                 if (!EnoughStrength(openedStrengths))
                 {
                     UpdateDefenseLocation(mapField);
-                    _ = GetDefenders(group.Player, (sbyte)walk.X, (sbyte)walk.Y, L, units: candidates);
+                    _ = GetDefenders(group.Player, walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), L, units: candidates);
                     s_defenseSortGroupId = group.GroupId;
                     s_defenseSortUnits = units;
                     candidates.SortChildren<Troop>(CompareDefenseUnits);

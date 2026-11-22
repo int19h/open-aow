@@ -19,10 +19,10 @@ public class SByteList : Persistent, IReadOnlyList<sbyte>
     private sbyte _default;
 
     // Engine.pas:4025
-    internal sbyte Get(int index) => index < 0 || index >= _count ? _default : _list[index];
+    internal int Get(int index) => index < 0 || index >= _count ? _default : _list[index];
 
     // Engine.pas:4079
-    internal void Put(int index, sbyte item)
+    internal void Put(int index, int item)
     {
         if (index < 0)
         {
@@ -34,7 +34,7 @@ public class SByteList : Persistent, IReadOnlyList<sbyte>
             SetCount(index + 1);
         }
 
-        _list[index] = item;
+        _list[index] = (sbyte)item;
     }
 
     // Engine.pas:4099
@@ -100,7 +100,7 @@ public class SByteList : Persistent, IReadOnlyList<sbyte>
     }
 
     // Engine.pas:3969
-    public int Add(sbyte item)
+    public int Add(int item)
     {
         int result = _count;
         if (result == _capacity)
@@ -108,7 +108,7 @@ public class SByteList : Persistent, IReadOnlyList<sbyte>
             Grow();
         }
 
-        _list[result] = item;
+        _list[result] = (sbyte)item;
         _count += 1;
         return result;
     }
@@ -163,7 +163,7 @@ public class SByteList : Persistent, IReadOnlyList<sbyte>
     }
 
     // Engine.pas:4020
-    public sbyte First() => Get(0);
+    public int First() => Get(0);
 
     // Engine.pas:4043
     public int IndexOf(sbyte item)
@@ -178,7 +178,7 @@ public class SByteList : Persistent, IReadOnlyList<sbyte>
     }
 
     // Engine.pas:4050
-    public void Insert(int index, sbyte item)
+    public void Insert(int index, int item)
     {
         if (index < 0 || index > _count)
         {
@@ -195,12 +195,12 @@ public class SByteList : Persistent, IReadOnlyList<sbyte>
             Array.Copy(_list, sourceIndex: index, destinationArray: _list, destinationIndex: index + 1, length: (_count - index) * 1);
         }
 
-        _list[index] = item;
+        _list[index] = (sbyte)item;
         _count += 1;
     }
 
     // Engine.pas:4061
-    public sbyte Last() => Get(_count - 1);
+    public int Last() => Get(_count - 1);
 
     // Engine.pas:4066
     public void Move(int currentIndex, int newIndex)
@@ -212,16 +212,16 @@ public class SByteList : Persistent, IReadOnlyList<sbyte>
                 Error("List index out of bounds (%d)", data: newIndex);
             }
 
-            sbyte item = Get(currentIndex);
+            int item = Get(currentIndex);
             Delete(currentIndex);
             Insert(newIndex, item);
         }
     }
 
     // Engine.pas:4086
-    public int Remove(sbyte item)
+    public int Remove(int item)
     {
-        int result = IndexOf(item);
+        int result = IndexOf((sbyte)item);
         if (result != -1)
         {
             Delete(result);
@@ -371,9 +371,9 @@ public class SByteList : Persistent, IReadOnlyList<sbyte>
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
     public int Count { get => _count; internal set => SetCount(value); }
-    public sbyte Default { get => _default; init => _default = value; }
+    public int Default { get => _default; init => _default = (sbyte)value; }
 
-    public sbyte this[int index] { get => Get(index); set => Put(index, item: value); }
+    public sbyte this[int index] { get => (sbyte)Get(index); set => Put(index, item: value); }
 
     public sbyte[] List => _list;
 
@@ -387,15 +387,15 @@ public class SByteList : Persistent, IReadOnlyList<sbyte>
         {
             number = L;
             int number2 = R;
-            sbyte item = sortList[L + R >>> 1];
+            int item = sortList[L + R >>> 1];
             while (true)
             {
-                if (sCompare(sortList[number], item) < 0)
+                if (sCompare(sortList[number], (sbyte)item) < 0)
                 {
                     number++;
                     continue;
                 }
-                while (sCompare(sortList[number2], item) > 0)
+                while (sCompare(sortList[number2], (sbyte)item) > 0)
                 {
                     number2--;
                 }

@@ -74,9 +74,9 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     private int _rightUnit;
     private int _leftItem;
     private int _rightItem;
-    private byte _leftKind;
+    private int _leftKind;
     private int _leftSelection;
-    private byte _rightKind;
+    private int _rightKind;
     private int _rightSelection;
 
     // AoWCampaignTransferDlg.pas:683

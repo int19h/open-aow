@@ -162,11 +162,11 @@ public sealed partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
 
     public void U1Change(CheckBox sender, int slot)
     {
-        byte oldSelection = Caster.SelectionMask;
+        int oldSelection = Caster.SelectionMask;
         int bit = 1 << slot;
-        Caster.SetSelection((byte)(sender.Checked
+        Caster.SetSelection((sender.Checked
             ? Caster.AllowMultipleTargets ? Caster.SelectionMask | bit : bit
-            : Caster.SelectionMask & ~bit));
+            : Caster.SelectionMask & ~bit).TruncateToByte());
         CheckBox[] checks = [Unit1CheckBox, Unit2CheckBox, Unit3CheckBox, Unit4CheckBox, Unit5CheckBox, Unit6CheckBox, Unit7CheckBox, Unit8CheckBox];
         for (int i = 0; i < checks.Length; i++)
         {
@@ -175,7 +175,7 @@ public sealed partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
 
         if (Caster.SelectionMask != oldSelection)
         {
-            UI.General.PlayButtonSound((byte)(sender.Checked ? 1 : 2));
+            UI.General.PlayButtonSound(sender.Checked ? 1 : 2);
         }
 
         if (Caster.SelectionMask == 0)

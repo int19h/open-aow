@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -39,7 +40,7 @@ public class FreeMovement : UnitSpell
                 UnitEnchantment enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(157).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
-                enchantment.DispelResistance = (sbyte)UnitDispelResistance;
+                enchantment.DispelResistance = UnitDispelResistance.TruncateToSByte();
             }
 
             // { Original succeeds even when expansion fails. }

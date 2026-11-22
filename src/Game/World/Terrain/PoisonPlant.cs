@@ -15,6 +15,7 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
@@ -29,16 +30,16 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     public PoisonPlantStatuses PlantStatus { get; set; } = PoisonPlantStatuses.None;
 
     public sbyte CasterPlayer { get; set; } = -1;
-    public sbyte DaysRemaining { get; set; } = -1;
-    public sbyte OriginalOverlay { get; set; } = -1;
+    public int DaysRemaining { get; set; } = -1;
+    public int OriginalOverlay { get; set; } = -1;
 
     // PoisonP.pas:97
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        CasterPlayer = persister.SByte("CasterPlayer", value: CasterPlayer, fallback: -1);
-        DaysRemaining = persister.SByte("DaysRemaining", value: DaysRemaining, fallback: -1);
-        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay, fallback: -1);
+        CasterPlayer = (sbyte)persister.SByte("CasterPlayer", value: CasterPlayer, fallback: -1);
+        DaysRemaining = persister.SByte("DaysRemaining", value: DaysRemaining.TruncateToSByte(), fallback: -1);
+        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay.TruncateToSByte(), fallback: -1);
     }
 
     // PoisonP.pas:255
@@ -66,8 +67,8 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
         bool result = base.PlaceOnMap();
         if (result)
         {
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexY = HexY;
+            int hexX = HexX;
             UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 
@@ -190,7 +191,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
                     count += 1;
                 }
 
-                _ = log.DamageValues.Add((byte)damage);
+                _ = log.DamageValues.Add(damage.TruncateToByte());
                 _ = log.DamageTypes.Add((int)DamageType.Poison);
             }
             else
@@ -225,7 +226,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     public void RestoreTerrain()
     {
         MapField? mapField = Owner;
-        sbyte originalOverlay = OriginalOverlay;
+        int originalOverlay = OriginalOverlay;
         Dispose();
         if (originalOverlay > 0)
         {
@@ -247,7 +248,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
 
         if (player == CasterPlayer && DaysRemaining > 0)
         {
-            DaysRemaining = (sbyte)(DaysRemaining - 1);
+            DaysRemaining = (DaysRemaining - 1).TruncateToSByte();
             if (DaysRemaining == 0)
             {
                 RestoreTerrain();
@@ -258,18 +259,18 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     // PoisonP.pas:267
     public void ShowSummonAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        sbyte hexLevel = animation.HexLevel;
-        sbyte hexY = animation.HexY;
-        sbyte hexX = animation.HexX;
+        int hexLevel = animation.HexLevel;
+        int hexY = animation.HexY;
+        int hexX = animation.HexX;
         MapField mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == mapField.FindOwnedChild(ClassId) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
-                sbyte hexLevel2 = HexLevel;
-                sbyte hexY2 = HexY;
-                sbyte hexX2 = HexX;
+                int hexLevel2 = HexLevel;
+                int hexY2 = HexY;
+                int hexX2 = HexX;
                 condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
             }
 
@@ -283,9 +284,9 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     // PoisonP.pas:279
     public void NewFrameSummonAnimation(Animation animation, int frameCounter)
     {
-        sbyte hexLevel = animation.HexLevel;
-        sbyte hexY = animation.HexY;
-        sbyte hexX = animation.HexX;
+        int hexLevel = animation.HexLevel;
+        int hexY = animation.HexY;
+        int hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(ClassId) && frameCounter == 9)
         {

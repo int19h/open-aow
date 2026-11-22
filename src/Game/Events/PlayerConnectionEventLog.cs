@@ -16,7 +16,7 @@ namespace Aow.Game.Events;
 // reason, disconnected player
 public class PlayerConnectionEventLog(CustomNode? owner, EngineObject holder) : MessageEventLog(owner, holder)
 {
-    private byte _reason;
+    private int _reason;
     private sbyte _disconnectedPlayer;
 
     // PlayerC.PAS:1714
@@ -40,7 +40,7 @@ public class PlayerConnectionEventLog(CustomNode? owner, EngineObject holder) : 
     }
 
     // PlayerC.PAS:1671
-    public void Setup(sbyte player, byte reason)
+    public void Setup(sbyte player, int reason)
     {
         _reason = reason;
         _disconnectedPlayer = player;

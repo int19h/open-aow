@@ -4,6 +4,7 @@ using Aow.Engine;
 
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Map;
 
@@ -50,14 +51,14 @@ public partial class MapContainer(CustomNode? owner) : OwningNode(owner), IChild
             Map.MapContainer = this;
         }
 
-        byte w = (byte)Width;
-        w = persister.Byte("Width", value: w);
+        int w = Width.TruncateToByte();
+        w = persister.Byte("Width", value: w.TruncateToByte());
         Width = w;
-        byte h = (byte)Height;
-        h = persister.Byte("Height", value: h);
+        int h = Height.TruncateToByte();
+        h = persister.Byte("Height", value: h.TruncateToByte());
         Height = h;
-        byte l = (byte)LevelCount;
-        l = persister.Byte("LevelCount", value: l);
+        int l = LevelCount.TruncateToByte();
+        l = persister.Byte("LevelCount", value: l.TruncateToByte());
         LevelCount = l;
     }
 

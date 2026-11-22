@@ -11,6 +11,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 using static Aow.Rtl.DelphiStrings;
 
@@ -50,7 +51,7 @@ public sealed class UnitGraphicsResource : EngineResource
 
     private int _refCount;
 
-    public byte MoveAnimationSpeed { get; set; }
+    public int MoveAnimationSpeed { get; set; }
 
     public SfxLibrary[] SfxLibraries { get; } = new SfxLibrary[5];
 
@@ -84,7 +85,7 @@ public sealed class UnitGraphicsResource : EngineResource
         }
 
         _faceIndex = persister.Int32("FaceIndex", value: _faceIndex);
-        MoveAnimationSpeed = persister.RawByte("MoveAnimationSpeed", value: MoveAnimationSpeed);
+        MoveAnimationSpeed = persister.RawByte("MoveAnimationSpeed", value: MoveAnimationSpeed.TruncateToByte());
         persister.Object("SelectSfxLibrary", objectValue: SfxLibraries[0]);
         persister.Object("MoveSfxLibrary", objectValue: SfxLibraries[1]);
         persister.Object("MeleeSfxLibrary", objectValue: SfxLibraries[2]);

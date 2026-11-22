@@ -47,8 +47,8 @@ public sealed record OfferPeace(int Gold = 0, int Mana = 0) : OfferProposal(Gold
     public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
     {
         string errorText = "";
-        sbyte source = action.Source;
-        sbyte target = action.Target;
+        int source = action.Source;
+        int target = action.Target;
         DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(target).DiplomaticActions.FindLastAction(Kind, reaction: DiplomaticActionReaction.None, source: target, target: source, other: -1);
         if (idealPeace.IndexOf((byte)source) != -1 || (last is not null && StrategicMap.Current.Day - last.Day <= 1))
         {
@@ -102,7 +102,7 @@ public sealed record OfferPeace(int Gold = 0, int Mana = 0) : OfferProposal(Gold
         }
     }
 
-    public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
+    public override int RelationModifier(DiplomaticAction action, sbyte player, int race)
     {
         if (Relation(action.Source, second: action.Target) != DiplomaticRelation.Peace)
         {

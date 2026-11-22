@@ -2,6 +2,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -16,17 +17,17 @@ public class LeadershipAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:1002
-    public override sbyte GetAttack(AbilityOwner? owner)
+    public override int GetAttack(AbilityOwner? owner)
     {
         int level = GetLevel(owner);
-        return level != 0 ? LeadershipAttack[level] : (sbyte)0;
+        return level != 0 ? LeadershipAttack[level] : 0;
     }
 
     // AoWAb.PAS:1013
-    public override sbyte GetDefense(AbilityOwner? owner)
+    public override int GetDefense(AbilityOwner? owner)
     {
         int level = GetLevel(owner);
-        return level != 0 ? LeadershipDefense[level] : (sbyte)0;
+        return level != 0 ? LeadershipDefense[level] : 0;
     }
 
     // AoWAb.PAS:978
@@ -35,7 +36,7 @@ public class LeadershipAbility : MultiLevelAbility
         if (owner is not null)
         {
             LeadershipAbilityData data = GetData(owner);
-            return data is not null ? data.ExternalLevel > data.Level ? data.ExternalLevel : data.Level : 0;
+            return data is not null ? data.ExternalLevel > data.Level ? (byte)data.ExternalLevel : data.Level : 0;
         }
         else
         {
@@ -68,7 +69,7 @@ public class LeadershipAbility : MultiLevelAbility
     public override string GetLevelName(int level) => AbilityRules.TranslateResourceString(GetEngine(), S: s_leadershipText);
 
     // AoWAb.PAS:1024
-    public void SetExternalSource(AbilityOwner owner, byte level, string sourceName)
+    public void SetExternalSource(AbilityOwner owner, int level, string sourceName)
     {
         LeadershipAbilityData data = GetData(owner);
         if (data is null)
@@ -87,7 +88,7 @@ public class LeadershipAbility : MultiLevelAbility
         if (data.Level < level)
         {
             data.ExternalSource = sourceName;
-            data.ExternalLevel = level;
+            data.ExternalLevel = level.TruncateToByte();
         }
 
         if (owner is Troop)

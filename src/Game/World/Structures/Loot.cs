@@ -5,6 +5,7 @@ using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Structures;
@@ -38,7 +39,7 @@ public sealed record Loot : ProductionOrder
             return;
         }
 
-        control.Settings.TurnsTotal = (sbyte)city.LootTime();
+        control.Settings.TurnsTotal = city.LootTime().TruncateToSByte();
         control.Settings.TurnsLeft = control.Settings.TurnsTotal;
         control.Settings.Player = control.GetPlayer();
         control.Settings.Gold = 0;

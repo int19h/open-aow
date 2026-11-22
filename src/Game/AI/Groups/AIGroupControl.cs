@@ -3,19 +3,14 @@
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -53,7 +48,7 @@ public class AIGroupControl : EngineObject
 
     public ArmyHexSprite ArmyHexSprite { get; private set; }
 
-    public byte Selection { get; private set; }
+    public int Selection { get; private set; }
 
     public AIGroupControlTargetList Targets { get; }
 
@@ -132,16 +127,16 @@ public class AIGroupControl : EngineObject
         if (!Group.Status.Contains(AIGroupStatuses.Done))
         {
             MapCoordinate coordinate97 = Group.GetLocation();
-            sbyte locationX = coordinate97.X;
-            sbyte locationY = coordinate97.Y;
-            sbyte locationMapLevel = coordinate97.MapLevel;
-            Location = new MapCoordinate(locationX, locationY, locationMapLevel);
+            int locationX = coordinate97.X;
+            int locationY = coordinate97.Y;
+            int locationMapLevel = coordinate97.MapLevel;
+            Location = new MapCoordinate((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
             if (Location.X != -1)
             {
                 ArmyHexSprite = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).GetArmyHexSprite();
                 _ = Army;
-                _ = Selection;
-                _ = RetrieveGroupArmy(Location.X, Location.Y, L: Location.MapLevel, out Army army, out byte selection);
+                _ = (byte)Selection;
+                _ = RetrieveGroupArmy(Location.X, Location.Y, L: Location.MapLevel, out Army army, out int selection);
                 Army = army;
                 Selection = selection;
                 UpdateGroupChanges();
@@ -167,9 +162,9 @@ public class AIGroupControl : EngineObject
     // AIGroup.pas:1170
     public virtual bool Split()
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
+        int x = default;
+        int y = default;
+        int l = default;
         bool result = false;
         bool finished = false;
         while (!finished)
@@ -195,9 +190,9 @@ public class AIGroupControl : EngineObject
                 for (; i >= 0; i -= 1)
                 {
                     MapCoordinate coordinate99 = Group.Units.GetUnit(i).GetLocation();
-                    sbyte unitX = coordinate99.X;
-                    sbyte unitY = coordinate99.Y;
-                    sbyte unitL = coordinate99.MapLevel;
+                    int unitX = coordinate99.X;
+                    int unitY = coordinate99.Y;
+                    int unitL = coordinate99.MapLevel;
                     if (x == unitX && y == unitY && l == unitL)
                     {
                         _ = group.AddUnit(Group.Units.GetUnit(i));
@@ -276,7 +271,7 @@ public class AIGroupControl : EngineObject
     }
 
     // AIGroup.pas:1124
-    public virtual void ExecuteME(sbyte X, sbyte Y, sbyte L)
+    public virtual void ExecuteME(int X, int Y, int L)
     {
         MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
         if (field.GetPlayer() != -1 && field.GetPlayer() != Group.Player)
@@ -355,7 +350,7 @@ public class AIGroupControl : EngineObject
     }
 
     // AIGroup.pas:1040
-    public bool RetrieveGroupArmy(sbyte X, sbyte Y, sbyte L, out Army? army, out byte selection)
+    public bool RetrieveGroupArmy(int X, int Y, int L, out Army? army, out int selection)
     {
         ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
         if (armyHexSprite is not null)
@@ -432,7 +427,7 @@ public class AIGroupControl : EngineObject
         ResetCP();
         if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(Group.Player) != MoveAction.Negotiate)
         {
-            CombatPredictor.InitializeAdjacentOpponents((byte)Group.Player, relation: (byte)Group.IndependentRelation, target.Location.X, target.Location.Y, L: target.Location.MapLevel);
+            CombatPredictor.InitializeAdjacentOpponents((byte)Group.Player, relation: Group.IndependentRelation.TruncateToByte(), target.Location.X, target.Location.Y, L: target.Location.MapLevel);
         }
     }
 
@@ -527,10 +522,10 @@ public class AIGroupControl : EngineObject
             if (troop is not null && (troop.Group is null || troop.Group.EngineClass.ClassId == TransportAIGroup.ClassId))
             {
                 MapCoordinate coordinate100 = troop.GetLocation();
-                sbyte locationX = coordinate100.X;
-                sbyte locationY = coordinate100.Y;
-                sbyte locationMapLevel = coordinate100.MapLevel;
-                MapCoordinate location = new(locationX, locationY, locationMapLevel);
+                int locationX = coordinate100.X;
+                int locationY = coordinate100.Y;
+                int locationMapLevel = coordinate100.MapLevel;
+                MapCoordinate location = new((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
                 int distance = HexGeometry.DeltaHexToRadius(location.X, location.Y, Location.X, Location.Y);
                 if (Location.MapLevel == location.MapLevel && distance < 30)
                 {

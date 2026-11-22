@@ -147,8 +147,8 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
                 _ = CityNameList.Items.AddObject(name, item: c);
                 string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[c.Race]);
                 _ = CityRaceList.Items.Add(raceNamesPlural);
-                _ = CityIncomeList.Items.Add(((int)c.Income).ToString(CultureInfo.InvariantCulture));
-                _ = CityLevelList.Items.Add(((int)c.UpgradeLevel).ToString(CultureInfo.InvariantCulture));
+                _ = CityIncomeList.Items.Add(c.Income.ToString(CultureInfo.InvariantCulture));
+                _ = CityLevelList.Items.Add(c.UpgradeLevel.ToString(CultureInfo.InvariantCulture));
                 _ = c.WallType switch
                 {
                     1 => CityWallList.Items.Add("1"),
@@ -216,11 +216,11 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
                     Army army = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i);
                     string name = u.GetName();
                     _ = HeroNameList.Items.AddObject(name, item: army);
-                    sbyte hitPoints = u.GetHitPoints();
-                    sbyte hits = u.GetHits();
-                    _ = HeroHealthList.Items.AddObject($"{((int)hitPoints).ToString(CultureInfo.InvariantCulture)}/{((int)hits).ToString(CultureInfo.InvariantCulture)}", item: hero);
-                    sbyte level = hero.GetLevel();
-                    _ = HeroLevelList.Items.Add(((int)level).ToString(CultureInfo.InvariantCulture));
+                    int hitPoints = u.GetHitPoints();
+                    int hits = u.GetHits();
+                    _ = HeroHealthList.Items.AddObject($"{hitPoints.ToString(CultureInfo.InvariantCulture)}/{hits.ToString(CultureInfo.InvariantCulture)}", item: hero);
+                    int level = hero.GetLevel();
+                    _ = HeroLevelList.Items.Add(level.ToString(CultureInfo.InvariantCulture));
                 }
             }
         }
@@ -416,13 +416,13 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && sender.Selected != -1)
         {
             HexSprite? sprite = CityNameList.Items.Objects[sender.Selected];
-            sbyte hexLevel = sprite.HexLevel;
-            sbyte hexY = sprite.HexY;
-            sbyte hexX = sprite.HexX;
+            int hexLevel = sprite.HexLevel;
+            int hexY = sprite.HexY;
+            int hexX = sprite.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            sbyte spriteHexLevel = sprite.HexLevel;
-            sbyte spriteHexY = sprite.HexY;
-            sbyte spriteHexX = sprite.HexX;
+            int spriteHexLevel = sprite.HexLevel;
+            int spriteHexY = sprite.HexY;
+            int spriteHexX = sprite.HexX;
             StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, L: spriteHexLevel);
         }
     }
@@ -476,13 +476,13 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && sender.Selected != -1)
         {
             HexSprite? sprite = PlaceNameList.Items.Objects[sender.Selected];
-            sbyte hexLevel = sprite.HexLevel;
-            sbyte hexY = sprite.HexY;
-            sbyte hexX = sprite.HexX;
+            int hexLevel = sprite.HexLevel;
+            int hexY = sprite.HexY;
+            int hexX = sprite.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            sbyte spriteHexLevel = sprite.HexLevel;
-            sbyte spriteHexY = sprite.HexY;
-            sbyte spriteHexX = sprite.HexX;
+            int spriteHexLevel = sprite.HexLevel;
+            int spriteHexY = sprite.HexY;
+            int spriteHexX = sprite.HexX;
             StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, L: spriteHexLevel);
         }
     }
@@ -505,13 +505,13 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
         if (list.Selected != -1)
         {
             HexSprite? sprite = HeroNameList.Items.Objects[list.Selected].GetArmyHexSprite();
-            sbyte hexLevel = sprite.HexLevel;
-            sbyte hexY = sprite.HexY;
-            sbyte hexX = sprite.HexX;
+            int hexLevel = sprite.HexLevel;
+            int hexY = sprite.HexY;
+            int hexX = sprite.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            sbyte spriteHexLevel = sprite.HexLevel;
-            sbyte spriteHexY = sprite.HexY;
-            sbyte spriteHexX = sprite.HexX;
+            int spriteHexLevel = sprite.HexLevel;
+            int spriteHexY = sprite.HexY;
+            int spriteHexX = sprite.HexX;
             StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, L: spriteHexLevel);
         }
     }
@@ -555,7 +555,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T2ActLBDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
         string text = CityActionList.Items[drawItem];
-        byte icon = IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]);
+        int icon = IsEmpty(text) ? 0 : Cp1252.Byte(text[0]);
         if (icon != 45)
         {
             LibraryImage? listBoxIcon = UI.Graphics.ListIcons[icon - 23];

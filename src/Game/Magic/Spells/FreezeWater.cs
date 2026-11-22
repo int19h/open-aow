@@ -10,6 +10,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -44,7 +45,7 @@ public class FreezeWater : GlobalTargetSpell
     {
         FreezeWaterTokenEvent eventValue = new(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
-        eventValue.SetLocation((sbyte)X, (sbyte)Y, layer: (sbyte)L);
+        eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), layer: L.TruncateToSByte());
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         _ = eventValue.Release();
         return true;
@@ -57,7 +58,7 @@ public class FreezeWater : GlobalTargetSpell
             return false;
         }
 
-        sbyte terrain = field.TerrainType;
+        int terrain = field.TerrainType;
         return (terrain is 0 or 10) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
     }
 
@@ -68,7 +69,7 @@ public class FreezeWater : GlobalTargetSpell
             return false;
         }
 
-        sbyte terrain = field.TerrainType;
+        int terrain = field.TerrainType;
         if ((terrain is not 0 and not 10) || field.FindNoneTransparentHexSprite(typeof(Structure)) is not null)
         {
             return false;

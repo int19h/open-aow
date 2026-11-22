@@ -35,9 +35,9 @@ public class ResurrectHero : Spell
     // GlobalSpells.pas:991
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte x;
-        sbyte y;
-        sbyte layer;
+        int x;
+        int y;
+        int layer;
         if (executeCount == 0)
         {
             MapCoordinate coordinate75 = source.GetLocation();
@@ -95,7 +95,7 @@ public class ResurrectHero : Spell
                 {
                     ArmyInfoEventLog infoLog = new(null) { Holder = CreationHolder() };
                     int indexOf = army.Army.Units.IndexOf(hero);
-                    infoLog.ArmyView.Setup(army.Army, selection: (byte)(1 << indexOf));
+                    infoLog.ArmyView.Setup(army.Army, selection: (1 << indexOf).TruncateToByte());
                     infoLog.Selection = 255;
                     infoLog.Player = source.Player;
                     string noJoinResurrection = AbilityRules.TranslateResourceString(GetEngine(), S: s_noJoinResurrectionText);

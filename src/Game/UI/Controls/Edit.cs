@@ -130,7 +130,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
                     string s = "";
                     for (int i = 0, last = _shownChars - 1; i <= last; i++)
                     {
-                        s += Cp1252.Text(PassWordChar);
+                        s += Cp1252.Text((byte)PassWordChar);
                     }
 
                     Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, text: s, lockedSurface);
@@ -280,10 +280,10 @@ public sealed partial class Edit(Component? owner) : Control(owner)
                 case >= 14 and <= 31:
                     break;
                 default:
-                    byte c = key;
+                    int c = key;
                     if (base.Text.Length < MaxChars || MaxChars == 0)
                     {
-                        base.Text = Copy(base.Text, index: 1, count: FirstChar + _cursorPosition - 1) + Cp1252.Text(c) + Copy(base.Text, index: FirstChar + _cursorPosition, count: base.Text.Length - _cursorPosition - FirstChar + 1);
+                        base.Text = Copy(base.Text, index: 1, count: FirstChar + _cursorPosition - 1) + Cp1252.Text((byte)c) + Copy(base.Text, index: FirstChar + _cursorPosition, count: base.Text.Length - _cursorPosition - FirstChar + 1);
                         _cursorPosition += 1;
                         _cursorPosition = _cursorPosition + FirstChar - 1;
                         FirstChar = 1;
@@ -365,7 +365,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
     public int ImageLibraryIndex { get => _imageLibraryIndex; set => SetImageLibraryIndex(value); }
 
     [Published]
-    public byte PassWordChar { get; set; }
+    public int PassWordChar { get; set; }
 
     // AoWEdit.pas:350. Clipboard integration has no host in this port.
     public override void CheckKeyDown(ref ushort key, ShiftStates shift)

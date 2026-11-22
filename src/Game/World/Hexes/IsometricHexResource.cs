@@ -13,7 +13,7 @@ public class IsometricHexResource(CustomNode owner) : AbstractHexagonResource(ow
     // IsoHex.pas:268
     public new const int ClassId = 131_438;
 
-    protected internal byte DynamicLevel { get; protected init; } = 26;
+    protected internal int DynamicLevel { get; protected init; } = 26;
 
     // IsoHex.pas:302
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -26,7 +26,7 @@ public class IsometricHexResource(CustomNode owner) : AbstractHexagonResource(ow
     }
 
     // IsoHex.pas:273
-    public override MapObject? PlaceResourceUser(GameMap? map, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override MapObject? PlaceResourceUser(GameMap? map, int hexX, int hexY, int hexLevel)
     {
         MapField mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
         // The lookup finds only IsometricHex, including a hex that derives from it.

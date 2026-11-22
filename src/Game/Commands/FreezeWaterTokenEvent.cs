@@ -8,6 +8,7 @@ using Aow.Game.Draw.Animations;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -19,8 +20,8 @@ public class FreezeWaterTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEv
     public override bool Process(Troop source, int value)
     {
         _ = base.Process(source, value);
-        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, (sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, L: (sbyte)(byte)Location.MapLevel, radius: 2);
-        if (StrategicMap.Current.TerrainVisible((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, L: (sbyte)(byte)Location.MapLevel, radius: 2))
+        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, L: Location.MapLevel, radius: 2);
+        if (StrategicMap.Current.TerrainVisible(Location.X, Location.Y, L: Location.MapLevel, radius: 2))
         {
             TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
             twinkle.Setup(GamePack.Current.SpellControl[10].CastImages.ImageSequences[0], mode: TwinkleModes.Expand, count: 100, radius: 64, duration: 50, startDelay: 30);
@@ -28,7 +29,7 @@ public class FreezeWaterTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEv
         }
 
         // Use the map's seated player.
-        if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.WatchingTerrain((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, L: (sbyte)(byte)Location.MapLevel, radius: 2))
+        if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.WatchingTerrain(Location.X, Location.Y, L: Location.MapLevel, radius: 2))
         {
             _ = GamePack.Current.SpellControl[10].CastSounds.Play(0);
         }
@@ -61,7 +62,7 @@ public class FreezeWaterTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEv
                         FrozenWaterHexSprite ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
                         if (ice is not null)
                         {
-                            ice.DaysRemaining = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
+                            ice.DaysRemaining = (((StrategicMap.Current.Random(11) - 5) / 5) + 3).TruncateToSByte();
                             ice.CasterPlayer = (sbyte)EventPlayerIndex;
                         }
                     }
@@ -82,7 +83,7 @@ public class FreezeWaterTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEv
                 _ = StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, L: mapField.HexLevel);
             }
 
-            ice.DaysRemaining = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
+            ice.DaysRemaining = (((StrategicMap.Current.Random(11) - 5) / 5) + 3).TruncateToSByte();
             ice.CasterPlayer = (sbyte)EventPlayerIndex;
         }
     }

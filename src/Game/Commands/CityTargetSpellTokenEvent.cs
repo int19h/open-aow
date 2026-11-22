@@ -27,7 +27,7 @@ public class CityTargetSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner
         base.PersistFields(persister);
         int location = persister.Int32("TargetLocation", value: StoredCoordinateImage.From(_targetLocation).ToInt32());
         _targetLocation = StoredCoordinateImage.FromInt32(location).Location;
-        TargetPlayer = persister.UnsignedByte(name: "TargetPlayer", value: TargetPlayer);
+        TargetPlayer = (sbyte)persister.UnsignedByte(name: "TargetPlayer", value: TargetPlayer);
     }
 
     // CitySpells.pas:189
@@ -46,8 +46,8 @@ public class CityTargetSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner
     // CitySpells.pas:182
     public void SetLocation(MapCoordinate location) => _targetLocation = location;
 
-    public void SetLocation(sbyte x, sbyte y, sbyte level)
-        => SetLocation(new MapCoordinate(x, y, level));
+    public void SetLocation(int x, int y, int level)
+        => SetLocation(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // CitySpells.pas:204
     public City GetSelectedCity() => StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_targetLocation).FindNoneTransparentHexSprite<City>();

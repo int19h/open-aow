@@ -38,7 +38,7 @@ public sealed class CombatFire(CustomNode owner) : SingleHexSprite(owner)
     }
 
     // CombatFire.pas:83
-    public override byte Level => 27;
+    public override int Level => 27;
 
     // CombatFire.pas:70
     public override bool Visible
@@ -102,14 +102,14 @@ public sealed class CombatFire(CustomNode owner) : SingleHexSprite(owner)
                 param[0] = this;
                 message.Param = param;
                 message.Result = -1;
-                sbyte yhx = HexY;
-                sbyte xhx = HexX;
+                int yhx = HexY;
+                int xhx = HexX;
                 CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMessage(ref message);
                 int hexX = default;
                 int hexY = default;
                 for (int i = 1; i <= 6; i++)
                 {
-                    sbyte hexY2 = HexY;
+                    int hexY2 = HexY;
                     HexGeometry.CenterHexNumberToHex(HexX, hexY2, hexNumber: i, ref hexX, ref hexY);
                     if (hexX > 0 && hexY > 0)
                     {

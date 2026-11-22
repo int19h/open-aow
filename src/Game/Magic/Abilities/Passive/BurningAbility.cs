@@ -2,6 +2,7 @@
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities.Passive;
 
@@ -27,7 +28,7 @@ public class BurningAbility : DurationAbility
         {
             if (data.Duration != 0 && data.PlayerIndex == player)
             {
-                data.Duration = (byte)(data.Duration - 1);
+                data.Duration = (data.Duration - 1).TruncateToByte();
                 if (data.Duration == 0)
                 {
                     _ = combatObject.AbilityOwner.RemoveAbility(AbilityId);

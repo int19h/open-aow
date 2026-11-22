@@ -27,13 +27,13 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     private Storm? _storm;
 
     public AltarMode Mode { get; set; }
-    public byte RechargeDays { get; private set; }
+    public int RechargeDays { get; private set; }
 
     // Altar.pas:226
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        RechargeDays = persister.Byte("RechargeDays", value: RechargeDays);
+        RechargeDays = persister.Byte("RechargeDays", value: RechargeDays.TruncateToByte());
         Mode = persister.Enum("Mode", value: Mode);
     }
 
@@ -70,7 +70,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
                 int targetMana = TargetMana();
                 StrategicMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(player.MagicControl.Mana - targetMana);
                 RechargeDays = 0;
-                _storm.InitializeStorm(Player, (sbyte)(tokenEvent.Param & 0xFF), (sbyte)((tokenEvent.Param >>> 8) & 0xFF), L: (sbyte)((tokenEvent.Param >>> 16) & 0xFF));
+                _storm.InitializeStorm(Player, (tokenEvent.Param & 0xFF).TruncateToSByte(), ((tokenEvent.Param >>> 8) & 0xFF).TruncateToSByte(), L: ((tokenEvent.Param >>> 16) & 0xFF).TruncateToSByte());
             }
 
             if (_storm is not null)
@@ -103,7 +103,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
         base.NewDay();
         if (GetRechargeDays() != RechargeDays)
         {
-            RechargeDays = (byte)(RechargeDays + 1);
+            RechargeDays = (RechargeDays + 1).TruncateToByte();
         }
     }
 
@@ -127,8 +127,8 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
         if (player == Player && (phase is 1 or 2))
         {
             Storm? storm = CreateStorm();
-            sbyte hexLevel = HexLevel;
-            sbyte hexY = HexY;
+            int hexLevel = HexLevel;
+            int hexY = HexY;
             if (storm.GetBestTarget(player, HexX, hexY, L: hexLevel, range: 12, out MapCoordinate target, info: out StormDamageInfo damage))
             {
                 int value = damage.EnemyDamage - damage.FriendlyDamage;
@@ -140,14 +140,14 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
                     {
                         BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo friendly, player, relation: 0, requests: BattleFieldInfoRequests.None, damageTypes: AbilityRules.AllDamageTypes & ~DamageTypes.Wall);
                         friendly.EnemyRelations = DiplomaticRelations.None;
-                        sbyte hexLevel2 = HexLevel;
-                        sbyte hexY2 = HexY;
-                        sbyte hexX = HexX;
+                        int hexLevel2 = HexLevel;
+                        int hexY2 = HexY;
+                        int hexX = HexX;
                         StrategicMap.Current.RetrieveBattleFieldInfo(hexX, hexY2, hexLevel2, radius: 1, info: ref friendly);
                         BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo enemy, player, relation: 0, requests: BattleFieldInfoRequests.None, damageTypes: AbilityRules.AllDamageTypes & ~DamageTypes.Wall);
-                        sbyte hexLevel3 = HexLevel;
-                        sbyte hexY3 = HexY;
-                        sbyte hexX2 = HexX;
+                        int hexLevel3 = HexLevel;
+                        int hexY3 = HexY;
+                        int hexX2 = HexX;
                         StrategicMap.Current.RetrieveBattleFieldInfo(hexX2, hexY3, hexLevel3, radius: 8, info: ref enemy);
                         if (friendly.FriendlyStrength < enemy.Strength || value > 100)
                         {
@@ -188,7 +188,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     public virtual Storm? CreateStorm() => null;
 
     // Altar.pas:110
-    public virtual bool StormTargetSelected(sbyte X, sbyte Y, sbyte L)
+    public virtual bool StormTargetSelected(int X, int Y, int L)
     {
         string reason = "";
         if (CanTarget(ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
@@ -208,7 +208,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     }
 
     // Altar.pas:212
-    public virtual byte GetRechargeDays() => 10;
+    public virtual int GetRechargeDays() => 10;
 
     // Altar.pas:153
     public virtual bool CanTarget(ref string reason)

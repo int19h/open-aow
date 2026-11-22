@@ -6,6 +6,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
+using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
@@ -17,14 +18,14 @@ public sealed class PlayerSetupSettings : EngineObject
 
     public SetupPlayerBehavior Behavior { get; set; }
     public SetupPlayerBehavior OriginalBehavior { get; set; }
-    public sbyte Race { get; set; }
+    public int Race { get; set; }
     // AoW.exe
     public PlayerSetupStatuses Status { get; set; }
 
     public Leader? Leader { get; private set; }
 
     public byte PlayerId { get; set; }
-    public byte BehaviorMode { get; set; }
+    public int BehaviorMode { get; set; }
 
     public string EmailAddress { get; set; } = "";
 
@@ -42,8 +43,8 @@ public sealed class PlayerSetupSettings : EngineObject
         base.PersistFields(persister);
         PlayerId = persister.Byte("PlayerId", value: PlayerId);
         Behavior = persister.Record<SetupPlayerBehaviorImage, SetupPlayerBehavior>(name: "Behavior", value: Behavior);
-        Race = persister.UnsignedByte(name: "Race", value: Race);
-        BehaviorMode = persister.RawByte("BehaviorMode", value: BehaviorMode);
+        Race = persister.UnsignedByte(name: "Race", value: Race.TruncateToSByte());
+        BehaviorMode = persister.RawByte("BehaviorMode", value: BehaviorMode.TruncateToByte());
         persister.Object("Leader", objectValue: Leader);
         Status = persister.Set("Status", value: Status);
         OriginalBehavior = persister.Record<SetupPlayerBehaviorImage, SetupPlayerBehavior>(name: "OriginalBehavior", value: OriginalBehavior);

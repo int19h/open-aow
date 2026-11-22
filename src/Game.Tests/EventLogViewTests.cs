@@ -80,7 +80,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
                 ArmyHexSprite armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(negotiateRequestEventLog.Hex.X, negotiateRequestEventLog.Hex.Y, negotiateRequestEventLog.Hex.MapLevel).FindOwnedChild(131607);
                 if (armyHexSprite is not null)
                 {
-                    byte joinSelection = armyHexSprite.Army.GetJoinSelection(negotiateRequestEventLog.Player);
+                    int joinSelection = armyHexSprite.Army.GetJoinSelection(negotiateRequestEventLog.Player);
                     return armyHexSprite.Army.Hero(joinSelection, types: RosterTables.AllHeroTypes) is null ? "PartyJoin" : "HeroNegotiation";
                 }
             }

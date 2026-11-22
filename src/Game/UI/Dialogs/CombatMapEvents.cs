@@ -131,20 +131,20 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     Troop? u = unitHexSprite.Unit.Troop;
                     string name = u.GetName();
                     UI.CombatUnitInfo.TargetUnitLabel.Text = name;
-                    sbyte hitPoints = u.GetHitPoints();
-                    sbyte hits = u.GetHits();
-                    UI.CombatUnitInfo.TargetHitsLabel.Text = $"{((int)hitPoints).ToString(CultureInfo.InvariantCulture)}/{((int)hits).ToString(CultureInfo.InvariantCulture)}";
-                    sbyte movePoints = u.GetMovePoints();
-                    sbyte moves = u.Moves;
-                    UI.CombatUnitInfo.TargetMovesLabel.Text = $"{((int)movePoints).ToString(CultureInfo.InvariantCulture)}/{((int)moves).ToString(CultureInfo.InvariantCulture)}";
-                    sbyte attack = u.GetAttack();
-                    UI.CombatUnitInfo.TargetAttackLabel.Text = ((int)attack).ToString(CultureInfo.InvariantCulture);
-                    sbyte damage = u.GetDamage();
-                    UI.CombatUnitInfo.TargetDamageLabel.Text = ((int)damage).ToString(CultureInfo.InvariantCulture);
-                    sbyte defense = u.GetDefense();
-                    UI.CombatUnitInfo.TargetDefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
-                    sbyte resistance = u.GetResistance();
-                    UI.CombatUnitInfo.TargetResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
+                    int hitPoints = u.GetHitPoints();
+                    int hits = u.GetHits();
+                    UI.CombatUnitInfo.TargetHitsLabel.Text = $"{hitPoints.ToString(CultureInfo.InvariantCulture)}/{hits.ToString(CultureInfo.InvariantCulture)}";
+                    int movePoints = u.GetMovePoints();
+                    int moves = u.Moves;
+                    UI.CombatUnitInfo.TargetMovesLabel.Text = $"{movePoints.ToString(CultureInfo.InvariantCulture)}/{moves.ToString(CultureInfo.InvariantCulture)}";
+                    int attack = u.GetAttack();
+                    UI.CombatUnitInfo.TargetAttackLabel.Text = attack.ToString(CultureInfo.InvariantCulture);
+                    int damage = u.GetDamage();
+                    UI.CombatUnitInfo.TargetDamageLabel.Text = damage.ToString(CultureInfo.InvariantCulture);
+                    int defense = u.GetDefense();
+                    UI.CombatUnitInfo.TargetDefenseLabel.Text = defense.ToString(CultureInfo.InvariantCulture);
+                    int resistance = u.GetResistance();
+                    UI.CombatUnitInfo.TargetResistanceLabel.Text = resistance.ToString(CultureInfo.InvariantCulture);
                     MoveTypes moveTypes = u.GetMoveTypes();
                     int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                     UI.CombatUnitInfo.TargetMovesIcon.SetCurrent(moveTypesToInt32);
@@ -257,9 +257,9 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                 if (hero.GetCastingPointsMax() > 0)
                 {
                     window.UnitManaGauge.Visible = true;
-                    sbyte castingPointsMax = hero.GetCastingPointsMax();
+                    int castingPointsMax = hero.GetCastingPointsMax();
                     window.UnitManaGauge.Max = castingPointsMax;
-                    sbyte castingPoints = hero.GetCastingPoints();
+                    int castingPoints = hero.GetCastingPoints();
                     window.UnitManaGauge.Position = castingPoints;
                 }
                 Panel unitFrame = window.UnitFramePanel;
@@ -280,19 +280,19 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     window.CombatUnitPanel.Visible = true;
                     window.CombatAbilityPanel.Visible = false;
                     window.TargetSelectPanel.Visible = false;
-                    sbyte hitPoints = fTroop.GetHitPoints();
-                    sbyte hits = fTroop.GetHits();
-                    window.UnitHitsLabel.Text = $"{((int)hitPoints).ToString(CultureInfo.InvariantCulture)}/{((int)hits).ToString(CultureInfo.InvariantCulture)}";
-                    sbyte moves = fTroop.Moves;
-                    window.UnitMovesLabel.Text = $"{window.UI.General.CombatUnit.Unit.MovePoints.ToString(CultureInfo.InvariantCulture)}/{((int)moves).ToString(CultureInfo.InvariantCulture)}";
-                    sbyte attack = fTroop.GetAttack();
-                    window.UnitAttackLabel.Text = ((int)attack).ToString(CultureInfo.InvariantCulture);
-                    sbyte damage = fTroop.GetDamage();
-                    window.UnitDamageLabel.Text = ((int)damage).ToString(CultureInfo.InvariantCulture);
-                    sbyte defense = fTroop.GetDefense();
-                    window.UnitDefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
-                    sbyte resistance = fTroop.GetResistance();
-                    window.UnitResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
+                    int hitPoints = fTroop.GetHitPoints();
+                    int hits = fTroop.GetHits();
+                    window.UnitHitsLabel.Text = $"{hitPoints.ToString(CultureInfo.InvariantCulture)}/{hits.ToString(CultureInfo.InvariantCulture)}";
+                    int moves = fTroop.Moves;
+                    window.UnitMovesLabel.Text = $"{window.UI.General.CombatUnit.Unit.MovePoints.ToString(CultureInfo.InvariantCulture)}/{moves.ToString(CultureInfo.InvariantCulture)}";
+                    int attack = fTroop.GetAttack();
+                    window.UnitAttackLabel.Text = attack.ToString(CultureInfo.InvariantCulture);
+                    int damage = fTroop.GetDamage();
+                    window.UnitDamageLabel.Text = damage.ToString(CultureInfo.InvariantCulture);
+                    int defense = fTroop.GetDefense();
+                    window.UnitDefenseLabel.Text = defense.ToString(CultureInfo.InvariantCulture);
+                    int resistance = fTroop.GetResistance();
+                    window.UnitResistanceLabel.Text = resistance.ToString(CultureInfo.InvariantCulture);
                     MoveTypes moveTypes = fTroop.GetMoveTypes();
                     int current = window.UI.General.MoveTypesToInt32(moveTypes);
                     window.UnitMovesIcon.SetCurrent(current);
@@ -438,9 +438,9 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                 window.UnitNameMemo.Items.Clear();
                 string name2 = fTroop.GetName();
                 _ = window.UnitNameMemo.Items.Add(name2);
-                sbyte hits2 = fTroop.GetHits();
+                int hits2 = fTroop.GetHits();
                 window.UnitHitsGauge.Max = hits2;
-                sbyte hitPoints2 = fTroop.GetHitPoints();
+                int hitPoints2 = fTroop.GetHitPoints();
                 window.UnitHitsGauge.Position = hitPoints2;
             }
         }

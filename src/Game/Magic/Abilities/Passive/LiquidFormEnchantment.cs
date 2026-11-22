@@ -25,9 +25,9 @@ public class LiquidFormEnchantment : UnitEnchantmentAbility
         if (result && owner is Troop troop && owner.Owner is Army army)
         {
             MapCoordinate coordinate88 = troop.GetLocation();
-            sbyte x = coordinate88.X;
-            sbyte y = coordinate88.Y;
-            sbyte l = coordinate88.MapLevel;
+            int x = coordinate88.X;
+            int y = coordinate88.Y;
+            int l = coordinate88.MapLevel;
             if (x != -1)
             {
                 MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);

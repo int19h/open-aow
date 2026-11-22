@@ -51,7 +51,7 @@ public class BorderHex(CustomNode owner) : AbstractBorderHexagon(owner)
     public override bool CanSelect(int pixelX, int pixelY) => false;
 
     // BorderHx.pas:77
-    public override byte Level => 11;
+    public override int Level => 11;
 
     // BorderHx.pas:82
     public override int GetShowPriority()

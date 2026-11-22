@@ -37,7 +37,7 @@ public class HexagonResource : AbstractHexagonResource
     public override int ResourceUserClassId() => Hex.ClassId;
 
     // Hexagon.pas:112
-    public override MapObject? PlaceResourceUser(GameMap? map, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override MapObject? PlaceResourceUser(GameMap? map, int hexX, int hexY, int hexLevel)
     {
         MapField mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
         // The resource user class (131410) registers only Hex.
@@ -77,7 +77,7 @@ public class HexagonResource : AbstractHexagonResource
         ImageLibrary[0].Show(pixelX, pixelY, lockedSurface);
         if ((hex.TransitionSides & 0b0111) != 0)
         {
-            byte sides = hex.TransitionSides;
+            int sides = hex.TransitionSides;
             if ((sides & 0b0010) != 0)
             {
                 if ((sides & 0b0001_0000) != 0)

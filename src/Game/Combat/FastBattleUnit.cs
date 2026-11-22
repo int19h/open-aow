@@ -313,7 +313,7 @@ public class FastBattleUnit(CustomNode? owner) : CombatUnit(owner)
             for (int i = fastBattleCommandList.GetCount() - 1; i >= 0; i--)
             {
                 FastBattleCommand? commands = fastBattleCommandList[i];
-                sbyte hitPoints = HitPoints;
+                int hitPoints = HitPoints;
                 if (commands.TargetDamageValue >= hitPoints * 75)
                 {
                     fastBattleCommandList.Delete(i);
@@ -386,7 +386,7 @@ public class FastBattleUnit(CustomNode? owner) : CombatUnit(owner)
     }
 
     // AIGroup.pas:7029
-    public override bool FastBattleWallInBetween(byte target) => !State.Contains(FastBattleUnitStates.OutsideWall) && Combat.GetWallInBetween(Position, target);
+    public override bool FastBattleWallInBetween(int target) => !State.Contains(FastBattleUnitStates.OutsideWall) && Combat.GetWallInBetween(Position, target);
 
     // AIGroup.pas:6830
     public override void Show(int frame, int direction, int X, int Y, in LockedSurface surface)

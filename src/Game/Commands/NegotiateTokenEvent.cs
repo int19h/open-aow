@@ -34,7 +34,7 @@ public class NegotiateTokenEvent(CustomNode? owner) : TokenEvent(owner)
     public NegotiateObject Object { get; set; }
     public int MovePoints { get; set; }
 
-    private byte _selection;
+    private int _selection;
 
     public NegotiateModes Mode { get; set; } = NegotiateModes.AttackOnReject | NegotiateModes.MoveOnAccept;
     public NegotiateResult Result { get; set; }
@@ -56,7 +56,7 @@ public class NegotiateTokenEvent(CustomNode? owner) : TokenEvent(owner)
         Gold = persister.Int32("Gold", value: Gold);
         Offer = persister.Enum("Offer", value: Offer);
         Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Byte);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         _ownerPlayer = persister.Byte("OwnerPlayer", value: _ownerPlayer);
         Object = persister.Enum("Object", value: Object);
         MovePoints = persister.Int32("MovePoints", value: MovePoints);

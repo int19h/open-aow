@@ -65,7 +65,7 @@ public sealed class PadControl : ControlStyleObject
     }
 
     // MoveT.PAS:3651
-    public bool CanPlacePad(sbyte X, sbyte Y, sbyte L, int size)
+    public bool CanPlacePad(int X, int Y, int L, int size)
     {
         MapObjectResource? resource = GetPadResource(size);
         bool result;
@@ -84,7 +84,7 @@ public sealed class PadControl : ControlStyleObject
     }
 
     // MoveT.PAS:3666
-    public ImageLibraryTerrainMapObject? PlacePad(sbyte X, sbyte Y, sbyte L, int size)
+    public ImageLibraryTerrainMapObject? PlacePad(int X, int Y, int L, int size)
     {
         MapObjectResource? resource = GetPadResource(size);
         return resource?.PlaceResourceUser<ImageLibraryTerrainMapObject>(StrategicMap.Current, X, Y, L);

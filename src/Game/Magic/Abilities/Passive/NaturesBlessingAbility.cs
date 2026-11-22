@@ -19,13 +19,13 @@ public class NaturesBlessingAbility : DurationAbility
     }
 
     // PassiveAb.pas:524
-    public override sbyte GetAttack(AbilityOwner owner) => 1;
+    public override int GetAttack(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:529
-    public override sbyte GetDefense(AbilityOwner owner) => 1;
+    public override int GetDefense(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:534
-    public override sbyte GetResistance(AbilityOwner owner) => 1;
+    public override int GetResistance(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:539
     public override bool Expand(AbilityOwner owner)
@@ -33,7 +33,7 @@ public class NaturesBlessingAbility : DurationAbility
         bool result = base.Expand(owner);
         if (owner is Troop troop)
         {
-            troop.SetHitPoints(troop.GetHits());
+            troop.SetHitPoints((sbyte)troop.GetHits());
         }
 
         return result;

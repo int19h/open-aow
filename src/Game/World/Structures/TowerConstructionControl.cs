@@ -27,7 +27,7 @@ public class TowerConstructionControl(CustomNode owner) : StructureConstructionC
         MapCoordinate coordinate40 = troop.GetLocation();
         _ = coordinate40.X;
         _ = coordinate40.Y;
-        sbyte hexLevel = coordinate40.MapLevel;
+        int hexLevel = coordinate40.MapLevel;
         if (hexLevel == 0)
         {
             return base.CanConstruct(troop, ref reason);

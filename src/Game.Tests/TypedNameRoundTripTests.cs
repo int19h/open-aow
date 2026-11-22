@@ -67,7 +67,7 @@ public sealed class TypedNameRoundTripTests
 
         public void KeyDown(ushort key, ShiftStates shift) { }
 
-        public void KeyUp(ushort key, ShiftStates shift) { }
+        public void KeyUp(int key, ShiftStates shift) { }
 
         public void MouseMove(ShiftStates shift, int x, int y) { }
 

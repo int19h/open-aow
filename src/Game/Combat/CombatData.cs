@@ -36,7 +36,7 @@ public sealed partial class CombatData : EngineObject
     public ByteList InvolvedLeaders { get; internal set; }
     public ByteList DefeatedLeaders { get; internal set; }
 
-    public byte CombatResult { get; set; }
+    public int CombatResult { get; set; }
 
     public byte CurrentPlayer { get; set; }
     public OwningNode CombatObjects { get; internal set; }
@@ -46,7 +46,7 @@ public sealed partial class CombatData : EngineObject
 
     public int Round { get; set; }
     public string Header { get; set; } = "";
-    public byte WallType { get; set; }
+    public int WallType { get; set; }
     public bool WallBreached { get; set; }
 
     public CombatWall? Wall { get; set; }
@@ -64,14 +64,14 @@ public sealed partial class CombatData : EngineObject
     }
 
     // Combat2.pas:212
-    public bool GetSideLeaderInvolved(byte side)
+    public bool GetSideLeaderInvolved(int side)
     {
         bool result = false;
         int i = InvolvedLeaders.Count;
         while (!result && i != 0)
         {
             i -= 1;
-            byte item = InvolvedLeaders[i];
+            int item = InvolvedLeaders[i];
             result = Players.GetPlayers((sbyte)item).SideIndex == side;
         }
 

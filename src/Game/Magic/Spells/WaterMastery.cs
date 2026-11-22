@@ -33,9 +33,9 @@ public class WaterMastery : GlobalEnchantmentSpell
         // { Original ignores the event step. }
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount: 0);
         MapCoordinate coordinate86 = source.GetLocation();
-        sbyte x = coordinate86.X;
-        sbyte y = coordinate86.Y;
-        sbyte l = coordinate86.MapLevel;
+        int x = coordinate86.X;
+        int y = coordinate86.Y;
+        int l = coordinate86.MapLevel;
         SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Water);
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         _ = CastSounds.Play(0);

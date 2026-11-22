@@ -6,6 +6,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Draw.Animations;
 
@@ -36,7 +37,7 @@ public class IceStorm(CustomNode? owner) : BlastStorm(owner)
                     FrozenWaterHexSprite ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
                     if (ice is not null)
                     {
-                        ice.DaysRemaining = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
+                        ice.DaysRemaining = (3 + ((StrategicMap.Current.Random(11) - 5) / 5)).TruncateToSByte();
                         ice.CasterPlayer = Player;
                     }
                 }
@@ -56,7 +57,7 @@ public class IceStorm(CustomNode? owner) : BlastStorm(owner)
                 _ = StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, L: mapField.HexLevel);
             }
 
-            ice.DaysRemaining = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
+            ice.DaysRemaining = (3 + ((StrategicMap.Current.Random(11) - 5) / 5)).TruncateToSByte();
             ice.CasterPlayer = Player;
         }
     }

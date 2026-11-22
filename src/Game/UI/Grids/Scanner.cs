@@ -380,11 +380,10 @@ public sealed class Scanner(Component owner) : Control(owner)
     }
 
     // Scanner.pas:217
-    public byte GetTerrain(int X, int Y)
+    public int GetTerrain(int X, int Y)
     {
         return StrategicMap.Current.CombatMap is not null
-            ? (byte)Level.GetField(X + 8, Y + 6).TerrainType
-            : (byte)Level.GetField(X + 6, Y + 6).TerrainType;
+            ? Level.GetField(X + 8, Y + 6).TerrainType.TruncateToByte() : Level.GetField(X + 6, Y + 6).TerrainType.TruncateToByte();
     }
 
     // Scanner.pas:223
@@ -415,15 +414,15 @@ public sealed class Scanner(Component owner) : Control(owner)
     }
 
     // Scanner.pas:246
-    public byte GetExplored(int X, int Y)
+    public int GetExplored(int X, int Y)
     {
         _ = StrategicMap.Current.CombatMap is not null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
 
         MapField field = StrategicMap.Current.CombatMap is not null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
 
         return _map.ExplorationEnabled
-            ? field.GetExplored(_map.SeatedPlayer) ? _map.FogEnabled ? field.FogCount == 0 ? (byte)2 : (byte)1 : (byte)1 : (byte)0
-            : _map.FogEnabled ? field.FogCount == 0 ? (byte)2 : (byte)1 : (byte)1;
+            ? field.GetExplored(_map.SeatedPlayer) ? _map.FogEnabled ? field.FogCount == 0 ? 2 : 1 : 1 : 0
+            : _map.FogEnabled ? field.FogCount == 0 ? 2 : 1 : 1;
     }
 
     // Scanner.pas:277
@@ -440,7 +439,7 @@ public sealed class Scanner(Component owner) : Control(owner)
     }
 
     // Scanner.pas:287
-    public byte ObjectSize => 1;
+    public int ObjectSize => 1;
 
     // Scanner.pas:292
     public void SetObjectSize(int X, int Y, int value)

@@ -20,7 +20,7 @@ public class TurnedUndeadAbility : UnitEnchantmentAbility
     public override DurationMode GetDurationMode() => DurationMode.CombatTurn;
 
     // PassiveAb.pas:698
-    public override sbyte TotalDuration => 3;
+    public override int TotalDuration => 3;
 
     // PassiveAb.pas:687
     public override UnitEnchantment CreateEnchantment()

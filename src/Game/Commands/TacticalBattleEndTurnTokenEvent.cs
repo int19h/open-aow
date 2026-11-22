@@ -41,7 +41,7 @@ public class TacticalBattleEndTurnTokenEvent(CustomNode owner) : TokenEvent(owne
                 if (condition)
                 {
                     CombatObject combatObject = CombatMap.Current.Combat.CombatData.GetObjects(i);
-                    byte turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[turnIndex];
+                    int turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[turnIndex];
                     condition = combatObject.CombatPlayer == turnOrder;
                 }
 
@@ -52,7 +52,7 @@ public class TacticalBattleEndTurnTokenEvent(CustomNode owner) : TokenEvent(owne
             }
         }
 
-        byte turnOrder2 = CombatMap.Current.Combat.CombatData.TurnOrder[turnIndex];
+        int turnOrder2 = CombatMap.Current.Combat.CombatData.TurnOrder[turnIndex];
         CombatMap.Current.NewTurn((sbyte)turnOrder2);
         return ExecuteResult.Done;
     }
