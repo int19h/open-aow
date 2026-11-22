@@ -25,14 +25,14 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
     public virtual WindowManager? WindowManager { get; set; }
 
     [Published]
-    public event NotifyEvent<BaseWindow>? Show;
+    public event NotifyEvent<BaseWindow>? Shown;
 
-    protected void RaiseShow(BaseWindow sender) => Show?.Invoke(sender);
+    protected void RaiseShow(BaseWindow sender) => Shown?.Invoke(sender);
 
     [Published]
-    public event NotifyEvent<BaseWindow>? Hide;
+    public event NotifyEvent<BaseWindow>? Hidden;
 
-    protected void RaiseHide(BaseWindow sender) => Hide?.Invoke(sender);
+    protected void RaiseHide(BaseWindow sender) => Hidden?.Invoke(sender);
 
     // AoWBaseWin.pas:56
     public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent? sender)
@@ -83,8 +83,8 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
             SetVisibleWithoutUpdate(value);
             if (!Visible)
             {
-                Hidden = true;
-                Hide?.Invoke(this);
+                IsHidden = true;
+                Hidden?.Invoke(this);
 
                 if (FreeSurfaceOnHide && BackSurface is not null)
                 {
@@ -103,7 +103,7 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                     IsDrawn = false;
                 }
 
-                if (!Hidden)
+                if (!IsHidden)
                 {
                     BackRectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
                 }
@@ -115,7 +115,7 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
 
                 ClearBlitList();
                 ClearDrawList();
-                Show?.Invoke(this);
+                Shown?.Invoke(this);
             }
         }
 
@@ -490,46 +490,46 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
     [Published]
     public override int ImageLibraryIndexTexture { get => base.ImageLibraryIndexTexture; set => SetImageLibraryTileIndex(value); }
 
-    public new event NotifyEvent<BaseWindow> Change
+    public new event NotifyEvent<BaseWindow> Changed
     {
-        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(Change), value: value);
-        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(Change), value: value);
+        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(Changed), value: value);
+        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(Changed), value: value);
     }
 
-    public new event MouseEvent<BaseWindow> MouseDown
+    public new event MouseEvent<BaseWindow> MousePressed
     {
-        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(MouseDown), value: value);
-        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(MouseDown), value: value);
+        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(MousePressed), value: value);
+        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(MousePressed), value: value);
     }
 
-    public new event MouseEvent<BaseWindow> MouseUp
+    public new event MouseEvent<BaseWindow> MouseReleased
     {
-        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(MouseUp), value: value);
-        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(MouseUp), value: value);
+        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(MouseReleased), value: value);
+        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(MouseReleased), value: value);
     }
 
-    public new event MouseMoveEvent<BaseWindow> MouseMove
+    public new event MouseMoveEvent<BaseWindow> MouseMoved
     {
-        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(MouseMove), value: value);
-        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(MouseMove), value: value);
+        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(MouseMoved), value: value);
+        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(MouseMoved), value: value);
     }
 
-    public new event KeyPressEvent<BaseWindow> KeyPress
+    public new event KeyPressEvent<BaseWindow> CharacterTyped
     {
-        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(KeyPress), value: value);
-        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(KeyPress), value: value);
+        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(CharacterTyped), value: value);
+        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(CharacterTyped), value: value);
     }
 
-    public new event KeyEvent<BaseWindow> KeyDown
+    public new event KeyEvent<BaseWindow> KeyPressed
     {
-        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(KeyDown), value: value);
-        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(KeyDown), value: value);
+        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(KeyPressed), value: value);
+        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(KeyPressed), value: value);
     }
 
-    public new event AoWOnDrawEvent<BaseWindow> PreDraw
+    public new event AoWOnDrawEvent<BaseWindow> Drawing
     {
-        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(PreDraw), value: value);
-        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(PreDraw), value: value);
+        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(Drawing), value: value);
+        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(Drawing), value: value);
     }
 
     public new event AoWOnDrawEvent<BaseWindow> Drawn
@@ -544,21 +544,21 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
         remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(Updated), value: value);
     }
 
-    public new event AoWOnDrawBackEvent<BaseWindow> DrawBack
+    public new event AoWOnDrawBackEvent<BaseWindow> BackgroundDrawn
     {
-        add => ((WindowControl)this).DrawBack += EventSlot.Add<WindowControl, BaseWindow>(this, slot: nameof(DrawBack), value: value);
-        remove => ((WindowControl)this).DrawBack -= EventSlot.Remove<WindowControl, BaseWindow>(this, slot: nameof(DrawBack), value: value);
+        add => ((WindowControl)this).BackgroundDrawn += EventSlot.Add<WindowControl, BaseWindow>(this, slot: nameof(BackgroundDrawn), value: value);
+        remove => ((WindowControl)this).BackgroundDrawn -= EventSlot.Remove<WindowControl, BaseWindow>(this, slot: nameof(BackgroundDrawn), value: value);
     }
 
-    public new event NotifyEvent<BaseWindow> Enter
+    public new event NotifyEvent<BaseWindow> MouseEntered
     {
-        add => ((WindowControl)this).Enter += EventSlot.Add<WindowControl, BaseWindow>(this, slot: nameof(Enter), value: value);
-        remove => ((WindowControl)this).Enter -= EventSlot.Remove<WindowControl, BaseWindow>(this, slot: nameof(Enter), value: value);
+        add => ((WindowControl)this).MouseEntered += EventSlot.Add<WindowControl, BaseWindow>(this, slot: nameof(MouseEntered), value: value);
+        remove => ((WindowControl)this).MouseEntered -= EventSlot.Remove<WindowControl, BaseWindow>(this, slot: nameof(MouseEntered), value: value);
     }
 
-    public new event NotifyEvent<BaseWindow> Exit
+    public new event NotifyEvent<BaseWindow> MouseLeft
     {
-        add => ((WindowControl)this).Exit += EventSlot.Add<WindowControl, BaseWindow>(this, slot: nameof(Exit), value: value);
-        remove => ((WindowControl)this).Exit -= EventSlot.Remove<WindowControl, BaseWindow>(this, slot: nameof(Exit), value: value);
+        add => ((WindowControl)this).MouseLeft += EventSlot.Add<WindowControl, BaseWindow>(this, slot: nameof(MouseLeft), value: value);
+        remove => ((WindowControl)this).MouseLeft -= EventSlot.Remove<WindowControl, BaseWindow>(this, slot: nameof(MouseLeft), value: value);
     }
 }

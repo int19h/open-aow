@@ -50,7 +50,7 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
     public override void Activate()
     {
         base.Activate();
-        CombatMap.Current.NewFrameEvents += NewFrame;
+        CombatMap.Current.FrameStarted += NewFrame;
         _highlighted = CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting);
         _alpha = _highlighted ? 50 : 0;
 
@@ -60,7 +60,7 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
     // FleeLoc.pas:65
     public override void Deactivate()
     {
-        CombatMap.Current.NewFrameEvents -= NewFrame;
+        CombatMap.Current.FrameStarted -= NewFrame;
         base.Deactivate();
     }
 

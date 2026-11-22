@@ -154,7 +154,7 @@ public sealed class ObservableNodeTests
     {
         ObservableEventList list = new(null!) { Holder = EngineFixture.Engine };
         List<string> trace = [];
-        list.Events += _ => trace.Add("events");
+        list.Changed += _ => trace.Add("events");
         list.CollectionChanged += (_, e) => trace.Add(e.Change.Kind.ToString());
         Leaf leaf = new(1);
         _ = list.AddChild(leaf);

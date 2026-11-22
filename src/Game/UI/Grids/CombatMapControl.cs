@@ -50,11 +50,11 @@ public sealed class CombatMapControl : Component
     [Published]
     public event EventHandler<PlayerEventArgs>? LogbookChanged;
     [Published]
-    public event NotifyEvent<object>? ActivateMap;
+    public event NotifyEvent<object>? BattleStarted;
     [Published]
-    public event NotifyEvent<object>? DeActivateMap;
+    public event NotifyEvent<object>? BattleEnding;
     [Published]
-    public event SelectHSEvent? MouseOverTarget;
+    public event SelectHSEvent? MouseOverTargetChanged;
     [Published]
     public event SelectCombatUnitEvent? UnitChanged;
     [Published]
@@ -101,9 +101,9 @@ public sealed class CombatMapControl : Component
         CombatMap.Current.Selection.Deselected += DeselectHexSprite;
         CombatMap.Current.ShowingMessage += CombatMap_ShowingMessage;
         CombatMap.Current.MapChanged += CombatMap_MapChanged;
-        CombatMap.Current.Deselected += CombatMap_Deselected;
-        CombatMap.Current.Selected += DeactivateMap;
-        CombatMap.Current.MouseOverTarget += CombatMap_MouseOverTarget;
+        CombatMap.Current.BattleStarted += CombatMap_Deselected;
+        CombatMap.Current.BattleEnding += DeactivateMap;
+        CombatMap.Current.MouseOverTargetChanged += CombatMap_MouseOverTarget;
         CombatMap.Current.UnitChanged += CombatMap_UnitChanged;
         CombatMap.Current.AbilityActivated += CombatMap_AbilityActivated;
         CombatMap.Current.CombatStarted += CastSpell;
@@ -128,9 +128,9 @@ public sealed class CombatMapControl : Component
         CombatMap.Current.ShowingMessage -= CombatMap_ShowingMessage;
         CombatMap.Current.MapChanged -= CombatMap_MapChanged;
         StrategicMap.Current.ExecutingEventLog -= StrategicMap_ExecutingEventLog;
-        CombatMap.Current.Deselected -= CombatMap_Deselected;
-        CombatMap.Current.Selected -= DeactivateMap;
-        CombatMap.Current.MouseOverTarget -= CombatMap_MouseOverTarget;
+        CombatMap.Current.BattleStarted -= CombatMap_Deselected;
+        CombatMap.Current.BattleEnding -= DeactivateMap;
+        CombatMap.Current.MouseOverTargetChanged -= CombatMap_MouseOverTarget;
         CombatMap.Current.UnitChanged -= CombatMap_UnitChanged;
         CombatMap.Current.AbilityActivated -= CombatMap_AbilityActivated;
         CombatMap.Current.CombatStarted -= CastSpell;
@@ -195,7 +195,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            MouseOverTarget?.Invoke(CombatMap.Current.UnitSelection.MouseOverTarget);
+            MouseOverTargetChanged?.Invoke(CombatMap.Current.UnitSelection.MouseOverTarget);
         }
         catch
         {
@@ -317,7 +317,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            ActivateMap?.Invoke(this);
+            BattleStarted?.Invoke(this);
         }
         catch
         {
@@ -330,7 +330,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            DeActivateMap?.Invoke(this);
+            BattleEnding?.Invoke(this);
         }
         catch
         {

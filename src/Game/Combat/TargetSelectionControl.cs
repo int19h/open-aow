@@ -248,9 +248,9 @@ public sealed class TargetSelectionControl : IDisposable
         {
             Status |= TargetSelectionStatuses.Activated;
             StrategicMap.Current.Mouse.SetCapture(this);
-            StrategicMap.Current.Mouse.ButtonDown += MouseDownEvent;
+            StrategicMap.Current.Mouse.ButtonPressed += MouseDownEvent;
             StrategicMap.Current.Mouse.Moved += MouseMoveEvent;
-            StrategicMap.Current.NewFrameEvents += NewFrameEvent;
+            StrategicMap.Current.FrameStarted += NewFrameEvent;
             StrategicMap.Current.Selection.Deselected += DeselectHexSprite;
             StrategicMap.Current.Mouse.CursorMode = 256;
             StrategicMap.Current.Keyboard.Lock();
@@ -269,9 +269,9 @@ public sealed class TargetSelectionControl : IDisposable
         if (Status.Contains(TargetSelectionStatuses.Activated))
         {
             Status &= ~TargetSelectionStatuses.Activated;
-            StrategicMap.Current.Mouse.ButtonDown -= MouseDownEvent;
+            StrategicMap.Current.Mouse.ButtonPressed -= MouseDownEvent;
             StrategicMap.Current.Mouse.Moved -= MouseMoveEvent;
-            StrategicMap.Current.NewFrameEvents -= NewFrameEvent;
+            StrategicMap.Current.FrameStarted -= NewFrameEvent;
             StrategicMap.Current.Selection.Deselected -= DeselectHexSprite;
             if (StrategicMap.Current.Mouse.Capture == this)
             {

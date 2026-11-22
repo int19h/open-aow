@@ -163,7 +163,7 @@ public class Animation(CustomNode? owner, ShowAnimationEvent? show = null, Actio
         _state |= States.Activated;
         if (AnimationControlMode().Contains(AnimationControlModes.LinkToNewFrame))
         {
-            AnimationMap.NewFrameEvents += NewFrameEvent;
+            AnimationMap.FrameStarted += NewFrameEvent;
         }
 
         if (AnimationControlMode().Contains(AnimationControlModes.FixedVisible))
@@ -173,7 +173,7 @@ public class Animation(CustomNode? owner, ShowAnimationEvent? show = null, Actio
 
         if (AnimationControlMode().Contains(AnimationControlModes.LinkToOnDestroy))
         {
-            AnimationMap.DestroyEvents += DestroyEvent;
+            AnimationMap.MapDestroying += DestroyEvent;
         }
     }
 
@@ -192,12 +192,12 @@ public class Animation(CustomNode? owner, ShowAnimationEvent? show = null, Actio
 
             if (AnimationControlMode().Contains(AnimationControlModes.LinkToNewFrame))
             {
-                AnimationMap.NewFrameEvents -= NewFrameEvent;
+                AnimationMap.FrameStarted -= NewFrameEvent;
             }
 
             if (AnimationControlMode().Contains(AnimationControlModes.LinkToOnDestroy))
             {
-                AnimationMap.DestroyEvents -= DestroyEvent;
+                AnimationMap.MapDestroying -= DestroyEvent;
             }
         }
     }

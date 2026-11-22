@@ -20,7 +20,7 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
         CharacterGenerationPanel = new Panel(this);
         session.BeginRead(CharacterGenerationPanel);
         CharacterGenerationPanel.Name = "CharGenPnl";
-        CharacterGenerationPanel.MouseDown += (_, button, shift, x, y) => CharGenPnlMouseDown(button, shift, x, y);
+        CharacterGenerationPanel.MousePressed += (_, button, shift, x, y) => CharGenPnlMouseDown(button, shift, x, y);
         CharacterGenerationPanel.Visible = false;
         CharacterGenerationPanel.Priority = 5;
         CharacterGenerationPanel.WinLeft = 0;
@@ -103,7 +103,7 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
         customBtn.TextColor = 0;
         customBtn.TextSelectedColor = 16777215;
         customBtn.WinWidth = 150;
-        customBtn.Click += _ => CustomBtnClick();
+        customBtn.Clicked += _ => CustomBtnClick();
         session.EndRead(customBtn);
         Button defaultBtn = new(this);
         session.BeginRead(defaultBtn);
@@ -134,7 +134,7 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
         defaultBtn.TextColor = 0;
         defaultBtn.TextSelectedColor = 16777215;
         defaultBtn.WinWidth = 150;
-        defaultBtn.Click += _ => DefaultBtnClick();
+        defaultBtn.Clicked += _ => DefaultBtnClick();
         session.EndRead(defaultBtn);
         Memo leaderTypeMsg = new(this);
         session.BeginRead(leaderTypeMsg);
@@ -177,7 +177,7 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
         DefaultFacePanel = new Panel(this);
         session.BeginRead(DefaultFacePanel);
         DefaultFacePanel.Name = "DefaultFacePnl";
-        DefaultFacePanel.MouseDown += (_, _, _, _, _) => DefaultFacePnlMouseDown(default, button: default, shift: default, default, default);
+        DefaultFacePanel.MousePressed += (_, _, _, _, _) => DefaultFacePnlMouseDown(default, button: default, shift: default, default, default);
         DefaultFacePanel.Drawn += (_, surface) => DefaultFacePnlDraw(surface);
         DefaultFacePanel.Priority = 0;
         DefaultFacePanel.WinLeft = 62;

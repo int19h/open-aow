@@ -76,7 +76,7 @@ public class CombatMap : GameMap
 
     internal EventStore<TacticalBattle> SelectEventsStore { get; }
 
-    public event NotifyEvent<TacticalBattle> Selected
+    public event NotifyEvent<TacticalBattle> BattleEnding
     {
         add => SelectEventsStore.Add(value);
         remove => SelectEventsStore.Remove(value);
@@ -84,7 +84,7 @@ public class CombatMap : GameMap
 
     internal EventStore<TacticalBattle> DeselectEventsStore { get; }
 
-    public event NotifyEvent<TacticalBattle> Deselected
+    public event NotifyEvent<TacticalBattle> BattleStarted
     {
         add => DeselectEventsStore.Add(value);
         remove => DeselectEventsStore.Remove(value);
@@ -94,7 +94,7 @@ public class CombatMap : GameMap
 
     internal EventStore<HexSprite?> MouseOverTargetEventsStore { get; }
 
-    public event NotifyEvent<HexSprite> MouseOverTarget
+    public event NotifyEvent<HexSprite> MouseOverTargetChanged
     {
         add => MouseOverTargetEventsStore.Add(value);
         remove => MouseOverTargetEventsStore.Remove(value);

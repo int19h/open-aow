@@ -34,10 +34,10 @@ public sealed class DebugChannelTests
         using GameEngine engine = new(null);
         List<(DebugChannel Channel, string Text)> received = [];
         void Handler(EngineDebugNotification notification) => received.Add((notification.Info.Channel, notification.Info.Text));
-        engine.DebugEvents += Handler;
+        engine.DebugMessageWritten += Handler;
         engine.OutputDebugMessage(DebugChannel.Combat, S: "combat");
         engine.OutputDebugString("user");
-        engine.DebugEvents -= Handler;
+        engine.DebugMessageWritten -= Handler;
         Assert.Equal([(DebugChannel.Combat, "combat"), (DebugChannel.User, "user")], received);
     }
 }

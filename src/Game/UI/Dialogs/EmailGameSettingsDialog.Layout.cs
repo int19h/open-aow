@@ -46,7 +46,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         okBtn.TextColor = 0;
         okBtn.TextSelectedColor = 16777215;
         okBtn.WinWidth = 110;
-        okBtn.Click += _ => OKBtnClick();
+        okBtn.Clicked += _ => OKBtnClick();
         session.EndRead(okBtn);
         Image titleIcon = new(this);
         session.BeginRead(titleIcon);
@@ -128,12 +128,12 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         cancelBut.TextColor = 0;
         cancelBut.TextSelectedColor = 16777215;
         cancelBut.WinWidth = 110;
-        cancelBut.Click += _ => CancelButClick();
+        cancelBut.Clicked += _ => CancelButClick();
         session.EndRead(cancelBut);
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.KeyDown += (_, ref key, shift) => DlgKeyDown(key, shift);
+        Window.KeyPressed += (_, ref key, shift) => DlgKeyDown(key, shift);
         Window.Visible = false;
         Window.Priority = 520;
         Window.WinLeft = 95;
@@ -358,7 +358,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit1.WinWidth = 230;
         EmailAddressEdit1.BorderWidth = 8;
         EmailAddressEdit1.BorderHeight = 5;
-        EmailAddressEdit1.Change += sender => EmailAddressEdit1Change(sender, slot: 0);
+        EmailAddressEdit1.Changed += sender => EmailAddressEdit1Change(sender, slot: 0);
         EmailAddressEdit1.MaxChars = 0;
         EmailAddressEdit1.CursorChar = 95;
         EmailAddressEdit1.BlinkDelay = 1;
@@ -444,7 +444,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerScrollBar.WinHeight = 121;
         PlayerScrollBar.WinWidth = 17;
         PlayerScrollBar.NumberVisible = 4;
-        PlayerScrollBar.Change += _ => PlayerSBChange();
+        PlayerScrollBar.Changed += _ => PlayerSBChange();
         PlayerScrollBar.VanishWhenFull = true;
         PlayerScrollBar.ImageLibraryIndexIncrementUp = 96;
         PlayerScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -521,7 +521,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit2.WinWidth = 230;
         EmailAddressEdit2.BorderWidth = 8;
         EmailAddressEdit2.BorderHeight = 6;
-        EmailAddressEdit2.Change += sender => EmailAddressEdit1Change(sender, slot: 1);
+        EmailAddressEdit2.Changed += sender => EmailAddressEdit1Change(sender, slot: 1);
         EmailAddressEdit2.MaxChars = 0;
         EmailAddressEdit2.CursorChar = 95;
         EmailAddressEdit2.BlinkDelay = 1;
@@ -554,7 +554,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit3.WinWidth = 230;
         EmailAddressEdit3.BorderWidth = 8;
         EmailAddressEdit3.BorderHeight = 6;
-        EmailAddressEdit3.Change += sender => EmailAddressEdit1Change(sender, slot: 2);
+        EmailAddressEdit3.Changed += sender => EmailAddressEdit1Change(sender, slot: 2);
         EmailAddressEdit3.MaxChars = 0;
         EmailAddressEdit3.CursorChar = 95;
         EmailAddressEdit3.BlinkDelay = 1;
@@ -609,7 +609,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit4.WinWidth = 230;
         EmailAddressEdit4.BorderWidth = 8;
         EmailAddressEdit4.BorderHeight = 6;
-        EmailAddressEdit4.Change += sender => EmailAddressEdit1Change(sender, slot: 3);
+        EmailAddressEdit4.Changed += sender => EmailAddressEdit1Change(sender, slot: 3);
         EmailAddressEdit4.MaxChars = 0;
         EmailAddressEdit4.CursorChar = 95;
         EmailAddressEdit4.BlinkDelay = 1;
@@ -701,7 +701,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         settingsBtn.TextColor = 0;
         settingsBtn.TextSelectedColor = 16777215;
         settingsBtn.WinWidth = 135;
-        settingsBtn.Click += _ => SettingsBtnClick();
+        settingsBtn.Clicked += _ => SettingsBtnClick();
         session.EndRead(settingsBtn);
         Panel player1Pnl = new(this);
         session.BeginRead(player1Pnl);
@@ -710,7 +710,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         player1Pnl.WinLeft = 1;
         player1Pnl.WinTop = 0;
         player1Pnl.WinWidth = 120;
-        player1Pnl.DrawBack += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 0);
+        player1Pnl.BackgroundDrawn += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 0);
         player1Pnl.Masked = true;
         player1Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player1Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -766,7 +766,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         player2Pnl.WinLeft = 1;
         player2Pnl.WinTop = 20;
         player2Pnl.WinWidth = 120;
-        player2Pnl.DrawBack += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 1);
+        player2Pnl.BackgroundDrawn += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 1);
         player2Pnl.Masked = true;
         player2Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player2Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -795,7 +795,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         player3Pnl.WinLeft = 1;
         player3Pnl.WinTop = 40;
         player3Pnl.WinWidth = 120;
-        player3Pnl.DrawBack += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 2);
+        player3Pnl.BackgroundDrawn += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 2);
         player3Pnl.Masked = true;
         player3Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player3Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -824,7 +824,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         player4Pnl.WinLeft = 1;
         player4Pnl.WinTop = 60;
         player4Pnl.WinWidth = 120;
-        player4Pnl.DrawBack += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 3);
+        player4Pnl.BackgroundDrawn += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 3);
         player4Pnl.Masked = true;
         player4Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player4Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -891,7 +891,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit5.WinWidth = 230;
         EmailAddressEdit5.BorderWidth = 8;
         EmailAddressEdit5.BorderHeight = 6;
-        EmailAddressEdit5.Change += sender => EmailAddressEdit1Change(sender, slot: 4);
+        EmailAddressEdit5.Changed += sender => EmailAddressEdit1Change(sender, slot: 4);
         EmailAddressEdit5.MaxChars = 0;
         EmailAddressEdit5.CursorChar = 95;
         EmailAddressEdit5.BlinkDelay = 1;
@@ -946,7 +946,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit6.WinWidth = 230;
         EmailAddressEdit6.BorderWidth = 8;
         EmailAddressEdit6.BorderHeight = 6;
-        EmailAddressEdit6.Change += sender => EmailAddressEdit1Change(sender, slot: 5);
+        EmailAddressEdit6.Changed += sender => EmailAddressEdit1Change(sender, slot: 5);
         EmailAddressEdit6.MaxChars = 0;
         EmailAddressEdit6.CursorChar = 95;
         EmailAddressEdit6.BlinkDelay = 1;
@@ -963,7 +963,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         player5Pnl.WinLeft = 1;
         player5Pnl.WinTop = 80;
         player5Pnl.WinWidth = 120;
-        player5Pnl.DrawBack += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 4);
+        player5Pnl.BackgroundDrawn += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 4);
         player5Pnl.Masked = true;
         player5Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player5Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -992,7 +992,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         player6Pnl.WinLeft = 1;
         player6Pnl.WinTop = 100;
         player6Pnl.WinWidth = 120;
-        player6Pnl.DrawBack += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 5);
+        player6Pnl.BackgroundDrawn += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 5);
         player6Pnl.Masked = true;
         player6Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player6Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -1099,7 +1099,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         closeBtn.TextColor = 0;
         closeBtn.TextSelectedColor = 0;
         closeBtn.WinWidth = 15;
-        closeBtn.Click += _ => CancelButClick();
+        closeBtn.Clicked += _ => CancelButClick();
         session.EndRead(closeBtn);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);

@@ -26,7 +26,7 @@ public sealed partial class WindowManager : UIComponent
     private int _oldCursor;
     private readonly int _defaultCursor;
     [Published]
-    public event NotifyEvent<WindowManager>? ChangeCursor;
+    public event NotifyEvent<WindowManager>? CursorChanged;
     private int _imageLibraryIndexTBack;
     private int _imageLibraryIndexTFore;
 
@@ -160,9 +160,9 @@ public sealed partial class WindowManager : UIComponent
                                 }
                             }
 
-                            if (c.Hidden)
+                            if (c.IsHidden)
                             {
-                                c.Hidden = false;
+                                c.IsHidden = false;
                                 r = new Rect(c.WinLeft, c.WinTop, c.WinLeft + c.WinWidth, c.WinTop + c.WinHeight);
                                 AddDrawRectangle(ref r, sender: c);
                             }
@@ -333,7 +333,7 @@ public sealed partial class WindowManager : UIComponent
             {
                 // The child list is UIComponent. The manager shows windows, and the cast stays.
                 c = (WindowControl?)Children[i];
-                c.Hidden = false;
+                c.IsHidden = false;
                 if (c.Valid && c.Visible)
                 {
                     bool wasValid = c.SurfaceValid;
@@ -573,7 +573,7 @@ public sealed partial class WindowManager : UIComponent
 
         if (base.Cursor != _oldCursor)
         {
-            ChangeCursor?.Invoke(this);
+            CursorChanged?.Invoke(this);
         }
 
         RaiseMouseMove(this, shift, X, Y);
@@ -678,7 +678,7 @@ public sealed partial class WindowManager : UIComponent
         if (value != base.Cursor)
         {
             base.Cursor = value;
-            ChangeCursor?.Invoke(this);
+            CursorChanged?.Invoke(this);
         }
     }
 
@@ -717,46 +717,46 @@ public sealed partial class WindowManager : UIComponent
     [Published]
     public bool DrawOverlay { get; set; }
 
-    public new event NotifyEvent<WindowManager> Change
+    public new event NotifyEvent<WindowManager> Changed
     {
-        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(Change), value: value);
-        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(Change), value: value);
+        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(Changed), value: value);
+        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(Changed), value: value);
     }
 
-    public new event MouseEvent<WindowManager> MouseDown
+    public new event MouseEvent<WindowManager> MousePressed
     {
-        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(MouseDown), value: value);
-        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(MouseDown), value: value);
+        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(MousePressed), value: value);
+        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(MousePressed), value: value);
     }
 
-    public new event MouseEvent<WindowManager> MouseUp
+    public new event MouseEvent<WindowManager> MouseReleased
     {
-        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(MouseUp), value: value);
-        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(MouseUp), value: value);
+        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(MouseReleased), value: value);
+        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(MouseReleased), value: value);
     }
 
-    public new event MouseMoveEvent<WindowManager> MouseMove
+    public new event MouseMoveEvent<WindowManager> MouseMoved
     {
-        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(MouseMove), value: value);
-        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(MouseMove), value: value);
+        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(MouseMoved), value: value);
+        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(MouseMoved), value: value);
     }
 
-    public new event KeyPressEvent<WindowManager> KeyPress
+    public new event KeyPressEvent<WindowManager> CharacterTyped
     {
-        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(KeyPress), value: value);
-        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(KeyPress), value: value);
+        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(CharacterTyped), value: value);
+        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(CharacterTyped), value: value);
     }
 
-    public new event KeyEvent<WindowManager> KeyDown
+    public new event KeyEvent<WindowManager> KeyPressed
     {
-        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(KeyDown), value: value);
-        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(KeyDown), value: value);
+        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(KeyPressed), value: value);
+        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(KeyPressed), value: value);
     }
 
-    public new event AoWOnDrawEvent<WindowManager> PreDraw
+    public new event AoWOnDrawEvent<WindowManager> Drawing
     {
-        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(PreDraw), value: value);
-        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(PreDraw), value: value);
+        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(Drawing), value: value);
+        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(Drawing), value: value);
     }
 
     public new event AoWOnDrawEvent<WindowManager> Drawn

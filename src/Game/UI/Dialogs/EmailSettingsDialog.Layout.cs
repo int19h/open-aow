@@ -18,7 +18,7 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.KeyDown += (_, ref key, shift) => DlgKeyDown(key, shift);
+        Window.KeyPressed += (_, ref key, shift) => DlgKeyDown(key, shift);
         Window.Visible = false;
         Window.Priority = 530;
         Window.WinLeft = 128;
@@ -276,7 +276,7 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         okBtn.TextColor = 0;
         okBtn.TextSelectedColor = 16777215;
         okBtn.WinWidth = 105;
-        okBtn.Click += _ => OKBtnClick();
+        okBtn.Clicked += _ => OKBtnClick();
         session.EndRead(okBtn);
         Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
@@ -307,7 +307,7 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 105;
-        cancelBtn.Click += _ => CancelBtnClick();
+        cancelBtn.Clicked += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
         Label localEmailAddressLbl = new(this);
         session.BeginRead(localEmailAddressLbl);
@@ -503,7 +503,7 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.Click += _ => CancelBtnClick();
+        close.Clicked += _ => CancelBtnClick();
         session.EndRead(close);
         Image titleIcon = new(this);
         session.BeginRead(titleIcon);

@@ -17,8 +17,8 @@ public sealed partial class PyreScreen : ILayoutModule
         DeadPanel = new Panel(this);
         session.BeginRead(DeadPanel);
         DeadPanel.Name = "DeadPnl";
-        DeadPanel.MouseDown += (_, button, shift, x, y) => DeadPnlMouseDown(button, shift, x, y);
-        DeadPanel.KeyDown += (_, ref key, shift) => DeadPnlKeyDown(key, shift);
+        DeadPanel.MousePressed += (_, button, shift, x, y) => DeadPnlMouseDown(button, shift, x, y);
+        DeadPanel.KeyPressed += (_, ref key, shift) => DeadPnlKeyDown(key, shift);
         DeadPanel.Updated += _ => DeadPnlUpdate();
         DeadPanel.Visible = false;
         DeadPanel.Priority = 5;
@@ -76,7 +76,7 @@ public sealed partial class PyreScreen : ILayoutModule
         LeaderFaceFrame = new Image(this);
         session.BeginRead(LeaderFaceFrame);
         LeaderFaceFrame.Name = "LeaderFaceFr";
-        LeaderFaceFrame.PreDraw += (_, surface) => LeaderFaceFrPreDraw(surface);
+        LeaderFaceFrame.Drawing += (_, surface) => LeaderFaceFrPreDraw(surface);
         LeaderFaceFrame.Priority = 1000;
         LeaderFaceFrame.WinLeft = 225;
         LeaderFaceFrame.WinTop = 5;

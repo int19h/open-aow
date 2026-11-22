@@ -18,14 +18,14 @@ public sealed partial class DeformFaceDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.KeyDown += (_, ref key, shift) => DlgKeyDown(key, shift);
+        Window.KeyPressed += (_, ref key, shift) => DlgKeyDown(key, shift);
         Window.Visible = false;
         Window.Priority = 5000;
         Window.WinLeft = 120;
         Window.WinTop = 91;
         Window.WinWidth = 400;
         Window.Masked = true;
-        Window.Hide += _ => DlgHide();
+        Window.Hidden += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -117,7 +117,7 @@ public sealed partial class DeformFaceDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 100;
-        cancelBtn.Click += _ => CancelBtnClick();
+        cancelBtn.Clicked += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
         Image titleIcon = new(this);
         session.BeginRead(titleIcon);
@@ -199,7 +199,7 @@ public sealed partial class DeformFaceDialog : ILayoutModule
         castBtn.TextColor = 0;
         castBtn.TextSelectedColor = 16777215;
         castBtn.WinWidth = 100;
-        castBtn.Click += _ => CastBtnClick();
+        castBtn.Clicked += _ => CastBtnClick();
         session.EndRead(castBtn);
         Label selectNewFaceLbl = new(this);
         session.BeginRead(selectNewFaceLbl);
@@ -256,7 +256,7 @@ public sealed partial class DeformFaceDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.Click += _ => CastBtnClick();
+        close.Clicked += _ => CastBtnClick();
         session.EndRead(close);
         Frame leftFace = new(this);
         session.BeginRead(leftFace);
@@ -456,7 +456,7 @@ public sealed partial class DeformFaceDialog : ILayoutModule
         prevFaceBtn.TextColor = 0;
         prevFaceBtn.TextSelectedColor = 16777215;
         prevFaceBtn.WinWidth = 50;
-        prevFaceBtn.Click += _ => PrevFaceBtnClick();
+        prevFaceBtn.Clicked += _ => PrevFaceBtnClick();
         session.EndRead(prevFaceBtn);
         Button nextFaceBtn = new(this);
         session.BeginRead(nextFaceBtn);
@@ -487,7 +487,7 @@ public sealed partial class DeformFaceDialog : ILayoutModule
         nextFaceBtn.TextColor = 0;
         nextFaceBtn.TextSelectedColor = 16777215;
         nextFaceBtn.WinWidth = 50;
-        nextFaceBtn.Click += _ => NextFaceBtnClick();
+        nextFaceBtn.Clicked += _ => NextFaceBtnClick();
         session.EndRead(nextFaceBtn);
         UnitNameLabel = new Label(this);
         session.BeginRead(UnitNameLabel);

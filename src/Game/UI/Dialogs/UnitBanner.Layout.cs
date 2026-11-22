@@ -339,14 +339,14 @@ public sealed partial class UnitBanner : ILayoutModule
         BannerMenu = new Menu(this);
         session.BeginRead(BannerMenu);
         BannerMenu.Name = "BannerPopup";
-        BannerMenu.MouseDown += (_, button, _, _, _) => BannerPopupMouseDown(default, button: (byte)button, shift: default, default, default);
+        BannerMenu.MousePressed += (_, button, _, _, _) => BannerPopupMouseDown(default, button: (byte)button, shift: default, default, default);
         BannerMenu.Visible = false;
         BannerMenu.Priority = 350;
         BannerMenu.WinLeft = 0;
         BannerMenu.WinTop = 0;
         BannerMenu.WinWidth = 160;
         BannerMenu.Masked = true;
-        BannerMenu.Show += _ => BannerPopupShow();
+        BannerMenu.Shown += _ => BannerPopupShow();
         BannerMenu.Alignment.AlignWidth = AlignWidth.None;
         BannerMenu.Alignment.AlignHeight = AlignHeight.None;
         BannerMenu.Alignment.HeightPercent = 0;
@@ -380,8 +380,8 @@ public sealed partial class UnitBanner : ILayoutModule
         AbilityList = new ListBox(this);
         session.BeginRead(AbilityList);
         AbilityList.Name = "AbLB";
-        AbilityList.MouseDown += (_, button, shift, x, y) => AbLBMouseDown(button, shift, x, y);
-        AbilityList.MouseMove += (_, shift, x, y) => AbLBMouseMove(shift, x, y);
+        AbilityList.MousePressed += (_, button, shift, x, y) => AbLBMouseDown(button, shift, x, y);
+        AbilityList.MouseMoved += (_, shift, x, y) => AbLBMouseMove(shift, x, y);
         AbilityList.Updated += _ => AbLBUpdate();
         AbilityList.Priority = 0;
         AbilityList.WinLeft = 25;

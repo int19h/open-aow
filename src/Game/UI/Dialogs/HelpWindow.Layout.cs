@@ -24,7 +24,7 @@ public sealed partial class HelpWindow : ILayoutModule
         MainWindow.WinTop = 16;
         MainWindow.WinWidth = 370;
         MainWindow.Masked = false;
-        MainWindow.Hide += _ => HelpWinHide();
+        MainWindow.Hidden += _ => HelpWinHide();
         MainWindow.Alignment.AlignWidth = AlignWidth.Center;
         MainWindow.Alignment.AlignHeight = AlignHeight.Center;
         MainWindow.Alignment.HeightPercent = 0;
@@ -50,7 +50,7 @@ public sealed partial class HelpWindow : ILayoutModule
         MainWindow.DragHeight = 20;
         MainWindow.Draggable = true;
         MainWindow.Resizable = true;
-        MainWindow.Resize += _ => HelpWinResize();
+        MainWindow.Resized += _ => HelpWinResize();
         MainWindow.MinWidth = 200;
         MainWindow.MinHeight = 200;
         MainWindow.MaxWidth = 400;
@@ -115,7 +115,7 @@ public sealed partial class HelpWindow : ILayoutModule
         closeBtn.TextColor = 0;
         closeBtn.TextSelectedColor = 0;
         closeBtn.WinWidth = 15;
-        closeBtn.Click += _ => CloseBtnClick();
+        closeBtn.Clicked += _ => CloseBtnClick();
         session.EndRead(closeBtn);
         Image titleIcon = new(this);
         session.BeginRead(titleIcon);
@@ -230,7 +230,7 @@ public sealed partial class HelpWindow : ILayoutModule
         bCloseBut.TextColor = 0;
         bCloseBut.TextSelectedColor = 16777215;
         bCloseBut.WinWidth = 134;
-        bCloseBut.Click += _ => CloseBtnClick();
+        bCloseBut.Clicked += _ => CloseBtnClick();
         session.EndRead(bCloseBut);
         Image celtLineR = new(this);
         session.BeginRead(celtLineR);

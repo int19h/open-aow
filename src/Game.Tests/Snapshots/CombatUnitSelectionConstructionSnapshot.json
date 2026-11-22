@@ -35,7 +35,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.Change": null,
+              "CustomImageLibrary.Changed": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []

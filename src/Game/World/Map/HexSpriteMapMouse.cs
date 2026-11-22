@@ -25,7 +25,7 @@ public class HexSpriteMapMouse : IDisposable
 
     internal EventStore<HexSpriteMapMouse> OnUpStore { get; }
 
-    internal event NotifyEvent<HexSpriteMapMouse> ButtonUp
+    internal event NotifyEvent<HexSpriteMapMouse> ButtonReleased
     {
         add => OnUpStore.Add(value);
         remove => OnUpStore.Remove(value);
@@ -33,7 +33,7 @@ public class HexSpriteMapMouse : IDisposable
 
     internal EventStore<HexSpriteMapMouse> OnDownStore { get; }
 
-    internal event NotifyEvent<HexSpriteMapMouse> ButtonDown
+    internal event NotifyEvent<HexSpriteMapMouse> ButtonPressed
     {
         add => OnDownStore.Add(value);
         remove => OnDownStore.Remove(value);

@@ -18,15 +18,15 @@ public sealed partial class CityJoinDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.KeyDown += (_, ref key, shift) => DlgKeyDown(key, shift);
+        Window.KeyPressed += (_, ref key, shift) => DlgKeyDown(key, shift);
         Window.Visible = false;
         Window.Priority = 5000;
         Window.WinLeft = 93;
         Window.WinTop = 91;
         Window.WinWidth = 455;
-        Window.DrawBack += (_, surface) => DlgDrawBack(surface);
+        Window.BackgroundDrawn += (_, surface) => DlgDrawBack(surface);
         Window.Masked = true;
-        Window.Hide += _ => DlgHide();
+        Window.Hidden += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -231,7 +231,7 @@ public sealed partial class CityJoinDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 119;
-        cancelBtn.Click += _ => CancelBtnClick();
+        cancelBtn.Clicked += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
         Button attackBtn = new(this);
         session.BeginRead(attackBtn);
@@ -262,7 +262,7 @@ public sealed partial class CityJoinDialog : ILayoutModule
         attackBtn.TextColor = 328543;
         attackBtn.TextSelectedColor = 16777215;
         attackBtn.WinWidth = 125;
-        attackBtn.Click += _ => AttackBtnClick();
+        attackBtn.Clicked += _ => AttackBtnClick();
         session.EndRead(attackBtn);
         Image titleIcon = new(this);
         session.BeginRead(titleIcon);
@@ -344,7 +344,7 @@ public sealed partial class CityJoinDialog : ILayoutModule
         acceptBtn.TextColor = 0;
         acceptBtn.TextSelectedColor = 16777215;
         acceptBtn.WinWidth = 119;
-        acceptBtn.Click += _ => AcceptBtnClick();
+        acceptBtn.Clicked += _ => AcceptBtnClick();
         session.EndRead(acceptBtn);
         Label whatLbl = new(this);
         session.BeginRead(whatLbl);
@@ -423,7 +423,7 @@ public sealed partial class CityJoinDialog : ILayoutModule
         closeBtn.TextColor = 0;
         closeBtn.TextSelectedColor = 0;
         closeBtn.WinWidth = 15;
-        closeBtn.Click += _ => CloseBtnClick();
+        closeBtn.Clicked += _ => CloseBtnClick();
         session.EndRead(closeBtn);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);

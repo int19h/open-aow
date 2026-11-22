@@ -75,7 +75,7 @@ public sealed partial class PowerDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.Click += _ => CancelBtnClick();
+        close.Clicked += _ => CancelBtnClick();
         session.EndRead(close);
         Label title = new(this);
         session.BeginRead(title);
@@ -156,7 +156,7 @@ public sealed partial class PowerDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 120;
-        cancelBtn.Click += _ => CancelBtnClick();
+        cancelBtn.Clicked += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
         Button setBtn = new(this);
         session.BeginRead(setBtn);
@@ -187,12 +187,12 @@ public sealed partial class PowerDialog : ILayoutModule
         setBtn.TextColor = 0;
         setBtn.TextSelectedColor = 16777215;
         setBtn.WinWidth = 120;
-        setBtn.Click += _ => SetBtnClick();
+        setBtn.Clicked += _ => SetBtnClick();
         session.EndRead(setBtn);
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.KeyDown += (_, ref key, shift) => DlgKeyDown(key, shift);
+        Window.KeyPressed += (_, ref key, shift) => DlgKeyDown(key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 159;
@@ -626,7 +626,7 @@ public sealed partial class PowerDialog : ILayoutModule
         PowerSlider.WinHeight = 11;
         PowerSlider.WinWidth = 78;
         PowerSlider.NumberVisible = 1;
-        PowerSlider.Change += _ => PowerSliderChange();
+        PowerSlider.Changed += _ => PowerSliderChange();
         PowerSlider.VanishWhenFull = false;
         PowerSlider.ImageLibraryIndexIncrementUp = 0;
         PowerSlider.ImageLibraryIndexIncrementDown = 0;

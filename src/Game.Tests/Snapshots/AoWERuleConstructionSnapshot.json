@@ -13421,9 +13421,9 @@
     "$value": {
       "$jsonText": {
         "$type": "Aow.Game.Magic.Abilities.DispelMagicAbilityUnitSelector",
-        "UnitSelector.Canceled": false,
+        "UnitSelector.IsCanceled": false,
         "UnitSelector.Caption": "",
-        "UnitSelector.Cancel": null,
+        "UnitSelector.Canceled": null,
         "UnitSelector.Selected": null,
         "UnitSelector.Player": 0,
         "UnitSelector.Selectable": 0,
@@ -15233,9 +15233,9 @@
     "$value": {
       "$jsonText": {
         "$type": "Aow.Game.Units.HealingUnitSelector",
-        "UnitSelector.Canceled": false,
+        "UnitSelector.IsCanceled": false,
         "UnitSelector.Caption": "",
-        "UnitSelector.Cancel": null,
+        "UnitSelector.Canceled": null,
         "UnitSelector.Selected": null,
         "UnitSelector.Player": 0,
         "UnitSelector.Selectable": 0,
@@ -24447,7 +24447,7 @@
         "$type": "Aow.Game.World.Structures.ProductionControl",
         "EngineObject._owner": "$owner",
         "ProductionControl.LoopQueue": false,
-        "ProductionControl.Change": null,
+        "ProductionControl.Changed": null,
         "ProductionControl.Queue": {
           "$type": "Aow.Game.World.Structures.ProductionQueue",
           "EngineObject._owner": null,
@@ -28315,9 +28315,9 @@
     "$value": {
       "$jsonText": {
         "$type": "Aow.Game.Units.UnitSelector",
-        "UnitSelector.Canceled": false,
+        "UnitSelector.IsCanceled": false,
         "UnitSelector.Caption": "",
-        "UnitSelector.Cancel": null,
+        "UnitSelector.Canceled": null,
         "UnitSelector.Selected": null,
         "UnitSelector.Player": 0,
         "UnitSelector.Selectable": 0,

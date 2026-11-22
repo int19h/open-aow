@@ -147,7 +147,7 @@ public sealed partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
     {
         if (sender.Checked)
         {
-            if (!Event.Canceled)
+            if (!Event.IsCanceled)
             {
                 Event.SetSelection((byte)(1 << slot));
             }

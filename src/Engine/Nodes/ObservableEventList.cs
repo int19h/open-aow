@@ -19,7 +19,7 @@ public class ObservableEventList(CustomNode owner) : ObservableNode(owner)
     // Engine.pas:8137
     protected override void OnChange() => _eventsStore.Raise(this);
 
-    public event NotifyEvent<ObservableEventList> Events
+    public event NotifyEvent<ObservableEventList> Changed
     {
         add => _eventsStore.Add(value);
         remove => _eventsStore.Remove(value);

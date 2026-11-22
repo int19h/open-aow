@@ -454,7 +454,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
         SetUnitGraphicsResourceIndex(Unit.Troop.UnitGraphicsResourceIndex);
         Abilities = [];
         CreateTacticalBattleAbilityList();
-        CombatMap.Current.NewFrameEvents += NewFrame;
+        CombatMap.Current.FrameStarted += NewFrame;
         if (CombatMap.Current.ExplorationEnabled)
         {
             sbyte player = Unit.GetPlayer();
@@ -472,7 +472,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
     // AoWTC.pas:3339
     public override void Deactivate()
     {
-        CombatMap.Current?.NewFrameEvents -= NewFrame;
+        CombatMap.Current?.FrameStarted -= NewFrame;
 
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {

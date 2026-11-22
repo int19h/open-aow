@@ -181,7 +181,7 @@ public sealed class Frame(Component? owner) : Control(owner)
                 PopupMenu.WinTop = Y;
                 if (PopupMenu.WindowManager is not null)
                 {
-                    if (PopupMenu.Hidden)
+                    if (PopupMenu.IsHidden)
                     {
                         if (PopupMenu.MenuLeft + PopupMenu.WinWidth > PopupMenu.WindowManager.WinWidth)
                         {
@@ -319,46 +319,46 @@ public sealed class Frame(Component? owner) : Control(owner)
     [Published]
     public Menu PopupMenu { get; set; }
 
-    public new event NotifyEvent<Frame> Change
+    public new event NotifyEvent<Frame> Changed
     {
-        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(Change), value: value);
-        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(Change), value: value);
+        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(Changed), value: value);
+        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(Changed), value: value);
     }
 
-    public new event MouseEvent<Frame> MouseDown
+    public new event MouseEvent<Frame> MousePressed
     {
-        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(MouseDown), value: value);
-        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(MouseDown), value: value);
+        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(MousePressed), value: value);
+        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(MousePressed), value: value);
     }
 
-    public new event MouseEvent<Frame> MouseUp
+    public new event MouseEvent<Frame> MouseReleased
     {
-        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(MouseUp), value: value);
-        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(MouseUp), value: value);
+        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(MouseReleased), value: value);
+        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(MouseReleased), value: value);
     }
 
-    public new event MouseMoveEvent<Frame> MouseMove
+    public new event MouseMoveEvent<Frame> MouseMoved
     {
-        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(MouseMove), value: value);
-        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(MouseMove), value: value);
+        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(MouseMoved), value: value);
+        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(MouseMoved), value: value);
     }
 
-    public new event KeyPressEvent<Frame> KeyPress
+    public new event KeyPressEvent<Frame> CharacterTyped
     {
-        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(KeyPress), value: value);
-        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(KeyPress), value: value);
+        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(CharacterTyped), value: value);
+        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(CharacterTyped), value: value);
     }
 
-    public new event KeyEvent<Frame> KeyDown
+    public new event KeyEvent<Frame> KeyPressed
     {
-        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(KeyDown), value: value);
-        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(KeyDown), value: value);
+        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(KeyPressed), value: value);
+        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(KeyPressed), value: value);
     }
 
-    public new event AoWOnDrawEvent<Frame> PreDraw
+    public new event AoWOnDrawEvent<Frame> Drawing
     {
-        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(PreDraw), value: value);
-        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(PreDraw), value: value);
+        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(Drawing), value: value);
+        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(Drawing), value: value);
     }
 
     public new event AoWOnDrawEvent<Frame> Drawn

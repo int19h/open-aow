@@ -228,7 +228,7 @@ public partial class ReflectingPool(CustomNode? owner) : PlayerStructure(owner)
     {
         DeactivatePoolCentering();
         _centerFrame = 0;
-        StrategicMap.Current.NewFrameEvents += NewFrame;
+        StrategicMap.Current.FrameStarted += NewFrame;
     }
 
     // ReflectingPool.pas:134
@@ -236,7 +236,7 @@ public partial class ReflectingPool(CustomNode? owner) : PlayerStructure(owner)
     {
         if (_centerFrame != -1)
         {
-            StrategicMap.Current.NewFrameEvents -= NewFrame;
+            StrategicMap.Current.FrameStarted -= NewFrame;
             _centerFrame = -1;
         }
     }

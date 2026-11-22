@@ -24,8 +24,8 @@ public sealed partial class ChatWindow : ILayoutModule
         MainWindow.WinTop = 272;
         MainWindow.WinWidth = 440;
         MainWindow.Masked = false;
-        MainWindow.Hide += _ => ChatWinHide();
-        MainWindow.Show += _ => ChatWinShow();
+        MainWindow.Hidden += _ => ChatWinHide();
+        MainWindow.Shown += _ => ChatWinShow();
         MainWindow.Alignment.AlignWidth = AlignWidth.Both;
         MainWindow.Alignment.AlignHeight = AlignHeight.Bottom;
         MainWindow.Alignment.HeightPercent = 0;
@@ -51,8 +51,8 @@ public sealed partial class ChatWindow : ILayoutModule
         MainWindow.DragHeight = 20;
         MainWindow.Draggable = true;
         MainWindow.Resizable = true;
-        MainWindow.Drag += _ => ChatWinResize();
-        MainWindow.Resize += _ => ChatWinResize();
+        MainWindow.Dragged += _ => ChatWinResize();
+        MainWindow.Resized += _ => ChatWinResize();
         MainWindow.MinWidth = 440;
         MainWindow.MinHeight = 160;
         MainWindow.MaxWidth = 0;
@@ -126,7 +126,7 @@ public sealed partial class ChatWindow : ILayoutModule
         ChatEdit.TextColor = 11002593;
         ChatEdit.Editable = true;
         ChatEdit.ImageLibraryIndex = 15;
-        ChatEdit.Return += _ => ChatEditReturn();
+        ChatEdit.ReturnPressed += _ => ChatEditReturn();
         ChatEdit.PassWordChar = 0;
         session.EndRead(ChatEdit);
         PlayerList = new ListBox(this);
@@ -154,7 +154,7 @@ public sealed partial class ChatWindow : ILayoutModule
         PlayerList.BorderWidth = 8;
         PlayerList.BorderHeight = 2;
         PlayerList.Selected = -1;
-        PlayerList.PreDrawItem += (_, in drawRectangle, drawItem, ref surface) => PlayerListPreDrawItem(default, drawItem, lockedSurface: default);
+        PlayerList.ItemDrawing += (_, in drawRectangle, drawItem, ref surface) => PlayerListPreDrawItem(default, drawItem, lockedSurface: default);
         PlayerList.TextColor = 9415072;
         PlayerList.TextSelectedColor = 16777215;
         PlayerList.ImageLibraryIndexFrame = 113;
@@ -246,7 +246,7 @@ public sealed partial class ChatWindow : ILayoutModule
         min.TextColor = 0;
         min.TextSelectedColor = 0;
         min.WinWidth = 15;
-        min.Click += _ => MinClick();
+        min.Clicked += _ => MinClick();
         session.EndRead(min);
         Panel chatPnl = new(this);
         session.BeginRead(chatPnl);

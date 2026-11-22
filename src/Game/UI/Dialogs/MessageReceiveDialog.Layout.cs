@@ -24,7 +24,7 @@ public sealed partial class MessageReceiveDialog : ILayoutModule
         Window.WinTop = 85;
         Window.WinWidth = 384;
         Window.Masked = true;
-        Window.Hide += _ => MsgReceiveWinHide();
+        Window.Hidden += _ => MsgReceiveWinHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -127,7 +127,7 @@ public sealed partial class MessageReceiveDialog : ILayoutModule
         close.TextColor = 855324;
         close.TextSelectedColor = 16777215;
         close.WinWidth = 140;
-        close.Click += _ => CloseClick();
+        close.Clicked += _ => CloseClick();
         session.EndRead(close);
         VerticalScrollBar messageSB = new(this);
         session.BeginRead(messageSB);

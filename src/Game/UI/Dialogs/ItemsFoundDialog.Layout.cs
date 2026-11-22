@@ -18,14 +18,14 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.KeyDown += (_, ref key, shift) => DlgKeyDown(key, shift);
+        Window.KeyPressed += (_, ref key, shift) => DlgKeyDown(key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 128;
         Window.WinTop = 109;
         Window.WinWidth = 385;
         Window.Masked = true;
-        Window.Hide += _ => DlgHide();
+        Window.Hidden += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -139,7 +139,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         pickupBtn.TextColor = 0;
         pickupBtn.TextSelectedColor = 16777215;
         pickupBtn.WinWidth = 105;
-        pickupBtn.Click += _ => PickupBtnClick();
+        pickupBtn.Clicked += _ => PickupBtnClick();
         session.EndRead(pickupBtn);
         Button closeBtn = new(this);
         session.BeginRead(closeBtn);
@@ -170,7 +170,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         closeBtn.TextColor = 0;
         closeBtn.TextSelectedColor = 16777215;
         closeBtn.WinWidth = 105;
-        closeBtn.Click += _ => CloseBtn2Click();
+        closeBtn.Clicked += _ => CloseBtn2Click();
         session.EndRead(closeBtn);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -339,7 +339,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         closeBtn2.TextColor = 0;
         closeBtn2.TextSelectedColor = 16777215;
         closeBtn2.WinWidth = 130;
-        closeBtn2.Click += _ => CloseBtn2Click();
+        closeBtn2.Clicked += _ => CloseBtn2Click();
         session.EndRead(closeBtn2);
         OKPanel = new Panel(this);
         session.BeginRead(OKPanel);
@@ -485,7 +485,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         session.BeginRead(gnd3);
         gnd3.Name = "Gnd3";
         gnd3.Tag = 2;
-        gnd3.MouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 2);
+        gnd3.MousePressed += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 2);
         gnd3.Drawn += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 2);
         gnd3.Priority = 1000;
         gnd3.WinLeft = 172;
@@ -519,7 +519,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         session.BeginRead(gnd2);
         gnd2.Name = "Gnd2";
         gnd2.Tag = 1;
-        gnd2.MouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 1);
+        gnd2.MousePressed += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 1);
         gnd2.Drawn += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 1);
         gnd2.Priority = 1000;
         gnd2.WinLeft = 124;
@@ -552,7 +552,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         CheckBox gnd1 = new(this);
         session.BeginRead(gnd1);
         gnd1.Name = "Gnd1";
-        gnd1.MouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 0);
+        gnd1.MousePressed += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 0);
         gnd1.Drawn += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 0);
         gnd1.Priority = 1000;
         gnd1.WinLeft = 80;
@@ -586,7 +586,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         session.BeginRead(gnd4);
         gnd4.Name = "Gnd4";
         gnd4.Tag = 3;
-        gnd4.MouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 3);
+        gnd4.MousePressed += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 3);
         gnd4.Drawn += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 3);
         gnd4.Priority = 1000;
         gnd4.WinLeft = 221;
@@ -620,7 +620,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         session.BeginRead(gnd5);
         gnd5.Name = "Gnd5";
         gnd5.Tag = 4;
-        gnd5.MouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 4);
+        gnd5.MousePressed += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 4);
         gnd5.Drawn += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 4);
         gnd5.Priority = 1000;
         gnd5.WinLeft = 265;
@@ -678,7 +678,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         LeftButton.TextColor = 0;
         LeftButton.TextSelectedColor = 0;
         LeftButton.WinWidth = 13;
-        LeftButton.Click += _ => LeftBtnClick();
+        LeftButton.Clicked += _ => LeftBtnClick();
         session.EndRead(LeftButton);
         RightButton = new Button(this);
         session.BeginRead(RightButton);
@@ -708,7 +708,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         RightButton.TextColor = 0;
         RightButton.TextSelectedColor = 0;
         RightButton.WinWidth = 13;
-        RightButton.Click += _ => RightBtnClick();
+        RightButton.Clicked += _ => RightBtnClick();
         session.EndRead(RightButton);
         session.EndRead(this);
         TitleLabel.Window = Window;

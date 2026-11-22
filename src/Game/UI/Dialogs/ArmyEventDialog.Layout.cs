@@ -20,14 +20,14 @@ public sealed partial class ArmyEventDialog : ILayoutModule
         ArmyEventWindow = new Window(this);
         session.BeginRead(ArmyEventWindow);
         ArmyEventWindow.Name = "ArmyEventWin";
-        ArmyEventWindow.KeyDown += (_, ref key, shift) => ArmyEventWinKeyDown(key, shift);
+        ArmyEventWindow.KeyPressed += (_, ref key, shift) => ArmyEventWinKeyDown(key, shift);
         ArmyEventWindow.Visible = false;
         ArmyEventWindow.Priority = 300;
         ArmyEventWindow.WinLeft = 101;
         ArmyEventWindow.WinTop = 96;
         ArmyEventWindow.WinWidth = 439;
         ArmyEventWindow.Masked = true;
-        ArmyEventWindow.Hide += _ => ArmyEventWinHide();
+        ArmyEventWindow.Hidden += _ => ArmyEventWinHide();
         ArmyEventWindow.Alignment.AlignWidth = AlignWidth.Center;
         ArmyEventWindow.Alignment.AlignHeight = AlignHeight.Center;
         ArmyEventWindow.Alignment.HeightPercent = 0;
@@ -97,7 +97,7 @@ public sealed partial class ArmyEventDialog : ILayoutModule
         UnitPanel.WinLeft = 35;
         UnitPanel.WinTop = 100;
         UnitPanel.WinWidth = 369;
-        UnitPanel.DrawBack += (_, surface) => UnitPnlDrawBack(surface);
+        UnitPanel.BackgroundDrawn += (_, surface) => UnitPnlDrawBack(surface);
         UnitPanel.Masked = true;
         UnitPanel.Alignment.AlignWidth = AlignWidth.None;
         UnitPanel.Alignment.AlignHeight = AlignHeight.None;
@@ -202,7 +202,7 @@ public sealed partial class ArmyEventDialog : ILayoutModule
         closeBut.TextColor = 0;
         closeBut.TextSelectedColor = 16777215;
         closeBut.WinWidth = 120;
-        closeBut.Click += _ => CloseClick();
+        closeBut.Clicked += _ => CloseClick();
         session.EndRead(closeBut);
         Image titleIcon = new(this);
         session.BeginRead(titleIcon);
@@ -264,7 +264,7 @@ public sealed partial class ArmyEventDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.Click += _ => CloseClick();
+        close.Clicked += _ => CloseClick();
         session.EndRead(close);
         Label title = new(this);
         session.BeginRead(title);

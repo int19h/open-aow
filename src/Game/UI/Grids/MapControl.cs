@@ -24,7 +24,7 @@ public sealed class MapControl : Component
     [Published]
     public event MapObjectEvent<Army>? ArmyDeselected;
     [Published]
-    public event EventHandler<MapObjectEventArgs>? ArmyDoubleClick;
+    public event EventHandler<MapObjectEventArgs>? ArmyDoubleClicked;
     [Published]
     public event MapObjectEvent<Army>? ArmyChanged;
     [Published]
@@ -34,7 +34,7 @@ public sealed class MapControl : Component
     [Published]
     public event MapObjectEvent<Structure>? StructureDeselected;
     [Published]
-    public event MapObjectEvent<Structure>? StructureDoubleClick;
+    public event MapObjectEvent<Structure>? StructureDoubleClicked;
     [Published]
     public event MapObjectEvent<Structure>? StructureChanged;
     [Published]
@@ -76,7 +76,7 @@ public sealed class MapControl : Component
     [Published]
     public event MapPlayerEvent? SeatedPlayerChanged;
     [Published]
-    public event EventHandler<CombatEventArgs>? Combat;
+    public event EventHandler<CombatEventArgs>? CombatTriggered;
     [Published]
     public event MapExecuteLogEvent? ExecutingEventLog;
     [Published]
@@ -98,7 +98,7 @@ public sealed class MapControl : Component
     [Published]
     public event EventHandler? CombatMapDestroyed;
     [Published]
-    public event MapTargetEvent? TargetSelectionChange;
+    public event MapTargetEvent? TargetSelectionChanged;
     [Published]
     public event EventHandler? ViewPortChanged;
     [Published]
@@ -108,7 +108,7 @@ public sealed class MapControl : Component
     [Published]
     public event NotifyEvent<object>? PlayerChanged;
     [Published]
-    public event EventHandler? ExitGame;
+    public event EventHandler? ExitingGame;
     [Published]
     public event MapObjectEvent<HexSprite>? HexSpriteChanged;
 
@@ -264,21 +264,21 @@ public sealed class MapControl : Component
     public void DoubleClick(object sender)
     {
         HexSprite? hexSprite;
-        if (ArmyDoubleClick is not null)
+        if (ArmyDoubleClicked is not null)
         {
             hexSprite = StrategicMap.Current.Selection.FindClass(typeof(ArmyHexSprite));
             if (hexSprite is ArmyHexSprite armyHexSprite)
             {
-                ArmyDoubleClick(this, e: new MapObjectEventArgs(armyHexSprite.Army));
+                ArmyDoubleClicked(this, e: new MapObjectEventArgs(armyHexSprite.Army));
             }
         }
 
-        if (StructureDoubleClick is not null)
+        if (StructureDoubleClicked is not null)
         {
             hexSprite = StrategicMap.Current.Selection.FindClass(typeof(Structure));
             if (hexSprite is Structure structure)
             {
-                StructureDoubleClick(structure);
+                StructureDoubleClicked(structure);
             }
         }
     }
@@ -404,7 +404,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            ExitGame?.Invoke(this, e: EventArgs.Empty);
+            ExitingGame?.Invoke(this, e: EventArgs.Empty);
         }
         catch
         {
@@ -556,7 +556,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            Combat?.Invoke(this, e: new CombatEventArgs(sender));
+            CombatTriggered?.Invoke(this, e: new CombatEventArgs(sender));
         }
         catch
         {
@@ -751,9 +751,9 @@ public sealed class MapControl : Component
     {
         try
         {
-            if (TargetSelectionChange is not null && control is not null && (((int)StrategicMap.Current.TargetSelection.TargetMode) & 8) != 0)
+            if (TargetSelectionChanged is not null && control is not null && (((int)StrategicMap.Current.TargetSelection.TargetMode) & 8) != 0)
             {
-                TargetSelectionChange(control, control.Change);
+                TargetSelectionChanged(control, control.Change);
             }
         }
         catch

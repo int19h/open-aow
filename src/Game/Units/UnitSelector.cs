@@ -13,7 +13,7 @@ public class UnitSelector : IDisposable
         Creator = creator;
         Units = new UnitUserList(null) { Holder = Creator.CreationHolder() };
         _references = 1;
-        Canceled = false;
+        IsCanceled = false;
     }
 
     // The node that created this selector. It and the nodes it creates reach the engine through it.
@@ -25,12 +25,12 @@ public class UnitSelector : IDisposable
     public string Caption { get; set; } = "";
     public UnitUserList Units { get; }
     public byte Selection { get; private set; }
-    public bool Canceled { get; }
+    public bool IsCanceled { get; }
     public byte Selectable { get; private set; }
     public int SourceUnitId { get; private set; }
 
     private event EventHandler? Selected;
-    private event EventHandler? Cancel;
+    private event EventHandler? Canceled;
 
     // Ability.PAS:583
     public virtual void Dispose() => Units?.Dispose();
@@ -79,7 +79,7 @@ public class UnitSelector : IDisposable
     }
 
     // Ability.PAS:651
-    public virtual void OnCancel() => Cancel?.Invoke(this, e: EventArgs.Empty);
+    public virtual void OnCancel() => Canceled?.Invoke(this, e: EventArgs.Empty);
 
     // Ability.PAS:589
     public int AddRef()
