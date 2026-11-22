@@ -12071,11 +12071,11 @@
       }
     }
   },
-  "CosmeticSurgeryAbility": {
+  "CosmagicSurgeryAbility": {
     "$prefix": "success:",
     "$value": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Abilities.CosmeticSurgeryAbility",
+        "$type": "Aow.Game.Magic.Abilities.CosmagicSurgeryAbility",
         "Ability.AbilityId": 126,
         "Ability.AbilityName": "Cosmagic Surgery",
         "Ability.Description": {
@@ -12171,12 +12171,12 @@
       }
     }
   },
-  "CosmeticSurgeryEnchantment": {
+  "CosmagicSurgeryEnchantment": {
     "$prefix": "success:",
     "$value": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.CosmeticSurgeryEnchantment",
-        "CosmeticSurgeryEnchantment.FaceIndex": 0,
+        "$type": "Aow.Game.Magic.CosmagicSurgeryEnchantment",
+        "CosmagicSurgeryEnchantment.FaceIndex": 0,
         "Enchantment.DispelResistance": 10,
         "Enchantment.EnchantmentId": 0,
         "Enchantment.Source": -1,
@@ -17224,7 +17224,7 @@
             "EventStore\u00601._items": null
           },
           "StrategicMap.ConnectionType": 0,
-          "StrategicMap.CosmeticSurgeryEventsStore": {
+          "StrategicMap.CosmagicSurgeryEventsStore": {
             "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Spells.SpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "EventStore\u00601.Count": 0,
             "EventStore\u00601._items": null

@@ -224,8 +224,8 @@ the one domain the game checks (`player-slot`), and the census marks the other r
 candidates for review. Two classes carry case tables (2.3). `legacyShapes` holds the one named
 legacy rule, `LEGACY_VALLEY01_SPRITE` (section 9).
 
-`src/Formats/versions.json` pins the current version (8) with the schema's SHA-256
-`b78cc3528613bae3dfbc0ce737be1b58d77e450395aa29f34f2a8bdca0454d9e`, the codec contracts of that
+`src/Formats/versions.json` pins the current version (9) with the schema's SHA-256
+`8044a8ad7a6a58c940178f8b582d4ecaeaaa2a72a68c928cf6ea9156c83e4035`, the codec contracts of that
 version (`property-table-2`, `cfs-1`, `hsm-header-2`, `hss-header-2`, `stored-object-1`,
 `written-object-1`, `cp1252-frozen-1`, `enum-1`, `set-1`, `int-array-1`, `record-2`,
 `bit-array-2`, `raw-1`, `list-element-1`, `grouped-list-1`, `bit-list-2`, `single-1`,
@@ -263,7 +263,8 @@ unused member, ignore elsewhere). Version 8 (issue 192 follow-up) removes `$layo
 ILB header bytes 5 to 7 and 16-bit RLE sprite reserved dwords to 0 inside `$ilb`, drops HSS
 header tail bytes and header extensions on export, removes `StrategicMap.UnknownProperty57` in
 favor of `skippedIds: [57]` on `StrategicMap`, and moves G1 to canonical export compared against
-originals outside declared per-format don't-care rules. Own formats are not stable yet, so the schema hash moves with
+originals outside declared per-format don't-care rules. Version 9 (issue 363) renames the four
+Cosmetic Surgery schema classes to the game's Cosmagic Surgery names. Own formats are not stable yet, so the schema hash moves with
 the file and no older document shape loads. Export an older own document with the previous aowconv
 (`aowconv to-original <own> <original>`) and import that image with this aowconv
 (`aowconv to-own <original> <own>`). The original bytes do not change.
@@ -366,7 +367,7 @@ runtime iteration order.
 Reserved members have this total order wherever permitted by schema: `$format`,
 `$version`, `$kind`, `$container`, `$mods`, `$class`, `$case`, `$slot`, `$ext`,
 `$padding`, `$bits`, `$ilb`, `$text`. `$mods` and `$ext` are reserved
-for later versions, not accepted version 8 members. `$reserved`, `$residue` and
+for later versions, not accepted version 9 members. `$reserved`, `$residue` and
 `$layout` are refused as unknown reserved members. Envelope `root` follows
 reserved members. Ordinary properties follow frozen schema ordinals, initially
 inherited `ReadWrite` order with base fields first. Mapped record fields have their
@@ -462,7 +463,7 @@ identifiers of the current version. A test checks them. Golden binary/document p
 too, since unchanged mapping names do not prove unchanged code. Mapping implementation changes
 receive format-change review.
 
-Version 8 is the current version. Issue 230 deleted the migration chain of versions 1 to 5
+Version 9 is the current version. It renames the four Cosmetic Surgery schema classes to the game's Cosmagic Surgery names (issue 363). Issue 230 deleted the migration chain of versions 1 to 5
 (`1-symbolic-enum-set-array`, `2-record-bit-primitive`, `3-lists`, `4-resources` and the member
 name step), the pinned schemas `schema-v1.json` to `schema-v4.json`, the schema's `oldNames`, the
 enum member aliases of `names.csv`, the golden historical hero lists, and the per-version history

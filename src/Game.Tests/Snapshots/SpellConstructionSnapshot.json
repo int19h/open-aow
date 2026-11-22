@@ -4195,10 +4195,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.CosmeticSurgery": {
+  "Aow.Game.Magic.Spells.CosmagicSurgery": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.CosmeticSurgery",
+        "$type": "Aow.Game.Magic.Spells.CosmagicSurgery",
         "EngineObject._owner": "$owner",
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
@@ -4245,7 +4245,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.CosmeticSurgery",
+        "$type": "Aow.Game.Magic.Spells.CosmagicSurgery",
         "EngineObject._owner": "$owner",
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
@@ -4267,12 +4267,12 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.CosmeticSurgerySpellCaster": {
+  "Aow.Game.Magic.Spells.CosmagicSurgerySpellCaster": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.CosmeticSurgerySpellCaster",
-        "CosmeticSurgerySpellCaster.FaceIndex": 0,
-        "CosmeticSurgerySpellCaster.TargetUnitId": 0,
+        "$type": "Aow.Game.Magic.Spells.CosmagicSurgerySpellCaster",
+        "CosmagicSurgerySpellCaster.FaceIndex": 0,
+        "CosmagicSurgerySpellCaster.TargetUnitId": 0,
         "EngineObject._owner": "$owner",
         "SpellCaster.CasterSourceId": 0,
         "SpellCaster.CasterSpellId": 0,
@@ -4281,9 +4281,9 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.CosmeticSurgerySpellCaster",
-        "CosmeticSurgerySpellCaster.FaceIndex": 0,
-        "CosmeticSurgerySpellCaster.TargetUnitId": 0,
+        "$type": "Aow.Game.Magic.Spells.CosmagicSurgerySpellCaster",
+        "CosmagicSurgerySpellCaster.FaceIndex": 0,
+        "CosmagicSurgerySpellCaster.TargetUnitId": 0,
         "EngineObject._owner": "$owner",
         "SpellCaster.CasterSourceId": 0,
         "SpellCaster.CasterSpellId": 0,

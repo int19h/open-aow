@@ -1,6 +1,6 @@
 {
   "format": "OpenAoW-schema",
-  "version": 8,
+  "version": 9,
   "note": "Hand-owned from 9.7-1. Generated once from the 9.7-0 census, the class baseline, registration reachability and corpus order evidence.",
   "legacyShapes": [
     {
@@ -2005,19 +2005,19 @@
       "properties": []
     },
     {
-      "name": "CosmeticSurgery",
+      "name": "CosmagicSurgery",
       "parent": "UnitSpell",
       "id": 80,
       "properties": []
     },
     {
-      "name": "CosmeticSurgeryAbility",
+      "name": "CosmagicSurgeryAbility",
       "parent": "UnitEnchantmentAbility",
       "id": 80,
       "properties": []
     },
     {
-      "name": "CosmeticSurgeryEnchantment",
+      "name": "CosmagicSurgeryEnchantment",
       "parent": "UnitEnchantment",
       "id": 135964,
       "engines": ["game", "tactical", "campaign"],
@@ -2026,7 +2026,7 @@
       ]
     },
     {
-      "name": "CosmeticSurgerySpellCaster",
+      "name": "CosmagicSurgerySpellCaster",
       "parent": "SpellCaster",
       "id": 80,
       "properties": []

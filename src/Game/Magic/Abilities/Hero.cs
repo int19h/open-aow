@@ -452,7 +452,7 @@ public partial class Hero : Troop
         }
         else
         {
-            int index = ((CosmeticSurgeryEnchantment)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
+            int index = ((CosmagicSurgeryEnchantment)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
             return GamePack.Current.FaceResources.GetFaceResource(index).GetCellImage();
         }
     }

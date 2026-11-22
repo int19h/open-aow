@@ -11,13 +11,13 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
-public class CosmeticSurgery : UnitSpell
+public class CosmagicSurgery : UnitSpell
 {
     // UnitSpells.pas:901
-    public CosmeticSurgery(CustomNode? owner, EngineObject holder) : base(owner)
+    public CosmagicSurgery(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_deformFaceText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_cosmagicSurgeryText);
         SpellId = 59;
         SpellType = SpellType.Unit;
         SpellLevel = 1;
@@ -48,7 +48,7 @@ public class CosmeticSurgery : UnitSpell
     {
         if (targets.GetCount() == 1)
         {
-            CosmeticSurgerySpellCaster caster = new(null)
+            CosmagicSurgerySpellCaster caster = new(null)
             {
                 Holder = CreationHolder(),
                 CasterSourceId = source.UnitId,
@@ -57,7 +57,7 @@ public class CosmeticSurgery : UnitSpell
                 FaceIndex = targets.GetUnit(0) is Hero faceTarget ? faceTarget.FaceIndex : 0
             };
 
-            StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
+            StrategicMap.Current.CosmagicSurgeryEventsStore.Raise(caster);
             _ = caster.Release();
             return true;
         }
@@ -78,7 +78,7 @@ public class CosmeticSurgery : UnitSpell
             {
                 // Ability 126 stores the enchantment its ability builds. Another enchantment fails.
                 // Null stays null and the upkeep write fails on it.
-                CosmeticSurgeryEnchantment? enchantment = (CosmeticSurgeryEnchantment?)target.GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment;
+                CosmagicSurgeryEnchantment? enchantment = (CosmagicSurgeryEnchantment?)target.GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.FaceIndex = data[0];
                 enchantment.SetSource(source.Player);
@@ -93,5 +93,5 @@ public class CosmeticSurgery : UnitSpell
         }
     }
 
-    private static readonly string s_deformFaceText = "Cosmagic Surgery";
+    private static readonly string s_cosmagicSurgeryText = "Cosmagic Surgery";
 }

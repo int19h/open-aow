@@ -158,7 +158,7 @@ to its global variable: `UIGraphics`, `UIFonts`, `General`, `TargetSelectionDial
 `FactionSelectionWindow`, `MessageReceiveDialog`, `HeroInfoDialog`, `PartyJoinDialog`, `ArmyInfoDialog`, `WorldMap`,
 `TCUnit`, `TCScanner`, `ScenarioSetup`, `TCFCDialog`, `RelationWindow`, `UnitSelectionDialog`, `ArenaDialog`,
 `ConstructDialog`, `MagicWindow`, `WizardsTowerDialog`, `PowerDialog`, `SpellBook`, `LeaderSetupWindow`,
-`DeformFaceDialog`, `HeroUpgradeDialog`, `EmailGameSettingsDialog`, `CastUnitSpellDialog`, `DisjunctionDialog`,
+`CosmagicSurgeryDialog`, `HeroUpgradeDialog`, `EmailGameSettingsDialog`, `CastUnitSpellDialog`, `DisjunctionDialog`,
 `HeroJoinDialog`, `ResultsWindow`, `SynchronizeDialog`, `CityScreen`, `ProductionScreen`, `RealmWindow`,
 `CampaignTransferDialog`, `TitleScene`, `IntroScene`, `SendEmailGameDialog`, `EmailSettingsDialog`,
 `Pop3Dialog`, `SmtpDialog`, `HelpWindow`, `CampaignJoinDialog`, `ItemsFoundDialog`, `GamePlayDialog`,

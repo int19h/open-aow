@@ -73,7 +73,7 @@ public sealed class UIContext(GameEngine engine) : IDisposable
     public PowerDialog PowerDialog => Module<PowerDialog>();
     public SpellBook SpellBook => Module<SpellBook>();
     public LeaderSetupWindow LeaderSetupWindow => Module<LeaderSetupWindow>();
-    public DeformFaceDialog DeformFaceDialog => Module<DeformFaceDialog>();
+    public CosmagicSurgeryDialog CosmagicSurgeryDialog => Module<CosmagicSurgeryDialog>();
     public HeroUpgradeDialog HeroUpgradeDialog => Module<HeroUpgradeDialog>();
     public EmailGameSettingsDialog EmailGameSettingsDialog => Module<EmailGameSettingsDialog>();
     public CastUnitSpellDialog CastUnitSpellDialog => Module<CastUnitSpellDialog>();

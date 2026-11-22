@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic;
 
-public class CosmeticSurgeryEnchantment(CustomNode owner) : UnitEnchantment(owner)
+public class CosmagicSurgeryEnchantment(CustomNode owner) : UnitEnchantment(owner)
 {
     public new const int ClassId = 135_964;
 
@@ -31,6 +31,6 @@ public class CosmeticSurgeryEnchantment(CustomNode owner) : UnitEnchantment(owne
         Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         // { Original supplies an argument to the unformatted 'Cosmagic Surgery' text. }
         string name = source.GetName();
-        return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CosmeticSurgeryText), arguments: [name]);
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CosmagicSurgeryText), arguments: [name]);
     }
 }

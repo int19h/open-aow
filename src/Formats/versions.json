@@ -1,6 +1,6 @@
 {
-  "version": 8,
-  "schemaSha256": "b78cc3528613bae3dfbc0ce737be1b58d77e450395aa29f34f2a8bdca0454d9e",
+  "version": 9,
+  "schemaSha256": "8044a8ad7a6a58c940178f8b582d4ecaeaaa2a72a68c928cf6ea9156c83e4035",
   "codecs": ["property-table-2", "cfs-1", "hsm-header-2", "hss-header-2", "stored-object-1", "written-object-1", "cp1252-frozen-1", "enum-1", "set-1", "int-array-1", "record-2", "bit-array-2", "raw-1", "list-element-1", "grouped-list-1", "bit-list-2", "single-1", "terrain-list-1", "terrain-grid-1", "ilb-2", "image-sequences-1", "fixed-slot-1", "coordinate-1"],
   "mappings": ["DiplomaticProposal-2", "ProductionOrder-2"],
   "unitMappings": ["DiplomaticAction", "MapContainer", "ProductionItem", "StrategicMap"],

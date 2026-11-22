@@ -853,10 +853,10 @@ type,TConstructionControl,Aow.Game.World.Structures.ConstructionControl
 type,TConstructionControlList,Aow.Game.World.Structures.ConstructionControlList
 type,TControlModeElement,Aow.Game.World.Map.ControlModes,ControlModeElement
 type,TControlWin,Aow.Game.UI.Dialogs.ControlWindow
-type,TCosmeticSurgery,Aow.Game.Magic.Spells.CosmeticSurgery
-type,TCosmeticSurgeryAbility,Aow.Game.Magic.Abilities.CosmeticSurgeryAbility
-type,TCosmeticSurgeryEnchantment,Aow.Game.Magic.CosmeticSurgeryEnchantment
-type,TCosmeticSurgerySpellCaster,Aow.Game.Magic.Spells.CosmeticSurgerySpellCaster
+type,TCosmeticSurgery,Aow.Game.Magic.Spells.CosmagicSurgery
+type,TCosmeticSurgeryAbility,Aow.Game.Magic.Abilities.CosmagicSurgeryAbility
+type,TCosmeticSurgeryEnchantment,Aow.Game.Magic.CosmagicSurgeryEnchantment
+type,TCosmeticSurgerySpellCaster,Aow.Game.Magic.Spells.CosmagicSurgerySpellCaster
 type,TCreateMoveModeElement,Aow.Game.World.Movement.CreateMoveModes,CreateMoveModeElement
 type,TCrop,Aow.Game.World.Terrain.Crop
 type,TCropResource,Aow.Game.World.Terrain.Crop.Resource
@@ -897,7 +897,7 @@ type,TDefendersGenerateMode,Aow.Game.World.Structures.City.DefendersGenerateMode
 type,TDefendersMode,Aow.Game.World.Structures.ExplorationSiteDefendersMode
 type,TDefensePriority,Aow.Game.World.Structures.DefensePriority
 type,TDefenseRequirements,Aow.Game.World.Structures.DefenseRequirements
-type,TDeformFaceDlg,Aow.Game.UI.Dialogs.DeformFaceDialog
+type,TDeformFaceDlg,Aow.Game.UI.Dialogs.CosmagicSurgeryDialog
 type,TDetailLevel,Aow.Game.DetailLevel
 type,TDiplomacyAIPA,Aow.Game.AI.DiplomacyAIPlayerAction
 type,TDiplomaticAction,Aow.Game.Session.DiplomaticAction
@@ -2229,7 +2229,7 @@ type,DamageCA,Aow.Game.Combat.Actions.DamageCombatAction
 type,DefaultMEC,Aow.Game.AI.Groups.DefaultMoveExecutorControl
 type,DefenderAG,Aow.Game.AI.Groups.DefenderAIGroup
 type,DefenderAGC,Aow.Game.AI.Groups.DefenderAIGroupControl
-type,DeformFaceDlg,Aow.Game.UI.Dialogs.DeformFaceDialog
+type,DeformFaceDlg,Aow.Game.UI.Dialogs.CosmagicSurgeryDialog
 type,DiplomacyAIPA,Aow.Game.AI.DiplomacyAIPlayerAction
 type,DiplomaticActionTE,Aow.Game.Commands.DiplomaticActionTokenEvent
 type,DisbandUnitTE,Aow.Game.Commands.DisbandUnitTokenEvent

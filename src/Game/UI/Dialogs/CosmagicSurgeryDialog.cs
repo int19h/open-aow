@@ -11,16 +11,16 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-// cosmetic-surgery caster
-public sealed partial class DeformFaceDialog(UIContext ui) : UIModule(ui)
+// cosmagic-surgery caster
+public sealed partial class CosmagicSurgeryDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Label UnitNameLabel { get; private set; }
 
-    private CosmeticSurgerySpellCaster? _caster;
+    private CosmagicSurgerySpellCaster? _caster;
 
     // AoWDeformFaceDlg.pas:127
-    public void Execute(CosmeticSurgerySpellCaster caster)
+    public void Execute(CosmagicSurgerySpellCaster caster)
     {
         _caster = caster;
         _ = _caster.AddRef();

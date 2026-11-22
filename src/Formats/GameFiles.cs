@@ -9,7 +9,7 @@ namespace Aow.Formats;
 public static class OwnFormat
 {
     public const string FormatName = "OpenAoW";
-    public const int CurrentVersion = 8;
+    public const int CurrentVersion = 9;
 }
 
 /// <summary>What content detection found (own-formats.md 2.9).</summary>

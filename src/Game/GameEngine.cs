@@ -530,7 +530,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     private void UnregisterCoreAbilities(AbilityControl control)
     {
-        UnregisterEngineClasses([EngineClass.Of<CosmeticSurgeryEnchantment>(), EngineClass.Of<LeadershipAbilityData>()]);
+        UnregisterEngineClasses([EngineClass.Of<CosmagicSurgeryEnchantment>(), EngineClass.Of<LeadershipAbilityData>()]);
         UnregisterEngineClasses([EngineClass.Of<DurationAbilityData>(), EngineClass.Of<MultiLevelAbilityData>(), EngineClass.Of<RangedAttackCombatAction>(), EngineClass.Of<SelfDestructCombatAction>(), EngineClass.Of<StrikeCombatAction>(), EngineClass.Of<DispelMagicAbilityCombatAction>()]);
         UnregisterEngineClasses([EngineClass.Of<UnitEnchantmentAbilityData>(), EngineClass.Of<UnitEnchantment>(), EngineClass.Of<DispelMagicAbilityTokenEvent>()]);
         UnregisterEngineClasses([EngineClass.Of<CommandCombatAction>(), EngineClass.Of<CommandedAbilityData>(), EngineClass.Of<CommandAbilityData>(), EngineClass.Of<HealingTokenEvent>(), EngineClass.Of<DispelMagicAbilityData>()]);
@@ -819,7 +819,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     private void RegisterAbilities(AbilityControl control)
     {
-        RegisterEngineClasses([EngineClass.Of<CosmeticSurgeryEnchantment>(), EngineClass.Of<LeadershipAbilityData>(), EngineClass.Of<DispelMagicAbilityCombatAction>()]);
+        RegisterEngineClasses([EngineClass.Of<CosmagicSurgeryEnchantment>(), EngineClass.Of<LeadershipAbilityData>(), EngineClass.Of<DispelMagicAbilityCombatAction>()]);
         RegisterEngineClasses([EngineClass.Of<DurationAbilityData>(), EngineClass.Of<MultiLevelAbilityData>(), EngineClass.Of<RangedAttackCombatAction>(), EngineClass.Of<SelfDestructCombatAction>(), EngineClass.Of<StrikeCombatAction>()]);
         RegisterEngineClasses([EngineClass.Of<UnitEnchantmentAbilityData>(), EngineClass.Of<UnitEnchantment>(), EngineClass.Of<DispelMagicAbilityTokenEvent>(), EngineClass.Of<PossessedAbilityData>()]);
         RegisterEngineClasses([EngineClass.Of<CommandCombatAction>(), EngineClass.Of<CommandedAbilityData>(), EngineClass.Of<CommandAbilityData>(), EngineClass.Of<HealingTokenEvent>(), EngineClass.Of<DispelMagicAbilityData>()]);

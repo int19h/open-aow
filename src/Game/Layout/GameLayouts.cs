@@ -57,7 +57,7 @@ public static class GameLayouts
         _ = ui.Load(session, module: new PowerDialog(ui));
         _ = ui.Load(session, module: new SpellBook(ui));
         _ = ui.Load(session, module: new LeaderSetupWindow(ui));
-        _ = ui.Load(session, module: new DeformFaceDialog(ui));
+        _ = ui.Load(session, module: new CosmagicSurgeryDialog(ui));
         _ = ui.Load(session, module: new HeroUpgradeDialog(ui));
         _ = ui.Load(session, module: new EmailGameSettingsDialog(ui));
         _ = ui.Load(session, module: new CastUnitSpellDialog(ui));
