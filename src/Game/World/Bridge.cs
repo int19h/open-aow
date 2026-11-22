@@ -63,7 +63,7 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
             if (hexX >= 0 && hexY >= 0 && level.Width > hexX && level.Height > hexY)
             {
                 MapField mapField = level.GetField(hexX, hexY);
-                sbyte terrainType = mapField.TerrainType;
+                int terrainType = mapField.TerrainType;
                 bool hasRoad = mapField.FindHexSprite(typeof(AbstractRoad)) is not null;
                 bool isShore = terrainType != 0 && base.Resource.TerrainList.GetTerrain(0) != terrainType && mapField.FindHexSprite(typeof(BorderHex)) is null;
                 if (hasRoad)

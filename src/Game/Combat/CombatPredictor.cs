@@ -125,7 +125,7 @@ public sealed class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:352
-    public void SetupCombat(byte wallPhase)
+    public void SetupCombat(int wallPhase)
     {
         _activeUnits.Clear();
         if (Sides[0].UnitRemovedFlags[0] != 0)
@@ -155,7 +155,7 @@ public sealed class CombatPredictor : IDisposable
 
         for (int i = _allUnits.Count - 1; i >= 0; i--)
         {
-            _allUnits.List[i].SetupRoundTargets(wallPhase);
+            _allUnits.List[i].SetupRoundTargets((byte)wallPhase);
         }
 
         for (int i = _allUnits.Count - 1; i >= 0; i--)
@@ -344,7 +344,7 @@ public sealed class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:489
-    public CombatPredictorUnit AddUnit(Troop? troop, byte side, byte behindWall)
+    public CombatPredictorUnit AddUnit(Troop? troop, int side, byte behindWall)
     {
         CombatPredictorUnit u = new();
         u.Setup(troop, predictor: (CombatPredictor)(object)this, side);
@@ -450,10 +450,10 @@ public sealed class CombatPredictor : IDisposable
         MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(L);
         Army armyLocal = army.Army;
         byte player = (byte)armyLocal.Player;
-        byte relation = (byte)armyLocal.IndependentRelation;
+        int relation = armyLocal.IndependentRelation.TruncateToByte();
 
         byte defender = (byte)level.GetField(X, Y).GetPlayer();
-        byte defenderRelation = level.GetField(X, Y).GetIndependentRelation();
+        int defenderRelation = level.GetField(X, Y).GetIndependentRelation();
         if (defender != 255)
         {
             message.MessageId = 4387;
@@ -476,7 +476,7 @@ public sealed class CombatPredictor : IDisposable
                     ArmyHexSprite armyHexSprite = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                     if (armyHexSprite is not null && armyHexSprite != army)
                     {
-                        CombatSideIndex side = CombatAbilityTables.GetCombatSide(player.TruncateToSByte(), attackerRelation: relation.TruncateToSByte(), defender: (sbyte)defender, defenderRelation: (sbyte)defenderRelation, armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
+                        CombatSideIndex side = CombatAbilityTables.GetCombatSide(player.TruncateToSByte(), attackerRelation: ((byte)relation).TruncateToSByte(), defender: (sbyte)defender, defenderRelation: defenderRelation.TruncateToSByte(), armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
                         if (side != CombatSideIndex.Neutral)
                         {
                             MapField field = level.GetField(X, Y);
@@ -492,7 +492,7 @@ public sealed class CombatPredictor : IDisposable
                                 Troop? u = armyHexSprite.Army.Units.GetUnit(i);
                                 if (u.ValidTerrain(field.TerrainType, field.OverlayType))
                                 {
-                                    _ = AddUnit(u, side: (byte)(int)side, behindWall: (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
+                                    _ = AddUnit(u, side: ((int)side).TruncateToByte(), behindWall: (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
                                 }
                             }
                         }
@@ -505,12 +505,12 @@ public sealed class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:790
-    public void InitializeAdjacentOpponents(byte player, byte relation, int X, int Y, int L)
+    public void InitializeAdjacentOpponents(byte player, int relation, int X, int Y, int L)
     {
         MapFieldMessage message = default;
         MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(L);
         byte defender = (byte)level.GetField(X, Y).GetPlayer();
-        byte defenderRelation = level.GetField(X, Y).GetIndependentRelation();
+        int defenderRelation = level.GetField(X, Y).GetIndependentRelation();
         if (defender != 255)
         {
             message.MessageId = 4387;
@@ -533,7 +533,7 @@ public sealed class CombatPredictor : IDisposable
                     ArmyHexSprite armyHexSprite = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                     if (armyHexSprite is not null)
                     {
-                        CombatSideIndex side = CombatAbilityTables.GetCombatSide(player.TruncateToSByte(), attackerRelation: relation.TruncateToSByte(), defender: (sbyte)defender, defenderRelation: (sbyte)defenderRelation, armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
+                        CombatSideIndex side = CombatAbilityTables.GetCombatSide(player.TruncateToSByte(), attackerRelation: ((byte)relation).TruncateToSByte(), defender: (sbyte)defender, defenderRelation: defenderRelation.TruncateToSByte(), armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
                         if (side == CombatSideIndex.Defender)
                         {
                             MapField field = level.GetField(X, Y);
@@ -549,7 +549,7 @@ public sealed class CombatPredictor : IDisposable
                                 Troop? u = armyHexSprite.Army.Units.GetUnit(i);
                                 if (u.ValidTerrain(field.TerrainType, field.OverlayType))
                                 {
-                                    _ = AddUnit(u, side: (byte)(int)side, behindWall: (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
+                                    _ = AddUnit(u, side: ((int)side).TruncateToByte(), behindWall: (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
                                 }
                             }
                         }
@@ -624,7 +624,7 @@ public sealed class CombatPredictor : IDisposable
         {
             for (int sideOrdinal = 0; sideOrdinal <= 1; sideOrdinal++)
             {
-                byte side = (byte)sideOrdinal;
+                int side = sideOrdinal.TruncateToByte();
                 lost[side] = 0;
                 for (int i = Sides[side].Count - 1; i >= 0; i--)
                 {

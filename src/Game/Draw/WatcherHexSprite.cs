@@ -254,7 +254,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
     }
 
     // GlobalTargetSpells.pas:1226
-    public void StartAnimation(int X, int Y, sbyte layer)
+    public void StartAnimation(int X, int Y, int layer)
     {
         _animationFrame = 0;
         _ = StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);

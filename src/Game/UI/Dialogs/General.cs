@@ -203,7 +203,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
     }
 
     // AoWWinMan.pas:79
-    public void PlayButtonSound(byte kind)
+    public void PlayButtonSound(int kind)
     {
         switch (kind)
         {

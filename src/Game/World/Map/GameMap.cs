@@ -575,8 +575,8 @@ public partial class GameMap : OwningNode
                 {
                     if (changed[walk.HexNumber])
                     {
-                        sbyte item = newList[walk.HexNumber * 2];
-                        mapLevel.GetField(walk.X, walk.Y).TerrainType = item;
+                        int item = newList[walk.HexNumber * 2];
+                        mapLevel.GetField(walk.X, walk.Y).TerrainType = (sbyte)item;
                         sbyte newListItem = newList[(walk.HexNumber * 2) + 1];
                         mapLevel.GetField(walk.X, walk.Y).OverlayType = newListItem;
                         mapLevel.GetField(walk.X, walk.Y).TerrainChanged();

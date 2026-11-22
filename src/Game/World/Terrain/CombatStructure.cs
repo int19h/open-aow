@@ -27,7 +27,7 @@ public class CombatStructure : CombatFixedImageLibraryTerrain
     private bool _playSound;
 
     // CombatStructure.pas:229
-    public override sbyte GetOverlay(int index) => ((MapObject)this).Resource.TerrainList.GetTerrain(index) >= 0 ? HitPoints == 0 ? (sbyte)6 : (sbyte)8 : (sbyte)-1;
+    public override int GetOverlay(int index) => ((MapObject)this).Resource.TerrainList.GetTerrain(index) >= 0 ? HitPoints == 0 ? 6 : 8 : -1;
 
     // CombatStructure.pas:104
     public override void MapFieldMessageProc(ref MapFieldMessage message)

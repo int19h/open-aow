@@ -6,6 +6,7 @@ using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -122,9 +123,9 @@ public sealed class AIMoveExecutorArmy(CustomNode? owner) : AIMoveExecutorUnitLi
     }
 
     // AIGroup.pas:4627
-    public byte ValidTerrain(byte selection, sbyte terrainType, sbyte overlayType)
+    public int ValidTerrain(byte selection, int terrainType, int overlayType)
     {
-        byte result = 0;
+        int result = 0;
         bool all = true;
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
@@ -136,7 +137,7 @@ public sealed class AIMoveExecutorArmy(CustomNode? owner) : AIMoveExecutorUnitLi
                 }
                 else
                 {
-                    result = (byte)(result | (1 << i));
+                    result = (result | (1 << i)).TruncateToByte();
                 }
             }
         }

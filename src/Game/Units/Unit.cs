@@ -73,7 +73,7 @@ public class Unit(CustomNode? owner) : Troop(owner)
     public override int UnitLevel => UnitResource.Level;
 
     // Unit.PAS:2118
-    public override sbyte GetRace() => UnitResource.Race;
+    public override int GetRace() => UnitResource.Race;
 
     // Unit.PAS:2025
     public override int GetInherentAttack()

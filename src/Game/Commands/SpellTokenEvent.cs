@@ -6,6 +6,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -56,7 +57,7 @@ public class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
         int y = coordinate10.Y;
         int l = coordinate10.MapLevel;
         Spell spell = GamePack.Current.SpellControl[EventSpellId];
-        spell.PlayDefaultCastEffects(Source.Player, x, y, layer: (sbyte)l);
+        spell.PlayDefaultCastEffects(Source.Player, x, y, layer: l.TruncateToSByte());
     }
 
     public override ExecuteResult Execute(TokenExecutor executor)

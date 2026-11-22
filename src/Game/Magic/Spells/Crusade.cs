@@ -38,7 +38,7 @@ public class Crusade : Spell
             MapCoordinate coordinate61 = source.GetLocation();
             int x = coordinate61.X;
             int y = coordinate61.Y;
-            sbyte layer = coordinate61.MapLevel;
+            int layer = coordinate61.MapLevel;
             _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, radius: 0);
             HexGeometry.HexToPixel(x, y, out int pixelX, out int pixelY);
             WorldEffectHexSprite worldEffectHexSprite = StrategicMap.Current.AddEffect(WorldEffectType.Crusade);
@@ -151,7 +151,7 @@ public class Crusade : Spell
         MapCoordinate coordinate62 = source.GetLocation();
         int x = coordinate62.X;
         int y = coordinate62.Y;
-        sbyte layer = coordinate62.MapLevel;
+        int layer = coordinate62.MapLevel;
         int radiusToHexNumber = HexGeometry.RadiusToHexNumber(5);
         HexGeometry.CenterHexNumberToHex(hexNumber: StrategicMap.Current.Random(radiusToHexNumber), hexX: x, hexY: y, newHexX: ref targetX, newHexY: ref targetY);
         if (party.Place(targetX.TruncateToSByte(), targetY.TruncateToSByte(), layer, mode: ArmyPlaceModes.Safe | ArmyPlaceModes.ScanArea))

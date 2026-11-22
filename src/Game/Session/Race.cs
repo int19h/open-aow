@@ -1,15 +1,13 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
-
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
 using Aow.Game.Magic;
-
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
@@ -27,7 +25,7 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
 
     public new const int ClassId = 131_586;
 
-    public sbyte RaceIndex { get; set; } = -1;
+    public int RaceIndex { get; set; } = -1;
 
     public ByteList DefaultRelations { get; } = [];
 
@@ -49,7 +47,7 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        RaceIndex = persister.UnsignedByte(name: "RaceIndex", value: RaceIndex);
+        RaceIndex = persister.UnsignedByte(name: "RaceIndex", value: RaceIndex.TruncateToSByte());
         persister.Int32List(name: "PlayerRelations", list: _playerRelations);
         if (persister.Loading)
         {
@@ -83,7 +81,7 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
     }
 
     // Ability.PAS:229
-    public int GetRelationValue(sbyte race)
+    public int GetRelationValue(int race)
     {
         int player = StrategicMap.Current.Players.RaceToPlayer(race);
         int result = player == -1 ? StatusToStatusValue((Status)DefaultRelations[race]) : _playerRelations[player - 1];
@@ -92,7 +90,7 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
     }
 
     // Ability.PAS:239
-    public Status GetRelation(sbyte race)
+    public Status GetRelation(int race)
     {
         int player = StrategicMap.Current.Players.RaceToPlayer(race);
         return player == -1
@@ -157,7 +155,7 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
     }
 
     // Ability.PAS:298
-    public Status GetDefaultRaceRelation(sbyte race) => race >= 0 && race < DefaultRelations.Count ? (Status)DefaultRelations[race] : Status.Neutral;
+    public Status GetDefaultRaceRelation(int race) => race >= 0 && race < DefaultRelations.Count ? (Status)DefaultRelations[race] : Status.Neutral;
 
     // Ability.PAS:308
     public void ResetDefaultRaceRelations()
@@ -185,7 +183,7 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
     }
 
     // Ability.PAS:326
-    public void SetRace(sbyte value)
+    public void SetRace(int value)
     {
         RaceIndex = value;
         ResetDefaultRaceRelations();

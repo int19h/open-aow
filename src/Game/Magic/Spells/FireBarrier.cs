@@ -45,7 +45,7 @@ public class FireBarrier : GlobalTargetSpell
     {
         FireBarrierTokenEvent eventValue = new(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
-        eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), layer: (sbyte)L);
+        eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), layer: L.TruncateToSByte());
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         _ = eventValue.Release();
         return true;

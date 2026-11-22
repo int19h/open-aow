@@ -62,7 +62,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public sbyte Player { get; set; }
     public int LeaderId { get; set; }
     public int TransporterId { get; set; }
-    public sbyte IndependentRelation { get; set; }
+    public int IndependentRelation { get; set; }
 
     // A fresh group is the Delphi zero value, location (0, 0, 0). The initializer runs before the
     // base constructor, so a construction observer sees that location. Null is only the cleared target.
@@ -120,7 +120,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         }
         TargetType = persister.Enum("TargetType", value: TargetType);
         Player = persister.UnsignedByte(name: "Player", value: Player);
-        IndependentRelation = persister.RawSByte("IndependentRelation", value: IndependentRelation);
+        IndependentRelation = persister.RawSByte("IndependentRelation", value: IndependentRelation.TruncateToSByte());
         ProcessPriority = persister.Byte("ProcessPriority", value: ProcessPriority.TruncateToByte());
         RecruitmentPriority = persister.Byte("RecruitmentPriority", value: RecruitmentPriority.TruncateToByte());
         GoldBudget = persister.Int32("GoldBudget", value: GoldBudget);
@@ -517,7 +517,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     }
 
     // AIGroup.pas:258
-    public bool SetupTarget(MapCoordinate location, int movePoints, AIGroupTargetStatus targetType, byte mode, int transporterId, int gold, int mana)
+    public bool SetupTarget(MapCoordinate location, int movePoints, AIGroupTargetStatus targetType, int mode, int transporterId, int gold, int mana)
     {
         bool result;
         if (location != MapCoordinate.None)
@@ -561,7 +561,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     }
 
     // AIGroup.pas:290
-    public bool SetupTarget(AIGroupControlTarget? target, AIGroupTargetStatus targetType, byte mode)
+    public bool SetupTarget(AIGroupControlTarget? target, AIGroupTargetStatus targetType, int mode)
     {
         bool result;
         if (target is not null)
@@ -569,7 +569,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             TargetLocation = target.Location;
             TargetType = targetType;
             TargetMovePoints = target.MovePoints;
-            TargetMode = mode;
+            TargetMode = (byte)mode;
             if (targetType == AIGroupTargetStatus.Execute)
             {
                 int movePointsMin = GetMovePointsMin();
@@ -581,7 +581,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         {
             TargetLocation = MapCoordinate.None;
             TargetType = targetType;
-            TargetMode = mode;
+            TargetMode = (byte)mode;
             TargetMovePoints = 0;
             ReturnTargetExpense();
             result = true;

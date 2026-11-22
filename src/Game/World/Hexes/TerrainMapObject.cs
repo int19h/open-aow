@@ -23,13 +23,13 @@ public partial class TerrainMapObject(CustomNode? owner) : MultiHexMapObject(own
     // Terrain.pas:195
     public override void ChangeTerrain(in HexSpriteTerrainInfo info)
     {
-        sbyte terrainType = Resource.TerrainList.GetTerrain(info.HexNumber);
+        int terrainType = Resource.TerrainList.GetTerrain(info.HexNumber);
         if (terrainType >= 0 && terrainType != info.TerrainType)
         {
-            sbyte newTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY);
+            int newTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY);
             if (newTerrainType != terrainType)
             {
-                TerrainMapObjectResource? r = FindTerrainResource((byte)newTerrainType);
+                TerrainMapObjectResource? r = FindTerrainResource(newTerrainType.TruncateToByte());
                 if (r is not null)
                 {
                     MapField oldOwner = Owner;
@@ -78,7 +78,7 @@ public partial class TerrainMapObject(CustomNode? owner) : MultiHexMapObject(own
         {
             if (Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
             {
-                message.Result = Resource.DecorationType;
+                message.Result = (sbyte)Resource.DecorationType;
             }
         }
     }
@@ -147,7 +147,7 @@ public partial class TerrainMapObject(CustomNode? owner) : MultiHexMapObject(own
     }
 
     // Terrain.pas:70
-    public virtual TerrainMapObjectResource? FindDecorationResource(byte decorationType)
+    public virtual TerrainMapObjectResource? FindDecorationResource(int decorationType)
     {
         DelphiList<TerrainMapObjectResource> candidates = [];
         MapObjectResourceList resources = GetResourceList(Resource.Engine);

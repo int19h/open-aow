@@ -116,7 +116,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
     private CityAction _action;
     private int _productionIndex;
     private int _queueIndex;
-    private byte _mode;
+    private int _mode;
     private MigrationList? _migrations;
     private int _migrationSort;
     private Int32List _images;
@@ -219,7 +219,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
     }
 
     // AoWCityScreen.pas:836
-    public void SetMode(byte mode)
+    public void SetMode(int mode)
     {
         _mode = mode;
         switch (_mode)
@@ -980,7 +980,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
 
                         break;
                     case CityAction.Migrate:
-                        sbyte race = MigrationRaceList.Items.Objects[MigrationRaceList.Selected].Race;
+                        int race = MigrationRaceList.Items.Objects[MigrationRaceList.Selected].Race;
                         if (_city.CanMigrate(race, reason))
                         {
                             StrategicMap.Current.TutorialControl.ShowMessage(66, immediate: true, onceOnly: true);

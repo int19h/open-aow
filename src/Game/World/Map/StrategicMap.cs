@@ -92,7 +92,7 @@ public sealed partial class StrategicMap : GameMap
     public bool LeadersFixed { get; set; }
     public bool StartingGame { get; set; }
     public bool AlliedVictory { get; set; }
-    public byte VictoryMode { get; set; }
+    public int VictoryMode { get; set; }
     public StrategicMapVictoryCondition VictoryCondition { get; private set; }
     public int VictoryMana { get; private set; }
     public int VictoryGold { get; private set; }
@@ -610,7 +610,7 @@ public sealed partial class StrategicMap : GameMap
 
         StartingGame = persister.Boolean("StartingGame", value: StartingGame);
         ShowAllPlayers = persister.Boolean("ShowAllPlayers", value: ShowAllPlayers);
-        VictoryMode = persister.RawByte("VictoryMode", value: VictoryMode);
+        VictoryMode = persister.RawByte("VictoryMode", value: VictoryMode.TruncateToByte());
         RandSeed = DefendersSeed;
     }
 
@@ -2505,7 +2505,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:3167
-    public void PlaceTerrain(int X, int Y, int L, sbyte terrainType, sbyte overlayType)
+    public void PlaceTerrain(int X, int Y, int L, int terrainType, int overlayType)
     {
         RandSeed = Current.Random(16777215);
         MapObjectResourceList resources = GamePack.Current.MapObjectResourceList;

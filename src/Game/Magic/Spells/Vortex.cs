@@ -40,7 +40,7 @@ public class Vortex : GlobalTargetSpell
         {
             VortexTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
-            eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), layer: (sbyte)L);
+            eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), layer: L.TruncateToSByte());
             ArmyHexSprite army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
             if (army is not null)
             {

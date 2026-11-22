@@ -6,6 +6,7 @@ using Aow.Game.Draw.Images;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Terrain;
 
@@ -21,14 +22,14 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
     public new const int ClassId = 131_462;
 
     // ILTer.pas:164
-    public override sbyte GetTerrain(int index)
+    public override int GetTerrain(int index)
     {
-        sbyte result = Resource.TerrainList.GetTerrain(index);
+        int result = Resource.TerrainList.GetTerrain(index);
         return result >= 0 ? TerrainType : result;
     }
 
     // ILTer.pas:131
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, defaultValue: TerrainType) == info.MapField.TerrainType;
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, defaultValue: (sbyte)TerrainType) == info.MapField.TerrainType;
 
     // ILTer.pas:152
     public override void ChangeTerrain(in HexSpriteTerrainInfo info)
@@ -112,8 +113,8 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
         while (canPlaceHere && walk.HexNumber < count)
         {
-            sbyte terrainType = GetTerrain(walk.HexNumber);
-            sbyte overlay = GetOverlay(walk.HexNumber);
+            int terrainType = GetTerrain(walk.HexNumber);
+            int overlay = GetOverlay(walk.HexNumber);
             if ((terrainType >= 0 || overlay >= 0) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapContainer.Width && walk.Y < mapContainer.Height)
             {
                 HexSprite hexSprite = mapContainer.GetField(walk.X, walk.Y, hexLevel).GetMaxLevelNoneTransparentHexSprite();
@@ -187,12 +188,12 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
     public virtual int GetTerrainTypeImage(int terrainType) => terrainType;
 
     // ILTer.pas:84
-    public virtual sbyte ForceTerrainType(MapLevel mapLevel, int hexX, int hexY) => -2;
+    public virtual int ForceTerrainType(MapLevel mapLevel, int hexX, int hexY) => -2;
 
     // ILTer.pas:107
-    public virtual sbyte GetValidTerrainType(MapLevel mapLevel, int hexX, int hexY)
+    public virtual int GetValidTerrainType(MapLevel mapLevel, int hexX, int hexY)
     {
-        sbyte result = GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, defaultValue: -1);
+        int result = GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, defaultValue: -1);
         if (!ValidTerrainType(result))
         {
             result = ForceTerrainType(mapLevel, hexX, hexY);
@@ -204,7 +205,7 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
                     int count = Resource.Engine.HexSpriteSet.TerrainTypes.Count;
                     while (result < count && !ValidTerrainType(result))
                     {
-                        result = (sbyte)(result + 1);
+                        result = (result + 1).TruncateToSByte();
                     }
 
                     if (result == count)
@@ -219,5 +220,5 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
     }
 
     public int ImageIndex { get; protected set; }
-    public sbyte TerrainType { get; protected set; } = -1;
+    public int TerrainType { get; protected set; } = -1;
 }

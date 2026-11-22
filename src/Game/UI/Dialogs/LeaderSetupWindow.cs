@@ -1085,7 +1085,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     {
         UI.General.PlayButtonSound(0);
         object? objectValue = RaceComboBox.Items.Objects[RaceComboBox.Selected];
-        Leader.SetRace((sbyte)ObjectToInt(objectValue));
+        Leader.SetRace(ObjectToInt(objectValue).TruncateToSByte());
     }
 
     // AoWLeaderSetup.pas:678

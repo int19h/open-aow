@@ -68,10 +68,10 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     }
 
     // Cave.pas:273
-    public override sbyte GetOverlay(int index)
+    public override int GetOverlay(int index)
     {
-        sbyte result = base.Resource.TerrainList.Terrain[index];
-        return result >= 0 ? (sbyte)-1 : result;
+        int result = base.Resource.TerrainList.Terrain[index];
+        return result >= 0 ? -1 : result;
     }
 
     // Cave.pas:257

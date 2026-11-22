@@ -87,7 +87,7 @@ public class CombatRoad(CustomNode owner) : AbstractRoad(owner)
         HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber, ref x, ref y);
         if (x >= 0 && y >= 0 && x < mapLevel.Width && y < mapLevel.Height)
         {
-            sbyte overlay = mapLevel.GetField(x, y).OverlayType;
+            int overlay = mapLevel.GetField(x, y).OverlayType;
             if (overlay != 4)
             {
                 switch (hexNumber)

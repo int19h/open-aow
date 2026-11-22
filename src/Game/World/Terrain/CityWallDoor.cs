@@ -18,7 +18,7 @@ public class CityWallDoor(CustomNode? owner) : CityWall(owner)
     public new const int ClassId = 2_229_510;
 
     // CityWall.pas:428
-    public override sbyte GetOverlay(int index) => -1;
+    public override int GetOverlay(int index) => -1;
 
     // CityWall.pas:431
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

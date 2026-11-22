@@ -98,12 +98,12 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
     {
         for (int side = 1; side <= 3; side++)
         {
-            UpdateTransition((byte)side);
+            UpdateTransition(side.TruncateToByte());
         }
     }
 
     // CombatHex.pas:76
-    public void UpdateTransition(byte side)
+    public void UpdateTransition(int side)
     {
         int x = default;
         int y = default;
@@ -111,8 +111,8 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
         HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: TransitionNeighbours[side - 1], ref x, ref y);
         if (x >= 0 && y >= 0 && x < mapLevel.Width && y < mapLevel.Height)
         {
-            sbyte neighbourTerrain = mapLevel.GetField(x, y).TerrainType;
-            sbyte terrainType = base.Resource.TerrainList.GetTerrain(0);
+            int neighbourTerrain = mapLevel.GetField(x, y).TerrainType;
+            int terrainType = base.Resource.TerrainList.GetTerrain(0);
             int imageIndex = -1;
             if (neighbourTerrain != terrainType && neighbourTerrain != 7)
             {
@@ -214,7 +214,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
             bool condition = message.MessageId != 65556;
             if (!condition)
             {
-                sbyte terrain = TerrainList.GetTerrain(0);
+                int terrain = TerrainList.GetTerrain(0);
                 condition = (byte)terrain is not (0 or 6);
             }
 

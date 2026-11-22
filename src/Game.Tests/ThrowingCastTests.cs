@@ -60,7 +60,7 @@ public sealed class ThrowingCastTests
 
         public override int GetShowPriority() => 0;
 
-        public override sbyte GetTerrain(int index) => 0;
+        public override int GetTerrain(int index) => 0;
 
         // The tag query reads the resource. This site has none and leaves the query unanswered.
         public override void MapFieldMessageProc(ref MapFieldMessage message)

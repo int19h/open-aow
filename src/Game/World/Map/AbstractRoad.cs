@@ -64,7 +64,7 @@ public class AbstractRoad(CustomNode owner) : MapObject(owner)
         if (condition)
         {
             MapField fieldValue = mapContainer.GetField(hexX, hexY, hexLevel);
-            sbyte terrain = Resource.TerrainList.GetTerrain(0);
+            int terrain = Resource.TerrainList.GetTerrain(0);
             condition = fieldValue.TerrainType == terrain;
         }
         if (condition)

@@ -18,7 +18,7 @@ public partial class WaterHex : LowerIsometricHex
     {
         _animationFrame = (-1 - Random(20)).TruncateToSByte();
         int random = Random(4);
-        Sides = (byte)(Sides | (random << 6));
+        Sides = (Sides | (random << 6)).TruncateToByte();
     }
 
     // AoWHex.pas:275

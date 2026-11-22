@@ -21,7 +21,7 @@ public partial class HelpMessageEventLog : EventLog
 
     public DelphiStringList Message { get; }
     public string HelpFileName { get; init; } = "";
-    public byte Mode { get; }
+    public int Mode { get; }
 
     // EventLog.pas:868
     public override void Dispose()

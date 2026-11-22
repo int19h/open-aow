@@ -31,7 +31,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
 
     public sbyte CasterPlayer { get; set; } = -1;
     public int DaysRemaining { get; set; } = -1;
-    public sbyte OriginalOverlay { get; set; } = -1;
+    public int OriginalOverlay { get; set; } = -1;
 
     // PoisonP.pas:97
     public override void PersistFields(IPersister persister)
@@ -39,7 +39,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
         base.PersistFields(persister);
         CasterPlayer = persister.SByte("CasterPlayer", value: CasterPlayer, fallback: -1);
         DaysRemaining = persister.SByte("DaysRemaining", value: DaysRemaining.TruncateToSByte(), fallback: -1);
-        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay, fallback: -1);
+        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay.TruncateToSByte(), fallback: -1);
     }
 
     // PoisonP.pas:255
@@ -226,7 +226,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     public void RestoreTerrain()
     {
         MapField? mapField = Owner;
-        sbyte originalOverlay = OriginalOverlay;
+        int originalOverlay = OriginalOverlay;
         Dispose();
         if (originalOverlay > 0)
         {

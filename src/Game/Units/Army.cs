@@ -51,7 +51,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     public sbyte Player { get; set; }
     public MapCoordinate Location { get; set; } = new MapCoordinate(-1, -1, -1);
 
-    public sbyte IndependentRelation { get; private set; } = -1;
+    public int IndependentRelation { get; private set; } = -1;
 
     private int _unfogRange;
     private int _upkeep;
@@ -903,7 +903,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     }
 
     // Army.PAS:719
-    public void ValidateTerrain(sbyte terrainType, sbyte overlayType, sbyte player)
+    public void ValidateTerrain(int terrainType, int overlayType, sbyte player)
     {
         Troop? transport = Transporter(255);
         byte selection;
@@ -990,7 +990,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     }
 
     // Army.PAS:785
-    public void ValidateTerrain(sbyte terrainType, sbyte overlayType) => ValidateTerrain(terrainType, overlayType, Player);
+    public void ValidateTerrain(int terrainType, int overlayType) => ValidateTerrain(terrainType, overlayType, Player);
 
     // Army.PAS:790
     public void Validate()
@@ -1471,7 +1471,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     }
 
     // Army.PAS:1450
-    public int MoveOnMovePoints(byte selection, sbyte terrainType, sbyte overlayType)
+    public int MoveOnMovePoints(byte selection, int terrainType, int overlayType)
     {
         MovePointTable table = default;
         table.Fill(1);
@@ -1532,7 +1532,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     }
 
     // Army.PAS:1494
-    public bool ValidTerrain(byte selection, sbyte terrainType, sbyte overlayType)
+    public bool ValidTerrain(byte selection, int terrainType, int overlayType)
     {
         Troop? transport = Transporter(selection);
         bool result;
@@ -1559,7 +1559,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     }
 
     // Army.PAS:1512
-    public bool ValidTerrain(sbyte terrainType, sbyte overlayType)
+    public bool ValidTerrain(int terrainType, int overlayType)
     {
         Troop? transport = Transporter(255);
         bool result;
@@ -2126,15 +2126,15 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                         races.Count = troop.GetRace() + 1;
                     }
 
-                    sbyte race = troop.GetRace();
+                    int race = troop.GetRace();
                     if (races.List[race] is null)
                     {
                         Army army = new(null) { Holder = CreationHolder() };
-                        sbyte aUnitRace = troop.GetRace();
+                        int aUnitRace = troop.GetRace();
                         races.List[aUnitRace] = army;
                     }
 
-                    sbyte race2 = troop.GetRace();
+                    int race2 = troop.GetRace();
                     _ = races.List[race2].AddUnit(troop);
                     units.Delete(i);
                 }
@@ -2232,7 +2232,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     {
         if (Player == 0)
         {
-            sbyte race = -1;
+            int race = -1;
             bool valid = true;
             int i = Units.Count;
             while (valid && i != 0)
@@ -2244,7 +2244,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 {
                     if (race == -1)
                     {
-                        race = (sbyte)unitRace;
+                        race = unitRace.TruncateToSByte();
                     }
                     else
                     {
@@ -2259,7 +2259,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 {
                     race = IndependentRelation;
                     IndependentRelation = -1;
-                    IndependentRelation = (sbyte)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetIndependentRelation();
+                    IndependentRelation = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetIndependentRelation().TruncateToSByte();
                     if (IndependentRelation >= 0)
                     {
                         race = IndependentRelation;
@@ -2314,7 +2314,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                     neutral = neutral && AlignmentTables.NeutralAlignments.Contains(alignmentAlignment.ToFlag());
                 }
 
-                IndependentRelation = good && !evil ? (sbyte)-2 : evil && !good ? (sbyte)-4 : (sbyte)-3;
+                IndependentRelation = good && !evil ? -2 : evil && !good ? -4 : -3;
             }
             else
             {
@@ -2910,7 +2910,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:2508
     public void RetrieveStormDamageInfo(StormType storm, int distance, ref StormDamageInfo info)
     {
-        byte relation = (byte)(int)AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, otherPlayer: Player, otherIndependentRelation: IndependentRelation);
+        int relation = ((int)AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, otherPlayer: Player, otherIndependentRelation: IndependentRelation)).TruncateToByte();
         if (info.FriendlyRelations.Contains(((DiplomaticRelation)relation).ToFlag()) || info.EnemyRelations.Contains(((DiplomaticRelation)relation).ToFlag()))
         {
             int attack;

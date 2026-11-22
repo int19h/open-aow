@@ -62,9 +62,9 @@ public partial class City : PlayerCropStructure
     public new const int ClassId = 131_336;
 
     public Modes Mode { get; set; }
-    public sbyte Race { get; private set; }
+    public int Race { get; private set; }
     public string Name { get; private set; } = "";
-    public byte WallType { get; set; }
+    public int WallType { get; set; }
     public byte UpgradeLevel { get; private set; }
 
     public CityProductionControl Production { get; }
@@ -103,8 +103,8 @@ public partial class City : PlayerCropStructure
     {
         base.PersistFields(persister);
         Name = persister.String("Name", value: Name);
-        Race = persister.UnsignedByte(name: "Race", value: Race);
-        WallType = persister.RawByte("WallType", value: WallType);
+        Race = persister.UnsignedByte(name: "Race", value: Race.TruncateToSByte());
+        WallType = persister.RawByte("WallType", value: WallType.TruncateToByte());
         UpgradeLevel = persister.Byte("UpgradeLevel", value: UpgradeLevel);
         persister.Object("Production", objectValue: Production);
         Mode = persister.Set("Mode", value: Mode);
@@ -275,7 +275,7 @@ public partial class City : PlayerCropStructure
                                     {
                                         if (this == message.Param[0].As<MapField>().FindNoneTransparentHexSprite(typeof(City)))
                                         {
-                                            message.Result = WallType;
+                                            message.Result = (byte)WallType;
                                         }
                                     }
                                 }
@@ -285,8 +285,8 @@ public partial class City : PlayerCropStructure
                                     {
                                         if (Player == 0)
                                         {
-                                            sbyte independentRelation = GetIndependentRelation();
-                                            message.Result = independentRelation;
+                                            int independentRelation = GetIndependentRelation();
+                                            message.Result = (sbyte)independentRelation;
                                         }
                                     }
                                     else
@@ -369,7 +369,7 @@ public partial class City : PlayerCropStructure
     public override void Select() => base.Select();
 
     // City.pas:1787
-    public override sbyte GetValidTerrainType(MapLevel mapLevel, int hexX, int hexY) => GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, defaultValue: -1);
+    public override int GetValidTerrainType(MapLevel mapLevel, int hexX, int hexY) => GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, defaultValue: -1);
 
     // City.pas:2422
     public override LibraryImage? GetTopBorderImage()
@@ -470,7 +470,7 @@ public partial class City : PlayerCropStructure
     {
         if (StrategicMap.Current.Random(8) == 0)
         {
-            sbyte unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(units, defaultRelation: 5);
+            int unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(units, defaultRelation: 5);
             AIGroup? group = StrategicMap.Current.AIGroupManager.CreateGroup(0, relation: unitsToIndependentRelation, behavior: GroupBehavior.Refuge);
             _ = group.AddUnits(units.Units);
             _ = group.Release();
@@ -566,10 +566,10 @@ public partial class City : PlayerCropStructure
         {
             if (Race < -1 && StrategicMap.Current.GameType == GameType.Campaign)
             {
-                int i = Math.Abs(Race) - 3;
+                int i = Math.Abs((sbyte)Race) - 3;
                 if (i >= 0 && i < GetEngine().Campaign.RaceHistory.Count)
                 {
-                    SetRace((sbyte)GetEngine().Campaign.RaceHistory[i]);
+                    SetRace(GetEngine().Campaign.RaceHistory[i].TruncateToSByte());
                 }
                 else
                 {
@@ -589,7 +589,7 @@ public partial class City : PlayerCropStructure
             GenerateDefenders();
             if (WallType == 3)
             {
-                WallType = (byte)StrategicMap.Current.Random(3);
+                WallType = StrategicMap.Current.Random(3).TruncateToByte();
                 UpdateImages();
             }
         }
@@ -1073,14 +1073,14 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2108
-    public override sbyte GetRace() => Race;
+    public override int GetRace() => Race;
 
     // City.pas:1211
     public override void CropTrampled(sbyte player)
     {
         if (player != Player && player != 0)
         {
-            int race = Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : Race;
+            int race = Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : (sbyte)Race;
 
             int playerRelationValue = StrategicMap.Current.Races.GetRace(race).GetPlayerRelationValue(player);
             StrategicMap.Current.Races.GetRace(race).SetPlayerRelationValue(player, value: playerRelationValue + -5);
@@ -1088,7 +1088,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2097
-    public virtual void SetRace(sbyte race)
+    public virtual void SetRace(int race)
     {
         if (race != Race)
         {
@@ -1677,7 +1677,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1514
-    public int MigrationTime(sbyte race)
+    public int MigrationTime(int race)
     {
         string reason = "";
         if (CanMigrate(race, reason))
@@ -1715,7 +1715,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1544
-    public bool CanMigrate(sbyte race, string reason)
+    public bool CanMigrate(int race, string reason)
     {
         bool result;
         if (Race != race)
@@ -1738,7 +1738,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1561
-    public bool Migrate(sbyte race)
+    public bool Migrate(int race)
     {
         string reason = "";
         if (CanMigrate(race, reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
@@ -1759,7 +1759,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1577
-    public MigrationItem? CreateMigrationItem(sbyte race)
+    public MigrationItem? CreateMigrationItem(int race)
     {
         string reason = "";
         return CanMigrate(race, reason)
@@ -1781,7 +1781,7 @@ public partial class City : PlayerCropStructure
         {
             if (StrategicMap.Current.Races.GetRace(i).Enabled)
             {
-                MigrationItem? item = CreateMigrationItem((sbyte)i);
+                MigrationItem? item = CreateMigrationItem(i.TruncateToSByte());
                 if (item is not null && item.Relation is >= Session.Status.Neutral and <= Session.Status.Friendly)
                 {
                     item.Owner = result;
@@ -2150,7 +2150,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2091
-    public void SetWallType(byte wallType)
+    public void SetWallType(int wallType)
     {
         WallType = wallType;
         UpdateImages();
@@ -2161,8 +2161,8 @@ public partial class City : PlayerCropStructure
     {
         if (Player == 0)
         {
-            sbyte enemiesIndependentRelation = GetEnemiesIndependentRelation(army.Army.Player);
-            combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer).IndependentRelation = (byte)enemiesIndependentRelation;
+            int enemiesIndependentRelation = GetEnemiesIndependentRelation(army.Army.Player);
+            combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer).IndependentRelation = enemiesIndependentRelation.TruncateToByte();
         }
 
         int hexLevel = army.HexLevel;
@@ -2217,7 +2217,7 @@ public partial class City : PlayerCropStructure
             if (canJoin)
             {
                 int value = GetObtainValue() / 4;
-                byte relation = (byte)StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(player);
+                int relation = (byte)StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(player);
                 result += JoinPercentByStatus[(int)(Status)relation] * value / 100;
             }
             else
@@ -2325,7 +2325,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2334
-    public sbyte GetEnemiesIndependentRelation(sbyte player)
+    public int GetEnemiesIndependentRelation(sbyte player)
     {
         UnitUserList units = new(null) { Holder = CreationHolder() };
         _ = ListUnits(units);
@@ -2338,18 +2338,18 @@ public partial class City : PlayerCropStructure
         }
 
         // { Original uses the race index as the default relation. }
-        sbyte result = UnitList.UnitsToIndependentRelation(units, defaultRelation: Race);
+        int result = UnitList.UnitsToIndependentRelation(units, defaultRelation: Race);
         units?.Dispose();
         return result;
     }
 
     // City.pas:2345
-    public sbyte GetIndependentRelation()
+    public int GetIndependentRelation()
     {
         UnitUserList units = new(null) { Holder = CreationHolder() };
         _ = ListUnits(units);
         // { Original uses the race index as the default relation. }
-        sbyte result = UnitList.UnitsToIndependentRelation(units, defaultRelation: Race);
+        int result = UnitList.UnitsToIndependentRelation(units, defaultRelation: Race);
         units?.Dispose();
         return result;
     }
@@ -2511,7 +2511,7 @@ public partial class City : PlayerCropStructure
     private static readonly string s_cityStoneWallText = "Stone Wall";
     private static City s_sortingCity;
 
-    private static bool RaceInCity(sbyte race, sbyte player)
+    private static bool RaceInCity(int race, sbyte player)
     {
         bool flag = false;
         Player? players = StrategicMap.Current.Players.GetPlayers(player);

@@ -72,7 +72,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
 
     private int _defensiveStrength;
 
-    public byte LegacyGroupBehavior { get; private set; }
+    public int LegacyGroupBehavior { get; private set; }
 
     // Unit.PAS:108
     public override void Dispose()
@@ -122,7 +122,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             {
                 EngineObject? legacy = null;
                 legacy = persister.Created("LegacyGroup", objectValue: legacy);
-                LegacyGroupBehavior = legacy is not null ? (byte)((GroupControl)(object)legacy).Behavior() : (byte)0;
+                LegacyGroupBehavior = legacy is not null ? (byte)((GroupControl)(object)legacy).Behavior() : 0;
             }
             catch
             {
@@ -226,7 +226,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual int UnitLevel => 0;
 
     // Unit.PAS:200
-    public virtual sbyte GetRace() => -1;
+    public virtual int GetRace() => -1;
 
     // Unit.PAS:866
     public virtual int GetInherentAttack() => 0;
@@ -496,7 +496,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:513
-    public virtual sbyte GetIndependentRelation() => GetRace() >= 0 ? GetRace() : AlignmentTables.AlignmentToIndependentRelation(GetAlignment());
+    public virtual int GetIndependentRelation() => GetRace() >= 0 ? GetRace() : AlignmentTables.AlignmentToIndependentRelation(GetAlignment());
 
     // Unit.PAS:350
     public virtual int GetObtainValue() => 0;
@@ -505,12 +505,12 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual UnitSize UnitSize => UnitSize.Medium;
 
     // Unit.PAS:260
-    public virtual int GetUnitMoraleValue(sbyte player, sbyte independentRelation)
+    public virtual int GetUnitMoraleValue(sbyte player, int independentRelation)
     {
         int morale;
         if (player >= 0 && GetUnitType() != UnitType.Machine && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
-            sbyte race = GetRace();
+            int race = GetRace();
             morale = GetRelationValue(player, independentRelation);
             if (race != -1)
             {
@@ -520,7 +520,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 int hexLevel = coordinate45.MapLevel;
                 if (hexX != -1)
                 {
-                    byte rawTerrain = (byte)StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).TerrainType;
+                    int rawTerrain = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).TerrainType.TruncateToByte();
                     int raceIndex = race;
                     TerrainType terrainType = (TerrainType)rawTerrain;
                     if (City.RaceTerrain[raceIndex].Penalty.Contains(terrainType.ToFlag()))
@@ -727,7 +727,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             }
             else
             {
-                sbyte race = GetRace();
+                int race = GetRace();
                 result = StrategicMap.Current.Races.GetRace(race).GetPlayerRelation(player) >= Status.Polite;
             }
 
@@ -758,7 +758,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         {
             if (GetRace() != -1)
             {
-                sbyte race = GetRace();
+                int race = GetRace();
                 return StrategicMap.Current.Races.GetRace(race).GetPlayerRelation(player) >= Status.Polite;
             }
             else
@@ -875,9 +875,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public MapCoordinate GetLocation() => UnitHolder is { } holder ? holder.GetLocation() : MapCoordinate.None;
 
     // Unit.PAS:231
-    public int GetRelationValue(sbyte player, sbyte independentRelation)
+    public int GetRelationValue(sbyte player, int independentRelation)
     {
-        sbyte race = GetRace();
+        int race = GetRace();
         if (player != 0)
         {
             if (race != -1 && !GetAbilityEnabled(107))
@@ -901,13 +901,13 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:256
-    public Status GetRelation(sbyte player, sbyte independentRelation) => Race.StatusValueToStatus(GetRelationValue(player, independentRelation));
+    public Status GetRelation(sbyte player, int independentRelation) => Race.StatusValueToStatus(GetRelationValue(player, independentRelation));
 
     // Unit.PAS:301
     public Status UnitRelation(Troop troop)
     {
-        sbyte race = GetRace();
-        sbyte otherRace = troop.GetRace();
+        int race = GetRace();
+        int otherRace = troop.GetRace();
         return race != -1 && otherRace != -1
             ? StrategicMap.Current.Races.GetRace(race).GetRelation(otherRace)
             : AlignmentTables.AlignmentToStatus(otherAlignment: troop.GetAlignment(), alignment: GetAlignment());
@@ -1137,7 +1137,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:688
-    public int GetCombatValue(Troop? target, byte mode)
+    public int GetCombatValue(Troop? target, int mode)
     {
         AbilityDamageValues info = default;
         int result = 0;
@@ -1300,7 +1300,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:993
-    public bool ValidTerrain(sbyte terrainType, sbyte overlayType)
+    public bool ValidTerrain(int terrainType, int overlayType)
     {
         // { Original retrieves the movement set twice and retains the first dead store. }
         _ = GetMoveTypes();
@@ -1478,8 +1478,8 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             if (hexX != -1)
             {
                 MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-                sbyte terrain = field.TerrainType;
-                sbyte overlay = field.OverlayType;
+                int terrain = field.TerrainType;
+                int overlay = field.OverlayType;
                 moves &= ~MoveTypes.Flying;
                 int moveTypesToInt32 = (byte)moves;
                 doubleDamage = MovementTables.MovePointTables[moveTypesToInt32][terrain][overlay - MovementTables.FirstOverlay] == 0;
@@ -1558,7 +1558,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
 
     // Unit.PAS:1198
     // { Result is the final damage. }
-    public int MovePointCost(sbyte terrainType, sbyte overlayType)
+    public int MovePointCost(int terrainType, int overlayType)
     {
         CreateMovePointTable(out MovePointTable table);
         return table[terrainType][overlayType - MovementTables.FirstOverlay];

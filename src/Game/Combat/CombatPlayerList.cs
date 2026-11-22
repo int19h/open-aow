@@ -36,7 +36,7 @@ public sealed class CombatPlayerList(CustomNode owner) : OwningNode(owner), IChi
     }
 
     // Combat2.pas:146
-    public int IndexOf(byte player, byte relation)
+    public int IndexOf(byte player, int relation)
     {
         int result = Count;
         while (result != 0)

@@ -25,7 +25,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
 
     public sbyte Player { get; set; }
     public int Duration { get; set; }
-    public sbyte OriginalOverlay { get; set; }
+    public int OriginalOverlay { get; set; }
 
     // Mountain.pas:181
     public override void PersistFields(IPersister persister)
@@ -33,7 +33,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         base.PersistFields(persister);
         Player = persister.SByte("Player", value: Player, fallback: -1);
         Duration = persister.SByte("Duration", value: Duration.TruncateToSByte(), fallback: -1);
-        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay, fallback: -1);
+        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay.TruncateToSByte(), fallback: -1);
     }
 
     // Mountain.pas:210
@@ -72,7 +72,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     public void RestoreTerrain()
     {
         MapField field = Owner;
-        sbyte overlay = OriginalOverlay;
+        int overlay = OriginalOverlay;
         Dispose();
         if (overlay > 0)
         {

@@ -4,6 +4,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
@@ -19,7 +20,7 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
 
     protected internal byte[] Transitions { get; } = new byte[3];
 
-    protected internal byte TransitionSides { get; private set; }
+    protected internal int TransitionSides { get; private set; }
 
     // Hexagon.pas:52
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -33,7 +34,7 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
     {
         for (int sideOrdinal = 0; sideOrdinal <= 2; sideOrdinal++)
         {
-            byte side = (byte)sideOrdinal;
+            int side = sideOrdinal.TruncateToByte();
             UpdateTransition(side);
         }
     }
@@ -106,13 +107,13 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
     }
 
     // AoWHex.pas:150 (Hexagon.pas:70 is empty)
-    public virtual void UpdateTransition(byte side)
+    public virtual void UpdateTransition(int side)
     {
         int nHexX = default;
         int nHexY = default;
         bool shifted = false;
         Transitions[side] = 255;
-        TransitionSides = (byte)(TransitionSides & SideClear[side]);
+        TransitionSides &= SideClear[side];
         MapLevel mapLevel = Owner.Owner;
         HexGeometry.HexNumberToHex(SideHexNumber[side], ref nHexX, ref nHexY);
         HexGeometry.TranslateHex(0, 0, Owner.HexX, Owner.HexY, nHexX, nHexY, out nHexX, out nHexY);
@@ -244,10 +245,10 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
             {
                 if (imageLibrary[image] is not null)
                 {
-                    TransitionSides = (byte)(TransitionSides + (1 << side));
+                    TransitionSides = (TransitionSides + (1 << side)).TruncateToByte();
                     if (shifted)
                     {
-                        TransitionSides = (byte)(TransitionSides + (1 << (side + 3)));
+                        TransitionSides = (TransitionSides + (1 << (side + 3))).TruncateToByte();
                     }
                 }
             }
@@ -265,7 +266,7 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
         {
             if (message.MessageId == 65556)
             {
-                sbyte terrain = TerrainList.Terrain[0];
+                int terrain = TerrainList.Terrain[0];
                 if ((byte)terrain is 0 or 6)
                 {
                     return;

@@ -18,7 +18,7 @@ public sealed class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSpr
     public new const int ClassId = 2_228_489;
 
     // AoWTC.pas:4097
-    public override sbyte GetOverlay(int hexNumber) => 11;
+    public override int GetOverlay(int hexNumber) => 11;
 
     // AoWTC.pas:4121
     public override int Level => 26;

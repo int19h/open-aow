@@ -269,13 +269,13 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // HSEngine.pas:2581
-    public sbyte GetDecorationType()
+    public int GetDecorationType()
     {
         MapFieldMessage message = default;
         message.MessageId = 17;
         message.Result = -1;
         SendMapFieldMessage(ref message);
-        return (sbyte)message.Result.Int;
+        return message.Result.Int.TruncateToSByte();
     }
 
     // HSEngine.pas:2591
@@ -526,13 +526,13 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // AoWHSMap.PAS:175
-    public byte GetIndependentRelation()
+    public int GetIndependentRelation()
     {
         MapFieldMessage message = default;
         message.MessageId = 4389;
         message.Result = -1;
         SendMapFieldMessage(ref message);
-        return (byte)message.Result.Int;
+        return message.Result.Int.TruncateToByte();
     }
 
     // AoWHSMap.PAS:184

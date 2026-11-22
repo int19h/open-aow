@@ -976,10 +976,10 @@ public sealed class SetupControl : Component
     }
 
     // AoWSetup.pas:932
-    public sbyte PreferredRace => (sbyte)RemotePlayer.PreferredRace;
+    public int PreferredRace => RemotePlayer.PreferredRace.TruncateToSByte();
 
     // AoWSetup.pas:936
-    public void SetPreferredRace(byte value)
+    public void SetPreferredRace(int value)
     {
         if (value != RemotePlayer.PreferredRace)
         {
@@ -1028,7 +1028,7 @@ public sealed class SetupControl : Component
                 int old;
                 if (race != -1)
                 {
-                    int target = Settings.IndexOfRace((byte)race);
+                    int target = Settings.IndexOfRace(race.TruncateToByte());
                     if (target != -1 && Settings.GetSettings(target).Behavior.Flags == 0 && (Settings.GetSettings(target).Status & (PlayerSetupStatuses.Fixed | PlayerSetupStatuses.Forced)) == PlayerSetupStatuses.None)
                     {
                         RemotePlayer playerRemoteId = Settings.RemotePlayers.GetPlayers(i);
@@ -1419,7 +1419,7 @@ public sealed class SetupControl : Component
     }
 
     // AoWSetup.pas:1182
-    public void SetPlayMode(byte value)
+    public void SetPlayMode(int value)
     {
         if (GetHost() && value != Settings.PlayMode)
         {
@@ -1446,7 +1446,7 @@ public sealed class SetupControl : Component
     }
 
     // AoWSetup.pas:1201
-    public void SetIndependentAIMode(byte value)
+    public void SetIndependentAIMode(int value)
     {
         if (GetHost() && value != Settings.IndependentAIMode)
         {
@@ -1481,7 +1481,7 @@ public sealed class SetupControl : Component
                 Settings.TurnTime = preview.TurnTime;
                 Settings.DayLimit = preview.DayLimit;
                 Settings.AlwaysViewTacticalBattle = preview.StartingGame;
-                Settings.TacticalBattleAvailability = preview.VictoryMode;
+                Settings.TacticalBattleAvailability = (byte)preview.VictoryMode;
             }
 
             bool firstHuman = true;
@@ -1506,7 +1506,7 @@ public sealed class SetupControl : Component
                         Race = player.PlayerRace
                     };
                     settings.Leader.Assign(player.LeaderSetup, _engine);
-                    settings.BehaviorMode = (byte)(int)player.Behavior;
+                    settings.BehaviorMode = ((int)player.Behavior).TruncateToByte();
                     if (player.Participating)
                     {
                         settings.Status |= PlayerSetupStatuses.Fixed;
@@ -1569,12 +1569,12 @@ public sealed class SetupControl : Component
     }
 
     // AoWSetup.pas:1236
-    public bool SetupHost(string name, byte mode, int remoteId)
+    public bool SetupHost(string name, int mode, int remoteId)
     {
         Reset();
         _phase = SetupPhase.SetupPlayers;
         Settings.HostRemoteId = remoteId;
-        Settings.ConnectionType = mode;
+        Settings.ConnectionType = (byte)mode;
         Settings.PlayMode = mode switch
         {
             2 => 1,

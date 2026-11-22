@@ -43,7 +43,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     public UserDrawBox LeftShieldView { get; private set; }
     public UserDrawBox RightShieldView { get; private set; }
 
-    private byte _phase;
+    private int _phase;
     private int _phaseFrame;
     private int _animationFrame;
     private CombatLogbook? _logbook;
@@ -332,7 +332,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     }
 
     // FastCombatWin.pas:549
-    public void SetPhase(byte phase)
+    public void SetPhase(int phase)
     {
         _phase = phase;
         _phaseFrame = 0;

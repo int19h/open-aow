@@ -214,7 +214,7 @@ public class Battle : EngineObject
     public virtual CombatPlayer CreateCombatPlayer() => new(null) { Holder = CreationHolder() };
 
     // Combat.pas:6143
-    public virtual bool Setup(byte attackerPlayer, int attackerRelation, int attackerX, int attackerY, int attackerL, byte defenderPlayer, byte defenderRelation, int X, int Y, int L, bool logActions)
+    public virtual bool Setup(byte attackerPlayer, int attackerRelation, int attackerX, int attackerY, int attackerL, byte defenderPlayer, int defenderRelation, int X, int Y, int L, bool logActions)
     {
         Clear();
         Status = logActions
@@ -224,7 +224,7 @@ public class Battle : EngineObject
         CombatData data = CombatData;
         data.Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
         data.AttackerLocation = new MapCoordinate((sbyte)attackerX, (sbyte)attackerY, (sbyte)attackerL);
-        data.AttackerPlayer = (sbyte)AddCombatPlayer(attackerPlayer, independentRelation: (byte)attackerRelation, side: CombatSideIndex.Attacker);
+        data.AttackerPlayer = (sbyte)AddCombatPlayer(attackerPlayer, independentRelation: attackerRelation.TruncateToByte(), side: CombatSideIndex.Attacker);
         data.DefenderPlayer = (sbyte)AddCombatPlayer(defenderPlayer, independentRelation: defenderRelation, side: CombatSideIndex.Defender);
         MapField fieldValue = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel);
         data.TerrainAndOverlayTypes[0] = (byte)fieldValue.TerrainType;
@@ -245,7 +245,7 @@ public class Battle : EngineObject
     {
         LockExecuted();
         Status |= CombatStatuses.Executing;
-        byte wallType = 0;
+        int wallType = 0;
         int j = 0;
         while (wallType == 0 && j != CombatData.Parties.Count)
         {
@@ -333,7 +333,7 @@ public class Battle : EngineObject
 
         string combatResultText = GetCombatResultText();
         Logbook.FinalData.Header = combatResultText;
-        Logbook.FinalData.CombatResult = (byte)(int)CombatResult;
+        Logbook.FinalData.CombatResult = ((int)CombatResult).TruncateToByte();
         int playerIndex = CombatData.Players.Count;
         while (playerIndex != 0 && !Logbook.PlayerEliminated)
         {
@@ -603,7 +603,7 @@ public class Battle : EngineObject
                         CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
                         CombatPlayer fPlayersPlayers = data.Players.GetPlayers(data.DefenderPlayer);
                         CombatPlayer players2 = data.Players.GetPlayers(data.AttackerPlayer);
-                        side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, attackerRelation: players2.IndependentRelation.TruncateToSByte(), defender: fPlayersPlayers.Player, defenderRelation: (sbyte)players.IndependentRelation, armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
+                        side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, attackerRelation: ((byte)players2.IndependentRelation).TruncateToSByte(), defender: fPlayersPlayers.Player, defenderRelation: players.IndependentRelation.TruncateToSByte(), armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
                     }
                     else
                     {
@@ -639,13 +639,13 @@ public class Battle : EngineObject
     }
 
     // Combat.pas:6292
-    public byte AddCombatPlayer(byte player, byte independentRelation, CombatSideIndex side)
+    public byte AddCombatPlayer(byte player, int independentRelation, CombatSideIndex side)
     {
         CombatPlayer playerLocal = CreateCombatPlayer();
         playerLocal.SetOwner(CombatData.Players);
         playerLocal.Player = (sbyte)player;
         playerLocal.IndependentRelation = independentRelation;
-        playerLocal.SideIndex = (byte)(int)side;
+        playerLocal.SideIndex = ((int)side).TruncateToByte();
         return (byte)(CombatData.Players.Count - 1);
     }
 
@@ -656,24 +656,24 @@ public class Battle : EngineObject
         MapFieldMessage message = default;
         using (army.BeginUpdate())
         {
-            byte player = (byte)CombatData.Players.IndexOf((byte)army.Player, relation: (byte)army.IndependentRelation);
+            byte player = (byte)CombatData.Players.IndexOf((byte)army.Player, relation: army.IndependentRelation.TruncateToByte());
             if (player == 255)
             {
-                player = AddCombatPlayer((byte)army.Player, independentRelation: (byte)army.IndependentRelation, side);
+                player = AddCombatPlayer((byte)army.Player, independentRelation: army.IndependentRelation.TruncateToByte(), side);
             }
 
             byte position = GetPartyPosition(X, Y, layer: L);
             party = CombatData.Parties.CreateParty(this, position, combatPlayer: player, X, Y, L, army);
             Troop? transporter = army.Transporter(255);
-            bool transport = transporter is not null && transporter.ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], overlayType: (sbyte)CombatData.TerrainAndOverlayTypes[1]);
+            bool transport = transporter is not null && transporter.ValidTerrain(CombatData.TerrainAndOverlayTypes[0].TruncateToSByte(), overlayType: CombatData.TerrainAndOverlayTypes[1].TruncateToSByte());
             int index = 0;
             for (int i = army.Units.Count - 1; i >= 0; i--)
             {
-                bool valid = army.Units.GetUnit(i).ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], overlayType: (sbyte)CombatData.TerrainAndOverlayTypes[1]);
+                bool valid = army.Units.GetUnit(i).ValidTerrain(CombatData.TerrainAndOverlayTypes[0].TruncateToSByte(), overlayType: CombatData.TerrainAndOverlayTypes[1].TruncateToSByte());
                 if (valid || transport)
                 {
                     CombatUnit unitObject = CreateCombatUnit();
-                    unitObject.Setup(troop: army.Units.GetUnit(i), id: CreateUniqueCombatObjectId(), side: (byte)(int)side, position: (byte)((position << 4) + index), combatPlayer: player);
+                    unitObject.Setup(troop: army.Units.GetUnit(i), id: CreateUniqueCombatObjectId(), side: ((int)side).TruncateToByte(), position: (byte)((position << 4) + index), combatPlayer: player);
                     if (!valid)
                     {
                         unitObject.Disabled = true;
@@ -697,7 +697,7 @@ public class Battle : EngineObject
                 StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel).SendMapFieldMessage(ref message);
                 if (message.Result.Int != 0)
                 {
-                    party.Wall = (byte)message.Result.Int;
+                    party.Wall = message.Result.Int.TruncateToByte();
                 }
             }
         }
@@ -710,10 +710,10 @@ public class Battle : EngineObject
         CombatParty party;
         using (army.BeginUpdate())
         {
-            byte player = (byte)CombatData.Players.IndexOf((byte)army.Player, relation: (byte)army.IndependentRelation);
+            byte player = (byte)CombatData.Players.IndexOf((byte)army.Player, relation: army.IndependentRelation.TruncateToByte());
             if (player == 255)
             {
-                player = AddCombatPlayer((byte)army.Player, independentRelation: (byte)army.IndependentRelation, side);
+                player = AddCombatPlayer((byte)army.Player, independentRelation: army.IndependentRelation.TruncateToByte(), side);
             }
 
             party = CombatData.Parties.CreateParty(this, position: (byte)(position << 0), combatPlayer: player, X, Y, L, army);
@@ -721,7 +721,7 @@ public class Battle : EngineObject
             for (int i = army.Units.Count - 1; i >= 0; i--)
             {
                 CombatUnit unitObject = CreateCombatUnit();
-                unitObject.Setup(troop: army.Units.GetUnit(i), id: CreateUniqueCombatObjectId(), side: (byte)(int)side, position: (byte)((position << 4) + index), combatPlayer: player);
+                unitObject.Setup(troop: army.Units.GetUnit(i), id: CreateUniqueCombatObjectId(), side: ((int)side).TruncateToByte(), position: (byte)((position << 4) + index), combatPlayer: player);
                 CombatData.AddObject(unitObject);
                 index += 1;
             }
@@ -730,7 +730,7 @@ public class Battle : EngineObject
     }
 
     // Combat.pas:6364
-    public void AddEmptyArmy(byte player, byte independentRelation, int X, int Y, int L)
+    public void AddEmptyArmy(byte player, int independentRelation, int X, int Y, int L)
     {
         MapFieldMessage message = default;
         CombatData data = CombatData;
@@ -738,7 +738,7 @@ public class Battle : EngineObject
         CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
         CombatPlayer fPlayersPlayers = data.Players.GetPlayers(data.DefenderPlayer);
         CombatPlayer players2 = data.Players.GetPlayers(data.AttackerPlayer);
-        CombatSideIndex side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, attackerRelation: players2.IndependentRelation.TruncateToSByte(), defender: fPlayersPlayers.Player, defenderRelation: (sbyte)players.IndependentRelation, player: (sbyte)player, relation: (sbyte)independentRelation);
+        CombatSideIndex side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, attackerRelation: ((byte)players2.IndependentRelation).TruncateToSByte(), defender: fPlayersPlayers.Player, defenderRelation: players.IndependentRelation.TruncateToSByte(), player: (sbyte)player, relation: independentRelation.TruncateToSByte());
         byte playerLocal = (byte)CombatData.Players.IndexOf(player, relation: independentRelation);
         if (playerLocal == 255)
         {
@@ -755,7 +755,7 @@ public class Battle : EngineObject
         StrategicMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
         if (message.Result.Int != 0)
         {
-            party.Wall = (byte)message.Result.Int;
+            party.Wall = message.Result.Int.TruncateToByte();
         }
     }
 

@@ -129,7 +129,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
     public Label ResearchBookLabel { get; private set; }
     public Button CancelResearchButton { get; private set; }
 
-    public byte Mode { get; set; }
+    public int Mode { get; set; }
     // world casting, combat casting, research, researched
     public int PageKind { get; set; }
 
@@ -201,7 +201,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
     }
 
     // AoWSpellBook.pas:439
-    public void SetPageKind(byte kind)
+    public void SetPageKind(int kind)
     {
         PageKind = kind;
         LeftSpellPage.Visible = kind == 1;

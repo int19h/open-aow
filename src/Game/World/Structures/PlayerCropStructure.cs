@@ -241,7 +241,7 @@ public class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:413
-    public virtual sbyte GetRace() => Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : (sbyte)-1;
+    public virtual int GetRace() => Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : -1;
 
     // Crops.pas:339
     public virtual void CropsChanged() => UpdateIncome();

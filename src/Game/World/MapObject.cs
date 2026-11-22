@@ -30,27 +30,27 @@ public partial class MapObject(CustomNode? owner) : HexSprite(owner)
     }
 
     // MAPOBJ.PAS:138
-    public override sbyte GetTerrain(int index)
+    public override int GetTerrain(int index)
     {
-        sbyte result = _resource.TerrainList.GetTerrain(index);
-        return Status.Contains(MapObjectStatuses.EditMode) && result >= 0 ? (sbyte)-1 : result;
+        int result = _resource.TerrainList.GetTerrain(index);
+        return Status.Contains(MapObjectStatuses.EditMode) && result >= 0 ? -1 : result;
     }
 
     // MAPOBJ.PAS:145
-    public override void SetTerrain(int index, sbyte value) => _resource.TerrainList.SetTerrain(index, value);
+    public override void SetTerrain(int index, int value) => _resource.TerrainList.SetTerrain(index, value);
 
     // MAPOBJ.PAS:150
     public override int TerrainCount => _resource.TerrainList.Count;
 
     // MAPOBJ.PAS:155
-    public override sbyte GetOverlay(int index)
+    public override int GetOverlay(int index)
     {
-        sbyte result = _resource.TerrainList.GetOverlay(index);
-        return Status.Contains(MapObjectStatuses.EditMode) && result >= 0 ? (sbyte)-1 : result;
+        int result = _resource.TerrainList.GetOverlay(index);
+        return Status.Contains(MapObjectStatuses.EditMode) && result >= 0 ? -1 : result;
     }
 
     // MAPOBJ.PAS:162
-    public override void SetOverlay(int index, sbyte value) => _resource.TerrainList.SetOverlay(index, value);
+    public override void SetOverlay(int index, int value) => _resource.TerrainList.SetOverlay(index, value);
 
     // MAPOBJ.PAS:167
     public override int OverlayCount => _resource.TerrainList.Count;

@@ -26,14 +26,14 @@ public sealed class TerrainList : IDisposable
     public sbyte GetTerrain(int index) => index < _count ? _list[index].Terrain : (sbyte)-2;
 
     // HSEngine.pas:1431
-    public void SetTerrain(int index, sbyte value)
+    public void SetTerrain(int index, int value)
     {
         if (index >= _count)
         {
             SetCount(index + 1);
         }
 
-        _list[index].Terrain = value;
+        _list[index].Terrain = (sbyte)value;
     }
 
     // HSEngine.pas:1437
@@ -52,14 +52,14 @@ public sealed class TerrainList : IDisposable
     public sbyte GetOverlay(int index) => index < _count ? _list[index].Overlay : (sbyte)-2;
 
     // HSEngine.pas:1453
-    public void SetOverlay(int index, sbyte value)
+    public void SetOverlay(int index, int value)
     {
         if (index >= _count)
         {
             SetCount(index + 1);
         }
 
-        _list[index].Overlay = value;
+        _list[index].Overlay = (sbyte)value;
     }
 
     // HSEngine.pas:1459. The pair as one word: the terrain byte low, the overlay byte high.

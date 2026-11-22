@@ -394,7 +394,7 @@ public class CombatUnit : CombatObject
     public override WallCombatFeatures WallCombatFeatures() => WallCombatFeaturesValue;
 
     // Combat.pas:1247
-    public override void PlaySfx(byte sound)
+    public override void PlaySfx(int sound)
     {
         switch (sound)
         {
@@ -632,7 +632,7 @@ public class CombatUnit : CombatObject
     public virtual void KillUnit() => Troop.Killed();
 
     // Combat.pas:1087
-    public void Setup(byte id, byte side, Troop? troop, byte position, byte combatPlayer)
+    public void Setup(byte id, int side, Troop? troop, byte position, byte combatPlayer)
     {
         Id = id;
         Position = position;

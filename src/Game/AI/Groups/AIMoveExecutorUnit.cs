@@ -37,7 +37,7 @@ public sealed class AIMoveExecutorUnit(CustomNode? owner) : EngineObject(owner)
     public MapCoordinate TransportDestination { get; internal set; }
 
     public AIMoveExecutorUnitStatus Status { get; set; }
-    public byte MoveResult { get; set; }
+    public int MoveResult { get; set; }
 
     // AIGroup.pas:4280
     public void Initialize(Troop troop, int X, int Y, int L)

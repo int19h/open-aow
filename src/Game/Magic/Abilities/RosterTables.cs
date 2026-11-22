@@ -11,7 +11,7 @@ namespace Aow.Game.Magic.Abilities;
 internal static class RosterTables
 {
 
-    internal static int GetUnitIndexAIPriority(int unitIndex, sbyte player, sbyte relation, GameEngine? engine)
+    internal static int GetUnitIndexAIPriority(int unitIndex, sbyte player, int relation, GameEngine? engine)
     {
         UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         int result;

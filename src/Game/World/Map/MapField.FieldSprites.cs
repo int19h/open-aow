@@ -188,7 +188,7 @@ public partial class MapField
 
     public void Initialize()
     {
-        sbyte overlay = -1, terrain = -1;
+        int overlay = -1, terrain = -1;
         for (int i = StoredCount - 1; i >= 0; i--)
         {
             if (terrain < 0)
@@ -201,8 +201,8 @@ public partial class MapField
                 overlay = _hexSpriteList[i].GetOverlay(_directions[i]);
             }
         }
-        OverlayType = Math.Max(overlay, (sbyte)-1);
-        TerrainType = Math.Max(terrain, (sbyte)-1);
+        OverlayType = Math.Max((sbyte)overlay, (sbyte)-1);
+        TerrainType = Math.Max((sbyte)terrain, (sbyte)-1);
         HexSpriteTerrainInfo info = new() { MapField = this, TerrainType = TerrainType, OverlayType = OverlayType };
         for (int i = StoredCount - 1; i >= 0; i--)
         {
@@ -248,7 +248,7 @@ public partial class MapField
 
     private (sbyte Terrain, sbyte Overlay) ReadTerrain()
     {
-        sbyte terrain = -1, overlay = -1;
+        int terrain = -1, overlay = -1;
         for (int i = StoredCount - 1; i >= 0; i--)
         {
             if (terrain < 0)
@@ -261,7 +261,7 @@ public partial class MapField
                 overlay = _hexSpriteList[i].GetOverlay(_directions[i]);
             }
         }
-        return (Math.Max(terrain, (sbyte)-1), Math.Max(overlay, (sbyte)-1));
+        return (Math.Max((sbyte)terrain, (sbyte)-1), Math.Max((sbyte)overlay, (sbyte)-1));
     }
 
     public void UpdateTerrain()
@@ -289,19 +289,19 @@ public partial class MapField
             return;
         }
 
-        sbyte terrain = -1;
+        int terrain = -1;
         for (int i = StoredCount - 1; i >= 0 && terrain < 0; i--)
         {
             terrain = _hexSpriteList[i].GetTerrain(_directions[i]);
         }
 
-        terrain = Math.Max(terrain, (sbyte)-1);
+        terrain = Math.Max((sbyte)terrain, (sbyte)-1);
         if (terrain == TerrainType)
         {
             return;
         }
 
-        TerrainType = terrain;
+        TerrainType = (sbyte)terrain;
         TerrainChanged();
     }
 
@@ -312,19 +312,19 @@ public partial class MapField
             return;
         }
 
-        sbyte overlay = -1;
+        int overlay = -1;
         for (int i = StoredCount - 1; i >= 0 && overlay < 0; i--)
         {
             overlay = _hexSpriteList[i].GetOverlay(_directions[i]);
         }
 
-        overlay = Math.Max(overlay, (sbyte)-1);
+        overlay = Math.Max((sbyte)overlay, (sbyte)-1);
         if (overlay == OverlayType)
         {
             return;
         }
 
-        OverlayType = overlay;
+        OverlayType = (sbyte)overlay;
         TerrainChanged();
     }
 
@@ -386,33 +386,33 @@ public partial class MapField
         return true;
     }
 
-    public bool CanChangeTerrain(EngineObject sender, sbyte terrain, sbyte overlay)
+    public bool CanChangeTerrain(EngineObject sender, int terrain, int overlay)
     {
         if (Status.Contains(MapFieldStatuses.TerrainLocked))
         {
             return false;
         }
 
-        sbyte oldTerrain = TerrainType, oldOverlay = OverlayType;
+        int oldTerrain = TerrainType, oldOverlay = OverlayType;
         if (terrain >= 0)
         {
-            TerrainType = terrain;
+            TerrainType = (sbyte)terrain;
         }
 
         if (overlay >= 0)
         {
-            OverlayType = overlay;
+            OverlayType = (sbyte)overlay;
         }
 
         bool result = CanChangeTerrain(sender);
         if (terrain >= 0)
         {
-            TerrainType = oldTerrain;
+            TerrainType = (sbyte)oldTerrain;
         }
 
         if (overlay >= 0)
         {
-            OverlayType = oldOverlay;
+            OverlayType = (sbyte)oldOverlay;
         }
 
         return result;

@@ -102,7 +102,7 @@ public sealed record OfferPeace(int Gold = 0, int Mana = 0) : OfferProposal(Gold
         }
     }
 
-    public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
+    public override int RelationModifier(DiplomaticAction action, sbyte player, int race)
     {
         if (Relation(action.Source, second: action.Target) != DiplomaticRelation.Peace)
         {

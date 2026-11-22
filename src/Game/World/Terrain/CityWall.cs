@@ -31,10 +31,10 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
     private int _flagId;
     private bool _playSound;
 
-    public byte WallType { get; private set; }
+    public int WallType { get; private set; }
 
     // CityWall.pas:133
-    public override sbyte GetOverlay(int index) => index == 0 ? HitPoints == 0 ? (sbyte)6 : (sbyte)8 : base.GetOverlay(index);
+    public override int GetOverlay(int index) => index == 0 ? HitPoints == 0 ? 6 : 8 : base.GetOverlay(index);
 
     // CityWall.pas:230
     public override void MapFieldMessageProc(ref MapFieldMessage message)

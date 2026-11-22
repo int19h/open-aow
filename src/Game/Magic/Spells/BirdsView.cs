@@ -34,7 +34,7 @@ public class BirdsView : Spell
         MapCoordinate coordinate53 = source.GetLocation();
         int x = coordinate53.X;
         int y = coordinate53.Y;
-        sbyte layer = coordinate53.MapLevel;
+        int layer = coordinate53.MapLevel;
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
             BirdsViewHexSprite birdsViewHexSprite = new(null) { Holder = CreationHolder() };
@@ -57,7 +57,7 @@ public class BirdsView : Spell
             MapCoordinate coordinate54 = source.GetLocation();
             _ = coordinate54.X;
             _ = coordinate54.Y;
-            sbyte layer = coordinate54.MapLevel;
+            int layer = coordinate54.MapLevel;
             if (layer != 0)
             {
                 messageText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CannotCastSpellInUndergroundText);

@@ -928,7 +928,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         }
         if (dialog.InfoRace != -1)
         {
-            dialog.ShowRaceInformation((byte)dialog.InfoRace);
+            dialog.ShowRaceInformation(dialog.InfoRace.TruncateToByte());
         }
     }
 

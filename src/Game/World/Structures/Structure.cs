@@ -122,17 +122,17 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1281
-    public override sbyte GetTerrain(int index)
+    public override int GetTerrain(int index)
     {
-        sbyte result = Resource.TerrainList.Terrain[index];
+        int result = Resource.TerrainList.Terrain[index];
         return result >= 0 ? TerrainType : result;
     }
 
     // Structur.PAS:1275
-    public override sbyte GetOverlay(int index)
+    public override int GetOverlay(int index)
     {
-        sbyte result = Resource.TerrainList.Terrain[index];
-        return result >= 0 ? (sbyte)7 : result;
+        int result = Resource.TerrainList.Terrain[index];
+        return result >= 0 ? 7 : result;
     }
 
     // Structur.PAS:1287
@@ -393,7 +393,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1159
-    public override sbyte ForceTerrainType(MapLevel mapLevel, int hexX, int hexY) => mapLevel.HexLevel != 0 ? (sbyte)12 : (sbyte)-1;
+    public override int ForceTerrainType(MapLevel mapLevel, int hexX, int hexY) => mapLevel.HexLevel != 0 ? 12 : -1;
 
     // Structur.PAS:1239
     public virtual LibraryImage? GetTopBorderImage()
@@ -462,7 +462,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     // Structur.PAS:1755
     public virtual void SetupRazeDefenderAIGroup(UnitUserList attackers, UnitUserList defenders)
     {
-        sbyte unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(defenders, defaultRelation: 5);
+        int unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(defenders, defaultRelation: 5);
         HuntAIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup<HuntAIGroup>(0, relation: unitsToIndependentRelation);
         _ = group.AddUnits(defenders.Units);
         for (int i = attackers.Count - 1; i >= 0; i--)

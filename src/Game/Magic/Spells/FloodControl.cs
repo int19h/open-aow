@@ -118,7 +118,7 @@ public sealed class FloodControl(CustomNode? owner) : EngineObject(owner)
                 if (OriginalTerrain[index] != 0)
                 {
                     mapField = mapLevel.GetField(x, y);
-                    sbyte terrainType = mapField.TerrainType;
+                    int terrainType = mapField.TerrainType;
                     if (terrainType != 0)
                     {
                         mapField.TerrainType = 0;
@@ -167,7 +167,7 @@ public sealed class FloodControl(CustomNode? owner) : EngineObject(owner)
             index = ((Width * y) + 1) * 2;
             for (int x = 1, lastX = mapLevel.Width - 2; x <= lastX; x++)
             {
-                sbyte overlay = OriginalTerrain[index + 1];
+                int overlay = OriginalTerrain[index + 1];
                 if (overlay > 0)
                 {
                     mapField = mapLevel.GetField(x, y);

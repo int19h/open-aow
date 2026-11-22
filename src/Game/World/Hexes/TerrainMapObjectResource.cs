@@ -2,6 +2,7 @@
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Hexes;
 
@@ -16,15 +17,15 @@ public class TerrainMapObjectResource(CustomNode owner) : MultiHexMapObjectResou
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        TerrainType = persister.Byte("TerrainType", value: TerrainType);
-        DecorationType = persister.UnsignedByte(name: "DecorationType", value: DecorationType);
+        TerrainType = persister.Byte("TerrainType", value: TerrainType.TruncateToByte());
+        DecorationType = persister.UnsignedByte(name: "DecorationType", value: DecorationType.TruncateToSByte());
     }
 
     // Terrain.pas:322
     public override int ResourceUserClassId() => TerrainMapObject.ClassId;
 
-    public sbyte DecorationType { get; set; } = -1;
-    public byte TerrainType { get; set; }
+    public int DecorationType { get; set; } = -1;
+    public int TerrainType { get; set; }
 
     // Terrain.pas:317
     public override string ResourceEditName() => s_terrainText;

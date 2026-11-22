@@ -56,7 +56,7 @@ public class DisjunctionTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
         MapCoordinate coordinate7 = source.GetLocation();
         int x = coordinate7.X;
         int y = coordinate7.Y;
-        sbyte layer = coordinate7.MapLevel;
+        int layer = coordinate7.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, radius: 0);
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl[51].CastImages.ImageSequences[0], mode: TwinkleModes.Expand | TwinkleModes.Explode, count: EventMana + 50, radius: 192, duration: 50, startDelay: 30);

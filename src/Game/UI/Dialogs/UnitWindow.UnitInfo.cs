@@ -48,14 +48,14 @@ public sealed partial class UnitWindow
             _ = UI.UnitWindow.UnitTabs.Items.Add(info);
             if (u.GetRace() > -1)
             {
-                sbyte race = u.GetRace();
+                int race = u.GetRace();
                 string raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[race]);
                 UI.UnitWindow.TypeValueLabel.Text = raceNames;
                 UI.UnitWindow.RelationIcon.Visible = true;
-                sbyte uRace = u.GetRace();
+                int uRace = u.GetRace();
                 Status playerRelation = StrategicMap.Current.Races.GetRace(uRace).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
                 UI.UnitWindow.RelationIcon.CurrentImage = (int)playerRelation + 11;
-                sbyte race2 = u.GetRace();
+                int race2 = u.GetRace();
                 Status playerRelation2 = StrategicMap.Current.Races.GetRace(race2).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
                 string status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation2]);
                 UI.UnitWindow.RelationValueLabel.Text = status;

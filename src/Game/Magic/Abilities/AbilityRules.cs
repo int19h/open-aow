@@ -311,7 +311,7 @@ public static class AbilityRules
         return result;
     }
 
-    internal static Alignment IndependentRelationToAlignment(sbyte relation)
+    internal static Alignment IndependentRelationToAlignment(int relation)
     {
         return relation < 0
             ? relation switch
@@ -324,17 +324,17 @@ public static class AbilityRules
             : GamePack.Current.RaceResources.GetRaceResource(relation).Alignment;
     }
 
-    internal static DiplomaticRelation DiplomaticRelation(sbyte player, sbyte independentRelation, sbyte otherPlayer, sbyte otherIndependentRelation)
+    internal static DiplomaticRelation DiplomaticRelation(sbyte player, int independentRelation, sbyte otherPlayer, int otherIndependentRelation)
     {
         if (player == 0 || otherPlayer == 0)
         {
-            sbyte race = player != 0
+            int race = player != 0
                 ? StrategicMap.Current.Players.GetPlayers(player).PlayerRace
-                : independentRelation >= 0 ? independentRelation : (sbyte)-1;
+                : independentRelation >= 0 ? independentRelation : -1;
 
-            sbyte otherRace = otherPlayer != 0
+            int otherRace = otherPlayer != 0
                 ? StrategicMap.Current.Players.GetPlayers(otherPlayer).PlayerRace
-                : otherIndependentRelation >= 0 ? otherIndependentRelation : (sbyte)-1;
+                : otherIndependentRelation >= 0 ? otherIndependentRelation : -1;
 
             if (race == -1 || otherRace == -1)
             {
@@ -361,7 +361,7 @@ public static class AbilityRules
         }
     }
 
-    internal static bool ValidAttackRelation(sbyte player, sbyte independentRelation, sbyte targetPlayer, sbyte targetRace)
+    internal static bool ValidAttackRelation(sbyte player, int independentRelation, sbyte targetPlayer, int targetRace)
     {
         if (player == 0)
         {
@@ -399,7 +399,7 @@ public static class AbilityRules
         return result;
     }
 
-    internal static int GetMovePathBattleFieldStrength(sbyte player, sbyte independentRelation, MovePath movePath, int targetRange, int range, int step, GameEngine? engine)
+    internal static int GetMovePathBattleFieldStrength(sbyte player, int independentRelation, MovePath movePath, int targetRange, int range, int step, GameEngine? engine)
     {
         int result;
         if (movePath is not null && movePath.Count > 0)

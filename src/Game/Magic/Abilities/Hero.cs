@@ -61,7 +61,7 @@ public partial class Hero : Troop
 
     public string HeroName { get; set; } = "";
     public string Nickname { get; private set; } = "";
-    public sbyte Race { get; private set; }
+    public int Race { get; private set; }
 
     private UnitGender _gender;
 
@@ -148,7 +148,7 @@ public partial class Hero : Troop
 
         HeroName = persister.String("HeroName", value: HeroName);
         Nickname = persister.String("Nickname", value: Nickname);
-        Race = persister.UnsignedByte(name: "Race", value: Race);
+        Race = persister.UnsignedByte(name: "Race", value: Race.TruncateToSByte());
         CastingPoints = persister.UnsignedByte(name: "CastingPoints", value: CastingPoints.TruncateToSByte());
         CastingSpellId = persister.Int32("CastingSpellId", value: CastingSpellId);
         _gender = persister.Enum("Gender", value: _gender);
@@ -246,7 +246,7 @@ public partial class Hero : Troop
     public override int UnitLevel => Level.TruncateToSByte();
 
     // Hero.PAS:818
-    public override sbyte GetRace() => HeroResource.Race;
+    public override int GetRace() => HeroResource.Race;
 
     // Hero.PAS:1426
     public override int GetInherentAttack() => (HeroResource.Attack + UnitAttack).TruncateToSByte();
@@ -469,7 +469,7 @@ public partial class Hero : Troop
         }
         else
         {
-            sbyte race = Race;
+            int race = Race;
             return GamePack.Current.RaceResources.GetRaceResource(race) is not null
                 ? GamePack.Current.RaceResources.GetRaceResource(race).Alignment
                 : HeroResource.Alignment;
@@ -1599,7 +1599,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1579
-    public void SetRace(sbyte value)
+    public void SetRace(int value)
     {
         if (Race != value)
         {

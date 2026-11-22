@@ -37,7 +37,7 @@ public class CallHero : Spell
         MapCoordinate coordinate55 = source.GetLocation();
         int x = coordinate55.X;
         int y = coordinate55.Y;
-        sbyte layer = coordinate55.MapLevel;
+        int layer = coordinate55.MapLevel;
         Hero? hero = FindCallHero(source);
         if (hero is not null)
         {

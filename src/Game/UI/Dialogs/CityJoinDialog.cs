@@ -21,7 +21,7 @@ public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
     public Memo Memo { get; private set; }
     public ArnoLine CityPictureLine { get; private set; }
 
-    private sbyte _race;
+    private int _race;
     private ExecuteDoneEvent? _done;
     private NegotiateRequestEventLog? _event;
 

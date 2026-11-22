@@ -18,7 +18,7 @@ public sealed class BirdsViewHexSprite(CustomNode owner) : FixedVisibleHexSprite
 
     private int _x;
     private int _y;
-    private sbyte _layer;
+    private int _layer;
     private readonly Int32List _hexes = [];
     private int _frame;
 
@@ -73,7 +73,7 @@ public sealed class BirdsViewHexSprite(CustomNode owner) : FixedVisibleHexSprite
     }
 
     // GlobalSpells.pas:421
-    public void StartAnimation(int X, int Y, sbyte layer, int radius)
+    public void StartAnimation(int X, int Y, int layer, int radius)
     {
         _x = X;
         _y = Y;

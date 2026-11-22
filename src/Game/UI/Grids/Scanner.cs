@@ -380,11 +380,10 @@ public sealed class Scanner(Component owner) : Control(owner)
     }
 
     // Scanner.pas:217
-    public byte GetTerrain(int X, int Y)
+    public int GetTerrain(int X, int Y)
     {
         return StrategicMap.Current.CombatMap is not null
-            ? (byte)Level.GetField(X + 8, Y + 6).TerrainType
-            : (byte)Level.GetField(X + 6, Y + 6).TerrainType;
+            ? Level.GetField(X + 8, Y + 6).TerrainType.TruncateToByte() : Level.GetField(X + 6, Y + 6).TerrainType.TruncateToByte();
     }
 
     // Scanner.pas:223

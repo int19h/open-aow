@@ -6,6 +6,7 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -20,7 +21,7 @@ public sealed class CombatParty : EngineObject
     public Army Army { get; }
 
     public MapCoordinate Location { get; set; }
-    public byte Wall { get; set; }
+    public int Wall { get; set; }
     public byte Position { get; set; }
     public byte PlayerIndex { get; set; }
 
@@ -38,7 +39,7 @@ public sealed class CombatParty : EngineObject
         base.PersistFields(persister);
         Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Int32);
         PlayerIndex = persister.Byte("PlayerIndex", value: PlayerIndex);
-        Wall = persister.RawByte("Wall", value: Wall);
+        Wall = persister.RawByte("Wall", value: Wall.TruncateToByte());
         Position = persister.Byte("Position", value: Position);
     }
 

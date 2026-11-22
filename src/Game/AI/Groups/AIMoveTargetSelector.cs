@@ -109,7 +109,7 @@ public sealed class AIMoveTargetSelector : EngineObject
         if (TargetInfo.Player == 0)
         {
             AITargetInfo targetInfo2 = TargetInfo;
-            targetInfo2.IndependentRelation = army.Army.IndependentRelation;
+            targetInfo2.IndependentRelation = (sbyte)army.Army.IndependentRelation;
             TargetInfo = targetInfo2;
         }
 

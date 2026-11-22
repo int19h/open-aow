@@ -68,6 +68,6 @@ public class FixedImageLibraryTerrainMapObject(CustomNode owner) : ImageLibraryT
     }
 
     // ILTer.pas:290
-    public override sbyte ForceTerrainType(MapLevel mapLevel, int hexX, int hexY) => -1;
+    public override int ForceTerrainType(MapLevel mapLevel, int hexX, int hexY) => -1;
 
 }

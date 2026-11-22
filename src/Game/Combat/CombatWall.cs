@@ -27,7 +27,7 @@ public class CombatWall : CombatObject
         ControlMode = CombatObjectControlModes.None;
     }
 
-    private byte _wallType;
+    private int _wallType;
     private int _hitPoints;
     private readonly bool _locked;
 
@@ -35,7 +35,7 @@ public class CombatWall : CombatObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _wallType = persister.RawByte("WallType", value: _wallType);
+        _wallType = persister.RawByte("WallType", value: _wallType.TruncateToByte());
         _hitPoints = persister.Byte("HitPoints", value: _hitPoints.TruncateToByte());
     }
 
@@ -154,7 +154,7 @@ public class CombatWall : CombatObject
     public override string IdString() => "Wall";
 
     // Combat.pas:1704
-    public void Setup(byte id, byte wallType, byte combatPlayer)
+    public void Setup(byte id, int wallType, byte combatPlayer)
     {
         Id = id;
         _wallType = wallType;

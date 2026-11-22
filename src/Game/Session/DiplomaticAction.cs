@@ -297,7 +297,7 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
     public string GetName(sbyte player) => Proposal.Name(this);
 
     // Diplomacy.pas:527
-    public int GetRelationModifier(sbyte player, sbyte race) => Proposal.RelationModifier(this, player, race);
+    public int GetRelationModifier(sbyte player, int race) => Proposal.RelationModifier(this, player, race);
 
     // Diplomacy.pas:707
     public DiplomaticActionEventLog CreateEventLog()

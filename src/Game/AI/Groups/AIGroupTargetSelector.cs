@@ -11,6 +11,7 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI.Groups;
@@ -1006,7 +1007,7 @@ public class AIGroupTargetSelector : AIGroupTask
         predictor.AddUnits(units);
         if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(GroupControl.Group.Player) != MoveAction.Negotiate)
         {
-            predictor.InitializeAdjacentOpponents((byte)GroupControl.Group.Player, relation: (byte)GroupControl.Group.IndependentRelation, target.Location.X, target.Location.Y, L: target.Location.MapLevel);
+            predictor.InitializeAdjacentOpponents((byte)GroupControl.Group.Player, relation: GroupControl.Group.IndependentRelation.TruncateToByte(), target.Location.X, target.Location.Y, L: target.Location.MapLevel);
         }
 
         int superiority = GetRequiredCombatPredictorSuperiority(target);

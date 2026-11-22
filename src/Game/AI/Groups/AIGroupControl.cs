@@ -3,19 +3,14 @@
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -432,7 +427,7 @@ public class AIGroupControl : EngineObject
         ResetCP();
         if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(Group.Player) != MoveAction.Negotiate)
         {
-            CombatPredictor.InitializeAdjacentOpponents((byte)Group.Player, relation: (byte)Group.IndependentRelation, target.Location.X, target.Location.Y, L: target.Location.MapLevel);
+            CombatPredictor.InitializeAdjacentOpponents((byte)Group.Player, relation: Group.IndependentRelation.TruncateToByte(), target.Location.X, target.Location.Y, L: target.Location.MapLevel);
         }
     }
 

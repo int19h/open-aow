@@ -23,14 +23,14 @@ public abstract record DiplomaticProposal
 
     // The proposal the stored kind, gold and mana name. A kind no proposal registered reads as
     // UnknownProposal, which writes the three fields back unchanged.
-    public static DiplomaticProposal FromFields(byte kind, int gold, int mana)
-        => s_kinds.TryGet(kind, out Func<int, int, DiplomaticProposal> create) ? create(gold, mana) : new UnknownProposal(kind, gold, mana);
+    public static DiplomaticProposal FromFields(int kind, int gold, int mana)
+        => s_kinds.TryGet((byte)kind, out Func<int, int, DiplomaticProposal> create) ? create(gold, mana) : new UnknownProposal((byte)kind, gold, mana);
 
     // Registers the proposal of a kind. A second registration of a kind throws.
-    internal static void Register(byte kind, Func<int, int, DiplomaticProposal> create) => s_kinds.Add(kind, create);
+    internal static void Register(int kind, Func<int, int, DiplomaticProposal> create) => s_kinds.Add((byte)kind, create);
 
     // The kinds with a registered proposal.
-    internal static bool IsRegistered(byte kind) => s_kinds.TryGet(kind, out _);
+    internal static bool IsRegistered(int kind) => s_kinds.TryGet((byte)kind, out _);
 
     // The message as TStrings.Text joins it.
     public string MessageText => string.Concat(Message.Select(static line => $"{line}\r\n"));
@@ -127,10 +127,10 @@ public abstract record DiplomaticProposal
     }
 
     // How the proposal moves the relation of Race to Player (Diplomacy.pas:527).
-    public virtual int RelationModifier(DiplomaticAction action, sbyte player, sbyte race) => 0;
+    public virtual int RelationModifier(DiplomaticAction action, sbyte player, int race) => 0;
 
     // Modifier, scaled by how Race regards the race of Other, or Modifier itself for Other's own race.
-    protected static int RaceModifier(sbyte other, sbyte race, int modifier)
+    protected static int RaceModifier(int other, int race, int modifier)
     {
         if (StrategicMap.Current.Players.GetPlayers(other).PlayerRace != race)
         {
@@ -142,7 +142,7 @@ public abstract record DiplomaticProposal
     }
 
     // The relation of First to Second.
-    protected static DiplomaticRelation Relation(sbyte first, sbyte second)
+    protected static DiplomaticRelation Relation(int first, int second)
         => StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)first, otherPlayer: (sbyte)(byte)second);
 
     // Shows Log at once when Player is seated.

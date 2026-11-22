@@ -20,16 +20,16 @@ public partial class GameMap
             {
                 MapField field = mapLevel.GetField(walk.X, walk.Y);
                 saved.SetTandO(walk.HexNumber, value: (ushort)((byte)field.TerrainType | ((byte)field.OverlayType << 8)));
-                sbyte value = terrain.GetTerrain(walk.HexNumber);
+                int value = terrain.GetTerrain(walk.HexNumber);
                 if (value >= 0)
                 {
-                    field.TerrainType = value;
+                    field.TerrainType = (sbyte)value;
                 }
 
                 value = terrain.GetOverlay(walk.HexNumber);
                 if (value >= 0)
                 {
-                    field.OverlayType = value;
+                    field.OverlayType = (sbyte)value;
                 }
             }
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -50,7 +50,7 @@ public partial class GameMap
             if (InRange())
             {
                 MapField field = mapLevel.GetField(walk.X, walk.Y);
-                ushort pair = saved.GetTandO(walk.HexNumber);
+                int pair = saved.GetTandO(walk.HexNumber);
                 field.TerrainType = (sbyte)pair;
                 field.OverlayType = (sbyte)(pair >> 8);
             }

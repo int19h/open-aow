@@ -249,7 +249,7 @@ public class Campaign : EngineObject
                     {
                         if (((RaceHistory.IndexOf((byte)i) != -1 || i == StrategicMap.Current.Players.GetPlayers(player).PlayerRace) && StrategicMap.Current.Players.GetPlayers(player).PlayerRace == r) || ((RaceHistory.IndexOf((byte)r) != -1 || StrategicMap.Current.Players.GetPlayers(player).PlayerRace == r) && i == StrategicMap.Current.Players.GetPlayers(player).PlayerRace))
                         {
-                            byte relation = race.DefaultRelations[i];
+                            int relation = race.DefaultRelations[i];
                             switch (relation)
                             {
                                 case 0:
@@ -268,7 +268,7 @@ public class Campaign : EngineObject
                                     break;
                             }
 
-                            race.DefaultRelations[i] = relation;
+                            race.DefaultRelations[i] = (byte)relation;
                         }
                     }
                 }

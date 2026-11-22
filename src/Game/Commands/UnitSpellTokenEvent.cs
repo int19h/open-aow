@@ -8,6 +8,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -98,7 +99,7 @@ public class UnitSpellTokenEvent : SpellTokenEvent
             int x = coordinate14.X;
             int y = coordinate14.Y;
             int l = coordinate14.MapLevel;
-            GamePack.Current.SpellControl[EventSpellId].PlayDefaultCastEffects(source.Player, x, y, layer: (sbyte)l);
+            GamePack.Current.SpellControl[EventSpellId].PlayDefaultCastEffects(source.Player, x, y, layer: l.TruncateToSByte());
             for (int i = 0, last = _targetUnits.GetCount() - 1; i <= last; i++)
             {
                 Troop? target = _targetUnits.GetUnit(i);

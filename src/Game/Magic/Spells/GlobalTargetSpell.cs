@@ -40,7 +40,7 @@ public class GlobalTargetSpell : Spell
             MapCoordinate coordinate68 = source.GetLocation();
             _ = coordinate68.X;
             _ = coordinate68.Y;
-            sbyte layer = coordinate68.MapLevel;
+            int layer = coordinate68.MapLevel;
             if (layer != 0)
             {
                 result = false;
@@ -162,7 +162,7 @@ public class GlobalTargetSpell : Spell
             MapCoordinate coordinate70 = caster.GetLocation();
             _ = coordinate70.X;
             _ = coordinate70.Y;
-            sbyte layer = coordinate70.MapLevel;
+            int layer = coordinate70.MapLevel;
             if (layer != 0)
             {
                 result = false;

@@ -101,7 +101,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
     }
 
     // Hero.PAS:2784
-    public override int GetUnitMoraleValue(sbyte player, sbyte independentRelation) => 90;
+    public override int GetUnitMoraleValue(sbyte player, int independentRelation) => 90;
 
     // Hero.PAS:2921
     public override bool CanActivate()

@@ -205,7 +205,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                                 {
                                     if (Army.Player == 0)
                                     {
-                                        message.Result = Army.IndependentRelation;
+                                        message.Result = (sbyte)Army.IndependentRelation;
                                     }
                                 }
                                 else

@@ -5,7 +5,7 @@ namespace Aow.Game.Combat;
 
 public sealed partial class CombatPredictorUnit
 {
-    public void Setup(Troop troop, CombatPredictor predictor, byte side)
+    public void Setup(Troop troop, CombatPredictor predictor, int side)
     {
         Troop = troop;
         _ = troop.AddRef();

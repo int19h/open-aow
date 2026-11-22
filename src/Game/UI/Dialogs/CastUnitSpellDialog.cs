@@ -175,7 +175,7 @@ public sealed partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
 
         if (Caster.SelectionMask != oldSelection)
         {
-            UI.General.PlayButtonSound((byte)(sender.Checked ? 1 : 2));
+            UI.General.PlayButtonSound(sender.Checked ? 1 : 2);
         }
 
         if (Caster.SelectionMask == 0)

@@ -134,7 +134,7 @@ public partial class ExplorationSite : Structure
         int hexY2 = HexY;
         int hexLevel2 = HexLevel;
         int armyHexX = army.HexX;
-        _ = combat.Setup((byte)army.Army.Player, attackerRelation: army.Army.IndependentRelation.TruncateToByte(), armyHexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)_defenders.Player, defenderRelation: (byte)_defenders.IndependentRelation, hexX, hexY2, L: hexLevel2, logActions: true);
+        _ = combat.Setup((byte)army.Army.Player, attackerRelation: ((sbyte)army.Army.IndependentRelation).TruncateToByte(), armyHexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)_defenders.Player, defenderRelation: _defenders.IndependentRelation.TruncateToByte(), hexX, hexY2, L: hexLevel2, logActions: true);
         int hexY3 = HexY;
         int hexLevel3 = HexLevel;
         int hexX2 = HexX;

@@ -18,7 +18,7 @@ public class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
     public override bool CanSelect(int pixelX, int pixelY) => false;
 
     // Pad.pas:58
-    public override sbyte ForceTerrainType(MapLevel mapLevel, int hexX, int hexY) => mapLevel.HexLevel != 0 ? (sbyte)12 : (sbyte)-1;
+    public override int ForceTerrainType(MapLevel mapLevel, int hexX, int hexY) => mapLevel.HexLevel != 0 ? 12 : -1;
 
     // PadSize
     public new class Resource : FixedImageLibraryTerrainMapObjectResource

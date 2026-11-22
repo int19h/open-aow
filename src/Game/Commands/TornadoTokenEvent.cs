@@ -176,7 +176,7 @@ public class TornadoTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(
 
                         if (owner == 0)
                         {
-                            sbyte unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(movedUnits, defaultRelation: 5);
+                            int unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(movedUnits, defaultRelation: 5);
                             HuntAIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup<HuntAIGroup>(0, relation: unitsToIndependentRelation);
                             _ = group.AddUnits(movedUnits.Units);
                             _ = group.TargetUnitIds.Add(source.UnitId);

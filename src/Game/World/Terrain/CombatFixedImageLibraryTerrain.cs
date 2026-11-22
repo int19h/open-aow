@@ -62,7 +62,7 @@ public class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatImageLibra
     }
 
     // CombatILTer.pas:194
-    public override sbyte ForceTerrainType(MapLevel mapLevel, int hexX, int hexY) => -1;
+    public override int ForceTerrainType(MapLevel mapLevel, int hexX, int hexY) => -1;
 
     public new class Resource(CustomNode owner) : CombatImageLibraryTerrainResource(owner)
     {

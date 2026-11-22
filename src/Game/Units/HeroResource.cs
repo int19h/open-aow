@@ -29,7 +29,7 @@ public class HeroResource : TroopResource
     }
 
     public string Name { get; set; } = "";
-    public sbyte Race { get; private set; }
+    public int Race { get; private set; }
     public HeroType HeroType { get; set; }
     public Alignment Alignment { get; private set; }
     public bool Hidden { get; private set; }
@@ -56,7 +56,7 @@ public class HeroResource : TroopResource
     {
         base.PersistFields(persister);
         Name = persister.String("Name", value: Name);
-        Race = persister.UnsignedByte(name: "Race", value: Race);
+        Race = persister.UnsignedByte(name: "Race", value: Race.TruncateToSByte());
         HeroType = persister.Enum("HeroType", value: HeroType);
         Alignment = persister.Enum("Alignment", value: Alignment);
         if (Alignment > Alignment.Unaligned)

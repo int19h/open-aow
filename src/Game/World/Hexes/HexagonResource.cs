@@ -77,7 +77,7 @@ public class HexagonResource : AbstractHexagonResource
         ImageLibrary[0].Show(pixelX, pixelY, lockedSurface);
         if ((hex.TransitionSides & 0b0111) != 0)
         {
-            byte sides = hex.TransitionSides;
+            int sides = hex.TransitionSides;
             if ((sides & 0b0010) != 0)
             {
                 if ((sides & 0b0001_0000) != 0)

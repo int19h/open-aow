@@ -31,7 +31,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
 
     public sbyte Player { get; set; }
     public int Duration { get; set; }
-    public sbyte OriginalOverlay { get; set; }
+    public int OriginalOverlay { get; set; }
 
     // HolyG.pas:201
     public override void PersistFields(IPersister persister)
@@ -39,7 +39,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
         base.PersistFields(persister);
         Player = persister.SByte("Player", value: Player, fallback: -1);
         Duration = persister.SByte("Duration", value: Duration.TruncateToSByte(), fallback: -1);
-        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay, fallback: -1);
+        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay.TruncateToSByte(), fallback: -1);
     }
 
     // HolyG.pas:243
@@ -210,7 +210,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     public void RestoreTerrain()
     {
         MapField? field = Owner;
-        sbyte overlay = OriginalOverlay;
+        int overlay = OriginalOverlay;
         Dispose();
         if (overlay > 0)
         {

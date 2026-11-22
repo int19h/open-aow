@@ -26,7 +26,7 @@ public sealed record Migrate(int Race) : ProductionOrder
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
         City city = control.ProductionCity();
-        return city is not null ? city.CanMigrate((sbyte)Race, reason) : base.CanExecute(control, ref reason);
+        return city is not null ? city.CanMigrate(Race.TruncateToSByte(), reason) : base.CanExecute(control, ref reason);
     }
 
     public override void Executed(ProductionControl control)
@@ -37,7 +37,7 @@ public sealed record Migrate(int Race) : ProductionOrder
             return;
         }
 
-        control.Settings.TurnsTotal = city.MigrationTime((sbyte)Race).TruncateToSByte();
+        control.Settings.TurnsTotal = city.MigrationTime(Race.TruncateToSByte()).TruncateToSByte();
         control.Settings.TurnsLeft = control.Settings.TurnsTotal;
         control.Settings.Player = control.GetPlayer();
         control.Status = ProductionControlStatus.Producing;
@@ -55,7 +55,7 @@ public sealed record Migrate(int Race) : ProductionOrder
         control.BeginUpdate();
         string raceNamesPlural = AbilityRules.TranslateResourceString(control.GetEngine(), S: GameTables.RaceNamesPluralTexts[Race]);
         Log(control, city, text: DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_cityMigratedToFormat), args: [city.GetName(), raceNamesPlural]));
-        city.SetRace((sbyte)Race);
+        city.SetRace(Race.TruncateToSByte());
         ChangeRelation(control, city, change: 10);
         control.UnitProductions.Clear();
         city.SetUpgradeLevel(city.UpgradeLevel);

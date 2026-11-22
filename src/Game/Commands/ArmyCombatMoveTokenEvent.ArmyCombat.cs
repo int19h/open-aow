@@ -72,12 +72,12 @@ public partial class ArmyCombatMoveTokenEvent
         int hexY = ArmyHexSprite.HexY;
         int hexLevel = ArmyHexSprite.HexLevel;
         sbyte player = field.GetPlayer();
-        byte independentRelation = field.GetIndependentRelation();
+        int independentRelation = field.GetIndependentRelation();
         PathStep item = Path[0];
         PathStep fPathItem = Path[0];
         PathStep item2 = Path[0];
         int hexX = ArmyHexSprite.HexX;
-        _ = combat.Setup((byte)ArmyHexSprite.Army.Player, attackerRelation: ArmyHexSprite.Army.IndependentRelation.TruncateToByte(), hexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)player, defenderRelation: independentRelation, item.Location.X, fPathItem.Location.Y, L: item2.Location.MapLevel, logActions: _combatType == CombatType.Fast);
+        _ = combat.Setup((byte)ArmyHexSprite.Army.Player, attackerRelation: ((sbyte)ArmyHexSprite.Army.IndependentRelation).TruncateToByte(), hexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)player, defenderRelation: independentRelation, item.Location.X, fPathItem.Location.Y, L: item2.Location.MapLevel, logActions: _combatType == CombatType.Fast);
         combat.SetExecutedHandler(CombatExecuted);
         message.MessageId = 4359;
         MapFieldMessageParameters param = message.Param;

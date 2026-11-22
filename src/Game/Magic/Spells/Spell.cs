@@ -73,7 +73,7 @@ public class Spell : EngineObject
     }
 
     // Spells.PAS:224
-    public virtual void PlayDefaultCastEffects(sbyte player, int X, int Y, sbyte layer)
+    public virtual void PlayDefaultCastEffects(sbyte player, int X, int Y, int layer)
     {
         if (StrategicMap.Current.Visible(X, Y, L: layer, radius: 0))
         {

@@ -11,14 +11,14 @@ namespace Aow.Game.Draw;
 // Byte: the original sets the bits with or/and, which a set with Include does not give)
 public class SingleHexSprite(CustomNode? owner) : HexSprite(owner)
 {
-    private byte _status;
+    private int _status;
 
     // HXSPRITE.PAS:646
     public override bool Visible
     {
         get => (_status & 1) != 0;
         // HXSPRITE.PAS:640
-        set => _status = value ? (byte)(_status | 1) : (byte)(_status & 0b1111_1110);
+        set => _status = value ? _status | 1 : _status & 0b1111_1110;
     }
 
     // HXSPRITE.PAS:683
@@ -29,7 +29,7 @@ public class SingleHexSprite(CustomNode? owner) : HexSprite(owner)
     {
         get => (_status & 0b0010) != 0;
         // HXSPRITE.PAS:665
-        set => _status = value ? (byte)(_status | 0b0010) : (byte)(_status & 0b1111_1101);
+        set => _status = value ? _status | 0b0010 : _status & 0b1111_1101;
     }
 
     // HXSPRITE.PAS:713
@@ -79,13 +79,13 @@ public class SingleHexSprite(CustomNode? owner) : HexSprite(owner)
     }
 
     // HXSPRITE.PAS:688
-    public override void Activate() => _status = (byte)(_status | 0b1000);
+    public override void Activate() => _status |= 0b1000;
 
     // HXSPRITE.PAS:693
     public override void Deactivate()
     {
         base.Deactivate();
-        _status = (byte)(_status & 0b1111_0111);
+        _status &= 0b1111_0111;
     }
 
     // HXSPRITE.PAS:651
@@ -93,7 +93,7 @@ public class SingleHexSprite(CustomNode? owner) : HexSprite(owner)
     {
         if ((_status & 1) == 0)
         {
-            _status = (byte)(_status | 1);
+            _status |= 1;
             _ = visibilityList.AddSortChild(this, sortValue: GetShowPriority());
         }
     }
@@ -102,14 +102,14 @@ public class SingleHexSprite(CustomNode? owner) : HexSprite(owner)
     public override void Select()
     {
         base.Select();
-        _status = (byte)(_status | 0b0100);
+        _status |= 0b0100;
     }
 
     // HXSPRITE.PAS:677
     public override void Unselect()
     {
         base.Unselect();
-        _status = (byte)(_status & 0b1111_1011);
+        _status &= 0b1111_1011;
     }
 
     // HXSPRITE.PAS:743

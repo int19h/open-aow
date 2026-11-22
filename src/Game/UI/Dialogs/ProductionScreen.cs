@@ -86,7 +86,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     private ProductionPlace? _place;
     private int _productionIndex;
     private int _queueIndex;
-    private byte _mode;
+    private int _mode;
     private CombatMap? _preview;
     private Int32List _images;
 
@@ -169,7 +169,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     }
 
     // AoWProdScreen.pas:659
-    public void SetMode(byte mode)
+    public void SetMode(int mode)
     {
         _mode = mode;
         switch (_mode)

@@ -68,7 +68,7 @@ public sealed partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
                 for (int i = 0, last = EmailAddresses.Count - 1; i <= last; i++)
                 {
                     object? objectValue = EmailAddresses.Objects[i];
-                    int index = _setupControl.Settings.IndexOfRace((byte)ObjectToInt(objectValue));
+                    int index = _setupControl.Settings.IndexOfRace(ObjectToInt(objectValue).TruncateToByte());
                     string emailAddress = EmailAddresses[i];
                     _setupControl.Settings.GetSettings(index).EmailAddress = emailAddress;
                 }

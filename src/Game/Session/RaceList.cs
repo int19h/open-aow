@@ -45,7 +45,7 @@ public class RaceList : ControlStyleNode, IChildList<Race>
     }
 
     // Ability.PAS:394
-    public sbyte GetRandomRace()
+    public int GetRandomRace()
     {
         DelphiList<Race> races = [];
         for (int i = 0, last = Count - 1; i <= last; i++)
@@ -56,7 +56,7 @@ public class RaceList : ControlStyleNode, IChildList<Race>
             }
         }
 
-        sbyte result;
+        int result;
         if (races.Count != 0)
         {
             int random = Random(races.Count);
@@ -107,7 +107,7 @@ public class RaceList : ControlStyleNode, IChildList<Race>
                     Race race = new(null)
                     {
                         Holder = CreationHolder(),
-                        RaceIndex = (sbyte)i
+                        RaceIndex = i.TruncateToSByte()
                     };
                     race.SetArrayOwner(this, index: i);
                     race.SetEnabled(true);

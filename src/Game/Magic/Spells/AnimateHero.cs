@@ -37,7 +37,7 @@ public class AnimateHero : Spell
     {
         int x;
         int y;
-        sbyte layer;
+        int layer;
         if (executeCount == 0)
         {
             MapCoordinate coordinate51 = source.GetLocation();

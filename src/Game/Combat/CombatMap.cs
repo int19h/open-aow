@@ -740,7 +740,7 @@ public class CombatMap : GameMap
         int x0 = p.X;
         int y0 = p.Y;
         int i = 0;
-        sbyte overlay;
+        int overlay;
         TacticalBattleUnitHexSprite occupant;
         do
         {

@@ -123,9 +123,9 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     private DiplomaticActionList _actions;
 
     public sbyte InfoPlayer { get; private set; }
-    public sbyte InfoRace { get; private set; }
+    public int InfoRace { get; private set; }
     public sbyte SelectedPlayer { get; private set; }
-    public sbyte SelectedRace { get; private set; }
+    public int SelectedRace { get; private set; }
     public Int32List Players { get; private set; }
     public Int32List Races { get; private set; }
     public List<Image> FImages { get; private set; }
@@ -435,10 +435,10 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWRelations.pas:427
-    public void ShowRaceInformation(byte race)
+    public void ShowRaceInformation(int race)
     {
         InfoPlayer = -1;
-        InfoRace = (sbyte)race;
+        InfoRace = race.TruncateToSByte();
         LeftShield.Visible = false;
         RightShield.Visible = false;
         FaceShadow.Visible = true;
@@ -478,7 +478,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWRelations.pas:456
-    public void HighlightRace(sbyte race)
+    public void HighlightRace(int race)
     {
         ResetChecks();
         SelectedPlayer = -1;
@@ -658,12 +658,12 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         if (_action is null)
         {
             ClearActions();
-            HighlightRace((sbyte)Races[slot - 20]);
-            ShowRaceInformation((byte)Races[slot - 20]);
+            HighlightRace(Races[slot - 20].TruncateToSByte());
+            ShowRaceInformation(Races[slot - 20].TruncateToByte());
         }
         else
         {
-            HighlightRace((sbyte)Races[slot - 20]);
+            HighlightRace(Races[slot - 20].TruncateToSByte());
         }
     }
 
@@ -695,7 +695,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         UIComponent control = sender;
         if (slot - 20 < Races.Count)
         {
-            sbyte race = (sbyte)Races[slot - 20];
+            int race = Races[slot - 20].TruncateToSByte();
             Rect r = new(control.WinLeft + 1, control.WinTop + 1, control.WinLeft + control.WinWidth - 1, control.WinTop + control.WinHeight - 1);
             GamePack.Current.RaceResources.GetRaceResource(race).GetFace().ShowStretched(r, lockedSurface: surface);
             DiplomaticAction? action = _action;

@@ -74,10 +74,10 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Structur.PAS:3411
-    public override sbyte GetTerrain(int index)
+    public override int GetTerrain(int index)
     {
-        sbyte result = base.Resource.TerrainList.GetTerrain(index);
-        return result >= 0 ? (sbyte)-1 : result;
+        int result = base.Resource.TerrainList.GetTerrain(index);
+        return result >= 0 ? -1 : result;
     }
 
     // Structur.PAS:3417
@@ -212,10 +212,10 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Structur.PAS:3441
-    public override sbyte GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, int hexX, int hexY, sbyte defaultValue)
+    public override int GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, int hexX, int hexY, sbyte defaultValue)
     {
         Span<byte> counts = stackalloc byte[128];
-        sbyte result = defaultValue;
+        int result = defaultValue;
         TerrainList terrains = base.Resource.TerrainList;
         if (result < 0)
         {
@@ -228,7 +228,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         {
             if (base.Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                sbyte terrainType = mapLevel.GetField(walk.X, walk.Y).TerrainType;
+                int terrainType = mapLevel.GetField(walk.X, walk.Y).TerrainType;
                 if (terrainType >= 0)
                 {
                     counts[terrainType] = (byte)(counts[terrainType] + 1);

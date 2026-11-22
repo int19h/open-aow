@@ -31,7 +31,7 @@ public class UnholyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owne
 
     public sbyte Player { get; set; }
     public int Duration { get; set; }
-    public sbyte OriginalOverlay { get; set; }
+    public int OriginalOverlay { get; set; }
 
     // UnHolyG.pas:204
     public override void PersistFields(IPersister persister)
@@ -39,7 +39,7 @@ public class UnholyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owne
         base.PersistFields(persister);
         Player = persister.SByte("Player", value: Player, fallback: -1);
         Duration = persister.SByte("Duration", value: Duration.TruncateToSByte(), fallback: -1);
-        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay, fallback: -1);
+        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay.TruncateToSByte(), fallback: -1);
     }
 
     // UnHolyG.pas:243
@@ -212,7 +212,7 @@ public class UnholyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owne
     public void RestoreTerrain()
     {
         MapField? field = Owner;
-        sbyte overlay = OriginalOverlay;
+        int overlay = OriginalOverlay;
         Dispose();
         if (overlay > 0)
         {

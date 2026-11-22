@@ -200,7 +200,7 @@ public class AIGroupDefendTargetSelector : AIGroupTask
         targetInfo.Player = control.Group.Player;
         _selector.TargetInfo = targetInfo;
         AITargetInfo targetInfo2 = _selector.TargetInfo;
-        targetInfo2.IndependentRelation = control.Group.IndependentRelation;
+        targetInfo2.IndependentRelation = (sbyte)control.Group.IndependentRelation;
         _selector.TargetInfo = targetInfo2;
         switch (StrategicMap.Current.Players.GetPlayers(control.Group.Player).PlayerType)
         {

@@ -55,7 +55,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public GamePack GameSet { get; private set; }
     public ImageLibraryFont CombatFont { get; set; }
     public bool Debug { get; set; }
-    public byte AnimationDetail { get; private set; }
+    public int AnimationDetail { get; private set; }
     public bool Demo { get; private set; }
 
     // Keepers.CAM and Storm.CAM store class id 2248704, and a save of those campaigns stores the
@@ -64,7 +64,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     public EmailGameControl EmailGames { get; private set; }
     public IvBinaryDictionary Dictionary { get; set; }
-    public byte Language { get; private set; }
+    public int Language { get; private set; }
 
     // Army.PAS:5767-5786. A bare constructor leaves the flag clear and skips this body.
     private protected sealed override void InitializeBeforeInherited()

@@ -48,7 +48,7 @@ public class UnitResource : TroopResource
 
     private string _name = "";
 
-    public sbyte Race { get; set; }
+    public int Race { get; set; }
 
     public bool Champion { get; internal set; }
 
@@ -95,7 +95,7 @@ public class UnitResource : TroopResource
         _name = persister.String("Name", value: _name);
         _nickname = persister.String("Nickname", value: _nickname);
         Alignment = persister.Enum("Alignment", value: Alignment);
-        Race = persister.UnsignedByte(name: "Race", value: Race);
+        Race = persister.UnsignedByte(name: "Race", value: Race.TruncateToSByte());
         Attack = persister.UnsignedByte(name: "Attack", value: Attack.TruncateToSByte());
         Defense = persister.UnsignedByte(name: "Defense", value: Defense.TruncateToSByte());
         Damage = persister.UnsignedByte(name: "Damage", value: Damage.TruncateToSByte());

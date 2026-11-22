@@ -64,7 +64,7 @@ public class AirMastery : GlobalEnchantmentSpell
         if (StrategicMap.Current.ViewMapLevel == 0)
         {
             RandSeed = StrategicMap.Current.Frame - animation.FrameCounter;
-            int count = (int)GetEngine().AnimationDetail switch
+            int count = GetEngine().AnimationDetail switch
             {
                 0 => 5,
                 2 => 20,

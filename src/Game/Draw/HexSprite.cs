@@ -32,10 +32,10 @@ public class HexSprite(CustomNode? owner) : EngineObject(owner), IOwned<MapField
     }
 
     // HXSPRITE.PAS:116
-    public virtual sbyte GetTerrain(int hexNumber) => -2;
+    public virtual int GetTerrain(int hexNumber) => -2;
 
     // HXSPRITE.PAS:121
-    public virtual void SetTerrain(int hexNumber, sbyte value)
+    public virtual void SetTerrain(int hexNumber, int value)
     {
     }
 
@@ -43,10 +43,10 @@ public class HexSprite(CustomNode? owner) : EngineObject(owner), IOwned<MapField
     public virtual int TerrainCount => 0;
 
     // HXSPRITE.PAS:130
-    public virtual sbyte GetOverlay(int hexNumber) => -2;
+    public virtual int GetOverlay(int hexNumber) => -2;
 
     // HXSPRITE.PAS:135
-    public virtual void SetOverlay(int hexNumber, sbyte value)
+    public virtual void SetOverlay(int hexNumber, int value)
     {
     }
 

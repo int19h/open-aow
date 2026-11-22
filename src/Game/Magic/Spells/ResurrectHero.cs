@@ -37,7 +37,7 @@ public class ResurrectHero : Spell
     {
         int x;
         int y;
-        sbyte layer;
+        int layer;
         if (executeCount == 0)
         {
             MapCoordinate coordinate75 = source.GetLocation();

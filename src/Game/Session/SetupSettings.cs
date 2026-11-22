@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Formats.Tree;
+using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
@@ -27,12 +28,12 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     public int MapCrc { get; set; }
     public int SetCrc { get; set; }
     public int MapDay { get; set; }
-    public byte PlayMode { get; set; }
+    public int PlayMode { get; set; }
     public bool ExplorationEnabled { get; set; }
     public bool LeadersOnMap { get; set; }
     public bool AlliedVictory { get; set; }
     public byte VictoryCondition { get; set; }
-    public byte IndependentAIMode { get; set; }
+    public int IndependentAIMode { get; set; }
     public bool CustomizeLeaders { get; set; }
     public int RandomSeed { get; set; }
     public int DayLimit { get; set; }
@@ -58,11 +59,11 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     {
         base.PersistFields(persister);
         FileName = persister.String("FileName", value: FileName);
-        PlayMode = persister.RawByte("PlayMode", value: PlayMode);
+        PlayMode = persister.RawByte("PlayMode", value: PlayMode.TruncateToByte());
         ExplorationEnabled = persister.Boolean("ExplorationEnabled", value: ExplorationEnabled);
         MapName = persister.String("MapName", value: MapName);
         VictoryCondition = persister.RawByte("VictoryCondition", value: VictoryCondition);
-        IndependentAIMode = persister.RawByte("IndependentAIMode", value: IndependentAIMode);
+        IndependentAIMode = persister.RawByte("IndependentAIMode", value: IndependentAIMode.TruncateToByte());
         CustomizeLeaders = persister.Boolean("CustomizeLeaders", value: CustomizeLeaders);
         RandomSeed = persister.Int32("RandomSeed", value: RandomSeed);
         LeadersOnMap = persister.Boolean("LeadersOnMap", value: LeadersOnMap);
@@ -143,7 +144,7 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     }
 
     // AoWSetup.pas:390
-    public int IndexOfRace(byte race)
+    public int IndexOfRace(int race)
     {
         int result = -1;
         int i = 0;

@@ -1342,7 +1342,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     public void SetLeader(Leader? value) => Leader = value;
 
     // Player.PAS:907
-    public void SetRace(sbyte value) => PlayerRace = value;
+    public void SetRace(int value) => PlayerRace = (sbyte)value;
 
     // Player.PAS:912
     public void SetEndTurn(bool value)
@@ -1550,7 +1550,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     }
 
     // Player.PAS:1203
-    public bool DiplomaticActionAlreadySend(byte kind, sbyte target, sbyte other)
+    public bool DiplomaticActionAlreadySend(int kind, sbyte target, sbyte other)
     {
         EventLogbook logbook = StrategicMap.Current.Players.GetPlayers(target).EventLogbook;
         bool result = false;
@@ -1716,7 +1716,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     }
 
     // Player.PAS:1348
-    public bool ValidAttackRelation(sbyte player, sbyte independentRelation)
+    public bool ValidAttackRelation(sbyte player, int independentRelation)
     {
         Assert(PlayerIndex != 0, message: "", file: "Player.PAS", line: 1390);
         if (PlayerType is (>= PlayerType.Cpu1 and <= PlayerType.Cpu3) or PlayerType.Cpu4 or PlayerType.Cpu5)
@@ -1922,7 +1922,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                 : action.Reject(errorText);
         }
 
-        public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
+        public override int RelationModifier(DiplomaticAction action, sbyte player, int race)
             => player == action.Target && Relation(action.Target, second: action.OtherPlayer) == DiplomaticRelation.Alliance
                 ? RaceModifier(action.OtherPlayer, race, modifier: -40)
                 : 0;
@@ -1998,7 +1998,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                     : action.Reject(errorText);
         }
 
-        public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
+        public override int RelationModifier(DiplomaticAction action, sbyte player, int race)
         {
             return player == action.Target && Relation(action.Target, second: action.OtherPlayer) != DiplomaticRelation.War
 ? RaceModifier(modifier: Relation(action.Target, second: action.OtherPlayer) == DiplomaticRelation.Alliance

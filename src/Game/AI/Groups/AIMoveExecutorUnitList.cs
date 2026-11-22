@@ -118,7 +118,7 @@ public class AIMoveExecutorUnitList(CustomNode? owner) : OwningNode(owner), IChi
     }
 
     // AIGroup.pas:4403
-    public void SetMoveResult(byte selection, byte moveResult)
+    public void SetMoveResult(byte selection, int moveResult)
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {

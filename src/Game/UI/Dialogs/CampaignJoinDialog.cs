@@ -18,7 +18,7 @@ public sealed partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
     public Panel DefaultFacePanel { get; private set; }
     public UserDrawBox ScrollTextView { get; private set; }
 
-    public byte Stage { get; set; }
+    public int Stage { get; set; }
     public int Faction { get; set; }
     public Leader Leader { get; private set; }
 

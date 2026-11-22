@@ -5,6 +5,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 using static Aow.Rtl.DelphiRandom;
 
@@ -19,8 +20,8 @@ public partial class IsometricHex(CustomNode owner) : AbstractHexagon(owner)
     public new const int ClassId = 131_437;
 
     protected internal DynamicIsometricHex? Dynamic { get; set; }
-    protected internal byte OpenSides { get; private set; }
-    protected internal byte Sides { get; protected set; } = (byte)(Random(4) << 6);
+    protected internal int OpenSides { get; private set; }
+    protected internal int Sides { get; protected set; } = (Random(4) << 6).TruncateToByte();
 
     // IsoHex.pas:204
     public override void Dispose()

@@ -358,7 +358,7 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
     public virtual WallCombatFeatures WallCombatFeatures() => Game.Combat.WallCombatFeatures.None;
 
     // Combat.pas:5703
-    public virtual void PlaySfx(byte sound)
+    public virtual void PlaySfx(int sound)
     {
     }
 

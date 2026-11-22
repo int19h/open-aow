@@ -69,7 +69,7 @@ public class WarpParty : Spell
     }
 
     // GlobalSpells.pas:643
-    public bool ValidTarget(ArmyHexSprite? army, int X, int Y, sbyte layer)
+    public bool ValidTarget(ArmyHexSprite? army, int X, int Y, int layer)
     {
         MapFieldMessage message = default;
         MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, layer);
