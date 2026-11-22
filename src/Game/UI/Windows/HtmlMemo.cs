@@ -271,7 +271,7 @@ public sealed partial class HtmlMemo : BaseWindow
                 int tagStart = 0;
                 for (int j = 0; j <= last2; j++)
                 {
-                    byte c = text[j];
+                    int c = text[j];
                     switch (state)
                     {
                         case IntegerParseMode.None:

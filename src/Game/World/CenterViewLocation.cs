@@ -71,7 +71,7 @@ public class CenterViewLocation(CustomNode owner) : MapObject(owner)
         public override int ResourceUserClassId() => CenterViewLocation.ClassId;
 
         // CenterViewLoc.pas:94
-        public override void SetLevel(byte value) => base.SetLevel(27);
+        public override void SetLevel(int value) => base.SetLevel(27);
 
         // CenterViewLoc.pas:99
         public override string ResourceEditName() => "Center View Location";

@@ -331,12 +331,12 @@ public partial class TacticalBattleUnitHexSprite
 
         if (_moveIndicator == 0)
         {
-            _moveIndicator = (short)(Random(5) + 1);
+            _moveIndicator = (Random(5) + 1).TruncateToInt16();
             _indicatorStep = 1;
         }
         else
         {
-            _moveIndicator = (short)(_moveIndicator + _indicatorStep);
+            _moveIndicator = (_moveIndicator + _indicatorStep).TruncateToInt16();
             if (_moveIndicator == 1)
             {
                 _indicatorStep = 1;
@@ -366,7 +366,7 @@ public partial class TacticalBattleUnitHexSprite
                     OffsetX = ActionFrame * OffsetX / (moveSteps2 * 2);
                     int moveSteps3 = GetMoveSteps();
                     OffsetY = ActionFrame * OffsetY / (moveSteps3 * 2);
-                    ActionFrame = (short)(ActionFrame + 2);
+                    ActionFrame = (ActionFrame + 2).TruncateToInt16();
                 }
                 else
                 {
@@ -396,7 +396,7 @@ public partial class TacticalBattleUnitHexSprite
                     int moveSteps5 = GetMoveSteps();
                     int moveSteps6 = GetMoveSteps();
                     OffsetY = (moveSteps5 - ActionFrame) * OffsetY / (moveSteps6 * 2);
-                    ActionFrame = (short)(ActionFrame + 2);
+                    ActionFrame = (ActionFrame + 2).TruncateToInt16();
                 }
                 else
                 {
@@ -412,11 +412,11 @@ public partial class TacticalBattleUnitHexSprite
                 sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 11];
                 if (sequence is not null)
                 {
-                    ActionFrame = (short)(ActionFrame + 1);
+                    ActionFrame = (ActionFrame + 1).TruncateToInt16();
                     int totalSequenceFrames = sequence.TotalSequenceFrames;
                     if (ActionFrame >= totalSequenceFrames - 1)
                     {
-                        ActionFrame = (short)(sequence.TotalSequenceFrames - 1);
+                        ActionFrame = (sequence.TotalSequenceFrames - 1).TruncateToInt16();
                         ActionDone = true;
                     }
                 }
@@ -429,7 +429,7 @@ public partial class TacticalBattleUnitHexSprite
                     int totalSequenceFrames = sequence.TotalSequenceFrames;
                     if (ActionFrame < totalSequenceFrames - 1)
                     {
-                        ActionFrame = (short)(ActionFrame + 1);
+                        ActionFrame = (ActionFrame + 1).TruncateToInt16();
                     }
                     else
                     {
@@ -442,11 +442,11 @@ public partial class TacticalBattleUnitHexSprite
                 sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 17];
                 if (sequence is not null)
                 {
-                    ActionFrame = (short)(ActionFrame + 1);
+                    ActionFrame = (ActionFrame + 1).TruncateToInt16();
                     int totalSequenceFrames = sequence.TotalSequenceFrames;
                     if (ActionFrame >= totalSequenceFrames - 1)
                     {
-                        ActionFrame = (short)(sequence.TotalSequenceFrames - 1);
+                        ActionFrame = (sequence.TotalSequenceFrames - 1).TruncateToInt16();
                         ActionDone = true;
                     }
                 }
@@ -457,11 +457,11 @@ public partial class TacticalBattleUnitHexSprite
                 sequence = GamePack.Current.ImageSequences.ImageSequences[Direction + 16];
                 if (sequence is not null)
                 {
-                    ActionFrame = (short)(ActionFrame + 1);
+                    ActionFrame = (ActionFrame + 1).TruncateToInt16();
                     int totalSequenceFrames = sequence.TotalSequenceFrames;
                     if (ActionFrame >= totalSequenceFrames - 1)
                     {
-                        ActionFrame = (short)(sequence.TotalSequenceFrames - 1);
+                        ActionFrame = (sequence.TotalSequenceFrames - 1).TruncateToInt16();
                         ActionDone = true;
                     }
                 }

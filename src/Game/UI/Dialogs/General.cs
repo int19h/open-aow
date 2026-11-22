@@ -225,7 +225,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
     }
 
     // AoWWinMan.pas:123
-    public void SortLists(DelphiList<ListBox> lists, byte order)
+    public void SortLists(DelphiList<ListBox> lists, int order)
     {
         ListBox? l = lists[0];
         for (int i = 1, last = l.Items.Count - 1; i <= last; i++)

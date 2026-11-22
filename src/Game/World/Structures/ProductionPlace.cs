@@ -508,7 +508,7 @@ public partial class ProductionPlace : PlayerStructure
                         UnitEnchantment? enchantment = unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
                         enchantment.SetUpkeep(SummonedAbility.GetDefaultManaUpkeep(unit));
                         enchantment.SetSource(Player);
-                        enchantment.DispelResistance = (sbyte)SummonedAbility.GetDefaultDispelResistance(unit);
+                        enchantment.DispelResistance = SummonedAbility.GetDefaultDispelResistance(unit).TruncateToSByte();
                     }
 
                     sbyte armyHexSpriteHexY = armyHexSprite.HexY;

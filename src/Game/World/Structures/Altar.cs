@@ -27,13 +27,13 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     private Storm? _storm;
 
     public AltarMode Mode { get; set; }
-    public byte RechargeDays { get; private set; }
+    public int RechargeDays { get; private set; }
 
     // Altar.pas:226
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        RechargeDays = persister.Byte("RechargeDays", value: RechargeDays);
+        RechargeDays = persister.Byte("RechargeDays", value: RechargeDays.TruncateToByte());
         Mode = persister.Enum("Mode", value: Mode);
     }
 
@@ -103,7 +103,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
         base.NewDay();
         if (GetRechargeDays() != RechargeDays)
         {
-            RechargeDays = (byte)(RechargeDays + 1);
+            RechargeDays = (RechargeDays + 1).TruncateToByte();
         }
     }
 
@@ -208,7 +208,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     }
 
     // Altar.pas:212
-    public virtual byte GetRechargeDays() => 10;
+    public virtual int GetRechargeDays() => 10;
 
     // Altar.pas:153
     public virtual bool CanTarget(ref string reason)

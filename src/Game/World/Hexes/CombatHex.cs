@@ -6,6 +6,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
@@ -14,7 +15,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
 {
     public new const int ClassId = 2_229_504;
 
-    private byte _imageVariant;
+    private int _imageVariant;
     private readonly byte[] _transitions = new byte[3];
 
     // CombatHex.pas:174
@@ -86,7 +87,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
     public override void Activate()
     {
         base.Activate();
-        _imageVariant = (byte)Random(12);
+        _imageVariant = Random(12).TruncateToByte();
     }
 
     // CombatHex.pas:73

@@ -40,7 +40,7 @@ public class Spell : EngineObject
     public int ResearchCost { get; private set; }
     public int ManaUpkeep { get; protected set; }
     public MagicSphere MagicSphere { get; protected set; }
-    public byte SpellLevel { get; protected set; }
+    public int SpellLevel { get; protected set; }
 
     public SpellType SpellType { get; protected init; }
     // stGlobal guard
@@ -69,7 +69,7 @@ public class Spell : EngineObject
         ManaUpkeep = persister.Int32("ManaUpkeep", value: ManaUpkeep);
         ResearchCost = persister.Int32("ResearchCost", value: ResearchCost);
         MagicSphere = persister.Enum("MagicSphere", value: MagicSphere);
-        SpellLevel = persister.Byte("SpellLevel", value: SpellLevel);
+        SpellLevel = persister.Byte("SpellLevel", value: SpellLevel.TruncateToByte());
     }
 
     // Spells.PAS:224

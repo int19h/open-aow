@@ -7,6 +7,7 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.DelphiRounding;
@@ -28,7 +29,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
 
     public byte Direction { get; set; } = 3;
 
-    public sbyte MoveStep { get; set; } = -1;
+    public int MoveStep { get; set; } = -1;
     // -1 when idle
     public byte FlagId { get; protected set; }
 
@@ -66,7 +67,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:655
-    public override byte Level => 26;
+    public override int Level => 26;
 
     // UnitHS.PAS:574
     public override bool Visible
@@ -437,7 +438,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:920
-    public sbyte GetMoveStatus()
+    public int GetMoveStatus()
     {
         if (MoveStep >= 0)
         {
@@ -445,7 +446,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
             if (MoveStep < moveSteps)
             {
                 int moveSteps2 = GetMoveSteps();
-                return (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
+                return Round((double)(MoveStep * 100) / moveSteps2).TruncateToSByte();
             }
             else
             {
@@ -459,15 +460,15 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:929
-    public void SetMoveStatus(sbyte value)
+    public void SetMoveStatus(int value)
     {
         if (value >= 0)
         {
-            MoveStep = (sbyte)(((GetMoveSteps() * value) + 50) / 100);
+            MoveStep = (((GetMoveSteps() * value) + 50) / 100).TruncateToSByte();
             int moveSteps = GetMoveSteps();
             if (MoveStep > moveSteps)
             {
-                MoveStep = (sbyte)GetMoveSteps();
+                MoveStep = GetMoveSteps().TruncateToSByte();
                 return;
             }
         }
@@ -486,7 +487,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
             int moveSteps = GetMoveSteps();
             if (MoveStep < moveSteps)
             {
-                MoveStep = (sbyte)(MoveStep + 1);
+                MoveStep = (MoveStep + 1).TruncateToSByte();
                 int moveSteps2 = GetMoveSteps();
                 return (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
             }

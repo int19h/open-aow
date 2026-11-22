@@ -202,7 +202,7 @@ internal static class TacticalTables
     }
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps unusedHeight on purpose.")]
-    internal static void MakeRangedPath(CombatSideIndex side, short speed, short arc, short unusedHeight, short x1, short y1, short x2, short y2, short offsetX, short offsetY, bool includeUnits, Point3DList path, DelphiList<RangedObstacle> obstacles)
+    internal static void MakeRangedPath(CombatSideIndex side, int speed, short arc, short unusedHeight, short x1, short y1, short x2, short y2, short offsetX, short offsetY, bool includeUnits, Point3DList path, DelphiList<RangedObstacle> obstacles)
     {
         int hexX = default;
         int hexY = default;

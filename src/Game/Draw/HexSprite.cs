@@ -54,7 +54,7 @@ public class HexSprite(CustomNode? owner) : EngineObject(owner), IOwned<MapField
     public virtual int OverlayCount => 0;
 
     // HXSPRITE.PAS:52
-    public virtual byte Level => throw new InvalidOperationException("No HexagonSprite Level defined");
+    public virtual int Level => throw new InvalidOperationException("No HexagonSprite Level defined");
 
     // HXSPRITE.PAS:47
     public virtual bool Visible

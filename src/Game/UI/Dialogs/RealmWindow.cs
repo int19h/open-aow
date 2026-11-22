@@ -216,11 +216,11 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
                     Army army = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i);
                     string name = u.GetName();
                     _ = HeroNameList.Items.AddObject(name, item: army);
-                    sbyte hitPoints = u.GetHitPoints();
-                    sbyte hits = u.GetHits();
-                    _ = HeroHealthList.Items.AddObject($"{((int)hitPoints).ToString(CultureInfo.InvariantCulture)}/{((int)hits).ToString(CultureInfo.InvariantCulture)}", item: hero);
-                    sbyte level = hero.GetLevel();
-                    _ = HeroLevelList.Items.Add(((int)level).ToString(CultureInfo.InvariantCulture));
+                    int hitPoints = u.GetHitPoints();
+                    int hits = u.GetHits();
+                    _ = HeroHealthList.Items.AddObject($"{hitPoints.ToString(CultureInfo.InvariantCulture)}/{hits.ToString(CultureInfo.InvariantCulture)}", item: hero);
+                    int level = hero.GetLevel();
+                    _ = HeroLevelList.Items.Add(level.ToString(CultureInfo.InvariantCulture));
                 }
             }
         }

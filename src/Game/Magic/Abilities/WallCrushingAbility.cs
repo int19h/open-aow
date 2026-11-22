@@ -4,6 +4,7 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -25,9 +26,9 @@ public partial class WallCrushingAbility : TouchAbility
     // AoWAb.PAS:2000
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        sbyte hitPoints = defender.GetHitPoints();
-        sbyte defense = defender.GetDefense();
-        sbyte resistance = defender.GetResistance();
+        int hitPoints = defender.GetHitPoints();
+        int defense = defender.GetDefense();
+        int resistance = defender.GetResistance();
         DamageTypes immunityTypes = defender.GetImmunityTypes();
         DamageTypes protectionTypes = defender.GetProtectionTypes();
         return AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: DamageTypes.Wall, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
@@ -39,9 +40,9 @@ public partial class WallCrushingAbility : TouchAbility
         if (wallSituation == WallSituation.None)
         {
             // { Original leaves DamageTypes untouched on this successful path. }
-            sbyte hitPoints = defender.GetHitPoints();
-            sbyte defense = defender.GetDefense();
-            sbyte resistance = defender.GetResistance();
+            int hitPoints = defender.GetHitPoints();
+            int defense = defender.GetDefense();
+            int resistance = defender.GetResistance();
             DamageTypes immunityTypes = defender.GetImmunityTypes();
             DamageTypes protectionTypes = defender.GetProtectionTypes();
             int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: DamageTypes.Wall, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
@@ -76,9 +77,9 @@ public partial class WallCrushingAbility : TouchAbility
     {
         if (CanTouch(attacker, target: defender))
         {
-            sbyte hitPoints = defender.HitPoints;
-            sbyte defense = defender.GetDefense();
-            sbyte resistance = defender.GetResistance();
+            int hitPoints = defender.HitPoints;
+            int defense = defender.GetDefense();
+            int resistance = defender.GetResistance();
             DamageTypes immunityTypes = defender.GetImmunityTypes();
             DamageTypes protectionTypes = defender.GetProtectionTypes();
             int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: DamageTypes.Wall, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
@@ -103,9 +104,9 @@ public partial class WallCrushingAbility : TouchAbility
     {
         if (CanTouch(attacker, target: defender))
         {
-            sbyte hitPoints = defender.HitPoints;
-            sbyte defense = defender.GetDefense();
-            sbyte resistance = defender.GetResistance();
+            int hitPoints = defender.HitPoints;
+            int defense = defender.GetDefense();
+            int resistance = defender.GetResistance();
             DamageTypes immunityTypes = defender.GetImmunityTypes();
             DamageTypes protectionTypes = defender.GetProtectionTypes();
             int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: DamageTypes.Wall, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
@@ -147,7 +148,7 @@ public partial class WallCrushingAbility : TouchAbility
     private static DamageCombatAction CreateDamageCombatAction(CombatObject source, CombatObject target, int attack, int damage, DamageTypes damageTypes)
     {
         DamageCombatAction damageCombatAction = new(null) { Holder = source };
-        damageCombatAction.Generate(source, target, attack: (sbyte)attack, damage: (sbyte)damage, damageTypes);
+        damageCombatAction.Generate(source, target, attack: attack.TruncateToSByte(), damage: damage.TruncateToSByte(), damageTypes);
         return damageCombatAction;
     }
 }

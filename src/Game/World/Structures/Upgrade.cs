@@ -48,7 +48,7 @@ public sealed record Upgrade : ProductionOrder
             return;
         }
 
-        control.Settings.TurnsTotal = (sbyte)city.UpgradeTime();
+        control.Settings.TurnsTotal = city.UpgradeTime().TruncateToSByte();
         control.Settings.TurnsLeft = control.Settings.TurnsTotal;
         control.Settings.Player = control.GetPlayer();
         control.Settings.Gold = city.UpgradeCost();
@@ -66,7 +66,7 @@ public sealed record Upgrade : ProductionOrder
         }
 
         control.BeginUpdate();
-        city.SetUpgradeLevel((byte)(city.UpgradeLevel + 1));
+        city.SetUpgradeLevel((city.UpgradeLevel + 1).TruncateToByte());
         ChangeRelation(control, city, change: 5);
         control.ProductionDone();
         Log(control, city, text: DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_upgradedFormat), args: [city.GetName()]));

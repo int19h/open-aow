@@ -124,12 +124,12 @@ public static class AbilityRules
         if (target.GetTargetPriority() != 0)
         {
             int targetPriority = target.GetTargetPriority();
-            sbyte hitPoints = target.HitPoints;
+            int hitPoints = target.HitPoints;
             result = target.GetTargetPriority() + Round(targetPriority * ((double)sourceDamageValue / (hitPoints * 100)));
             if (targetDamageValue != 0)
             {
                 int sourceTargetPriority = source.GetTargetPriority();
-                sbyte sourceHitPoints = source.HitPoints;
+                int sourceHitPoints = source.HitPoints;
                 result -= source.GetTargetPriority() + Round(sourceTargetPriority * ((double)targetDamageValue / (sourceHitPoints * 100)));
             }
         }
@@ -573,7 +573,7 @@ public static class AbilityRules
     }
 
     public static void RetrieveStormDamageInfo(sbyte player, StormType storm, sbyte x, sbyte y,
-                sbyte level, sbyte innerRadius, sbyte outerRadius, out StormDamageInfo info)
+                int level, sbyte innerRadius, sbyte outerRadius, out StormDamageInfo info)
     {
         StormDamageQuery query = new()
         {

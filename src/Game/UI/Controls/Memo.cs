@@ -36,7 +36,7 @@ public sealed partial class Memo : Control
     public event EventHandler? ItemDrawn;
     private int _scrollWidth;
     private bool _blink;
-    private byte _blinkCount;
+    private int _blinkCount;
     private int _currentColumn;
     private int _currentLine;
     private int _realColumn;
@@ -297,7 +297,7 @@ public sealed partial class Memo : Control
 
             if (Editable && BlinkDelay > 0 && Redraw)
             {
-                _blinkCount = (byte)(_blinkCount + 1);
+                _blinkCount = (_blinkCount + 1).TruncateToByte();
                 if (_blinkCount > BlinkDelay)
                 {
                     IsDrawn = false;
@@ -908,7 +908,7 @@ public sealed partial class Memo : Control
     public byte CursorChar { get; set; }
 
     [Published]
-    public byte BlinkDelay { get; set; }
+    public int BlinkDelay { get; set; }
 
     [Published]
     public bool Editable { get; set; }

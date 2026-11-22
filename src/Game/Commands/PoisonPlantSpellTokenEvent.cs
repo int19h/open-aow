@@ -11,6 +11,7 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Game.World.Terrain;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -47,7 +48,7 @@ public class PoisonPlantSpellTokenEvent(CustomNode? owner) : GlobalTargetSpellTo
                 {
                     mapField.RestoreTerrain();
                     PoisonPlant plant = resource.CreateResourceUser<PoisonPlant>();
-                    plant.DaysRemaining = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
+                    plant.DaysRemaining = (3 + ((StrategicMap.Current.Random(11) - 5) / 5)).TruncateToSByte();
                     plant.CasterPlayer = source.Player;
                     plant.OriginalOverlay = mapField.OverlayType;
                     StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);

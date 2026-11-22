@@ -111,7 +111,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                     bool condition = result;
                     if (condition)
                     {
-                        sbyte movePoints = ArmyHexSprite.Army.MovePoints(Selection);
+                        int movePoints = ArmyHexSprite.Army.MovePoints(Selection);
                         condition = AbilityRules.RoadConstructionCost(_player, Path, movePoints) <= StrategicMap.Current.Players.GetPlayers(_player).Gems;
                     }
 

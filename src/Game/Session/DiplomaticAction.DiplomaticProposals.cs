@@ -9,7 +9,7 @@ public partial class DiplomaticAction
 {
     // Replaces the message with the default text of the kind for Reaction (Player.PAS:1188,
     // Diplomacy.pas:826, 950).
-    public void RetrieveDefaultMessage(sbyte source, sbyte target, sbyte other, DiplomaticActionReaction reaction)
+    public void RetrieveDefaultMessage(int source, int target, int other, DiplomaticActionReaction reaction)
     {
         using DelphiStringList text = new();
         RetrieveDefaultDiplomaticActionMessage(source, target, other, Proposal, reaction, text, engine: GetEngine());

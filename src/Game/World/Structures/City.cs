@@ -2101,11 +2101,11 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2034
-    public void SetUpgradeLevel(byte level)
+    public void SetUpgradeLevel(int level)
     {
         if (level > Size)
         {
-            level = (byte)Size;
+            level = Size.TruncateToByte();
         }
 
         if (level < 1)
@@ -2113,7 +2113,7 @@ public partial class City : PlayerCropStructure
             level = 1;
         }
 
-        UpgradeLevel = level;
+        UpgradeLevel = (byte)level;
         if (Race >= 0)
         {
             RaceResource? raceResource = GamePack.Current.RaceResources.GetRaceResource(Race);

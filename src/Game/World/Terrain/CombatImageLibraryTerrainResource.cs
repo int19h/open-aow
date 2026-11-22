@@ -2,6 +2,7 @@
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Terrain;
 
@@ -12,13 +13,13 @@ public class CombatImageLibraryTerrainResource(CustomNode owner) : ImageLibraryT
     public new const int ClassId = 2_228_535;
 
     public sbyte BurnValue { get; private set; }
-    public sbyte Defense { get; private set; }
+    public int Defense { get; private set; }
 
     // CombatILTer.pas:181
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Defense = persister.UnsignedByte(name: "Defense", value: Defense);
+        Defense = persister.UnsignedByte(name: "Defense", value: Defense.TruncateToSByte());
         BurnValue = persister.UnsignedByte(name: "BurnValue", value: BurnValue);
     }
 

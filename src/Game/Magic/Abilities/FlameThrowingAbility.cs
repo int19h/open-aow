@@ -22,8 +22,8 @@ public class FlameThrowingAbility : BreathAbility
     // AoWAb.PAS:4943
     public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
     {
-        sbyte attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
-        sbyte damageRangedAttack = GetDamageRangedAttack(owner);
+        int attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
+        int damageRangedAttack = GetDamageRangedAttack(owner);
         strength = AbilityRules.LimitedDamage(GetAttackRangedAttack(owner), defense: damageRangedAttack, damage: attackRepeatRangedAttack);
         strength *= 2;
         types = GetDamageTypesRangedAttack(owner);

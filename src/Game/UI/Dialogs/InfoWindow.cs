@@ -419,12 +419,12 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         }
 
         dialog.MainButton.Visible = true;
-        byte rechargeDays = structure.GetRechargeDays();
+        int rechargeDays = structure.GetRechargeDays();
         dialog.AltarChargeBar.Max = rechargeDays;
         dialog.AltarChargeBar.Position = structure.RechargeDays;
-        byte structureRechargeDays = structure.GetRechargeDays();
+        int structureRechargeDays = structure.GetRechargeDays();
         dialog.ChargePercentLabel.Text = $"{Round((double)(structure.RechargeDays * 100) / structureRechargeDays).ToString(CultureInfo.InvariantCulture)}%";
-        byte rechargeDays2 = structure.GetRechargeDays();
+        int rechargeDays2 = structure.GetRechargeDays();
         dialog.DayLabel.Text = (rechargeDays2 - structure.RechargeDays).ToString(CultureInfo.InvariantCulture);
         int targetMana = structure.TargetMana();
         dialog.GemLabel.Text = targetMana.ToString(CultureInfo.InvariantCulture);

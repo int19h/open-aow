@@ -25,13 +25,13 @@ public partial class MapLevel
         bool result = false;
         foreach (MapField field in Area(x, y, radius))
         {
-            byte count = field.FogCount;
+            int count = field.FogCount;
             if (count == 1)
             {
                 result = true;
             }
 
-            field.SetFogCount((byte)(count - 1));
+            field.SetFogCount((count - 1).TruncateToByte());
         }
         return result;
     }
@@ -41,13 +41,13 @@ public partial class MapLevel
         bool result = false;
         foreach (MapField field in Area(x, y, radius))
         {
-            byte count = field.FogCount;
+            int count = field.FogCount;
             if (count == 0)
             {
                 result = true;
             }
 
-            field.SetFogCount((byte)(count + 1));
+            field.SetFogCount((count + 1).TruncateToByte());
         }
         return result;
     }
@@ -75,13 +75,13 @@ public partial class MapLevel
         FogExplorationChanges result = default;
         foreach (MapField field in Area(x, y, radius))
         {
-            byte count = field.FogCount;
+            int count = field.FogCount;
             if (count == 0)
             {
                 result |= FogExplorationChanges.Fog;
             }
 
-            field.SetFogCount((byte)(count + 1));
+            field.SetFogCount((count + 1).TruncateToByte());
             if (Explore(field, player))
             {
                 result |= FogExplorationChanges.Exploration;

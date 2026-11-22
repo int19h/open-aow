@@ -313,7 +313,7 @@ public class FastBattleUnit(CustomNode? owner) : CombatUnit(owner)
             for (int i = fastBattleCommandList.GetCount() - 1; i >= 0; i--)
             {
                 FastBattleCommand? commands = fastBattleCommandList[i];
-                sbyte hitPoints = HitPoints;
+                int hitPoints = HitPoints;
                 if (commands.TargetDamageValue >= hitPoints * 75)
                 {
                     fastBattleCommandList.Delete(i);

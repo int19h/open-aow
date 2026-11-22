@@ -53,8 +53,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
 
     public sbyte IndependentRelation { get; private set; } = -1;
 
-    private byte _unfogRange;
-    private byte _upkeep;
+    private int _unfogRange;
+    private int _upkeep;
 
     private NotifyEvent<object>? _update;
 
@@ -64,7 +64,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     public MapCoordinate Destination { get; set; } = new MapCoordinate(-1, -1, -1);
     public ArmyUserModes UserMode { get; set; }
 
-    private byte _visibilityRanges;
+    private int _visibilityRanges;
 
     public byte ConcealedUnits { get; private set; }
 
@@ -481,7 +481,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 if (troop.GetHitPoints() != troop.GetHits())
                 {
                     result = true;
-                    troop.SetHitPoints(troop.GetHits());
+                    troop.SetHitPoints((sbyte)troop.GetHits());
                 }
             }
 
@@ -803,8 +803,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         }
     }
 
-    public void SetMapCoordinate(sbyte x, sbyte y, sbyte level)
-        => SetMapCoordinate(new MapCoordinate(x, y, level));
+    public void SetMapCoordinate(sbyte x, sbyte y, int level)
+        => SetMapCoordinate(new MapCoordinate(x, y, (sbyte)level));
 
     // Army.PAS:647
     public int GetRace(byte selection)
@@ -836,7 +836,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     }
 
     // Army.PAS:666
-    public byte GetUpkeep() => _upkeep;
+    public int GetUpkeep() => _upkeep;
 
     // Army.PAS:669
     public void ResetDestinationPosition() => Destination = new MapCoordinate(-1, -1, -1);
@@ -885,13 +885,13 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:705
     public void UpdateUpkeep()
     {
-        byte upkeep = 0;
+        int upkeep = 0;
         for (int i = 0, last = Units.Count - 1; i <= last; i++)
         {
-            upkeep = (byte)(upkeep + Units[i].GetUpkeep());
+            upkeep = (upkeep + Units[i].GetUpkeep()).TruncateToByte();
         }
 
-        byte previous = _upkeep;
+        int previous = _upkeep;
         if (previous != upkeep && Status.Contains(ArmyStatuses.Activated))
         {
             int delta = upkeep - previous;
@@ -967,7 +967,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                         Troop? troop = Units.GetUnit(i);
                         if (((selection >>> i) & 1) != 0)
                         {
-                            sbyte hitPoints = troop.GetHitPoints();
+                            int hitPoints = troop.GetHitPoints();
                             _ = log.DamageValues.Add((byte)hitPoints);
                             _ = log.DamageTypes.Add(9);
                             troop.SetHitPoints(0);
@@ -1029,7 +1029,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         for (int i = Units.Count - 1; i >= 0; i--)
         {
             troop = Units[i];
-            _ = troop.UpdateMoraleValue();
+            _ = (sbyte)troop.UpdateMoraleValue();
             if (troop.GetAbilityEnabled(46) || troop.GetAbilityLevel(46) > 0)
             {
                 GamePack.Current.AbilityControl.GetAbility<LeadershipAbility>(46).ResetExternalSource(troop);
@@ -1053,7 +1053,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 troop = Units[i];
                 if (troop.GetAbilityLevel(46) < level)
                 {
-                    GamePack.Current.AbilityControl.GetAbility<LeadershipAbility>(46).SetExternalSource(troop, level: (byte)level, sourceName);
+                    GamePack.Current.AbilityControl.GetAbility<LeadershipAbility>(46).SetExternalSource(troop, level: level.TruncateToByte(), sourceName);
                 }
             }
         }
@@ -1180,13 +1180,13 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     }
 
     // Army.PAS:1227
-    public byte ValidateMoveSelection(byte selection)
+    public int ValidateMoveSelection(byte selection)
     {
-        byte result = ValidateSelection(selection);
+        int result = ValidateSelection(selection);
         if (IndexOfTransporter(255) != -1 && (UnitsInTransporter() & ~selection) != 0 && Transporter(selection) is not null)
         {
             Troop? transporter = Transporter(255);
-            return (byte)(result & ~(1 << IndexOfChild(transporter)));
+            return result & ~(1 << IndexOfChild(transporter));
         }
 
         return result;
@@ -1307,10 +1307,10 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     }
 
     // Army.PAS:1357
-    public sbyte MovePoints(byte selection)
+    public int MovePoints(byte selection)
     {
         Troop? transport = Transporter(selection);
-        sbyte result;
+        int result;
         if (transport is not null)
         {
             return transport.GetMovePoints();
@@ -1344,10 +1344,10 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     }
 
     // Army.PAS:1378
-    public sbyte Moves(byte selection)
+    public int Moves(byte selection)
     {
         Troop? transport = Transporter(selection);
-        sbyte result;
+        int result;
         if (transport is not null)
         {
             return transport.Moves;
@@ -1764,7 +1764,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     public void UpdateVisibilityRanges()
     {
         byte vision = 0;
-        byte trueVision = 0;
+        int trueVision = 0;
         for (int i = 0, last = Units.Count - 1; i <= last; i++)
         {
             byte range = (byte)Units[i].VisibilityRange();
@@ -1780,21 +1780,21 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             }
         }
 
-        _visibilityRanges = (byte)((trueVision << 4) + vision);
+        _visibilityRanges = ((trueVision << 4) + vision).TruncateToByte();
     }
 
     // Army.PAS:1667
-    public byte VisibilityRange() => (byte)(_visibilityRanges & 0xF);
+    public int VisibilityRange() => _visibilityRanges & 0xF;
 
     // Army.PAS:1670
-    public byte TrueVisionRange() => (byte)(_visibilityRanges >>> 4);
+    public int TrueVisionRange() => _visibilityRanges >>> 4;
 
     // Army.PAS:1673
     public void TurnUnFogOff()
     {
         if (Status.Contains(ArmyStatuses.Activated))
         {
-            byte range = _unfogRange;
+            int range = _unfogRange;
             if (range != 0)
             {
                 _ = StrategicMap.Current.FogArea(Location.X, Location.Y, Location.MapLevel, range);
@@ -1812,7 +1812,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             {
                 if (player == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Alliance)
                 {
-                    byte visibilityRange = VisibilityRange();
+                    int visibilityRange = VisibilityRange();
                     _ = StrategicMap.Current.ExploreArea(Location.X, Location.Y, Location.MapLevel, player: (sbyte)player, range: visibilityRange);
                 }
             }
@@ -1835,7 +1835,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                     _ = StrategicMap.Current.FogArea(Location.X, Location.Y, Location.MapLevel, range: _unfogRange);
                 }
 
-                _unfogRange = (byte)range;
+                _unfogRange = range.TruncateToByte();
                 if (Location.X != -1)
                 {
                     if (_unfogRange != 0)
@@ -1969,7 +1969,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 }
 
                 int count = Units.Count;
-                byte transportCapacity = transport.GetTransportCapacity();
+                int transportCapacity = transport.GetTransportCapacity();
                 result = list.Count + count <= transportCapacity + 1 ? AddUnitsResult.Ok : AddUnitsResult.TooManyUnits;
             }
             else
@@ -2586,10 +2586,10 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             ResetDestinationPosition();
             if (Location.X != -1 && Player > 0)
             {
-                byte visibilityRange = VisibilityRange();
+                int visibilityRange = VisibilityRange();
                 _ = StrategicMap.Current.ExploreArea(Location.X, Location.Y, Location.MapLevel, Player, range: visibilityRange);
-                byte visibilityRange2 = VisibilityRange();
-                byte trueVisionRange = TrueVisionRange();
+                int visibilityRange2 = VisibilityRange();
+                int trueVisionRange = TrueVisionRange();
                 StrategicMap.Current.UpdatePlayerSeen(Player, Location.X, Location.Y, L: Location.MapLevel, sightRadius: visibilityRange2, radius: trueVisionRange);
             }
 
@@ -2953,7 +2953,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 Troop? troop = Units.GetUnit(i);
                 if (troop.Player != 0 || (troop.Group is not null && troop.Group.GroupClass.Behavior != GroupBehavior.Passive))
                 {
-                    troop.RetrieveDamageInfo((sbyte)attack, damage: (sbyte)damage, damageTypes: StormDamageType[(int)storm].ToFlag(), damageValue: out int value, obtainValue: out int amount);
+                    troop.RetrieveDamageInfo(attack.TruncateToSByte(), damage: damage.TruncateToSByte(), damageTypes: StormDamageType[(int)storm].ToFlag(), damageValue: out int value, obtainValue: out int amount);
                     if (info.FriendlyRelations.Contains(((DiplomaticRelation)relation).ToFlag()))
                     {
                         info.FriendlyDamage += amount;

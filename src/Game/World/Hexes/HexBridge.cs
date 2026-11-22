@@ -36,7 +36,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
     public override sbyte GetTerrain(int index) => index == 0 ? _terrain : (sbyte)-2;
 
     // HxBridge.pas:89
-    public override byte Level => 26;
+    public override int Level => 26;
 
     // HxBridge.pas:105
     public override int GetShowPriority()

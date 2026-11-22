@@ -13,6 +13,7 @@ using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Structures;
@@ -133,7 +134,7 @@ public partial class ExplorationSite : Structure
         sbyte hexY2 = HexY;
         sbyte hexLevel2 = HexLevel;
         sbyte armyHexX = army.HexX;
-        _ = combat.Setup((byte)army.Army.Player, attackerRelation: (byte)army.Army.IndependentRelation, armyHexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)_defenders.Player, defenderRelation: (byte)_defenders.IndependentRelation, hexX, hexY2, L: hexLevel2, logActions: true);
+        _ = combat.Setup((byte)army.Army.Player, attackerRelation: army.Army.IndependentRelation.TruncateToByte(), armyHexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)_defenders.Player, defenderRelation: (byte)_defenders.IndependentRelation, hexX, hexY2, L: hexLevel2, logActions: true);
         sbyte hexY3 = HexY;
         sbyte hexLevel3 = HexLevel;
         sbyte hexX2 = HexX;

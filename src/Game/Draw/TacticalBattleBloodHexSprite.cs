@@ -18,7 +18,7 @@ public sealed class TacticalBattleBloodHexSprite(CustomNode owner) : SingleHexSp
     public int OffsetY { get; set; }
 
     // AoWTC.pas:6393
-    public override byte Level => 26;
+    public override int Level => 26;
 
     // AoWTC.pas:6398
     public override int GetShowPriority() => 1_744_830_464 + (OffsetY << 13) + OffsetX;

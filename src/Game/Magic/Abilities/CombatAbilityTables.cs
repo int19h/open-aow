@@ -9,7 +9,7 @@ internal static class CombatAbilityTables
 
     internal static ReadOnlySpan<int> CommandingStrengthAbilityIds => [29, 28, 148];
 
-    internal static CombatSideIndex GetCombatSide(sbyte attacker, sbyte attackerRelation, sbyte defender, sbyte defenderRelation, sbyte player, sbyte relation)
+    internal static CombatSideIndex GetCombatSide(int attacker, int attackerRelation, sbyte defender, sbyte defenderRelation, sbyte player, sbyte relation)
     {
         return player != 0 && attacker == 0 && defender == 0
             ? CombatSideIndex.Neutral
@@ -18,14 +18,14 @@ internal static class CombatAbilityTables
                 : player == defender && (player != 0 || defenderRelation == relation)
                     ? CombatSideIndex.Defender
                     : player == 0
-                        ? attacker != 0 && AbilityRules.DiplomaticRelation(attacker, independentRelation: attackerRelation, otherPlayer: player, otherIndependentRelation: relation) == DiplomaticRelation.Peace && AbilityRules.DiplomaticRelation(defender, independentRelation: defenderRelation, otherPlayer: player, otherIndependentRelation: relation) != DiplomaticRelation.Peace
+                        ? attacker != 0 && AbilityRules.DiplomaticRelation((sbyte)attacker, independentRelation: (sbyte)attackerRelation, otherPlayer: player, otherIndependentRelation: relation) == DiplomaticRelation.Peace && AbilityRules.DiplomaticRelation(defender, independentRelation: defenderRelation, otherPlayer: player, otherIndependentRelation: relation) != DiplomaticRelation.Peace
                             ? CombatSideIndex.Attacker
-                            : defender != 0 && AbilityRules.DiplomaticRelation(defender, independentRelation: defenderRelation, otherPlayer: player, otherIndependentRelation: relation) == DiplomaticRelation.Peace && AbilityRules.DiplomaticRelation(attacker, independentRelation: attackerRelation, otherPlayer: player, otherIndependentRelation: relation) != DiplomaticRelation.Peace
+                            : defender != 0 && AbilityRules.DiplomaticRelation(defender, independentRelation: defenderRelation, otherPlayer: player, otherIndependentRelation: relation) == DiplomaticRelation.Peace && AbilityRules.DiplomaticRelation((sbyte)attacker, independentRelation: (sbyte)attackerRelation, otherPlayer: player, otherIndependentRelation: relation) != DiplomaticRelation.Peace
                                 ? CombatSideIndex.Defender
                                 : CombatSideIndex.Neutral
-                        : attacker != 0 && AbilityRules.DiplomaticRelation(attacker, independentRelation: attackerRelation, otherPlayer: player, otherIndependentRelation: relation) == DiplomaticRelation.Alliance && AbilityRules.DiplomaticRelation(defender, independentRelation: defenderRelation, otherPlayer: player, otherIndependentRelation: relation) != DiplomaticRelation.Alliance
+                        : attacker != 0 && AbilityRules.DiplomaticRelation((sbyte)attacker, independentRelation: (sbyte)attackerRelation, otherPlayer: player, otherIndependentRelation: relation) == DiplomaticRelation.Alliance && AbilityRules.DiplomaticRelation(defender, independentRelation: defenderRelation, otherPlayer: player, otherIndependentRelation: relation) != DiplomaticRelation.Alliance
                             ? CombatSideIndex.Attacker
-                            : defender != 0 && AbilityRules.DiplomaticRelation(defender, independentRelation: defenderRelation, otherPlayer: player, otherIndependentRelation: relation) == DiplomaticRelation.Alliance && AbilityRules.DiplomaticRelation(attacker, independentRelation: attackerRelation, otherPlayer: player, otherIndependentRelation: relation) != DiplomaticRelation.Alliance
+                            : defender != 0 && AbilityRules.DiplomaticRelation(defender, independentRelation: defenderRelation, otherPlayer: player, otherIndependentRelation: relation) == DiplomaticRelation.Alliance && AbilityRules.DiplomaticRelation((sbyte)attacker, independentRelation: (sbyte)attackerRelation, otherPlayer: player, otherIndependentRelation: relation) != DiplomaticRelation.Alliance
                                 ? CombatSideIndex.Defender
                                 : CombatSideIndex.Neutral;
     }

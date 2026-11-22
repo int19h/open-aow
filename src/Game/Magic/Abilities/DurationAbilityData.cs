@@ -2,6 +2,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Formats.Tree;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -10,7 +11,7 @@ public class DurationAbilityData(CustomNode owner) : AbilityData(owner)
 {
     public new const int ClassId = 139_266;
 
-    public byte Duration { get; set; }
+    public int Duration { get; set; }
     public byte PlayerIndex { get; set; }
     public ushort AbilityId { get; set; }
     public int Source { get; set; }
@@ -19,7 +20,7 @@ public class DurationAbilityData(CustomNode owner) : AbilityData(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Duration = persister.Byte("Duration", value: Duration);
+        Duration = persister.Byte("Duration", value: Duration.TruncateToByte());
         AbilityId = persister.UInt16("AbilityId", value: AbilityId);
         PlayerIndex = persister.Byte("PlayerIndex", value: PlayerIndex);
         Source = persister.Int32("Source", value: Source);

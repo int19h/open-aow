@@ -66,7 +66,7 @@ public class PossessAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
             float probability = TouchRoleProbability(attacker, target: defender);
-            sbyte hitPoints = defender.GetHitPoints();
+            int hitPoints = defender.GetHitPoints();
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 200);
             if (attacker.GetAbilityEnabled(106))
             {
@@ -74,7 +74,7 @@ public class PossessAbility : TouchAbility
             }
             else
             {
-                sbyte attackerHitPoints = attacker.GetHitPoints();
+                int attackerHitPoints = attacker.GetHitPoints();
                 damageValues.TargetDamage = Round((double)((double)attackerHitPoints * probability) * 100);
             }
 
@@ -107,9 +107,9 @@ public class PossessAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouch(attacker, target: defender) && attacker is CombatUnit attackerUnit)
         {
             float probability = CombatTouchRoleProbability(attackerUnit, target: defender);
-            sbyte hitPoints = defender.HitPoints;
+            int hitPoints = defender.HitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 200);
-            sbyte defenderHitPoints = defender.HitPoints;
+            int defenderHitPoints = defender.HitPoints;
             damageValues.SourceCost = defenderHitPoints * 2;
             if (attacker.GetAbilityEnabled(106))
             {
@@ -117,11 +117,11 @@ public class PossessAbility : TouchAbility
             }
             else
             {
-                sbyte attackerHitPoints = attacker.HitPoints;
+                int attackerHitPoints = attacker.HitPoints;
                 damageValues.TargetDamage = Round((double)((double)attackerHitPoints * probability) * 100);
             }
 
-            sbyte damage = defender.GetDamage();
+            int damage = defender.GetDamage();
             damageValues.TargetCost = damage;
             damageValues.DamageTypes = DamageTypes.None;
         }
@@ -136,7 +136,7 @@ public class PossessAbility : TouchAbility
     }
 
     // AoWAb.PAS:2635
-    public override sbyte GetTouchAttack(int level) => 5;
+    public override int GetTouchAttack(int level) => 5;
 
     // AoWAb.PAS:2646
     public override bool CanTouch(CombatObject? source, CombatObject? target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit targetUnit && !target.GetAbilityEnabled(106) && targetUnit.Troop.GetUnitType() != UnitType.Machine && targetUnit.Troop is not Leader;

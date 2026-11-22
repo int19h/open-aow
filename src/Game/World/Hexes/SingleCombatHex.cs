@@ -47,7 +47,7 @@ public class SingleCombatHex(CustomNode owner) : AbstractHexagon(owner)
         public override int ResourceUserClassId() => SingleCombatHex.ClassId;
 
         // SingleCombatHex.pas:65
-        public override void SetLevel(byte value) => base.SetLevel(0);
+        public override void SetLevel(int value) => base.SetLevel(0);
 
         // SingleCombatHex.pas:70
         public override HexControl? HexControl => null;

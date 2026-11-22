@@ -166,8 +166,8 @@ public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
         if (hero is not null)
         {
             dialog.HeroNameLabel.Text = hero.HeroName;
-            sbyte level = hero.GetLevel();
-            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [((int)level).ToString(CultureInfo.InvariantCulture)]);
+            int level = hero.GetLevel();
+            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [level.ToString(CultureInfo.InvariantCulture)]);
             dialog.HeroLevelLabel.Text = format;
         }
         else

@@ -135,16 +135,16 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
     public virtual string GetOwnAbilityName(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetName(this);
 
     // Ability.PAS:1931
-    public virtual sbyte GetAbilityAttack(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetAttack(this);
+    public virtual int GetAbilityAttack(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetAttack(this);
 
     // Ability.PAS:1935
-    public virtual sbyte GetAbilityDefense(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetDefense(this);
+    public virtual int GetAbilityDefense(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetDefense(this);
 
     // Ability.PAS:1939
-    public virtual sbyte GetAbilityResistance(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetResistance(this);
+    public virtual int GetAbilityResistance(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetResistance(this);
 
     // Ability.PAS:1943
-    public virtual sbyte GetAbilityDamage(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetDamage(this);
+    public virtual int GetAbilityDamage(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetDamage(this);
 
     // Ability.PAS:1947
     public virtual MoveTypes GetAbilityMoveTypes(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetMoveTypes(this);
@@ -328,14 +328,14 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
     }
 
     // Ability.PAS:1850
-    public sbyte GetAbilityAttackAll()
+    public int GetAbilityAttackAll()
     {
-        sbyte result = 0;
+        int result = 0;
         for (int i = 0, last = OwnAbilityCount - 1; i <= last; i++)
         {
             if (GetOwnAbilityEnabled(i))
             {
-                result = (sbyte)(result + GamePack.Current.AbilityControl[i].GetAttack(this));
+                result = (result + GamePack.Current.AbilityControl[i].GetAttack(this)).TruncateToSByte();
             }
         }
 
@@ -343,14 +343,14 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
     }
 
     // Ability.PAS:1858
-    public sbyte GetAbilityDefenseAll()
+    public int GetAbilityDefenseAll()
     {
-        sbyte result = 0;
+        int result = 0;
         for (int i = 0, last = OwnAbilityCount - 1; i <= last; i++)
         {
             if (GetOwnAbilityEnabled(i))
             {
-                result = (sbyte)(result + GamePack.Current.AbilityControl[i].GetDefense(this));
+                result = (result + GamePack.Current.AbilityControl[i].GetDefense(this)).TruncateToSByte();
             }
         }
 
@@ -358,14 +358,14 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
     }
 
     // Ability.PAS:1866
-    public sbyte GetAbilityResistanceAll()
+    public int GetAbilityResistanceAll()
     {
-        sbyte result = 0;
+        int result = 0;
         for (int i = 0, last = OwnAbilityCount - 1; i <= last; i++)
         {
             if (GetOwnAbilityEnabled(i))
             {
-                result = (sbyte)(result + GamePack.Current.AbilityControl[i].GetResistance(this));
+                result = (result + GamePack.Current.AbilityControl[i].GetResistance(this)).TruncateToSByte();
             }
         }
 
@@ -373,14 +373,14 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
     }
 
     // Ability.PAS:1874
-    public sbyte GetAbilityDamageAll()
+    public int GetAbilityDamageAll()
     {
-        sbyte result = 0;
+        int result = 0;
         for (int i = 0, last = OwnAbilityCount - 1; i <= last; i++)
         {
             if (GetOwnAbilityEnabled(i))
             {
-                result = (sbyte)(result + GamePack.Current.AbilityControl[i].GetDamage(this));
+                result = (result + GamePack.Current.AbilityControl[i].GetDamage(this)).TruncateToSByte();
             }
         }
 

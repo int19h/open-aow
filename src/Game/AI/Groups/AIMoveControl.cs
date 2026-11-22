@@ -111,7 +111,7 @@ public sealed class AIMoveControl : EngineObject
         {
             for (int overlay = -1; overlay <= 11; overlay++)
             {
-                sbyte points = _movePointTable[terrain][overlay - MovementTables.FirstOverlay];
+                int points = _movePointTable[terrain][overlay - MovementTables.FirstOverlay];
                 if (points == -1)
                 {
                     points = _transportMovePointTable[terrain][overlay - MovementTables.FirstOverlay];
@@ -122,7 +122,7 @@ public sealed class AIMoveControl : EngineObject
                 }
 
                 MovePointTable movePointTable = _pathSettings.MovePointTable;
-                movePointTable[terrain][overlay - MovementTables.FirstOverlay] = points;
+                movePointTable[terrain][overlay - MovementTables.FirstOverlay] = (sbyte)points;
                 _pathSettings.MovePointTable = movePointTable;
             }
         }

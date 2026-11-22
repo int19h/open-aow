@@ -114,13 +114,13 @@ public class CommandAbility : TouchAbility
         if (wallSituation == WallSituation.None && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && defender.GetUnitType() != UnitType.Machine)
         {
             float probability = TouchRoleProbability(attacker, target: defender);
-            sbyte hitPoints = defender.GetHitPoints();
+            int hitPoints = defender.GetHitPoints();
             damageValues.SourceDamage = Round((double)(hitPoints * 200) * probability);
-            sbyte defenderHitPoints = defender.GetHitPoints();
+            int defenderHitPoints = defender.GetHitPoints();
             damageValues.SourceCost = defenderHitPoints * 2;
             int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, target: attacker);
             damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
-            sbyte damage = defender.GetDamage();
+            int damage = defender.GetDamage();
             damageValues.TargetCost = damage;
         }
         else
@@ -150,13 +150,13 @@ public class CommandAbility : TouchAbility
         if (CanTouch(attacker, target: defender) && attacker is CombatUnit attackerUnit && defender is CombatUnit defenderUnit && defenderUnit.Troop is not Leader)
         {
             float probability = CombatTouchRoleProbability(attackerUnit, target: defender);
-            sbyte hitPoints = defender.HitPoints;
+            int hitPoints = defender.HitPoints;
             damageValues.SourceDamage = Round((double)(hitPoints * 200) * probability);
-            sbyte defenderHitPoints = defender.HitPoints;
+            int defenderHitPoints = defender.HitPoints;
             damageValues.SourceCost = defenderHitPoints * 2;
             int strikeDamageValue = CombatObject.StrikeDamageValue(defender, target: attacker);
             damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));
-            sbyte damage = defender.GetDamage();
+            int damage = defender.GetDamage();
             damageValues.TargetCost = damage;
         }
         else

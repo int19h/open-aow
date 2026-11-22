@@ -8,6 +8,7 @@ using Aow.Game.Draw.Animations;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -61,7 +62,7 @@ public class FreezeWaterTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEv
                         FrozenWaterHexSprite ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
                         if (ice is not null)
                         {
-                            ice.DaysRemaining = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
+                            ice.DaysRemaining = (((StrategicMap.Current.Random(11) - 5) / 5) + 3).TruncateToSByte();
                             ice.CasterPlayer = (sbyte)EventPlayerIndex;
                         }
                     }
@@ -82,7 +83,7 @@ public class FreezeWaterTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEv
                 _ = StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, L: mapField.HexLevel);
             }
 
-            ice.DaysRemaining = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
+            ice.DaysRemaining = (((StrategicMap.Current.Random(11) - 5) / 5) + 3).TruncateToSByte();
             ice.CasterPlayer = (sbyte)EventPlayerIndex;
         }
     }

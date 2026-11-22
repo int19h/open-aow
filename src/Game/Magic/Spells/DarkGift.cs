@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -41,7 +42,7 @@ public class DarkGift : UnitSpell
                 UnitEnchantment enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(169).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
-                enchantment.DispelResistance = (sbyte)UnitDispelResistance;
+                enchantment.DispelResistance = UnitDispelResistance.TruncateToSByte();
             }
 
             // { Original succeeds even when expansion fails. }

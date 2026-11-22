@@ -63,10 +63,10 @@ public static class PersistSupport
             {
                 sbyte x = body.UnsignedByte("X", value.X);
                 sbyte y = body.UnsignedByte("Y", value.Y);
-                sbyte level = body.UnsignedByte("MapLevel", value.MapLevel);
+                int level = body.UnsignedByte("MapLevel", value.MapLevel);
                 if (body.Loading)
                 {
-                    loaded = new MapCoordinate(x, y, level);
+                    loaded = new MapCoordinate(x, y, (sbyte)level);
                 }
             }
             else

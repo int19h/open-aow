@@ -132,7 +132,7 @@ internal static class EffectPaths
         }
     }
 
-    internal static void MakeArcPathXY(short x1, short y1, short x2, short y2, short stepSize, short height, Point3DList list)
+    internal static void MakeArcPathXY(short x1, short y1, short x2, short y2, int stepSize, short height, Point3DList list)
     {
         int i = 0;
         int deltaX = Math.Abs(x2 - x1);

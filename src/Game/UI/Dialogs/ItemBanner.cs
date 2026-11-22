@@ -44,7 +44,7 @@ public sealed partial class ItemBanner(UIContext ui) : UIModule(ui)
             int y = 100;
             if (item.Attack != 0)
             {
-                AttackLabel.Text = ((int)item.Attack).ToString(CultureInfo.InvariantCulture);
+                AttackLabel.Text = item.Attack.ToString(CultureInfo.InvariantCulture);
                 AttackLabel.Visible = true;
                 AttackIcon.Visible = true;
                 AttackIcon.WinLeft = x + 10;
@@ -61,7 +61,7 @@ public sealed partial class ItemBanner(UIContext ui) : UIModule(ui)
 
             if (item.Damage != 0)
             {
-                DamageLabel.Text = ((int)item.Damage).ToString(CultureInfo.InvariantCulture);
+                DamageLabel.Text = item.Damage.ToString(CultureInfo.InvariantCulture);
                 DamageLabel.Visible = true;
                 DamageIcon.Visible = true;
                 DamageIcon.WinLeft = x + 10;
@@ -78,7 +78,7 @@ public sealed partial class ItemBanner(UIContext ui) : UIModule(ui)
 
             if (item.Defense != 0)
             {
-                DefenseLabel.Text = ((int)item.Defense).ToString(CultureInfo.InvariantCulture);
+                DefenseLabel.Text = item.Defense.ToString(CultureInfo.InvariantCulture);
                 DefenseLabel.Visible = true;
                 DefenseIcon.Visible = true;
                 DefenseIcon.WinLeft = x + 10;
@@ -95,7 +95,7 @@ public sealed partial class ItemBanner(UIContext ui) : UIModule(ui)
 
             if (item.Resistance != 0)
             {
-                ResistanceLabel.Text = ((int)item.Resistance).ToString(CultureInfo.InvariantCulture);
+                ResistanceLabel.Text = item.Resistance.ToString(CultureInfo.InvariantCulture);
                 ResistanceLabel.Visible = true;
                 ResistanceIcon.Visible = true;
                 ResistanceIcon.WinLeft = x + 10;

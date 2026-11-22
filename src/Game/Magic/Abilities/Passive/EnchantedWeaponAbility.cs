@@ -16,10 +16,10 @@ public class EnchantedWeaponAbility : UnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1081
-    public override sbyte GetAttack(AbilityOwner owner) => 1;
+    public override int GetAttack(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:1087
-    public override sbyte GetDamage(AbilityOwner owner) => 1;
+    public override int GetDamage(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:1093
     public override int GetAIUpkeepPriority(AbilityOwner owner)

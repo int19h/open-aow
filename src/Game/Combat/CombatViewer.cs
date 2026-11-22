@@ -23,9 +23,9 @@ public sealed class CombatViewer : IDisposable
 
     public CombatViewerStatuses Status { get; private set; }
     public Battle Combat { get; }
-    public byte Delay { get; private set; }
+    public int Delay { get; private set; }
 
-    private byte _speed;
+    private int _speed;
 
     public int Position { get; private set; }
     public int Time { get; private set; }

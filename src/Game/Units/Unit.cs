@@ -21,16 +21,16 @@ namespace Aow.Game.Units;
 public class Unit(CustomNode? owner) : Troop(owner)
 {
     public new const int ClassId = 131_603;
-    private byte _experience;
-    private sbyte _movePoints;
-    private sbyte _hitPoints;
+    private int _experience;
+    private int _movePoints;
+    private int _hitPoints;
 
     public UnitResource? UnitResource { get; set; }
-    public sbyte AbilityAttack { get; set; }
+    public int AbilityAttack { get; set; }
 
-    private sbyte _abilityDefense;
-    private sbyte _abilityResistance;
-    private sbyte _abilityDamage;
+    private int _abilityDefense;
+    private int _abilityResistance;
+    private int _abilityDamage;
 
     // Unit.PAS:2132
     // The original ReadWrite stores the resource index as a signed 16-bit value through the unsigned stream
@@ -39,9 +39,9 @@ public class Unit(CustomNode? owner) : Troop(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _experience = persister.Byte("Experience", value: _experience);
-        _movePoints = persister.UnsignedByte(name: "MovePoints", value: _movePoints);
-        _hitPoints = persister.UnsignedByte(name: "HitPoints", value: _hitPoints);
+        _experience = persister.Byte("Experience", value: _experience.TruncateToByte());
+        _movePoints = persister.UnsignedByte(name: "MovePoints", value: _movePoints.TruncateToSByte());
+        _hitPoints = persister.UnsignedByte(name: "HitPoints", value: _hitPoints.TruncateToSByte());
         if (persister.Loading)
         {
             short resourceIndex = unchecked((short)persister.UInt16("UnitResourceIndex", value: 0));
@@ -70,104 +70,104 @@ public class Unit(CustomNode? owner) : Troop(owner)
     }
 
     // Unit.PAS:2079
-    public override sbyte UnitLevel => UnitResource.Level;
+    public override int UnitLevel => UnitResource.Level;
 
     // Unit.PAS:2118
     public override sbyte GetRace() => UnitResource.Race;
 
     // Unit.PAS:2025
-    public override sbyte GetInherentAttack()
+    public override int GetInherentAttack()
     {
         Rank rank = GetRank();
-        return (sbyte)(RankTables.RankAttack[(int)rank] + UnitResource.Attack);
+        return (RankTables.RankAttack[(int)rank] + UnitResource.Attack).TruncateToSByte();
     }
 
     // Unit.PAS:2033
-    public override sbyte GetInherentDefense()
+    public override int GetInherentDefense()
     {
         Rank rank = GetRank();
-        return (sbyte)(RankTables.RankDefense[(int)rank] + UnitResource.Defense);
+        return (RankTables.RankDefense[(int)rank] + UnitResource.Defense).TruncateToSByte();
     }
 
     // Unit.PAS:2041
-    public override sbyte GetInherentDamage()
+    public override int GetInherentDamage()
     {
         Rank rank = GetRank();
-        return (sbyte)(RankTables.RankDamage[(int)rank] + UnitResource.Damage);
+        return (RankTables.RankDamage[(int)rank] + UnitResource.Damage).TruncateToSByte();
     }
 
     // Unit.PAS:2049
-    public override sbyte InherentResistance => UnitResource.Resistance;
+    public override int InherentResistance => UnitResource.Resistance;
 
     // Unit.PAS:2027
-    public override sbyte GetAttack()
+    public override int GetAttack()
     {
         Rank rank = GetRank();
-        sbyte result = (sbyte)(RankTables.RankAttack[(int)rank] + (UnitResource.Attack + AbilityAttack));
+        int result = (RankTables.RankAttack[(int)rank] + (UnitResource.Attack + AbilityAttack)).TruncateToSByte();
         if (result < 1)
         {
             result = 1;
         }
 
-        return result > 10 ? (sbyte)10 : result;
+        return result > 10 ? 10 : result;
     }
 
     // Unit.PAS:2035
-    public override sbyte GetDefense()
+    public override int GetDefense()
     {
         Rank rank = GetRank();
         Morale morale = GetMorale();
-        sbyte result = (sbyte)(RankTables.RankDefense[(int)rank] + (UnitResource.Defense + _abilityDefense) + Hero.MoraleDefense[(int)morale]);
+        int result = (RankTables.RankDefense[(int)rank] + (UnitResource.Defense + _abilityDefense) + Hero.MoraleDefense[(int)morale]).TruncateToSByte();
         if (result < 1)
         {
             result = 1;
         }
 
-        return result > 10 ? (sbyte)10 : result;
+        return result > 10 ? 10 : result;
     }
 
     // Unit.PAS:2043
-    public override sbyte GetDamage()
+    public override int GetDamage()
     {
         Rank rank = GetRank();
-        sbyte result = (sbyte)(RankTables.RankDamage[(int)rank] + (UnitResource.Damage + _abilityDamage));
+        int result = (RankTables.RankDamage[(int)rank] + (UnitResource.Damage + _abilityDamage)).TruncateToSByte();
         if (result < 1)
         {
             result = 1;
         }
 
-        return result > 10 ? (sbyte)10 : result;
+        return result > 10 ? 10 : result;
     }
 
     // Unit.PAS:2051
-    public override sbyte GetResistance()
+    public override int GetResistance()
     {
         Morale morale = GetMorale();
         Rank rank = GetRank();
-        sbyte result = (sbyte)(Hero.MoraleResistance[(int)morale] + (UnitResource.Resistance + _abilityResistance) + RankTables.RankResistance[(int)rank]);
+        int result = (Hero.MoraleResistance[(int)morale] + (UnitResource.Resistance + _abilityResistance) + RankTables.RankResistance[(int)rank]).TruncateToSByte();
         if (result < 1)
         {
             result = 1;
         }
 
-        return result > 10 ? (sbyte)10 : result;
+        return result > 10 ? 10 : result;
     }
 
     // Unit.PAS:2075
-    public override sbyte GetHits()
+    public override int GetHits()
     {
         Rank rank = GetRank();
-        return (sbyte)(RankTables.RankHits[(int)rank] + UnitResource.Hits);
+        return (RankTables.RankHits[(int)rank] + UnitResource.Hits).TruncateToSByte();
     }
 
     // Unit.PAS:2077
-    public override sbyte Moves => UnitResource.Moves;
+    public override int Moves => UnitResource.Moves;
 
     // Unit.PAS:1930
-    public override sbyte GetMovePoints() => _movePoints;
+    public override int GetMovePoints() => _movePoints;
 
     // Unit.PAS:1937
-    public override void SetMovePoints(sbyte value)
+    public override void SetMovePoints(int value)
     {
         if (value > Moves)
         {
@@ -183,14 +183,14 @@ public class Unit(CustomNode? owner) : Troop(owner)
     }
 
     // Unit.PAS:1943
-    public override sbyte GetHitPoints() => _hitPoints;
+    public override int GetHitPoints() => _hitPoints;
 
     // Unit.PAS:1945
     public override void SetHitPoints(sbyte value)
     {
         if (value > GetHits())
         {
-            value = GetHits();
+            value = (sbyte)GetHits();
         }
 
         if (value < 0)
@@ -224,9 +224,9 @@ public class Unit(CustomNode? owner) : Troop(owner)
     public override LibraryImage? GetPreviewImage() => UnitResource.GetPreviewImage();
 
     // Unit.PAS:2083
-    public override byte GetTransportCapacity()
+    public override int GetTransportCapacity()
     {
-        byte result = (byte)GetAbilityLevel(50);
+        int result = GetAbilityLevel(50).TruncateToByte();
         return result < UnitResource.GetTransportCapacity() ? UnitResource.GetTransportCapacity() : result;
     }
 
@@ -272,7 +272,7 @@ public class Unit(CustomNode? owner) : Troop(owner)
             value = 255;
         }
 
-        _experience = (byte)value;
+        _experience = value.TruncateToByte();
         Rank newRank = GetRank();
         if (oldRank != newRank)
         {
@@ -387,7 +387,7 @@ public class Unit(CustomNode? owner) : Troop(owner)
             UnitResource = resource;
             if (UnitResource is not null)
             {
-                _ = UpdateMoraleValue();
+                _ = (sbyte)UpdateMoraleValue();
                 for (int rankOrdinal = (int)Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
                 {
                     Rank rank = (Rank)rankOrdinal;

@@ -15,6 +15,7 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
@@ -29,7 +30,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     public HolySummonings Mode { get; set; }
 
     public sbyte Player { get; set; }
-    public sbyte Duration { get; set; }
+    public int Duration { get; set; }
     public sbyte OriginalOverlay { get; set; }
 
     // HolyG.pas:201
@@ -37,7 +38,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     {
         base.PersistFields(persister);
         Player = persister.SByte("Player", value: Player, fallback: -1);
-        Duration = persister.SByte("Duration", value: Duration, fallback: -1);
+        Duration = persister.SByte("Duration", value: Duration.TruncateToSByte(), fallback: -1);
         OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay, fallback: -1);
     }
 
@@ -228,7 +229,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
 
         if (player == Player && Duration > 0)
         {
-            Duration = (sbyte)(Duration - 1);
+            Duration = (Duration - 1).TruncateToSByte();
             if (Duration == 0)
             {
                 RestoreTerrain();

@@ -6,6 +6,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -16,17 +17,17 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
     // Combat2.pas:774
     public new const int ClassId = 131_761;
 
-    public byte Damage { get; set; }
+    public int Damage { get; set; }
     public DamageTypes DamageTypes { get; set; }
     public DamageTypes Effects { get; set; }
 
-    public byte DamageDone { get; protected set; }
+    public int DamageDone { get; protected set; }
 
     // Combat2.pas:777
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Damage = persister.Byte("Damage", value: Damage);
+        Damage = persister.Byte("Damage", value: Damage.TruncateToByte());
         Effects = persister.Record<PackedDamageTypes, DamageTypes>(name: "Effects", value: Effects);
         DamageTypes = persister.Record<PackedDamageTypes, DamageTypes>(name: "DamageTypes", value: DamageTypes);
     }
@@ -38,7 +39,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
         CombatObject target = combat.CombatData.FindId(TargetId);
         if (Damage != 0)
         {
-            DamageDone = (byte)source.DoDamage(target, Damage);
+            DamageDone = source.DoDamage(target, Damage).TruncateToByte();
         }
 
         if (Effects != DamageTypes.None)
@@ -116,7 +117,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
     }
 
     // Combat2.pas:785
-    public virtual void Setup(byte sourceId, byte targetId, byte damage, DamageTypes effects, DamageTypes damageTypes, bool defensive)
+    public virtual void Setup(byte sourceId, byte targetId, int damage, DamageTypes effects, DamageTypes damageTypes, bool defensive)
     {
         SourceId = sourceId;
         TargetId = targetId;
@@ -130,11 +131,11 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
     }
 
     // Combat2.pas:795
-    public virtual void Generate(CombatObject source, CombatObject target, sbyte attack, sbyte damage, DamageTypes damageTypes)
+    public virtual void Generate(CombatObject source, CombatObject target, int attack, int damage, DamageTypes damageTypes)
     {
         SourceId = source.Id;
         TargetId = target.Id;
-        Damage = (byte)target.ExecuteDamageRole(attack, damage, damageTypes);
+        Damage = target.ExecuteDamageRole(attack, damage, damageTypes).TruncateToByte();
         if (Damage != 0)
         {
             DamageTypes executeDamageEffectsRole = target.ExecuteDamageEffectsRole(damageTypes);
@@ -150,11 +151,11 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
     }
 
     // Combat2.pas:806
-    public virtual void Generate(CombatObject source, CombatObject target, sbyte attack, sbyte damage, DamageTypes damageTypes, byte damageMode)
+    public virtual void Generate(CombatObject source, CombatObject target, int attack, int damage, DamageTypes damageTypes, int damageMode)
     {
         SourceId = source.Id;
         TargetId = target.Id;
-        Damage = (byte)target.ExecuteDamageRole(attack, damage, damageTypes, damageMode);
+        Damage = target.ExecuteDamageRole(attack, damage, damageTypes, damageMode).TruncateToByte();
         if (Damage != 0)
         {
             DamageTypes executeDamageEffectsRole = target.ExecuteDamageEffectsRole(damageTypes);

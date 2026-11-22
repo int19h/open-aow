@@ -50,7 +50,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     public int UpdateCount { get; private set; }
 
     public sbyte BuildingPlayer { get; set; } = -1;
-    public byte BuildingDays { get; private set; }
+    public int BuildingDays { get; private set; }
 
     private StructureShadow? _shadow;
 
@@ -80,7 +80,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        BuildingDays = persister.Byte("BuildingDays", value: BuildingDays);
+        BuildingDays = persister.Byte("BuildingDays", value: BuildingDays.TruncateToByte());
         StructureId = persister.Int32("StructureId", value: StructureId);
         BuildingPlayer = persister.UnsignedByte(name: "BuildingPlayer", value: BuildingPlayer, fallback: 255);
     }
@@ -530,7 +530,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         {
             if (BuildingDays != 0)
             {
-                BuildingDays = (byte)(BuildingDays - 1);
+                BuildingDays = (BuildingDays - 1).TruncateToByte();
             }
 
             if (BuildingDays == 0)
@@ -640,7 +640,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
             GetRebuildInfo(out int cost, out int time);
             Player? players = StrategicMap.Current.Players.GetPlayers(troop.Player);
             StrategicMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - cost);
-            BuildingDays = (byte)time;
+            BuildingDays = time.TruncateToByte();
             BuildingPlayer = troop.Player;
             _ = ValidateObservation(troop.Player);
             ImageIndex = GetTerrainTypeImage(TerrainType);
@@ -655,7 +655,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     // Structur.PAS:1400
     public virtual bool ExecuteBuild(Troop troop, int days)
     {
-        BuildingDays = (byte)days;
+        BuildingDays = days.TruncateToByte();
         BuildingPlayer = troop.Player;
         ImageIndex = GetTerrainTypeImage(TerrainType);
         _ = ValidateObservation(troop.Player);

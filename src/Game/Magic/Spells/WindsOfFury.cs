@@ -6,6 +6,7 @@ using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 
 using Aow.Game.Magic.Abilities;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -38,7 +39,7 @@ public class WindsOfFury : CombatSpell
         };
         if (target.GetAbilityEnabled(1) || target.GetAbilityEnabled(59))
         {
-            action.Generate(source, target, attack: (sbyte)(CombatInfo.Attack + 2), CombatInfo.Damage, CombatInfo.DamageTypes);
+            action.Generate(source, target, attack: (CombatInfo.Attack + 2).TruncateToSByte(), CombatInfo.Damage, CombatInfo.DamageTypes);
         }
         else
         {

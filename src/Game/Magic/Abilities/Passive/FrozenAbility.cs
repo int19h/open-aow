@@ -19,13 +19,13 @@ public class FrozenAbility : UnitEnchantmentAbility
     }
 
     // PassiveAb.pas:674
-    public override sbyte GetDefense(AbilityOwner owner) => -2;
+    public override int GetDefense(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:658
     public override DurationMode GetDurationMode() => DurationMode.CombatTurn;
 
     // PassiveAb.pas:663
-    public override sbyte TotalDuration => 2;
+    public override int TotalDuration => 2;
 
     // PassiveAb.pas:668
     public override UnitEnchantment CreateEnchantment()

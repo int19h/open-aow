@@ -8,6 +8,7 @@ using Aow.Game.Combat;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
@@ -115,14 +116,14 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     protected override void OnChange() => base.OnChange();
 
     // Hero.PAS:410
-    public sbyte GetAttack()
+    public int GetAttack()
     {
-        sbyte result = 0;
+        int result = 0;
         foreach (Item item in Items)
         {
             if (item is not null)
             {
-                result = (sbyte)(result + item.Attack);
+                result = (result + item.Attack).TruncateToSByte();
             }
         }
 
@@ -130,14 +131,14 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     }
 
     // Hero.PAS:421
-    public sbyte GetDefense()
+    public int GetDefense()
     {
-        sbyte result = 0;
+        int result = 0;
         foreach (Item item in Items)
         {
             if (item is not null)
             {
-                result = (sbyte)(result + item.Defense);
+                result = (result + item.Defense).TruncateToSByte();
             }
         }
 
@@ -145,14 +146,14 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     }
 
     // Hero.PAS:432
-    public sbyte GetDamage()
+    public int GetDamage()
     {
-        sbyte result = 0;
+        int result = 0;
         foreach (Item item in Items)
         {
             if (item is not null)
             {
-                result = (sbyte)(result + item.Damage);
+                result = (result + item.Damage).TruncateToSByte();
             }
         }
 
@@ -160,14 +161,14 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     }
 
     // Hero.PAS:443
-    public sbyte GetResistance()
+    public int GetResistance()
     {
-        sbyte result = 0;
+        int result = 0;
         foreach (Item item in Items)
         {
             if (item is not null)
             {
-                result = (sbyte)(result + item.Resistance);
+                result = (result + item.Resistance).TruncateToSByte();
             }
         }
 

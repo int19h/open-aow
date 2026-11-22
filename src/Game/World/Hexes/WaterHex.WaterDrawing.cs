@@ -5,6 +5,7 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Host;
 using Aow.Game.Magic;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
@@ -19,7 +20,7 @@ public partial class WaterHex
         // { Original uses the shared engine settings and the Flood enchantment. }
         if (GetEngine().AnimationDetail != 0 && (Owner.FogCount != 0 || !Owner.Owner.Map.FogEnabled))
         {
-            _animationFrame = (sbyte)(_animationFrame + 1);
+            _animationFrame = (_animationFrame + 1).TruncateToSByte();
             if (_animationFrame >= 0)
             {
                 bool showing = false;
@@ -56,7 +57,7 @@ public partial class WaterHex
 
                 if (!showing)
                 {
-                    _animationFrame = GetEngine().AnimationDetail == 1 ? (sbyte)(-20 - Random(25)) : (sbyte)(-10 - Random(25));
+                    _animationFrame = GetEngine().AnimationDetail == 1 ? (-20 - Random(25)).TruncateToSByte() : (-10 - Random(25)).TruncateToSByte();
                 }
             }
         }

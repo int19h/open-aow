@@ -2,14 +2,12 @@
 // Translated from AoWTC.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
-
 using Aow.Game.Draw.Images;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 using static Aow.Rtl.PCharStrings;
@@ -406,7 +404,7 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
                                         int random2 = Random(5);
                                         int random3 = Random(100);
                                         Point3DList path18 = effect.Path;
-                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), stepSize: (short)(random2 + 5), height: 100, list: path18);
+                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), stepSize: (random2 + 5).TruncateToInt16(), height: 100, list: path18);
                                         effect.Path = path18;
                                     }
                                 }
@@ -446,7 +444,7 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
                                         int random2 = Random(5);
                                         int random3 = Random(100);
                                         Point3DList path20 = effect.Path;
-                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), stepSize: (short)(random2 + 5), height: 100, list: path20);
+                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), stepSize: (random2 + 5).TruncateToInt16(), height: 100, list: path20);
                                         effect.Path = path20;
                                     }
                                 }
@@ -1123,7 +1121,7 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
                                     Point3D? path2 = Path[0];
                                     int random5 = Random(50);
                                     Point3DList path39 = effect.Path;
-                                    EffectPaths.MakeArcPathXY((short)(path2.X + random5 + 25), (short)(path.Y + random4 - 225), (short)(pathX.X + random3 - 25), (short)(pathY.Y + random - 25), stepSize: (short)(random2 + 5), height: 100, list: path39);
+                                    EffectPaths.MakeArcPathXY((short)(path2.X + random5 + 25), (short)(path.Y + random4 - 225), (short)(pathX.X + random3 - 25), (short)(pathY.Y + random - 25), stepSize: (random2 + 5).TruncateToInt16(), height: 100, list: path39);
                                     effect.Path = path39;
                                     i = 0;
                                     for (; i <= 10; i += 1)
@@ -1160,7 +1158,7 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
                                         Point3D? pathZ = effect.Path[count8 - 1];
                                         int count9 = effect.Path.Count;
                                         Point3DList path41 = effect.Path;
-                                        EffectPaths.MakeArcPathXY((short)effect.Path[count9 - 1].X, (short)(path3.Y - pathZ.Z), (short)(x + 16), (short)(y - 8), stepSize: (short)(random6 + 6), height: 100, list: path41);
+                                        EffectPaths.MakeArcPathXY((short)effect.Path[count9 - 1].X, (short)(path3.Y - pathZ.Z), (short)(x + 16), (short)(y - 8), stepSize: (random6 + 6).TruncateToInt16(), height: 100, list: path41);
                                         effect.Path = path41;
                                         i = 0;
                                         int last = Random(3) + 5;

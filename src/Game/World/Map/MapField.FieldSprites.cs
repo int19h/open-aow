@@ -11,7 +11,7 @@ public partial class MapField
 {
     private byte[] _directions = [];
 
-    public void Resize(byte capacity)
+    public void Resize(int capacity)
     {
         if (capacity is > 0 and < 3)
         {
@@ -52,7 +52,7 @@ public partial class MapField
         catch { }
         if (Capacity == StoredCount)
         {
-            Resize((byte)(Capacity + 1));
+            Resize((Capacity + 1).TruncateToByte());
         }
 
         int priority = sprite.GetShowPriority();
@@ -72,12 +72,12 @@ public partial class MapField
         }
         if (priority >>> 26 <= 15)
         {
-            StaticCount++;
+            StaticCount = (StaticCount + 1).TruncateToByte();
         }
 
         _hexSpriteList[index] = sprite;
         _directions[index] = (byte)hexNumber;
-        StoredCount++;
+        StoredCount = (StoredCount + 1).TruncateToByte();
         return index;
     }
 
@@ -94,7 +94,7 @@ public partial class MapField
             return -1;
         }
 
-        StoredCount--;
+        StoredCount = (StoredCount - 1).TruncateToByte();
         if (index < StoredCount)
         {
             Array.Copy(_directions, sourceIndex: index + 1, destinationArray: _directions, destinationIndex: index, length: StoredCount - index);
@@ -104,7 +104,7 @@ public partial class MapField
         {
             if (StaticCount != 0)
             {
-                StaticCount--;
+                StaticCount = (StaticCount - 1).TruncateToByte();
             }
             else
             {
@@ -120,7 +120,7 @@ public partial class MapField
 
     public void Remove(int index)
     {
-        StoredCount--;
+        StoredCount = (StoredCount - 1).TruncateToByte();
         if (index < StoredCount)
         {
             Array.Copy(_directions, sourceIndex: index + 1, destinationArray: _directions, destinationIndex: index, length: StoredCount - index);
@@ -153,7 +153,7 @@ public partial class MapField
         StaticCount = 0;
         while (StaticCount != StoredCount && _hexSpriteList[StaticCount].GetShowPriority() >>> 26 <= 15)
         {
-            StaticCount++;
+            StaticCount = (StaticCount + 1).TruncateToByte();
         }
     }
 

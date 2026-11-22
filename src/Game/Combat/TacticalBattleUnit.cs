@@ -47,7 +47,7 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
         {
             if (GetEnabled() && UnitHexSprite is not null && Troop.BloodType != BloodType.None)
             {
-                sbyte hitPoints = HitPoints;
+                int hitPoints = HitPoints;
                 int count = damage >= hitPoints && (GetAbilityEnabled(131) || DeathMethod == TacticalBattleUnitDeathMethod.Explode)
                     ? Random(5) + 10
                     : Random(damage + 7) - 4;

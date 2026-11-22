@@ -123,8 +123,8 @@ public class InvokeDeathAbility : TouchAbility
     // AoWAb.PAS:3444
     public override void GetCombatInfo(AbilityOwner? owner, ref AbilityCombatInfo info)
     {
-        sbyte touchAttack = GetTouchAttack(1);
-        info.Attack = touchAttack;
+        int touchAttack = GetTouchAttack(1);
+        info.Attack = (sbyte)touchAttack;
         info.Damage = -1;
         info.DamageTypes = DamageTypes.Death;
         info.RepeatCount = 1;
@@ -132,7 +132,7 @@ public class InvokeDeathAbility : TouchAbility
     }
 
     // AoWAb.PAS:3452
-    public override sbyte GetTouchAttack(int level) => 6;
+    public override int GetTouchAttack(int level) => 6;
 
     // AoWAb.PAS:3561
     public override bool CanTouch(CombatObject? source, CombatObject? target)

@@ -40,7 +40,7 @@ public class LocationTextEventLog(CustomNode owner) : TextEventLog(owner)
     // EventLog.pas:737
     public void SetLocation(MapCoordinate location) => Location = location;
 
-    public void SetLocation(sbyte x, sbyte y, sbyte level)
-        => SetLocation(new MapCoordinate(x, y, level));
+    public void SetLocation(sbyte x, sbyte y, int level)
+        => SetLocation(new MapCoordinate(x, y, (sbyte)level));
 
 }

@@ -2,15 +2,11 @@
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine;
-
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
-
+using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.Magic.Abilities;
@@ -37,17 +33,17 @@ public class UnitEnchantmentAbility : AdjustableAbility
                     result = base.GetName(owner);
                     if (GetDuration(owner) != 0)
                     {
-                        byte duration = GetDuration(owner);
-                        sbyte totalDuration = TotalDuration;
-                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationDaysFormat), arguments: [((int)duration).ToString(CultureInfo.InvariantCulture), ((int)totalDuration).ToString(CultureInfo.InvariantCulture)]);
+                        int duration = GetDuration(owner);
+                        int totalDuration = TotalDuration;
+                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationDaysFormat), arguments: [duration.ToString(CultureInfo.InvariantCulture), totalDuration.ToString(CultureInfo.InvariantCulture)]);
                         return $"{result} {format}";
                     }
 
                     break;
                 case DurationMode.CombatTurn:
-                    byte duration2 = GetDuration(owner);
-                    sbyte totalDuration2 = TotalDuration;
-                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationCombatTurnFormat), arguments: [((int)duration2).ToString(CultureInfo.InvariantCulture), ((int)totalDuration2).ToString(CultureInfo.InvariantCulture)]);
+                    int duration2 = GetDuration(owner);
+                    int totalDuration2 = TotalDuration;
+                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationCombatTurnFormat), arguments: [duration2.ToString(CultureInfo.InvariantCulture), totalDuration2.ToString(CultureInfo.InvariantCulture)]);
                     return $"{base.GetName(owner)} {formattedText}";
                 case DurationMode.EntireCombat:
                     string name = base.GetName(owner);
@@ -96,7 +92,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
             {
                 if (data.EnchantmentDuration > 0 && player == data.EnchantmentPlayerIndex)
                 {
-                    data.EnchantmentDuration = (sbyte)(data.EnchantmentDuration - 1);
+                    data.EnchantmentDuration = (data.EnchantmentDuration - 1).TruncateToSByte();
                     if (data.EnchantmentDuration == 0)
                     {
                         _ = owner.RemoveAbility(AbilityId);
@@ -183,7 +179,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
             {
                 if (data.EnchantmentDuration > 0 && player == data.EnchantmentPlayerIndex)
                 {
-                    data.EnchantmentDuration = (sbyte)(data.EnchantmentDuration - 1);
+                    data.EnchantmentDuration = (data.EnchantmentDuration - 1).TruncateToSByte();
                     if (data.EnchantmentDuration == 0)
                     {
                         _ = combatObject.AbilityOwner.RemoveAbility(AbilityId);
@@ -217,17 +213,17 @@ public class UnitEnchantmentAbility : AdjustableAbility
     public virtual DurationMode GetDurationMode() => DurationMode.None;
 
     // AoWAb.PAS:719
-    public virtual byte GetDuration(AbilityOwner owner)
+    public virtual int GetDuration(AbilityOwner owner)
     {
         UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-        return data is not null ? (byte)data.EnchantmentDuration : (byte)0;
+        return data is not null ? data.EnchantmentDuration.TruncateToByte() : 0;
     }
 
     // AoWAb.PAS:608
     public virtual int GetAIUpkeepPriority(AbilityOwner owner) => 0;
 
     // AoWAb.PAS:730
-    public virtual sbyte TotalDuration => -1;
+    public virtual int TotalDuration => -1;
 
     // AoWAb.PAS:663
     public virtual UnitEnchantment CreateEnchantment() => new(null) { Holder = CreationHolder() };

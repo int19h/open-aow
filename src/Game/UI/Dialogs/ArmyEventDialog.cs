@@ -81,21 +81,21 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
             if (frame > 5)
             {
                 byte unit4 = _units[index];
-                byte damageValue = eventValue.DamageValues[unit4];
+                int damageValue = eventValue.DamageValues[unit4];
                 byte unit5 = _units[index];
-                byte damageType = eventValue.DamageTypes[unit5];
+                int damageType = eventValue.DamageTypes[unit5];
                 AbilityRules.ShowDamageIcon(UI.Engine, X, Y + 8, surface: lockedSurface, damage: damageValue, damageType: (DamageType)damageType);
                 byte unit6 = _units[index];
-                sbyte hitPoints = eventValue.ArmyView.Units.GetUnit(unit6).GetHitPoints();
+                int hitPoints = eventValue.ArmyView.Units.GetUnit(unit6).GetHitPoints();
                 byte unit7 = _units[index];
-                byte damageValue2 = eventValue.DamageValues[unit7];
+                int damageValue2 = eventValue.DamageValues[unit7];
                 byte unit8 = _units[index];
-                HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent((sbyte)(byte)(hitPoints - damageValue2), hits: eventValue.ArmyView.Units.GetUnit(unit8).GetHits()), x: X, y: Y, surface: lockedSurface);
+                HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent((hitPoints - damageValue2).TruncateToSByte(), hits: eventValue.ArmyView.Units.GetUnit(unit8).GetHits()), x: X, y: Y, surface: lockedSurface);
             }
             else
             {
                 byte unit4 = _units[index];
-                sbyte hits = eventValue.ArmyView.Units.GetUnit(unit4).GetHits();
+                int hits = eventValue.ArmyView.Units.GetUnit(unit4).GetHits();
                 byte unit5 = _units[index];
                 HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(eventValue.ArmyView.Units.GetUnit(unit5).GetHitPoints(), hits), x: X, y: Y, surface: lockedSurface);
             }

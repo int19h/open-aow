@@ -31,7 +31,7 @@ public sealed class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexS
     private int _sequenceFrame;
 
     // AoWTC.pas:4007
-    public override byte Level => 26;
+    public override int Level => 26;
 
     // AoWTC.pas:4012
     public override int GetShowPriority() => 1_744_830_464 + (OffsetY << 13) + OffsetX;

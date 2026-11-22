@@ -55,7 +55,7 @@ public partial class MapObject(CustomNode? owner) : HexSprite(owner)
     public override int OverlayCount => _resource.TerrainList.Count;
 
     // MAPOBJ.PAS:16
-    public override byte Level => _resource.Level;
+    public override int Level => _resource.Level;
 
     // MAPOBJ.PAS:29
     public override bool Visible

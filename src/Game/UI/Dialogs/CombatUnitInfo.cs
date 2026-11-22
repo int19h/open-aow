@@ -73,7 +73,7 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
                 bool test = combatMode is not (>= CombatMode.ShortRange and <= CombatMode.LongRange) && UI.General.CombatUnit.Abilities[drawItem].Ability != 52;
                 if (!test)
                 {
-                    sbyte moves = UI.General.CombatUnit.Unit.Troop.Moves;
+                    int moves = UI.General.CombatUnit.Unit.Troop.Moves;
                     test = UI.General.CombatUnit.Unit.MovePoints == moves;
                 }
 

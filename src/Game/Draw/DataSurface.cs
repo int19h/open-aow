@@ -14,7 +14,7 @@ public sealed partial class DataSurface : Surface
 
     private int _width;
     private int _height;
-    private byte _bitCount;
+    private int _bitCount;
     private PixelFormat _pixelFormatId;
 
     internal int X { get; private set; }
@@ -25,7 +25,7 @@ public sealed partial class DataSurface : Surface
     // GFXE.pas:12387
     public DataSurface(int width, int height, PixelFormat pixelFormatId, Palette? palette)
     {
-        _bitCount = (byte)pixelFormatId.BitCount();
+        _bitCount = pixelFormatId.BitCount().TruncateToByte();
         _pixelFormatId = pixelFormatId;
         SetPalette(palette);
         _ = Resize(width, height);
@@ -64,7 +64,7 @@ public sealed partial class DataSurface : Surface
         {
             try
             {
-                _bitCount = (byte)lockedSurface.BitCount;
+                _bitCount = lockedSurface.BitCount.TruncateToByte();
                 _pixelFormatId = lockedSurface.PixelFormatId;
                 if (R is null)
                 {

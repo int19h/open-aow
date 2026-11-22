@@ -88,7 +88,7 @@ public class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                     finder.Selector.TargetInfo = targetInfo;
                 }
 
-                sbyte moves = Army.Moves(Selection);
+                int moves = Army.Moves(Selection);
                 finder.Selector.MovePointsMax = moves;
                 ActivatePlugin(finder);
                 _ = finder.Release();

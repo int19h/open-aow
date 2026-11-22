@@ -41,8 +41,8 @@ public sealed class CombatUnitSelectionControl : MoveSelector
 
     private int _targetX;
     private int _targetY;
-    private ushort _cursorImage;
-    private ushort _cursorFrame;
+    private int _cursorImage;
+    private int _cursorFrame;
 
     public HexSprite? MouseOverTarget { get; private set; }
 
@@ -438,11 +438,11 @@ public sealed class CombatUnitSelectionControl : MoveSelector
 
         if (unitHexSprite.SelectedAbility > -1)
         {
-            _cursorFrame = (ushort)(_cursorFrame + 1);
+            _cursorFrame = (_cursorFrame + 1).TruncateToUInt16();
             if (_cursorFrame >= 5)
             {
                 _cursorFrame = 0;
-                _cursorImage = (ushort)(_cursorImage + 1);
+                _cursorImage = (_cursorImage + 1).TruncateToUInt16();
             }
 
             if (unitHexSprite.SelectedAbility == 52)

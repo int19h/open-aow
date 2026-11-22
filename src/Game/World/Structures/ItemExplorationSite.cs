@@ -9,6 +9,7 @@ using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiRandom;
 
@@ -26,7 +27,7 @@ public class ItemExplorationSite : ExplorationSite
     // ItemExpS.pas:102
     public new const int ClassId = 132_083;
 
-    private byte _itemCount;
+    private int _itemCount;
     // 0 user-defined, 4 random
     private ExplorationSiteItemList? _items;
 
@@ -43,7 +44,7 @@ public class ItemExplorationSite : ExplorationSite
     {
         base.PersistFields(persister);
         persister.Object("Items", objectValue: _items);
-        _itemCount = persister.RawByte("ItemCount", value: _itemCount);
+        _itemCount = persister.RawByte("ItemCount", value: _itemCount.TruncateToByte());
     }
 
     // ItemExpS.pas:114
@@ -115,7 +116,7 @@ public class ItemExplorationSite : ExplorationSite
             RandSeed = StrategicMap.Current.Random(16777215);
             if (_itemCount == 4)
             {
-                _itemCount = (byte)(StrategicMap.Current.Random(3) + 1);
+                _itemCount = (StrategicMap.Current.Random(3) + 1).TruncateToByte();
             }
 
             _items.Clear();

@@ -16,7 +16,7 @@ public class StoneSkinAbility : UnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1048
-    public override sbyte GetDefense(AbilityOwner owner) => 2;
+    public override int GetDefense(AbilityOwner owner) => 2;
 
     // PassiveAb.pas:1037
     public override string GetSourceName(AbilityOwner owner)

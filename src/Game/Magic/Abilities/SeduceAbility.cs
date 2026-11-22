@@ -21,7 +21,7 @@ public class SeduceAbility : CommandAbility
     }
 
     // AoWAb.PAS:5380
-    public override sbyte GetTouchAttack(int level) => 4;
+    public override int GetTouchAttack(int level) => 4;
 
     // AoWAb.PAS:5389
     public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && target is CombatUnit combatUnit && combatUnit.Troop.Gender == UnitGender.Male && combatUnit.Troop.GetUnitType() == UnitType.Humanoid;

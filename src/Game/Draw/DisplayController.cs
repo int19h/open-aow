@@ -131,7 +131,7 @@ public partial class DisplayController(Component? owner) : Component(owner)
     }
 
     private int _lastFrameTime;
-    private ushort _frameCount;
+    private int _frameCount;
 
     internal DisplayControllerStatuses Status { get; private protected set; }
 
@@ -479,7 +479,7 @@ public partial class DisplayController(Component? owner) : Component(owner)
             _lastFrameTime = t;
         }
 
-        _frameCount = (ushort)(_frameCount + 1);
+        _frameCount = (_frameCount + 1).TruncateToUInt16();
     }
 
     // DisplayC.pas:1063

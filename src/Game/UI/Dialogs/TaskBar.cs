@@ -8,6 +8,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.UI.Dialogs;
@@ -53,11 +54,11 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
     private int _indicatorFrame;
     private int _indicatorStep;
 
-    public short WorldClockDelay { get; set; }
+    public int WorldClockDelay { get; set; }
 
-    private short _combatClockDelay;
+    private int _combatClockDelay;
 
-    public short ChatFlash { get; set; }
+    public int ChatFlash { get; set; }
 
     // AoWTBWindow.pas:122
     public void WorldTurnButtonAnimationDone()
@@ -239,7 +240,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
         int position = 0;
         for (int i = 0, last = CombatMap.Current.Combat.CombatData.TurnOrder.Count - 1; i <= last; i++)
         {
-            byte turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[i];
+            int turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[i];
             TacticalBattlePlayer player = CombatMap.Current.Players.GetPlayers((sbyte)turnOrder);
             int race = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
             if (race == -1)
@@ -295,18 +296,18 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
     {
         if (WorldPanel.Visible && StrategicMap.Current is not null)
         {
-            WorldClockDelay = (short)(WorldClockDelay - 1);
+            WorldClockDelay = (WorldClockDelay - 1).TruncateToInt16();
             if (WorldClockDelay < 0)
             {
-                ushort minute;
+                int minute;
                 if (StrategicMap.Current.TurnTime != 0)
                 {
                     WorldClockDelay = 10;
-                    minute = (ushort)(StrategicMap.Current.TurnTimeLeft / 60_000);
+                    minute = (StrategicMap.Current.TurnTimeLeft / 60_000).TruncateToUInt16();
                     ushort second = (ushort)(StrategicMap.Current.TurnTimeLeft % 60_000 / 1_000);
                     WorldTimeLabel.TextColor = minute == 0 && second is > 0 and <= 10 ? 255 : 0;
 
-                    WorldTimeLabel.Text = $"{((int)minute).ToString(CultureInfo.InvariantCulture)}:";
+                    WorldTimeLabel.Text = $"{minute.ToString(CultureInfo.InvariantCulture)}:";
                     if (second < 10)
                     {
                         WorldTimeLabel.Text = $"{WorldTimeLabel.Text}0";
@@ -318,11 +319,11 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
                 {
                     WorldClockDelay = 900;
                     DateTime now = Clock.Now;
-                    ushort hour = (ushort)now.Hour;
-                    minute = (ushort)now.Minute;
+                    int hour = now.Hour.TruncateToUInt16();
+                    minute = now.Minute.TruncateToUInt16();
                     if (hour > 12)
                     {
-                        hour = (ushort)(hour - 12);
+                        hour = (hour - 12).TruncateToUInt16();
                     }
 
                     if (hour == 0)
@@ -330,13 +331,13 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
                         hour = 12;
                     }
 
-                    WorldTimeLabel.Text = $"{((int)hour).ToString(CultureInfo.InvariantCulture)}:";
+                    WorldTimeLabel.Text = $"{hour.ToString(CultureInfo.InvariantCulture)}:";
                     if (minute < 10)
                     {
                         WorldTimeLabel.Text = $"{WorldTimeLabel.Text}0";
                     }
 
-                    WorldTimeLabel.Text = WorldTimeLabel.Text + ((int)minute).ToString(CultureInfo.InvariantCulture);
+                    WorldTimeLabel.Text = WorldTimeLabel.Text + minute.ToString(CultureInfo.InvariantCulture);
                 }
             }
         }
@@ -347,16 +348,16 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
     {
         if (CombatPanel.Visible && CombatMap.Current is not null)
         {
-            _combatClockDelay = (short)(_combatClockDelay - 1);
+            _combatClockDelay = (_combatClockDelay - 1).TruncateToInt16();
             if (_combatClockDelay < 0)
             {
                 _combatClockDelay = 900;
                 DateTime now = Clock.Now;
-                ushort hour = (ushort)now.Hour;
-                ushort minute = (ushort)now.Minute;
+                int hour = now.Hour.TruncateToUInt16();
+                int minute = now.Minute.TruncateToUInt16();
                 if (hour > 12)
                 {
-                    hour = (ushort)(hour - 12);
+                    hour = (hour - 12).TruncateToUInt16();
                 }
 
                 if (hour == 0)
@@ -364,13 +365,13 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
                     hour = 12;
                 }
 
-                CombatTimeLabel.Text = $"{((int)hour).ToString(CultureInfo.InvariantCulture)}:";
+                CombatTimeLabel.Text = $"{hour.ToString(CultureInfo.InvariantCulture)}:";
                 if (minute < 10)
                 {
                     CombatTimeLabel.Text = $"{CombatTimeLabel.Text}0";
                 }
 
-                CombatTimeLabel.Text = CombatTimeLabel.Text + ((int)minute).ToString(CultureInfo.InvariantCulture);
+                CombatTimeLabel.Text = CombatTimeLabel.Text + minute.ToString(CultureInfo.InvariantCulture);
             }
         }
     }
@@ -441,7 +442,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
                     break;
             }
 
-            ChatFlash = (short)(ChatFlash - 1);
+            ChatFlash = (ChatFlash - 1).TruncateToInt16();
         }
     }
 

@@ -12,6 +12,7 @@ using Aow.Game.Session;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Draw;
@@ -24,7 +25,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
 
     public byte WatcherState { get; private set; }
 
-    private byte _unfogRadius;
+    private int _unfogRadius;
 
     public WatcherEnchantment Enchantment { get; }
 
@@ -80,7 +81,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
     }
 
     // GlobalTargetSpells.pas:1223
-    public override byte Level => 27;
+    public override int Level => 27;
 
     // GlobalTargetSpells.pas:1255
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -326,7 +327,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
                 _ = StrategicMap.Current.FogArea(hexX, hexY, HexLevel, range: _unfogRadius);
             }
 
-            _unfogRadius = (byte)radius;
+            _unfogRadius = radius.TruncateToByte();
             if (_unfogRadius != 0)
             {
                 sbyte hexY = HexY;

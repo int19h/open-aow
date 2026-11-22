@@ -27,7 +27,7 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
         {
             _caster = Enumerable.Range(1, count: map.Players.GetCount() - 1)
                 .Where(i => map.Players.GetPlayers(i).Leader is not null)
-                .OrderBy(i => map.Players.GetPlayers(i).Leader.Level).ThenBy(i => i).Last();
+                .OrderBy(i => (byte)map.Players.GetPlayers(i).Leader.Level).ThenBy(i => i).Last();
             _ = map.Players.GetPlayers(_caster).MagicControl.ExecuteSpellResearched(spell);
             CastGlobal();
         }
@@ -65,8 +65,8 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
             player = _caster,
             player_busy = player.GetBusy(),
             current_player = map.CurrentPlayer,
-            casting_points = hero.CastingPoints,
-            casting_max = hero.GetCastingPointsMax(),
+            casting_points = (sbyte)hero.CastingPoints,
+            casting_max = (sbyte)hero.GetCastingPointsMax(),
             casting_before = before,
             required_before = required,
             casting_after = hero.CastingSpellId,

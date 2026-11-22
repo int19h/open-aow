@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Terrain;
 
@@ -27,7 +28,7 @@ public class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
         // Pad.pas:76
         public new const int ClassId = 131_335;
 
-        private byte _padSize;
+        private int _padSize;
 
         // Pad.pas:69
         public override void Dispose()
@@ -64,7 +65,7 @@ public class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
             {
                 if (TerrainList.GetTerrain(i) >= -1)
                 {
-                    _padSize = (byte)(_padSize + 1);
+                    _padSize = (_padSize + 1).TruncateToByte();
                 }
             }
 

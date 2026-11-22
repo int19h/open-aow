@@ -29,7 +29,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
 
     private bool _generateSpell = true;
     private MagicSpheres _magicSpheres = s_allMagicSpheres;
-    private byte _spellLevel = 2;
+    private int _spellLevel = 2;
 
     public int SpellId { get; private set; }
 
@@ -39,7 +39,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
         base.PersistFields(persister);
         _generateSpell = persister.Boolean("GenerateSpell", value: _generateSpell);
         _magicSpheres = persister.Set("MagicSpheres", value: _magicSpheres);
-        _spellLevel = persister.Byte("SpellLevel", value: _spellLevel);
+        _spellLevel = persister.Byte("SpellLevel", value: _spellLevel.TruncateToByte());
         SpellId = persister.RawInt32("SpellId", value: SpellId);
     }
 

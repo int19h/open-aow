@@ -5,17 +5,12 @@ using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
 using Aow.Game.Combat.Actions;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
-
+using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.DelphiRounding;
 
@@ -219,16 +214,16 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
     }
 
     // Combat.pas:5737
-    public virtual sbyte GetAttack() => 0;
+    public virtual int GetAttack() => 0;
 
     // Combat.pas:5740
-    public virtual sbyte GetDefense() => 0;
+    public virtual int GetDefense() => 0;
 
     // Combat.pas:5743
-    public virtual sbyte GetResistance() => 0;
+    public virtual int GetResistance() => 0;
 
     // Combat.pas:5746
-    public virtual sbyte GetDamage() => 0;
+    public virtual int GetDamage() => 0;
 
     // Combat.pas:5749
     public virtual DamageTypes GetImmunityTypes() => DamageTypes.None;
@@ -237,13 +232,13 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
     public virtual DamageTypes GetProtectionTypes() => DamageTypes.None;
 
     // Combat.pas:5758
-    public virtual sbyte GetHits() => 0;
+    public virtual int GetHits() => 0;
 
     // Combat.pas:5764
-    public virtual sbyte HitPoints => 0;
+    public virtual int HitPoints => 0;
 
     // Combat.pas:5761
-    public virtual void SetHitPoints(byte value)
+    public virtual void SetHitPoints(int value)
     {
     }
 
@@ -262,7 +257,7 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
     }
 
     // Combat.pas:5773
-    public virtual byte Level => 0;
+    public virtual int Level => 0;
 
     // Combat.pas:5617
     public virtual int GetVisibilityRange() => 0;
@@ -465,7 +460,7 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
     }
 
     // Combat.pas:5849
-    public virtual int ExecuteDamageRole(int attack, int damage, DamageTypes damageTypes, byte damageMode)
+    public virtual int ExecuteDamageRole(int attack, int damage, DamageTypes damageTypes, int damageMode)
     {
         int result = 0;
         DamageTypes types = damageTypes & ~GetImmunityTypes();
@@ -522,7 +517,7 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
         int hits = HitPoints;
         int result = hits < damage ? hits : damage;
 
-        SetHitPoints((byte)(hits - result));
+        SetHitPoints((hits - result).TruncateToByte());
         if (damage != 0)
         {
             Status |= CombatObjectStatuses.Damaged;
@@ -701,8 +696,8 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
     {
         if (source.GetAbilityEnabled(21))
         {
-            sbyte attack = source.GetAttack();
-            sbyte damage = source.GetDamage();
+            int attack = source.GetAttack();
+            int damage = source.GetDamage();
             DamageTypes types = MeleeDamageTypes(source);
             bool condition = source.GetAbilityEnabled(146) || source.GetAbilityEnabled(160);
             if (condition)
@@ -713,8 +708,8 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
 
             if (condition)
             {
-                attack = (sbyte)(attack + 2);
-                damage = (sbyte)(damage + 2);
+                attack = (attack + 2).TruncateToSByte();
+                damage = (damage + 2).TruncateToSByte();
             }
 
             bool test = source.GetAbilityEnabled(147) || source.GetAbilityEnabled(161);
@@ -726,14 +721,14 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
 
             if (test)
             {
-                attack = (sbyte)(attack + 2);
-                damage = (sbyte)(damage + 2);
+                attack = (attack + 2).TruncateToSByte();
+                damage = (damage + 2).TruncateToSByte();
             }
 
             if (source.GetAbilityEnabled(112) && target.GetAbilityEnabled(63))
             {
-                attack = (sbyte)(attack + 3);
-                damage = (sbyte)(damage + 3);
+                attack = (attack + 3).TruncateToSByte();
+                damage = (damage + 3).TruncateToSByte();
             }
 
             return AbilityRules.StatisticsToLimitedDamageValue(attack, damage, damageTypes: types, maximum: target.HitPoints, defense: target.GetDefense(), resistance: target.GetResistance(), immunityTypes: target.GetImmunityTypes(), protectionTypes: target.GetProtectionTypes());
@@ -749,8 +744,8 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
         StrikeCombatAction result;
         if (source.GetAbilityEnabled(21))
         {
-            sbyte attack = source.GetAttack();
-            sbyte damage = source.GetDamage();
+            int attack = source.GetAttack();
+            int damage = source.GetDamage();
             DamageTypes types = MeleeDamageTypes(source);
             bool condition = source.GetAbilityEnabled(146) || source.GetAbilityEnabled(160);
             if (condition)
@@ -761,8 +756,8 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
 
             if (condition)
             {
-                attack = (sbyte)(attack + 2);
-                damage = (sbyte)(damage + 2);
+                attack = (attack + 2).TruncateToSByte();
+                damage = (damage + 2).TruncateToSByte();
             }
 
             bool test = source.GetAbilityEnabled(147) || source.GetAbilityEnabled(161);
@@ -774,14 +769,14 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
 
             if (test)
             {
-                attack = (sbyte)(attack + 2);
-                damage = (sbyte)(damage + 2);
+                attack = (attack + 2).TruncateToSByte();
+                damage = (damage + 2).TruncateToSByte();
             }
 
             if (source.GetAbilityEnabled(112) && target.GetAbilityEnabled(63))
             {
-                attack = (sbyte)(attack + 3);
-                damage = (sbyte)(damage + 3);
+                attack = (attack + 3).TruncateToSByte();
+                damage = (damage + 3).TruncateToSByte();
             }
 
             result = new StrikeCombatAction(null) { Holder = source };

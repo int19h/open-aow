@@ -134,11 +134,11 @@ public class RoundAttackAbility : TouchAbility
             DamageTypes damageTypes = CombatObject.MeleeDamageTypes(attacker);
             int strikeDamageValue = CombatObject.StrikeDamageValue(attacker, target: defender);
             damageValues.SourceDamage = strikeDamageValue;
-            sbyte damage = attacker.GetDamage();
+            int damage = attacker.GetDamage();
             damageValues.SourceCost = damage;
             int strikeDamageValueLocal = CombatObject.StrikeDamageValue(defender, target: attacker);
             damageValues.TargetDamage = strikeDamageValueLocal;
-            sbyte defenderDamage = defender.GetDamage();
+            int defenderDamage = defender.GetDamage();
             damageValues.TargetCost = defenderDamage;
             DamageTypes immunityTypes = defender.GetImmunityTypes();
             damageValues.DamageTypes = damageTypes & ~immunityTypes;
@@ -183,12 +183,12 @@ public class RoundAttackAbility : TouchAbility
         {
             int strikeDamageValue = CombatObject.StrikeDamageValue(attacker, target: defender);
             damageValues.SourceDamage = strikeDamageValue * 2;
-            sbyte damage = attacker.GetDamage();
+            int damage = attacker.GetDamage();
             damageValues.SourceCost = damage * 2;
             // { Original repeats the forward strike instead of reversing the arguments. }
             int strikeDamageValueLocal = CombatObject.StrikeDamageValue(attacker, target: defender);
             damageValues.TargetDamage = strikeDamageValueLocal;
-            sbyte defenderDamage = defender.GetDamage();
+            int defenderDamage = defender.GetDamage();
             damageValues.TargetCost = defenderDamage;
             DamageTypes meleeDamageTypes = CombatObject.MeleeDamageTypes(attacker);
             DamageTypes immunityTypes = defender.GetImmunityTypes();
@@ -209,10 +209,10 @@ public class RoundAttackAbility : TouchAbility
     {
         if (owner is Troop source)
         {
-            sbyte attack = source.GetAttack();
-            info.Attack = attack;
-            sbyte damage = source.GetDamage();
-            info.Damage = damage;
+            int attack = source.GetAttack();
+            info.Attack = (sbyte)attack;
+            int damage = source.GetDamage();
+            info.Damage = (sbyte)damage;
             DamageTypes damageTypes = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(source);
             info.DamageTypes = damageTypes;
             info.RepeatCount = 2;

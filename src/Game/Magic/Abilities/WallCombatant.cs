@@ -12,17 +12,17 @@ public class WallCombatant(CustomNode owner) : Troop(owner)
 {
     private WallType _wallType;
 
-    public sbyte HitPoints { get; set; }
-    public sbyte Hits { get; set; }
+    public int HitPoints { get; set; }
+    public int Hits { get; set; }
 
     // Unit.PAS:2510
-    public override sbyte GetDefense() => 0;
+    public override int GetDefense() => 0;
 
     // Unit.PAS:2518
-    public override sbyte GetHits() => Hits;
+    public override int GetHits() => Hits;
 
     // Unit.PAS:2514
-    public override sbyte GetHitPoints() => HitPoints;
+    public override int GetHitPoints() => HitPoints;
 
     // Unit.PAS:2503
     public override DamageTypes GetImmunityTypes() => AbilityRules.AllDamageTypesForWallImmunity & ~AbilityRules.WallDamageTypes;
@@ -46,7 +46,7 @@ public class WallCombatant(CustomNode owner) : Troop(owner)
     public void SetWallType(WallType value)
     {
         _wallType = value;
-        Hits = _wallType == WallType.Stone ? (sbyte)10 : (sbyte)5;
+        Hits = _wallType == WallType.Stone ? 10 : 5;
 
         HitPoints = Hits;
     }

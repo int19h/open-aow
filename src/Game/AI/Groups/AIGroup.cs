@@ -8,6 +8,7 @@ using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.AI.Groups;
@@ -72,8 +73,8 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public int ManaBudget { get; set; }
     public int TargetMovePoints { get; set; }
     public byte TargetMode { get; set; }
-    public byte ProcessPriority { get; set; }
-    public byte RecruitmentPriority { get; set; }
+    public int ProcessPriority { get; set; }
+    public int RecruitmentPriority { get; set; }
 
     // AIGroup.pas:72
     public override void Dispose()
@@ -120,8 +121,8 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         TargetType = persister.Enum("TargetType", value: TargetType);
         Player = persister.UnsignedByte(name: "Player", value: Player);
         IndependentRelation = persister.RawSByte("IndependentRelation", value: IndependentRelation);
-        ProcessPriority = persister.Byte("ProcessPriority", value: ProcessPriority);
-        RecruitmentPriority = persister.Byte("RecruitmentPriority", value: RecruitmentPriority);
+        ProcessPriority = persister.Byte("ProcessPriority", value: ProcessPriority.TruncateToByte());
+        RecruitmentPriority = persister.Byte("RecruitmentPriority", value: RecruitmentPriority.TruncateToByte());
         GoldBudget = persister.Int32("GoldBudget", value: GoldBudget);
         ManaBudget = persister.Int32("ManaBudget", value: ManaBudget);
         TargetMovePoints = persister.Int32("TargetMovePoints", value: TargetMovePoints);

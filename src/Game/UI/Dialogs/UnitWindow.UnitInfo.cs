@@ -120,8 +120,8 @@ public sealed partial class UnitWindow
             if (h is null)
             {
                 string level = UI.Engine.TranslateResourceString(s_levelText);
-                sbyte unitLevel = u.UnitLevel;
-                UI.UnitWindow.LevelLabel.Text = $"{level} {((int)unitLevel).ToString(CultureInfo.InvariantCulture)}";
+                int unitLevel = u.UnitLevel;
+                UI.UnitWindow.LevelLabel.Text = $"{level} {unitLevel.ToString(CultureInfo.InvariantCulture)}";
                 UI.UnitWindow.InfoLeaderPanel.Visible = false;
                 UI.UnitWindow.InfoTextPanel.Visible = true;
                 DelphiStringCollection? description = u.Description;
@@ -238,17 +238,17 @@ public sealed partial class UnitWindow
                 if (h.GetCastingPointsMax() > 0)
                 {
                     UI.UnitWindow.ManaLabel.Visible = true;
-                    sbyte castingPoints = h.GetCastingPoints();
-                    sbyte castingPointsMax = h.GetCastingPointsMax();
-                    UI.UnitWindow.ManaLabel.Text = $"{((int)castingPoints).ToString(CultureInfo.InvariantCulture)}/{((int)castingPointsMax).ToString(CultureInfo.InvariantCulture)}";
+                    int castingPoints = h.GetCastingPoints();
+                    int castingPointsMax = h.GetCastingPointsMax();
+                    UI.UnitWindow.ManaLabel.Text = $"{castingPoints.ToString(CultureInfo.InvariantCulture)}/{castingPointsMax.ToString(CultureInfo.InvariantCulture)}";
                     UI.UnitWindow.ManaIcon.Visible = true;
                 }
 
                 UI.UnitWindow.ItemUseButton.Visible = false;
                 UI.UnitWindow._groundOffset = 0;
                 string level = UI.Engine.TranslateResourceString(s_levelText);
-                sbyte hLevel = h.GetLevel();
-                UI.UnitWindow.LevelLabel.Text = $"{level} {((int)hLevel).ToString(CultureInfo.InvariantCulture)}";
+                int hLevel = h.GetLevel();
+                UI.UnitWindow.LevelLabel.Text = $"{level} {hLevel.ToString(CultureInfo.InvariantCulture)}";
                 UI.UnitWindow.InfoLeaderPanel.Visible = true;
                 UI.UnitWindow.InfoTextPanel.Visible = false;
                 string nickname = h.GetNickname();
@@ -429,14 +429,14 @@ public sealed partial class UnitWindow
 
             if (u is not null)
             {
-                sbyte hitPoints = u.GetHitPoints();
-                sbyte hits = u.GetHits();
-                UI.UnitWindow.UnitHitsLabel.Text = $"{((int)hitPoints).ToString(CultureInfo.InvariantCulture)}/{((int)hits).ToString(CultureInfo.InvariantCulture)}";
+                int hitPoints = u.GetHitPoints();
+                int hits = u.GetHits();
+                UI.UnitWindow.UnitHitsLabel.Text = $"{hitPoints.ToString(CultureInfo.InvariantCulture)}/{hits.ToString(CultureInfo.InvariantCulture)}";
                 if (StrategicMap.Current.CombatMap is null)
                 {
-                    sbyte movePoints = u.GetMovePoints();
-                    sbyte moves = u.Moves;
-                    UI.UnitWindow.UnitMovesLabel.Text = $"{((int)movePoints).ToString(CultureInfo.InvariantCulture)}/{((int)moves).ToString(CultureInfo.InvariantCulture)}";
+                    int movePoints = u.GetMovePoints();
+                    int moves = u.Moves;
+                    UI.UnitWindow.UnitMovesLabel.Text = $"{movePoints.ToString(CultureInfo.InvariantCulture)}/{moves.ToString(CultureInfo.InvariantCulture)}";
                 }
                 else
                 {
@@ -447,14 +447,14 @@ public sealed partial class UnitWindow
                     }
                 }
 
-                sbyte attack = u.GetAttack();
-                UI.UnitWindow.UnitAttackLabel.Text = ((int)attack).ToString(CultureInfo.InvariantCulture);
-                sbyte damage = u.GetDamage();
-                UI.UnitWindow.UnitDamageLabel.Text = ((int)damage).ToString(CultureInfo.InvariantCulture);
-                sbyte defense = u.GetDefense();
-                UI.UnitWindow.UnitDefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
-                sbyte resistance = u.GetResistance();
-                UI.UnitWindow.UnitResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
+                int attack = u.GetAttack();
+                UI.UnitWindow.UnitAttackLabel.Text = attack.ToString(CultureInfo.InvariantCulture);
+                int damage = u.GetDamage();
+                UI.UnitWindow.UnitDamageLabel.Text = damage.ToString(CultureInfo.InvariantCulture);
+                int defense = u.GetDefense();
+                UI.UnitWindow.UnitDefenseLabel.Text = defense.ToString(CultureInfo.InvariantCulture);
+                int resistance = u.GetResistance();
+                UI.UnitWindow.UnitResistanceLabel.Text = resistance.ToString(CultureInfo.InvariantCulture);
                 MoveTypes moveTypes = u.GetMoveTypes();
                 int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                 UI.UnitWindow.UnitMovesIcon.CurrentImage = moveTypesToInt32;
@@ -466,8 +466,8 @@ public sealed partial class UnitWindow
                 }
                 else
                 {
-                    byte upkeep = u.GetUpkeep();
-                    UI.UnitWindow.UpkeepLabel.Text = ((int)upkeep).ToString(CultureInfo.InvariantCulture);
+                    int upkeep = u.GetUpkeep();
+                    UI.UnitWindow.UpkeepLabel.Text = upkeep.ToString(CultureInfo.InvariantCulture);
                     UpkeepIcon.CurrentImage = 51;
                 }
 

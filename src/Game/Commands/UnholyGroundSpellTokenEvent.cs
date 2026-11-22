@@ -11,6 +11,7 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Game.World.Terrain;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -48,7 +49,7 @@ public class UnholyGroundSpellTokenEvent(CustomNode? owner) : GlobalTargetSpellT
                 {
                     mapField.RestoreTerrain();
                     UnholyGround ground = resource.CreateResourceUser<UnholyGround>();
-                    ground.Duration = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
+                    ground.Duration = (3 + ((StrategicMap.Current.Random(11) - 5) / 5)).TruncateToSByte();
                     ground.Player = source.Player;
                     ground.OriginalOverlay = mapField.OverlayType;
                     StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);

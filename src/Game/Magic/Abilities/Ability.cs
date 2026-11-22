@@ -82,16 +82,16 @@ public class Ability : EngineObject
     public virtual string GetName(AbilityOwner? owner) => AbilityName;
 
     // Ability.PAS:1453
-    public virtual sbyte GetAttack(AbilityOwner? owner) => 0;
+    public virtual int GetAttack(AbilityOwner? owner) => 0;
 
     // Ability.PAS:1457
-    public virtual sbyte GetDefense(AbilityOwner? owner) => 0;
+    public virtual int GetDefense(AbilityOwner? owner) => 0;
 
     // Ability.PAS:1462
-    public virtual sbyte GetResistance(AbilityOwner? owner) => 0;
+    public virtual int GetResistance(AbilityOwner? owner) => 0;
 
     // Ability.PAS:1467
-    public virtual sbyte GetDamage(AbilityOwner? owner) => 0;
+    public virtual int GetDamage(AbilityOwner? owner) => 0;
 
     // Ability.PAS:1472
     public virtual MoveTypes GetMoveTypes(AbilityOwner owner) => s_emptyMoveTypes;
@@ -319,22 +319,22 @@ public class Ability : EngineObject
         _ = text.Add($"Type: {AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.AbilityTypeTexts[(int)abilityType])}");
         if (GetAttack(null) != 0)
         {
-            _ = text.Add($"Attack modifier: {((int)GetAttack(null)).ToString(CultureInfo.InvariantCulture)}");
+            _ = text.Add($"Attack modifier: {GetAttack(null).ToString(CultureInfo.InvariantCulture)}");
         }
 
         if (GetDefense(null) != 0)
         {
-            _ = text.Add($"Defense modifier: {((int)GetDefense(null)).ToString(CultureInfo.InvariantCulture)}");
+            _ = text.Add($"Defense modifier: {GetDefense(null).ToString(CultureInfo.InvariantCulture)}");
         }
 
         if (GetDamage(null) != 0)
         {
-            _ = text.Add($"Damage modifier: {((int)GetDamage(null)).ToString(CultureInfo.InvariantCulture)}");
+            _ = text.Add($"Damage modifier: {GetDamage(null).ToString(CultureInfo.InvariantCulture)}");
         }
 
         if (GetResistance(null) != 0)
         {
-            _ = text.Add($"Resistance modifier: {((int)GetResistance(null)).ToString(CultureInfo.InvariantCulture)}");
+            _ = text.Add($"Resistance modifier: {GetResistance(null).ToString(CultureInfo.InvariantCulture)}");
         }
 
         if (mode.Contains(AbilityInfoModes.Description))

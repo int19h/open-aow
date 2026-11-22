@@ -5,6 +5,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -27,7 +28,7 @@ public class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
     {
         CombatObject source = combat.CombatData.FindId(SourceId);
         CombatObject target = combat.CombatData.FindId(TargetId);
-        DamageDone = (byte)source.DoDamage(target, Damage);
+        DamageDone = source.DoDamage(target, Damage).TruncateToByte();
         if (Effects != DamageTypes.None)
         {
             _ = target.ExecuteDamageEffects(Effects);
@@ -35,7 +36,7 @@ public class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
 
         if (DamageDone != 0 && StrikeMode.Contains(StrikeModes.LifeStealing) && target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() != UnitType.Machine)
         {
-            source.SetHitPoints((byte)(source.HitPoints + 1));
+            source.SetHitPoints((source.HitPoints + 1).TruncateToByte());
         }
 
         if (StrikeMode.Contains(StrikeModes.CausedFear) && target is CombatUnit fearTarget)
@@ -70,7 +71,7 @@ public class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
     }
 
     // AoWAb.PAS:1197
-    public override void Generate(CombatObject source, CombatObject target, sbyte attack, sbyte damage, DamageTypes damageTypes)
+    public override void Generate(CombatObject source, CombatObject target, int attack, int damage, DamageTypes damageTypes)
     {
         base.Generate(source, target, attack, damage, damageTypes);
         if (Damage != 0)

@@ -359,7 +359,7 @@ public class CombatMap : GameMap
     public override ItemList? GetHeroItemsOnGround(Hero hero)
     {
         sbyte y = default;
-        sbyte l = default;
+        int l = default;
         GetUnitLocation(hero, out sbyte x, ref y, ref l);
         if (x > -1)
         {
@@ -682,7 +682,7 @@ public class CombatMap : GameMap
     // TTacticalCombatUnit and reads FUnit. On a wall that offset is FWallType, FHitPoints and FLocked,
     // a small integer, so the unit comparison fails and the search continues. The port skips objects
     // that are not tactical units, which has the same result.
-    public void GetUnitLocation(Troop unit, out sbyte x, ref sbyte y, ref sbyte level)
+    public void GetUnitLocation(Troop unit, out sbyte x, ref sbyte y, ref int level)
     {
         x = -1;
         int i = 0;

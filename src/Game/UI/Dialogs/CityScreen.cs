@@ -514,18 +514,18 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
             case CityAction.Produce:
                 Unit? u = _city.Production.CreateUnitProduction(_productionIndex);
                 UnitPanel.Visible = true;
-                sbyte attack = u.GetAttack();
-                UnitAttackLabel.Text = ((int)attack).ToString(CultureInfo.InvariantCulture);
-                sbyte defense = u.GetDefense();
-                UnitDefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
-                sbyte resistance = u.GetResistance();
-                UnitResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
-                sbyte damage = u.GetDamage();
-                UnitDamageLabel.Text = ((int)damage).ToString(CultureInfo.InvariantCulture);
-                sbyte hits = u.GetHits();
-                UnitHitsLabel.Text = ((int)hits).ToString(CultureInfo.InvariantCulture);
-                sbyte moves = u.Moves;
-                UnitMovesLabel.Text = ((int)moves).ToString(CultureInfo.InvariantCulture);
+                int attack = u.GetAttack();
+                UnitAttackLabel.Text = attack.ToString(CultureInfo.InvariantCulture);
+                int defense = u.GetDefense();
+                UnitDefenseLabel.Text = defense.ToString(CultureInfo.InvariantCulture);
+                int resistance = u.GetResistance();
+                UnitResistanceLabel.Text = resistance.ToString(CultureInfo.InvariantCulture);
+                int damage = u.GetDamage();
+                UnitDamageLabel.Text = damage.ToString(CultureInfo.InvariantCulture);
+                int hits = u.GetHits();
+                UnitHitsLabel.Text = hits.ToString(CultureInfo.InvariantCulture);
+                int moves = u.Moves;
+                UnitMovesLabel.Text = moves.ToString(CultureInfo.InvariantCulture);
                 MoveTypes moveTypes = u.GetMoveTypes();
                 int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                 UnitMovesIcon.CurrentImage = moveTypesToInt32;
@@ -533,10 +533,10 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
                 string alignmentText = UI.Engine.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
                 string format4 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), arguments: [alignmentText]);
                 UnitAlignmentLabel.Text = format4;
-                sbyte unitLevel = u.UnitLevel;
-                string format5 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [((int)unitLevel).ToString(CultureInfo.InvariantCulture)]);
-                byte upkeep = u.GetUpkeep();
-                string format6 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), arguments: [(int)upkeep]);
+                int unitLevel = u.UnitLevel;
+                string format5 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [unitLevel.ToString(CultureInfo.InvariantCulture)]);
+                int upkeep = u.GetUpkeep();
+                string format6 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), arguments: [upkeep]);
                 UnitLevelLabel.Text = $"{format5} / {format6}";
                 if (UI.Engine.Debug)
                 {

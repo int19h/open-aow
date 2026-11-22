@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -40,7 +41,7 @@ public class Haste : UnitSpell
                 UnitEnchantment enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(152).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
-                enchantment.DispelResistance = (sbyte)UnitDispelResistance;
+                enchantment.DispelResistance = UnitDispelResistance.TruncateToSByte();
                 return true;
             }
             else

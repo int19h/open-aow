@@ -232,8 +232,8 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
         int moveTypesToInt32 = UI.General.MoveTypesToInt32(partyMove);
         MoveIcon.CurrentImage = moveTypesToInt32;
         byte fSelectedArmySelection = StrategicMap.Current.SelectedArmy.Selection;
-        sbyte movePoints = UI.General.UnitList.MovePoints(fSelectedArmySelection);
-        MovesLabel.Text = ((int)movePoints).ToString(CultureInfo.InvariantCulture);
+        int movePoints = UI.General.UnitList.MovePoints(fSelectedArmySelection);
+        MovesLabel.Text = movePoints.ToString(CultureInfo.InvariantCulture);
         byte selection2 = StrategicMap.Current.SelectedArmy.Selection;
         Army.PartyStatus partyStatus = StrategicMap.Current.SelectedArmy.ArmyHexSprite.Army.GetPartyStatus(selection2);
         string partyStatusText = UI.Engine.TranslateResourceString(s_partyStatusTexts[(int)partyStatus]);

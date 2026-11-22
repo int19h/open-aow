@@ -65,7 +65,7 @@ public sealed partial class ControlWindow
             PartyInfoPanel.Visible = false;
             MoveIcon.Visible = true;
             MoveIcon.CurrentImage = UI.General.MoveTypesToInt32(army.GetPartyMoves(255));
-            MovesLabel.Text = ((int)army.MovePoints(255)).ToString(CultureInfo.InvariantCulture);
+            MovesLabel.Text = army.MovePoints(255).ToString(CultureInfo.InvariantCulture);
             UI.ControlWindow.CheckEnd();
             PartyControlPanel.Visible = true;
             PartyGuardCheckBox.Checked = army.UserMode.Contains(ArmyUserModes.Guard);

@@ -59,11 +59,11 @@ public sealed class TacticalBattleWallCastTests
             TacticalBattleUnit unit = new(objects) { Combat = combat, Id = 2, Position = 1, Troop = hero };
             unit.UnitHexSprite = new PlacedUnitHexSprite(null) { Holder = EngineFixture.Engine, Unit = unit };
             sbyte y = 0;
-            sbyte l = 0;
+            int l = 0;
             map.GetUnitLocation(hero, out sbyte x, ref y, ref l);
             Assert.Equal((sbyte)4, x);
             Assert.Equal((sbyte)9, y);
-            Assert.Equal((sbyte)0, l);
+            Assert.Equal((sbyte)0, (sbyte)l);
             map.GetUnitLocation(new Troop(null) { Holder = EngineFixture.Engine }, x: out x, y: ref y, level: ref l);
             Assert.Equal((sbyte)-1, x);
         }

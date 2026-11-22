@@ -37,7 +37,7 @@ public sealed record Migrate(int Race) : ProductionOrder
             return;
         }
 
-        control.Settings.TurnsTotal = (sbyte)city.MigrationTime((sbyte)Race);
+        control.Settings.TurnsTotal = city.MigrationTime((sbyte)Race).TruncateToSByte();
         control.Settings.TurnsLeft = control.Settings.TurnsTotal;
         control.Settings.Player = control.GetPlayer();
         control.Status = ProductionControlStatus.Producing;

@@ -19,10 +19,10 @@ public class HighPrayerBlessingAbility : DurationAbility
     }
 
     // PassiveAb.pas:1277
-    public override sbyte GetDefense(AbilityOwner owner) => 1;
+    public override int GetDefense(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:1282
-    public override sbyte GetResistance(AbilityOwner owner) => 1;
+    public override int GetResistance(AbilityOwner owner) => 1;
 
     private static readonly string s_highPrayerBlessingText = "Blessed";
 }

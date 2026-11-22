@@ -484,15 +484,15 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                         default:
                             if (target.Side != _side)
                             {
-                                sbyte hitPoints = target.HitPoints;
-                                sbyte hits = target.GetHits();
+                                int hitPoints = target.HitPoints;
+                                int hits = target.GetHits();
                                 int multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, source: U, target), multiplier: hits, divider: hitPoints);
                                 value += multDamageEvaluation;
                             }
                             else
                             {
-                                sbyte hitPoints = target.HitPoints;
-                                sbyte hits = target.GetHits();
+                                int hitPoints = target.HitPoints;
+                                int hits = target.GetHits();
                                 int multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, source: U, target), multiplier: hits, divider: hitPoints);
                                 value -= multDamageEvaluation;
                             }
@@ -555,15 +555,15 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                             default:
                                 if (hexSprite.Unit.Side != U.Side)
                                 {
-                                    sbyte hitPoints = hexSprite.Unit.HitPoints;
-                                    sbyte hits = hexSprite.Unit.GetHits();
+                                    int hitPoints = hexSprite.Unit.HitPoints;
+                                    int hits = hexSprite.Unit.GetHits();
                                     int multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, source: U, target: hexSprite.Unit), multiplier: hits, divider: hitPoints);
                                     value += multDamageEvaluation;
                                 }
                                 else
                                 {
-                                    sbyte hitPoints = hexSprite.Unit.HitPoints;
-                                    sbyte hits = hexSprite.Unit.GetHits();
+                                    int hitPoints = hexSprite.Unit.HitPoints;
+                                    int hits = hexSprite.Unit.GetHits();
                                     int multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, source: U, target: hexSprite.Unit), multiplier: hits, divider: hitPoints);
                                     value -= multDamageEvaluation;
                                 }
@@ -575,15 +575,15 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                     default:
                         if (hexSprite.Unit.Side != U.Side)
                         {
-                            sbyte hitPoints = hexSprite.Unit.HitPoints;
-                            sbyte hits = hexSprite.Unit.GetHits();
+                            int hitPoints = hexSprite.Unit.HitPoints;
+                            int hits = hexSprite.Unit.GetHits();
                             int multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, source: U, target: hexSprite.Unit), multiplier: hits, divider: hitPoints);
                             value += multDamageEvaluation;
                         }
                         else
                         {
-                            sbyte hitPoints = hexSprite.Unit.HitPoints;
-                            sbyte hits = hexSprite.Unit.GetHits();
+                            int hitPoints = hexSprite.Unit.HitPoints;
+                            int hits = hexSprite.Unit.GetHits();
                             int multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, source: U, target: hexSprite.Unit), multiplier: hits, divider: hitPoints);
                             value -= multDamageEvaluation;
                         }
@@ -2234,8 +2234,8 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                         target = _enemies[j];
                                         if (u.Troop is not Hero || _heroMoves == 0)
                                         {
-                                            sbyte hits = target.GetHits();
-                                            sbyte hitPoints = target.HitPoints;
+                                            int hits = target.GetHits();
+                                            int hitPoints = target.HitPoints;
                                             sbyte hexY = target.UnitHexSprite.HexY;
                                             CheckUnit(target.UnitHexSprite.HexX, hexY, hits: hitPoints, hitPoints: hits, settings, unit: u, target, abilities, wall: null);
                                         }
@@ -2310,8 +2310,8 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                         target = _units[j];
                                         if (u.Troop is not Hero || _heroMoves == 0)
                                         {
-                                            sbyte hits = target.GetHits();
-                                            sbyte hitPoints = target.HitPoints;
+                                            int hits = target.GetHits();
+                                            int hitPoints = target.HitPoints;
                                             sbyte hexY = target.UnitHexSprite.HexY;
                                             CheckUnit(target.UnitHexSprite.HexX, hexY, hits: hitPoints, hitPoints: hits, settings, unit: u, target, abilities, wall: null);
                                         }

@@ -78,7 +78,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
     }
 
     // Hero.PAS:2975
-    public override byte GetUpkeep() => 0;
+    public override int GetUpkeep() => 0;
 
     // Hero.PAS:2886
     public override int GetPowerGeneration() => GetAbilityEnabled(52) ? (GetAbilityLevel(52) * 5) + 5 : 0;

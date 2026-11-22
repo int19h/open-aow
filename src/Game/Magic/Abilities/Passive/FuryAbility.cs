@@ -16,10 +16,10 @@ public class FuryAbility : UnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1168
-    public override sbyte GetAttack(AbilityOwner owner) => 2;
+    public override int GetAttack(AbilityOwner owner) => 2;
 
     // PassiveAb.pas:1174
-    public override sbyte GetDefense(AbilityOwner owner) => -1;
+    public override int GetDefense(AbilityOwner owner) => -1;
 
     // PassiveAb.pas:1180
     public override int GetAIUpkeepPriority(AbilityOwner owner)

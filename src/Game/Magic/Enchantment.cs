@@ -9,6 +9,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic;
 
@@ -19,13 +20,13 @@ public class Enchantment(CustomNode owner) : EngineObject(owner)
     public int EnchantmentId { get; set; }
     public sbyte Source { get; set; } = -1;
     public int Upkeep { get; set; } = 1;
-    public sbyte DispelResistance { get; set; } = 10;
+    public int DispelResistance { get; set; } = 10;
 
     // Spells.PAS:1726
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        DispelResistance = persister.UnsignedByte(name: "DispelResistance", value: DispelResistance);
+        DispelResistance = persister.UnsignedByte(name: "DispelResistance", value: DispelResistance.TruncateToSByte());
         Source = persister.UnsignedByte(name: "Source", value: Source);
         Upkeep = persister.Int32("Upkeep", value: Upkeep);
         EnchantmentId = persister.Int32("EnchantmentId", value: EnchantmentId);

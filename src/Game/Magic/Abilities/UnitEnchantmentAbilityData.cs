@@ -5,6 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Units;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -15,7 +16,7 @@ public class UnitEnchantmentAbilityData(CustomNode? owner) : AbilityData(owner)
     public new const int ClassId = 131_756;
 
     public ushort EnchantmentAbilityId { get; set; }
-    public sbyte EnchantmentDuration { get; set; } = -1;
+    public int EnchantmentDuration { get; set; } = -1;
     // -1 is permanent
     public sbyte EnchantmentPlayerIndex { get; set; } = -1;
     public UnitEnchantment? Enchantment { get; set; }
@@ -36,7 +37,7 @@ public class UnitEnchantmentAbilityData(CustomNode? owner) : AbilityData(owner)
         EnchantmentAbilityId = persister.UInt16("EnchantmentAbilityId", value: EnchantmentAbilityId);
         Enchantment = persister.Created("Enchantment", objectValue: Enchantment);
         EnchantmentPlayerIndex = persister.SByte("EnchantmentPlayerIndex", value: EnchantmentPlayerIndex, fallback: -1);
-        EnchantmentDuration = persister.SByte("EnchantmentDuration", value: EnchantmentDuration, fallback: -1);
+        EnchantmentDuration = persister.SByte("EnchantmentDuration", value: EnchantmentDuration.TruncateToSByte(), fallback: -1);
     }
 
     // AoWAb.PAS:577

@@ -15,6 +15,7 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
@@ -29,7 +30,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     public PoisonPlantStatuses PlantStatus { get; set; } = PoisonPlantStatuses.None;
 
     public sbyte CasterPlayer { get; set; } = -1;
-    public sbyte DaysRemaining { get; set; } = -1;
+    public int DaysRemaining { get; set; } = -1;
     public sbyte OriginalOverlay { get; set; } = -1;
 
     // PoisonP.pas:97
@@ -37,7 +38,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     {
         base.PersistFields(persister);
         CasterPlayer = persister.SByte("CasterPlayer", value: CasterPlayer, fallback: -1);
-        DaysRemaining = persister.SByte("DaysRemaining", value: DaysRemaining, fallback: -1);
+        DaysRemaining = persister.SByte("DaysRemaining", value: DaysRemaining.TruncateToSByte(), fallback: -1);
         OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay, fallback: -1);
     }
 
@@ -247,7 +248,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
 
         if (player == CasterPlayer && DaysRemaining > 0)
         {
-            DaysRemaining = (sbyte)(DaysRemaining - 1);
+            DaysRemaining = (DaysRemaining - 1).TruncateToSByte();
             if (DaysRemaining == 0)
             {
                 RestoreTerrain();

@@ -11,6 +11,7 @@ using Aow.Game.Magic.Spells;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
@@ -166,7 +167,7 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
                     if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && message.Param[0].Int < GetResource<Resource>().Defense)
                     {
                         MapFieldMessageParameters param2 = message.Param;
-                        param2[0] = GetResource<Resource>().Defense;
+                        param2[0] = (sbyte)GetResource<Resource>().Defense;
                         message.Param = param2;
                     }
 
@@ -294,18 +295,18 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
 
         private sbyte _burnValue;
 
-        public sbyte Defense { get; private set; }
+        public int Defense { get; private set; }
 
-        private byte _hitPoints;
+        private int _hitPoints;
         private bool _meleeTarget;
 
         // CombatTerrain.pas:310
         public override void PersistFields(IPersister persister)
         {
             base.PersistFields(persister);
-            Defense = persister.UnsignedByte(name: "Defense", value: Defense);
+            Defense = persister.UnsignedByte(name: "Defense", value: Defense.TruncateToSByte());
             _burnValue = persister.UnsignedByte(name: "BurnValue", value: _burnValue);
-            _hitPoints = persister.Byte("HitPoints", value: _hitPoints);
+            _hitPoints = persister.Byte("HitPoints", value: _hitPoints.TruncateToByte());
             _meleeTarget = persister.Boolean("MeleeTarget", value: _meleeTarget);
         }
 

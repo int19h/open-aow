@@ -639,7 +639,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     private static readonly string s_registerDoomGazeText = "Doom Gaze";
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps enchantment and the original ignores it.")]
-    private RangedAttackAbility CreateRangedAttack(int id, string name, sbyte attack, sbyte damage, sbyte repeats, RangedAttackAbility.CombatRange range, DamageTypes damageTypes, int enchantment)
+    private RangedAttackAbility CreateRangedAttack(int id, string name, int attack, int damage, int repeats, RangedAttackAbility.CombatRange range, DamageTypes damageTypes, int enchantment)
     {
         RangedAttackAbility ability = new(null)
         {
@@ -657,7 +657,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     }
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps enchantment and the original ignores it.")]
-    private BoltsAbility CreateBolts(int id, string name, int attack, sbyte damage, DamageType damageType, int enchantment)
+    private BoltsAbility CreateBolts(int id, string name, int attack, int damage, DamageType damageType, int enchantment)
     {
         BoltsAbility ability = new(null)
         {
@@ -666,7 +666,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             AbilityName = name,
             DamageTypesRangedAttack = damageType.ToFlag(),
             DamageRangedAttack = damage,
-            AttackRangedAttack = (sbyte)attack
+            AttackRangedAttack = attack.TruncateToSByte()
         };
         // { Original ignores Enchantment. }
         return ability;

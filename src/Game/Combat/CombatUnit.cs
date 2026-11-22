@@ -3,16 +3,12 @@
 using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -181,16 +177,16 @@ public class CombatUnit : CombatObject
     public override bool GetLocked() => Troop.GetAbilityEnabled(95) || Troop.GetAbilityEnabled(97) || Troop.GetAbilityEnabled(92) || Troop.GetAbilityEnabled(94) || Troop.GetAbilityEnabled(34);
 
     // Combat.pas:1459
-    public override sbyte GetAttack() => Troop.GetAttack();
+    public override int GetAttack() => Troop.GetAttack();
 
     // Combat.pas:1462
-    public override sbyte GetDefense() => Troop.GetDefense();
+    public override int GetDefense() => Troop.GetDefense();
 
     // Combat.pas:1465
-    public override sbyte GetResistance() => Troop.GetResistance();
+    public override int GetResistance() => Troop.GetResistance();
 
     // Combat.pas:1468
-    public override sbyte GetDamage() => Troop.GetDamage();
+    public override int GetDamage() => Troop.GetDamage();
 
     // Combat.pas:1471
     public override DamageTypes GetImmunityTypes() => Troop.GetImmunityTypes() | Combat.CombatData.ImmunityTypes;
@@ -199,13 +195,13 @@ public class CombatUnit : CombatObject
     public override DamageTypes GetProtectionTypes() => Troop.GetProtectionTypes();
 
     // Combat.pas:1282
-    public override sbyte GetHits() => Troop is not null ? Troop.GetHits() : (sbyte)0;// { Direct field test retains the receiver. }// { No cast temporary. }
+    public override int GetHits() => Troop is not null ? Troop.GetHits() : 0;// { Direct field test retains the receiver. }// { No cast temporary. }
 
     // Combat.pas:1289
-    public override sbyte HitPoints => Troop is not null ? Troop.GetHitPoints() : (sbyte)0;// { Direct field test retains the receiver. }// { No cast temporary. }
+    public override int HitPoints => Troop is not null ? Troop.GetHitPoints() : 0;// { Direct field test retains the receiver. }// { No cast temporary. }
 
     // Combat.pas:1296
-    public override void SetHitPoints(byte value)
+    public override void SetHitPoints(int value)
         // { Direct nil guard. }
         // { No cast temporary. }
         => Troop?.SetHitPoints((sbyte)value);
@@ -223,7 +219,7 @@ public class CombatUnit : CombatObject
     public override void SetExperience(int value) => Troop.SetExperience(value);
 
     // Combat.pas:1483
-    public override byte Level => (byte)Troop.UnitLevel;
+    public override int Level => Troop.UnitLevel.TruncateToByte();
 
     // Combat.pas:1095
     public override int GetVisibilityRange()

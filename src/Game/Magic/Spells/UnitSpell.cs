@@ -28,7 +28,7 @@ public class UnitSpell : Spell
 
     public bool AllowMultipleTargets { get; protected init; }
     public int TargetRange { get; protected init; }
-    public byte UnitDispelResistance { get; protected init; }
+    public int UnitDispelResistance { get; protected init; }
     public int AIValue { get; protected init; }
 
     // Spells.PAS:1444

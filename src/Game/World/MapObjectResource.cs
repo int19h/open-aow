@@ -27,7 +27,7 @@ public class MapObjectResource : EngineResource
         SetLevel(26);
     }
 
-    private byte _level;
+    private int _level;
 
     // MAPOBJ.PAS:391
     public override void Dispose()
@@ -51,7 +51,7 @@ public class MapObjectResource : EngineResource
         bool complex = default;
         base.PersistFields(persister);
         ShowPriorityOffset = persister.Int32("ShowPriorityOffset", value: ShowPriorityOffset);
-        _level = persister.Byte("Level", value: _level);
+        _level = persister.Byte("Level", value: _level.TruncateToByte());
         Name = persister.String("Name", value: Name);
         persister.TerrainList(name: "TerrainList", list: TerrainList);
         _ = ImageLibrary.ReduceCount();
@@ -181,7 +181,7 @@ public class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:550
-    public virtual void SetLevel(byte value)
+    public virtual void SetLevel(int value)
     {
         _level = value;
         CalculateShowPriorityOffset(16, 32, _level);
@@ -292,7 +292,7 @@ public class MapObjectResource : EngineResource
     public ImageLibrary ImageLibrary { get; }
     public ImageSequenceList? ImageSequenceList { get; set; }
     public TerrainList TerrainList { get; }
-    public byte Level { get => _level; init => SetLevel(value); }
+    public int Level { get => _level; init => SetLevel(value); }
     public string Name { get; private set; } = "";
 
     // MAPOBJ.PAS:415

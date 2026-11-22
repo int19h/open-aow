@@ -8,5 +8,5 @@ public class FlagEventResource : MapObjectResource
     public FlagEventResource(CustomNode owner) : base(owner) => Level = 27;
 
     // FlagEvents.pas:175
-    public override void SetLevel(byte value) => base.SetLevel(27);
+    public override void SetLevel(int value) => base.SetLevel(27);
 }

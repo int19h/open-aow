@@ -16,7 +16,7 @@ public class DominateAbility : CommandAbility
     }
 
     // AoWAb.PAS:5329
-    public override sbyte GetTouchAttack(int level) => 6;
+    public override int GetTouchAttack(int level) => 6;
 
     private static readonly string s_dominateText = "Dominate";
 }

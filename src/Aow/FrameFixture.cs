@@ -393,9 +393,9 @@ internal sealed class FrameFixture
                         x,
                         y,
                         level,
-                        attack = hero.GetAttack(),
-                        defense = hero.GetDefense(),
-                        damage = hero.GetDamage(),
+                        attack = (sbyte)hero.GetAttack(),
+                        defense = (sbyte)hero.GetDefense(),
+                        damage = (sbyte)hero.GetDamage(),
                         equipped = Items(hero.HeroItems.Items),
                         inventory = Items(hero.Inventory.Items)
                     });
@@ -444,8 +444,8 @@ internal sealed class FrameFixture
                             FCombatPlayer = unit.CombatPlayer,
                             FMovePoints = unit.MovePoints,
                             status = (ulong)unit.Status,
-                            hits = unit.Troop.GetHits(),
-                            hit_points = unit.Troop.GetHitPoints(),
+                            hits = (sbyte)unit.Troop.GetHits(),
+                            hit_points = (sbyte)unit.Troop.GetHitPoints(),
                             hx = sprite.HexX,
                             hy = sprite.HexY,
                             screen_x = x - viewer.SceneX + 12,

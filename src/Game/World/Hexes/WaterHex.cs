@@ -6,6 +6,7 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
@@ -15,7 +16,7 @@ public partial class WaterHex : LowerIsometricHex
 {
     public WaterHex(CustomNode owner) : base(owner)
     {
-        _animationFrame = (sbyte)(-1 - Random(20));
+        _animationFrame = (-1 - Random(20)).TruncateToSByte();
         int random = Random(4);
         Sides = (byte)(Sides | (random << 6));
     }
@@ -23,7 +24,7 @@ public partial class WaterHex : LowerIsometricHex
     // AoWHex.pas:275
     public new const int ClassId = 132_925;
 
-    private sbyte _animationFrame;
+    private int _animationFrame;
     private byte _animationIndex;
 
     public byte[] ShoreTerrain { get; } = new byte[6];

@@ -201,7 +201,7 @@ public sealed partial class TacticalBattle(CustomNode? owner) : Battle(owner)
                     CombatMap.Current.SetSeatedCombatPlayer((sbyte)seated);
                     CombatMap.Current.CenterViewTo(32, 29, 0);
                     CombatMap.Current.Combat.NewRound();
-                    byte turnOrder = CombatData.TurnOrder[0];
+                    int turnOrder = CombatData.TurnOrder[0];
                     CombatMap.Current.NewTurn((sbyte)turnOrder);
                     result = CombatResult.Busy;
                     SetTerminatedHandler(_ => CombatMap.Current.EndCombat());

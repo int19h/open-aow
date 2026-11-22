@@ -130,7 +130,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
             case 4:
                 AIGroupTargetFinder finder = new(null) { Holder = CreationHolder() };
                 _ = finder.Setup(this);
-                sbyte moves = Army.Moves(Selection);
+                int moves = Army.Moves(Selection);
                 finder.Selector.MovePointsMax = moves;
                 ActivatePlugin(finder);
                 _ = finder.Release();

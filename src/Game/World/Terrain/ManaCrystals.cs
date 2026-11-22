@@ -10,6 +10,7 @@ using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Terrain;
@@ -22,14 +23,14 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     public new const int ClassId = 132_030;
 
     private int _amount;
-    private byte _size = 2;
+    private int _size = 2;
 
     // ManaCrystals.pas:83
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         _amount = persister.Int32("Amount", value: _amount);
-        _size = persister.RawByte("Size", value: _size);
+        _size = persister.RawByte("Size", value: _size.TruncateToByte());
     }
 
     // ManaCrystals.pas:118
@@ -95,7 +96,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     {
         if (_size == 4)
         {
-            _size = (byte)(StrategicMap.Current.Random(3) + 1);
+            _size = (StrategicMap.Current.Random(3) + 1).TruncateToByte();
         }
 
         switch (_size)

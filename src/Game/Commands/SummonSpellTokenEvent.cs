@@ -10,6 +10,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -62,7 +63,7 @@ public class SummonSpellTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
                         UnitEnchantment? enchantment = u.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
                         enchantment.SetUpkeep(GamePack.Current.SpellControl[EventSpellId].ManaUpkeep);
                         enchantment.SetSource(source.Player);
-                        enchantment.DispelResistance = (sbyte)GamePack.Current.SpellControl.GetSpell<SummonSpell>(EventSpellId).GetDispelResistance(u);
+                        enchantment.DispelResistance = GamePack.Current.SpellControl.GetSpell<SummonSpell>(EventSpellId).GetDispelResistance(u).TruncateToSByte();
                         AIGroup? group = source.Group;
                         _ = (group?.AddUnit(u));
                     }

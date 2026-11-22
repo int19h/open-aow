@@ -5,6 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Draw;
 
@@ -13,14 +14,14 @@ public class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
     public new const int ClassId = 131_436;
 
-    public sbyte DaysRemaining { get; set; }
+    public int DaysRemaining { get; set; }
     public sbyte CasterPlayer { get; set; }
 
     // Structur.PAS:4487
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        DaysRemaining = persister.SByte("DaysRemaining", value: DaysRemaining);
+        DaysRemaining = persister.SByte("DaysRemaining", value: DaysRemaining.TruncateToSByte());
         CasterPlayer = persister.SByte("CasterPlayer", value: CasterPlayer);
     }
 
@@ -35,7 +36,7 @@ public class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
     }
 
     // Structur.PAS:4482
-    public override byte Level => 28;
+    public override int Level => 28;
 
     // Structur.PAS:4503
     public override void TerrainChanged(in HexSpriteTerrainInfo info)
@@ -89,7 +90,7 @@ public class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
     {
         if (player == CasterPlayer)
         {
-            DaysRemaining = (sbyte)(DaysRemaining - 1);
+            DaysRemaining = (DaysRemaining - 1).TruncateToSByte();
             if (DaysRemaining <= 0)
             {
                 MeltIce();

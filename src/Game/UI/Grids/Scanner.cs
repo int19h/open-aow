@@ -440,7 +440,7 @@ public sealed class Scanner(Component owner) : Control(owner)
     }
 
     // Scanner.pas:287
-    public byte ObjectSize => 1;
+    public int ObjectSize => 1;
 
     // Scanner.pas:292
     public void SetObjectSize(int X, int Y, int value)

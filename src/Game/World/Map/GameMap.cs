@@ -1093,7 +1093,7 @@ public partial class GameMap : OwningNode
     }
 
     private string _messageText = "";
-    private byte _messageFrame;
+    private int _messageFrame;
 
     public int FPS { get; private set; }
     public int MapChangedLockCount { get; private set; }
@@ -1452,11 +1452,11 @@ public partial class GameMap : OwningNode
         ShowMessageInfo info = notification.Info;
         if (_messageFrame != 0)
         {
-            _messageFrame = (byte)(_messageFrame - 1);
+            _messageFrame = (_messageFrame - 1).TruncateToByte();
             if (((_messageFrame & 0b0001_0000) == 0 && (_messageFrame & 0xF) < 7) || ((_messageFrame & 0b0001_0000) == 0b0001_0000 && (_messageFrame & 0xF) < 11))
             {
                 info.Text = _messageText;
-                _messageFrame = (byte)(_messageFrame & 0xF0);
+                _messageFrame &= 0xF0;
                 if ((_messageFrame & 0b0001_0000) == 0)
                 {
                     info.Color = 0x35_35_35;

@@ -8,6 +8,7 @@ using Aow.Game.Draw;
 using Aow.Game.Magic;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Map;
 
@@ -31,7 +32,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
     private HexSprite?[] _hexSpriteList = [];
 
-    internal byte StoredCount { get; set; }
+    internal int StoredCount { get; set; }
 
     // HSEngine.pas:1907
     public override void Dispose()
@@ -169,7 +170,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2300
     public void CopyDynamicVisibleHexSprite(VisibilityList list)
     {
-        byte last = StaticCount;
+        int last = StaticCount;
         for (int i = StoredCount - 1; i >= last; i--)
         {
             _hexSpriteList[i].MakeVisible(list);
@@ -188,7 +189,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2316
     public void ResetDynamicVisibleHexSprite()
     {
-        byte last = StaticCount;
+        int last = StaticCount;
         for (int i = StoredCount - 1; i >= last; i--)
         {
             _hexSpriteList[i].Visible = false;
@@ -297,8 +298,8 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     public HexSprite?[] HexSpriteList { get => _hexSpriteList; internal set => _hexSpriteList = value; }
-    public byte Capacity { get; private set; }
-    public byte StaticCount { get; private set; }
+    public int Capacity { get; private set; }
+    public int StaticCount { get; private set; }
     public MapFieldStatuses Status { get; private set; }
     public sbyte HexX { get => Location.X; set => Location = Location with { X = value }; }
     public sbyte HexY { get => Location.Y; set => Location = Location with { Y = value }; }
@@ -405,9 +406,9 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
     // Byte 2 of the flags: how many unfogged areas cover the field. FogArea counts it down and
     // UnFogArea up, and zero is fogged (AoWHSMap.PAS:247 and 265, WordRec(LongRec(FFieldFlags).Hi).Lo).
-    public byte FogCount
+    public int FogCount
     {
-        get => (byte)(FieldFlags >> 16);
+        get => (FieldFlags >> 16).TruncateToByte();
         private set => FieldFlags = (FieldFlags & ~0xFF_00_00) | (value << 16);
     }
 
@@ -420,7 +421,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // AoWHSMap.PAS:75
-    public void SetFogCount(byte value)
+    public void SetFogCount(int value)
     {
         if ((value == 0 && FogCount != 0) || (value != 0 && FogCount == 0))
         {
@@ -535,13 +536,13 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // AoWHSMap.PAS:184
-    public byte GetDefensePriority()
+    public int GetDefensePriority()
     {
         MapFieldMessage message = default;
         message.MessageId = 4390;
         message.Result = 0;
         SendMapFieldMessage(ref message);
-        return (byte)message.Result.Int;
+        return message.Result.Int.TruncateToByte();
     }
 
     // AoWHSMap.PAS:204

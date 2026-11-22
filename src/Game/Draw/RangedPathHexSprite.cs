@@ -2,12 +2,10 @@
 // Translated from AoWTC.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
-
 using Aow.Game.Draw.Images;
-
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Draw;
 
@@ -20,8 +18,8 @@ public sealed class RangedPathHexSprite(CustomNode? owner) : FixedVisibleHexSpri
 
     private CustomImageLibrary? _miscellaneousImages;
     private CustomImageLibrary? _targetImages;
-    private ushort _frame;
-    private ushort _frameCount;
+    private int _frame;
+    private int _frameCount;
 
     public CombatUnitSelectionControl? Selection { get; set; }
     public ushort Range { get; set; }
@@ -60,11 +58,11 @@ public sealed class RangedPathHexSprite(CustomNode? owner) : FixedVisibleHexSpri
 
             if (Selection.RangedPath.Count > 0)
             {
-                _frameCount = (ushort)(_frameCount + 1);
+                _frameCount = (_frameCount + 1).TruncateToUInt16();
                 if (_frameCount >= 5)
                 {
                     _frameCount = 0;
-                    _frame = (ushort)(_frame + 1);
+                    _frame = (_frame + 1).TruncateToUInt16();
                 }
 
                 if (_frame > 1)

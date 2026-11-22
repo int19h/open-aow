@@ -19,16 +19,16 @@ public class PoisonedAbility : DurationAbility
     }
 
     // PassiveAb.pas:581
-    public override sbyte GetAttack(AbilityOwner owner) => -1;
+    public override int GetAttack(AbilityOwner owner) => -1;
 
     // PassiveAb.pas:586
-    public override sbyte GetDefense(AbilityOwner owner) => -1;
+    public override int GetDefense(AbilityOwner owner) => -1;
 
     // PassiveAb.pas:591
-    public override sbyte GetResistance(AbilityOwner owner) => -1;
+    public override int GetResistance(AbilityOwner owner) => -1;
 
     // PassiveAb.pas:596
-    public override sbyte GetDamage(AbilityOwner owner) => -1;
+    public override int GetDamage(AbilityOwner owner) => -1;
 
     private static readonly string s_poisonedText = "Poisoned";
 }

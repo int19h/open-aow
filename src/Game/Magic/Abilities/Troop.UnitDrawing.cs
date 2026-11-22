@@ -6,6 +6,7 @@ using Aow.Game.Host;
 
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -111,7 +112,7 @@ public partial class Troop
 
         if (info.Overlays.Contains(UnitOverlayModes.HitPoints))
         {
-            byte hitPointsToHitPercent = (byte)HitChance.HitPointsToHitPercent(hits: GetHits(), hitPoints: GetHitPoints());
+            int hitPointsToHitPercent = HitChance.HitPointsToHitPercent(hits: GetHits(), hitPoints: GetHitPoints()).TruncateToByte();
             HitChance.ShowHitPercent(X, Y, surface: lockedSurface, percent: hitPointsToHitPercent);
         }
 

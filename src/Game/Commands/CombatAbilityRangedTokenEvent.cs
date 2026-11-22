@@ -1308,7 +1308,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                 Point3D? path4 = effect.Path[count6 - 1];
                 int count7 = effect.Path.Count;
                 Point3DList path22 = effect.Path;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count7 - 1].X, (short)(path2.Y - path3.Z), (short)(path4.X + j - 150), (short)(path.Y - pathZ.Z + k - 150), stepSize: (short)(((Math.Abs(j - 150) + Math.Abs(k - 150)) / 50) + 2), height: 100, list: path22);
+                EffectPaths.MakeArcPathXY((short)effect.Path[count7 - 1].X, (short)(path2.Y - path3.Z), (short)(path4.X + j - 150), (short)(path.Y - pathZ.Z + k - 150), stepSize: (((Math.Abs(j - 150) + Math.Abs(k - 150)) / 50) + 2).TruncateToInt16(), height: 100, list: path22);
                 effect.Path = path22;
                 effect.TargetX = effect.Path.Count;
                 j = Random(200);
@@ -1325,7 +1325,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                 Point3D? path9 = effect.Path[count12 - 1];
                 int count13 = effect.Path.Count;
                 Point3DList path23 = effect.Path;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count13 - 1].X, (short)(path7.Y - path8.Z), (short)(path9.X + j - 100), (short)(path5.Y - path6.Z + k - 100), stepSize: (short)(((Math.Abs(j - 100) + Math.Abs(k - 100)) / 50) + 3), height: 100, list: path23);
+                EffectPaths.MakeArcPathXY((short)effect.Path[count13 - 1].X, (short)(path7.Y - path8.Z), (short)(path9.X + j - 100), (short)(path5.Y - path6.Z + k - 100), stepSize: (((Math.Abs(j - 100) + Math.Abs(k - 100)) / 50) + 3).TruncateToInt16(), height: 100, list: path23);
                 effect.Path = path23;
                 effect.TargetY = effect.Path.Count;
                 int count14 = effect.Path.Count;
@@ -1340,7 +1340,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                 Point3D? path12 = effect.Path[count18 - 1];
                 int count19 = effect.Path.Count;
                 Point3DList path24 = effect.Path;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count19 - 1].X, (short)(path11.Y - path12.Z), (short)(deltaX + 16), (short)(deltaY + 16), stepSize: (short)(((Math.Abs(item.Y - fPathItem.Z - deltaY) + Math.Abs(path10.X - deltaX)) / 50) + 4), height: 100, list: path24);
+                EffectPaths.MakeArcPathXY((short)effect.Path[count19 - 1].X, (short)(path11.Y - path12.Z), (short)(deltaX + 16), (short)(deltaY + 16), stepSize: (((Math.Abs(item.Y - fPathItem.Z - deltaY) + Math.Abs(path10.X - deltaX)) / 50) + 4).TruncateToInt16(), height: 100, list: path24);
                 effect.Path = path24;
                 break;
             case BattleEffectType.ScreenNESW:

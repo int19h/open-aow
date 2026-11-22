@@ -364,7 +364,7 @@ public partial class ProductionControl : EngineObject
             {
                 if (Settings.TurnsLeft > 0)
                 {
-                    Settings.TurnsLeft = (sbyte)(Settings.TurnsLeft - 1);
+                    Settings.TurnsLeft = (Settings.TurnsLeft - 1).TruncateToSByte();
                 }
 
                 if (Settings.TurnsLeft == 0)

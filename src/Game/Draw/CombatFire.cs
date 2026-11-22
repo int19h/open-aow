@@ -38,7 +38,7 @@ public sealed class CombatFire(CustomNode owner) : SingleHexSprite(owner)
     }
 
     // CombatFire.pas:83
-    public override byte Level => 27;
+    public override int Level => 27;
 
     // CombatFire.pas:70
     public override bool Visible

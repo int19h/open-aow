@@ -179,7 +179,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
 
     public string Name { get; set; } = "";
 
-    public sbyte MoraleValue { get; set; }
+    public int MoraleValue { get; set; }
 
     public PlayerMagicControl MagicControl { get; }
     public Leader LeaderSetup { get; }
@@ -461,7 +461,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
             persister.ByteList(name: "LegacyNewRelations", list: LegacyNewRelations);
         }
 
-        MoraleValue = persister.UnsignedByte(name: "MoraleValue", value: MoraleValue);
+        MoraleValue = persister.UnsignedByte(name: "MoraleValue", value: MoraleValue.TruncateToSByte());
         persister.Object("AIControl", objectValue: AIControl);
         Behavior = persister.Enum("Behavior", value: Behavior);
         if (PlayerIndex != 0)
@@ -1148,7 +1148,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                         Status playerRelation = StrategicMap.Current.Races.GetRace(hero.Race).GetPlayerRelation(PlayerIndex);
                         if (playerRelation is Session.Status.Polite or Session.Status.Friendly && hero.JoinAmount(PlayerIndex) < Gems)
                         {
-                            sbyte level = hero.GetLevel();
+                            int level = hero.GetLevel();
                             _ = heroes.AddAbility(hero, ((level - 2) * 1_000) + 1);
                         }
                     }

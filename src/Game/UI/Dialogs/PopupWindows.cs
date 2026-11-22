@@ -248,7 +248,7 @@ public sealed partial class PopupWindows(UIContext ui) : UIModule(ui)
         string text12 = AbilityRules.Format(s7, arguments: new ReadOnlySpan<FormatArg>(ref value7));
         _ = dialog.RightPageMemo.Items.Add(text12);
         string s8 = dialog.UI.Engine.TranslateResourceString(s_maximumPlayerHeroesFormat);
-        FormatArg value8 = (FormatArg)((int)StrategicMap.Current.HeroCountMax).ToString(CultureInfo.InvariantCulture);
+        FormatArg value8 = (FormatArg)StrategicMap.Current.HeroCountMax.ToString(CultureInfo.InvariantCulture);
         string text13 = AbilityRules.Format(s8, arguments: new ReadOnlySpan<FormatArg>(ref value8));
         _ = dialog.RightPageMemo.Items.Add(text13);
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && StrategicMap.Current.RequestCombatType)

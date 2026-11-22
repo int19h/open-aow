@@ -47,7 +47,7 @@ public partial class Hero : Troop
 
     public int HeroResourceIndex { get; set; }
     public int Experience { get; set; }
-    public byte Level { get; private set; }
+    public int Level { get; private set; }
 
     private int _usedSkillPoints;
 
@@ -65,24 +65,24 @@ public partial class Hero : Troop
 
     private UnitGender _gender;
 
-    public sbyte UnitAttack { get; set; }
-    public sbyte UnitDefense { get; private set; }
-    public sbyte UnitDamage { get; private set; }
+    public int UnitAttack { get; set; }
+    public int UnitDefense { get; private set; }
+    public int UnitDamage { get; private set; }
     public sbyte UnitHits { get; private set; }
-    public sbyte UnitMoves { get; private set; }
-    public sbyte UnitResistance { get; private set; }
+    public int UnitMoves { get; private set; }
+    public int UnitResistance { get; private set; }
 
     public HeroItems HeroItems { get; }
     public HeroInventory Inventory { get; }
 
     private bool _castSpellInstantly;
-    private sbyte _movePoints;
+    private int _movePoints;
 
-    public sbyte HitPoints { get; set; }
+    public int HitPoints { get; set; }
 
     public HeroPowerSource PowerSource { get; }
 
-    public sbyte CastingPoints { get; private set; }
+    public int CastingPoints { get; private set; }
     public int CastingSpellId { get; private set; }
 
     public override int GetCastingSpellId() => CastingSpellId;
@@ -149,16 +149,16 @@ public partial class Hero : Troop
         HeroName = persister.String("HeroName", value: HeroName);
         Nickname = persister.String("Nickname", value: Nickname);
         Race = persister.UnsignedByte(name: "Race", value: Race);
-        CastingPoints = persister.UnsignedByte(name: "CastingPoints", value: CastingPoints);
+        CastingPoints = persister.UnsignedByte(name: "CastingPoints", value: CastingPoints.TruncateToSByte());
         CastingSpellId = persister.Int32("CastingSpellId", value: CastingSpellId);
         _gender = persister.Enum("Gender", value: _gender);
-        UnitAttack = persister.UnsignedByte(name: "UnitAttack", value: UnitAttack);
-        UnitDefense = persister.UnsignedByte(name: "UnitDefense", value: UnitDefense);
-        UnitDamage = persister.UnsignedByte(name: "UnitDamage", value: UnitDamage);
+        UnitAttack = persister.UnsignedByte(name: "UnitAttack", value: UnitAttack.TruncateToSByte());
+        UnitDefense = persister.UnsignedByte(name: "UnitDefense", value: UnitDefense.TruncateToSByte());
+        UnitDamage = persister.UnsignedByte(name: "UnitDamage", value: UnitDamage.TruncateToSByte());
         UnitHits = persister.UnsignedByte(name: "UnitHits", value: UnitHits);
-        UnitMoves = persister.UnsignedByte(name: "UnitMoves", value: UnitMoves);
-        UnitResistance = persister.UnsignedByte(name: "UnitResistance", value: UnitResistance);
-        Level = persister.Byte("Level", value: Level);
+        UnitMoves = persister.UnsignedByte(name: "UnitMoves", value: UnitMoves.TruncateToSByte());
+        UnitResistance = persister.UnsignedByte(name: "UnitResistance", value: UnitResistance.TruncateToSByte());
+        Level = persister.Byte("Level", value: Level.TruncateToByte());
         UpgradePending = persister.Boolean("UpgradePending", value: UpgradePending);
         Experience = persister.Int32("Experience", value: Experience);
         HeroStatus = persister.Set("HeroStatus", value: HeroStatus);
@@ -169,8 +169,8 @@ public partial class Hero : Troop
             Experience = LevelToExperience((oldExperience >>> 5) + 1);
         }
 
-        _movePoints = persister.UnsignedByte(name: "MovePoints", value: _movePoints);
-        HitPoints = persister.UnsignedByte(name: "HitPoints", value: HitPoints);
+        _movePoints = persister.UnsignedByte(name: "MovePoints", value: _movePoints.TruncateToSByte());
+        HitPoints = persister.UnsignedByte(name: "HitPoints", value: HitPoints.TruncateToSByte());
         CastingManaValue = persister.Int32("CastingManaValue", value: CastingManaValue);
         _castSpellInstantly = persister.Boolean("CastSpellInstantly", value: _castSpellInstantly);
         CastingProgress = persister.Int32("CastingProgress", value: CastingProgress);
@@ -240,158 +240,158 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:930
-    public override byte GetUpkeep() => (byte)((GetLevel() * 2) + 5);
+    public override int GetUpkeep() => ((GetLevel() * 2) + 5).TruncateToByte();
 
     // Hero.PAS:680
-    public override sbyte UnitLevel => (sbyte)Level;
+    public override int UnitLevel => Level.TruncateToSByte();
 
     // Hero.PAS:818
     public override sbyte GetRace() => HeroResource.Race;
 
     // Hero.PAS:1426
-    public override sbyte GetInherentAttack() => (sbyte)(HeroResource.Attack + UnitAttack);
+    public override int GetInherentAttack() => (HeroResource.Attack + UnitAttack).TruncateToSByte();
 
     // Hero.PAS:1445
-    public override sbyte GetInherentDefense() => (sbyte)(HeroResource.Defense + UnitDefense);
+    public override int GetInherentDefense() => (HeroResource.Defense + UnitDefense).TruncateToSByte();
 
     // Hero.PAS:1464
-    public override sbyte GetInherentDamage() => (sbyte)(HeroResource.Damage + UnitDamage);
+    public override int GetInherentDamage() => (HeroResource.Damage + UnitDamage).TruncateToSByte();
 
     // Hero.PAS:1483
-    public override sbyte InherentResistance => (sbyte)(HeroResource.Resistance + UnitResistance);
+    public override int InherentResistance => (HeroResource.Resistance + UnitResistance).TruncateToSByte();
 
     // Hero.PAS:1429
-    public override sbyte GetAttack()
+    public override int GetAttack()
     {
         int count = GetAbilityCount();
-        sbyte result = 0;
+        int result = 0;
         // { Original includes the ability-count index in the scan. }
         for (int i = 0; i <= count; i++)
         {
             AbilityOwner? owner = GetSuperlativeEnabledAbilityOwner(i);
             if (owner is not null)
             {
-                result = (sbyte)(result + owner.GetAbilityAttack(i));
+                result = (result + owner.GetAbilityAttack(i)).TruncateToSByte();
             }
         }
 
-        result = (sbyte)(HeroItems.GetAttack() + (UnitAttack + result + HeroResource.Attack));
+        result = (HeroItems.GetAttack() + UnitAttack + result + HeroResource.Attack).TruncateToSByte();
         if (result < 1)
         {
             result = 1;
         }
 
-        return result > 10 ? (sbyte)10 : result;
+        return result > 10 ? 10 : result;
     }
 
     // Hero.PAS:1448
-    public override sbyte GetDefense()
+    public override int GetDefense()
     {
         int count = GetAbilityCount();
-        sbyte result = 0;
+        int result = 0;
         // { Original includes the ability-count index in the scan. }
         for (int i = 0; i <= count; i++)
         {
             AbilityOwner? owner = GetSuperlativeEnabledAbilityOwner(i);
             if (owner is not null)
             {
-                result = (sbyte)(result + owner.GetAbilityDefense(i));
+                result = (result + owner.GetAbilityDefense(i)).TruncateToSByte();
             }
         }
 
-        sbyte defense = HeroItems.GetDefense();
+        int defense = HeroItems.GetDefense();
         Morale morale = GetMorale();
-        result = (sbyte)(defense + (UnitDefense + result + HeroResource.Defense) + MoraleDefense[(int)morale]);
+        result = (defense + UnitDefense + result + HeroResource.Defense + MoraleDefense[(int)morale]).TruncateToSByte();
         if (result < 1)
         {
             result = 1;
         }
 
-        return result > 10 ? (sbyte)10 : result;
+        return result > 10 ? 10 : result;
     }
 
     // Hero.PAS:1467
-    public override sbyte GetDamage()
+    public override int GetDamage()
     {
         int count = GetAbilityCount();
-        sbyte result = 0;
+        int result = 0;
         // { Original includes the ability-count index in the scan. }
         for (int i = 0; i <= count; i++)
         {
             AbilityOwner? owner = GetSuperlativeEnabledAbilityOwner(i);
             if (owner is not null)
             {
-                result = (sbyte)(result + owner.GetAbilityDamage(i));
+                result = (result + owner.GetAbilityDamage(i)).TruncateToSByte();
             }
         }
 
-        result = (sbyte)(HeroItems.GetDamage() + (UnitDamage + result + HeroResource.Damage));
+        result = (HeroItems.GetDamage() + UnitDamage + result + HeroResource.Damage).TruncateToSByte();
         if (result < 1)
         {
             result = 1;
         }
 
-        return result > 10 ? (sbyte)10 : result;
+        return result > 10 ? 10 : result;
     }
 
     // Hero.PAS:1486
-    public override sbyte GetResistance()
+    public override int GetResistance()
     {
         int count = GetAbilityCount();
-        sbyte result = 0;
+        int result = 0;
         // { Original includes the ability-count index in the scan. }
         for (int i = 0; i <= count; i++)
         {
             AbilityOwner? owner = GetSuperlativeEnabledAbilityOwner(i);
             if (owner is not null)
             {
-                result = (sbyte)(result + owner.GetAbilityResistance(i));
+                result = (result + owner.GetAbilityResistance(i)).TruncateToSByte();
             }
         }
 
-        sbyte resistance = HeroItems.GetResistance();
+        int resistance = HeroItems.GetResistance();
         Morale morale = GetMorale();
-        result = (sbyte)(resistance + (UnitResistance + result + HeroResource.Resistance) + MoraleResistance[(int)morale]);
+        result = (resistance + UnitResistance + result + HeroResource.Resistance + MoraleResistance[(int)morale]).TruncateToSByte();
         if (result < 1)
         {
             result = 1;
         }
 
-        return result > 10 ? (sbyte)10 : result;
+        return result > 10 ? 10 : result;
     }
 
     // Hero.PAS:1502
-    public override sbyte GetHits()
+    public override int GetHits()
     {
-        sbyte result = (sbyte)(HeroResource.Hits + UnitHits);
+        int result = (HeroResource.Hits + UnitHits).TruncateToSByte();
         if (result < 1)
         {
             result = 1;
         }
 
-        return result > 30 ? (sbyte)30 : result;
+        return result > 30 ? 30 : result;
     }
 
     // Hero.PAS:1509
-    public override sbyte Moves
+    public override int Moves
     {
         get
         {
-            sbyte result = (sbyte)(HeroResource.Moves + UnitMoves);
+            int result = (HeroResource.Moves + UnitMoves).TruncateToSByte();
             if (result < 1)
             {
                 result = 1;
             }
 
-            return result > 50 ? (sbyte)50 : result;
+            return result > 50 ? 50 : result;
         }
     }
 
     // Hero.PAS:842
-    public override sbyte GetMovePoints() => _movePoints;
+    public override int GetMovePoints() => _movePoints;
 
     // Hero.PAS:845
-    public override void SetMovePoints(sbyte value)
+    public override void SetMovePoints(int value)
     {
         if (Moves < value)
         {
@@ -402,14 +402,14 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:851
-    public override sbyte GetHitPoints() => HitPoints;
+    public override int GetHitPoints() => HitPoints;
 
     // Hero.PAS:854
     public override void SetHitPoints(sbyte value)
     {
         if (GetHits() < value)
         {
-            value = GetHits();
+            value = (sbyte)GetHits();
         }
 
         if (value < 0)
@@ -496,13 +496,13 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1522
-    public override sbyte GetCastingPointsMax() => GetAbilityEnabled(52) ? (sbyte)(GetAbilityLevel(52) * 10) : (sbyte)0;
+    public override int GetCastingPointsMax() => GetAbilityEnabled(52) ? (GetAbilityLevel(52) * 10).TruncateToSByte() : 0;
 
     // Hero.PAS:1528
-    public override sbyte GetCastingPoints() => CastingPoints;
+    public override int GetCastingPoints() => CastingPoints;
 
     // Hero.PAS:1531
-    public override void SetCastingPoints(sbyte value)
+    public override void SetCastingPoints(int value)
     {
         if (value > GetCastingPointsMax())
         {
@@ -538,7 +538,7 @@ public partial class Hero : Troop
         if (player == Player)
         {
             ValidateHeroUpgrade();
-            player = GetCastingPointsMax();
+            player = (sbyte)GetCastingPointsMax();
             CastingPoints = player;
             if (CastingSpellId != 0 && CastingManaValue < CastingProgress)
             {
@@ -546,7 +546,7 @@ public partial class Hero : Troop
                 CastingPoints = 0;
                 if (CastingManaValue > CastingProgress)
                 {
-                    CastingPoints = (sbyte)(CastingManaValue - CastingProgress);
+                    CastingPoints = (CastingManaValue - CastingProgress).TruncateToSByte();
                     CastingManaValue = CastingProgress;
                 }
 
@@ -693,7 +693,7 @@ public partial class Hero : Troop
 
         if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
-            Level = (byte)GetLevel();
+            Level = GetLevel().TruncateToByte();
         }
 
         if (HeroResourceIndex == -1)
@@ -834,8 +834,8 @@ public partial class Hero : Troop
         if (info.Overlays.Contains(UnitOverlayModes.Rank))
         {
             GetEngine().CombatFont.Color = 0xFF_FF_FF;
-            sbyte level = GetLevel();
-            GetEngine().CombatFont.SetTextCentered(X + 43, Y + 12, text: ((int)level).ToString(CultureInfo.InvariantCulture), lockedSurface);
+            int level = GetLevel();
+            GetEngine().CombatFont.SetTextCentered(X + 43, Y + 12, text: level.ToString(CultureInfo.InvariantCulture), lockedSurface);
         }
 
         return result;
@@ -1085,7 +1085,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1049
-    public sbyte ExperienceToLevel(int experience)
+    public int ExperienceToLevel(int experience)
     {
         int level = 1;
         int total = 0;
@@ -1101,14 +1101,14 @@ public partial class Hero : Troop
             level += 1;
         }
         while (!(level >= maximum));
-        return (sbyte)level;
+        return level.TruncateToSByte();
     }
 
     // Hero.PAS:1071
-    public sbyte GetLevel() => ExperienceToLevel(Experience);
+    public int GetLevel() => ExperienceToLevel(Experience);
 
     // Hero.PAS:1076
-    public void SetLevel(sbyte value)
+    public void SetLevel(int value)
     {
         int maximum = LevelMax;
         if (value < 1)
@@ -1118,7 +1118,7 @@ public partial class Hero : Troop
 
         if (maximum < value)
         {
-            value = (sbyte)maximum;
+            value = maximum.TruncateToSByte();
         }
 
         int level = GetLevel();
@@ -1131,18 +1131,18 @@ public partial class Hero : Troop
                 points -= 10;
             }
 
-            value = (sbyte)level;
+            value = level.TruncateToSByte();
         }
 
         Experience = LevelToExperience(value);
-        Level = (byte)value;
+        Level = value.TruncateToByte();
     }
 
     // Hero.PAS:1097
     public HeroType HeroType => HeroResource.HeroType;
 
     // Hero.PAS:1100
-    public void SetUnitAttack(sbyte value)
+    public void SetUnitAttack(int value)
     {
         if (value < 0)
         {
@@ -1151,7 +1151,7 @@ public partial class Hero : Troop
 
         if (value + HeroResource.Attack > 10)
         {
-            value = (sbyte)(10 - HeroResource.Attack);
+            value = (10 - HeroResource.Attack).TruncateToSByte();
         }
 
         if (value > UnitAttack)
@@ -1159,7 +1159,7 @@ public partial class Hero : Troop
             int points = GetSkillPoints();
             while (points >= 5 && value != UnitAttack)
             {
-                UnitAttack = (sbyte)(UnitAttack + 1);
+                UnitAttack = (UnitAttack + 1).TruncateToSByte();
                 points -= 5;
             }
         }
@@ -1170,7 +1170,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1117
-    public void SetUnitDefense(sbyte value)
+    public void SetUnitDefense(int value)
     {
         if (value < 0)
         {
@@ -1179,7 +1179,7 @@ public partial class Hero : Troop
 
         if (value + HeroResource.Defense > 10)
         {
-            value = (sbyte)(10 - HeroResource.Defense);
+            value = (10 - HeroResource.Defense).TruncateToSByte();
         }
 
         if (value > UnitDefense)
@@ -1187,7 +1187,7 @@ public partial class Hero : Troop
             int points = GetSkillPoints();
             while (points >= 5 && value != UnitDefense)
             {
-                UnitDefense = (sbyte)(UnitDefense + 1);
+                UnitDefense = (UnitDefense + 1).TruncateToSByte();
                 points -= 5;
             }
         }
@@ -1198,7 +1198,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1134
-    public void SetUnitDamage(sbyte value)
+    public void SetUnitDamage(int value)
     {
         if (value < 0)
         {
@@ -1207,7 +1207,7 @@ public partial class Hero : Troop
 
         if (value + HeroResource.Damage > 10)
         {
-            value = (sbyte)(10 - HeroResource.Damage);
+            value = (10 - HeroResource.Damage).TruncateToSByte();
         }
 
         if (value > UnitDamage)
@@ -1215,7 +1215,7 @@ public partial class Hero : Troop
             int points = GetSkillPoints();
             while (points >= 10 && value != UnitDamage)
             {
-                UnitDamage = (sbyte)(UnitDamage + 1);
+                UnitDamage = (UnitDamage + 1).TruncateToSByte();
                 points -= 10;
             }
         }
@@ -1254,7 +1254,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1168
-    public void SetUnitMoves(sbyte value)
+    public void SetUnitMoves(int value)
     {
         if (value < 0)
         {
@@ -1263,7 +1263,7 @@ public partial class Hero : Troop
 
         if (value + HeroResource.Moves > 50)
         {
-            value = (sbyte)(50 - HeroResource.Moves);
+            value = (50 - HeroResource.Moves).TruncateToSByte();
         }
 
         if (value > UnitMoves)
@@ -1271,7 +1271,7 @@ public partial class Hero : Troop
             int points = GetSkillPoints();
             while (points >= 2 && value != UnitMoves)
             {
-                UnitMoves = (sbyte)(UnitMoves + 1);
+                UnitMoves = (UnitMoves + 1).TruncateToSByte();
                 points -= 2;
             }
         }
@@ -1282,7 +1282,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1185
-    public void SetUnitResistance(sbyte value)
+    public void SetUnitResistance(int value)
     {
         if (value < 0)
         {
@@ -1291,7 +1291,7 @@ public partial class Hero : Troop
 
         if (value + HeroResource.Resistance > 10)
         {
-            value = (sbyte)(10 - HeroResource.Resistance);
+            value = (10 - HeroResource.Resistance).TruncateToSByte();
         }
 
         if (value > UnitResistance)
@@ -1299,7 +1299,7 @@ public partial class Hero : Troop
             int points = GetSkillPoints();
             while (points >= 5 && value != UnitResistance)
             {
-                UnitResistance = (sbyte)(UnitResistance + 1);
+                UnitResistance = (UnitResistance + 1).TruncateToSByte();
                 points -= 5;
             }
         }
@@ -1388,16 +1388,16 @@ public partial class Hero : Troop
                 switch (choice.First)
                 {
                     case 0:
-                        SetUnitAttack((sbyte)(UnitAttack + 1));
+                        SetUnitAttack((UnitAttack + 1).TruncateToSByte());
                         break;
                     case 1:
-                        SetUnitDefense((sbyte)(UnitDefense + 1));
+                        SetUnitDefense((UnitDefense + 1).TruncateToSByte());
                         break;
                     case 2:
-                        SetUnitResistance((sbyte)(UnitResistance + 1));
+                        SetUnitResistance((UnitResistance + 1).TruncateToSByte());
                         break;
                     case 3:
-                        SetUnitDamage((sbyte)(UnitDamage + 1));
+                        SetUnitDamage((UnitDamage + 1).TruncateToSByte());
                         break;
                     case 4:
                         SetUnitHits((sbyte)(UnitHits + 1));
@@ -1483,12 +1483,12 @@ public partial class Hero : Troop
             {
                 UpgradePending = true;
                 int oldLevel = Level;
-                Level = (byte)level;
+                Level = level.TruncateToByte();
                 HeroUpgradeEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
                     OldLevel = (byte)oldLevel,
-                    NewLevel = Level,
+                    NewLevel = (byte)Level,
                     UpgradeDay = StrategicMap.Current.Players.GetPlayers(Player).Day,
                     Player = Player,
                     UnitId = UnitId
@@ -1594,7 +1594,7 @@ public partial class Hero : Troop
         _movePoints = Moves;
         HitPoints = GetHits();
         CastingPoints = GetCastingPointsMax();
-        Level = (byte)ExperienceToLevel(Experience);
+        Level = ExperienceToLevel(Experience).TruncateToByte();
         Changed();
     }
 
@@ -1675,7 +1675,7 @@ public partial class Hero : Troop
             MapCoordinate coordinate44 = item.GetLocation();
             sbyte ix = coordinate44.X;
             sbyte iy = coordinate44.Y;
-            sbyte imageLibrary = coordinate44.MapLevel;
+            int imageLibrary = coordinate44.MapLevel;
             if (StrategicMap.Current.CombatMap is not null || (x == ix && y == iy && l == imageLibrary))
             {
                 return position is >= HeroItemPosition.AttackSlot and <= HeroItemPosition.RightRingSlot
@@ -1921,7 +1921,7 @@ public partial class Hero : Troop
             RemoveCastingReadyEventLog();
             CastingPoints = GetCastingPointsMax() < CastingPoints + CastingManaValue
                 ? GetCastingPointsMax()
-                : (sbyte)(CastingPoints + CastingManaValue);
+                : (CastingPoints + CastingManaValue).TruncateToSByte();
 
             Player? players = StrategicMap.Current.Players.GetPlayers(Player);
             StrategicMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(players.MagicControl.Mana + CastingProgress);
@@ -1959,7 +1959,7 @@ public partial class Hero : Troop
             {
                 Player? players = StrategicMap.Current.Players.GetPlayers(Player);
                 StrategicMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(players.MagicControl.Mana - mana);
-                CastingPoints = (sbyte)(CastingPoints - mana);
+                CastingPoints = (CastingPoints - mana).TruncateToSByte();
             }
         }
     }
@@ -2005,9 +2005,9 @@ public partial class Hero : Troop
         {
             if (CastingManaValue < CastingProgress)
             {
-                sbyte castingPointsMax = GetCastingPointsMax();
+                int castingPointsMax = GetCastingPointsMax();
                 result = (CastingProgress - CastingManaValue) / castingPointsMax;
-                sbyte castingPointsMax2 = GetCastingPointsMax();
+                int castingPointsMax2 = GetCastingPointsMax();
                 if ((CastingProgress - CastingManaValue) % castingPointsMax2 != 0)
                 {
                     result += 1;

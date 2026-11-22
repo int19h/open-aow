@@ -181,7 +181,7 @@ public class Crop(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
         public override int ResourceUserClassId() => Crop.ClassId;
 
         // Crops.pas:248
-        public override void SetLevel(byte value) => base.SetLevel(5);
+        public override void SetLevel(int value) => base.SetLevel(5);
 
         // Crops.pas:257
         public Crop? PlaceCrop(sbyte X, sbyte Y, sbyte L, PlayerCropStructure cropOwner)

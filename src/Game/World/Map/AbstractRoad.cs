@@ -12,7 +12,7 @@ public class AbstractRoad(CustomNode owner) : MapObject(owner)
     public new const int ClassId = 65_906;
 
     // MAPOBJ.PAS:803
-    public override byte Level => 10;
+    public override int Level => 10;
 
     // MAPOBJ.PAS:808
     public override int GetShowPriority()

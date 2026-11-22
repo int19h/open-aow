@@ -7,6 +7,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
@@ -32,12 +33,12 @@ public class HeroResource : TroopResource
     public HeroType HeroType { get; set; }
     public Alignment Alignment { get; private set; }
     public bool Hidden { get; private set; }
-    public sbyte Attack { get; private set; }
-    public sbyte Defense { get; private set; }
-    public sbyte Damage { get; private set; }
-    public sbyte Hits { get; private set; }
-    public sbyte Moves { get; private set; }
-    public sbyte Resistance { get; private set; }
+    public int Attack { get; private set; }
+    public int Defense { get; private set; }
+    public int Damage { get; private set; }
+    public int Hits { get; private set; }
+    public int Moves { get; private set; }
+    public int Resistance { get; private set; }
 
     public AbilityOwner Abilities { get; }
 
@@ -64,12 +65,12 @@ public class HeroResource : TroopResource
         }
 
         Hidden = persister.Boolean("Hidden", value: Hidden);
-        Attack = persister.UnsignedByte(name: "Attack", value: Attack);
-        Defense = persister.UnsignedByte(name: "Defense", value: Defense);
-        Damage = persister.UnsignedByte(name: "Damage", value: Damage);
-        Hits = persister.UnsignedByte(name: "Hits", value: Hits);
-        Moves = persister.UnsignedByte(name: "Moves", value: Moves);
-        Resistance = persister.UnsignedByte(name: "Resistance", value: Resistance);
+        Attack = persister.UnsignedByte(name: "Attack", value: Attack.TruncateToSByte());
+        Defense = persister.UnsignedByte(name: "Defense", value: Defense.TruncateToSByte());
+        Damage = persister.UnsignedByte(name: "Damage", value: Damage.TruncateToSByte());
+        Hits = persister.UnsignedByte(name: "Hits", value: Hits.TruncateToSByte());
+        Moves = persister.UnsignedByte(name: "Moves", value: Moves.TruncateToSByte());
+        Resistance = persister.UnsignedByte(name: "Resistance", value: Resistance.TruncateToSByte());
         persister.Object("Abilities", objectValue: Abilities);
         FaceIndex = persister.Int32("FaceIndex", value: FaceIndex);
     }

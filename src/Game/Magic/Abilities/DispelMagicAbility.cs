@@ -10,6 +10,7 @@ using Aow.Game.Combat.Actions;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiTextCompare;
@@ -204,7 +205,7 @@ public class DispelMagicAbility : TouchAbility
             if (data.Level != 3)
             {
                 result = true;
-                data.Level = (byte)(data.Level + 1);
+                data.Level = (data.Level + 1).TruncateToByte();
                 // { Original skips level one when upgrading data created by SetEnabled. }
                 if (data.Level == 1)
                 {
@@ -229,7 +230,7 @@ public class DispelMagicAbility : TouchAbility
             }
             else
             {
-                data.Level = (byte)(data.Level - 1);
+                data.Level = (data.Level - 1).TruncateToByte();
             }
         }
         else
@@ -265,8 +266,8 @@ public class DispelMagicAbility : TouchAbility
         // { Original evaluates dispelling with the healing hit-point formula. }
         if (wallSituation == WallSituation.None && !defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
-            sbyte hits = defender.GetHits();
-            sbyte hitPoints = defender.GetHitPoints();
+            int hits = defender.GetHits();
+            int hitPoints = defender.GetHitPoints();
             damageValues.SourceCost = hits - hitPoints;
             if (damageValues.SourceCost > 5)
             {

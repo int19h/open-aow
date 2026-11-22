@@ -30,12 +30,12 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
 
     public TacticalBattleUnit Unit { get; set; }
 
-    private short _moveIndicator;
-    private short _indicatorStep;
+    private int _moveIndicator;
+    private int _indicatorStep;
 
     public SpriteAction Action { get; private set; }
     public bool ActionDone { get; private set; }
-    public short ActionFrame { get; private set; }
+    public int ActionFrame { get; private set; }
 
     public int OffsetX { get; internal set; }
     public int OffsetY { get; internal set; }

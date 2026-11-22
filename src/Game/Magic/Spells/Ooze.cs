@@ -34,7 +34,7 @@ public class Ooze : CombatSpell
         _ = target.GetProtectionTypes();
         _ = target.GetImmunityTypes();
         values.DamageTypes = CombatInfo.DamageTypes;
-        sbyte resistance = target.GetResistance();
+        int resistance = target.GetResistance();
         float hitRoleProbability = HitChance.HitRoleProbability(CombatInfo.Attack - resistance);
         values.SourceDamage = Round((double)hitRoleProbability * 200);
         values.SourceCost = 200;

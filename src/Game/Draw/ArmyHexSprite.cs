@@ -15,6 +15,7 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.Draw;
@@ -30,7 +31,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     private byte _unitIndex;
     private sbyte _unitYOffset;
 
-    public sbyte MoveSteps { get; private set; }
+    public int MoveSteps { get; private set; }
 
     // Army.PAS:2654
     public override void Dispose()
@@ -229,7 +230,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                                         {
                                             if (Army.Player == message.Param[1].Int || StrategicMap.Current.Players.GetPlayers(Army.Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)message.Param[1].Int) == DiplomaticRelation.Alliance)
                                             {
-                                                byte visibilityRange = Army.VisibilityRange();
+                                                int visibilityRange = Army.VisibilityRange();
                                                 if (message.Param[0].Int <= visibilityRange)
                                                 {
                                                     message.Result = 1;
@@ -242,7 +243,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                                             {
                                                 if (Army.Player == message.Param[1].Int || StrategicMap.Current.Players.GetPlayers(Army.Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)message.Param[1].Int) == DiplomaticRelation.Alliance)
                                                 {
-                                                    byte trueVisionRange = Army.TrueVisionRange();
+                                                    int trueVisionRange = Army.TrueVisionRange();
                                                     if (message.Param[0].Int <= trueVisionRange)
                                                     {
                                                         message.Result = 1;
@@ -261,13 +262,13 @@ public partial class ArmyHexSprite : UnitHexSprite
                                                     bool condition = Army.Player > 0;
                                                     if (condition)
                                                     {
-                                                        byte visibilityRange = Army.VisibilityRange();
+                                                        int visibilityRange = Army.VisibilityRange();
                                                         condition = message.Param[0].Int <= visibilityRange;
                                                     }
 
                                                     if (condition)
                                                     {
-                                                        byte trueVisionRange = Army.TrueVisionRange();
+                                                        int trueVisionRange = Army.TrueVisionRange();
                                                         StrategicMap.Current.UpdatePlayerSeen(Army.Player, message.MapField.HexX, message.MapField.HexY, L: message.MapField.HexLevel, sightRadius: message.Param[0].Int, radius: trueVisionRange);
                                                     }
                                                 }
@@ -516,8 +517,8 @@ public partial class ArmyHexSprite : UnitHexSprite
                     field.SendMapFieldMessage(ref message);
                     if (Army.Player > 0)
                     {
-                        byte visibilityRange = Army.VisibilityRange();
-                        byte trueVisionRange = Army.TrueVisionRange();
+                        int visibilityRange = Army.VisibilityRange();
+                        int trueVisionRange = Army.TrueVisionRange();
                         StrategicMap.Current.UpdatePlayerSeen(Army.Player, field.HexX, field.HexY, L: field.HexLevel, sightRadius: visibilityRange, radius: trueVisionRange);
                     }
 
@@ -571,11 +572,11 @@ public partial class ArmyHexSprite : UnitHexSprite
         switch (GetEngine().Registry.GetMovementSpeed())
         {
             case GameSettings.MovementSpeed.Normal:
-                MoveSteps = (sbyte)base.GetMoveSteps();
+                MoveSteps = base.GetMoveSteps().TruncateToSByte();
                 break;
             case GameSettings.MovementSpeed.Fast:
-                MoveSteps = (sbyte)base.GetMoveSteps();
-                MoveSteps = MoveSteps > 8 ? (sbyte)(MoveSteps - 4) : (sbyte)4;
+                MoveSteps = base.GetMoveSteps().TruncateToSByte();
+                MoveSteps = MoveSteps > 8 ? (MoveSteps - 4).TruncateToSByte() : 4;
 
                 break;
             case GameSettings.MovementSpeed.Turbo:
@@ -589,13 +590,13 @@ public partial class ArmyHexSprite : UnitHexSprite
         {
             if (StrategicMap.Current.FPS < 15)
             {
-                MoveSteps = (sbyte)(MoveSteps / 2);
+                MoveSteps /= 2;
             }
             else
             {
                 if (StrategicMap.Current.FPS < 25)
                 {
-                    MoveSteps = (sbyte)(MoveSteps - 2);
+                    MoveSteps = (MoveSteps - 2).TruncateToSByte();
                 }
             }
 

@@ -40,7 +40,7 @@ public sealed partial class ProductionPlaceControl(CustomNode? owner) : Producti
             UnitEnchantment? enchantment = Settings.Unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
             enchantment.SetUpkeep((Settings.Unit.UnitLevel + 1) * 2);
             enchantment.SetSource(ProductionPlace.Player);
-            enchantment.DispelResistance = (sbyte)(Settings.Unit.UnitLevel + 3);
+            enchantment.DispelResistance = (Settings.Unit.UnitLevel + 3).TruncateToSByte();
         }
 
         ProductionPlaceEventLog log = new(null)

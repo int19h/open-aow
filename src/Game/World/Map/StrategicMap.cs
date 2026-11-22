@@ -61,7 +61,7 @@ public sealed partial class StrategicMap : GameMap
     private StrategicMapIndependentAIMode _independentAIMode;
     private readonly DelphiStringList _objectives;
 
-    public sbyte HeroCountMax { get; private set; }
+    public int HeroCountMax { get; private set; }
 
     public StartupSongList StartupSongs { get; }
     public SongList GameSongs { get; }
@@ -552,7 +552,7 @@ public sealed partial class StrategicMap : GameMap
 
         MapName = persister.String("MapName", value: MapName);
         FogEnabled = persister.Boolean("FogEnabled", value: FogEnabled);
-        HeroCountMax = persister.UnsignedByte(name: "HeroCountMax", value: HeroCountMax);
+        HeroCountMax = persister.UnsignedByte(name: "HeroCountMax", value: HeroCountMax.TruncateToSByte());
         DefendersSeed = persister.Int32("DefendersSeed", value: DefendersSeed);
         // The original leaves the songs out under text only, which the translate stream's mode holds.
         if (!persister.Preview && !translating)
@@ -854,7 +854,7 @@ public sealed partial class StrategicMap : GameMap
         Players.ValidateRaces(Races);
         for (int l = 0, last = MapContainer.LevelCount - 1; l <= last; l++)
         {
-            InitializeMapLevel((sbyte)l);
+            InitializeMapLevel(l.TruncateToSByte());
         }
 
         for (int i = 0, last = GamePack.Current.ItemLibraries.SystemLibrary.Items.Count - 1; i <= last; i++)
@@ -877,7 +877,7 @@ public sealed partial class StrategicMap : GameMap
     {
         if (MapContainer.LevelCount < 3 && MapContainer.AddLevel(MapLevel.ClassId))
         {
-            InitializeMapLevel((sbyte)(MapContainer.LevelCount - 1));
+            InitializeMapLevel((MapContainer.LevelCount - 1).TruncateToSByte());
             return true;
         }
         else
@@ -1752,7 +1752,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:2261
-    public void InitializeMapLevel(sbyte level)
+    public void InitializeMapLevel(int level)
     {
         HexControl control = Engine.HexSpriteSet.HexControl;
         if (level == 0)
@@ -1771,7 +1771,7 @@ public sealed partial class StrategicMap : GameMap
             {
                 for (int y = 1, lastY = MapContainer.Height - 7; y <= lastY; y++)
                 {
-                    _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: level, terrainType: 7);
+                    _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: (sbyte)level, terrainType: 7);
                 }
             }
         }
@@ -1780,12 +1780,12 @@ public sealed partial class StrategicMap : GameMap
         {
             for (int y = 0; y <= 5; y++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: level, terrainType: 15);
+                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: (sbyte)level, terrainType: 15);
             }
 
             for (int y = MapContainer.Height - 6, lastY = MapContainer.Height - 1; y <= lastY; y++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: level, terrainType: 15);
+                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: (sbyte)level, terrainType: 15);
             }
         }
 
@@ -1793,12 +1793,12 @@ public sealed partial class StrategicMap : GameMap
         {
             for (int x = 0; x <= 5; x++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: level, terrainType: 15);
+                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: (sbyte)level, terrainType: 15);
             }
 
             for (int x = MapContainer.Width - 6, last = MapContainer.Width - 1; x <= last; x++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: level, terrainType: 15);
+                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: (sbyte)level, terrainType: 15);
             }
         }
     }
@@ -2181,8 +2181,8 @@ public sealed partial class StrategicMap : GameMap
         while (list.Count != 0)
         {
             int index = Random(list.Count);
-            byte item = list[index];
-            _ = TurnOrder.Add(item);
+            int item = list[index];
+            _ = TurnOrder.Add((byte)item);
             list.Delete(index);
         }
 
@@ -2570,7 +2570,7 @@ public sealed partial class StrategicMap : GameMap
         return effect;
     }
 
-    public bool ValidateObservation(sbyte player, sbyte x, sbyte y, sbyte level, int radius)
+    public bool ValidateObservation(sbyte player, sbyte x, sbyte y, int level, int radius)
     {
         if (!ShowIndependentMoves || player == Current.SeatedPlayer)
         {

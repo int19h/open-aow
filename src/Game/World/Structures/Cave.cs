@@ -223,7 +223,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         {
             int l = Entrance == CaveEntrance.Down ? HexLevel + 1 : HexLevel - 1;
 
-            byte visibilityRange = armyHexSprite.Army.VisibilityRange();
+            int visibilityRange = armyHexSprite.Army.VisibilityRange();
             sbyte hexY = armyHexSprite.HexY;
             sbyte hexX = armyHexSprite.HexX;
             _ = StrategicMap.Current.MapContainer.GetMapLevel(l).ExploreArea(hexX, hexY, armyHexSprite.Army.Player, radius: visibilityRange);
@@ -231,13 +231,13 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     }
 
     // Cave.pas:292
-    public sbyte EnterMovePoints(Army army, byte selection)
+    public int EnterMovePoints(Army army, byte selection)
     {
         int l = Entrance == CaveEntrance.Down ? HexLevel + 1 : HexLevel - 1;
         sbyte hexY = HexY;
         sbyte hexX = HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
-        return (sbyte)army.MoveOnMovePoints(selection, field.TerrainType, field.OverlayType);
+        return army.MoveOnMovePoints(selection, field.TerrainType, field.OverlayType).TruncateToSByte();
     }
 
     // Cave.pas:300
@@ -291,8 +291,8 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                     break;
             }
             _ = path.AddMapCoordinate(y: HexY, x: HexX, mapLevel: l);
-            sbyte enterMovePoints = EnterMovePoints(armyHexSprite.Army, selection);
-            path.List[0] = path.List[0] with { MoveCost = enterMovePoints };
+            int enterMovePoints = EnterMovePoints(armyHexSprite.Army, selection);
+            path.List[0] = path.List[0] with { MoveCost = (sbyte)enterMovePoints };
             _ = path.AddMapCoordinate(mapLevel: HexLevel, y: HexY, x: HexX);
             sbyte hexY3 = HexY;
             sbyte hexX = HexX;

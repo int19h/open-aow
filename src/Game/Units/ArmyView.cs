@@ -9,6 +9,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
@@ -44,7 +45,7 @@ public sealed class ArmyView(CustomNode owner) : Army(owner)
 
         for (int i = 0; i < Units.Count; i++)
         {
-            Units.GetUnit(i).MoraleValue = (sbyte)MoraleValues[i];
+            Units.GetUnit(i).MoraleValue = MoraleValues[i].TruncateToSByte();
         }
     }
 

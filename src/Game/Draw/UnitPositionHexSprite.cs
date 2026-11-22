@@ -35,7 +35,7 @@ public sealed class UnitPositionHexSprite(CustomNode? owner) : SingleHexSprite(o
     }
 
     // AoWTC.pas:5021
-    public override byte Level => 27;
+    public override int Level => 27;
 
     // AoWTC.pas:5074
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

@@ -43,7 +43,7 @@ public class CallHero : Spell
         {
             if (hero.Owner is null)
             {
-                hero.SetHitPoints(hero.GetHits());
+                hero.SetHitPoints((sbyte)hero.GetHits());
             }
 
             ArmyHexSprite? army = hero.Place(x, y, L: layer, player: 0, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);

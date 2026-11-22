@@ -58,7 +58,7 @@ public class Animation(CustomNode? owner, ShowAnimationEvent? show = null, Actio
     }
 
     // Animation.pas:194
-    public override byte Level => AnimationLevel;
+    public override int Level => AnimationLevel;
 
     // Animation.pas:213
     public override bool Visible

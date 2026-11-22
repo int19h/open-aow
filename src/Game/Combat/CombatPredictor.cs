@@ -11,6 +11,7 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.DelphiRounding;
@@ -400,8 +401,8 @@ public sealed class CombatPredictor : IDisposable
         {
             WallCombatant wall = new(null) { Holder = Creator.CreationHolder() };
             wall.SetWallType(wallType);
-            wall.Hits = (sbyte)(wall.Hits + 5);
-            wall.HitPoints = (sbyte)(wall.HitPoints + 5);
+            wall.Hits = (wall.Hits + 5).TruncateToSByte();
+            wall.HitPoints = (wall.HitPoints + 5).TruncateToSByte();
             _wall = AddUnit(wall, side: 1, behindWall: 0);
             _ = wall.Release();
         }
@@ -475,7 +476,7 @@ public sealed class CombatPredictor : IDisposable
                     ArmyHexSprite armyHexSprite = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                     if (armyHexSprite is not null && armyHexSprite != army)
                     {
-                        CombatSideIndex side = CombatAbilityTables.GetCombatSide((sbyte)player, attackerRelation: (sbyte)relation, defender: (sbyte)defender, defenderRelation: (sbyte)defenderRelation, armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
+                        CombatSideIndex side = CombatAbilityTables.GetCombatSide(player.TruncateToSByte(), attackerRelation: relation.TruncateToSByte(), defender: (sbyte)defender, defenderRelation: (sbyte)defenderRelation, armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
                         if (side != CombatSideIndex.Neutral)
                         {
                             MapField field = level.GetField(X, Y);
@@ -532,7 +533,7 @@ public sealed class CombatPredictor : IDisposable
                     ArmyHexSprite armyHexSprite = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                     if (armyHexSprite is not null)
                     {
-                        CombatSideIndex side = CombatAbilityTables.GetCombatSide((sbyte)player, attackerRelation: (sbyte)relation, defender: (sbyte)defender, defenderRelation: (sbyte)defenderRelation, armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
+                        CombatSideIndex side = CombatAbilityTables.GetCombatSide(player.TruncateToSByte(), attackerRelation: relation.TruncateToSByte(), defender: (sbyte)defender, defenderRelation: (sbyte)defenderRelation, armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
                         if (side == CombatSideIndex.Defender)
                         {
                             MapField field = level.GetField(X, Y);
