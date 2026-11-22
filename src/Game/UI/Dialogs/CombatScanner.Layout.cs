@@ -50,8 +50,8 @@ public sealed partial class CombatScanner : ILayoutModule
         CombatScannerWindow.DragHeight = 20;
         CombatScannerWindow.Draggable = true;
         CombatScannerWindow.Resizable = true;
-        CombatScannerWindow.Dragged += _ => TCScannerWinDrag();
-        CombatScannerWindow.Resized += _ => TCScannerWinDrag();
+        CombatScannerWindow.Changed += (_, _) => TCScannerWinDrag();
+        CombatScannerWindow.Resized += (_, _) => TCScannerWinDrag();
         CombatScannerWindow.MinWidth = 150;
         CombatScannerWindow.MinHeight = 170;
         CombatScannerWindow.MaxWidth = 0;
@@ -118,7 +118,7 @@ public sealed partial class CombatScanner : ILayoutModule
         Scanner.Buildings = true;
         Scanner.Armies = true;
         Scanner.Naturals = true;
-        Scanner.TileBoxChanged += _ => ScannerChangeTileBox();
+        Scanner.TileBoxChanged += (_, _) => ScannerChangeTileBox();
         Scanner.MapDrawSteps = 5;
         Scanner.ImageLibraryIndexFrame = 20;
         session.EndRead(Scanner);
@@ -205,7 +205,7 @@ public sealed partial class CombatScanner : ILayoutModule
         sMinIcon.TextColor = 0;
         sMinIcon.TextSelectedColor = 0;
         sMinIcon.WinWidth = 15;
-        sMinIcon.Clicked += _ => SMinIconClick();
+        sMinIcon.Clicked += (_, _) => SMinIconClick();
         session.EndRead(sMinIcon);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);

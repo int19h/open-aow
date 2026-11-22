@@ -41,11 +41,11 @@ public sealed partial class Label(Component owner) : Control(owner)
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, surfDesc: lockedSurface);
+                RaisePreDraw(surfDesc: lockedSurface);
 
                 base.Font.Color = Color;
                 base.Font.SetText(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, base.Text, lockedSurface);
-                RaiseDraw(this, surfDesc: lockedSurface);
+                RaiseDraw(surfDesc: lockedSurface);
             }
         }
         catch
@@ -62,7 +62,7 @@ public sealed partial class Label(Component owner) : Control(owner)
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = CaptureInput;
-            RaiseMouseDown(this, button, shift, X, Y);
+            RaiseMouseDown(button, shift, X, Y);
         }
     }
 
@@ -73,7 +73,7 @@ public sealed partial class Label(Component owner) : Control(owner)
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = CaptureInput;
-            RaiseMouseUp(this, button, shift, X, Y);
+            RaiseMouseUp(button, shift, X, Y);
         }
     }
 
@@ -85,7 +85,7 @@ public sealed partial class Label(Component owner) : Control(owner)
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = CaptureInput;
-            RaiseMouseMove(this, shift, X, Y);
+            RaiseMouseMove(shift, X, Y);
         }
     }
 
@@ -118,58 +118,4 @@ public sealed partial class Label(Component owner) : Control(owner)
 
     [Published]
     public override string Text { get => base.Text; set => SetGText(value); }
-
-    public new event NotifyEvent<Label> Changed
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, Label>(this, slot: nameof(Changed), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, Label>(this, slot: nameof(Changed), value: value);
-    }
-
-    public new event MouseEvent<Label> MousePressed
-    {
-        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, Label>(this, slot: nameof(MousePressed), value: value);
-        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, Label>(this, slot: nameof(MousePressed), value: value);
-    }
-
-    public new event MouseEvent<Label> MouseReleased
-    {
-        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, Label>(this, slot: nameof(MouseReleased), value: value);
-        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, Label>(this, slot: nameof(MouseReleased), value: value);
-    }
-
-    public new event MouseMoveEvent<Label> MouseMoved
-    {
-        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, Label>(this, slot: nameof(MouseMoved), value: value);
-        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, Label>(this, slot: nameof(MouseMoved), value: value);
-    }
-
-    public new event KeyPressEvent<Label> CharacterTyped
-    {
-        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, Label>(this, slot: nameof(CharacterTyped), value: value);
-        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, Label>(this, slot: nameof(CharacterTyped), value: value);
-    }
-
-    public new event KeyEvent<Label> KeyPressed
-    {
-        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, Label>(this, slot: nameof(KeyPressed), value: value);
-        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, Label>(this, slot: nameof(KeyPressed), value: value);
-    }
-
-    public new event AoWOnDrawEvent<Label> Drawing
-    {
-        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, Label>(this, slot: nameof(Drawing), value: value);
-        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, Label>(this, slot: nameof(Drawing), value: value);
-    }
-
-    public new event AoWOnDrawEvent<Label> Drawn
-    {
-        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Label>(this, slot: nameof(Drawn), value: value);
-        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Label>(this, slot: nameof(Drawn), value: value);
-    }
-
-    public new event NotifyEvent<Label> Updated
-    {
-        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, Label>(this, slot: nameof(Updated), value: value);
-        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, Label>(this, slot: nameof(Updated), value: value);
-    }
 }

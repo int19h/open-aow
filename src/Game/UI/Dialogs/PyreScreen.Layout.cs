@@ -17,9 +17,9 @@ public sealed partial class PyreScreen : ILayoutModule
         DeadPanel = new Panel(this);
         session.BeginRead(DeadPanel);
         DeadPanel.Name = "DeadPnl";
-        DeadPanel.MousePressed += (_, button, shift, x, y) => DeadPnlMouseDown(button, shift, x, y);
-        DeadPanel.KeyPressed += (_, ref key, shift) => DeadPnlKeyDown(key, shift);
-        DeadPanel.Updated += _ => DeadPnlUpdate();
+        DeadPanel.MousePressed += (_, e) => DeadPnlMouseDown(e.Button, e.Shift, e.X, e.Y);
+        DeadPanel.KeyPressed += (_, e) => DeadPnlKeyDown(e.Key, e.Shift);
+        DeadPanel.Updated += (_, _) => DeadPnlUpdate();
         DeadPanel.Visible = false;
         DeadPanel.Priority = 5;
         DeadPanel.WinLeft = 0;
@@ -76,7 +76,7 @@ public sealed partial class PyreScreen : ILayoutModule
         LeaderFaceFrame = new Image(this);
         session.BeginRead(LeaderFaceFrame);
         LeaderFaceFrame.Name = "LeaderFaceFr";
-        LeaderFaceFrame.Drawing += (_, surface) => LeaderFaceFrPreDraw(surface);
+        LeaderFaceFrame.Drawing += (_, e) => LeaderFaceFrPreDraw(e.Surface);
         LeaderFaceFrame.Priority = 1000;
         LeaderFaceFrame.WinLeft = 225;
         LeaderFaceFrame.WinTop = 5;
@@ -105,8 +105,8 @@ public sealed partial class PyreScreen : ILayoutModule
         PyreAnimationView = new UserDrawBox(this);
         session.BeginRead(PyreAnimationView);
         PyreAnimationView.Name = "PyreAnimation";
-        PyreAnimationView.Drawn += (_, surface) => PyreAnimationDraw(surface);
-        PyreAnimationView.Updated += _ => PyreAnimationUpdate();
+        PyreAnimationView.Drawn += (_, e) => PyreAnimationDraw(e.Surface);
+        PyreAnimationView.Updated += (_, _) => PyreAnimationUpdate();
         PyreAnimationView.Priority = 10;
         PyreAnimationView.WinLeft = 0;
         PyreAnimationView.WinTop = 0;

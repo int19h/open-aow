@@ -123,7 +123,7 @@ public sealed class Frame(Component? owner) : Control(owner)
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, surfDesc: lockedSurface);
+                RaisePreDraw(surfDesc: lockedSurface);
 
                 switch (FrameType)
                 {
@@ -155,7 +155,7 @@ public sealed class Frame(Component? owner) : Control(owner)
                         break;
                 }
 
-                RaiseDraw(this, surfDesc: lockedSurface);
+                RaiseDraw(surfDesc: lockedSurface);
             }
         }
         catch
@@ -172,7 +172,7 @@ public sealed class Frame(Component? owner) : Control(owner)
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
-            RaiseMouseDown(this, button, shift, X, Y);
+            RaiseMouseDown(button, shift, X, Y);
 
             if (button == MouseButton.Right && PopupMenu is not null)
             {
@@ -218,7 +218,7 @@ public sealed class Frame(Component? owner) : Control(owner)
         Handled = false;
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
-            RaiseMouseUp(this, button, shift, X, Y);
+            RaiseMouseUp(button, shift, X, Y);
         }
     }
 
@@ -228,7 +228,7 @@ public sealed class Frame(Component? owner) : Control(owner)
         Handled = false;
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
-            RaiseMouseMove(this, shift, X, Y);
+            RaiseMouseMove(shift, X, Y);
         }
     }
 
@@ -318,58 +318,4 @@ public sealed class Frame(Component? owner) : Control(owner)
 
     [Published]
     public Menu PopupMenu { get; set; }
-
-    public new event NotifyEvent<Frame> Changed
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(Changed), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(Changed), value: value);
-    }
-
-    public new event MouseEvent<Frame> MousePressed
-    {
-        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(MousePressed), value: value);
-        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(MousePressed), value: value);
-    }
-
-    public new event MouseEvent<Frame> MouseReleased
-    {
-        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(MouseReleased), value: value);
-        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(MouseReleased), value: value);
-    }
-
-    public new event MouseMoveEvent<Frame> MouseMoved
-    {
-        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(MouseMoved), value: value);
-        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(MouseMoved), value: value);
-    }
-
-    public new event KeyPressEvent<Frame> CharacterTyped
-    {
-        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(CharacterTyped), value: value);
-        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(CharacterTyped), value: value);
-    }
-
-    public new event KeyEvent<Frame> KeyPressed
-    {
-        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(KeyPressed), value: value);
-        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(KeyPressed), value: value);
-    }
-
-    public new event AoWOnDrawEvent<Frame> Drawing
-    {
-        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(Drawing), value: value);
-        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(Drawing), value: value);
-    }
-
-    public new event AoWOnDrawEvent<Frame> Drawn
-    {
-        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(Drawn), value: value);
-        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(Drawn), value: value);
-    }
-
-    public new event NotifyEvent<Frame> Updated
-    {
-        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(Updated), value: value);
-        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(Updated), value: value);
-    }
 }

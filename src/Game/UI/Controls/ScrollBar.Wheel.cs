@@ -27,7 +27,7 @@ public partial class ScrollBar
         }
 
         IsDrawn = false;
-        RaiseChange(this);
+        RaiseChange();
     }
 
     // Positive steps move toward FMin, one SmallChange and one OnChange per step.

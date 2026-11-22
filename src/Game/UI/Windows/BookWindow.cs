@@ -1,7 +1,6 @@
 #nullable disable warnings
 // Translated from AoWBookWindow.pas.
 using Aow.Game.Draw;
-using Aow.Game.UI.Controls;
 using Aow.Game.UI.Grids;
 using Aow.Rtl;
 
@@ -13,7 +12,7 @@ public sealed partial class BookWindow(Component? owner) : Window(owner)
 {
 
     [Published]
-    public event NotifyEvent<BookWindow>? AnimationEnded;
+    public event EventHandler? AnimationEnded;
     private bool _firstAnimationFrame;
     private bool _previousSurfaceValid;
 
@@ -41,7 +40,7 @@ public sealed partial class BookWindow(Component? owner) : Window(owner)
             if (!PageTurn.UpdateScene())
             {
                 Animating = false;
-                AnimationEnded?.Invoke(this);
+                AnimationEnded?.Invoke(this, e: EventArgs.Empty);
             }
         }
 
@@ -93,7 +92,7 @@ public sealed partial class BookWindow(Component? owner) : Window(owner)
             {
                 SurfaceValid = false;
                 Animating = false;
-                AnimationEnded?.Invoke(this);
+                AnimationEnded?.Invoke(this, e: EventArgs.Empty);
             }
         }
     }
@@ -139,125 +138,5 @@ public sealed partial class BookWindow(Component? owner) : Window(owner)
             Animating = true;
             _firstAnimationFrame = true;
         }
-    }
-
-    public new event NotifyEvent<BookWindow> Changed
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, BookWindow>(this, slot: nameof(Changed), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, BookWindow>(this, slot: nameof(Changed), value: value);
-    }
-
-    public new event MouseEvent<BookWindow> MousePressed
-    {
-        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, BookWindow>(this, slot: nameof(MousePressed), value: value);
-        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, BookWindow>(this, slot: nameof(MousePressed), value: value);
-    }
-
-    public new event MouseEvent<BookWindow> MouseReleased
-    {
-        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, BookWindow>(this, slot: nameof(MouseReleased), value: value);
-        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, BookWindow>(this, slot: nameof(MouseReleased), value: value);
-    }
-
-    public new event MouseMoveEvent<BookWindow> MouseMoved
-    {
-        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, BookWindow>(this, slot: nameof(MouseMoved), value: value);
-        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, BookWindow>(this, slot: nameof(MouseMoved), value: value);
-    }
-
-    public new event KeyPressEvent<BookWindow> CharacterTyped
-    {
-        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, BookWindow>(this, slot: nameof(CharacterTyped), value: value);
-        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, BookWindow>(this, slot: nameof(CharacterTyped), value: value);
-    }
-
-    public new event KeyEvent<BookWindow> KeyPressed
-    {
-        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, BookWindow>(this, slot: nameof(KeyPressed), value: value);
-        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, BookWindow>(this, slot: nameof(KeyPressed), value: value);
-    }
-
-    public new event AoWOnDrawEvent<BookWindow> Drawing
-    {
-        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, BookWindow>(this, slot: nameof(Drawing), value: value);
-        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, BookWindow>(this, slot: nameof(Drawing), value: value);
-    }
-
-    public new event AoWOnDrawEvent<BookWindow> Drawn
-    {
-        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, BookWindow>(this, slot: nameof(Drawn), value: value);
-        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, BookWindow>(this, slot: nameof(Drawn), value: value);
-    }
-
-    public new event NotifyEvent<BookWindow> Updated
-    {
-        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, BookWindow>(this, slot: nameof(Updated), value: value);
-        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, BookWindow>(this, slot: nameof(Updated), value: value);
-    }
-
-    public new event AoWOnDrawBackEvent<BookWindow> BackgroundDrawn
-    {
-        add => ((WindowControl)this).BackgroundDrawn += EventSlot.Add<WindowControl, BookWindow>(this, slot: nameof(BackgroundDrawn), value: value);
-        remove => ((WindowControl)this).BackgroundDrawn -= EventSlot.Remove<WindowControl, BookWindow>(this, slot: nameof(BackgroundDrawn), value: value);
-    }
-
-    public new event NotifyEvent<BookWindow> MouseEntered
-    {
-        add => ((WindowControl)this).MouseEntered += EventSlot.Add<WindowControl, BookWindow>(this, slot: nameof(MouseEntered), value: value);
-        remove => ((WindowControl)this).MouseEntered -= EventSlot.Remove<WindowControl, BookWindow>(this, slot: nameof(MouseEntered), value: value);
-    }
-
-    public new event NotifyEvent<BookWindow> MouseLeft
-    {
-        add => ((WindowControl)this).MouseLeft += EventSlot.Add<WindowControl, BookWindow>(this, slot: nameof(MouseLeft), value: value);
-        remove => ((WindowControl)this).MouseLeft -= EventSlot.Remove<WindowControl, BookWindow>(this, slot: nameof(MouseLeft), value: value);
-    }
-
-    public new event NotifyEvent<BookWindow> CursorChanged
-    {
-        add => ((WindowControl)this).CursorChanged += EventSlot.Add<WindowControl, BookWindow>(this, slot: nameof(CursorChanged), value: value);
-        remove => ((WindowControl)this).CursorChanged -= EventSlot.Remove<WindowControl, BookWindow>(this, slot: nameof(CursorChanged), value: value);
-    }
-
-    public new event AoWOnDrawSurface<BookWindow> Blitted
-    {
-        add => ((WindowControl)this).Blitted += EventSlot.Add<WindowControl, BookWindow>(this, slot: nameof(Blitted), value: value);
-        remove => ((WindowControl)this).Blitted -= EventSlot.Remove<WindowControl, BookWindow>(this, slot: nameof(Blitted), value: value);
-    }
-
-    public new event AoWOnDrawSurface<BookWindow> Blitting
-    {
-        add => ((WindowControl)this).Blitting += EventSlot.Add<WindowControl, BookWindow>(this, slot: nameof(Blitting), value: value);
-        remove => ((WindowControl)this).Blitting -= EventSlot.Remove<WindowControl, BookWindow>(this, slot: nameof(Blitting), value: value);
-    }
-
-    public new event NotifyEvent<BookWindow> Dragged
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, BookWindow>(this, slot: nameof(Dragged), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, BookWindow>(this, slot: nameof(Dragged), value: value);
-    }
-
-    public new event NotifyEvent<BookWindow> Resized
-    {
-        add => ((WindowControl)this).Resized += EventSlot.Add<WindowControl, BookWindow>(this, slot: nameof(Resized), value: value);
-        remove => ((WindowControl)this).Resized -= EventSlot.Remove<WindowControl, BookWindow>(this, slot: nameof(Resized), value: value);
-    }
-
-    public new event NotifyEvent<BookWindow> SizeChanged
-    {
-        add => ((WindowControl)this).SizeChanged += EventSlot.Add<WindowControl, BookWindow>(this, slot: nameof(SizeChanged), value: value);
-        remove => ((WindowControl)this).SizeChanged -= EventSlot.Remove<WindowControl, BookWindow>(this, slot: nameof(SizeChanged), value: value);
-    }
-
-    public new event NotifyEvent<BookWindow> Hidden
-    {
-        add => ((BaseWindow)this).Hidden += EventSlot.Add<BaseWindow, BookWindow>(this, slot: nameof(Hidden), value: value);
-        remove => ((BaseWindow)this).Hidden -= EventSlot.Remove<BaseWindow, BookWindow>(this, slot: nameof(Hidden), value: value);
-    }
-
-    public new event NotifyEvent<BookWindow> Shown
-    {
-        add => ((BaseWindow)this).Shown += EventSlot.Add<BaseWindow, BookWindow>(this, slot: nameof(Shown), value: value);
-        remove => ((BaseWindow)this).Shown -= EventSlot.Remove<BaseWindow, BookWindow>(this, slot: nameof(Shown), value: value);
     }
 }

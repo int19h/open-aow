@@ -15,8 +15,7 @@ public sealed partial class HeroJoinDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "HeroJoinDlg";
-        LayoutOnCreate += _ => HeroJoinDialogCreate();
-        LayoutOnDestroy += _ => HeroJoinDialogDestroy();
+        _hasLayout = true;
         UnitPanel = new Panel(this);
         session.BeginRead(UnitPanel);
         UnitPanel.Name = "UnitPnl";
@@ -47,8 +46,8 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         Frame u1 = new(this);
         session.BeginRead(u1);
         u1.Name = "U1";
-        u1.MousePressed += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, slot: 0);
-        u1.Drawing += (sender, surface) => U1PreDraw(sender, surface, slot: 0);
+        u1.MousePressed += (_, e) => U1MouseDown(e.Button, e.Shift, e.X, e.Y, slot: 0);
+        u1.Drawing += (_, e) => U1PreDraw(u1, e.Surface, slot: 0);
         u1.Priority = 0;
         u1.WinLeft = 0;
         u1.WinTop = 0;
@@ -77,8 +76,8 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         session.BeginRead(u2);
         u2.Name = "U2";
         u2.Tag = 1;
-        u2.MousePressed += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, slot: 1);
-        u2.Drawing += (sender, surface) => U1PreDraw(sender, surface, slot: 1);
+        u2.MousePressed += (_, e) => U1MouseDown(e.Button, e.Shift, e.X, e.Y, slot: 1);
+        u2.Drawing += (_, e) => U1PreDraw(u2, e.Surface, slot: 1);
         u2.Priority = 0;
         u2.WinLeft = 43;
         u2.WinTop = 0;
@@ -107,8 +106,8 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         session.BeginRead(u4);
         u4.Name = "U4";
         u4.Tag = 3;
-        u4.MousePressed += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, slot: 3);
-        u4.Drawing += (sender, surface) => U1PreDraw(sender, surface, slot: 3);
+        u4.MousePressed += (_, e) => U1MouseDown(e.Button, e.Shift, e.X, e.Y, slot: 3);
+        u4.Drawing += (_, e) => U1PreDraw(u4, e.Surface, slot: 3);
         u4.Priority = 0;
         u4.WinLeft = 129;
         u4.WinTop = 0;
@@ -137,8 +136,8 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         session.BeginRead(u5);
         u5.Name = "U5";
         u5.Tag = 4;
-        u5.MousePressed += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, slot: 4);
-        u5.Drawing += (sender, surface) => U1PreDraw(sender, surface, slot: 4);
+        u5.MousePressed += (_, e) => U1MouseDown(e.Button, e.Shift, e.X, e.Y, slot: 4);
+        u5.Drawing += (_, e) => U1PreDraw(u5, e.Surface, slot: 4);
         u5.Priority = 0;
         u5.WinLeft = 172;
         u5.WinTop = 0;
@@ -167,8 +166,8 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         session.BeginRead(u3);
         u3.Name = "U3";
         u3.Tag = 2;
-        u3.MousePressed += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, slot: 2);
-        u3.Drawing += (sender, surface) => U1PreDraw(sender, surface, slot: 2);
+        u3.MousePressed += (_, e) => U1MouseDown(e.Button, e.Shift, e.X, e.Y, slot: 2);
+        u3.Drawing += (_, e) => U1PreDraw(u3, e.Surface, slot: 2);
         u3.Priority = 0;
         u3.WinLeft = 86;
         u3.WinTop = 0;
@@ -197,8 +196,8 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         session.BeginRead(u6);
         u6.Name = "U6";
         u6.Tag = 5;
-        u6.MousePressed += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, slot: 5);
-        u6.Drawing += (sender, surface) => U1PreDraw(sender, surface, slot: 5);
+        u6.MousePressed += (_, e) => U1MouseDown(e.Button, e.Shift, e.X, e.Y, slot: 5);
+        u6.Drawing += (_, e) => U1PreDraw(u6, e.Surface, slot: 5);
         u6.Priority = 0;
         u6.WinLeft = 215;
         u6.WinTop = 0;
@@ -227,8 +226,8 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         session.BeginRead(u7);
         u7.Name = "U7";
         u7.Tag = 6;
-        u7.MousePressed += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, slot: 6);
-        u7.Drawing += (sender, surface) => U1PreDraw(sender, surface, slot: 6);
+        u7.MousePressed += (_, e) => U1MouseDown(e.Button, e.Shift, e.X, e.Y, slot: 6);
+        u7.Drawing += (_, e) => U1PreDraw(u7, e.Surface, slot: 6);
         u7.Priority = 0;
         u7.WinLeft = 258;
         u7.WinTop = 0;
@@ -257,8 +256,8 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         session.BeginRead(u8);
         u8.Name = "U8";
         u8.Tag = 7;
-        u8.MousePressed += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, slot: 7);
-        u8.Drawing += (sender, surface) => U1PreDraw(sender, surface, slot: 7);
+        u8.MousePressed += (_, e) => U1MouseDown(e.Button, e.Shift, e.X, e.Y, slot: 7);
+        u8.Drawing += (_, e) => U1PreDraw(u8, e.Surface, slot: 7);
         u8.Priority = 0;
         u8.WinLeft = 302;
         u8.WinTop = 0;
@@ -312,7 +311,7 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         MiddleButton.TextColor = 328543;
         MiddleButton.TextSelectedColor = 16777215;
         MiddleButton.WinWidth = 112;
-        MiddleButton.Clicked += _ => MiddleBtnClick();
+        MiddleButton.Clicked += (_, _) => MiddleBtnClick();
         session.EndRead(MiddleButton);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -370,7 +369,7 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         RightButton.TextColor = 0;
         RightButton.TextSelectedColor = 16777215;
         RightButton.WinWidth = 112;
-        RightButton.Clicked += _ => RightBtnClick();
+        RightButton.Clicked += (_, _) => RightBtnClick();
         session.EndRead(RightButton);
         LeftButton = new Button(this);
         session.BeginRead(LeftButton);
@@ -401,19 +400,19 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         LeftButton.TextColor = 0;
         LeftButton.TextSelectedColor = 16777215;
         LeftButton.WinWidth = 112;
-        LeftButton.Clicked += _ => LeftBtnClick();
+        LeftButton.Clicked += (_, _) => LeftBtnClick();
         session.EndRead(LeftButton);
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.KeyPressed += (_, ref key, shift) => DlgKeyDown(key, shift);
+        Window.KeyPressed += (_, e) => DlgKeyDown(e.Key, e.Shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 80;
         Window.WinTop = 28;
         Window.WinWidth = 480;
         Window.Masked = true;
-        Window.Hidden += _ => DlgHide();
+        Window.Hidden += (_, _) => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -497,7 +496,7 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         FaceFrame = new Image(this);
         session.BeginRead(FaceFrame);
         FaceFrame.Name = "FaceFrame";
-        FaceFrame.Drawing += (_, surface) => FaceFramePreDraw(surface);
+        FaceFrame.Drawing += (_, e) => FaceFramePreDraw(e.Surface);
         FaceFrame.Priority = 2000;
         FaceFrame.WinLeft = 186;
         FaceFrame.WinTop = 35;
@@ -661,7 +660,7 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         JoinMemo.Font = UI.Fonts.Age15WhiteOnGrey;
         if (session.FireCreateEvents)
         {
-            LayoutOnCreate?.Invoke(this);
+            HeroJoinDialogCreate();
         }
     }
 }

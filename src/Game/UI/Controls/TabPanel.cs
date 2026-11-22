@@ -99,7 +99,7 @@ public sealed partial class TabPanel : Control
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, surfDesc: lockedSurface);
+                RaisePreDraw(surfDesc: lockedSurface);
 
                 Rect oldClip = lockedSurface.ClipRectangle;
                 for (int i = 0, last = Items.Count - 1; i <= last; i++)
@@ -138,7 +138,7 @@ public sealed partial class TabPanel : Control
                     }
                 }
 
-                RaiseDraw(this, surfDesc: lockedSurface);
+                RaiseDraw(surfDesc: lockedSurface);
             }
         }
         catch
@@ -162,7 +162,7 @@ public sealed partial class TabPanel : Control
                 SetIndex((X - Window.AbsoluteLeft - WinLeft) / (WinWidth / count));
             }
 
-            RaiseMouseDown(this, button, shift, X, Y);
+            RaiseMouseDown(button, shift, X, Y);
         }
     }
 
@@ -173,7 +173,7 @@ public sealed partial class TabPanel : Control
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight && Valid && Visible)
         {
             Handled = true;
-            RaiseMouseUp(this, button, shift, X, Y);
+            RaiseMouseUp(button, shift, X, Y);
         }
     }
 
@@ -185,7 +185,7 @@ public sealed partial class TabPanel : Control
         if (X >= Window.AbsoluteLeft + WinLeft && X <= Window.AbsoluteLeft + WinLeft + WinWidth - 1 && Y >= Window.AbsoluteTop + WinTop && Y <= Window.AbsoluteTop + WinTop + WinHeight - 1)
         {
             Handled = true;
-            RaiseMouseMove(this, shift, X, Y);
+            RaiseMouseMove(shift, X, Y);
         }
     }
 
@@ -253,7 +253,7 @@ public sealed partial class TabPanel : Control
                 }
             }
 
-            RaiseChange(this);
+            RaiseChange();
 
             IsDrawn = false;
         }
@@ -276,58 +276,4 @@ public sealed partial class TabPanel : Control
 
     [Published]
     public int BorderHeightSelected { get; set; }
-
-    public new event NotifyEvent<TabPanel> Changed
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, TabPanel>(this, slot: nameof(Changed), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, TabPanel>(this, slot: nameof(Changed), value: value);
-    }
-
-    public new event MouseEvent<TabPanel> MousePressed
-    {
-        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, TabPanel>(this, slot: nameof(MousePressed), value: value);
-        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, TabPanel>(this, slot: nameof(MousePressed), value: value);
-    }
-
-    public new event MouseEvent<TabPanel> MouseReleased
-    {
-        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, TabPanel>(this, slot: nameof(MouseReleased), value: value);
-        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, TabPanel>(this, slot: nameof(MouseReleased), value: value);
-    }
-
-    public new event MouseMoveEvent<TabPanel> MouseMoved
-    {
-        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, TabPanel>(this, slot: nameof(MouseMoved), value: value);
-        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, TabPanel>(this, slot: nameof(MouseMoved), value: value);
-    }
-
-    public new event KeyPressEvent<TabPanel> CharacterTyped
-    {
-        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, TabPanel>(this, slot: nameof(CharacterTyped), value: value);
-        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, TabPanel>(this, slot: nameof(CharacterTyped), value: value);
-    }
-
-    public new event KeyEvent<TabPanel> KeyPressed
-    {
-        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, TabPanel>(this, slot: nameof(KeyPressed), value: value);
-        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, TabPanel>(this, slot: nameof(KeyPressed), value: value);
-    }
-
-    public new event AoWOnDrawEvent<TabPanel> Drawing
-    {
-        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, TabPanel>(this, slot: nameof(Drawing), value: value);
-        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, TabPanel>(this, slot: nameof(Drawing), value: value);
-    }
-
-    public new event AoWOnDrawEvent<TabPanel> Drawn
-    {
-        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, TabPanel>(this, slot: nameof(Drawn), value: value);
-        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, TabPanel>(this, slot: nameof(Drawn), value: value);
-    }
-
-    public new event NotifyEvent<TabPanel> Updated
-    {
-        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, TabPanel>(this, slot: nameof(Updated), value: value);
-        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, TabPanel>(this, slot: nameof(Updated), value: value);
-    }
 }

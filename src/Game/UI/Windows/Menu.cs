@@ -33,15 +33,25 @@ public partial class Menu : GenericWindow
     private InterfaceImageLibrary? _imageLibraryTextureSelected;
 
     [Published]
-    public event AoWOnDrawItemEvent<Menu>? ItemDrawn;
+    public event EventHandler<DrawItemEventArgs>? ItemDrawn;
 
-    protected void RaiseDrawItem(Menu sender, in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface) => ItemDrawn?.Invoke(sender, DrawRect: drawRectangle, DrawItem: drawItem, SurfDesc: ref lockedSurface);
+    protected void RaiseDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
+    {
+        DrawItemEventArgs e = new()
+        {
+            Rectangle = drawRectangle,
+            Item = drawItem,
+            Surface = lockedSurface
+        };
+        ItemDrawn?.Invoke(this, e);
+        lockedSurface = e.Surface;
+    }
 
     private MenuBar? _ownerMenuBar;
     private Menu? _ownerMenu;
 
     [Published]
-    public event NotifyEvent<Menu>? ItemSelected;
+    public event EventHandler? ItemSelected;
 
     public int Highlighted { get; protected set; }
 
@@ -380,7 +390,7 @@ public partial class Menu : GenericWindow
 
                     IsHidden = false;
                     ShowPending = false;
-                    RaiseShow(this);
+                    RaiseShow();
                 }
                 else
                 {
@@ -392,7 +402,7 @@ public partial class Menu : GenericWindow
                     }
 
                     IsHidden = true;
-                    RaiseHide(this);
+                    RaiseHide();
                 }
             }
         }
@@ -472,7 +482,14 @@ public partial class Menu : GenericWindow
                             LibraryImage? imageLibraryFrameHeight5 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             LibraryImage? imageLibraryFrameWidth3 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             Rect drawItemRectangle = new(WinLeft + imageLibraryFrameWidth3.Width, WinTop + imageLibraryFrameHeight4.Height + (imageLibraryFrameHeight5.Height * i), WinLeft + WinWidth, WinTop + imageLibraryFrameHeight2.Height + (imageLibraryFrameHeight3.Height * (i + 1)));
-                            ItemDrawn?.Invoke(this, DrawRect: drawItemRectangle, DrawItem: drawItem, SurfDesc: ref lockedSurface);
+                            DrawItemEventArgs e = new()
+                            {
+                                Rectangle = drawItemRectangle,
+                                Item = drawItem,
+                                Surface = lockedSurface
+                            };
+                            ItemDrawn?.Invoke(this, e);
+                            lockedSurface = e.Surface;
                         }
 
                         lockedSurface.ClipRectangle = oldClip;
@@ -543,7 +560,7 @@ public partial class Menu : GenericWindow
                         }
 
                         SelectedItem = Highlighted;
-                        ItemSelected?.Invoke(this);
+                        ItemSelected?.Invoke(this, e: EventArgs.Empty);
                     }
                 }
             }
@@ -581,7 +598,7 @@ public partial class Menu : GenericWindow
             SetVisible(show);
             if (Handled)
             {
-                RaiseMouseDown(this, button, shift, X, Y);
+                RaiseMouseDown(button, shift, X, Y);
             }
         }
     }
@@ -609,7 +626,7 @@ public partial class Menu : GenericWindow
             if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
                 Handled = true;
-                RaiseMouseUp(this, button, shift, X, Y);
+                RaiseMouseUp(button, shift, X, Y);
             }
         }
     }
@@ -670,7 +687,7 @@ public partial class Menu : GenericWindow
             {
                 LibraryImage? imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame];
                 i = (Y - WinTop - imageLibraryFrame.Height) / ItemHeight;
-                RaiseMouseMove(this, shift, X, Y);
+                RaiseMouseMove(shift, X, Y);
             }
 
             if (i > -2 && i < Items.Count)
@@ -701,7 +718,7 @@ public partial class Menu : GenericWindow
                 }
 
                 IsDrawn = false;
-                RaiseChange(this);
+                RaiseChange();
             }
         }
     }
@@ -720,7 +737,7 @@ public partial class Menu : GenericWindow
             }
         }
 
-        RaiseKeyPress(this, ref key);
+        RaiseKeyPress(ref key);
     }
 
     // AOWMenu.pas:731
@@ -737,7 +754,7 @@ public partial class Menu : GenericWindow
             }
         }
 
-        RaiseKeyDown(this, ref key, shift);
+        RaiseKeyDown(ref key, shift);
     }
 
     // AOWMenu.pas:196
@@ -929,106 +946,4 @@ public partial class Menu : GenericWindow
 
     [Published]
     public int SubMenuShowDelay { get; set; }
-
-    public new event NotifyEvent<Menu> Changed
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, Menu>(this, slot: nameof(Changed), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, Menu>(this, slot: nameof(Changed), value: value);
-    }
-
-    public new event MouseEvent<Menu> MousePressed
-    {
-        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, Menu>(this, slot: nameof(MousePressed), value: value);
-        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, Menu>(this, slot: nameof(MousePressed), value: value);
-    }
-
-    public new event MouseEvent<Menu> MouseReleased
-    {
-        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, Menu>(this, slot: nameof(MouseReleased), value: value);
-        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, Menu>(this, slot: nameof(MouseReleased), value: value);
-    }
-
-    public new event MouseMoveEvent<Menu> MouseMoved
-    {
-        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, Menu>(this, slot: nameof(MouseMoved), value: value);
-        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, Menu>(this, slot: nameof(MouseMoved), value: value);
-    }
-
-    public new event KeyPressEvent<Menu> CharacterTyped
-    {
-        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, Menu>(this, slot: nameof(CharacterTyped), value: value);
-        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, Menu>(this, slot: nameof(CharacterTyped), value: value);
-    }
-
-    public new event KeyEvent<Menu> KeyPressed
-    {
-        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, Menu>(this, slot: nameof(KeyPressed), value: value);
-        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, Menu>(this, slot: nameof(KeyPressed), value: value);
-    }
-
-    public new event AoWOnDrawEvent<Menu> Drawing
-    {
-        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, Menu>(this, slot: nameof(Drawing), value: value);
-        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, Menu>(this, slot: nameof(Drawing), value: value);
-    }
-
-    public new event AoWOnDrawEvent<Menu> Drawn
-    {
-        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Menu>(this, slot: nameof(Drawn), value: value);
-        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Menu>(this, slot: nameof(Drawn), value: value);
-    }
-
-    public new event NotifyEvent<Menu> Updated
-    {
-        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, Menu>(this, slot: nameof(Updated), value: value);
-        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, Menu>(this, slot: nameof(Updated), value: value);
-    }
-
-    public new event AoWOnDrawBackEvent<Menu> BackgroundDrawn
-    {
-        add => ((WindowControl)this).BackgroundDrawn += EventSlot.Add<WindowControl, Menu>(this, slot: nameof(BackgroundDrawn), value: value);
-        remove => ((WindowControl)this).BackgroundDrawn -= EventSlot.Remove<WindowControl, Menu>(this, slot: nameof(BackgroundDrawn), value: value);
-    }
-
-    public new event NotifyEvent<Menu> MouseEntered
-    {
-        add => ((WindowControl)this).MouseEntered += EventSlot.Add<WindowControl, Menu>(this, slot: nameof(MouseEntered), value: value);
-        remove => ((WindowControl)this).MouseEntered -= EventSlot.Remove<WindowControl, Menu>(this, slot: nameof(MouseEntered), value: value);
-    }
-
-    public new event NotifyEvent<Menu> MouseLeft
-    {
-        add => ((WindowControl)this).MouseLeft += EventSlot.Add<WindowControl, Menu>(this, slot: nameof(MouseLeft), value: value);
-        remove => ((WindowControl)this).MouseLeft -= EventSlot.Remove<WindowControl, Menu>(this, slot: nameof(MouseLeft), value: value);
-    }
-
-    public new event NotifyEvent<Menu> CursorChanged
-    {
-        add => ((WindowControl)this).CursorChanged += EventSlot.Add<WindowControl, Menu>(this, slot: nameof(CursorChanged), value: value);
-        remove => ((WindowControl)this).CursorChanged -= EventSlot.Remove<WindowControl, Menu>(this, slot: nameof(CursorChanged), value: value);
-    }
-
-    public new event AoWOnDrawSurface<Menu> Blitted
-    {
-        add => ((WindowControl)this).Blitted += EventSlot.Add<WindowControl, Menu>(this, slot: nameof(Blitted), value: value);
-        remove => ((WindowControl)this).Blitted -= EventSlot.Remove<WindowControl, Menu>(this, slot: nameof(Blitted), value: value);
-    }
-
-    public new event AoWOnDrawSurface<Menu> Blitting
-    {
-        add => ((WindowControl)this).Blitting += EventSlot.Add<WindowControl, Menu>(this, slot: nameof(Blitting), value: value);
-        remove => ((WindowControl)this).Blitting -= EventSlot.Remove<WindowControl, Menu>(this, slot: nameof(Blitting), value: value);
-    }
-
-    public new event NotifyEvent<Menu> Hidden
-    {
-        add => ((BaseWindow)this).Hidden += EventSlot.Add<BaseWindow, Menu>(this, slot: nameof(Hidden), value: value);
-        remove => ((BaseWindow)this).Hidden -= EventSlot.Remove<BaseWindow, Menu>(this, slot: nameof(Hidden), value: value);
-    }
-
-    public new event NotifyEvent<Menu> Shown
-    {
-        add => ((BaseWindow)this).Shown += EventSlot.Add<BaseWindow, Menu>(this, slot: nameof(Shown), value: value);
-        remove => ((BaseWindow)this).Shown -= EventSlot.Remove<BaseWindow, Menu>(this, slot: nameof(Shown), value: value);
-    }
 }

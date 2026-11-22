@@ -106,7 +106,7 @@ public sealed partial class Gauge(Component owner) : Control(owner)
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, surfDesc: lockedSurface);
+                RaisePreDraw(surfDesc: lockedSurface);
 
                 Rect oldClip = lockedSurface.ClipRectangle;
                 int p;
@@ -162,7 +162,7 @@ public sealed partial class Gauge(Component owner) : Control(owner)
                         break;
                 }
 
-                RaiseDraw(this, surfDesc: lockedSurface);
+                RaiseDraw(surfDesc: lockedSurface);
             }
         }
         catch
@@ -179,7 +179,7 @@ public sealed partial class Gauge(Component owner) : Control(owner)
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
-            RaiseMouseDown(this, button, shift, X, Y);
+            RaiseMouseDown(button, shift, X, Y);
         }
     }
 
@@ -190,7 +190,7 @@ public sealed partial class Gauge(Component owner) : Control(owner)
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
-            RaiseMouseUp(this, button, shift, X, Y);
+            RaiseMouseUp(button, shift, X, Y);
         }
     }
 
@@ -201,7 +201,7 @@ public sealed partial class Gauge(Component owner) : Control(owner)
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
-            RaiseMouseMove(this, shift, X, Y);
+            RaiseMouseMove(shift, X, Y);
         }
     }
 
@@ -314,60 +314,6 @@ public sealed partial class Gauge(Component owner) : Control(owner)
 
     [Published]
     public int ImageLibraryIndexTSelected { get => _imageLibraryIndexTSelected; set => SetImageLibraryTsIndex(value); }
-
-    public new event NotifyEvent<Gauge> Changed
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(Changed), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(Changed), value: value);
-    }
-
-    public new event MouseEvent<Gauge> MousePressed
-    {
-        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(MousePressed), value: value);
-        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(MousePressed), value: value);
-    }
-
-    public new event MouseEvent<Gauge> MouseReleased
-    {
-        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(MouseReleased), value: value);
-        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(MouseReleased), value: value);
-    }
-
-    public new event MouseMoveEvent<Gauge> MouseMoved
-    {
-        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(MouseMoved), value: value);
-        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(MouseMoved), value: value);
-    }
-
-    public new event KeyPressEvent<Gauge> CharacterTyped
-    {
-        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(CharacterTyped), value: value);
-        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(CharacterTyped), value: value);
-    }
-
-    public new event KeyEvent<Gauge> KeyPressed
-    {
-        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(KeyPressed), value: value);
-        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(KeyPressed), value: value);
-    }
-
-    public new event AoWOnDrawEvent<Gauge> Drawing
-    {
-        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(Drawing), value: value);
-        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(Drawing), value: value);
-    }
-
-    public new event AoWOnDrawEvent<Gauge> Drawn
-    {
-        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(Drawn), value: value);
-        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(Drawn), value: value);
-    }
-
-    public new event NotifyEvent<Gauge> Updated
-    {
-        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(Updated), value: value);
-        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(Updated), value: value);
-    }
 
     public enum GaugeType : byte
     {

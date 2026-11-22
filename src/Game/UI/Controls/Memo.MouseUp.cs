@@ -93,7 +93,7 @@ public sealed partial class Memo
                     }
                 }
             }
-            RaiseMouseUp(this, button, shift, x, y);
+            RaiseMouseUp(button, shift, x, y);
         }
         if (Redraw != old)
         {

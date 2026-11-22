@@ -1,20 +1,21 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable warnings
-using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
 public sealed partial class SoundDialog
 {
-    public event NotifyEvent<SoundDialog>? LayoutOnCreate;
-    public event NotifyEvent<SoundDialog>? LayoutOnDestroy;
+    private bool _hasLayout;
 
     public override void Dispose()
     {
         Destroying();
         try
         {
-            LayoutOnDestroy?.Invoke(this);
+            if (_hasLayout)
+            {
+                SoundDialogDestroy();
+            }
         }
         finally
         {

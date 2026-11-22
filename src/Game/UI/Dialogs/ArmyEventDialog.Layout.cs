@@ -15,19 +15,18 @@ public sealed partial class ArmyEventDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "ArmyEventDlg";
-        LayoutOnCreate += _ => ArmyEventDialogCreate();
-        LayoutOnDestroy += _ => ArmyEventDialogDestroy();
+        _hasLayout = true;
         ArmyEventWindow = new Window(this);
         session.BeginRead(ArmyEventWindow);
         ArmyEventWindow.Name = "ArmyEventWin";
-        ArmyEventWindow.KeyPressed += (_, ref key, shift) => ArmyEventWinKeyDown(key, shift);
+        ArmyEventWindow.KeyPressed += (_, e) => ArmyEventWinKeyDown(e.Key, e.Shift);
         ArmyEventWindow.Visible = false;
         ArmyEventWindow.Priority = 300;
         ArmyEventWindow.WinLeft = 101;
         ArmyEventWindow.WinTop = 96;
         ArmyEventWindow.WinWidth = 439;
         ArmyEventWindow.Masked = true;
-        ArmyEventWindow.Hidden += _ => ArmyEventWinHide();
+        ArmyEventWindow.Hidden += (_, _) => ArmyEventWinHide();
         ArmyEventWindow.Alignment.AlignWidth = AlignWidth.Center;
         ArmyEventWindow.Alignment.AlignHeight = AlignHeight.Center;
         ArmyEventWindow.Alignment.HeightPercent = 0;
@@ -92,12 +91,12 @@ public sealed partial class ArmyEventDialog : ILayoutModule
         UnitPanel = new Panel(this);
         session.BeginRead(UnitPanel);
         UnitPanel.Name = "UnitPnl";
-        UnitPanel.Updated += _ => UnitPnlUpdate();
+        UnitPanel.Updated += (_, _) => UnitPnlUpdate();
         UnitPanel.Priority = 1000;
         UnitPanel.WinLeft = 35;
         UnitPanel.WinTop = 100;
         UnitPanel.WinWidth = 369;
-        UnitPanel.BackgroundDrawn += (_, surface) => UnitPnlDrawBack(surface);
+        UnitPanel.BackgroundDrawn += (_, e) => UnitPnlDrawBack(e.Surface);
         UnitPanel.Masked = true;
         UnitPanel.Alignment.AlignWidth = AlignWidth.None;
         UnitPanel.Alignment.AlignHeight = AlignHeight.None;
@@ -202,7 +201,7 @@ public sealed partial class ArmyEventDialog : ILayoutModule
         closeBut.TextColor = 0;
         closeBut.TextSelectedColor = 16777215;
         closeBut.WinWidth = 120;
-        closeBut.Clicked += _ => CloseClick();
+        closeBut.Clicked += (_, _) => CloseClick();
         session.EndRead(closeBut);
         Image titleIcon = new(this);
         session.BeginRead(titleIcon);
@@ -264,7 +263,7 @@ public sealed partial class ArmyEventDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.Clicked += _ => CloseClick();
+        close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
         Label title = new(this);
         session.BeginRead(title);
@@ -426,7 +425,7 @@ public sealed partial class ArmyEventDialog : ILayoutModule
         decoR.ImageLibrary = UI.Graphics.CelticDecorations;
         if (session.FireCreateEvents)
         {
-            LayoutOnCreate?.Invoke(this);
+            ArmyEventDialogCreate();
         }
     }
 }

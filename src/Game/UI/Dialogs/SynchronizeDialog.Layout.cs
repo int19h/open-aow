@@ -24,7 +24,7 @@ public sealed partial class SynchronizeDialog : ILayoutModule
         Window.WinTop = 45;
         Window.WinWidth = 480;
         Window.Masked = true;
-        Window.Shown += _ => DlgShow();
+        Window.Shown += (_, _) => DlgShow();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -369,7 +369,7 @@ public sealed partial class SynchronizeDialog : ILayoutModule
         Image faceFrame = new(this);
         session.BeginRead(faceFrame);
         faceFrame.Name = "FaceFrame";
-        faceFrame.Drawing += (_, surface) => FaceFramePreDraw(surface);
+        faceFrame.Drawing += (_, e) => FaceFramePreDraw(e.Surface);
         faceFrame.Priority = 2000;
         faceFrame.WinLeft = 186;
         faceFrame.WinTop = 35;

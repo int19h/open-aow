@@ -18,9 +18,9 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         FactionPanel = new Panel(this);
         session.BeginRead(FactionPanel);
         FactionPanel.Name = "FactionPnl";
-        FactionPanel.MouseMoved += (_, shift, x, y) => FactionPnlMouseMove(shift, x, y);
-        FactionPanel.KeyPressed += (_, ref key, shift) => FactionPnlKeyDown(key, shift);
-        FactionPanel.Updated += _ => FactionPnlUpdate();
+        FactionPanel.MouseMoved += (_, e) => FactionPnlMouseMove(e.Shift, e.X, e.Y);
+        FactionPanel.KeyPressed += (_, e) => FactionPnlKeyDown(e.Key, e.Shift);
+        FactionPanel.Updated += (_, _) => FactionPnlUpdate();
         FactionPanel.Visible = false;
         FactionPanel.Priority = 5;
         FactionPanel.WinLeft = 0;
@@ -72,8 +72,8 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         LightPanel = new Panel(this);
         session.BeginRead(LightPanel);
         LightPanel.Name = "LightPnl";
-        LightPanel.MousePressed += (_, button, shift, x, y) => LightPnlMouseDown(button, shift, x, y);
-        LightPanel.MouseMoved += (_, shift, x, y) => LightPnlMouseMove(shift, x, y);
+        LightPanel.MousePressed += (_, e) => LightPnlMouseDown(e.Button, e.Shift, e.X, e.Y);
+        LightPanel.MouseMoved += (_, e) => LightPnlMouseMove(e.Shift, e.X, e.Y);
         LightPanel.Priority = 5;
         LightPanel.WinLeft = 352;
         LightPanel.WinTop = 0;
@@ -174,7 +174,7 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         LightStartButton.TextColor = 0;
         LightStartButton.TextSelectedColor = 0;
         LightStartButton.WinWidth = 109;
-        LightStartButton.Clicked += _ => LStartClick(0);
+        LightStartButton.Clicked += (_, _) => LStartClick(0);
         session.EndRead(LightStartButton);
         LightBackButton = new Button(this);
         session.BeginRead(LightBackButton);
@@ -206,7 +206,7 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         LightBackButton.TextColor = 0;
         LightBackButton.TextSelectedColor = 0;
         LightBackButton.WinWidth = 109;
-        LightBackButton.Clicked += _ => LBackClick();
+        LightBackButton.Clicked += (_, _) => LBackClick();
         session.EndRead(LightBackButton);
         LightSphereImage = new Image(this);
         session.BeginRead(LightSphereImage);
@@ -240,8 +240,8 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         DarkPanel = new Panel(this);
         session.BeginRead(DarkPanel);
         DarkPanel.Name = "DarkPnl";
-        DarkPanel.MousePressed += (_, button, shift, x, y) => DarkPnlMouseDown(button, shift, x, y);
-        DarkPanel.MouseMoved += (_, shift, x, y) => DarkPnlMouseMove(shift, x, y);
+        DarkPanel.MousePressed += (_, e) => DarkPnlMouseDown(e.Button, e.Shift, e.X, e.Y);
+        DarkPanel.MouseMoved += (_, e) => DarkPnlMouseMove(e.Shift, e.X, e.Y);
         DarkPanel.Priority = 5;
         DarkPanel.WinLeft = 0;
         DarkPanel.WinTop = 0;
@@ -296,7 +296,7 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         DarkStartButton.TextColor = 0;
         DarkStartButton.TextSelectedColor = 0;
         DarkStartButton.WinWidth = 109;
-        DarkStartButton.Clicked += _ => LStartClick(1);
+        DarkStartButton.Clicked += (_, _) => LStartClick(1);
         session.EndRead(DarkStartButton);
         DarkBackButton = new Button(this);
         session.BeginRead(DarkBackButton);
@@ -328,7 +328,7 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         DarkBackButton.TextColor = 0;
         DarkBackButton.TextSelectedColor = 0;
         DarkBackButton.WinWidth = 109;
-        DarkBackButton.Clicked += _ => DBackClick();
+        DarkBackButton.Clicked += (_, _) => DBackClick();
         session.EndRead(DarkBackButton);
         LightNameLabel = new Label(this);
         session.BeginRead(LightNameLabel);

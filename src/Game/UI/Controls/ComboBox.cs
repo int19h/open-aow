@@ -200,7 +200,7 @@ public sealed partial class ComboBox : Control
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, surfDesc: lockedSurface);
+                RaisePreDraw(surfDesc: lockedSurface);
 
                 Font.Color = Color;
                 Rect oldClip = lockedSurface.ClipRectangle;
@@ -275,7 +275,7 @@ public sealed partial class ComboBox : Control
                     lockedSurface.ClipRectangle = oldClip;
                 }
 
-                RaiseDraw(this, surfDesc: lockedSurface);
+                RaiseDraw(surfDesc: lockedSurface);
             }
         }
         catch
@@ -395,7 +395,7 @@ public sealed partial class ComboBox : Control
                 }
             }
 
-            RaiseMouseDown(this, button, shift, X, Y);
+            RaiseMouseDown(button, shift, X, Y);
         }
         else
         {
@@ -439,7 +439,7 @@ public sealed partial class ComboBox : Control
         if (condition)
         {
             Handled = true;
-            RaiseMouseUp(this, button, shift, X, Y);
+            RaiseMouseUp(button, shift, X, Y);
         }
         else
         {
@@ -469,7 +469,7 @@ public sealed partial class ComboBox : Control
                         _verticalScrollBar?.Visible = false;
 
                         Handled = true;
-                        RaiseChange(this);
+                        RaiseChange();
 
                         Closed?.Invoke(this, e: EventArgs.Empty);
                     }
@@ -515,7 +515,7 @@ public sealed partial class ComboBox : Control
                 }
             }
 
-            RaiseMouseMove(this, shift, X, Y);
+            RaiseMouseMove(shift, X, Y);
         }
 
         if (_open && oldItem != _hoverItem)
@@ -683,58 +683,4 @@ public sealed partial class ComboBox : Control
 
     [Published]
     public int ItemHeight { get; set; }
-
-    public new event NotifyEvent<ComboBox> Changed
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(Changed), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(Changed), value: value);
-    }
-
-    public new event MouseEvent<ComboBox> MousePressed
-    {
-        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(MousePressed), value: value);
-        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(MousePressed), value: value);
-    }
-
-    public new event MouseEvent<ComboBox> MouseReleased
-    {
-        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(MouseReleased), value: value);
-        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(MouseReleased), value: value);
-    }
-
-    public new event MouseMoveEvent<ComboBox> MouseMoved
-    {
-        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(MouseMoved), value: value);
-        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(MouseMoved), value: value);
-    }
-
-    public new event KeyPressEvent<ComboBox> CharacterTyped
-    {
-        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(CharacterTyped), value: value);
-        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(CharacterTyped), value: value);
-    }
-
-    public new event KeyEvent<ComboBox> KeyPressed
-    {
-        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(KeyPressed), value: value);
-        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(KeyPressed), value: value);
-    }
-
-    public new event AoWOnDrawEvent<ComboBox> Drawing
-    {
-        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(Drawing), value: value);
-        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(Drawing), value: value);
-    }
-
-    public new event AoWOnDrawEvent<ComboBox> Drawn
-    {
-        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(Drawn), value: value);
-        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(Drawn), value: value);
-    }
-
-    public new event NotifyEvent<ComboBox> Updated
-    {
-        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(Updated), value: value);
-        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(Updated), value: value);
-    }
 }

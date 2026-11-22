@@ -15,19 +15,18 @@ public sealed partial class ProductionScreen : ILayoutModule
     {
         session.Begin(this);
         Name = "ProductionScreen";
-        LayoutOnCreate += _ => ProductionScreenCreate();
-        LayoutOnDestroy += _ => ProductionScreenDestroy();
+        _hasLayout = true;
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.KeyPressed += (_, ref key, shift) => DlgKeyDown(key, shift);
+        Window.KeyPressed += (_, e) => DlgKeyDown(e.Key, e.Shift);
         Window.Visible = false;
         Window.Priority = 55;
         Window.WinLeft = 0;
         Window.WinTop = 0;
         Window.WinWidth = 640;
         Window.Masked = true;
-        Window.Hidden += _ => DlgHide();
+        Window.Hidden += (_, _) => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -92,7 +91,7 @@ public sealed partial class ProductionScreen : ILayoutModule
         UnitAbilitiesList = new ListBox(this);
         session.BeginRead(UnitAbilitiesList);
         UnitAbilitiesList.Name = "UAbilitiesLB";
-        UnitAbilitiesList.MousePressed += (_, button, shift, x, y) => UAbilitiesLBMouseDown(button, shift, x, y);
+        UnitAbilitiesList.MousePressed += (_, e) => UAbilitiesLBMouseDown(e.Button, e.Shift, e.X, e.Y);
         UnitAbilitiesList.Priority = 200;
         UnitAbilitiesList.WinLeft = 2;
         UnitAbilitiesList.WinTop = 1;
@@ -756,8 +755,8 @@ public sealed partial class ProductionScreen : ILayoutModule
         session.BeginRead(Action4CheckBox);
         Action4CheckBox.Name = "B4CB";
         Action4CheckBox.Tag = 3;
-        Action4CheckBox.Drawing += (sender, surface) => ActivityPreDraw(sender, lockedSurface: surface, slot: 3);
-        Action4CheckBox.Updated += sender => B4CBUpdate(sender, slot: 3);
+        Action4CheckBox.Drawing += (_, e) => ActivityPreDraw(Action4CheckBox, lockedSurface: e.Surface, slot: 3);
+        Action4CheckBox.Updated += (_, _) => B4CBUpdate(Action4CheckBox, slot: 3);
         Action4CheckBox.Priority = 1700;
         Action4CheckBox.WinLeft = 153;
         Action4CheckBox.WinTop = 0;
@@ -784,16 +783,16 @@ public sealed partial class ProductionScreen : ILayoutModule
         Action4CheckBox.TextSelectedColor = 0;
         Action4CheckBox.WinWidth = 52;
         Action4CheckBox.Checked = false;
-        Action4CheckBox.Changed += sender => ActivityChange(sender, slot: 3);
+        Action4CheckBox.Changed += (_, _) => ActivityChange(Action4CheckBox, slot: 3);
         Action4CheckBox.RadioIndex = 1;
-        Action4CheckBox.DoubleClicked += sender => ActivityDoubleClick(sender, slot: 3);
+        Action4CheckBox.DoubleClicked += (_, _) => ActivityDoubleClick(Action4CheckBox, slot: 3);
         session.EndRead(Action4CheckBox);
         Action5CheckBox = new CheckBox(this);
         session.BeginRead(Action5CheckBox);
         Action5CheckBox.Name = "B5CB";
         Action5CheckBox.Tag = 4;
-        Action5CheckBox.Drawing += (sender, surface) => ActivityPreDraw(sender, lockedSurface: surface, slot: 4);
-        Action5CheckBox.Updated += sender => B4CBUpdate(sender, slot: 4);
+        Action5CheckBox.Drawing += (_, e) => ActivityPreDraw(Action5CheckBox, lockedSurface: e.Surface, slot: 4);
+        Action5CheckBox.Updated += (_, _) => B4CBUpdate(Action5CheckBox, slot: 4);
         Action5CheckBox.Priority = 1600;
         Action5CheckBox.WinLeft = 204;
         Action5CheckBox.WinTop = 0;
@@ -820,16 +819,16 @@ public sealed partial class ProductionScreen : ILayoutModule
         Action5CheckBox.TextSelectedColor = 0;
         Action5CheckBox.WinWidth = 52;
         Action5CheckBox.Checked = false;
-        Action5CheckBox.Changed += sender => ActivityChange(sender, slot: 4);
+        Action5CheckBox.Changed += (_, _) => ActivityChange(Action5CheckBox, slot: 4);
         Action5CheckBox.RadioIndex = 1;
-        Action5CheckBox.DoubleClicked += sender => ActivityDoubleClick(sender, slot: 4);
+        Action5CheckBox.DoubleClicked += (_, _) => ActivityDoubleClick(Action5CheckBox, slot: 4);
         session.EndRead(Action5CheckBox);
         Action6CheckBox = new CheckBox(this);
         session.BeginRead(Action6CheckBox);
         Action6CheckBox.Name = "B6CB";
         Action6CheckBox.Tag = 5;
-        Action6CheckBox.Drawing += (sender, surface) => ActivityPreDraw(sender, lockedSurface: surface, slot: 5);
-        Action6CheckBox.Updated += sender => B4CBUpdate(sender, slot: 5);
+        Action6CheckBox.Drawing += (_, e) => ActivityPreDraw(Action6CheckBox, lockedSurface: e.Surface, slot: 5);
+        Action6CheckBox.Updated += (_, _) => B4CBUpdate(Action6CheckBox, slot: 5);
         Action6CheckBox.Priority = 1500;
         Action6CheckBox.WinLeft = 255;
         Action6CheckBox.WinTop = 0;
@@ -856,15 +855,15 @@ public sealed partial class ProductionScreen : ILayoutModule
         Action6CheckBox.TextSelectedColor = 0;
         Action6CheckBox.WinWidth = 52;
         Action6CheckBox.Checked = false;
-        Action6CheckBox.Changed += sender => ActivityChange(sender, slot: 5);
+        Action6CheckBox.Changed += (_, _) => ActivityChange(Action6CheckBox, slot: 5);
         Action6CheckBox.RadioIndex = 1;
-        Action6CheckBox.DoubleClicked += sender => ActivityDoubleClick(sender, slot: 5);
+        Action6CheckBox.DoubleClicked += (_, _) => ActivityDoubleClick(Action6CheckBox, slot: 5);
         session.EndRead(Action6CheckBox);
         Action1CheckBox = new CheckBox(this);
         session.BeginRead(Action1CheckBox);
         Action1CheckBox.Name = "B1CB";
-        Action1CheckBox.Drawing += (sender, surface) => ActivityPreDraw(sender, lockedSurface: surface, slot: 0);
-        Action1CheckBox.Updated += sender => B4CBUpdate(sender, slot: 0);
+        Action1CheckBox.Drawing += (_, e) => ActivityPreDraw(Action1CheckBox, lockedSurface: e.Surface, slot: 0);
+        Action1CheckBox.Updated += (_, _) => B4CBUpdate(Action1CheckBox, slot: 0);
         Action1CheckBox.Priority = 2000;
         Action1CheckBox.WinLeft = 0;
         Action1CheckBox.WinTop = 0;
@@ -891,16 +890,16 @@ public sealed partial class ProductionScreen : ILayoutModule
         Action1CheckBox.TextSelectedColor = 0;
         Action1CheckBox.WinWidth = 52;
         Action1CheckBox.Checked = false;
-        Action1CheckBox.Changed += sender => ActivityChange(sender, slot: 0);
+        Action1CheckBox.Changed += (_, _) => ActivityChange(Action1CheckBox, slot: 0);
         Action1CheckBox.RadioIndex = 1;
-        Action1CheckBox.DoubleClicked += sender => ActivityDoubleClick(sender, slot: 0);
+        Action1CheckBox.DoubleClicked += (_, _) => ActivityDoubleClick(Action1CheckBox, slot: 0);
         session.EndRead(Action1CheckBox);
         Action2CheckBox = new CheckBox(this);
         session.BeginRead(Action2CheckBox);
         Action2CheckBox.Name = "B2CB";
         Action2CheckBox.Tag = 1;
-        Action2CheckBox.Drawing += (sender, surface) => ActivityPreDraw(sender, lockedSurface: surface, slot: 1);
-        Action2CheckBox.Updated += sender => B4CBUpdate(sender, slot: 1);
+        Action2CheckBox.Drawing += (_, e) => ActivityPreDraw(Action2CheckBox, lockedSurface: e.Surface, slot: 1);
+        Action2CheckBox.Updated += (_, _) => B4CBUpdate(Action2CheckBox, slot: 1);
         Action2CheckBox.Priority = 1900;
         Action2CheckBox.WinLeft = 51;
         Action2CheckBox.WinTop = 0;
@@ -927,16 +926,16 @@ public sealed partial class ProductionScreen : ILayoutModule
         Action2CheckBox.TextSelectedColor = 0;
         Action2CheckBox.WinWidth = 52;
         Action2CheckBox.Checked = false;
-        Action2CheckBox.Changed += sender => ActivityChange(sender, slot: 1);
+        Action2CheckBox.Changed += (_, _) => ActivityChange(Action2CheckBox, slot: 1);
         Action2CheckBox.RadioIndex = 1;
-        Action2CheckBox.DoubleClicked += sender => ActivityDoubleClick(sender, slot: 1);
+        Action2CheckBox.DoubleClicked += (_, _) => ActivityDoubleClick(Action2CheckBox, slot: 1);
         session.EndRead(Action2CheckBox);
         Action3CheckBox = new CheckBox(this);
         session.BeginRead(Action3CheckBox);
         Action3CheckBox.Name = "B3CB";
         Action3CheckBox.Tag = 2;
-        Action3CheckBox.Drawing += (sender, surface) => ActivityPreDraw(sender, lockedSurface: surface, slot: 2);
-        Action3CheckBox.Updated += sender => B4CBUpdate(sender, slot: 2);
+        Action3CheckBox.Drawing += (_, e) => ActivityPreDraw(Action3CheckBox, lockedSurface: e.Surface, slot: 2);
+        Action3CheckBox.Updated += (_, _) => B4CBUpdate(Action3CheckBox, slot: 2);
         Action3CheckBox.Priority = 1800;
         Action3CheckBox.WinLeft = 102;
         Action3CheckBox.WinTop = 0;
@@ -963,9 +962,9 @@ public sealed partial class ProductionScreen : ILayoutModule
         Action3CheckBox.TextSelectedColor = 0;
         Action3CheckBox.WinWidth = 52;
         Action3CheckBox.Checked = false;
-        Action3CheckBox.Changed += sender => ActivityChange(sender, slot: 2);
+        Action3CheckBox.Changed += (_, _) => ActivityChange(Action3CheckBox, slot: 2);
         Action3CheckBox.RadioIndex = 1;
-        Action3CheckBox.DoubleClicked += sender => ActivityDoubleClick(sender, slot: 2);
+        Action3CheckBox.DoubleClicked += (_, _) => ActivityDoubleClick(Action3CheckBox, slot: 2);
         session.EndRead(Action3CheckBox);
         VerticalScrollBar t2SBar = new(this);
         session.BeginRead(t2SBar);
@@ -1310,7 +1309,7 @@ public sealed partial class ProductionScreen : ILayoutModule
         MainButton3.TextColor = 0;
         MainButton3.TextSelectedColor = 0;
         MainButton3.WinWidth = 153;
-        MainButton3.Clicked += _ => MainBtn3Click();
+        MainButton3.Clicked += (_, _) => MainBtn3Click();
         session.EndRead(MainButton3);
         MainButton1 = new Button(this);
         session.BeginRead(MainButton1);
@@ -1341,7 +1340,7 @@ public sealed partial class ProductionScreen : ILayoutModule
         MainButton1.TextColor = 0;
         MainButton1.TextSelectedColor = 0;
         MainButton1.WinWidth = 153;
-        MainButton1.Clicked += _ => MainBtn1Click();
+        MainButton1.Clicked += (_, _) => MainBtn1Click();
         session.EndRead(MainButton1);
         QueueList = new ListBox(this);
         session.BeginRead(QueueList);
@@ -1371,7 +1370,7 @@ public sealed partial class ProductionScreen : ILayoutModule
         QueueList.WinHeight = 63;
         QueueList.BorderWidth = 3;
         QueueList.BorderHeight = 1;
-        QueueList.Changed += _ => QueueLBChange();
+        QueueList.Changed += (_, _) => QueueLBChange();
         QueueList.Selected = -1;
         QueueList.TextColor = 6783862;
         QueueList.TextSelectedColor = 0;
@@ -1596,7 +1595,7 @@ public sealed partial class ProductionScreen : ILayoutModule
         MainButton2.TextColor = 0;
         MainButton2.TextSelectedColor = 0;
         MainButton2.WinWidth = 153;
-        MainButton2.Clicked += _ => MainBtn2Click();
+        MainButton2.Clicked += (_, _) => MainBtn2Click();
         session.EndRead(MainButton2);
         InfoPanel = new Panel(this);
         session.BeginRead(InfoPanel);
@@ -1996,7 +1995,7 @@ public sealed partial class ProductionScreen : ILayoutModule
         LoopQueueCheckBox.TextSelectedColor = 0;
         LoopQueueCheckBox.WinWidth = 12;
         LoopQueueCheckBox.Checked = false;
-        LoopQueueCheckBox.Changed += _ => LoopQueueBoxChange();
+        LoopQueueCheckBox.Changed += (_, _) => LoopQueueBoxChange();
         LoopQueueCheckBox.RadioIndex = 0;
         session.EndRead(LoopQueueCheckBox);
         RepeatLabel = new Label(this);
@@ -2052,7 +2051,7 @@ public sealed partial class ProductionScreen : ILayoutModule
         CurrentActionImage = new Image(this);
         session.BeginRead(CurrentActionImage);
         CurrentActionImage.Name = "CurrentActionImage";
-        CurrentActionImage.Drawn += CurrentActionImageDraw;
+        CurrentActionImage.Drawn += (_, e) => CurrentActionImageDraw(CurrentActionImage, lockedSurface: e.Surface);
         CurrentActionImage.Priority = 0;
         CurrentActionImage.WinLeft = 3;
         CurrentActionImage.WinTop = 3;
@@ -2731,7 +2730,7 @@ public sealed partial class ProductionScreen : ILayoutModule
         UserDrawBox uFace = new(this);
         session.BeginRead(uFace);
         uFace.Name = "UFace";
-        uFace.Drawn += UFaceDraw;
+        uFace.Drawn += (_, e) => UFaceDraw(uFace, lockedSurface: e.Surface);
         uFace.Priority = 0;
         uFace.WinLeft = 0;
         uFace.WinTop = 0;
@@ -2812,8 +2811,8 @@ public sealed partial class ProductionScreen : ILayoutModule
         MapView = new UserDrawBox(this);
         session.BeginRead(MapView);
         MapView.Name = "MapView";
-        MapView.Drawn += MapViewDraw;
-        MapView.Updated += _ => MapViewUpdate();
+        MapView.Drawn += (_, e) => MapViewDraw(MapView, lockedSurface: e.Surface);
+        MapView.Updated += (_, _) => MapViewUpdate();
         MapView.Priority = 50;
         MapView.WinLeft = 11;
         MapView.WinTop = 12;
@@ -2867,7 +2866,7 @@ public sealed partial class ProductionScreen : ILayoutModule
         NextButton.TextColor = 0;
         NextButton.TextSelectedColor = 16777215;
         NextButton.WinWidth = 77;
-        NextButton.Clicked += _ => PNextClick();
+        NextButton.Clicked += (_, _) => PNextClick();
         session.EndRead(NextButton);
         PreviousButton = new Button(this);
         session.BeginRead(PreviousButton);
@@ -2902,7 +2901,7 @@ public sealed partial class ProductionScreen : ILayoutModule
         PreviousButton.TextColor = 0;
         PreviousButton.TextSelectedColor = 16777215;
         PreviousButton.WinWidth = 77;
-        PreviousButton.Clicked += _ => PPrevClick();
+        PreviousButton.Clicked += (_, _) => PPrevClick();
         session.EndRead(PreviousButton);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
@@ -3279,7 +3278,7 @@ public sealed partial class ProductionScreen : ILayoutModule
         PreviousButton.ImageLibraryButton = UI.Graphics.GenericButtons;
         if (session.FireCreateEvents)
         {
-            LayoutOnCreate?.Invoke(this);
+            ProductionScreenCreate();
         }
     }
 }

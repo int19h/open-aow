@@ -1,5 +1,6 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable warnings
+using Aow.Game.Draw;
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
@@ -49,8 +50,8 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         MainWindow.DragHeight = 20;
         MainWindow.Draggable = true;
         MainWindow.Resizable = true;
-        MainWindow.Dragged += _ => PInfoWinResize();
-        MainWindow.Resized += _ => PInfoWinResize();
+        MainWindow.Changed += (_, _) => PInfoWinResize();
+        MainWindow.Resized += (_, _) => PInfoWinResize();
         MainWindow.MinWidth = 200;
         MainWindow.MinHeight = 216;
         MainWindow.MaxWidth = 0;
@@ -92,7 +93,7 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         min.TextColor = 0;
         min.TextSelectedColor = 0;
         min.WinWidth = 15;
-        min.Clicked += _ => MinClick();
+        min.Clicked += (_, _) => MinClick();
         session.EndRead(min);
         Label iwTitle = new(this);
         session.BeginRead(iwTitle);
@@ -148,7 +149,7 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         EventList = new ListBox(this);
         session.BeginRead(EventList);
         EventList.Name = "EventList";
-        EventList.MousePressed += (_, button, shift, x, y) => EventListMouseDown(button, shift, x, y);
+        EventList.MousePressed += (_, e) => EventListMouseDown(e.Button, e.Shift, e.X, e.Y);
         EventList.Priority = 100;
         EventList.WinLeft = 1;
         EventList.WinTop = 1;
@@ -170,10 +171,18 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         EventList.WinHeight = 108;
         EventList.BorderWidth = 37;
         EventList.BorderHeight = 4;
-        EventList.DoubleClicked += _ => EventListDoubleClick();
+        EventList.DoubleClicked += (_, _) => EventListDoubleClick();
         EventList.Selected = -1;
-        EventList.ItemDrawn += (_, in drawRectangle, drawItem, ref surface) => EventListDrawItem(drawRectangle, drawItem, lockedSurface: in surface);
-        EventList.ItemDrawing += (_, in drawRectangle, drawItem, ref surface) => EventListPreDrawItem(drawRectangle, drawItem, lockedSurface: in surface);
+        EventList.ItemDrawn += (_, e) =>
+        {
+            LockedSurface surface = e.Surface;
+            EventListDrawItem(e.Rectangle, drawItem: e.Item, lockedSurface: in surface);
+        };
+        EventList.ItemDrawing += (_, e) =>
+        {
+            LockedSurface surface = e.Surface;
+            EventListPreDrawItem(e.Rectangle, drawItem: e.Item, lockedSurface: in surface);
+        };
         EventList.TextColor = 9415072;
         EventList.TextSelectedColor = 0;
         EventList.ImageLibraryIndexFrame = 113;
@@ -390,8 +399,8 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         FaceFrame = new Panel(this);
         session.BeginRead(FaceFrame);
         FaceFrame.Name = "FaceFr";
-        FaceFrame.MousePressed += (_, button, shift, x, y) => FaceFrMouseDown(button, shift, x, y);
-        FaceFrame.Drawn += (_, surface) => FaceFrDraw(surface);
+        FaceFrame.MousePressed += (_, e) => FaceFrMouseDown(e.Button, e.Shift, e.X, e.Y);
+        FaceFrame.Drawn += (_, e) => FaceFrDraw(e.Surface);
         FaceFrame.Priority = 0;
         FaceFrame.WinLeft = 1;
         FaceFrame.WinTop = 1;
@@ -641,7 +650,7 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         center.TextColor = 0;
         center.TextSelectedColor = 0;
         center.WinWidth = 15;
-        center.Clicked += _ => CenterButtonClick();
+        center.Clicked += (_, _) => CenterButtonClick();
         session.EndRead(center);
         Button help = new(this);
         session.BeginRead(help);
@@ -675,7 +684,7 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         help.TextColor = 0;
         help.TextSelectedColor = 0;
         help.WinWidth = 15;
-        help.Clicked += _ => HelpClick();
+        help.Clicked += (_, _) => HelpClick();
         session.EndRead(help);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);

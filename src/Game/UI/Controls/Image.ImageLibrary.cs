@@ -51,11 +51,11 @@ public sealed partial class Image
                 return;
             }
 
-            RaisePreDraw(this, surfDesc: surface);
+            RaisePreDraw(surfDesc: surface);
             SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft,
                 Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
             _imageLibrary.DrawTiled(_currentImage, area: rectangle, lockedSurface: ref surface);
-            RaiseDraw(this, surfDesc: surface);
+            RaiseDraw(surfDesc: surface);
         }
         catch
         {

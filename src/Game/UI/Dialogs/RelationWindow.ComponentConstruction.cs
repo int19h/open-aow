@@ -1,20 +1,21 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable warnings
-using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
 public partial class RelationWindow
 {
-    public event NotifyEvent<RelationWindow>? LayoutOnCreate;
-    public event NotifyEvent<RelationWindow>? LayoutOnDestroy;
+    private bool _hasLayout;
 
     public override void Dispose()
     {
         Destroying();
         try
         {
-            LayoutOnDestroy?.Invoke(this);
+            if (_hasLayout)
+            {
+                RelationWindowDestroy();
+            }
         }
         finally
         {

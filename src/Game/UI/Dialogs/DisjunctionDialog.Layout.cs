@@ -126,7 +126,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 120;
-        cancelBtn.Clicked += _ => CancelBtnClick();
+        cancelBtn.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(cancelBtn);
         Button castBtn = new(this);
         session.BeginRead(castBtn);
@@ -161,19 +161,19 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         castBtn.TextColor = 0;
         castBtn.TextSelectedColor = 16777215;
         castBtn.WinWidth = 120;
-        castBtn.Clicked += _ => CastBtnClick();
+        castBtn.Clicked += (_, _) => CastBtnClick();
         session.EndRead(castBtn);
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.KeyPressed += (_, ref key, shift) => DlgKeyDown(key, shift);
+        Window.KeyPressed += (_, e) => DlgKeyDown(e.Key, e.Shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 120;
         Window.WinTop = 6;
         Window.WinWidth = 400;
         Window.Masked = true;
-        Window.Hidden += _ => DlgHide();
+        Window.Hidden += (_, _) => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -405,7 +405,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         OwnerList.WinHeight = 121;
         OwnerList.BorderWidth = 8;
         OwnerList.BorderHeight = 4;
-        OwnerList.Changed += _ => OwnerListChange();
+        OwnerList.Changed += (_, _) => OwnerListChange();
         OwnerList.Selected = -1;
         OwnerList.TextColor = 9402970;
         OwnerList.TextSelectedColor = 0;
@@ -439,7 +439,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         EnchantmentList.WinHeight = 121;
         EnchantmentList.BorderWidth = 8;
         EnchantmentList.BorderHeight = 4;
-        EnchantmentList.Changed += _ => EnchantmentListChange();
+        EnchantmentList.Changed += (_, _) => EnchantmentListChange();
         EnchantmentList.Selected = -1;
         EnchantmentList.TextColor = 9402970;
         EnchantmentList.TextSelectedColor = 0;
@@ -478,7 +478,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         sort.TextColor = 0;
         sort.TextSelectedColor = 16777215;
         sort.WinWidth = 170;
-        sort.Clicked += _ => SortClick();
+        sort.Clicked += (_, _) => SortClick();
         session.EndRead(sort);
         Button sortEnchantment = new(this);
         session.BeginRead(sortEnchantment);
@@ -509,7 +509,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         sortEnchantment.TextColor = 0;
         sortEnchantment.TextSelectedColor = 16777215;
         sortEnchantment.WinWidth = 169;
-        sortEnchantment.Clicked += _ => SortEnchantmentClick();
+        sortEnchantment.Clicked += (_, _) => SortEnchantmentClick();
         session.EndRead(sortEnchantment);
         EnchantmentsScrollBar = new VerticalScrollBar(this);
         session.BeginRead(EnchantmentsScrollBar);
@@ -540,7 +540,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         EnchantmentsScrollBar.WinHeight = 121;
         EnchantmentsScrollBar.WinWidth = 17;
         EnchantmentsScrollBar.NumberVisible = 1;
-        EnchantmentsScrollBar.Changed += _ => EnchantmentsScrollBarChange();
+        EnchantmentsScrollBar.Changed += (_, _) => EnchantmentsScrollBarChange();
         EnchantmentsScrollBar.VanishWhenFull = true;
         EnchantmentsScrollBar.ImageLibraryIndexIncrementUp = 74;
         EnchantmentsScrollBar.ImageLibraryIndexIncrementDown = 75;
@@ -601,7 +601,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         ChanceSlider.WinHeight = 18;
         ChanceSlider.WinWidth = 92;
         ChanceSlider.NumberVisible = 1;
-        ChanceSlider.Changed += _ => ChanceSliderChange();
+        ChanceSlider.Changed += (_, _) => ChanceSliderChange();
         ChanceSlider.VanishWhenFull = false;
         ChanceSlider.ImageLibraryIndexIncrementUp = 0;
         ChanceSlider.ImageLibraryIndexIncrementDown = 0;
@@ -642,7 +642,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.Clicked += _ => CancelBtnClick();
+        close.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(close);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
@@ -682,8 +682,8 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         MapView = new UserDrawBox(this);
         session.BeginRead(MapView);
         MapView.Name = "MapView";
-        MapView.Drawn += MapViewDraw;
-        MapView.Updated += _ => MapViewUpdate();
+        MapView.Drawn += (_, e) => MapViewDraw(MapView, lockedSurface: e.Surface);
+        MapView.Updated += (_, _) => MapViewUpdate();
         MapView.Priority = 50;
         MapView.WinLeft = 31;
         MapView.WinTop = 30;

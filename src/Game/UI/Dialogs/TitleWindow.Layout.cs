@@ -43,7 +43,7 @@ public sealed partial class TitleWindow : ILayoutModule
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
         MainWindow.MaskColor = 0;
-        MainWindow.Blitted += (_, surface, left, top) => TitleWinDrawSurface(surface, left, top);
+        MainWindow.Blitted += (_, e) => TitleWinDrawSurface(e.Surface, e.Left, e.Top);
         MainWindow.FreeSurfaceOnHide = true;
         MainWindow.ImageLibraryIndexFrame = 0;
         MainWindow.ImageLibraryIndexTexture = 18;
@@ -67,7 +67,7 @@ public sealed partial class TitleWindow : ILayoutModule
         TitlePanel.WinLeft = 482;
         TitlePanel.WinTop = 0;
         TitlePanel.WinWidth = 640;
-        TitlePanel.BackgroundDrawn += (_, surface) => TitlePnlDrawBack(surface);
+        TitlePanel.BackgroundDrawn += (_, e) => TitlePnlDrawBack(e.Surface);
         TitlePanel.Masked = false;
         TitlePanel.Alignment.AlignWidth = AlignWidth.Center;
         TitlePanel.Alignment.AlignHeight = AlignHeight.Center;
@@ -91,9 +91,9 @@ public sealed partial class TitleWindow : ILayoutModule
         SplashPanel = new Panel(this);
         session.BeginRead(SplashPanel);
         SplashPanel.Name = "SplashPnl";
-        SplashPanel.MousePressed += (_, button, shift, x, y) => SplashPnlMouseDown(button, shift, x, y);
-        SplashPanel.KeyPressed += (_, ref key, shift) => SplashPnlKeyDown(key, shift);
-        SplashPanel.Updated += _ => SplashPnlUpdate();
+        SplashPanel.MousePressed += (_, e) => SplashPnlMouseDown(e.Button, e.Shift, e.X, e.Y);
+        SplashPanel.KeyPressed += (_, e) => SplashPnlKeyDown(e.Key, e.Shift);
+        SplashPanel.Updated += (_, _) => SplashPnlUpdate();
         SplashPanel.Visible = false;
         SplashPanel.Priority = 10;
         SplashPanel.WinLeft = 0;

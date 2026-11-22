@@ -205,7 +205,7 @@ public sealed partial class Panel : BaseWindow
         Rect r;
         if (Visible)
         {
-            RaiseUpdate(this);
+            RaiseUpdate();
 
             for (int i = 0, last = Children.Count - 1; i <= last; i++)
             {
@@ -330,7 +330,7 @@ public sealed partial class Panel : BaseWindow
             if (!Visible)
             {
                 IsHidden = true;
-                RaiseHide(this);
+                RaiseHide();
             }
             else
             {
@@ -341,7 +341,7 @@ public sealed partial class Panel : BaseWindow
                     IsHidden = true;
                 }
 
-                RaiseShow(this);
+                RaiseShow();
             }
         }
 
@@ -456,7 +456,7 @@ public sealed partial class Panel : BaseWindow
                 else
                 {
                     DrawBack();
-                    RaiseDrawBack(this, surfDesc: lockedSurface);
+                    RaiseDrawBack(surfDesc: lockedSurface);
                 }
 
                 DrawCount = 0;
@@ -494,7 +494,7 @@ public sealed partial class Panel : BaseWindow
                     }
                 }
 
-                RaiseDraw(this, surfDesc: lockedSurface);
+                RaiseDraw(surfDesc: lockedSurface);
 
                 IsDrawn = SurfaceValid;
                 lockedSurface.ClipRectangle = oldClip;
@@ -548,7 +548,7 @@ public sealed partial class Panel : BaseWindow
             {
                 Handled = true;
                 Redraw = true;
-                RaiseMouseDown(this, button, shift, X, Y);
+                RaiseMouseDown(button, shift, X, Y);
             }
         }
     }
@@ -583,7 +583,7 @@ public sealed partial class Panel : BaseWindow
             if (X > absolute.Left - 1 && X < absolute.Left + WinWidth && Y > absolute.Top - 1 && Y < absolute.Top + WinHeight)
             {
                 Handled = true;
-                RaiseMouseUp(this, button, shift, X, Y);
+                RaiseMouseUp(button, shift, X, Y);
             }
         }
     }
@@ -618,7 +618,7 @@ public sealed partial class Panel : BaseWindow
             if (X > absolute.Left - 1 && X < absolute.Left + WinWidth && Y > absolute.Top - 1 && Y < absolute.Top + WinHeight)
             {
                 Handled = true;
-                RaiseMouseMove(this, shift, X, Y);
+                RaiseMouseMove(shift, X, Y);
             }
         }
     }
@@ -688,88 +688,4 @@ public sealed partial class Panel : BaseWindow
 
     [Published]
     public TabPanel? TabPanel { get => _tabPanel; set => SetTabPanel(value); }
-
-    public new event NotifyEvent<Panel> Changed
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(Changed), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(Changed), value: value);
-    }
-
-    public new event MouseEvent<Panel> MousePressed
-    {
-        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(MousePressed), value: value);
-        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(MousePressed), value: value);
-    }
-
-    public new event MouseEvent<Panel> MouseReleased
-    {
-        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(MouseReleased), value: value);
-        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(MouseReleased), value: value);
-    }
-
-    public new event MouseMoveEvent<Panel> MouseMoved
-    {
-        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(MouseMoved), value: value);
-        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(MouseMoved), value: value);
-    }
-
-    public new event KeyPressEvent<Panel> CharacterTyped
-    {
-        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(CharacterTyped), value: value);
-        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(CharacterTyped), value: value);
-    }
-
-    public new event KeyEvent<Panel> KeyPressed
-    {
-        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(KeyPressed), value: value);
-        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(KeyPressed), value: value);
-    }
-
-    public new event AoWOnDrawEvent<Panel> Drawing
-    {
-        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(Drawing), value: value);
-        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(Drawing), value: value);
-    }
-
-    public new event AoWOnDrawEvent<Panel> Drawn
-    {
-        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(Drawn), value: value);
-        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(Drawn), value: value);
-    }
-
-    public new event NotifyEvent<Panel> Updated
-    {
-        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(Updated), value: value);
-        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(Updated), value: value);
-    }
-
-    public new event AoWOnDrawBackEvent<Panel> BackgroundDrawn
-    {
-        add => ((WindowControl)this).BackgroundDrawn += EventSlot.Add<WindowControl, Panel>(this, slot: nameof(BackgroundDrawn), value: value);
-        remove => ((WindowControl)this).BackgroundDrawn -= EventSlot.Remove<WindowControl, Panel>(this, slot: nameof(BackgroundDrawn), value: value);
-    }
-
-    public new event NotifyEvent<Panel> MouseEntered
-    {
-        add => ((WindowControl)this).MouseEntered += EventSlot.Add<WindowControl, Panel>(this, slot: nameof(MouseEntered), value: value);
-        remove => ((WindowControl)this).MouseEntered -= EventSlot.Remove<WindowControl, Panel>(this, slot: nameof(MouseEntered), value: value);
-    }
-
-    public new event NotifyEvent<Panel> MouseLeft
-    {
-        add => ((WindowControl)this).MouseLeft += EventSlot.Add<WindowControl, Panel>(this, slot: nameof(MouseLeft), value: value);
-        remove => ((WindowControl)this).MouseLeft -= EventSlot.Remove<WindowControl, Panel>(this, slot: nameof(MouseLeft), value: value);
-    }
-
-    public new event NotifyEvent<Panel> Hidden
-    {
-        add => ((BaseWindow)this).Hidden += EventSlot.Add<BaseWindow, Panel>(this, slot: nameof(Hidden), value: value);
-        remove => ((BaseWindow)this).Hidden -= EventSlot.Remove<BaseWindow, Panel>(this, slot: nameof(Hidden), value: value);
-    }
-
-    public new event NotifyEvent<Panel> Shown
-    {
-        add => ((BaseWindow)this).Shown += EventSlot.Add<BaseWindow, Panel>(this, slot: nameof(Shown), value: value);
-        remove => ((BaseWindow)this).Shown -= EventSlot.Remove<BaseWindow, Panel>(this, slot: nameof(Shown), value: value);
-    }
 }

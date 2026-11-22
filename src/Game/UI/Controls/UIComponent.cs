@@ -31,49 +31,74 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
     public virtual int Cursor { get; set; }
 
     [Published]
-    public event AoWOnDrawEvent<UIComponent>? Drawn;
+    public event EventHandler<SurfaceEventArgs>? Drawn;
 
-    protected void RaiseDraw(UIComponent sender, LockedSurface surfDesc) => Drawn?.Invoke(sender, surfDesc);
-
-    [Published]
-    public event AoWOnDrawEvent<UIComponent>? Drawing;
-
-    protected void RaisePreDraw(UIComponent sender, LockedSurface surfDesc) => Drawing?.Invoke(sender, surfDesc);
+    protected void RaiseDraw(LockedSurface surfDesc) => Drawn?.Invoke(this, e: new SurfaceEventArgs { Surface = surfDesc });
 
     [Published]
-    public event MouseEvent<UIComponent>? MousePressed;
+    public event EventHandler<SurfaceEventArgs>? Drawing;
 
-    protected void RaiseMouseDown(UIComponent sender, MouseButton button, ShiftStates shift, int x, int y) => MousePressed?.Invoke(sender, button, shift, x, y);
-
-    [Published]
-    public event MouseEvent<UIComponent>? MouseReleased;
-
-    protected void RaiseMouseUp(UIComponent sender, MouseButton button, ShiftStates shift, int x, int y) => MouseReleased?.Invoke(sender, button, shift, x, y);
+    protected void RaisePreDraw(LockedSurface surfDesc) => Drawing?.Invoke(this, e: new SurfaceEventArgs { Surface = surfDesc });
 
     [Published]
-    public event MouseMoveEvent<UIComponent>? MouseMoved;
+    public event EventHandler<MouseEventArgs>? MousePressed;
 
-    protected void RaiseMouseMove(UIComponent sender, ShiftStates shift, int x, int y) => MouseMoved?.Invoke(sender, shift, x, y);
+    protected void RaiseMouseDown(MouseButton button, ShiftStates shift, int x, int y) => MousePressed?.Invoke(this, e: new MouseEventArgs { Button = button, Shift = shift, X = x, Y = y });
 
     [Published]
-    public event KeyPressEvent<UIComponent>? CharacterTyped;
+    public event EventHandler<MouseEventArgs>? MouseReleased;
 
-    protected void RaiseKeyPress(UIComponent sender, ref byte key) => CharacterTyped?.Invoke(sender, ref key);
+    protected void RaiseMouseUp(MouseButton button, ShiftStates shift, int x, int y) => MouseReleased?.Invoke(this, e: new MouseEventArgs { Button = button, Shift = shift, X = x, Y = y });
+
+    [Published]
+    public event EventHandler<MouseMoveEventArgs>? MouseMoved;
+
+    protected void RaiseMouseMove(ShiftStates shift, int x, int y) => MouseMoved?.Invoke(this, e: new MouseMoveEventArgs { Shift = shift, X = x, Y = y });
+
+    [Published]
+    public event EventHandler<CharacterEventArgs>? CharacterTyped;
+
+    protected void RaiseKeyPress(ref byte key)
+    {
+        CharacterEventArgs e = new()
+        {
+            Character = key
+        };
+        CharacterTyped?.Invoke(this, e);
+        key = e.Character;
+    }
 
     // Memo.CheckKeyPress (AoWMemo.pas) calls OnKeyPress after a test of OnKeyDown only. This call
     // keeps that: it has no null test of its own and throws when OnKeyPress has no handler.
-    protected void RaiseKeyPressUnchecked(UIComponent sender, ref byte key) => CharacterTyped(sender, ref key);
+    protected void RaiseKeyPressUnchecked(ref byte key)
+    {
+        CharacterEventArgs e = new()
+        {
+            Character = key
+        };
+        CharacterTyped(this, e);
+        key = e.Character;
+    }
 
     [Published]
-    public event KeyEvent<UIComponent>? KeyPressed;
+    public event EventHandler<KeyEventArgs>? KeyPressed;
 
-    protected void RaiseKeyDown(UIComponent sender, ref ushort key, ShiftStates shift) => KeyPressed?.Invoke(sender, ref key, shift);
+    protected void RaiseKeyDown(ref ushort key, ShiftStates shift)
+    {
+        KeyEventArgs e = new()
+        {
+            Key = key,
+            Shift = shift
+        };
+        KeyPressed?.Invoke(this, e);
+        key = e.Key;
+    }
 
     protected bool HasKeyDownHandlers => KeyPressed is not null;
 
-    public event NotifyEvent<UIComponent>? Changed;
+    public event EventHandler? Changed;
 
-    internal void RaiseChange(UIComponent sender) => Changed?.Invoke(sender);
+    internal void RaiseChange() => Changed?.Invoke(this, e: EventArgs.Empty);
 
     public bool IsMouseDown { get; protected set; }
 
@@ -117,9 +142,9 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
     public int OwnerItem { get; set; }
 
     [Published]
-    public event NotifyEvent<UIComponent>? Updated;
+    public event EventHandler? Updated;
 
-    protected void RaiseUpdate(UIComponent sender) => Updated?.Invoke(sender);
+    protected void RaiseUpdate() => Updated?.Invoke(this, e: EventArgs.Empty);
 
     // Nothing in the port raises OnDebugMessage. The bound handler is kept.
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnDebugMessage keeps this backing field until the port raises it.")]
@@ -354,7 +379,7 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
         {
             if (Valid && _visible)
             {
-                Updated?.Invoke(this);
+                Updated?.Invoke(this, e: EventArgs.Empty);
 
                 for (int i = Children.Count - 1; i >= 0; i--)
                 {

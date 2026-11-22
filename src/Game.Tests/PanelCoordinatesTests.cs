@@ -48,33 +48,33 @@ public sealed class PanelCoordinatesTests
 
         UserDrawBox box = new(null);
         Place(box, owner: panel, 7, 9, 40, 30, priority: 1);
-        box.MousePressed += (sender, _, _, x, y) =>
+        box.MousePressed += (_, e) =>
         {
             observedPanelCoords.Add((panel.WinLeft, panel.WinTop));
-            mouseDownLocal = (x, y);
+            mouseDownLocal = (e.X, e.Y);
         };
-        box.MouseMoved += (sender, _, x, y) =>
+        box.MouseMoved += (_, e) =>
         {
             observedPanelCoords.Add((panel.WinLeft, panel.WinTop));
-            mouseMoveLocal = (x, y);
+            mouseMoveLocal = (e.X, e.Y);
         };
-        box.MouseReleased += (sender, _, _, x, y) =>
+        box.MouseReleased += (_, e) =>
         {
             observedPanelCoords.Add((panel.WinLeft, panel.WinTop));
-            mouseUpScreen = (x, y);
+            mouseUpScreen = (e.X, e.Y);
         };
-        box.Drawn += (sender, lockedSurface) =>
+        box.Drawn += (_, e) =>
         {
             observedPanelCoords.Add((panel.WinLeft, panel.WinTop));
-            drawObserved = (sender.Window.AbsoluteLeft, sender.Window.AbsoluteTop, lockedSurface.ClipRectangle);
+            drawObserved = (box.Window.AbsoluteLeft, box.Window.AbsoluteTop, e.Surface.ClipRectangle);
         };
 
         UserDrawBox nestedBox = new(null);
         Place(nestedBox, owner: nested, 3, 4, 20, 20);
-        nestedBox.Drawn += (sender, _) =>
+        nestedBox.Drawn += (_, _) =>
         {
             observedNestedCoords.Add((nested.WinLeft, nested.WinTop));
-            nestedDrawObserved = (sender.Window.AbsoluteLeft, sender.Window.AbsoluteTop);
+            nestedDrawObserved = (nestedBox.Window.AbsoluteLeft, nestedBox.Window.AbsoluteTop);
         };
 
         ListBox list = new(null) { VisibleRows = 2 };
