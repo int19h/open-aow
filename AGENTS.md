@@ -15,7 +15,7 @@ the recovered Delphi 3 source in `D:\git\aow`. `docs/process.md` describes how w
 - Every delete names each file or directory as a literal absolute path, written out in the
   command after you have listed what is there. Never pass a glob, a wildcard or a variable
   expansion to `rm`, `rm -f`, `rm -rf`, `del`, `rmdir`, `Remove-Item` or any other delete, and
-  never delete through `find -exec`, `find -delete`, `xargs`, a loop or a script. A command that
+  never delete through `find -exec`, `find -delete`, `xargs`, `git clean`, a loop or a script. A command that
   would need one of those is not run. Leave the files and say so in your report.
 - Text files are UTF-8 without a byte order mark and end lines with LF (`.gitattributes`). The
   Delphi sources are read as Windows code page 1252 and never written.

@@ -367,7 +367,7 @@ runtime iteration order.
 Reserved members have this total order wherever permitted by schema: `$format`,
 `$version`, `$kind`, `$container`, `$mods`, `$class`, `$case`, `$slot`, `$ext`,
 `$padding`, `$bits`, `$ilb`, `$text`. `$mods` and `$ext` are reserved
-for later versions, not accepted version 8 members. `$reserved`, `$residue` and
+for later versions, not accepted version 9 members. `$reserved`, `$residue` and
 `$layout` are refused as unknown reserved members. Envelope `root` follows
 reserved members. Ordinary properties follow frozen schema ordinals, initially
 inherited `ReadWrite` order with base fields first. Mapped record fields have their

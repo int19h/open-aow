@@ -4,7 +4,7 @@ The persistence layer is the tree in `src/Formats/Tree`, namespace `Aow.Formats.
 
 Own loads and saves of the in-scope profiles use the document backend (section 12). Import, export and the packet adapter use the original backend (sections 12, 15 and 16). The game set files, the system hero and item libraries and the e-mail game index stay original files (section 13). Port-only state lives in the own document (section 17). The public surface of the tree is the interface in section 18.
 
-The own document is version 7. A document of any other version is refused. There is no migration from an older own document.
+The own document is version 9. A document of any other version is refused. There is no migration from an older own document.
 
 Steps 1 to 4 of the exit (`own-formats.md` 6.3) are done. Step 5 is done for port-only state, one extended array, validation through the document backend, and the inventory of section 18. The migration chain is dropped. Own formats are not stable yet, so there is no chain to keep. There is no pinned schema and no `versions.json` history for a migration.
 
@@ -640,7 +640,7 @@ is retired through the tree, where they called `MainReadWrite`:
 - `EngineObject.StreamRetired` is true when a class of the type's chain declares `PersistFields`
   without `ReadWrite`, `MainPersist` without `MainReadWrite`, or `PersistChildren` without
   `ReadWriteChildren`. A class of a later family that derives from this family (an AI group, the
-  magic surgery enchantment) is retired with it, because its base no longer writes through
+  cosmagic surgery enchantment) is retired with it, because its base no longer writes through
   the stream.
 - The writer writes the object with `TreeWriter.Write` (the preview flag on a partial stream) and
   the original backend under the object's stored class, and puts the image's property table and
@@ -731,7 +731,7 @@ did.
 The third pull request takes the family of PE-3-d, `Game/Session`, `Game/Events`, `Game/AI`,
 `Game/Magic` without its abilities, `Game/UI`, `Game/Audio` and `EmailGame` of `Game/Net`: 63
 methods (62 `ReadWrite` and `EventLogList.MainReadWrite`, none of them a `ReadWriteChildren`) go.
-The `ReadWrite` methods of the AI groups and the magic surgery enchantment, dead since their
+The `ReadWrite` methods of the AI groups and the cosmagic surgery enchantment, dead since their
 bases retired in the first pull request, go with them. Two pairs of payload stream methods lost
 their last caller and are deleted: `BitList.LoadFromStream` and `SaveToStream` (the player's valid
 attack players) and `ImageSequenceList.LoadFromStream` and `SaveToStream` (a spell's cast images).

@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-// magic-surgery caster
+// cosmagic-surgery caster
 public sealed partial class CosmagicSurgeryDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }

@@ -17,7 +17,7 @@ public class CosmagicSurgery : UnitSpell
     public CosmagicSurgery(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_deformFaceText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_cosmagicSurgeryText);
         SpellId = 59;
         SpellType = SpellType.Unit;
         SpellLevel = 1;
@@ -93,5 +93,5 @@ public class CosmagicSurgery : UnitSpell
         }
     }
 
-    private static readonly string s_deformFaceText = "Cosmagic Surgery";
+    private static readonly string s_cosmagicSurgeryText = "Cosmagic Surgery";
 }
