@@ -22,7 +22,7 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         CheatId = persister.Int32("CheatId", value: CheatId);
     }
 

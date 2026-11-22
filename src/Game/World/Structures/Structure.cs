@@ -82,7 +82,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         base.PersistFields(persister);
         BuildingDays = persister.Byte("BuildingDays", value: BuildingDays.TruncateToByte());
         StructureId = persister.Int32("StructureId", value: StructureId);
-        BuildingPlayer = persister.UnsignedByte(name: "BuildingPlayer", value: BuildingPlayer, fallback: 255);
+        BuildingPlayer = (sbyte)persister.UnsignedByte(name: "BuildingPlayer", value: BuildingPlayer, fallback: 255);
     }
 
     // Structur.PAS:1629
@@ -1063,7 +1063,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         UInt16List table = Resource.TerrainList.CreateSurroundingHexNumberTable();
         for (int i = 0, last = table.Count - 1; i <= last; i++)
         {
-            ushort item = table[i];
+            int item = table[i];
             HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, hexNumber: item, ref x, ref y);
             if (x >= 0 && y >= 0 && x < level.Width && y < level.Height)
             {

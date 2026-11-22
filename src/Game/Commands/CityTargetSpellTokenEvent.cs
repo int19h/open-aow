@@ -27,7 +27,7 @@ public class CityTargetSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner
         base.PersistFields(persister);
         int location = persister.Int32("TargetLocation", value: StoredCoordinateImage.From(_targetLocation).ToInt32());
         _targetLocation = StoredCoordinateImage.FromInt32(location).Location;
-        TargetPlayer = persister.UnsignedByte(name: "TargetPlayer", value: TargetPlayer);
+        TargetPlayer = (sbyte)persister.UnsignedByte(name: "TargetPlayer", value: TargetPlayer);
     }
 
     // CitySpells.pas:189

@@ -22,7 +22,7 @@ public partial class BitList : Persistent, IReadOnlyList<bool>
     // The default as its stored Boolean byte. A loaded byte other than 0 and 1 stays as it is: a
     // nonzero byte fills new bits, Get past the end reads its low bit, and the comparisons with an
     // item compare the whole byte, as the original's Boolean comparisons do.
-    private byte _default;
+    private int _default;
 
     // Engine.pas:4743
     internal void SetCapacity(int newCapacity)
@@ -338,7 +338,7 @@ public partial class BitList : Persistent, IReadOnlyList<bool>
 
     /// <summary>The image <c>TBitList.SaveToStream</c> (Engine.pas:4791) writes, the default as its stored byte.</summary>
     internal BitListImage SaveImage()
-        => new(_default, _count, Bits: List.Span[..((_count + 7) >>> 3)].ToArray());
+        => new((byte)_default, _count, Bits: List.Span[..((_count + 7) >>> 3)].ToArray());
 
     /// <summary>
     /// <c>TBitList.LoadFromStream</c> (Engine.pas:4782) from a stored image. A default byte other
@@ -363,7 +363,7 @@ public partial class BitList : Persistent, IReadOnlyList<bool>
     public int BitsSet => GetBitsSet();
     public int BitsCleared => GetBitsCleared();
 
-    private static byte DefaultByte(bool item) => item ? (byte)1 : (byte)0;
+    private static int DefaultByte(bool item) => item ? 1 : 0;
 
     // Engine.pas:4613
     protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: Format(message, args: [data]));

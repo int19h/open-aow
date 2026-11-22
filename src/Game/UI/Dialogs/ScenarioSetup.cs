@@ -602,7 +602,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             setup.TacticalCombatComboBox.Items.Clear();
             for (int bOrdinal = 0; bOrdinal <= 2; bOrdinal++)
             {
-                byte b = (byte)bOrdinal;
+                int b = bOrdinal.TruncateToByte();
                 string tacticalBattleAvailability = setup.UI.Engine.TranslateResourceString(TacticalCombatAvailabilityTexts[b]);
                 _ = setup.TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, item: IntToObject(b));
             }

@@ -438,20 +438,20 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
 
             if (player.GameOverStatus != GameOverStatus.Lost && i != 0)
             {
-                _ = ActivePlayers.Add((byte)i);
+                _ = ActivePlayers.Add(i.TruncateToByte());
             }
 
             if (player.GetLocal())
             {
-                _ = _localControlledPlayers.Add((byte)i);
+                _ = _localControlledPlayers.Add(i.TruncateToByte());
                 if (player.PlayerType == PlayerType.Human)
                 {
-                    _ = LocalHumanPlayers.Add((byte)i);
+                    _ = LocalHumanPlayers.Add(i.TruncateToByte());
                 }
             }
             if (player.PlayerType == PlayerType.Human)
             {
-                _ = LocalPlayers.Add((byte)i);
+                _ = LocalPlayers.Add(i.TruncateToByte());
             }
         }
     }

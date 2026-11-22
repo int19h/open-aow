@@ -270,7 +270,7 @@ public class Battle : EngineObject
             CombatData.WallType = party.Wall;
         }
 
-        _ = CombatData.TurnOrder.Add((byte)CombatData.DefenderPlayer);
+        _ = CombatData.TurnOrder.Add(CombatData.DefenderPlayer.TruncateToByte());
         byte player;
         for (int i = 0, last = CombatData.Players.Count - 1; i <= last; i++)
         {
@@ -281,7 +281,7 @@ public class Battle : EngineObject
             }
         }
 
-        _ = CombatData.TurnOrder.Add((byte)CombatData.AttackerPlayer);
+        _ = CombatData.TurnOrder.Add(CombatData.AttackerPlayer.TruncateToByte());
         for (int i = 0, last = CombatData.Players.Count - 1; i <= last; i++)
         {
             player = (byte)i;
@@ -308,7 +308,7 @@ public class Battle : EngineObject
         for (int i = 0, last = CombatData.DefeatedLeaders.Count - 1; i <= last; i++)
         {
             data = CombatData;
-            byte item = data.DefeatedLeaders[i];
+            int item = data.DefeatedLeaders[i];
             CombatPlayer players = data.Players.GetPlayers((sbyte)item);
             StrategicMap.Current.GameOver(players.Player, status: GameOverStatus.Lost);
             Logbook.PlayerEliminated = true;
@@ -430,7 +430,7 @@ public class Battle : EngineObject
     public bool LogCombatActions => Status.Contains(CombatStatuses.LogCombatActions);
 
     // Combat.pas:6097
-    public void SetLogCombatActions(byte value)
+    public void SetLogCombatActions(int value)
     {
         Status = value != 0
             ? Status | CombatStatuses.LogCombatActions
@@ -459,16 +459,16 @@ public class Battle : EngineObject
     }
 
     // AIGroup.pas:7180
-    public bool GetWallInBetween(byte source, byte target)
+    public bool GetWallInBetween(int source, int target)
     {
         if ((source & 0xF) <= 7 && (target & 0xF) <= 7 && CombatData.Wall is not null && !CombatData.Wall.Status.Contains(CombatObjectStatuses.Destroyed))
         {
-            source = (byte)(source >>> 4);
-            target = (byte)(target >>> 4);
+            source >>>= 4;
+            target >>>= 4;
             if (source < 7 && target < 7)
             {
-                CombatParty? party = CombatData.Parties.GetParty(source);
-                CombatParty? fPartiesParty = CombatData.Parties.GetParty(target);
+                CombatParty? party = CombatData.Parties.GetParty((byte)source);
+                CombatParty? fPartiesParty = CombatData.Parties.GetParty((byte)target);
                 return (party.Wall != 0) ^ (fPartiesParty.Wall != 0);
             }
             else

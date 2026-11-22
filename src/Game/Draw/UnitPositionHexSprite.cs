@@ -30,8 +30,8 @@ public sealed class UnitPositionHexSprite(CustomNode? owner) : SingleHexSprite(o
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _position = persister.UnsignedByte(name: "Position", value: _position);
-        _index = persister.UnsignedByte(name: "Index", value: _index);
+        _position = (sbyte)persister.UnsignedByte(name: "Position", value: _position);
+        _index = (sbyte)persister.UnsignedByte(name: "Index", value: _index);
         _direction = persister.Byte("Direction", value: _direction.TruncateToByte());
     }
 

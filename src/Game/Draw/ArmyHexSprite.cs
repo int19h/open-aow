@@ -29,7 +29,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     public Army? Army { get; private set; }
 
     private byte _unitIndex;
-    private sbyte _unitYOffset;
+    private int _unitYOffset;
 
     public int MoveSteps { get; private set; }
 
@@ -339,9 +339,9 @@ public partial class ArmyHexSprite : UnitHexSprite
             MoveControl control = (MoveControl)info.Sender;
             if (Army.Player == control.Player)
             {
-                if (!(control.Mode.Contains(MoveModes.Surround) && info.MoveOverCode != 1 && Owner.HexX == control.Destination.X && Owner.HexY == control.Destination.Y && Owner.HexLevel == control.Destination.MapLevel && !Army.CanCombine(control.ArmyHexSprite.Army, selection: (byte)control.Selection)))
+                if (!(control.Mode.Contains(MoveModes.Surround) && info.MoveOverCode != 1 && Owner.HexX == control.Destination.X && Owner.HexY == control.Destination.Y && Owner.HexLevel == control.Destination.MapLevel && !Army.CanCombine(control.ArmyHexSprite.Army, selection: control.Selection.TruncateToByte())))
                 {
-                    if (control.ArmyHexSprite is not null && Army.IndexOfTransporter(255) != -1 && control.ArmyHexSprite.Army.Transporter((byte)control.Selection) is null)
+                    if (control.ArmyHexSprite is not null && Army.IndexOfTransporter(255) != -1 && control.ArmyHexSprite.Army.Transporter(control.Selection.TruncateToByte()) is null)
                     {
                         moveResult.Code = 4;
                         moveResult.Done = true;
@@ -375,7 +375,7 @@ public partial class ArmyHexSprite : UnitHexSprite
             ? Army.Player != 0
             ? ((MoveControl)info.Sender).Mode.Contains(MoveModes.AI) && Army.IndexOfTransporter(255) != -1
             ? 2
-            : ((MoveControl)info.Sender).ArmyHexSprite is not null && Army.CanCombine(((MoveControl)info.Sender).ArmyHexSprite.Army, selection: (byte)((MoveControl)info.Sender).Selection)
+            : ((MoveControl)info.Sender).ArmyHexSprite is not null && Army.CanCombine(((MoveControl)info.Sender).ArmyHexSprite.Army, selection: ((MoveControl)info.Sender).Selection.TruncateToByte())
                             ? 1
                             : 2
             : 2
@@ -564,11 +564,11 @@ public partial class ArmyHexSprite : UnitHexSprite
     }
 
     // Army.PAS:3517
-    public override sbyte MoveFirst(int direction, bool instant)
+    public override int MoveFirst(int direction, bool instant)
     {
         sbyte[] resultCell = new sbyte[1];
         ref sbyte result = ref resultCell[0];
-        result = base.MoveFirst(direction, instant);
+        result = (sbyte)base.MoveFirst(direction, instant);
         switch (GetEngine().Registry.GetMovementSpeed())
         {
             case GameSettings.MovementSpeed.Normal:
@@ -695,7 +695,7 @@ public partial class ArmyHexSprite : UnitHexSprite
 
         _unitIndex = (byte)i;
         SetUnitGraphicsResourceIndex(Army.Units.GetUnit(i).UnitGraphicsResourceIndex);
-        _unitYOffset = Army.Units.GetUnit(i).GetMoveTypes().Contains(MoveTypes.Flying) ? (sbyte)-8 : (sbyte)0;
+        _unitYOffset = Army.Units.GetUnit(i).GetMoveTypes().Contains(MoveTypes.Flying) ? -8 : 0;
 
         Assert(UnitGraphicsResource is not null, message: "", file: "Army.PAS", line: 3027);
     }
@@ -776,10 +776,10 @@ public partial class ArmyHexSprite : UnitHexSprite
             : (x1 == x2 - 1 || x1 == x2 + 1) && (!((x1 & 1) != 0) ? y1 == y2 || y1 == y2 + 1 : y1 == y2 || y1 == y2 - 1);
     }
 
-    internal static ArmyCombatMoveTokenEvent CreateArmyCombatMoveTokenEvent(ArmyHexSprite? army, byte selection, MovePath path, ArmyMoveModes mode)
+    internal static ArmyCombatMoveTokenEvent CreateArmyCombatMoveTokenEvent(ArmyHexSprite? army, int selection, MovePath path, ArmyMoveModes mode)
         => SetupArmyMoveTokenEvent(new ArmyCombatMoveTokenEvent(null) { Holder = army }, army: army, selection: selection, path: path, mode: mode);
 
-    private static T SetupArmyMoveTokenEvent<T>(T move, ArmyHexSprite? army, byte selection, MovePath path, ArmyMoveModes mode)
+    private static T SetupArmyMoveTokenEvent<T>(T move, ArmyHexSprite? army, int selection, MovePath path, ArmyMoveModes mode)
         where T : MoveArmyTokenEvent
     {
         if (move.Setup(army, selection: selection, path: path, mode: mode))
@@ -791,7 +791,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         return null;
     }
 
-    internal static MoveArmyTokenEvent? CreateArmyMoveTokenEvent(ArmyHexSprite army, byte selection, MovePath path, MoveAction action, ArmyMoveModes mode)
+    internal static MoveArmyTokenEvent? CreateArmyMoveTokenEvent(ArmyHexSprite army, int selection, MovePath path, MoveAction action, ArmyMoveModes mode)
     {
         MoveArmyTokenEvent move;
         switch (action)
@@ -814,7 +814,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         return SetupArmyMoveTokenEvent(move, army: army, selection: selection, path: path, mode: mode);
     }
 
-    internal static bool MoveArmy(ArmyHexSprite? army, byte selection, MovePath? path, ArmyMoveModes mode, bool force)
+    internal static bool MoveArmy(ArmyHexSprite? army, int selection, MovePath? path, ArmyMoveModes mode, bool force)
     {
         bool moved = false;
         if (force || !StrategicMap.Current.Players.GetPlayers(army.Army.Player).GetBusy())
@@ -862,9 +862,9 @@ public partial class ArmyHexSprite : UnitHexSprite
         return moved;
     }
 
-    internal static bool MoveArmy(ArmyHexSprite? army, byte selection, MovePath? path) => MoveArmy(army, selection, path, mode: ArmyMoveModes.SelectEndLocation, force: false);
+    internal static bool MoveArmy(ArmyHexSprite? army, int selection, MovePath? path) => MoveArmy(army, selection, path, mode: ArmyMoveModes.SelectEndLocation, force: false);
 
-    internal static bool MoveArmyMapCoordinate(ArmyHexSprite army, byte selection, int X, int Y, int L, bool force)
+    internal static bool MoveArmyMapCoordinate(ArmyHexSprite army, int selection, int X, int Y, int L, bool force)
     {
         MoveControlSettings settings = new(null) { Holder = army };
         int hexLevel = army.HexLevel;

@@ -149,16 +149,16 @@ public sealed partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
         {
             if (!Event.IsCanceled)
             {
-                Event.SetSelection((byte)(1 << slot));
+                Event.SetSelection((1 << slot).TruncateToByte());
             }
             else
             {
-                Event.SetSelection((byte)(Event.Selection | (1 << slot)));
+                Event.SetSelection((Event.Selection | (1 << slot)).TruncateToByte());
             }
         }
         else
         {
-            Event.SetSelection((byte)(Event.Selection & ~(1 << slot)));
+            Event.SetSelection(Event.Selection & ~(1 << slot));
         }
 
         Unit1CheckBox.Checked = (Event.Selection & 1) != 0;

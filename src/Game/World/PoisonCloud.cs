@@ -35,7 +35,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         TurnsRemaining = persister.Int32("TurnsRemaining", value: TurnsRemaining);
         _drifting = persister.Boolean("Drifting", value: _drifting);
         _direction = persister.Byte("Direction", value: _direction.TruncateToByte());
@@ -254,10 +254,10 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
                 int direction = 0;
                 ByteList directions = [];
                 bool valid = false;
-                _ = directions.Add((byte)_direction);
-                _ = _direction != 1 ? directions.Add((byte)(_direction - 1)) : directions.Add(6);
+                _ = directions.Add(_direction.TruncateToByte());
+                _ = _direction != 1 ? directions.Add((_direction - 1).TruncateToByte()) : directions.Add(6);
 
-                _ = _direction != 6 ? directions.Add((byte)(_direction + 1)) : directions.Add(1);
+                _ = _direction != 6 ? directions.Add((_direction + 1).TruncateToByte()) : directions.Add(1);
 
                 while (directions.Count != 0 && !valid)
                 {
@@ -265,7 +265,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
                     valid = ValidMoveDirection(direction);
                     if (!valid)
                     {
-                        _ = directions.Remove((byte)direction);
+                        _ = directions.Remove(direction.TruncateToByte());
                     }
                 }
 

@@ -166,7 +166,7 @@ public class Campaign : EngineObject
                     bool condition = spell is not null && spell.SpellLevel <= level;
                     if (condition)
                     {
-                        byte spherePicks = StrategicMap.Current.Players.GetPlayers(i).Leader.GetSpherePicks(spell.MagicSphere);
+                        int spherePicks = StrategicMap.Current.Players.GetPlayers(i).Leader.GetSpherePicks(spell.MagicSphere);
                         condition = spell.SpellLevel <= spherePicks;
                     }
 
@@ -297,7 +297,7 @@ public class Campaign : EngineObject
         if (RaceHistory.IndexOf((byte)players.PlayerRace) == -1)
         {
             Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
-            _ = RaceHistory.Add((byte)fPlayersPlayers.PlayerRace);
+            _ = RaceHistory.Add(fPlayersPlayers.PlayerRace.TruncateToByte());
         }
 
         string fileName = GetAutoSaveFileName(CampaignAutoSaveType.ScenarioFinished);

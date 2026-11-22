@@ -170,7 +170,7 @@ public sealed class AsmStubsProbeTests
                 FillA5(ints);
                 Int32List.FillInteger(ints.AsSpan(1), count, value);
                 FillA5(words);
-                UInt16List.FillWord(words.AsSpan(1), count, value: (ushort)value);
+                UInt16List.FillWord(words.AsSpan(1), count, value: value.TruncateToUInt16());
                 DoubleItemList.DoubleItem large = new(First: value, Second: ~value);
                 FillA5(doubles);
                 FillLarge(doubles, start: 1, count, value: large);
@@ -334,7 +334,7 @@ public sealed class AsmStubsProbeTests
         Teleport teleport = new(null) { Holder = EngineFixture.Engine };
         for (int i = 0; i <= 255; i++)
         {
-            mine.State = (byte)i;
+            mine.State = i.TruncateToByte();
             teleport.State = (Teleport.States)(ulong)i;
             AddNumber(lines, label: $"Mine.TMine.GetRazed_{Decrement(i)}", value: mine.GetRazed() ? 1 : 0);
             AddNumber(lines, label: $"Teleport.TTeleport.GetRazed_{Decrement(i)}", value: teleport.GetRazed() ? 1 : 0);
@@ -351,7 +351,7 @@ public sealed class AsmStubsProbeTests
         abilities.SetAbilityCount(0);
         for (int i = 1; i < s_indices.Length; i++)
         {
-            abilities.SetAbilitySet(s_indices[i], value: (byte)i);
+            abilities.SetAbilitySet(s_indices[i], value: i.TruncateToByte());
             AddNumber(lines, label: $"AoWE.TCustomAbilityList.SetAbSet_count_{Decrement(i)}", value: abilities.AbilityCount);
             for (int k = -1; k <= abilities.AbilityCount; k++)
             {
@@ -366,7 +366,7 @@ public sealed class AsmStubsProbeTests
         {
             for (int i = 0; i <= abilities.AbilityCount - 1; i++)
             {
-                abilities.SetAbilitySet(i, value: (byte)((i + j) & 1));
+                abilities.SetAbilitySet(i, value: (i + j) & 1);
             }
 
             troop.AbilityCount = abilities.AbilityCount;

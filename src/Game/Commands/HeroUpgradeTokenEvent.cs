@@ -45,7 +45,7 @@ public class HeroUpgradeTokenEvent : TokenEvent
         Hits = persister.UnsignedByte(name: "Hits", value: Hits.TruncateToSByte());
         persister.Object("Abilities", objectValue: Abilities);
         UnitId = persister.Int32("UnitId", value: UnitId);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
     }
 
     // Hero.PAS:1
@@ -63,7 +63,7 @@ public class HeroUpgradeTokenEvent : TokenEvent
             hero.SetUnitResistance((hero.UnitResistance + Resistance).TruncateToSByte());
             hero.SetUnitDamage((hero.UnitDamage + Damage).TruncateToSByte());
             hero.SetUnitMoves((hero.UnitMoves + Moves).TruncateToSByte());
-            hero.SetUnitHits((sbyte)(hero.UnitHits + Hits));
+            hero.SetUnitHits((hero.UnitHits + Hits).TruncateToSByte());
             hero.UpdateDefaultAbilities(Abilities);
             hero.UpgradePending = false;
         }

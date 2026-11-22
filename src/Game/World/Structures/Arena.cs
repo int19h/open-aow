@@ -11,6 +11,7 @@ using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Structures;
@@ -201,7 +202,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
                 _ = log.UnitIds.Add(troop.UnitId);
                 if (UnitTrainCost(army.Army.Units.GetUnit(i)) != -1)
                 {
-                    log.Trainable = (byte)(log.Trainable | (1 << i));
+                    log.Trainable = (log.Trainable | (1 << i)).TruncateToByte();
                 }
             }
 

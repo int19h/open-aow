@@ -661,7 +661,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWUnitWindow.pas:937
-    public void UnitWinKeyDown(in ushort key, ShiftStates shift)
+    public void UnitWinKeyDown(in int key, ShiftStates shift)
     {
         if (key is 27)
         {

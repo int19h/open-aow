@@ -66,7 +66,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     {
         persister.CreatedSequence("HexSpriteList", items: new NodeChildren(this));
         int flags = FieldFlags;
-        FieldFlags = (flags & ~0xFFFF) | persister.UInt16("FieldFlags", (ushort)flags);
+        FieldFlags = (flags & ~0xFFFF) | persister.UInt16("FieldFlags", flags.TruncateToUInt16());
     }
 
     // HSEngine.pas:1943

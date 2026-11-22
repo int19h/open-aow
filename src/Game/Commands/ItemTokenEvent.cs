@@ -5,6 +5,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -15,7 +16,7 @@ public class ItemTokenEvent(CustomNode owner) : TokenEvent(owner)
 
     public int ItemId { get; set; }
 
-    private byte _action;
+    private int _action;
 
     // 0 = use
     public int HeroId { get; set; }
@@ -25,7 +26,7 @@ public class ItemTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         base.PersistFields(persister);
         ItemId = persister.Int32("ItemId", value: ItemId);
-        _action = persister.RawByte("Action", value: _action);
+        _action = persister.RawByte("Action", value: _action.TruncateToByte());
         HeroId = persister.Int32("HeroId", value: HeroId);
     }
 

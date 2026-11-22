@@ -613,7 +613,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
         string income = UI.Engine.TranslateResourceString(GameText.IncomeText);
         _ = IncomeHeader.Items.Add(income);
         string xGold = UI.Engine.TranslateResourceString(GameText.GoldFormat);
-        string format = AbilityRules.Format(" " + xGold, arguments: [((int)_city.Income).ToString(CultureInfo.InvariantCulture)]);
+        string format = AbilityRules.Format(" " + xGold, arguments: [_city.Income.ToString(CultureInfo.InvariantCulture)]);
         _ = IncomeHeader.Items.Add(format);
         IncomeMemo.Items.Clear();
         IncomeGoldMemo.Items.Clear();
@@ -1347,7 +1347,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
     }
 
     // AoWCityScreen.pas:668
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         switch (key)
         {

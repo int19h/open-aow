@@ -21,6 +21,6 @@ public class DiplomaticActionList(CustomNode owner) : ReferenceNode(owner), IChi
     public DiplomaticAction GetDiplomaticActions(int index) => Actions.GetDiplomaticActions(index);
 
     // Diplomacy.pas:1100
-    public DiplomaticAction FindLastAction(int kind, DiplomaticActionReaction reaction, sbyte source, sbyte target, sbyte other)
+    public DiplomaticAction FindLastAction(int kind, DiplomaticActionReaction reaction, int source, int target, int other)
         => Actions.FindLastAction(kind, reaction: reaction, source: source, target: target, other: other);
 }

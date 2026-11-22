@@ -28,7 +28,7 @@ public class WindowControl(Component? owner) : UIComponent(owner)
 
     protected void RaiseBlitting(WindowControl sender, Surface? surface, int left, int top) => Blitting?.Invoke(sender, surface, left, top);
 
-    public byte Dragging { get; protected set; }
+    public int Dragging { get; protected set; }
     public int DragX { get; protected set; }
     public int DragY { get; protected set; }
 
@@ -38,8 +38,8 @@ public class WindowControl(Component? owner) : UIComponent(owner)
     [Published]
     public bool Resizable { get; set; }
 
-    public byte ResizingX { get; protected set; }
-    public byte ResizingY { get; protected set; }
+    public int ResizingX { get; protected set; }
+    public int ResizingY { get; protected set; }
 
     public event NotifyEvent<WindowControl>? Resized;
 

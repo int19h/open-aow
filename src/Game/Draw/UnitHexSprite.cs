@@ -339,7 +339,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     public virtual void UpdateFlagId() => FlagId = 32;
 
     // UnitHS.PAS:910
-    public virtual sbyte MoveFirst(int direction, bool instant)
+    public virtual int MoveFirst(int direction, bool instant)
     {
         if (MoveStep != -1)
         {

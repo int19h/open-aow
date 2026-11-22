@@ -533,7 +533,7 @@ public sealed partial class StrategicMap : GameMap
         persister.Lines(name: "Description", lines: Description);
         persister.Lines(name: "Objectives", lines: _objectives);
         _independentAIMode = persister.Enum("IndependentAIMode", value: _independentAIMode);
-        CurrentPlayer = persister.UnsignedByte(name: "CurrentPlayer", value: CurrentPlayer);
+        CurrentPlayer = (sbyte)persister.UnsignedByte(name: "CurrentPlayer", value: CurrentPlayer);
         TurnOrderMode = persister.Enum("TurnOrderMode", value: TurnOrderMode);
         persister.ByteList(name: "TurnOrder", list: TurnOrder);
         Day = persister.Int32("Day", value: Day);
@@ -1038,7 +1038,7 @@ public sealed partial class StrategicMap : GameMap
         {
             for (int i = 0, last = Players.Count - 1; i <= last; i++)
             {
-                _ = TurnOrder.Add((byte)i);
+                _ = TurnOrder.Add(i.TruncateToByte());
             }
         }
 
@@ -2173,7 +2173,7 @@ public sealed partial class StrategicMap : GameMap
         ByteList list = [];
         for (int i = 1, last = Players.Count - 1; i <= last; i++)
         {
-            _ = list.Add((byte)i);
+            _ = list.Add(i.TruncateToByte());
         }
 
         TurnOrder.Clear();
@@ -2182,7 +2182,7 @@ public sealed partial class StrategicMap : GameMap
         {
             int index = Random(list.Count);
             int item = list[index];
-            _ = TurnOrder.Add((byte)item);
+            _ = TurnOrder.Add(item.TruncateToByte());
             list.Delete(index);
         }
 

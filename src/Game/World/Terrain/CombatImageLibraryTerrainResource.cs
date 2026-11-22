@@ -12,7 +12,7 @@ public class CombatImageLibraryTerrainResource(CustomNode owner) : ImageLibraryT
     // CombatILTer.pas:175
     public new const int ClassId = 2_228_535;
 
-    public sbyte BurnValue { get; private set; }
+    public int BurnValue { get; private set; }
     public int Defense { get; private set; }
 
     // CombatILTer.pas:181

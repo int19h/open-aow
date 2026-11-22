@@ -24,7 +24,7 @@ public sealed class HexSpriteMapKeyboard(CustomNode? owner) : EngineObject(owner
     public int LockCount { get; private set; }
 
     // AoWHSMap.PAS:946
-    public void KeyDown(in ushort key, ShiftStates shift)
+    public void KeyDown(in int key, ShiftStates shift)
     {
         if (LockCount != 0)
         {
@@ -36,7 +36,7 @@ public sealed class HexSpriteMapKeyboard(CustomNode? owner) : EngineObject(owner
         switch (Mode)
         {
             case HexSpriteMapKeyboardMode.Default:
-                ushort translatedKey = key;
+                int translatedKey = key;
                 switch (GetEngine().Language)
                 {
                     case (byte)GameSettings.Language.French:

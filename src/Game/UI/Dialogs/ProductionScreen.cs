@@ -995,7 +995,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     }
 
     // AoWProdScreen.pas:510
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         switch (key)
         {

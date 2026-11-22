@@ -1153,7 +1153,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
     }
 
     // AoWSpellBook.pas:375
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {

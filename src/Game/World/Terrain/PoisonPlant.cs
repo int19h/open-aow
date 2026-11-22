@@ -37,7 +37,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        CasterPlayer = persister.SByte("CasterPlayer", value: CasterPlayer, fallback: -1);
+        CasterPlayer = (sbyte)persister.SByte("CasterPlayer", value: CasterPlayer, fallback: -1);
         DaysRemaining = persister.SByte("DaysRemaining", value: DaysRemaining.TruncateToSByte(), fallback: -1);
         OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay.TruncateToSByte(), fallback: -1);
     }
@@ -191,7 +191,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
                     count += 1;
                 }
 
-                _ = log.DamageValues.Add((byte)damage);
+                _ = log.DamageValues.Add(damage.TruncateToByte());
                 _ = log.DamageTypes.Add((int)DamageType.Poison);
             }
             else

@@ -142,7 +142,7 @@ public sealed class UnitUserList(CustomNode? owner) : ObservableNode(owner), ICh
     }
 
     // Unit.PAS:2406
-    public void AddUnits(UnitCollection units, byte selection)
+    public void AddUnits(UnitCollection units, int selection)
     {
         for (int index = 0, last = units.Count - 1; index <= last; index++)
         {

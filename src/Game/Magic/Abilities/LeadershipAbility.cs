@@ -2,6 +2,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -35,7 +36,7 @@ public class LeadershipAbility : MultiLevelAbility
         if (owner is not null)
         {
             LeadershipAbilityData data = GetData(owner);
-            return data is not null ? data.ExternalLevel > data.Level ? data.ExternalLevel : data.Level : 0;
+            return data is not null ? data.ExternalLevel > data.Level ? (byte)data.ExternalLevel : data.Level : 0;
         }
         else
         {
@@ -87,7 +88,7 @@ public class LeadershipAbility : MultiLevelAbility
         if (data.Level < level)
         {
             data.ExternalSource = sourceName;
-            data.ExternalLevel = (byte)level;
+            data.ExternalLevel = level.TruncateToByte();
         }
 
         if (owner is Troop)

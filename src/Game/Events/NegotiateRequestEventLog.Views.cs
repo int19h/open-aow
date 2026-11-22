@@ -21,7 +21,7 @@ public partial class NegotiateRequestEventLog
             ArmyHexSprite armyHexSprite = World.Map.StrategicMap.Current.MapContainer.GetField(Hex.X, Hex.Y, Hex.MapLevel).GetArmyHexSprite();
             if (armyHexSprite is not null)
             {
-                byte joinSelection = armyHexSprite.Army.GetJoinSelection(Player);
+                int joinSelection = armyHexSprite.Army.GetJoinSelection(Player);
                 return armyHexSprite.Army.Hero(joinSelection, types: RosterTables.AllHeroTypes) is null ? EventView.PartyJoin : EventView.HeroNegotiation;
             }
         }

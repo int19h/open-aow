@@ -710,7 +710,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     public void FileDialogHide() => FinishDialog();
 
     // AoWFileDialog.pas:580
-    public void FileDialogKeyDown(in ushort key, ShiftStates shift)
+    public void FileDialogKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {

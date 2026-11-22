@@ -29,7 +29,7 @@ public class PlayerCropStructure : PlayerStructure
 
     public override PlayerCropStructureResource Resource => GetResource<PlayerCropStructureResource>();
 
-    public byte Income { get; private set; }
+    public int Income { get; private set; }
 
     private bool _changingCrops;
     private readonly PlayerStructureIncomeSource _incomeSource;
@@ -214,7 +214,7 @@ public class PlayerCropStructure : PlayerStructure
     {
         if (!GetRazed() && !Building)
         {
-            SetIncome((byte)(GetCropCount() * 2));
+            SetIncome((GetCropCount() * 2).TruncateToByte());
         }
         else
         {
@@ -258,7 +258,7 @@ public class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:302
-    public void SetIncome(byte value)
+    public void SetIncome(int value)
     {
         if (value != Income && Status.Contains(MapObjectStatuses.Activated))
         {

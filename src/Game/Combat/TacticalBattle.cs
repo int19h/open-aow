@@ -10,6 +10,7 @@ using Aow.Game.Net;
 using Aow.Game.Session;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -32,7 +33,7 @@ public sealed partial class TacticalBattle(CustomNode? owner) : Battle(owner)
     {
         base.Initialize();
         CombatData.TurnOrder.Clear();
-        _ = CombatData.TurnOrder.Add((byte)CombatData.AttackerPlayer);
+        _ = CombatData.TurnOrder.Add(CombatData.AttackerPlayer.TruncateToByte());
         HostPlayer = -1;
         for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
         {
@@ -54,7 +55,7 @@ public sealed partial class TacticalBattle(CustomNode? owner) : Battle(owner)
             {
                 if (CombatData.Players.GetPlayers((sbyte)i).SideIndex == 0)
                 {
-                    _ = CombatData.TurnOrder.Add((byte)i);
+                    _ = CombatData.TurnOrder.Add(i.TruncateToByte());
                 }
             }
 
@@ -81,14 +82,14 @@ public sealed partial class TacticalBattle(CustomNode? owner) : Battle(owner)
             }
         }
 
-        _ = CombatData.TurnOrder.Add((byte)CombatData.DefenderPlayer);
+        _ = CombatData.TurnOrder.Add(CombatData.DefenderPlayer.TruncateToByte());
         for (int i = 0, last = CombatData.Players.GetCount() - 1; i <= last; i++)
         {
             if (CombatData.TurnOrder.IndexOf((byte)i) == -1)
             {
                 if (CombatData.Players.GetPlayers((sbyte)i).SideIndex == 1)
                 {
-                    _ = CombatData.TurnOrder.Add((byte)i);
+                    _ = CombatData.TurnOrder.Add(i.TruncateToByte());
                 }
             }
         }

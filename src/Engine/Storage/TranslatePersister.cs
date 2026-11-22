@@ -35,11 +35,11 @@ internal sealed class TranslatePersister(TranslateVisit stream, EngineObject nod
 
     public byte Byte(string name, byte value, byte fallback = 0) => value;
 
-    public sbyte SByte(string name, sbyte value, sbyte fallback = 0) => value;
+    public int SByte(string name, int value, int fallback = 0) => value;
 
-    public ushort UInt16(string name, ushort value, ushort fallback = 0) => value;
+    public int UInt16(string name, int value, int fallback = 0) => value;
 
-    public short Int16(string name, short value, short fallback = 0) => value;
+    public int Int16(string name, int value, int fallback = 0) => value;
 
     public uint UInt32(string name, uint value, uint fallback = 0) => value;
 
@@ -70,7 +70,7 @@ internal sealed class TranslatePersister(TranslateVisit stream, EngineObject nod
 
     public byte RawByte(string name, byte value) => value;
 
-    public sbyte RawSByte(string name, sbyte value) => value;
+    public int RawSByte(string name, int value) => value;
 
     public bool RawBool(string name, bool value) => value;
 

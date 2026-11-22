@@ -23,7 +23,7 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
 
     private MapCoordinate _location = new(-1, -1, -1);
 
-    public byte Selection { get; set; }
+    public int Selection { get; set; }
     public int JoinIndex { get; set; } = -1;
 
     public DelphiStringList JoinMessage { get; } = [];
@@ -46,7 +46,7 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
         base.PersistFields(persister);
         FirstUnitId = persister.Int32("FirstUnitId", value: FirstUnitId);
         persister.Int32List(name: "UnitIds", list: UnitIds);
-        Selection = persister.Byte("Selection", value: Selection);
+        Selection = persister.Byte("Selection", value: Selection.TruncateToByte());
         persister.Lines(name: "JoinMessage", lines: JoinMessage);
         Gold = persister.Int32("Gold", value: Gold);
         int location = persister.Int32("Location", value: StoredCoordinateImage.From(_location).ToInt32());
@@ -82,7 +82,7 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
     }
 
     // Diplomacy.pas:80
-    public virtual byte ListJoinUnits(UnitUserList units)
+    public virtual int ListJoinUnits(UnitUserList units)
     {
         for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
@@ -91,7 +91,7 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
             _ = units.AddUnit(troop);
         }
 
-        byte selection = Selection;
+        int selection = Selection;
         return selection;
     }
 

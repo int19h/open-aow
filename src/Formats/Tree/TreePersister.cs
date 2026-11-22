@@ -206,13 +206,13 @@ internal sealed class MemberPersister : IPersister
     public byte Byte(string name, byte value, byte fallback = 0)
         => (byte)Integer(name, current: value, fallback, width: 1, signed: false);
 
-    public sbyte SByte(string name, sbyte value, sbyte fallback = 0)
+    public int SByte(string name, int value, int fallback = 0)
         => (sbyte)Integer(name, current: value, fallback, width: 1, signed: true);
 
-    public ushort UInt16(string name, ushort value, ushort fallback = 0)
+    public int UInt16(string name, int value, int fallback = 0)
         => (ushort)Integer(name, current: value, fallback, width: 2, signed: false);
 
-    public short Int16(string name, short value, short fallback = 0)
+    public int Int16(string name, int value, int fallback = 0)
         => (short)Integer(name, current: value, fallback, width: 2, signed: true);
 
     public uint UInt32(string name, uint value, uint fallback = 0)
@@ -414,7 +414,7 @@ internal sealed class MemberPersister : IPersister
 
     public byte RawByte(string name, byte value) => (byte)RawInteger(name, current: value, width: 1, signed: false);
 
-    public sbyte RawSByte(string name, sbyte value) => (sbyte)RawInteger(name, current: value, width: 1, signed: true);
+    public int RawSByte(string name, int value) => (sbyte)RawInteger(name, current: value, width: 1, signed: true);
 
     // The bool keeps its stored byte, so a byte other than 0 or 1 loads as that byte and saves back.
     public bool RawBool(string name, bool value)

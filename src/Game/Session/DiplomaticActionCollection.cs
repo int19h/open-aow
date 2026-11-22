@@ -35,7 +35,7 @@ public readonly struct DiplomaticActionCollection : IReadOnlyList<DiplomaticActi
     public DiplomaticAction GetDiplomaticActions(int index) => this[index];
 
     // Diplomacy.pas:1100
-    public DiplomaticAction? FindLastAction(int kind, DiplomaticActionReaction reaction, sbyte source, sbyte target, sbyte other)
+    public DiplomaticAction? FindLastAction(int kind, DiplomaticActionReaction reaction, int source, int target, int other)
     {
         DiplomaticAction? result = null;
         int index = Count;

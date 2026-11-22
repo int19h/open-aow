@@ -29,7 +29,7 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
     private ExecuteDoneEvent? _done;
     private JoinEventLog? _joinEvent;
     private bool _detailsOpen;
-    private byte _selection;
+    private int _selection;
     private UnitUserList _units;
     private Hero _faceUnit;
 
@@ -201,7 +201,7 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
     public void DlgHide() => FinishDialog();
 
     // AoWHeroJoinDlg.pas:216
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {

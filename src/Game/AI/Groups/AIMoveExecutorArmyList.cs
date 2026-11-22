@@ -23,7 +23,7 @@ public sealed class AIMoveExecutorArmyList(CustomNode? owner) : OwningNode(owner
     public AIMoveExecutorArmy GetArmies(int index) => this[index];
 
     // AIGroup.pas:4647
-    public int IndexOf(ArmyHexSprite army, byte selection)
+    public int IndexOf(ArmyHexSprite army, int selection)
     {
         // { byte local precedes the pointer local }
         int i = Count;
@@ -33,7 +33,7 @@ public sealed class AIMoveExecutorArmyList(CustomNode? owner) : OwningNode(owner
             AIMoveExecutorArmy entry = this[i];
             if (army.HexX == entry.Location.X && army.HexY == entry.Location.Y && army.HexLevel == entry.Location.MapLevel)
             {
-                entry.RetrieveArmy(255, army: out ArmyHexSprite foundArmy, armySelection: out byte foundSelection);
+                entry.RetrieveArmy(255, army: out ArmyHexSprite foundArmy, armySelection: out int foundSelection);
                 if (army == foundArmy && foundSelection == selection)
                 {
                     return i;

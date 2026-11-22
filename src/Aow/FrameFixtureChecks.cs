@@ -110,18 +110,18 @@ internal static class FrameFixtureChecks
             world.MapWindowUpdate();
             Check(StrategicMap.Current.FPS == 9, label: "captured FPS reaches the strategic movement input");
             MovementArmy army = new() { Holder = startup.Engine, MoveStep = -1, UnitGraphicsResource = new(null) { Holder = startup.Engine, MoveAnimationSpeed = 2 } };
-            _ = army.MoveFirst(1, instant: false);
+            _ = (sbyte)army.MoveFirst(1, instant: false);
             Check(army.MoveSteps == 4, label: "native capture advances each eight-step move in four frames");
             foreach (int fps in new[] { 1, 6, 8, 9, 14 })
             {
                 StrategicMap.Current.UpdateFPS(fps);
                 army.MoveStep = -1;
-                _ = army.MoveFirst(1, instant: false);
+                _ = (sbyte)army.MoveFirst(1, instant: false);
                 Check(army.MoveSteps == 4, label: $"positive FPS below 15 preserves the captured movement tier: {fps}");
             }
             StrategicMap.Current.UpdateFPS(30);
             army.MoveStep = -1;
-            _ = army.MoveFirst(1, instant: false);
+            _ = (sbyte)army.MoveFirst(1, instant: false);
             Check(army.MoveSteps == 8, label: "normal measured FPS retains the eight-step animation");
         }
         finally

@@ -24,7 +24,7 @@ public static class EngineServices
     public static int GetCrc32(ReadOnlySpan<byte> buffer, int size)
     {
         int crc = -1;
-        foreach (byte value in buffer[..size])
+        foreach (int value in buffer[..size])
         {
             crc = s_crc32Table[(value ^ crc) & 0xFF] ^ (crc >>> 8);
         }

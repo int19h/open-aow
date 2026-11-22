@@ -2,6 +2,7 @@
 using Aow.Engine.Collections;
 
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Map;
 
@@ -63,10 +64,10 @@ public sealed class TerrainList : IDisposable
     }
 
     // HSEngine.pas:1459. The pair as one word: the terrain byte low, the overlay byte high.
-    public ushort GetTandO(int index) => index < _count ? (ushort)((byte)_list[index].Terrain | ((byte)_list[index].Overlay << 8)) : (ushort)65_278;
+    public int GetTandO(int index) => index < _count ? (byte)_list[index].Terrain | ((byte)_list[index].Overlay << 8) : 65_278;
 
     // HSEngine.pas:1467
-    public void SetTandO(int index, ushort value)
+    public void SetTandO(int index, int value)
     {
         if (index >= _count)
         {
@@ -144,7 +145,7 @@ public sealed class TerrainList : IDisposable
                     {
                         if (result.IndexOf((ushort)hexNumber) == -1)
                         {
-                            _ = result.Add((ushort)hexNumber);
+                            _ = result.Add(hexNumber.TruncateToUInt16());
                         }
                     }
 
@@ -192,14 +193,14 @@ public sealed class TerrainList : IDisposable
 
     public sealed class TerrainAccessor(TerrainList target)
     {
-        public sbyte this[int index] { get => target.GetTerrain(index); set => target.SetTerrain(index, value); }
+        public int this[int index] { get => target.GetTerrain(index); set => target.SetTerrain(index, value); }
     }
 
     public TerrainAccessor Terrain => new(this);
 
     public sealed class OverlayAccessor(TerrainList target)
     {
-        public sbyte this[int index] { get => target.GetOverlay(index); set => target.SetOverlay(index, value); }
+        public int this[int index] { get => target.GetOverlay(index); set => target.SetOverlay(index, value); }
     }
 
     public OverlayAccessor Overlay => new(this);

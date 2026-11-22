@@ -87,7 +87,7 @@ public sealed partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWWizardsTowerDlg.pas:101
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {

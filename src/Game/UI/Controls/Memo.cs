@@ -537,20 +537,20 @@ public sealed partial class Memo : Control
                     break;
                 default:
                     {
-                        byte c = key;
+                        int c = key;
                         if (Lines[_currentLine].Length == _currentColumn)
                         {
                             string itemLength = _items[_realLine];
                             string item = _items[_realLine];
                             string item2 = _items[_realLine];
-                            _items[_realLine] = Copy(item2, index: 1, count: _realColumn + 1) + Cp1252.Text(c) + Copy(item, index: _realColumn + 2, count: itemLength.Length - _realColumn);
+                            _items[_realLine] = Copy(item2, index: 1, count: _realColumn + 1) + Cp1252.Text((byte)c) + Copy(item, index: _realColumn + 2, count: itemLength.Length - _realColumn);
                         }
                         else
                         {
                             string itemLength = _items[_realLine];
                             string item = _items[_realLine];
                             string item2 = _items[_realLine];
-                            _items[_realLine] = Copy(item2, index: 1, count: _realColumn) + Cp1252.Text(c) + Copy(item, index: _realColumn + 1, count: itemLength.Length - _realColumn);
+                            _items[_realLine] = Copy(item2, index: 1, count: _realColumn) + Cp1252.Text((byte)c) + Copy(item, index: _realColumn + 1, count: itemLength.Length - _realColumn);
                         }
 
                         _realColumn += 1;
@@ -929,7 +929,7 @@ public sealed partial class Memo : Control
     public int ItemHeight { get; set; }
 
     [Published]
-    public byte ColorChangeChar { get; set; }
+    public int ColorChangeChar { get; set; }
 
     [Published]
     public TextAlignment TextAlign { get; set; }

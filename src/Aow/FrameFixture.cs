@@ -414,7 +414,7 @@ internal sealed class FrameFixture
                         {
                             if (player.Structures.GetStructure(index) is City city)
                             {
-                                cities.Add(new { name = city.Name, player = playerIndex, wall = (byte)city.WallType, upgrade = city.UpgradeLevel });
+                                cities.Add(new { name = city.Name, player = playerIndex, wall = (byte)city.WallType, upgrade = (byte)city.UpgradeLevel });
                             }
                         }
                     }

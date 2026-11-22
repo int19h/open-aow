@@ -32,7 +32,7 @@ public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     public TacticalBattleUnit? PreviousUnit { get; protected set; }
 
     private TacticalBattleUnit? _freeStrikeUnit;
-    private sbyte _neighbour;
+    private int _neighbour;
 
     public TokenStep Step { get; protected set; }
     public StrikeCombatAction? Strike { get; protected set; }
@@ -86,7 +86,7 @@ public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                     TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                     if (hexSprite is not null && PreviousUnit != hexSprite.Unit && hexSprite.Unit.GetEnabled() && !hexSprite.Unit.GetLocked() && CombatObject.MeleeDamageTypes(hexSprite.Unit) != DamageTypes.None && hexSprite.Unit.Side != Unit.Side && hexSprite.Action == TacticalBattleUnitHexSprite.SpriteAction.Move && hexSprite.Unit.GetAbilityEnabled(1) == Unit.GetAbilityEnabled(1))
                     {
-                        _neighbour = (sbyte)hexNumber;
+                        _neighbour = hexNumber.TruncateToSByte();
                         _freeStrikeUnit = hexSprite.Unit;
                         hexX = 0;
                         int last = _objects.Count - 1;

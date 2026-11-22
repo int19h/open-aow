@@ -24,7 +24,7 @@ public partial class ArmyCombatMoveTokenEvent
         }
         MapFieldMessage message = default;
         MapField field = GetMapField(Path[0].Location);
-        sbyte defender = field.GetPlayer();
+        int defender = field.GetPlayer();
         MapField? source = ArmyHexSprite.Owner;
         ArmyHexSprite.SetOwner(null);
         ArmyHexSprite otherArmyHexSprite = source.GetArmyHexSprite();
@@ -42,7 +42,7 @@ public partial class ArmyCombatMoveTokenEvent
                 troop2.UnitStatus = unit.UnitStatus & ~UnitStatuses.Moving;
             }
 
-            Selection = (byte)(Selection >>> 1);
+            Selection >>>= 1;
         }
 
         if (otherArmyHexSprite is not null)
@@ -203,7 +203,7 @@ public partial class ArmyCombatMoveTokenEvent
                     if (combatResult is CombatResult.Victory or CombatResult.NoDefenders || base.CanMoveNext())
                     {
                         int direction = GetDirection(MoveIndex);
-                        _ = ArmyHexSprite.MoveFirst(direction, instant: false);
+                        _ = (sbyte)ArmyHexSprite.MoveFirst(direction, instant: false);
                         ArmyHexSprite.SetMoveStatus(50);
                     }
                     else

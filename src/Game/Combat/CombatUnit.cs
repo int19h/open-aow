@@ -248,7 +248,7 @@ public class CombatUnit : CombatObject
     public override bool GetAbilityEnabled(int abilityId) => Troop is not null && Troop.GetAbilityEnabled(abilityId);
 
     // Combat.pas:1271
-    public override void SetAbilityEnabled(int abilityId, bool enabled) => Troop.SetAbilitySet(abilityId, value: (byte)(enabled ? 1 : 0));
+    public override void SetAbilityEnabled(int abilityId, bool enabled) => Troop.SetAbilitySet(abilityId, value: enabled ? 1 : 0);
 
     // Combat.pas:1274
     public override int GetAbilityLevel(int abilityId) => Troop.GetAbilityLevel(abilityId);
@@ -296,7 +296,7 @@ public class CombatUnit : CombatObject
         base.Initialize(combat);
         if (Troop is Leader)
         {
-            _ = combat.CombatData.InvolvedLeaders.Add((byte)CombatPlayer);
+            _ = combat.CombatData.InvolvedLeaders.Add(CombatPlayer.TruncateToByte());
         }
     }
 
@@ -526,7 +526,7 @@ public class CombatUnit : CombatObject
         ResetTargets();
         if (Troop is Leader)
         {
-            _ = Combat.CombatData.DefeatedLeaders.Add((byte)CombatPlayer);
+            _ = Combat.CombatData.DefeatedLeaders.Add(CombatPlayer.TruncateToByte());
         }
 
         Combat.ObjectDestroyed(this);
@@ -562,7 +562,7 @@ public class CombatUnit : CombatObject
             ResetTargets();
             if (Troop is Leader)
             {
-                _ = Combat.CombatData.DefeatedLeaders.Add((byte)CombatPlayer);
+                _ = Combat.CombatData.DefeatedLeaders.Add(CombatPlayer.TruncateToByte());
             }
 
             Combat.ObjectDestroyed(this);

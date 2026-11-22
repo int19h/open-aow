@@ -530,7 +530,7 @@ public sealed class RecordShapeTests : FormatsTest
             }
             persister.BitArray("Bits", count: AbilityCount, bits: Bits.AsSpan(0, length: Math.Max(length, 0)));
             Raw = persister.RawByte("Raw", Raw);
-            Signed = persister.RawSByte("Signed", Signed);
+            Signed = (sbyte)persister.RawSByte("Signed", Signed);
             Wide = persister.RawInt32("Wide", Wide);
             Flag = persister.RawBool("Flag", value: Flag);
         }

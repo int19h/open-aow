@@ -56,7 +56,7 @@ public partial class DisplayController(Component? owner) : Component(owner)
                         int v = InverseMatrix.GetValue(i.TruncateToByte(), j.TruncateToByte());
                         if (v != 0)
                         {
-                            InverseMatrix.SetValue(i.TruncateToByte(), j.TruncateToByte(), value: (byte)(v - 1));
+                            InverseMatrix.SetValue(i.TruncateToByte(), j.TruncateToByte(), value: (v - 1).TruncateToByte());
                         }
 
                         if (m.GetValue(i.TruncateToByte(), j.TruncateToByte()) != 0)
@@ -285,7 +285,7 @@ public partial class DisplayController(Component? owner) : Component(owner)
     public virtual Palette? GetPalette() => null;
 
     // DisplayC.pas:873
-    public virtual void InitializeInverseMatrix(byte width, byte height)
+    public virtual void InitializeInverseMatrix(int width, int height)
     {
         _inverseMatrix?.Dispose();
 
@@ -412,7 +412,7 @@ public partial class DisplayController(Component? owner) : Component(owner)
     // DisplayC.pas:988
     // { Marks the blocks of the pixel rectangle X, Y, W, H with Value. Bug kept from the original:
     //   the range test checks BY2 >= 0 where BX2 >= 0 was meant (and BY1 twice). }
-    public void InverseWndwithValue(int X, int Y, int W, int H, byte value)
+    public void InverseWndwithValue(int X, int Y, int W, int H, int value)
     {
         Rect r = default;
         if (_inverseMatrix is not null)

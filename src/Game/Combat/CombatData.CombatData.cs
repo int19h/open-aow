@@ -29,8 +29,8 @@ public sealed partial class CombatData
         base.PersistFields(persister);
         Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Int32);
         ImmunityTypes = persister.Set("ImmunityTypes", value: ImmunityTypes);
-        AttackerPlayer = persister.UnsignedByte(name: "AttackerPlayer", value: AttackerPlayer);
-        DefenderPlayer = persister.UnsignedByte(name: "DefenderPlayer", value: DefenderPlayer);
+        AttackerPlayer = (sbyte)persister.UnsignedByte(name: "AttackerPlayer", value: AttackerPlayer);
+        DefenderPlayer = (sbyte)persister.UnsignedByte(name: "DefenderPlayer", value: DefenderPlayer);
         CombatResult = persister.RawByte("CombatResult", value: CombatResult.TruncateToByte());
         Round = persister.Int32("Round", value: Round);
         persister.Object("Players", objectValue: Players);

@@ -172,7 +172,7 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
     }
 
     // AOWPyreScrn.pas:110
-    public void DeadPnlKeyDown(in ushort key, ShiftStates shift)
+    public void DeadPnlKeyDown(in int key, ShiftStates shift)
     {
         switch (key)
         {
@@ -206,7 +206,7 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
         {
             if (StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Independent)
             {
-                _ = window.Players.Add((byte)i);
+                _ = window.Players.Add(i.TruncateToByte());
             }
         }
 

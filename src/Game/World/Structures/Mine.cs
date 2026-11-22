@@ -5,11 +5,10 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Combat;
-
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Structures;
@@ -26,7 +25,7 @@ public partial class Mine : PlayerStructure
     // Mine.pas:82
     public new const int ClassId = 131_962;
 
-    public byte State { get; set; }
+    public int State { get; set; }
 
     private readonly PlayerStructureIncomeSource _incomeSource;
 
@@ -41,7 +40,7 @@ public partial class Mine : PlayerStructure
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        State = persister.RawByte("State", value: State);
+        State = persister.RawByte("State", value: State.TruncateToByte());
     }
 
     // Mine.pas:142
@@ -71,11 +70,11 @@ public partial class Mine : PlayerStructure
         if (value)
         {
             SetPlayer(-1);
-            State = (byte)(State | 1);
+            State |= 1;
         }
         else
         {
-            State = (byte)(State & ~1);
+            State &= ~1;
         }
 
         ImageIndex = GetTerrainTypeImage(TerrainType);

@@ -177,7 +177,7 @@ public sealed partial class MapWindow(UIContext ui) : UIModule(ui)
             PressEndTurnShortcut(key, shift);
         }
 
-        ushort k = key;
+        int k = key;
         switch (UI.Engine.Language)
         {
             case (byte)GameSettings.Language.Spanish:

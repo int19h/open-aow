@@ -772,12 +772,12 @@ public sealed class CombatUnitSelectionControl : MoveSelector
         TacticalBattleUnitHexSprite? unitHexSprite = TacticalBattleUnitHexSprite;
         if (CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 15)
         {
-            ushort range;
+            int range;
             if (unitHexSprite.SelectedAbility == 52)
             {
                 SpellCombatInfo info = default;
                 GamePack.Current.SpellControl[unitHexSprite.SelectedSpell].GetCombatInfo(unitHexSprite.Unit.Troop, ref info);
-                range = info.Range > 0 ? (ushort)info.Range : (ushort)100;
+                range = info.Range > 0 ? info.Range.TruncateToUInt16() : 100;
             }
             else
             {
@@ -790,8 +790,8 @@ public sealed class CombatUnitSelectionControl : MoveSelector
                 {
                     TacticalBattleUnitHexSprite? tacticalBattleUnitHexSprite2 = TacticalBattleUnitHexSprite;
                     range = GamePack.Current.AbilityControl[unitHexSprite.SelectedAbility].GetCombatMode(tacticalBattleUnitHexSprite2.Unit.Troop) == CombatMode.MediumRange
-                        ? (ushort)8
-                        : (ushort)4;
+                        ? 8
+                        : 4;
                 }
             }
 

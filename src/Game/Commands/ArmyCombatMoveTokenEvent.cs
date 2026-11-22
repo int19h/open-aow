@@ -161,7 +161,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
     }
 
     // MoveT.PAS:2504
-    public override bool Setup(ArmyHexSprite? armyHexSprite, byte selection, MovePath path, ArmyMoveModes mode)
+    public override bool Setup(ArmyHexSprite? armyHexSprite, int selection, MovePath path, ArmyMoveModes mode)
     {
         bool result = base.Setup(armyHexSprite, selection, path, mode);
         if (result && armyHexSprite.Army.Player == TargetPlayer)
@@ -202,7 +202,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                 StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(flow);
                 _ = flow.Release();
                 ArmyHexSprite? armyHexSprite = ArmyHexSprite;
-                byte selection = Selection;
+                int selection = Selection;
                 bool stored = request.ArmyId.RetrieveArmy(ref armyHexSprite, ref selection);
                 ArmyHexSprite = armyHexSprite;
                 Selection = selection;
@@ -695,13 +695,13 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                 if (armyHexSprite is not null)
                 {
                     Army? army = armyHexSprite.Army;
-                    byte selection = 0;
+                    int selection = 0;
                     for (int i = army.Units.Count - 1; i >= 0; i--)
                     {
-                        selection = (byte)(selection << 1);
+                        selection = (selection << 1).TruncateToByte();
                         if (army.Units.GetUnit(i).UnitStatus.Contains(UnitStatuses.Moving))
                         {
-                            selection = (byte)(selection | 1);
+                            selection |= 1;
                             Troop? troop = army.Units.GetUnit(i);
                             army.Units.GetUnit(i).UnitStatus = troop.UnitStatus & ~UnitStatuses.Moving;
                         }
@@ -801,7 +801,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
         }
     }
 
-    private static MoveArmyTokenEvent? CreateArmyMoveMapCoordinateTokenEvent(ArmyHexSprite army, byte selection, int X, int Y, int L, MoveAction action)
+    private static MoveArmyTokenEvent? CreateArmyMoveMapCoordinateTokenEvent(ArmyHexSprite army, int selection, int X, int Y, int L, MoveAction action)
     {
         MoveControlSettings moveControlSettings = CreateMoveControlSettings(army, selection: selection, x: X, y: Y, l: L);
         MoveArmyTokenEvent? result = (moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection: selection, path: moveControlSettings.Path, action: action, mode: ArmyMoveModes.None);
@@ -809,7 +809,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
         return result;
     }
 
-    private static ArmyCombatMoveTokenEvent? CreateCombatMoveMapCoordinateTokenEvent(ArmyHexSprite army, byte selection, int x, int y, int l)
+    private static ArmyCombatMoveTokenEvent? CreateCombatMoveMapCoordinateTokenEvent(ArmyHexSprite army, int selection, int x, int y, int l)
     {
         MoveControlSettings moveControlSettings = CreateMoveControlSettings(army, selection: selection, x: x, y: y, l: l);
         ArmyCombatMoveTokenEvent? result = (moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyCombatMoveTokenEvent(army, selection: selection, path: moveControlSettings.Path, mode: ArmyMoveModes.None);
@@ -817,7 +817,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
         return result;
     }
 
-    private static MoveControlSettings CreateMoveControlSettings(ArmyHexSprite army, byte selection, int x, int y, int l)
+    private static MoveControlSettings CreateMoveControlSettings(ArmyHexSprite army, int selection, int x, int y, int l)
     {
         MoveControlSettings moveControlSettings = new(null) { Holder = army };
         int hexLevel = army.HexLevel;

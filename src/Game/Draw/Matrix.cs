@@ -12,7 +12,7 @@ public sealed class Matrix : IDisposable
 
     // DisplayC.pas:3145
     // { TMatrix (DCTypes in the original) }
-    public Matrix(byte width, byte height)
+    public Matrix(int width, int height)
     {
         Width = width;
         Height = height;
@@ -44,14 +44,14 @@ public sealed class Matrix : IDisposable
     }
 
     // DisplayC.pas:3178
-    public void SetValue(int X, int Y, byte value)
+    public void SetValue(int X, int Y, int value)
     {
         if (X < Width && Y < Height)
         {
-            Data[X + (Y * Width)] = value;
+            Data[X + (Y * Width)] = (byte)value;
         }
     }
 
-    public byte Width { get; }
-    public byte Height { get; }
+    public int Width { get; }
+    public int Height { get; }
 }

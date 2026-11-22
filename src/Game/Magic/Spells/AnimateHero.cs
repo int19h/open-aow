@@ -95,7 +95,7 @@ public class AnimateHero : Spell
                 {
                     ArmyInfoEventLog infoLog = new(null) { Holder = CreationHolder() };
                     int indexOf = army.Army.Units.IndexOf(hero);
-                    infoLog.ArmyView.Setup(army.Army, selection: (byte)(1 << indexOf));
+                    infoLog.ArmyView.Setup(army.Army, selection: (1 << indexOf).TruncateToByte());
                     infoLog.Selection = 255;
                     infoLog.Player = source.Player;
                     string noJoinAnimate = AbilityRules.TranslateResourceString(GetEngine(), S: s_noJoinAnimateText);

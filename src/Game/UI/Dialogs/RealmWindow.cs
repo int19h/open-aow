@@ -147,8 +147,8 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
                 _ = CityNameList.Items.AddObject(name, item: c);
                 string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[c.Race]);
                 _ = CityRaceList.Items.Add(raceNamesPlural);
-                _ = CityIncomeList.Items.Add(((int)c.Income).ToString(CultureInfo.InvariantCulture));
-                _ = CityLevelList.Items.Add(((int)c.UpgradeLevel).ToString(CultureInfo.InvariantCulture));
+                _ = CityIncomeList.Items.Add(c.Income.ToString(CultureInfo.InvariantCulture));
+                _ = CityLevelList.Items.Add(c.UpgradeLevel.ToString(CultureInfo.InvariantCulture));
                 _ = c.WallType switch
                 {
                     1 => CityWallList.Items.Add("1"),
@@ -555,7 +555,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T2ActLBDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
         string text = CityActionList.Items[drawItem];
-        byte icon = IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]);
+        int icon = IsEmpty(text) ? 0 : Cp1252.Byte(text[0]);
         if (icon != 45)
         {
             LibraryImage? listBoxIcon = UI.Graphics.ListIcons[icon - 23];

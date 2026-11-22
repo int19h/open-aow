@@ -165,7 +165,7 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
     public void ArmyEventWinHide() => ClearEvent();
 
     // AoWArmyEventDlg.pas:203
-    public void ArmyEventWinKeyDown(in ushort key, ShiftStates shift)
+    public void ArmyEventWinKeyDown(in int key, ShiftStates shift)
     {
         if (key is 27 or 32)
         {
@@ -189,7 +189,7 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
         {
             if (!army.GetUnitConcealedForPlayer(i, player: StrategicMap.Current.SeatedPlayer) || log.DamageValues[i] != 0)
             {
-                _ = dialog._units.Add((byte)i);
+                _ = dialog._units.Add(i.TruncateToByte());
                 int image = log.ArmyView.Units.GetUnit(i).UnitGraphicsResourceIndex;
                 if (image != -1)
                 {

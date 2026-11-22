@@ -286,7 +286,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         DelphiStringCollection description = structure.Description;
         dialog.SingleButtonMemo.Items.Assign(description);
         _ = dialog.SingleButtonMemo.Items.Add("");
-        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.IncomeFormat), arguments: [((int)structure.Income).ToString(CultureInfo.InvariantCulture)]);
+        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.IncomeFormat), arguments: [structure.Income.ToString(CultureInfo.InvariantCulture)]);
         _ = dialog.SingleButtonMemo.Items.Add(format);
         dialog.RazePanel.Visible = true;
     }
@@ -462,8 +462,8 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         string raceNames = dialog.UI.Engine.TranslateResourceString(GameTables.RaceNames[dialog.UI.General.City.Race]);
         string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.RaceFormat), arguments: [raceNames]);
         dialog.CityRaceLabel.Text = format;
-        dialog.CityLevelLabel.Text = ((int)structure.UpgradeLevel).ToString(CultureInfo.InvariantCulture);
-        dialog.CityIncomeLabel.Text = ((int)structure.Income).ToString(CultureInfo.InvariantCulture);
+        dialog.CityLevelLabel.Text = structure.UpgradeLevel.ToString(CultureInfo.InvariantCulture);
+        dialog.CityIncomeLabel.Text = structure.Income.ToString(CultureInfo.InvariantCulture);
         City.CivilStatus civilStatus = structure.GetCivilStatus();
         string civilStatusText = dialog.UI.Engine.TranslateResourceString(CityScreen.CivilStatusTexts[(int)civilStatus]);
         string formattedText = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.StatusFormat), arguments: [civilStatusText]);

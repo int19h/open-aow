@@ -4,6 +4,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Hexes;
 
@@ -17,7 +18,7 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
     // Road.pas:47
     public new const int ClassId = 131_428;
 
-    protected internal byte Transitions { get; private set; }
+    protected internal int Transitions { get; private set; }
 
     // Road.pas:52
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -71,8 +72,8 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
         // Road.pas:141
         public void Show(int pixelX, int pixelY, in LockedSurface lockedSurface, Road road)
         {
-            byte transitions = road.Transitions;
-            byte baseValue = 1;
+            int transitions = road.Transitions;
+            int baseValue = 1;
             if (transitions != 0)
             {
                 if ((transitions & 0b0100_0000) == 0)
@@ -138,7 +139,7 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
         int hexX = default;
         int hexY = default;
         MapFieldMessage message = default;
-        byte oldTransitions = Transitions;
+        int oldTransitions = Transitions;
         MapLevel level = Owner.Owner;
         Transitions = 0;
         message.MessageId = 4401;
@@ -169,19 +170,19 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
 
                 if (hasRoad)
                 {
-                    Transitions = (byte)(Transitions + (1 << (hexNumber - 1)));
+                    Transitions = (Transitions + (1 << (hexNumber - 1))).TruncateToByte();
                 }
             }
         }
 
         if ((Transitions & 0b0010_0010) == 0b0010_0010)
         {
-            Transitions = (byte)((Transitions & 0b1101_1101) + 128);
+            Transitions = ((Transitions & 0b1101_1101) + 128).TruncateToByte();
         }
 
         if ((Transitions & 0b0001_0100) == 0b0001_0100)
         {
-            Transitions = (byte)((Transitions & 0b1110_1011) + 64);
+            Transitions = ((Transitions & 0b1110_1011) + 64).TruncateToByte();
         }
 
         if (oldTransitions != Transitions)

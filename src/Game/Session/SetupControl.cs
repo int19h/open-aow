@@ -1473,7 +1473,7 @@ public sealed class SetupControl : Component
             Settings.MapCrc = fileCrc;
             Settings.SetCrc = GamePack.Current.HssCrc;
             Settings.RandomSeed = RandSeed;
-            Settings.VictoryCondition = (byte)(int)preview.VictoryCondition;
+            Settings.VictoryCondition = ((int)preview.VictoryCondition).TruncateToByte();
             if (preview.Day != 0)
             {
                 Settings.LeadersOnMap = preview.FixedLeaders;
@@ -1574,7 +1574,7 @@ public sealed class SetupControl : Component
         Reset();
         _phase = SetupPhase.SetupPlayers;
         Settings.HostRemoteId = remoteId;
-        Settings.ConnectionType = (byte)mode;
+        Settings.ConnectionType = mode.TruncateToByte();
         Settings.PlayMode = mode switch
         {
             2 => 1,

@@ -39,7 +39,7 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
 
     public int PositionCount { get; set; }
     public int HeldUpdateCount { get; protected set; }
-    public byte HeldPart { get; protected set; }
+    public int HeldPart { get; protected set; }
 
     public int TrackClickTarget { get; protected set; }
 

@@ -5,6 +5,7 @@ using Aow.Game.Draw;
 
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.World;
 
@@ -17,7 +18,7 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
     // Bridge.pas:48
     public new const int ClassId = 131_444;
 
-    private ushort _transitions;
+    private int _transitions;
 
     // Bridge.pas:53
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -203,7 +204,7 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
             }
         }
 
-        _transitions = (ushort)transitions;
+        _transitions = transitions.TruncateToUInt16();
     }
 
     public new class Resource : AbstractRoadResource

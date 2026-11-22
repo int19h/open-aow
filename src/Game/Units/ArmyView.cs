@@ -29,7 +29,7 @@ public sealed class ArmyView(CustomNode owner) : Army(owner)
     {
         base.PersistFields(persister);
         persister.UInt16Array(name: "UnitConcealment", values: UnitConcealment);
-        ConcealedForPlayers = persister.UInt16("ConcealedForPlayers", ConcealedForPlayers);
+        ConcealedForPlayers = (ushort)persister.UInt16("ConcealedForPlayers", ConcealedForPlayers);
         persister.Int32Array(name: "MoraleValues", values: MoraleValues);
     }
 
@@ -59,7 +59,7 @@ public sealed class ArmyView(CustomNode owner) : Army(owner)
     public override bool GetConcealedForPlayer(sbyte player) => ((ConcealedForPlayers >>> (player - 1)) & 1) != 0;
 
     // Army.PAS:100
-    public void Setup(Army army, byte selection)
+    public void Setup(Army army, int selection)
     {
         AssignSettings(army);
         Location = new MapCoordinate(army.Location.X, army.Location.Y, army.Location.MapLevel);
@@ -79,7 +79,7 @@ public sealed class ArmyView(CustomNode owner) : Army(owner)
                 }
             }
 
-            selection = (byte)(selection >>> 1);
+            selection >>>= 1;
         }
     }
 

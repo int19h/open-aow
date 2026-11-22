@@ -196,7 +196,7 @@ public partial class GameMap : OwningNode
             engine.InitializeHexSpriteSet(engine.StartupDirectory + _hssFileName, progress: persister.Progress());
         }
 
-        Version = persister.UnsignedByte(name: "Version", value: (sbyte)Version);
+        Version = persister.UnsignedByte(name: "Version", value: Version.TruncateToSByte());
         ViewPixelX = persister.Int32("ViewPixelX", value: ViewPixelX);
         ViewPixelY = persister.Int32("ViewPixelY", value: ViewPixelY);
         ViewMapLevel = persister.Int32("ViewMapLevel", value: ViewMapLevel);
@@ -577,8 +577,8 @@ public partial class GameMap : OwningNode
                     {
                         int item = newList[walk.HexNumber * 2];
                         mapLevel.GetField(walk.X, walk.Y).TerrainType = (sbyte)item;
-                        sbyte newListItem = newList[(walk.HexNumber * 2) + 1];
-                        mapLevel.GetField(walk.X, walk.Y).OverlayType = newListItem;
+                        int newListItem = newList[(walk.HexNumber * 2) + 1];
+                        mapLevel.GetField(walk.X, walk.Y).OverlayType = (sbyte)newListItem;
                         mapLevel.GetField(walk.X, walk.Y).TerrainChanged();
                         count += 1;
                     }
@@ -1123,8 +1123,8 @@ public partial class GameMap : OwningNode
 
     private readonly CustomFixedVisibleHexSprite _backHexSelector;
     private readonly CustomFixedVisibleHexSprite _frontHexSelector;
-    private sbyte _selectorX;
-    private sbyte _selectorY;
+    private int _selectorX;
+    private int _selectorY;
     private bool _hexSelectorVisible;
 
     // AoWHSMap.PAS:759
@@ -1156,8 +1156,8 @@ public partial class GameMap : OwningNode
     {
         if (_hexSelectorVisible)
         {
-            _selectorX = (sbyte)Mouse.HexX;
-            _selectorY = (sbyte)Mouse.HexY;
+            _selectorX = Mouse.HexX.TruncateToSByte();
+            _selectorY = Mouse.HexY.TruncateToSByte();
             if (_selectorX != -1 && _selectorY != -1)
             {
                 HexGeometry.HexToPixel(_selectorX, _selectorY, out int pixelX, out int pixelY);

@@ -342,7 +342,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     public void HitUpClick()
     {
         UI.General.PlayButtonSound(0);
-        _editedHero.SetUnitHits((sbyte)(_editedHero.UnitHits + 1));
+        _editedHero.SetUnitHits((_editedHero.UnitHits + 1).TruncateToSByte());
         RefreshStatistics();
     }
 
@@ -352,7 +352,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         if (_editedHero.UnitHits != _hero.UnitHits)
         {
-            _editedHero.SetUnitHits((sbyte)(_editedHero.UnitHits - 1));
+            _editedHero.SetUnitHits((_editedHero.UnitHits - 1).TruncateToSByte());
         }
 
         RefreshStatistics();
@@ -536,7 +536,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWHeroUpgradeDlg.pas:568
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {

@@ -18,7 +18,7 @@ public class Enchantment(CustomNode owner) : EngineObject(owner)
 {
 
     public int EnchantmentId { get; set; }
-    public sbyte Source { get; set; } = -1;
+    public int Source { get; set; } = -1;
     public int Upkeep { get; set; } = 1;
     public int DispelResistance { get; set; } = 10;
 

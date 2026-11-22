@@ -29,7 +29,7 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
     }
 
     // ILTer.pas:131
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, defaultValue: (sbyte)TerrainType) == info.MapField.TerrainType;
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, defaultValue: TerrainType.TruncateToSByte()) == info.MapField.TerrainType;
 
     // ILTer.pas:152
     public override void ChangeTerrain(in HexSpriteTerrainInfo info)

@@ -233,7 +233,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         DefenseAddedLabel.Text = Leader.UnitDefense.ToString(CultureInfo.InvariantCulture);
         DamageAddedLabel.Text = Leader.UnitDamage.ToString(CultureInfo.InvariantCulture);
         ResistanceAddedLabel.Text = Leader.UnitResistance.ToString(CultureInfo.InvariantCulture);
-        HitsAddedLabel.Text = ((int)Leader.UnitHits).ToString(CultureInfo.InvariantCulture);
+        HitsAddedLabel.Text = Leader.UnitHits.ToString(CultureInfo.InvariantCulture);
         MovesAddedLabel.Text = Leader.UnitMoves.ToString(CultureInfo.InvariantCulture);
         int inherentAttack = Leader.GetInherentAttack();
         AttackValueLabel.Text = inherentAttack.ToString(CultureInfo.InvariantCulture);
@@ -512,7 +512,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
 
         int sphereCount = Leader.SphereCount;
         string selectedSpheres = UI.Engine.TranslateResourceString(s_selectedSpheresText);
-        SelectedSpheresLabel.Text = $"{selectedSpheres} ({sphereCount.ToString(CultureInfo.InvariantCulture)}/{((int)Leader.SpherePicksMax).ToString(CultureInfo.InvariantCulture)})";
+        SelectedSpheresLabel.Text = $"{selectedSpheres} ({sphereCount.ToString(CultureInfo.InvariantCulture)}/{Leader.SpherePicksMax.ToString(CultureInfo.InvariantCulture)})";
         if (Leader.CanAddSphere(MagicSphere.Life))
         {
             SelectLifeButton.ImageLibraryIndexUp = 27;
@@ -885,7 +885,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void HitUpClick()
     {
         UI.General.PlayButtonSound(0);
-        Leader.SetUnitHits((sbyte)(Leader.UnitHits + 1));
+        Leader.SetUnitHits((Leader.UnitHits + 1).TruncateToSByte());
         UpdateStatistics();
     }
 
@@ -893,7 +893,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void HitDnClick()
     {
         UI.General.PlayButtonSound(0);
-        Leader.SetUnitHits((sbyte)(Leader.UnitHits - 1));
+        Leader.SetUnitHits((Leader.UnitHits - 1).TruncateToSByte());
         UpdateStatistics();
     }
 

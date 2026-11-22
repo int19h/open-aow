@@ -60,7 +60,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 if (i < aiMoveExecutorArmyList.Count)
                 {
                     MoveControlSettings settings = new(null) { Holder = CreationHolder() };
-                    byte armySelection = default;
+                    int armySelection = default;
                     ArmyHexSprite? armyHexSprite = default;
                     try
                     {

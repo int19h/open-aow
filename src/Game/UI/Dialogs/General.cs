@@ -633,7 +633,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
     public void ManagerDebugMessage(string text) => UI.DebugWindow.AddMessage(text);
 
     // AoWWinMan.pas:351
-    public void ManagerKeyDown(in ushort key, ShiftStates shift)
+    public void ManagerKeyDown(in int key, ShiftStates shift)
     {
         if (UI.Engine.Debug)
         {

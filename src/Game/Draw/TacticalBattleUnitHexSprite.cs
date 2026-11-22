@@ -610,10 +610,10 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
                         if (Unit.Troop.Moves == Unit.MovePoints)
                         {
                             CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = GamePack.Current.AbilityControl[abilityId].GetCombatMode(Unit.Troop) == CombatMode.ShortRange
-                                ? (ushort)4
+                                ? 4
 : GamePack.Current.AbilityControl[abilityId].GetCombatMode(Unit.Troop) == CombatMode.MediumRange
-                                    ? (ushort)8
-                                    : (ushort)12;
+                                    ? 8
+                                    : 12;
 
                             CombatMap.Current.UnitSelection.RangedPathHexSprite.Selection = CombatMap.Current.UnitSelection;
                             _ = CombatMap.Current.DynamicFixedVisibleHexSprite.AddChild(CombatMap.Current.UnitSelection.RangedPathHexSprite);
@@ -651,7 +651,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
         GamePack.Current.SpellControl[SelectedSpell].GetCombatInfo(Unit.Troop, ref info);
         if (info.Range != 0)
         {
-            CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = info.Range == -1 ? (ushort)100 : (ushort)info.Range;
+            CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = info.Range == -1 ? 100 : info.Range.TruncateToUInt16();
 
             CombatMap.Current.UnitSelection.RangedPathHexSprite.Selection = CombatMap.Current.UnitSelection;
             _ = CombatMap.Current.DynamicFixedVisibleHexSprite.AddChild(CombatMap.Current.UnitSelection.RangedPathHexSprite);

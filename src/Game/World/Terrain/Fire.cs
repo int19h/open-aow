@@ -46,7 +46,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         base.PersistFields(persister);
         TurnsLeft = persister.UnsignedByte(name: "TurnsLeft", value: TurnsLeft.TruncateToSByte());
         _mode = persister.Set("Mode", value: _mode);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         Age = persister.Byte("Age", value: Age.TruncateToByte());
     }
 
@@ -212,7 +212,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Structur.PAS:3441
-    public override int GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, int hexX, int hexY, sbyte defaultValue)
+    public override int GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, int hexX, int hexY, int defaultValue)
     {
         Span<byte> counts = stackalloc byte[128];
         int result = defaultValue;

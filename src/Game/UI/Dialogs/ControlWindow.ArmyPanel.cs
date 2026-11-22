@@ -4,6 +4,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -78,7 +79,7 @@ public sealed partial class ControlWindow
                 continue;
             }
 
-            byte selection = (byte)(1 << index);
+            int selection = (1 << index).TruncateToByte();
             icons[i].CurrentImage = UI.General.MoveTypesToInt32(army.MoveTypes(selection));
             Troop? troop = army.Units.GetUnit(index);
             gauges[i].Max = troop.GetHits();

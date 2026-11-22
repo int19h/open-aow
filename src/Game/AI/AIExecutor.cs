@@ -8,6 +8,7 @@ using Aow.Game.Draw;
 using Aow.Game.Session;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.LegacyApplication;
@@ -93,7 +94,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     {
         if (_players.IndexOf((byte)player) == -1)
         {
-            _ = _players.Add((byte)player);
+            _ = _players.Add(player.TruncateToByte());
             Status |= AIExecutorStatuses.Enabled;
             StrategicMap.Current.Players.GetPlayers(player).AIControl.Activate(this);
             if (Player == -1)
@@ -114,7 +115,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     {
         if (_players.IndexOf((byte)player) != -1)
         {
-            _ = _players.Remove((byte)player);
+            _ = _players.Remove(player.TruncateToByte());
             StrategicMap.Current.Players.GetPlayers(player).AIControl.Deactivate();
             if (_players.Count == 0)
             {

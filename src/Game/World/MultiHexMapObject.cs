@@ -254,7 +254,7 @@ public class MultiHexMapObject(CustomNode? owner) : MapObject(owner)
 
     // MAPOBJ.PAS:1146
     // { The terrain type that most of the fields under the object have (the counts of Default win ties) }
-    public virtual int GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, int hexX, int hexY, sbyte defaultValue)
+    public virtual int GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, int hexX, int hexY, int defaultValue)
     {
         Span<byte> counts = stackalloc byte[128];
         int result = defaultValue;

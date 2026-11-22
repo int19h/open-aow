@@ -23,7 +23,7 @@ public partial class MapField
         Capacity = capacity;
     }
 
-    public byte GetHexNumber(int index) => index >= StoredCount ? throw new IndexOutOfRangeException("Index out of bounds") : _directions[index];
+    public int GetHexNumber(int index) => index >= StoredCount ? throw new IndexOutOfRangeException("Index out of bounds") : _directions[index];
 
     public void SetHexNumber(int index, int value)
     {

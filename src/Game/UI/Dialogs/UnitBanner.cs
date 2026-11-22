@@ -83,7 +83,7 @@ public sealed partial class UnitBanner(UIContext ui) : UIModule(ui)
     }
 
     // AoWUnitBanner.pas:90
-    public void BannerPopupMouseDown(int sender, byte button, int shift, int X, int Y)
+    public void BannerPopupMouseDown(int sender, int button, int shift, int X, int Y)
     {
         if (button == 1)
         {

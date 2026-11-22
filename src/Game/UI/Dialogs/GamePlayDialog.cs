@@ -84,7 +84,7 @@ public sealed partial class GamePlayDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWGamePlayDlg.pas:95
-    public void WindowKeyDown(in ushort key, ShiftStates shift)
+    public void WindowKeyDown(in int key, ShiftStates shift)
     {
         switch (key)
         {

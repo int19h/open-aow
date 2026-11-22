@@ -19,7 +19,7 @@ public partial class GameMap
             if (InRange())
             {
                 MapField field = mapLevel.GetField(walk.X, walk.Y);
-                saved.SetTandO(walk.HexNumber, value: (ushort)((byte)field.TerrainType | ((byte)field.OverlayType << 8)));
+                saved.SetTandO(walk.HexNumber, value: (byte)field.TerrainType | ((byte)field.OverlayType << 8));
                 int value = terrain.GetTerrain(walk.HexNumber);
                 if (value >= 0)
                 {

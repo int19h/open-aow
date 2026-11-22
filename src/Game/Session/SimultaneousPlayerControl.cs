@@ -127,7 +127,7 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
 
         StrategicMap.Current.Players.Update();
         StrategicMap.Current.CurrentPlayer = 0;
-        byte item = StrategicMap.Current.Players.LocalHumanPlayers[0];
+        int item = StrategicMap.Current.Players.LocalHumanPlayers[0];
         StrategicMap.Current.SetSeatedPlayer((sbyte)item);
         StrategicMap.Current.NotifySeatedPlayerChanged();
         Assert(StrategicMap.Current.SeatedPlayer != 0, message: "", file: "PlayerC.PAS", line: 1584);
@@ -159,7 +159,7 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
     // PlayerC.PAS:1639
     public override void StartLoadedMap()
     {
-        byte item = StrategicMap.Current.Players.LocalHumanPlayers[0];
+        int item = StrategicMap.Current.Players.LocalHumanPlayers[0];
         if (!IsEmpty(StrategicMap.Current.Players.GetPlayers(item).Settings))
         {
             byte fLocalHumanPlayersItem = StrategicMap.Current.Players.LocalHumanPlayers[0];
@@ -261,7 +261,7 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
     public void ContinueLoadedMap()
     {
         StrategicMap.Current.ShowIndependentMoves = false;
-        byte item = StrategicMap.Current.Players.LocalHumanPlayers[0];
+        int item = StrategicMap.Current.Players.LocalHumanPlayers[0];
         StrategicMap.Current.SetSeatedPlayer((sbyte)item);
         StrategicMap.Current.NotifySeatedPlayerChanged();
         StrategicMap.Current.ResetSeatedPlayerView();

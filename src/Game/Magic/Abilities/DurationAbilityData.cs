@@ -21,7 +21,7 @@ public class DurationAbilityData(CustomNode owner) : AbilityData(owner)
     {
         base.PersistFields(persister);
         Duration = persister.Byte("Duration", value: Duration.TruncateToByte());
-        AbilityId = persister.UInt16("AbilityId", value: AbilityId);
+        AbilityId = (ushort)persister.UInt16("AbilityId", value: AbilityId);
         PlayerIndex = persister.Byte("PlayerIndex", value: PlayerIndex);
         Source = persister.Int32("Source", value: Source);
     }

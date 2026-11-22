@@ -106,7 +106,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
     }
 
     // Ability.PAS:1754
-    public override void SetAbilitySet(int index, byte value) => base.SetAbilitySet(index, value);
+    public override void SetAbilitySet(int index, int value) => base.SetAbilitySet(index, value);
 
     // Ability.PAS:2004
     public override void ListAbilities(DelphiStringCollection text, AbilitySelectionTypes types)
@@ -235,7 +235,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
         {
             if (source.GetAbilitySetAt(i) != GetAbilitySetAt(i))
             {
-                SetAbilitySet(i, value: (byte)(source.GetAbilitySetAt(i) ? 1 : 0));
+                SetAbilitySet(i, value: source.GetAbilitySetAt(i) ? 1 : 0);
             }
         }
 

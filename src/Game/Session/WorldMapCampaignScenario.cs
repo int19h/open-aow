@@ -5,6 +5,7 @@ using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.UI.Dialogs;
+using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
@@ -25,7 +26,7 @@ public sealed class WorldMapCampaignScenario : CampaignScenario
     public WMCampaignScenarioPageList IntroPages { get; }
     public WMCampaignScenarioPageList OutroPages { get; }
 
-    public byte MapKind { get; private set; }
+    public int MapKind { get; private set; }
 
     // AoWVideoDlg.pas:295
     public override void Dispose()
@@ -55,7 +56,7 @@ public sealed class WorldMapCampaignScenario : CampaignScenario
         persister.Object("IntroPages", objectValue: IntroPages);
         persister.Object("OutroPages", objectValue: OutroPages);
         persister.Int32List(name: "Paths", list: Paths);
-        MapKind = persister.RawByte("MapKind", value: MapKind);
+        MapKind = persister.RawByte("MapKind", value: MapKind.TruncateToByte());
     }
 
     // AoWVideoDlg.pas:278

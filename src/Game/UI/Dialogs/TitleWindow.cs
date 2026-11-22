@@ -98,7 +98,7 @@ public sealed partial class TitleWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWTitleWindow.pas:121
-    public void SplashPnlKeyDown(in ushort key, ShiftStates shift)
+    public void SplashPnlKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {

@@ -14,9 +14,9 @@ public partial class UnitSpellCaster : SpellCaster
     public UnitSpellCaster(CustomNode? owner) : base(owner) => TargetUnits = new UnitUserList(null) { Holder = CreationHolder() };
 
     public UnitUserList TargetUnits { get; }
-    public byte SelectionMask { get; private set; }
+    public int SelectionMask { get; private set; }
     public bool AllowMultipleTargets { get; set; }
-    public byte ValidSelection { get; set; }
+    public int ValidSelection { get; set; }
 
     // Spells.PAS:864
     public override void Dispose()
@@ -140,9 +140,9 @@ public partial class UnitSpellCaster : SpellCaster
     }
 
     // intf_P4_02.inc:1038
-    public void SetSelection(byte selection)
+    public void SetSelection(int selection)
     {
-        byte value = selection;
+        int value = selection;
         Troop? source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
         value = GamePack.Current.SpellControl.GetSpell<UnitSpell>(CasterSpellId).ValidateUnitSelection(source, targets: TargetUnits, selection: value);
         SelectionMask = value;

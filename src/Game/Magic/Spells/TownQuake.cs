@@ -14,6 +14,7 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -107,7 +108,7 @@ public class TownQuake : CityTargetSpell
                     damaged = true;
                 }
 
-                _ = log.DamageValues.Add((byte)damage);
+                _ = log.DamageValues.Add(damage.TruncateToByte());
                 _ = log.DamageTypes.Add(7);
             }
 

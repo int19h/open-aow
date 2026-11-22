@@ -48,7 +48,7 @@ public class AIGroupControl : EngineObject
 
     public ArmyHexSprite ArmyHexSprite { get; private set; }
 
-    public byte Selection { get; private set; }
+    public int Selection { get; private set; }
 
     public AIGroupControlTargetList Targets { get; }
 
@@ -135,8 +135,8 @@ public class AIGroupControl : EngineObject
             {
                 ArmyHexSprite = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).GetArmyHexSprite();
                 _ = Army;
-                _ = Selection;
-                _ = RetrieveGroupArmy(Location.X, Location.Y, L: Location.MapLevel, out Army army, out byte selection);
+                _ = (byte)Selection;
+                _ = RetrieveGroupArmy(Location.X, Location.Y, L: Location.MapLevel, out Army army, out int selection);
                 Army = army;
                 Selection = selection;
                 UpdateGroupChanges();
@@ -192,7 +192,7 @@ public class AIGroupControl : EngineObject
                     MapCoordinate coordinate99 = Group.Units.GetUnit(i).GetLocation();
                     int unitX = coordinate99.X;
                     int unitY = coordinate99.Y;
-                    sbyte unitL = coordinate99.MapLevel;
+                    int unitL = coordinate99.MapLevel;
                     if (x == unitX && y == unitY && l == unitL)
                     {
                         _ = group.AddUnit(Group.Units.GetUnit(i));
@@ -350,7 +350,7 @@ public class AIGroupControl : EngineObject
     }
 
     // AIGroup.pas:1040
-    public bool RetrieveGroupArmy(int X, int Y, int L, out Army? army, out byte selection)
+    public bool RetrieveGroupArmy(int X, int Y, int L, out Army? army, out int selection)
     {
         ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
         if (armyHexSprite is not null)

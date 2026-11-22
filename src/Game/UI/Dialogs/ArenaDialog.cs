@@ -110,11 +110,11 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
     {
         if (sender.Checked)
         {
-            _event.SetSelection((byte)(_event.Selection | (1 << slot)));
+            _event.SetSelection((_event.Selection | (1 << slot)).TruncateToByte());
         }
         else
         {
-            _event.SetSelection((byte)(_event.Selection & ~(1 << slot)));
+            _event.SetSelection(_event.Selection & ~(1 << slot));
         }
 
         Unit1CheckBox.Checked = (_event.Selection & 1) != 0;
@@ -195,7 +195,7 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWArenaDlg.pas:232
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {

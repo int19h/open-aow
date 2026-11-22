@@ -40,7 +40,7 @@ public sealed class ProductionSettings(CustomNode? owner) : EngineObject(owner)
         Mana = persister.Int32("Mana", value: Mana);
         TurnsLeft = persister.UnsignedByte(name: "TurnsLeft", value: TurnsLeft.TruncateToSByte());
         TurnsTotal = persister.UnsignedByte(name: "TurnsTotal", value: TurnsTotal.TruncateToSByte());
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         GroupId = persister.Int32("GroupId", value: GroupId);
         UnitProductionIndex = persister.Int32("UnitProductionIndex", value: UnitProductionIndex);
         Unit = persister.Created("Unit", objectValue: Unit);

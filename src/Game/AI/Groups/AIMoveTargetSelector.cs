@@ -97,7 +97,7 @@ public sealed class AIMoveTargetSelector : EngineObject
     }
 
     // AIGroup.pas:6421
-    public bool SetupArmy(ArmyHexSprite army, byte selection)
+    public bool SetupArmy(ArmyHexSprite army, int selection)
     {
         Reset();
         MapCoordinate mapCoordinate = army.MapCoordinate;

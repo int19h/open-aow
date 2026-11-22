@@ -19,7 +19,7 @@ public class CombatPlayer(CustomNode owner) : EngineObject(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         IndependentRelation = persister.Byte("IndependentRelation", value: IndependentRelation.TruncateToByte());
         SideIndex = persister.RawByte("SideIndex", value: SideIndex.TruncateToByte());
     }

@@ -89,7 +89,7 @@ public class CombatImageLibraryTerrain(CustomNode? owner) : ImageLibraryTerrainM
     public int GetDefense() => GetResource<CombatImageLibraryTerrainResource>().Defense;
 
     // CombatILTer.pas:90
-    public sbyte BurnValue => GetResource<CombatImageLibraryTerrainResource>().BurnValue;
+    public int BurnValue => GetResource<CombatImageLibraryTerrainResource>().BurnValue;
 
     // CombatILTer.pas:118
     public void DestroyShadow()

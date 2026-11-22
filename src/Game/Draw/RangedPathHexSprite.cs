@@ -22,7 +22,7 @@ public sealed class RangedPathHexSprite(CustomNode? owner) : FixedVisibleHexSpri
     private int _frameCount;
 
     public CombatUnitSelectionControl? Selection { get; set; }
-    public ushort Range { get; set; }
+    public int Range { get; set; }
 
     // AoWTC.pas:4849
     public override int GetShowPriority() => 1_811_939_328;

@@ -155,7 +155,7 @@ public abstract record DiplomaticProposal
     }
 
     // Announces the action to every player who knows both sides but Exclude, and shows it to Viewer.
-    protected static void Broadcast(DiplomaticAction action, sbyte exclude, sbyte viewer)
+    protected static void Broadcast(DiplomaticAction action, int exclude, sbyte viewer)
     {
         DiplomaticActionEventLog log = action.CreateEventLog();
         BroadcastDiplomaticEvent(log, exclude);
@@ -215,7 +215,7 @@ public abstract record DiplomaticProposal
     internal static string AcceptedFormat { get; } = "%s accepted";
     internal static string IgnoredFormat { get; } = "%s ignored";
 
-    private static void BroadcastDiplomaticEvent(DiplomaticActionEventLog log, sbyte exclude)
+    private static void BroadcastDiplomaticEvent(DiplomaticActionEventLog log, int exclude)
     {
         int i = 0;
         for (int number = StrategicMap.Current.Players.Count - 1; i <= number; i++)

@@ -523,7 +523,7 @@ internal static class Verification
             Shift = shift;
         }
 
-        public void KeyUp(ushort key, ShiftStates shift) => ReleasedKey = key;
+        public void KeyUp(int key, ShiftStates shift) => ReleasedKey = (ushort)key;
         public void KeyPress(byte value) => Characters.Add(value);
 
         public void MouseMove(ShiftStates shift, int x, int y)

@@ -146,7 +146,7 @@ public sealed class AIMoveExecutor : EngineObject
     }
 
     // AIGroup.pas:6053
-    public void AddArmy(ArmyHexSprite army, byte selection)
+    public void AddArmy(ArmyHexSprite army, int selection)
     {
         for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
         {
@@ -155,7 +155,7 @@ public sealed class AIMoveExecutor : EngineObject
                 _ = AddUnit(army.Army.Units.GetUnit(i));
             }
 
-            selection = (byte)(selection >>> 1);
+            selection >>>= 1;
         }
     }
 
@@ -183,7 +183,7 @@ public sealed class AIMoveExecutor : EngineObject
     }
 
     // AIGroup.pas:6077
-    public void InvalidateMove(ArmyHexSprite? army, byte selection)
+    public void InvalidateMove(ArmyHexSprite? army, int selection)
     {
         Status = AIMoveExecutorStatus.Invalidated;
         UpdateMoveResult();
@@ -331,7 +331,7 @@ public sealed class AIMoveExecutor : EngineObject
     {
         if (Moves.Count != 0)
         {
-            byte selection;
+            int selection;
             ArmyHexSprite army;
             if (Moves.Count > 1 && Mode.Contains(AIMoveExecutorModes.Simultaneous))
             {

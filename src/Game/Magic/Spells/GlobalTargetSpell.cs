@@ -102,8 +102,8 @@ public class GlobalTargetSpell : Spell
         MapCoordinate coordinate69 = source.GetLocation();
         int unitX = coordinate69.X;
         int unitY = coordinate69.Y;
-        sbyte unitLayer = coordinate69.MapLevel;
-        targetSelection.SourceLocation = new MapCoordinate((sbyte)unitX, (sbyte)unitY, unitLayer);
+        int unitLayer = coordinate69.MapLevel;
+        targetSelection.SourceLocation = new MapCoordinate((sbyte)unitX, (sbyte)unitY, (sbyte)unitLayer);
         targetSelection.Range = 12;
         targetSelection.Changed += OnTargetSelectionChange;
         targetSelection.SetShowHandler(ShowTargetSelection);

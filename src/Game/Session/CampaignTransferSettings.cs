@@ -536,7 +536,7 @@ public sealed class CampaignTransferSettings : EngineObject
             {
                 leader.Deactivate();
                 leader.Assign(Leader, engine: GetEngine());
-                leader.SetSpherePicksMax((byte)(leader.SphereCount + SelectedSpheres.Count));
+                leader.SetSpherePicksMax((leader.SphereCount + SelectedSpheres.Count).TruncateToByte());
                 for (int i = 0, last = SelectedSpheres.Count - 1; i <= last; i++)
                 {
                     _ = leader.AddSphere((MagicSphere)SelectedSpheres[i]);

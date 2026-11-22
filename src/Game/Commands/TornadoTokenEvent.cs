@@ -73,7 +73,7 @@ public class TornadoTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(
             MapField mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
             if (ArmyId is not null && !mapField.GetMagicShieldActive())
             {
-                byte selection = default;
+                int selection = default;
                 ArmyHexSprite? army = default;
                 _ = ArmyId.RetrieveArmy(ref army, ref selection);
                 bool exposed = !((byte)mapField.OverlayType == 1 || mapField.FindNoneTransparentHexSprite(typeof(Structure)) is not null);
@@ -98,14 +98,14 @@ public class TornadoTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(
 
                         if (chance < StrategicMap.Current.Random(100))
                         {
-                            selection = (byte)(selection & ~(1 << i));
+                            selection &= ~(1 << i);
                         }
                     }
                 }
 
                 if (army.Army.Transporter(255) is not null)
                 {
-                    selection = army.Army.Transporter(selection) is not null ? (byte)255 : (byte)0;
+                    selection = army.Army.Transporter(selection) is not null ? 255 : 0;
                 }
 
                 if (selection != 0)

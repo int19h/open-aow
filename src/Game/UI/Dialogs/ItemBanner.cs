@@ -137,7 +137,7 @@ public sealed partial class ItemBanner(UIContext ui) : UIModule(ui)
     }
 
     // AoWItemBanner.pas:140
-    public void IBannerPopupMouseDown(int sender, byte button, int shift, int X, int Y)
+    public void IBannerPopupMouseDown(int sender, int button, int shift, int X, int Y)
     {
         if (button == 1)
         {

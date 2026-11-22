@@ -6,6 +6,7 @@ using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 using static Aow.Rtl.LegacyApplication;
 
@@ -43,7 +44,7 @@ public sealed class AIMoveExecutorMove(CustomNode? owner) : AIMoveExecutorUnitLi
     }
 
     // AIGroup.pas:4460
-    public void AddUnits(AIMoveExecutorUnitList units, byte selection)
+    public void AddUnits(AIMoveExecutorUnitList units, int selection)
     {
         for (int i = 0, last = units.Count - 1; i <= last; i++)
         {
@@ -52,7 +53,7 @@ public sealed class AIMoveExecutorMove(CustomNode? owner) : AIMoveExecutorUnitLi
                 _ = AddChild(units.GetUnits(i));
             }
 
-            selection = (byte)(selection >>> 1);
+            selection >>>= 1;
         }
     }
 
@@ -69,7 +70,7 @@ public sealed class AIMoveExecutorMove(CustomNode? owner) : AIMoveExecutorUnitLi
     }
 
     // AIGroup.pas:4484
-    public bool RetrieveArmy(out ArmyHexSprite? army, out byte selection)
+    public bool RetrieveArmy(out ArmyHexSprite? army, out int selection)
     {
         army = StrategicMap.Current.MapContainer.GetField(Source.X, Source.Y, Source.MapLevel).GetArmyHexSprite();
         if (army is not null)
@@ -79,7 +80,7 @@ public sealed class AIMoveExecutorMove(CustomNode? owner) : AIMoveExecutorUnitLi
             {
                 AIMoveExecutorUnit units = GetUnits(i);
                 int index = army.Army.FindChildIndex(units.Troop);
-                selection = index != -1 ? (byte)(selection | (1 << index)) : throw new KeyNotFoundException("Unit missing!");
+                selection = index != -1 ? (selection | (1 << index)).TruncateToByte() : throw new KeyNotFoundException("Unit missing!");
             }
 
             return true;

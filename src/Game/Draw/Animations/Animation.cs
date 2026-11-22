@@ -25,7 +25,7 @@ public class Animation(CustomNode? owner, ShowAnimationEvent? show = null, Actio
     // The stored hex. GetHexX, GetHexY and GetHexLevel read it, and HexSprite.Location returns that.
     public override MapCoordinate Location { get; set; }
 
-    public byte AnimationLevel { get; set; } = 26;
+    public int AnimationLevel { get; set; } = 26;
 
     private States _state;
 

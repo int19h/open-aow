@@ -19,10 +19,10 @@ public class ByteList : Persistent, IReadOnlyList<byte>
     private int _capacity;
 
     // Engine.pas:3678
-    internal byte Get(int index) => index < 0 || index >= _count ? Default : _list[index];
+    internal int Get(int index) => index < 0 || index >= _count ? Default : _list[index];
 
     // Engine.pas:3732
-    internal void Put(int index, byte item)
+    internal void Put(int index, int item)
     {
         if (index < 0)
         {
@@ -34,7 +34,7 @@ public class ByteList : Persistent, IReadOnlyList<byte>
             SetCount(index + 1);
         }
 
-        _list[index] = item;
+        _list[index] = (byte)item;
     }
 
     // Engine.pas:3752
@@ -111,7 +111,7 @@ public class ByteList : Persistent, IReadOnlyList<byte>
                 v = 0;
             }
 
-            _ = Add((byte)v);
+            _ = Add(v.TruncateToByte());
             p = Pos(",", haystack: S);
         }
     }
@@ -143,7 +143,7 @@ public class ByteList : Persistent, IReadOnlyList<byte>
     }
 
     // Engine.pas:3622
-    public int Add(byte item)
+    public int Add(int item)
     {
         int result = _count;
         if (result == _capacity)
@@ -151,7 +151,7 @@ public class ByteList : Persistent, IReadOnlyList<byte>
             Grow();
         }
 
-        _list[result] = item;
+        _list[result] = (byte)item;
         _count += 1;
         return result;
     }
@@ -206,7 +206,7 @@ public class ByteList : Persistent, IReadOnlyList<byte>
     }
 
     // Engine.pas:3673
-    public byte First() => Get(0);
+    public int First() => Get(0);
 
     // Engine.pas:3696
     public int IndexOf(byte item)
@@ -221,7 +221,7 @@ public class ByteList : Persistent, IReadOnlyList<byte>
     }
 
     // Engine.pas:3703
-    public void Insert(int index, byte item)
+    public void Insert(int index, int item)
     {
         if (index < 0 || index > _count)
         {
@@ -238,12 +238,12 @@ public class ByteList : Persistent, IReadOnlyList<byte>
             Array.Copy(_list, sourceIndex: index, destinationArray: _list, destinationIndex: index + 1, length: (_count - index) * 1);
         }
 
-        _list[index] = item;
+        _list[index] = (byte)item;
         _count += 1;
     }
 
     // Engine.pas:3714
-    public byte Last() => Get(_count - 1);
+    public int Last() => Get(_count - 1);
 
     // Engine.pas:3719
     public void Move(int currentIndex, int newIndex)
@@ -255,16 +255,16 @@ public class ByteList : Persistent, IReadOnlyList<byte>
                 Error("List index out of bounds (%d)", data: newIndex);
             }
 
-            byte item = Get(currentIndex);
+            int item = Get(currentIndex);
             Delete(currentIndex);
             Insert(newIndex, item);
         }
     }
 
     // Engine.pas:3739
-    public int Remove(byte item)
+    public int Remove(int item)
     {
-        int result = IndexOf(item);
+        int result = IndexOf((byte)item);
         if (result != -1)
         {
             Delete(result);
@@ -343,7 +343,7 @@ public class ByteList : Persistent, IReadOnlyList<byte>
     public int Count { get => _count; set => SetCount(value); }
     public byte Default { get; set; }
 
-    public byte this[int index] { get => Get(index); set => Put(index, item: value); }
+    public byte this[int index] { get => (byte)Get(index); set => Put(index, item: value); }
 
     public string ItemString => GetItemString();
     public byte[] List => _list;
@@ -358,15 +358,15 @@ public class ByteList : Persistent, IReadOnlyList<byte>
         {
             number = L;
             int number2 = R;
-            byte item = sortList[L + R >>> 1];
+            int item = sortList[L + R >>> 1];
             while (true)
             {
-                if (sCompare(sortList[number], item) < 0)
+                if (sCompare(sortList[number], (byte)item) < 0)
                 {
                     number++;
                     continue;
                 }
-                while (sCompare(sortList[number2], item) > 0)
+                while (sCompare(sortList[number2], (byte)item) > 0)
                 {
                     number2--;
                 }

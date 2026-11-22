@@ -115,7 +115,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         GroupId = persister.Int32("GroupId", value: GroupId);
         UnitId = persister.Int32("UnitId", value: UnitId, fallback: -1);
         MoraleValue = persister.UnsignedByte(name: "MoraleValue", value: MoraleValue.TruncateToSByte());
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         if (persister.Loading)
         {
             try
@@ -1233,7 +1233,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                     {
                         for (int terrain = 0; terrain <= 15; terrain++)
                         {
-                            sbyte value = table[terrain][overlay - MovementTables.FirstOverlay];
+                            int value = table[terrain][overlay - MovementTables.FirstOverlay];
                             if (value > 2)
                             {
                                 table[terrain][overlay - MovementTables.FirstOverlay] = (sbyte)((value + 1) >>> 1);
@@ -1305,7 +1305,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         // { Original retrieves the movement set twice and retains the first dead store. }
         _ = GetMoveTypes();
         int moveTypesToInt32 = (byte)GetMoveTypes();
-        sbyte cost = MovementTables.MovePointTables[moveTypesToInt32][terrainType][overlayType - MovementTables.FirstOverlay];
+        int cost = MovementTables.MovePointTables[moveTypesToInt32][terrainType][overlayType - MovementTables.FirstOverlay];
         return cost != -1 && cost <= Moves;
     }
 

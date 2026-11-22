@@ -65,7 +65,7 @@ public partial class City : PlayerCropStructure
     public int Race { get; private set; }
     public string Name { get; private set; } = "";
     public int WallType { get; set; }
-    public byte UpgradeLevel { get; private set; }
+    public int UpgradeLevel { get; private set; }
 
     public CityProductionControl Production { get; }
 
@@ -105,7 +105,7 @@ public partial class City : PlayerCropStructure
         Name = persister.String("Name", value: Name);
         Race = persister.UnsignedByte(name: "Race", value: Race.TruncateToSByte());
         WallType = persister.RawByte("WallType", value: WallType.TruncateToByte());
-        UpgradeLevel = persister.Byte("UpgradeLevel", value: UpgradeLevel);
+        UpgradeLevel = persister.Byte("UpgradeLevel", value: UpgradeLevel.TruncateToByte());
         persister.Object("Production", objectValue: Production);
         Mode = persister.Set("Mode", value: Mode);
         _defendersMode = persister.Enum("DefendersMode", value: _defendersMode);
@@ -1034,15 +1034,15 @@ public partial class City : PlayerCropStructure
     {
         if (!GetRazed() && ActiveAction != CityAction.Migrate && !Building)
         {
-            SetIncome((byte)((GetCropCount() * 2) + (Size * 5)));
+            SetIncome(((GetCropCount() * 2) + (Size * 5)).TruncateToByte());
             if (ActiveAction is CityAction.None or CityAction.Trade)
             {
-                SetIncome((byte)(Income + Round(Income * 0.25)));
+                SetIncome((Income + Round(Income * 0.25)).TruncateToByte());
             }
 
             if (Enchantments.Contains(CityEnchantmentIds.GoldRush))
             {
-                SetIncome((byte)(Income * 2));
+                SetIncome((Income * 2).TruncateToByte());
             }
         }
         else
@@ -1203,7 +1203,7 @@ public partial class City : PlayerCropStructure
     // City.pas:955
     public void ListEnhancementsInfo(DelphiStringCollection list)
     {
-        _ = list.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_upgradeLevelFormat), args: [((int)UpgradeLevel).ToString(CultureInfo.InvariantCulture)]));
+        _ = list.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_upgradeLevelFormat), args: [UpgradeLevel.ToString(CultureInfo.InvariantCulture)]));
         if (WallType == 1)
         {
             _ = list.Add(AbilityRules.TranslateResourceString(GetEngine(), S: s_cityWoodenWallText));
@@ -2113,7 +2113,7 @@ public partial class City : PlayerCropStructure
             level = 1;
         }
 
-        UpgradeLevel = (byte)level;
+        UpgradeLevel = level.TruncateToByte();
         if (Race >= 0)
         {
             RaceResource? raceResource = GamePack.Current.RaceResources.GetRaceResource(Race);
@@ -2206,7 +2206,7 @@ public partial class City : PlayerCropStructure
             {
                 i -= 1;
                 Army? army = armies[i].Army;
-                byte selection = army.GetCanJoinSelection(player);
+                int selection = army.GetCanJoinSelection(player);
                 canJoin = selection == army.ValidateSelection(255);
                 if (canJoin)
                 {

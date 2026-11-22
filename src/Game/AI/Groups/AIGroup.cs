@@ -119,7 +119,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             TargetLocation = ReadTargetLocation(target);
         }
         TargetType = persister.Enum("TargetType", value: TargetType);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
         IndependentRelation = persister.RawSByte("IndependentRelation", value: IndependentRelation.TruncateToSByte());
         ProcessPriority = persister.Byte("ProcessPriority", value: ProcessPriority.TruncateToByte());
         RecruitmentPriority = persister.Byte("RecruitmentPriority", value: RecruitmentPriority.TruncateToByte());

@@ -22,7 +22,7 @@ public class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
     {
         base.PersistFields(persister);
         DaysRemaining = persister.SByte("DaysRemaining", value: DaysRemaining.TruncateToSByte());
-        CasterPlayer = persister.SByte("CasterPlayer", value: CasterPlayer);
+        CasterPlayer = (sbyte)persister.SByte("CasterPlayer", value: CasterPlayer);
     }
 
     // Structur.PAS:4518

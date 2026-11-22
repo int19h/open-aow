@@ -31,7 +31,7 @@ public partial class ArmyInfoEventLog : EventLog
 
     public ArmyView ArmyView { get; }
 
-    public byte Selection { get; set; }
+    public int Selection { get; set; }
 
     public DelphiStringCollection Messages { get; }
 
@@ -55,7 +55,7 @@ public partial class ArmyInfoEventLog : EventLog
         base.PersistFields(persister);
         persister.Object("ArmyView", objectValue: ArmyView);
         persister.Lines(name: "Messages", lines: Messages);
-        Selection = persister.RawByte("Selection", value: Selection);
+        Selection = persister.RawByte("Selection", value: Selection.TruncateToByte());
         Title = persister.String("Title", value: Title);
         Text = persister.String("Text", value: Text);
         Description = persister.String("Description", value: Description);

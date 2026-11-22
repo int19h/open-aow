@@ -45,7 +45,7 @@ public sealed class AIMoveExecutorArmy(CustomNode? owner) : AIMoveExecutorUnitLi
     public bool CanAdd(AIMoveExecutorUnit unitEntry) => Location == unitEntry.Location && _destination == unitEntry.Destination && TransportStatus == unitEntry.TransportStatus && (TransportStatus == AIMoveExecutorTransportStatus.Done || (BoardingPoint == unitEntry.BoardingPoint && ArrivalPoint == unitEntry.ArrivalPoint && TransportSource == unitEntry.TransportSource && TransportDestination == unitEntry.TransportDestination));
 
     // AIGroup.pas:4559
-    public void RetrieveArmy(byte selection, out ArmyHexSprite? army, out byte armySelection)
+    public void RetrieveArmy(int selection, out ArmyHexSprite? army, out int armySelection)
     {
         army = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetArmyHexSprite();
         if (army is not null)
@@ -57,10 +57,10 @@ public sealed class AIMoveExecutorArmy(CustomNode? owner) : AIMoveExecutorUnitLi
                 {
                     AIMoveExecutorUnit units = GetUnits(i);
                     int index = army.Army.FindChildIndex(units.Troop);
-                    armySelection = index != -1 ? (byte)(armySelection | (1 << index)) : throw new KeyNotFoundException("Unit missing!");
+                    armySelection = index != -1 ? (armySelection | (1 << index)).TruncateToByte() : throw new KeyNotFoundException("Unit missing!");
                 }
 
-                selection = (byte)(selection >>> 1);
+                selection >>>= 1;
             }
         }
         else
@@ -83,7 +83,7 @@ public sealed class AIMoveExecutorArmy(CustomNode? owner) : AIMoveExecutorUnitLi
     public bool WaitingForTransport() => Location == BoardingPoint;
 
     // AIGroup.pas:4599
-    public int Moves(byte selection)
+    public int Moves(int selection)
     {
         int result = 65_535;
         for (int i = 0, last = Count - 1; i <= last; i++)
@@ -96,14 +96,14 @@ public sealed class AIMoveExecutorArmy(CustomNode? owner) : AIMoveExecutorUnitLi
                 }
             }
 
-            selection = (byte)(selection >>> 1);
+            selection >>>= 1;
         }
 
         return result == 65_535 ? -1 : result;
     }
 
     // AIGroup.pas:4613
-    public int MovePoints(byte selection)
+    public int MovePoints(int selection)
     {
         int result = 65_535;
         for (int i = 0, last = Count - 1; i <= last; i++)
@@ -116,14 +116,14 @@ public sealed class AIMoveExecutorArmy(CustomNode? owner) : AIMoveExecutorUnitLi
                 }
             }
 
-            selection = (byte)(selection >>> 1);
+            selection >>>= 1;
         }
 
         return result == 65_535 ? -1 : result;
     }
 
     // AIGroup.pas:4627
-    public int ValidTerrain(byte selection, int terrainType, int overlayType)
+    public int ValidTerrain(int selection, int terrainType, int overlayType)
     {
         int result = 0;
         bool all = true;

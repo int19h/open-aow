@@ -27,15 +27,15 @@ public sealed partial class CombatPredictorUnit : IDisposable
 
     private CombatPredictorSide _opponents;
 
-    public byte Enabled { get; set; }
-    public byte BehindWall { get; set; }
+    public int Enabled { get; set; }
+    public int BehindWall { get; set; }
     public QuadItemList<CombatPredictorUnit>? Targets { get; set; }
     public int CombatValue { get; private set; }
     public QuadItemList<CombatPredictorUnit>? WallTargets { get; private set; }
     public int WallCombatValue { get; private set; }
 
-    private byte _targetsInvalid;
-    private byte _wallTargetsInvalid;
+    private int _targetsInvalid;
+    private int _wallTargetsInvalid;
 
     public QuadItemList<CombatPredictorUnit> RoundTargets { get; }
     public int CombatValueTotal { get; private set; }
@@ -78,7 +78,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
     }
 
     // CombatPredictor.pas:36
-    public void SetEnabled(byte value)
+    public void SetEnabled(int value)
     {
         if (value != Enabled)
         {
@@ -239,7 +239,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
     }
 
     // CombatPredictor.pas:163
-    public void SetupRoundTargets(byte wallStanding)
+    public void SetupRoundTargets(int wallStanding)
     {
         if (Enabled != 0)
         {

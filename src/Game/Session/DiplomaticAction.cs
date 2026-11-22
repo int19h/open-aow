@@ -62,9 +62,9 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
             _ = message.Add(line);
         }
 
-        Source = persister.UnsignedByte(name: "Source", value: Source);
-        Target = persister.UnsignedByte(name: "Target", value: Target);
-        OtherPlayer = persister.UnsignedByte(name: "OtherPlayer", value: OtherPlayer);
+        Source = (sbyte)persister.UnsignedByte(name: "Source", value: Source);
+        Target = (sbyte)persister.UnsignedByte(name: "Target", value: Target);
+        OtherPlayer = (sbyte)persister.UnsignedByte(name: "OtherPlayer", value: OtherPlayer);
         gold = persister.Int32("Gold", value: gold);
         mana = persister.Int32("Mana", value: mana);
         Span<byte> kindData = [kind];

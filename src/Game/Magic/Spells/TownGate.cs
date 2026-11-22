@@ -35,7 +35,7 @@ public class TownGate : CityTargetSpell
     {
         // TownGate.CreateTokenEvent constructs TownGateTokenEvent.
         TownGateTokenEvent townGateEvent = (TownGateTokenEvent)eventValue;
-        byte selection = default;
+        int selection = default;
         ArmyHexSprite? army = default;
         MapCoordinate coordinate84 = source.GetLocation();
         int x = coordinate84.X;
@@ -138,9 +138,9 @@ public class TownGate : CityTargetSpell
             }
 
             ArmyHexSprite? army = armyOwner.GetArmyHexSprite();
-            byte selection = army.Army.Player == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.SelectedArmy.ArmyHexSprite == army
+            int selection = army.Army.Player == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.SelectedArmy.ArmyHexSprite == army
                 ? StrategicMap.Current.SelectedArmy.Selection
-                : (byte)255;
+                : 255;
 
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);
             bool found = false;
@@ -178,7 +178,7 @@ public class TownGate : CityTargetSpell
     }
 
     // CitySpells.pas:432
-    public bool ValidTeleportLocation(ArmyHexSprite? army, byte selection, int X, int Y, int L)
+    public bool ValidTeleportLocation(ArmyHexSprite? army, int selection, int X, int Y, int L)
     {
         MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
         bool result = field.GetPlayer() == -1 || field.GetPlayer() == army.Army.Player;

@@ -1040,7 +1040,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWRelations.pas:925
-    public void RelWinKeyDown(in ushort key, ShiftStates shift)
+    public void RelWinKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {
@@ -1076,9 +1076,9 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             ProposalView view = proposal.View;
             if (view == ProposalView.Message)
             {
-                sbyte from = proposal.SignedAsOtherPlayer ? dialog._action.OtherPlayer : dialog._action.Source;
-                dialog.HighlightPlayer(from);
-                dialog.ShowPlayerInformation(from);
+                int from = proposal.SignedAsOtherPlayer ? dialog._action.OtherPlayer : dialog._action.Source;
+                dialog.HighlightPlayer((sbyte)from);
+                dialog.ShowPlayerInformation((sbyte)from);
                 dialog.NewActionPanel.Visible = false;
                 dialog.ReceivedMessagePanel.Visible = true;
                 string text = proposal.MessageText;

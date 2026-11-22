@@ -6,5 +6,5 @@ public static class GameHost
 {
     public static IGameHost? MainForm { get; set; }
 
-    public static byte DeferredSetupAction { get; set; }
+    public static int DeferredSetupAction { get; set; }
 }

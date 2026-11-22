@@ -95,7 +95,7 @@ public class ResurrectHero : Spell
                 {
                     ArmyInfoEventLog infoLog = new(null) { Holder = CreationHolder() };
                     int indexOf = army.Army.Units.IndexOf(hero);
-                    infoLog.ArmyView.Setup(army.Army, selection: (byte)(1 << indexOf));
+                    infoLog.ArmyView.Setup(army.Army, selection: (1 << indexOf).TruncateToByte());
                     infoLog.Selection = 255;
                     infoLog.Player = source.Player;
                     string noJoinResurrection = AbilityRules.TranslateResourceString(GetEngine(), S: s_noJoinResurrectionText);

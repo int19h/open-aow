@@ -47,8 +47,8 @@ public static class PersistSupport
         => RecordValues.Transfer(persister, name, TImage.From(value)).ToValue();
 
     /// <summary>A signed byte stored as an unsigned one (Delphi <c>rwByte</c> on a shortint), with its unsigned fallback.</summary>
-    public static sbyte UnsignedByte(this IPersister persister, string name, sbyte value, byte fallback = 0)
-        => unchecked((sbyte)persister.Byte(name, unchecked((byte)value), fallback));
+    public static int UnsignedByte(this IPersister persister, string name, int value, int fallback = 0)
+        => persister.Byte(name, unchecked((byte)value), fallback: fallback.TruncateToByte()).TruncateToSByte();
 
     /// <summary>
     /// A map coordinate stored as X, Y and MapLevel. Byte width is an unsigned byte.
@@ -76,18 +76,18 @@ public static class PersistSupport
                 int level = body.Int32("MapLevel", value.MapLevel);
                 if (body.Loading)
                 {
-                    loaded = new MapCoordinate(InRange(name, component: "X", stored: x), InRange(name, component: "Y", stored: y), InRange(name, component: "MapLevel", stored: level));
+                    loaded = new MapCoordinate((sbyte)InRange(name, component: "X", stored: x), (sbyte)InRange(name, component: "Y", stored: y), (sbyte)InRange(name, component: "MapLevel", stored: level));
                 }
             }
         });
         return persister.Loading ? loaded : value;
     }
 
-    private static sbyte InRange(string name, string component, int stored)
+    private static int InRange(string name, string component, int stored)
     {
         return stored is < -128 or > 127
             ? throw new InvalidOperationException(string.Create(System.Globalization.CultureInfo.InvariantCulture, handler: $"{name}.{component} is {stored}, outside -128 to 127."))
-            : (sbyte)stored;
+            : stored.TruncateToSByte();
     }
 
     public static void Int32Array(this IPersister persister, string name, Span<int> values)
@@ -118,9 +118,9 @@ public static class PersistSupport
     public static void UInt16Array(this IPersister persister, string name, Span<ushort> values)
     {
         List<ushort> list = [with(values.Length)];
-        foreach (ushort value in values)
+        foreach (int value in values)
         {
-            list.Add(value);
+            list.Add((ushort)value);
         }
 
         persister.List(name, items: list, static (slot, item) => slot.UInt16(item));
@@ -183,7 +183,7 @@ public static class PersistSupport
             items.Add(list[i]);
         }
 
-        byte stored = persister.ByteList(name, items, defaultValue: list.Default);
+        int stored = persister.ByteList(name, items, defaultValue: list.Default);
         if (!persister.Loading || !present)
         {
             return;
@@ -192,9 +192,9 @@ public static class PersistSupport
         LoadPayload(() =>
         {
             list.Clear();
-            list.Default = stored;
+            list.Default = (byte)stored;
             list.SetCapacity(items.Count);
-            foreach (byte item in items)
+            foreach (int item in items)
             {
                 _ = list.Add(item);
             }

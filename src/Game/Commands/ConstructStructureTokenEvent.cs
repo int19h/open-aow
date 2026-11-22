@@ -27,7 +27,7 @@ public class ConstructStructureTokenEvent(CustomNode? owner) : TokenEvent(owner)
         base.PersistFields(persister);
         ControlId = persister.Int32("ControlId", value: ControlId);
         UnitId = persister.Int32("UnitId", value: UnitId);
-        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
     }
 
     // Structur.PAS:3106

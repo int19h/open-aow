@@ -106,7 +106,7 @@ public class AIMoveControlSettings : EngineObject
         => SetDestinationPosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // AIGroup.pas:3901
-    public void Setup(ArmyHexSprite? army, byte selection, int X, int Y, int L)
+    public void Setup(ArmyHexSprite? army, int selection, int X, int Y, int L)
     {
         int hexLevel = army.HexLevel;
         int hexY = army.HexY;

@@ -231,7 +231,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     }
 
     // Cave.pas:292
-    public int EnterMovePoints(Army army, byte selection)
+    public int EnterMovePoints(Army army, int selection)
     {
         int l = Entrance == CaveEntrance.Down ? HexLevel + 1 : HexLevel - 1;
         int hexY = HexY;
@@ -241,20 +241,20 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     }
 
     // Cave.pas:300
-    public byte CanEnterSelection(UnitCollection units)
+    public int CanEnterSelection(UnitCollection units)
     {
         int l = Entrance == CaveEntrance.Down ? HexLevel + 1 : HexLevel - 1;
 
         int hexY = HexY;
         int hexX = HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
-        byte result = 0;
+        int result = 0;
         for (int i = 0, last = units.Count - 1; i <= last; i++)
         {
             Troop? troop = units.GetUnit(i);
             if (troop.MovePointCost(field.TerrainType, field.OverlayType) <= troop.GetMovePoints())
             {
-                result = (byte)(result + (1 << i));
+                result = (result + (1 << i)).TruncateToByte();
             }
         }
 
@@ -275,7 +275,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         bool result;
         if (armyHexSprite is not null && CanEnter(armyHexSprite.Army.Player))
         {
-            byte selection = CanEnterSelection(armyHexSprite.Army.Units);
+            int selection = CanEnterSelection(armyHexSprite.Army.Units);
             int l = 0;
             MovePath path = new();
             switch (Entrance)

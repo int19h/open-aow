@@ -23,7 +23,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1220
     public new const int ClassId = 132_989;
 
-    public byte WatcherState { get; private set; }
+    public int WatcherState { get; private set; }
 
     private int _unfogRadius;
 

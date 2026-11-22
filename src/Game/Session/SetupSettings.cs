@@ -32,7 +32,7 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     public bool ExplorationEnabled { get; set; }
     public bool LeadersOnMap { get; set; }
     public bool AlliedVictory { get; set; }
-    public byte VictoryCondition { get; set; }
+    public int VictoryCondition { get; set; }
     public int IndependentAIMode { get; set; }
     public bool CustomizeLeaders { get; set; }
     public int RandomSeed { get; set; }
@@ -41,7 +41,7 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
 
     public RemotePlayerList RemotePlayers { get; }
 
-    public byte ConnectionType { get; set; }
+    public int ConnectionType { get; set; }
     public byte TacticalBattleAvailability { get; set; }
     public bool AlwaysViewTacticalBattle { get; set; }
 
@@ -62,7 +62,7 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
         PlayMode = persister.RawByte("PlayMode", value: PlayMode.TruncateToByte());
         ExplorationEnabled = persister.Boolean("ExplorationEnabled", value: ExplorationEnabled);
         MapName = persister.String("MapName", value: MapName);
-        VictoryCondition = persister.RawByte("VictoryCondition", value: VictoryCondition);
+        VictoryCondition = persister.RawByte("VictoryCondition", value: VictoryCondition.TruncateToByte());
         IndependentAIMode = persister.RawByte("IndependentAIMode", value: IndependentAIMode.TruncateToByte());
         CustomizeLeaders = persister.Boolean("CustomizeLeaders", value: CustomizeLeaders);
         RandomSeed = persister.Int32("RandomSeed", value: RandomSeed);
@@ -73,7 +73,7 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
         HostRemoteId = persister.Int32("HostRemoteId", value: HostRemoteId);
         MapDay = persister.Int32("MapDay", value: MapDay);
         AlliedVictory = persister.Boolean("AlliedVictory", value: AlliedVictory);
-        ConnectionType = persister.RawByte("ConnectionType", value: ConnectionType);
+        ConnectionType = persister.RawByte("ConnectionType", value: ConnectionType.TruncateToByte());
         MapCrc = persister.Int32("MapCrc", value: MapCrc);
         SetCrc = persister.Int32("SetCrc", value: SetCrc);
         TacticalBattleAvailability = persister.RawByte("TacticalBattleAvailability", value: TacticalBattleAvailability);

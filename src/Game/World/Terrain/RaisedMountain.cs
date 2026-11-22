@@ -31,7 +31,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = persister.SByte("Player", value: Player, fallback: -1);
+        Player = (sbyte)persister.SByte("Player", value: Player, fallback: -1);
         Duration = persister.SByte("Duration", value: Duration.TruncateToSByte(), fallback: -1);
         OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay.TruncateToSByte(), fallback: -1);
     }

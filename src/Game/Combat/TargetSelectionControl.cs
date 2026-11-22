@@ -216,7 +216,7 @@ public sealed class TargetSelectionControl : IDisposable
                     }
                     else
                     {
-                        sbyte item = HexNumbers[i];
+                        int item = HexNumbers[i];
                         ImageLibrary.Get(item).Show(xs - 8, ys, lockedSurface);
                     }
                 }

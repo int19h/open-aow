@@ -75,7 +75,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
 
     internal void SetBookClosedHandler(NotifyEvent<object>? handler) => _bookClosed = handler;
 
-    public byte BookAction { get; set; }
+    public int BookAction { get; set; }
 
     // The world map screen runs while the engine holds a world map campaign.
     // AoWWorldMap.pas:152
@@ -555,7 +555,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         LeaderSetupControl control = new(null, done: SpheresDone) { Holder = UI.Engine };
         WorldMapCampaign campaign = Campaign;
         control.Leader.Assign(campaign.TransferSettings.Leader, UI.Engine);
-        control.Leader.SetSpherePicksMax((byte)(picks + 2));
+        control.Leader.SetSpherePicksMax((picks + 2).TruncateToByte());
         control.OriginalLeader.Assign(control.Leader, UI.Engine);
         control.Mode = LeaderSetupModes.Spheres;
         UI.LeaderSetupWindow.Execute(control);
@@ -580,7 +580,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
             for (int i = Campaign.TransferSettings.Leader.SphereCount, last = leader.SphereCount - 1; i <= last; i++)
             {
                 MagicSphere sphere = leader.GetSpheres(i);
-                _ = Campaign.TransferSettings.SelectedSpheres.Add((byte)(int)sphere);
+                _ = Campaign.TransferSettings.SelectedSpheres.Add(((int)sphere).TruncateToByte());
             }
 
             WorldPanel.Visible = true;

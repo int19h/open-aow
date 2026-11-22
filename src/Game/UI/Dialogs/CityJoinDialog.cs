@@ -92,7 +92,7 @@ public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWCityJoinDlg.pas:113
-    public void DlgKeyDown(in ushort key, ShiftStates shift)
+    public void DlgKeyDown(in int key, ShiftStates shift)
     {
         if (key == 27)
         {

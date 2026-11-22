@@ -292,7 +292,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
             {
                 if (previousHeading == 0 || PatrolHeadingDistance(i, lastHeading) > 1 || PatrolHeadingDistance(i, previousHeading) > 1)
                 {
-                    _ = choices.Add((byte)i);
+                    _ = choices.Add(i.TruncateToByte());
                 }
             }
         }
@@ -303,7 +303,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
             {
                 if (lists[i].Count != 0 && lastHeading != i)
                 {
-                    _ = choices.Add((byte)i);
+                    _ = choices.Add(i.TruncateToByte());
                 }
             }
         }

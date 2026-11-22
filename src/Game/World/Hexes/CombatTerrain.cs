@@ -293,7 +293,7 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
         // CombatTerrain.pas:301
         public new const int ClassId = 2_228_583;
 
-        private sbyte _burnValue;
+        private int _burnValue;
 
         public int Defense { get; private set; }
 

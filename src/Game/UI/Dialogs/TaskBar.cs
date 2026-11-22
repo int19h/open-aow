@@ -304,7 +304,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
                 {
                     WorldClockDelay = 10;
                     minute = (StrategicMap.Current.TurnTimeLeft / 60_000).TruncateToUInt16();
-                    ushort second = (ushort)(StrategicMap.Current.TurnTimeLeft % 60_000 / 1_000);
+                    int second = (StrategicMap.Current.TurnTimeLeft % 60_000 / 1_000).TruncateToUInt16();
                     WorldTimeLabel.TextColor = minute == 0 && second is > 0 and <= 10 ? 255 : 0;
 
                     WorldTimeLabel.Text = $"{minute.ToString(CultureInfo.InvariantCulture)}:";
@@ -313,7 +313,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
                         WorldTimeLabel.Text = $"{WorldTimeLabel.Text}0";
                     }
 
-                    WorldTimeLabel.Text = WorldTimeLabel.Text + ((int)second).ToString(CultureInfo.InvariantCulture);
+                    WorldTimeLabel.Text = WorldTimeLabel.Text + second.ToString(CultureInfo.InvariantCulture);
                 }
                 else
                 {

@@ -18,7 +18,7 @@ public interface IDisplayEvents
 
     void KeyDown(ushort key, ShiftStates shift) { }
 
-    void KeyUp(ushort key, ShiftStates shift) { }
+    void KeyUp(int key, ShiftStates shift) { }
 
     void KeyPress(byte character) { }
 

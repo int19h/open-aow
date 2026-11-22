@@ -11,6 +11,7 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 
@@ -65,7 +66,7 @@ public class VortexTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(o
         }
         if (value == 80)
         {
-            byte selection = default;
+            int selection = default;
             ArmyHexSprite? army = default;
             if (ArmyId is not null && ArmyId.RetrieveArmy(ref army, ref selection))
             {
@@ -107,7 +108,7 @@ public class VortexTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(o
                             damage = 0;
                         }
 
-                        _ = log.DamageValues.Add((byte)damage);
+                        _ = log.DamageValues.Add(damage.TruncateToByte());
                         _ = log.DamageTypes.Add(7);
                     }
 

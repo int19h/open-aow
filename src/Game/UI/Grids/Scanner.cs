@@ -414,15 +414,15 @@ public sealed class Scanner(Component owner) : Control(owner)
     }
 
     // Scanner.pas:246
-    public byte GetExplored(int X, int Y)
+    public int GetExplored(int X, int Y)
     {
         _ = StrategicMap.Current.CombatMap is not null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
 
         MapField field = StrategicMap.Current.CombatMap is not null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
 
         return _map.ExplorationEnabled
-            ? field.GetExplored(_map.SeatedPlayer) ? _map.FogEnabled ? field.FogCount == 0 ? (byte)2 : (byte)1 : (byte)1 : (byte)0
-            : _map.FogEnabled ? field.FogCount == 0 ? (byte)2 : (byte)1 : (byte)1;
+            ? field.GetExplored(_map.SeatedPlayer) ? _map.FogEnabled ? field.FogCount == 0 ? 2 : 1 : 1 : 0
+            : _map.FogEnabled ? field.FogCount == 0 ? 2 : 1 : 1;
     }
 
     // Scanner.pas:277

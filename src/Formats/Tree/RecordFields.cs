@@ -94,15 +94,15 @@ internal sealed class IntegerRecordField : RecordFieldInfo
         }
         else if (ElementWidth == 2 && ElementSigned)
         {
-            Move(persister, image, static (IPersister body, string name, short value) => body.Int16(name, value));
+            Move(persister, image, static (IPersister body, string name, short value) => (short)body.Int16(name, value));
         }
         else if (ElementWidth == 2 && !ElementSigned)
         {
-            Move(persister, image, static (IPersister body, string name, ushort value) => body.UInt16(name, value));
+            Move(persister, image, static (IPersister body, string name, ushort value) => (ushort)body.UInt16(name, value));
         }
         else if (ElementWidth == 1 && ElementSigned)
         {
-            Move(persister, image, static (IPersister body, string name, sbyte value) => body.SByte(name, value));
+            Move(persister, image, static (IPersister body, string name, sbyte value) => (sbyte)body.SByte(name, value));
         }
         else if (ElementWidth == 1 && !ElementSigned)
         {

@@ -165,7 +165,7 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
         {
             for (int i = 0; i <= 11; i++)
             {
-                _ = DefaultRelations.Add((byte)(int)s_defaultRaceRelations[RaceIndex][i]);
+                _ = DefaultRelations.Add(((int)s_defaultRaceRelations[RaceIndex][i]).TruncateToByte());
             }
         }
     }

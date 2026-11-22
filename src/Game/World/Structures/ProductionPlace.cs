@@ -54,9 +54,9 @@ public partial class ProductionPlace : PlayerStructure
 
     public ProductionPlaceControl ProductionControl { get; }
 
-    public byte RazedState { get; set; }
+    public int RazedState { get; set; }
 
-    private byte _defenderLevel;
+    private int _defenderLevel;
 
     // PrdPlace.pas:283
     public override void Dispose()
@@ -72,8 +72,8 @@ public partial class ProductionPlace : PlayerStructure
     {
         base.PersistFields(persister);
         persister.Object("ProductionControl", objectValue: ProductionControl);
-        _defenderLevel = persister.RawByte("DefenderLevel", value: _defenderLevel);
-        RazedState = persister.RawByte("RazedState", value: RazedState);
+        _defenderLevel = persister.RawByte("DefenderLevel", value: _defenderLevel.TruncateToByte());
+        RazedState = persister.RawByte("RazedState", value: RazedState.TruncateToByte());
     }
 
     // PrdPlace.pas:352
@@ -401,7 +401,7 @@ public partial class ProductionPlace : PlayerStructure
         {
             if (_defenderLevel == 4)
             {
-                _defenderLevel = (byte)(StrategicMap.Current.Random(3) + 1);
+                _defenderLevel = (StrategicMap.Current.Random(3) + 1).TruncateToByte();
             }
 
             int budget = ((_defenderLevel - 2) * 25) + 25;

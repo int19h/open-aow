@@ -68,7 +68,7 @@ public partial class Hero : Troop
     public int UnitAttack { get; set; }
     public int UnitDefense { get; private set; }
     public int UnitDamage { get; private set; }
-    public sbyte UnitHits { get; private set; }
+    public int UnitHits { get; private set; }
     public int UnitMoves { get; private set; }
     public int UnitResistance { get; private set; }
 
@@ -163,7 +163,7 @@ public partial class Hero : Troop
         Experience = persister.Int32("Experience", value: Experience);
         HeroStatus = persister.Set("HeroStatus", value: HeroStatus);
         _deathDay = persister.Int32("DeathDay", value: _deathDay);
-        _deathPlayer = persister.UnsignedByte(name: "DeathPlayer", value: _deathPlayer);
+        _deathPlayer = (sbyte)persister.UnsignedByte(name: "DeathPlayer", value: _deathPlayer);
         if (persister.Loading && Experience == 0)
         {
             Experience = LevelToExperience((oldExperience >>> 5) + 1);
@@ -224,7 +224,7 @@ public partial class Hero : Troop
     public override bool GetAbilitySetAt(int index) => base.GetAbilitySetAt(index);
 
     // Hero.PAS:1344
-    public override void SetAbilitySet(int index, byte value) => base.SetAbilitySet(index, value);
+    public override void SetAbilitySet(int index, int value) => base.SetAbilitySet(index, value);
 
     // Hero.PAS:697
     public override AbilitySelectionTypes GetAbilitySelectionTypes() => AbilitySelectionTypes.Editor;
@@ -1226,7 +1226,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1151
-    public void SetUnitHits(sbyte value)
+    public void SetUnitHits(int value)
     {
         if (value < 0)
         {
@@ -1235,7 +1235,7 @@ public partial class Hero : Troop
 
         if (value + HeroResource.Hits > 30)
         {
-            value = (sbyte)(30 - HeroResource.Hits);
+            value = (30 - HeroResource.Hits).TruncateToSByte();
         }
 
         if (value > UnitHits)
@@ -1243,7 +1243,7 @@ public partial class Hero : Troop
             int points = GetSkillPoints();
             while (points >= 5 && value != UnitHits)
             {
-                UnitHits = (sbyte)(UnitHits + 1);
+                UnitHits = (UnitHits + 1).TruncateToSByte();
                 points -= 5;
             }
         }
@@ -1400,7 +1400,7 @@ public partial class Hero : Troop
                         SetUnitDamage((UnitDamage + 1).TruncateToSByte());
                         break;
                     case 4:
-                        SetUnitHits((sbyte)(UnitHits + 1));
+                        SetUnitHits((UnitHits + 1).TruncateToSByte());
                         break;
                     case 5:
                         _ = ExpandAbility(46);
@@ -1487,8 +1487,8 @@ public partial class Hero : Troop
                 HeroUpgradeEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
-                    OldLevel = (byte)oldLevel,
-                    NewLevel = (byte)Level,
+                    OldLevel = oldLevel.TruncateToByte(),
+                    NewLevel = Level.TruncateToByte(),
                     UpgradeDay = StrategicMap.Current.Players.GetPlayers(Player).Day,
                     Player = Player,
                     UnitId = UnitId
@@ -1673,8 +1673,8 @@ public partial class Hero : Troop
             int y = coordinate43.Y;
             int l = coordinate43.MapLevel;
             MapCoordinate coordinate44 = item.GetLocation();
-            sbyte ix = coordinate44.X;
-            sbyte iy = coordinate44.Y;
+            int ix = coordinate44.X;
+            int iy = coordinate44.Y;
             int imageLibrary = coordinate44.MapLevel;
             if (StrategicMap.Current.CombatMap is not null || (x == ix && y == iy && l == imageLibrary))
             {

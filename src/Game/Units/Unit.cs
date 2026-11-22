@@ -55,7 +55,7 @@ public class Unit(CustomNode? owner) : Troop(owner)
         else
         {
             short resourceIndex = UnitResource is not null ? (short)UnitResource.UnitResourceIndex() : (short)-1;
-            _ = persister.UInt16("UnitResourceIndex", value: unchecked((ushort)resourceIndex));
+            _ = (ushort)persister.UInt16("UnitResourceIndex", value: unchecked((ushort)resourceIndex));
         }
     }
 
