@@ -185,7 +185,7 @@ public sealed class UIConstructionTests
         "Aow.Game.UI.Controls.UIComponent",
         "Aow.Game.UI.Dialogs.ConstructDialog",
         "Aow.Game.UI.Controls.Control",
-        "Aow.Game.UI.Dialogs.DeformFaceDialog",
+        "Aow.Game.UI.Dialogs.CosmagicSurgeryDialog",
         "Aow.Game.UI.Dialogs.DisjunctionDialog",
         "Aow.Game.UI.Controls.Edit",
         "Aow.Game.UI.Dialogs.EmailGameSettingsDialog",

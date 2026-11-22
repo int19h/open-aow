@@ -353,7 +353,7 @@ The parser accepts `list`, `record`, `bit-array`, `raw-bool`, `raw` on an intege
 
 ## 6. Direct document backend
 
-The backend reads and writes version 8 only. An older or a newer `$version` is refused with `Codes.Version`. The notes below name the version that introduced each shape. Version 8 keeps those shapes and removes `$layout`, normalizes ILB header bytes 5 to 7 and 16-bit RLE sprite reserved dwords, drops HSS header tail and header extensions, and skips schema-declared `skippedIds` (`StrategicMap` id 57) on read (`own-formats.md` 2.2 to 2.5). The hashes named with each version are the schema hashes of that step. `versions.json` now holds version 8 and the hash of the current schema. It holds no migration history.
+The backend reads and writes version 9 only. An older or a newer `$version` is refused with `Codes.Version`. The notes below name the version that introduced each shape. Version 9 keeps those shapes and renames the four Cosmetic Surgery schema classes to the game's Cosmagic Surgery names (issue 363). The hashes named with each version are the schema hashes of that step. `versions.json` now holds version 9 and the hash of the current schema. It holds no migration history.
 
 ```csharp
 public static class DocumentBackend
@@ -424,7 +424,7 @@ A class is eligible when every effective property (`SchemaClass.Complete`) uses 
 
 The schema has 970 classes. 582 use only PE-1 codecs on their own effective properties. 554 stay eligible after the object and created closure. Among those 554, the classes that use each codec are: `i32` 273, `u8` 224, `data` 138, `children` 117, `string` 55, `bool` 27, `object` 27, `strings` 18, `i8` 7, `u16` 6, `created` 6, `strings-ex` 1. Across every class, effective uses outside that set include `stream` 584, `int-list` 39, `bit-list` 27, `byte-list` 15, `map-fields` 3, `campaign-map` 2 and `float32` 1. Those counts are the PE-1 census. Version 2 reannotates 92 declared `data` properties as `enum` (60), `set` (27) and `int-array` (5). The extended eligibility rule treats those three codecs as closed and still excludes a class with a case mapping.
 
-Created families that are fully eligible are `Animation` (Delphi `TAnimation`) (13), `DiplomaticAction` (1), `GlobalEnchantment` (Delphi `TGlobalEnchantment`) (16), `ProductionItem` (1) and `UnitEnchantment` (Delphi `TUnitEnchantment`) (2, itself and `CosmeticSurgeryEnchantment` (Delphi `TCosmeticSurgeryEnchantment`)). Mapped classes and `Animation` are not piloted. The global-enchantment pilot is the exact class plus the nested `FloodControl`, not every subclass.
+Created families that are fully eligible are `Animation` (Delphi `TAnimation`) (13), `DiplomaticAction` (1), `GlobalEnchantment` (Delphi `TGlobalEnchantment`) (16), `ProductionItem` (1) and `UnitEnchantment` (Delphi `TUnitEnchantment`) (2, itself and `CosmagicSurgeryEnchantment` (Delphi `TCosmeticSurgeryEnchantment`)). Mapped classes and `Animation` are not piloted. The global-enchantment pilot is the exact class plus the nested `FloodControl`, not every subclass.
 
 `ItemLibrary` (Delphi `TItemLibrary`) and `HeroLibrary` (Delphi `THeroLibrary`) are eligible as classes (`children`, `i32`, `string`). The files are not a closed PE-1 graph: their children are `Item` and `Hero`, which use `int-list`. They are not piloted. No eligible class is a corpus-safe home for a non-zero `i32`, `u8` or `u16` fallback. `rwByteEx` is only on ineligible `Structure` (Delphi `TStructure`) and `Leader`. `rwWordEx` is never called. The test schema proves those fallbacks.
 
@@ -436,7 +436,7 @@ The pilots, and the codecs they add:
 | `ResourceEditSettings` (Delphi `TEResourceEditSettings`), `ControlStyleObject` (Delphi `TEControlStyleObject`) | `strings-ex`, `set` (`ControlStyle`, including a zero mask) |
 | `ItemGraphics` (Delphi `TItemGFX`), `EngineResource` (Delphi `TEResource`) | `bool`, `string`, `i32`, `enum` (`ItemType`) |
 | `AIBudgetManager` (Delphi `TAIBudgetManager`), `AIBudgetList` (Delphi `TAIBudgetList`), `AIBudget` (Delphi `TAIBudget`) and the budgets that do not override `ReadWrite` (`AISavingsBudget` (Delphi `TAISavingsBudget`), `AITransporterBudget` (Delphi `TAITransporterBudget`), `AICityUpgradeBudget` (Delphi `TAICityUpgradeBudget`), `AICityResearchBudget` (Delphi `TAICityResearchBudget`), `AICityFortifyBudget` (Delphi `TAICityFortifyBudget`)) | `object`, `children`, `i32` with fallback 0 |
-| `UnitEnchantmentAbilityData` (Delphi `TUnitEnchantmentAbilityData`), `UnitEnchantment`, `Enchantment`, `CosmeticSurgeryEnchantment` | `created` (present and null), `u16` fallback 0, `i8` fallback -1, `i32`, `u8` |
+| `UnitEnchantmentAbilityData` (Delphi `TUnitEnchantmentAbilityData`), `UnitEnchantment`, `Enchantment`, `CosmagicSurgeryEnchantment` | `created` (present and null), `u16` fallback 0, `i8` fallback -1, `i32`, `u8` |
 | `FrozenWaterHexSprite` (Delphi `TFrozenWaterHS`) | `i8` fallback 0 |
 | `FloodEnchantment` (Delphi `TFloodEnchantment`), `GlobalEnchantment`, `FloodControl` | variable `data`, embedded `object`, `bool`, `i8` fallback -1, `u8`, `i32`, `string`, `enum` (`EnchantmentType`) |
 | `DiplomaticRelationHistoryItem` (Delphi `TDiplomaticRelationHistoryItem`) | `enum` (`DiplomaticRelation` (Delphi `TDiplomaticRelation`)), `i32` |
@@ -640,7 +640,7 @@ is retired through the tree, where they called `MainReadWrite`:
 - `EngineObject.StreamRetired` is true when a class of the type's chain declares `PersistFields`
   without `ReadWrite`, `MainPersist` without `MainReadWrite`, or `PersistChildren` without
   `ReadWriteChildren`. A class of a later family that derives from this family (an AI group, the
-  cosmetic surgery enchantment) is retired with it, because its base no longer writes through
+  magic surgery enchantment) is retired with it, because its base no longer writes through
   the stream.
 - The writer writes the object with `TreeWriter.Write` (the preview flag on a partial stream) and
   the original backend under the object's stored class, and puts the image's property table and
@@ -731,7 +731,7 @@ did.
 The third pull request takes the family of PE-3-d, `Game/Session`, `Game/Events`, `Game/AI`,
 `Game/Magic` without its abilities, `Game/UI`, `Game/Audio` and `EmailGame` of `Game/Net`: 63
 methods (62 `ReadWrite` and `EventLogList.MainReadWrite`, none of them a `ReadWriteChildren`) go.
-The `ReadWrite` methods of the AI groups and the cosmetic surgery enchantment, dead since their
+The `ReadWrite` methods of the AI groups and the magic surgery enchantment, dead since their
 bases retired in the first pull request, go with them. Two pairs of payload stream methods lost
 their last caller and are deleted: `BitList.LoadFromStream` and `SaveToStream` (the player's valid
 attack players) and `ImageSequenceList.LoadFromStream` and `SaveToStream` (a spell's cast images).

@@ -579,11 +579,11 @@
     "id": 256,
     "parent": "Aow.Engine.Nodes.OwningNode"
   },
-  "Aow.Game.Magic.Abilities.CosmeticSurgeryAbility": {
+  "Aow.Game.Magic.Abilities.CosmagicSurgeryAbility": {
     "id": 80,
     "parent": "Aow.Game.Magic.Abilities.UnitEnchantmentAbility"
   },
-  "Aow.Game.Magic.CosmeticSurgeryEnchantment": {
+  "Aow.Game.Magic.CosmagicSurgeryEnchantment": {
     "id": 135964,
     "parent": "Aow.Game.Units.UnitEnchantment"
   },
@@ -3479,11 +3479,11 @@
     "id": 80,
     "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.CosmeticSurgery": {
+  "Aow.Game.Magic.Spells.CosmagicSurgery": {
     "id": 80,
     "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.CosmeticSurgerySpellCaster": {
+  "Aow.Game.Magic.Spells.CosmagicSurgerySpellCaster": {
     "id": 80,
     "parent": "Aow.Game.Magic.Spells.SpellCaster"
   },

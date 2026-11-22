@@ -236,12 +236,12 @@ public sealed partial class StrategicMap : GameMap
 
     private int _executeEventLogDelay;
 
-    internal EventStore<SpellCaster> CosmeticSurgeryEventsStore { get; }
+    internal EventStore<SpellCaster> CosmagicSurgeryEventsStore { get; }
 
     public event NotifyEvent<SpellCaster> CosmeticSurgeryCast
     {
-        add => CosmeticSurgeryEventsStore.Add(value);
-        remove => CosmeticSurgeryEventsStore.Remove(value);
+        add => CosmagicSurgeryEventsStore.Add(value);
+        remove => CosmagicSurgeryEventsStore.Remove(value);
     }
 
     internal EventStore<AbilityActivation> OnActivateAbilityStore { get; }
@@ -403,7 +403,7 @@ public sealed partial class StrategicMap : GameMap
         CombatMapDestroyedEventsStore.Clear();
         _updateVisibilityEventsStore.Clear();
         DiplomaticRelationsChangedEventsStore.Clear();
-        CosmeticSurgeryEventsStore.Clear();
+        CosmagicSurgeryEventsStore.Clear();
         OnActivateAbilityStore.Clear();
         _tokenControlActivatedEventsStore.Clear();
         _playerChangedEventsStore.Clear();
@@ -452,7 +452,7 @@ public sealed partial class StrategicMap : GameMap
         _playerChangedEventsStore.Clear();
         _executeEventLogEventsStore.Clear();
         _executeEventLogCallBacks?.Dispose();
-        CosmeticSurgeryEventsStore.Clear();
+        CosmagicSurgeryEventsStore.Clear();
         OnActivateAbilityStore.Clear();
         GameSongs?.Dispose();
         StartupSongs?.Dispose();
@@ -709,7 +709,7 @@ public sealed partial class StrategicMap : GameMap
         UnitChanged += TargetSelection.UnitChanged;
         ArmyDestroyed += SelectedArmy.OnDestroyArmy;
         _executeEventLogCallBacks = new ExecuteEventLogCallbackList();
-        CosmeticSurgeryEventsStore = new();
+        CosmagicSurgeryEventsStore = new();
         OnActivateAbilityStore = new();
         StartupSongs = new StartupSongList(null) { Holder = CreationHolder() };
         GameSongs = new SongList(null) { Holder = CreationHolder() };

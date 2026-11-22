@@ -9193,22 +9193,22 @@
       "subscriptions:0:0"
     ]
   },
-  "Aow.Game.UI.Dialogs.DeformFaceDialog.owner0": {
+  "Aow.Game.UI.Dialogs.CosmagicSurgeryDialog.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.UI.Dialogs.DeformFaceDialog",
+            "$type": "Aow.Game.UI.Dialogs.CosmagicSurgeryDialog",
             "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
             "Component.children": [],
             "Component.freeNotifies": null,
-            "DeformFaceDialog.UnitNameLabel": null,
-            "DeformFaceDialog.Window": null,
-            "DeformFaceDialog._caster": null,
+            "CosmagicSurgeryDialog.UnitNameLabel": null,
+            "CosmagicSurgeryDialog.Window": null,
+            "CosmagicSurgeryDialog._caster": null,
             "UIModule.UI": "Aow.Game.UI.Dialogs.UIContext"
           }
         }
@@ -9217,9 +9217,9 @@
       "subscriptions:0:0"
     ]
   },
-  "Aow.Game.UI.Dialogs.DeformFaceDialog.owner1": {
+  "Aow.Game.UI.Dialogs.CosmagicSurgeryDialog.owner1": {
     "$lines": [
-      "failure:System.InvalidOperationException:Aow.Game.UI.Dialogs.DeformFaceDialog takes no owner.",
+      "failure:System.InvalidOperationException:Aow.Game.UI.Dialogs.CosmagicSurgeryDialog takes no owner.",
       "owner:0",
       {
         "$jsonText": []

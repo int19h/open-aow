@@ -269,7 +269,7 @@ internal static class GameClasses
         engine.GameSet.AbilityControl.RegisterAbility(new WindWalkingEnchantment(null, holder: engine));
         engine.GameSet.AbilityControl.RegisterAbility(new LiquidFormEnchantment(null, holder: engine));
         engine.GameSet.AbilityControl.RegisterAbility(new BlessedEnchantment(null, holder: engine));
-        engine.GameSet.AbilityControl.RegisterAbility(new CosmeticSurgeryAbility(null, holder: engine));
+        engine.GameSet.AbilityControl.RegisterAbility(new CosmagicSurgeryAbility(null, holder: engine));
         engine.GameSet.AbilityControl.RegisterAbility(new BurningAbility(null, holder: engine));
         engine.GameSet.AbilityControl.RegisterAbility(new FireProtectionEnchantment(null, holder: engine));
         engine.GameSet.AbilityControl.RegisterAbility(new PanickedAbility(null, holder: engine));
@@ -303,7 +303,7 @@ internal static class GameClasses
         control.RegisterSpell(new LiquidForm(null, holder: engine));
         control.RegisterSpell(new HealingWater(null, holder: engine));
         control.RegisterSpell(new Bless(null, holder: engine));
-        control.RegisterSpell(new CosmeticSurgery(null, holder: engine));
+        control.RegisterSpell(new CosmagicSurgery(null, holder: engine));
         control.RegisterSpell(new DarkGift(null, holder: engine));
         engine.RegisterEngineClasses([EngineClass.Of<MagicSanctuary>(), EngineClass.Of<MagicSanctuary.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<Arena>(), EngineClass.Of<ArenaTokenEvent>(), EngineClass.Of<Arena.Resource>()]);

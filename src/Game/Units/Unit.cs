@@ -210,7 +210,7 @@ public class Unit(CustomNode? owner) : Troop(owner)
             return GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitResource.UnitGraphicsResourceIndex).GetFaceImage();
         }
 
-        int faceIndex = ((CosmeticSurgeryEnchantment)(object?)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
+        int faceIndex = ((CosmagicSurgeryEnchantment)(object?)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
         return GamePack.Current.FaceResources.GetFaceResource(faceIndex)?.GetCellImage();
     }
 

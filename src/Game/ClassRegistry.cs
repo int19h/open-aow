@@ -351,7 +351,7 @@ internal static class ClassRegistry
         _ = EngineClass.Register(SmokeCloudEnchantment.ClassId, static owner => new SmokeCloudEnchantment(owner));
         _ = EngineClass.Register(EngineObject.ClassId, static owner => new StormSpell(owner));
         _ = EngineClass.Register(EngineObject.ClassId, static owner => new SummonSpell(owner));
-        _ = EngineClass.Register(EngineObject.ClassId, static owner => new CosmeticSurgerySpellCaster(owner));
+        _ = EngineClass.Register(EngineObject.ClassId, static owner => new CosmagicSurgerySpellCaster(owner));
         _ = EngineClass.Register(EngineObject.ClassId, static owner => new EnterWizardsTowerEventLog(owner));
         _ = EngineClass.Register(Animation.ClassId, static owner => new ImageSequenceAnimation(owner));
         _ = EngineClass.Register(Animation.ClassId, static owner => new TwinkleAnimation(owner));
@@ -376,7 +376,7 @@ internal static class ClassRegistry
         _ = EngineClass.Register(EngineObject.ClassId, static owner => new CommandedAbility(owner));
         _ = EngineClass.Register(EngineObject.ClassId, static (owner, holder) => new ConstructAbility(owner, holder));
         _ = EngineClass.Register(OwningNode.ClassId, static owner => new ConstructionControlList(owner));
-        _ = EngineClass.Register(CosmeticSurgeryEnchantment.ClassId, static owner => new CosmeticSurgeryEnchantment(owner));
+        _ = EngineClass.Register(CosmagicSurgeryEnchantment.ClassId, static owner => new CosmagicSurgeryEnchantment(owner));
         _ = EngineClass.Register(DamageCombatAction.ClassId, static owner => new DamageCombatAction(owner));
         _ = EngineClass.Register(DiplomaticRelationHistoryList.ClassId, static owner => new DiplomaticRelationHistoryList(owner));
         _ = EngineClass.Register(EngineObject.ClassId, static owner => new DispelMagicCombatAction(owner));
@@ -597,7 +597,7 @@ internal static class ClassRegistry
         _ = EngineClass.Register(EngineObject.ClassId, static (owner, holder) => new UnholyGroundSpell(owner, holder));
         _ = EngineClass.Register(EngineObject.ClassId, static (owner, holder) => new Bless(owner, holder));
         _ = EngineClass.Register(EngineObject.ClassId, static (owner, holder) => new Concealment(owner, holder));
-        _ = EngineClass.Register(EngineObject.ClassId, static (owner, holder) => new CosmeticSurgery(owner, holder));
+        _ = EngineClass.Register(EngineObject.ClassId, static (owner, holder) => new CosmagicSurgery(owner, holder));
         _ = EngineClass.Register(EngineObject.ClassId, static (owner, holder) => new DarkGift(owner, holder));
         _ = EngineClass.Register(EngineObject.ClassId, static (owner, holder) => new DispelMagic(owner, holder));
         _ = EngineClass.Register(EngineObject.ClassId, static (owner, holder) => new EnchantWeapon(owner, holder));
@@ -634,7 +634,7 @@ internal static class ClassRegistry
         _ = EngineClass.Register(EngineObject.ClassId, static (owner, holder) => new CharmedAbility(owner, holder));
         _ = EngineClass.Register(OwningNode.ClassId, static owner => new CombatActionList(owner));
         _ = EngineClass.Register(EngineObject.ClassId, static owner => new CommandAbility(owner));
-        _ = EngineClass.Register(EngineObject.ClassId, static (owner, holder) => new CosmeticSurgeryAbility(owner, holder));
+        _ = EngineClass.Register(EngineObject.ClassId, static (owner, holder) => new CosmagicSurgeryAbility(owner, holder));
         _ = EngineClass.Register(OwningNode.ClassId, static owner => new DiplomaticActionList(owner));
         _ = EngineClass.Register(EngineObject.ClassId, static (owner, holder) => new DispelMagicAbility(owner, holder));
         _ = EngineClass.Register(DispelMagicAbilityCombatAction.ClassId, static owner => new DispelMagicAbilityCombatAction(owner));

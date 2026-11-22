@@ -470,8 +470,8 @@ public sealed partial class PersistEquivalenceTests
     {
         Check("UnitEnchantment", new UnitEnchantment(null) { Holder = EngineFixture.Engine });
         Check("UnitEnchantment", new UnitEnchantment(null) { Holder = EngineFixture.Engine, EnchantmentAbilityId = int.MinValue, UnitId = int.MaxValue, Source = 0, DispelResistance = 0, Upkeep = 0 });
-        Check("CosmeticSurgeryEnchantment", new CosmeticSurgeryEnchantment(null) { Holder = EngineFixture.Engine, FaceIndex = int.MaxValue });
-        Check("CosmeticSurgeryEnchantment", new CosmeticSurgeryEnchantment(null) { Holder = EngineFixture.Engine, FaceIndex = int.MinValue, EnchantmentId = 0, Upkeep = 0, Source = 0, DispelResistance = 0 });
+        Check("CosmagicSurgeryEnchantment", new CosmagicSurgeryEnchantment(null) { Holder = EngineFixture.Engine, FaceIndex = int.MaxValue });
+        Check("CosmagicSurgeryEnchantment", new CosmagicSurgeryEnchantment(null) { Holder = EngineFixture.Engine, FaceIndex = int.MinValue, EnchantmentId = 0, Upkeep = 0, Source = 0, DispelResistance = 0 });
         Check("UnitEnchantmentAbilityData", new UnitEnchantmentAbilityData(null) { Holder = EngineFixture.Engine });
         UnitEnchantmentAbilityData absent = new(null)
         {
@@ -488,7 +488,7 @@ public sealed partial class PersistEquivalenceTests
             EnchantmentAbilityId = 65535,
             EnchantmentPlayerIndex = 0,
             EnchantmentDuration = -128,
-            Enchantment = new CosmeticSurgeryEnchantment(null) { Holder = EngineFixture.Engine, FaceIndex = 3, UnitId = int.MinValue },
+            Enchantment = new CosmagicSurgeryEnchantment(null) { Holder = EngineFixture.Engine, FaceIndex = 3, UnitId = int.MinValue },
         };
         Check("UnitEnchantmentAbilityData", present);
         UnitEnchantmentAbilityData edge = new(null)

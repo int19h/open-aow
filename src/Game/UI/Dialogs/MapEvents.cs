@@ -622,9 +622,9 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
             }
             else
             {
-                if (caster is CosmeticSurgerySpellCaster cosmeticCaster)
+                if (caster is CosmagicSurgerySpellCaster cosmagicCaster)
                 {
-                    UI.DeformFaceDialog.Execute(cosmeticCaster);
+                    UI.DeformFaceDialog.Execute(cosmagicCaster);
                 }
             }
         }

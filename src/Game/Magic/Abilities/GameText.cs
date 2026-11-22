@@ -415,7 +415,7 @@ internal static class GameText
 
     internal static string SelectUnitFormat { get; } = "Select unit for %s";
 
-    internal static string CosmeticSurgeryText { get; } = "Cosmagic Surgery";
+    internal static string CosmagicSurgeryText { get; } = "Cosmagic Surgery";
 
     internal static string IsOutOfSightFormat { get; } = "%s is out of sight";
 
