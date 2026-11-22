@@ -1,7 +1,10 @@
 # AOW0002 allow list (analyzers/README.md, issues 333 and 357). Each line names one member
 # that keeps an integer-to-enum conversion outside read and write code, as a documentation id.
-# The rule reports a conversion in a member this file does not name. The list shrinks as the
-# enum work removes the conversions: delete a line with the conversion it allows.
+# The rule reports a conversion in a member this file does not name. One entry allows every
+# conversion of every kind in that member, including conversions in lambdas and local functions
+# inside it and in both accessors of a property. The list shrinks as the enum work removes the
+# conversions: delete a line with the conversion it allows. Regenerate with
+# tools/rewrite/enum-census (verify mode checks the file in the product layer).
 #
 M:Aow.FlagsExtensions.MemberBits(System.Type)~System.Collections.Generic.IEnumerable{System.ValueTuple{System.String,System.Int32}}
 M:Aow.FrameFixture.Run(System.String,System.String,System.String,System.String,System.Nullable{System.Int32})~System.Int32

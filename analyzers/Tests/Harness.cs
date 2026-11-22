@@ -34,10 +34,10 @@ internal static partial class Harness
     [LibraryImport("kernel32.dll")]
     private static partial uint SetErrorMode(uint mode);
 
-    public static async Task<ImmutableArray<Diagnostic>> DiagnosticsAsync(string source, DiagnosticAnalyzer analyzer, string? namespaces = null, string? allowList = null)
+    public static async Task<ImmutableArray<Diagnostic>> DiagnosticsAsync(string source, DiagnosticAnalyzer analyzer, string? namespaces = null, string? allowList = null, string? allowListFile = null)
     {
         Document document = CreateDocument(source);
-        return await DiagnosticsAsync(document, analyzer: analyzer, namespaces: namespaces, allowList: allowList);
+        return await DiagnosticsAsync(document, analyzer: analyzer, namespaces: namespaces, allowList: allowList, allowListFile: allowListFile);
     }
 
     public static async Task<string> FixAsync(string source, DiagnosticAnalyzer analyzer, CodeFixProvider fix)
@@ -93,7 +93,7 @@ internal static partial class Harness
         return Assert.Single(actions).EquivalenceKey!;
     }
 
-    private static async Task<ImmutableArray<Diagnostic>> DiagnosticsAsync(Document document, DiagnosticAnalyzer analyzer, string? namespaces, string? allowList = null)
+    private static async Task<ImmutableArray<Diagnostic>> DiagnosticsAsync(Document document, DiagnosticAnalyzer analyzer, string? namespaces, string? allowList = null, string? allowListFile = null)
     {
         Compilation? compilation = await document.Project.GetCompilationAsync();
         Assert.NotNull(compilation);
@@ -101,7 +101,7 @@ internal static partial class Harness
         Dictionary<string, string> options = namespaces is null ? [] : new() { [EnumConversionRules.NamespacesOption] = namespaces };
         ImmutableArray<AdditionalText> files = allowList is null
             ? []
-            : [new MemoryAdditionalText(EnumConversionRules.AllowListFileName, text: SourceText.From(allowList))];
+            : [new MemoryAdditionalText(allowListFile ?? EnumConversionRules.AllowListFileName, text: SourceText.From(allowList))];
         AnalyzerOptions analyzerOptions = new(additionalFiles: files, optionsProvider: new OptionsProvider(options));
         CompilationWithAnalyzers withAnalyzers = compilation.WithAnalyzers([analyzer], options: analyzerOptions);
         ImmutableArray<Diagnostic> diagnostics = await withAnalyzers.GetAnalyzerDiagnosticsAsync();

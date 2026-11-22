@@ -28,8 +28,11 @@ public enum EnumConversionKind
     /// <summary><c>Enum.ToObject</c>.</summary>
     EnumToObject,
 
-    /// <summary><c>Enum.Parse</c> or <c>Enum.TryParse</c>, which accept a number as well as a name.</summary>
+    /// <summary><c>Enum.Parse</c>, which accepts a number as well as a name.</summary>
     EnumParse,
+
+    /// <summary><c>Enum.TryParse</c>, which accepts a number as well as a name.</summary>
+    EnumTryParse,
 
     /// <summary>A reinterpretation through <c>Unsafe</c> or <c>MemoryMarshal</c> with an enum type argument.</summary>
     Reinterpretation,
@@ -69,58 +72,48 @@ public static class EnumConversionRules
     public const string AllowListFileName = "EnumCastAllowList.txt";
 
     /// <summary>
-    /// The allowed members from the additional files: every documentation id the allow-list file
-    /// names, with blank lines and <c>#</c> comments left out. Every other additional file is out.
+    /// The allowed members from the additional files: the union of every documentation id every
+    /// file named <see cref="AllowListFileName"/> holds, with blank lines and <c>#</c> comments
+    /// left out. A project file of the same name merges in rather than shadowing the list.
     /// </summary>
-    public static ImmutableHashSet<string> ParseAllowList(ImmutableArray<AdditionalText> files)
+    public static ImmutableHashSet<string> ParseAllowList(ImmutableArray<AdditionalText> files, CancellationToken cancellationToken)
     {
+        ImmutableHashSet<string>.Builder ids = ImmutableHashSet.CreateBuilder<string>();
         foreach (AdditionalText file in files)
         {
             if (string.Equals(Path.GetFileName(file.Path), AllowListFileName, comparisonType: StringComparison.OrdinalIgnoreCase)
-                && file.GetText() is SourceText text)
+                && file.GetText(cancellationToken) is SourceText text)
             {
-                return [.. text.Lines.Select(line => line.ToString().Trim()).Where(line => line.Length > 0 && !line.StartsWith('#'))];
+                foreach (TextLine line in text.Lines)
+                {
+                    string id = line.ToString().Trim();
+                    if (id.Length > 0 && !id.StartsWith('#'))
+                    {
+                        _ = ids.Add(id);
+                    }
+                }
             }
         }
-        return [];
+        return ids.ToImmutable();
     }
 
     /// <summary>
     /// The member a node belongs to, found from syntax: the innermost method, constructor,
-    /// property, field or type around the node. A conversion inside a lambda or a local function
+    /// property, field or type around the node, with namespace declarations left out so the
+    /// containing type stays the fallback. A conversion inside a lambda or a local function
     /// belongs to the member around it, so the census and the analyzer name the same member.
     /// </summary>
     public static ISymbol? DeclaringMember(SemanticModel model, SyntaxNode node)
-        => Anchors(node)
+        => node.Ancestors().OfType<MemberDeclarationSyntax>().Where(anchor => anchor is not BaseNamespaceDeclarationSyntax)
             .Select(anchor => anchor is BaseFieldDeclarationSyntax fields ? FieldSymbol(model, node, fields) : model.GetDeclaredSymbol(anchor))
             .FirstOrDefault(symbol => symbol is not null);
 
-    private static IEnumerable<MemberDeclarationSyntax> Anchors(SyntaxNode node)
-    {
-        foreach (MemberDeclarationSyntax anchor in node.Ancestors().OfType<MemberDeclarationSyntax>())
-        {
-            if (anchor is not TypeDeclarationSyntax)
-            {
-                yield return anchor;
-            }
-        }
-        foreach (TypeDeclarationSyntax type in node.Ancestors().OfType<TypeDeclarationSyntax>())
-        {
-            yield return type;
-        }
-    }
-
     private static ISymbol? FieldSymbol(SemanticModel model, SyntaxNode node, BaseFieldDeclarationSyntax fields)
     {
-        VariableDeclaratorSyntax? declarator = node.Ancestors().OfType<VariableDeclaratorSyntax>().FirstOrDefault();
-        return declarator is not null && fields.Declaration.Variables.Contains(declarator)
-            ? model.GetDeclaredSymbol(declarator)
+        VariableDeclaratorSyntax? declarator = fields.Declaration.Variables.FirstOrDefault(variable => variable.Span.Contains(node.SpanStart));
+        return declarator is not null ? model.GetDeclaredSymbol(declarator)
             : fields.Declaration.Variables.Count == 1 ? model.GetDeclaredSymbol(fields) : null;
     }
-
-    private static readonly ImmutableHashSet<string> s_storedAttributes = ["StoredLayoutAttribute", "StoredRecordAttribute"];
-
-    private const string PersisterInterface = "IPersister";
 
     /// <summary>The kind of an operation that converts an integer to an enum, or null when it converts nothing.</summary>
     public static EnumConversionKind? Classify(IOperation operation) => operation switch
@@ -154,7 +147,7 @@ public static class EnumConversionRules
                     return EnumConversionPlace.Persister;
                 case IMethodSymbol method when method.Parameters.Any(parameter => IsStream(parameter.Type)):
                     return EnumConversionPlace.Stream;
-                case INamedTypeSymbol type when type.GetAttributes().Any(attribute => attribute.AttributeClass is { } attributeClass && s_storedAttributes.Contains(attributeClass.Name)):
+                case INamedTypeSymbol type when type.GetAttributes().Any(attribute => attribute.AttributeClass is { } attributeClass && IsStoredImage(attributeClass)):
                     return EnumConversionPlace.StoredType;
                 case INamedTypeSymbol type when IsPersister(type):
                     return EnumConversionPlace.Persister;
@@ -187,7 +180,10 @@ public static class EnumConversionRules
     }
 
     private static bool IsPersisterInterface(INamedTypeSymbol type)
-        => type is { TypeKind: TypeKind.Interface, Name: PersisterInterface };
+        => type is { TypeKind: TypeKind.Interface, Name: "IPersister", ContainingNamespace: { Name: "Tree", ContainingNamespace: { Name: "Formats", ContainingNamespace: { Name: "Aow", ContainingNamespace.IsGlobalNamespace: true } } } };
+
+    private static bool IsStoredImage(INamedTypeSymbol attributeClass)
+        => attributeClass is { Name: "StoredLayoutAttribute" or "StoredRecordAttribute", ContainingNamespace: { Name: "Rtl", ContainingNamespace: { Name: "Aow", ContainingNamespace.IsGlobalNamespace: true } } };
 
     private static EnumConversionKind? ClassifyConversion(IConversionOperation conversion)
     {
@@ -222,7 +218,8 @@ public static class EnumConversionRules
         return type switch
         {
             "System.Enum" when method.Name == "ToObject" => EnumConversionKind.EnumToObject,
-            "System.Enum" when method.Name is "Parse" or "TryParse" => EnumConversionKind.EnumParse,
+            "System.Enum" when method.Name == "Parse" => EnumConversionKind.EnumParse,
+            "System.Enum" when method.Name == "TryParse" => EnumConversionKind.EnumTryParse,
             "System.Runtime.CompilerServices.Unsafe" or "System.Runtime.InteropServices.MemoryMarshal" when Reinterprets(method) => EnumConversionKind.Reinterpretation,
             _ => null,
         };

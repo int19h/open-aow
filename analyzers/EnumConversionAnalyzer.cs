@@ -17,10 +17,13 @@ public sealed class EnumConversionAnalyzer : DiagnosticAnalyzer
     /// <summary>The property of a diagnostic that carries the <see cref="EnumConversionKind"/>.</summary>
     public const string KindProperty = "Kind";
 
+    /// <summary>The property of a diagnostic that carries the documentation id of the reported member.</summary>
+    public const string MemberIdProperty = "MemberId";
+
     public static DiagnosticDescriptor Rule { get; } = new(
         id: DiagnosticId,
         title: "Convert integers to enums only in read and write code",
-        messageFormat: "{0} converts an integer to '{1}' outside read and write code",
+        messageFormat: "{0} converts an integer to '{1}' outside read and write code (member '{2}' is not in the allow list)",
         category: "Design",
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
@@ -32,19 +35,27 @@ public sealed class EnumConversionAnalyzer : DiagnosticAnalyzer
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
-        context.RegisterOperationAction(Analyze, OperationKind.Conversion, OperationKind.Invocation);
+        context.RegisterCompilationStartAction(compilationContext =>
+        {
+            ImmutableHashSet<string> allowList = EnumConversionRules.ParseAllowList(compilationContext.Options.AdditionalFiles, compilationContext.CancellationToken);
+            compilationContext.RegisterOperationAction(operationContext => Analyze(operationContext, allowList), OperationKind.Conversion, OperationKind.Invocation);
+        });
     }
 
-    private static void Analyze(OperationAnalysisContext context)
+    private static void Analyze(OperationAnalysisContext context, ImmutableHashSet<string> allowList)
     {
+        context.CancellationToken.ThrowIfCancellationRequested();
         if (EnumConversionRules.Classify(context.Operation) is not EnumConversionKind kind)
         {
             return;
         }
+        string? id = null;
         if (context.Operation.SemanticModel is SemanticModel model
-            && EnumConversionRules.DeclaringMember(model, node: context.Operation.Syntax) is ISymbol member
-            && DocumentationCommentId.CreateDeclarationId(member) is string id
-            && EnumConversionRules.ParseAllowList(context.Options.AdditionalFiles).Contains(id))
+            && EnumConversionRules.DeclaringMember(model, node: context.Operation.Syntax) is ISymbol member)
+        {
+            id = DocumentationCommentId.CreateDeclarationId(member);
+        }
+        if (id is not null && allowList.Contains(id))
         {
             return;
         }
@@ -55,12 +66,17 @@ public sealed class EnumConversionAnalyzer : DiagnosticAnalyzer
             return;
         }
         ImmutableDictionary<string, string?> properties = ImmutableDictionary<string, string?>.Empty.Add(KindProperty, kind.ToString());
+        if (id is not null)
+        {
+            properties = properties.Add(MemberIdProperty, id);
+        }
         context.ReportDiagnostic(Diagnostic.Create(
             Rule,
             location: context.Operation.Syntax.GetLocation(),
             properties: properties,
             KindText(kind),
-            EnumConversionRules.TargetName(context.Operation)));
+            EnumConversionRules.TargetName(context.Operation),
+            id ?? "?"));
     }
 
     private static string KindText(EnumConversionKind kind) => kind switch
@@ -72,6 +88,7 @@ public sealed class EnumConversionAnalyzer : DiagnosticAnalyzer
         EnumConversionKind.PointerCast => "A pointer cast",
         EnumConversionKind.EnumToObject => "Enum.ToObject",
         EnumConversionKind.EnumParse => "Enum.Parse",
+        EnumConversionKind.EnumTryParse => "Enum.TryParse",
         EnumConversionKind.Reinterpretation => "A reinterpretation",
         _ => kind.ToString(),
     };

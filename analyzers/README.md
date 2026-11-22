@@ -141,16 +141,26 @@ types and namespaces:
    namespace inside it. The product names `Aow.Formats` (the codecs of the original and own
    formats) and `Aow.Platform` (the SDL host, which reads native records).
 
-Tests are opted out in .editorconfig: a test builds enum values from numbers on purpose.
+Conversions in the `src` test projects are opted out in .editorconfig: a test builds enum
+values from numbers on purpose. The analyzer tests under `analyzers/Tests` sit outside that
+glob and follow the rule like any other code.
 
 The allow list is `EnumCastAllowList.txt` beside the analyzer project. The product build passes
 it to the analyzer as an additional file (see `Aow.Analyzers.props`). Each line names one member
 that keeps a conversion, as a documentation id
 (`M:Aow.Game.Units.Army.GetPartyMoves(System.Int32)~Aow.Game.World.Movement.MoveTypes`),
-with blank lines and `#` comments left out. The census of issue 357 lists the members the file
-names today: the game-logic conversions the enum work has not removed yet, one member per line.
-A new kept conversion adds its member to the file. A removed conversion deletes its line with
-the conversion.
+with blank lines and `#` comments left out. One entry allows every conversion of every kind in
+that member, including conversions in lambdas and local functions inside it and in both
+accessors of a property. The census of issue 357 lists the members the file names today: the
+out-of-place conversions the enum work has not removed yet, one member per line. A new kept
+conversion adds its member to the file. A removed conversion deletes its line with the
+conversion.
+
+The diagnostic message carries the documentation id of the reported member, from
+`DocumentationCommentId.CreateDeclarationId`: the id names the exact allow list line to add.
+A signature change to a listed member (a parameter, the return type, the containing type)
+changes its id, so the same change updates its line. Review of diffs inside listed members is
+the only guard there, since the gate stays silent for every conversion those members hold.
 
 The rule is at warning, so a new conversion outside read and write code fails the build until
 its member enters the allow list or the conversion goes. The fix replaces a cast of a constant
