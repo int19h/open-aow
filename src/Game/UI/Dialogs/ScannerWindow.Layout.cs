@@ -156,7 +156,7 @@ public sealed partial class ScannerWindow : ILayoutModule
         BuildingCheckBox.TextSelectedColor = 0;
         BuildingCheckBox.WinWidth = 15;
         BuildingCheckBox.Checked = true;
-        BuildingCheckBox.Changed += (_, _) => BuildingCheckChange(BuildingCheckBox);
+        BuildingCheckBox.Changed += (sender, _) => BuildingCheckChange((CheckBox)sender);
         BuildingCheckBox.RadioIndex = 0;
         session.EndRead(BuildingCheckBox);
         ArmyCheckBox = new CheckBox(this);
@@ -192,7 +192,7 @@ public sealed partial class ScannerWindow : ILayoutModule
         ArmyCheckBox.TextSelectedColor = 0;
         ArmyCheckBox.WinWidth = 15;
         ArmyCheckBox.Checked = true;
-        ArmyCheckBox.Changed += (_, _) => ArmyCheckChange(ArmyCheckBox);
+        ArmyCheckBox.Changed += (sender, _) => ArmyCheckChange((CheckBox)sender);
         ArmyCheckBox.RadioIndex = 0;
         session.EndRead(ArmyCheckBox);
         NaturalCheckBox = new CheckBox(this);
@@ -228,7 +228,7 @@ public sealed partial class ScannerWindow : ILayoutModule
         NaturalCheckBox.TextSelectedColor = 0;
         NaturalCheckBox.WinWidth = 15;
         NaturalCheckBox.Checked = true;
-        NaturalCheckBox.Changed += (_, _) => NaturalCheckChange(NaturalCheckBox);
+        NaturalCheckBox.Changed += (sender, _) => NaturalCheckChange((CheckBox)sender);
         NaturalCheckBox.RadioIndex = 0;
         session.EndRead(NaturalCheckBox);
         Scanner = new Scanner(this);

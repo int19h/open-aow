@@ -21,11 +21,17 @@ public sealed partial class MapWindow : ILayoutModule
         MainWindow.MousePressed += (_, e) => MapWindowMouseDown(e.Button, e.Shift, e.X, e.Y);
         MainWindow.MouseReleased += (_, e) => MapWindowMouseUp(e.Button, e.Shift, e.X, e.Y);
         MainWindow.MouseMoved += (_, e) => MapWindowMouseMove(e.Shift, e.X, e.Y);
-        MainWindow.KeyPressed += (_, e) =>
+        MainWindow.KeyPressed += (sender, e) =>
         {
             ushort key = e.Key;
-            MapWindowKeyDown(MainWindow, ref key, e.Shift);
-            e.Key = key;
+            try
+            {
+                MapWindowKeyDown((Window)sender, ref key, e.Shift);
+            }
+            finally
+            {
+                e.Key = key;
+            }
         };
         MainWindow.Updated += (_, _) => MapWindowUpdate();
         MainWindow.Visible = false;

@@ -60,12 +60,21 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
 
     protected void RaiseKeyPress(ref byte key)
     {
-        CharacterEventArgs e = new()
+        if (CharacterTyped is not null)
         {
-            Character = key
-        };
-        CharacterTyped?.Invoke(this, e);
-        key = e.Character;
+            CharacterEventArgs e = new()
+            {
+                Character = key
+            };
+            try
+            {
+                CharacterTyped(this, e);
+            }
+            finally
+            {
+                key = e.Character;
+            }
+        }
     }
 
     // Memo.CheckKeyPress (AoWMemo.pas) calls OnKeyPress after a test of OnKeyDown only. This call
@@ -76,8 +85,14 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
         {
             Character = key
         };
-        CharacterTyped(this, e);
-        key = e.Character;
+        try
+        {
+            CharacterTyped(this, e);
+        }
+        finally
+        {
+            key = e.Character;
+        }
     }
 
     [Published]
@@ -85,13 +100,22 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
 
     protected void RaiseKeyDown(ref ushort key, ShiftStates shift)
     {
-        KeyEventArgs e = new()
+        if (KeyPressed is not null)
         {
-            Key = key,
-            Shift = shift
-        };
-        KeyPressed?.Invoke(this, e);
-        key = e.Key;
+            KeyEventArgs e = new()
+            {
+                Key = key,
+                Shift = shift
+            };
+            try
+            {
+                KeyPressed(this, e);
+            }
+            finally
+            {
+                key = e.Key;
+            }
+        }
     }
 
     protected bool HasKeyDownHandlers => KeyPressed is not null;

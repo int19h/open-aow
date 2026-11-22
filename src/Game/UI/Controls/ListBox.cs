@@ -308,14 +308,24 @@ public partial class ListBox : Control
                             _drawItemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
                         }
 
-                        DrawItemEventArgs args = new()
+                        if (ItemDrawing is not null)
                         {
-                            Rectangle = _drawItemRectangle,
-                            Item = _drawItem,
-                            Surface = lockedSurface
-                        };
-                        ItemDrawing?.Invoke(this, args);
-                        lockedSurface = args.Surface;
+                            DrawItemEventArgs e = new()
+                            {
+                                Rectangle = _drawItemRectangle,
+                                Item = _drawItem,
+                                Surface = lockedSurface
+                            };
+                            try
+                            {
+                                ItemDrawing(this, e);
+                            }
+                            finally
+                            {
+                                lockedSurface = e.Surface;
+                            }
+                        }
+
                         if (FirstShownItem + i == _selected)
                         {
                             base.Font.Color = SelectedColor;
@@ -351,14 +361,23 @@ public partial class ListBox : Control
                                 break;
                         }
 
-                        DrawItemEventArgs e = new()
+                        if (ItemDrawn is not null)
                         {
-                            Rectangle = _drawItemRectangle,
-                            Item = _drawItem,
-                            Surface = lockedSurface
-                        };
-                        ItemDrawn?.Invoke(this, e);
-                        lockedSurface = e.Surface;
+                            DrawItemEventArgs e = new()
+                            {
+                                Rectangle = _drawItemRectangle,
+                                Item = _drawItem,
+                                Surface = lockedSurface
+                            };
+                            try
+                            {
+                                ItemDrawn(this, e);
+                            }
+                            finally
+                            {
+                                lockedSurface = e.Surface;
+                            }
+                        }
                     }
                 }
 

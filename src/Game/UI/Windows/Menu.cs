@@ -37,14 +37,23 @@ public partial class Menu : GenericWindow
 
     protected void RaiseDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
-        DrawItemEventArgs e = new()
+        if (ItemDrawn is not null)
         {
-            Rectangle = drawRectangle,
-            Item = drawItem,
-            Surface = lockedSurface
-        };
-        ItemDrawn?.Invoke(this, e);
-        lockedSurface = e.Surface;
+            DrawItemEventArgs e = new()
+            {
+                Rectangle = drawRectangle,
+                Item = drawItem,
+                Surface = lockedSurface
+            };
+            try
+            {
+                ItemDrawn(this, e);
+            }
+            finally
+            {
+                lockedSurface = e.Surface;
+            }
+        }
     }
 
     private MenuBar? _ownerMenuBar;
@@ -482,14 +491,23 @@ public partial class Menu : GenericWindow
                             LibraryImage? imageLibraryFrameHeight5 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             LibraryImage? imageLibraryFrameWidth3 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             Rect drawItemRectangle = new(WinLeft + imageLibraryFrameWidth3.Width, WinTop + imageLibraryFrameHeight4.Height + (imageLibraryFrameHeight5.Height * i), WinLeft + WinWidth, WinTop + imageLibraryFrameHeight2.Height + (imageLibraryFrameHeight3.Height * (i + 1)));
-                            DrawItemEventArgs e = new()
+                            if (ItemDrawn is not null)
                             {
-                                Rectangle = drawItemRectangle,
-                                Item = drawItem,
-                                Surface = lockedSurface
-                            };
-                            ItemDrawn?.Invoke(this, e);
-                            lockedSurface = e.Surface;
+                                DrawItemEventArgs e = new()
+                                {
+                                    Rectangle = drawItemRectangle,
+                                    Item = drawItem,
+                                    Surface = lockedSurface
+                                };
+                                try
+                                {
+                                    ItemDrawn(this, e);
+                                }
+                                finally
+                                {
+                                    lockedSurface = e.Surface;
+                                }
+                            }
                         }
 
                         lockedSurface.ClipRectangle = oldClip;

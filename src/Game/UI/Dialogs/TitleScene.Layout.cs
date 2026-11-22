@@ -71,8 +71,15 @@ public sealed partial class TitleScene : ILayoutModule
         Window.Dockable = false;
         Window.SurfaceDrawing += (_, e) =>
         {
-            WindowDrawSurfaceEx(e.Surface, drawn: out bool handled);
-            e.Handled = handled;
+            bool handled = e.Handled;
+            try
+            {
+                WindowDrawSurfaceEx(e.Surface, drawn: out handled);
+            }
+            finally
+            {
+                e.Handled = handled || e.Handled;
+            }
         };
         session.EndRead(Window);
         LegalNoticeMemo = new Memo(this);

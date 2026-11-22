@@ -357,7 +357,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit1.WinWidth = 230;
         EmailAddressEdit1.BorderWidth = 8;
         EmailAddressEdit1.BorderHeight = 5;
-        EmailAddressEdit1.Changed += (_, _) => EmailAddressEdit1Change(EmailAddressEdit1, slot: 0);
+        EmailAddressEdit1.Changed += (sender, _) => EmailAddressEdit1Change((Edit)sender, slot: 0);
         EmailAddressEdit1.MaxChars = 0;
         EmailAddressEdit1.CursorChar = 95;
         EmailAddressEdit1.BlinkDelay = 1;
@@ -520,7 +520,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit2.WinWidth = 230;
         EmailAddressEdit2.BorderWidth = 8;
         EmailAddressEdit2.BorderHeight = 6;
-        EmailAddressEdit2.Changed += (_, _) => EmailAddressEdit1Change(EmailAddressEdit2, slot: 1);
+        EmailAddressEdit2.Changed += (sender, _) => EmailAddressEdit1Change((Edit)sender, slot: 1);
         EmailAddressEdit2.MaxChars = 0;
         EmailAddressEdit2.CursorChar = 95;
         EmailAddressEdit2.BlinkDelay = 1;
@@ -553,7 +553,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit3.WinWidth = 230;
         EmailAddressEdit3.BorderWidth = 8;
         EmailAddressEdit3.BorderHeight = 6;
-        EmailAddressEdit3.Changed += (_, _) => EmailAddressEdit1Change(EmailAddressEdit3, slot: 2);
+        EmailAddressEdit3.Changed += (sender, _) => EmailAddressEdit1Change((Edit)sender, slot: 2);
         EmailAddressEdit3.MaxChars = 0;
         EmailAddressEdit3.CursorChar = 95;
         EmailAddressEdit3.BlinkDelay = 1;
@@ -608,7 +608,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit4.WinWidth = 230;
         EmailAddressEdit4.BorderWidth = 8;
         EmailAddressEdit4.BorderHeight = 6;
-        EmailAddressEdit4.Changed += (_, _) => EmailAddressEdit1Change(EmailAddressEdit4, slot: 3);
+        EmailAddressEdit4.Changed += (sender, _) => EmailAddressEdit1Change((Edit)sender, slot: 3);
         EmailAddressEdit4.MaxChars = 0;
         EmailAddressEdit4.CursorChar = 95;
         EmailAddressEdit4.BlinkDelay = 1;
@@ -890,7 +890,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit5.WinWidth = 230;
         EmailAddressEdit5.BorderWidth = 8;
         EmailAddressEdit5.BorderHeight = 6;
-        EmailAddressEdit5.Changed += (_, _) => EmailAddressEdit1Change(EmailAddressEdit5, slot: 4);
+        EmailAddressEdit5.Changed += (sender, _) => EmailAddressEdit1Change((Edit)sender, slot: 4);
         EmailAddressEdit5.MaxChars = 0;
         EmailAddressEdit5.CursorChar = 95;
         EmailAddressEdit5.BlinkDelay = 1;
@@ -945,7 +945,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit6.WinWidth = 230;
         EmailAddressEdit6.BorderWidth = 8;
         EmailAddressEdit6.BorderHeight = 6;
-        EmailAddressEdit6.Changed += (_, _) => EmailAddressEdit1Change(EmailAddressEdit6, slot: 5);
+        EmailAddressEdit6.Changed += (sender, _) => EmailAddressEdit1Change((Edit)sender, slot: 5);
         EmailAddressEdit6.MaxChars = 0;
         EmailAddressEdit6.CursorChar = 95;
         EmailAddressEdit6.BlinkDelay = 1;

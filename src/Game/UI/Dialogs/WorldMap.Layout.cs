@@ -203,8 +203,8 @@ public sealed partial class WorldMap : ILayoutModule
         PlayerPawnImage = new Image(this);
         session.BeginRead(PlayerPawnImage);
         PlayerPawnImage.Name = "PPawn";
-        PlayerPawnImage.MousePressed += (_, e) => PPawnMouseDown(PlayerPawnImage, e.Button, e.Shift, e.X, e.Y);
-        PlayerPawnImage.MouseMoved += (_, e) => PPawnMouseMove(PlayerPawnImage, e.Shift, e.X, e.Y);
+        PlayerPawnImage.MousePressed += (sender, e) => PPawnMouseDown((Image)sender, e.Button, e.Shift, e.X, e.Y);
+        PlayerPawnImage.MouseMoved += (sender, e) => PPawnMouseMove((Image)sender, e.Shift, e.X, e.Y);
         PlayerPawnImage.Visible = false;
         PlayerPawnImage.Priority = 1;
         PlayerPawnImage.WinLeft = 0;
@@ -234,8 +234,8 @@ public sealed partial class WorldMap : ILayoutModule
         EnemyPawnImage = new Image(this);
         session.BeginRead(EnemyPawnImage);
         EnemyPawnImage.Name = "EPawn";
-        EnemyPawnImage.MousePressed += (_, e) => EPawnMouseDown(EnemyPawnImage, e.Button, e.Shift, e.X, e.Y);
-        EnemyPawnImage.MouseMoved += (_, e) => EPawnMouseMove(EnemyPawnImage, e.Shift, e.X, e.Y);
+        EnemyPawnImage.MousePressed += (sender, e) => EPawnMouseDown((Image)sender, e.Button, e.Shift, e.X, e.Y);
+        EnemyPawnImage.MouseMoved += (sender, e) => EPawnMouseMove((Image)sender, e.Shift, e.X, e.Y);
         EnemyPawnImage.Visible = false;
         EnemyPawnImage.Priority = 0;
         EnemyPawnImage.WinLeft = 0;

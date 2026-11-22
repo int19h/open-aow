@@ -464,7 +464,7 @@ public sealed partial class TaskBar : ILayoutModule
         ChatButton = new Button(this);
         session.BeginRead(ChatButton);
         ChatButton.Name = "ChatBtn";
-        ChatButton.Updated += (_, _) => ChatBtnUpdate(ChatButton);
+        ChatButton.Updated += (sender, _) => ChatBtnUpdate((Button)sender);
         ChatButton.Visible = false;
         ChatButton.Priority = 0;
         ChatButton.WinLeft = 437;
@@ -1189,7 +1189,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatChatButton = new Button(this);
         session.BeginRead(CombatChatButton);
         CombatChatButton.Name = "TCChatBtn";
-        CombatChatButton.Updated += (_, _) => ChatBtnUpdate(CombatChatButton);
+        CombatChatButton.Updated += (sender, _) => ChatBtnUpdate((Button)sender);
         CombatChatButton.Visible = false;
         CombatChatButton.Priority = 0;
         CombatChatButton.WinLeft = 437;

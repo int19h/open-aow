@@ -7,8 +7,9 @@ using Aow.Game.UI.Dialogs;
 namespace Aow.Game.Tests;
 
 // A layout binds a dialog's handlers to its controls' events. A handler shared by several
-// controls takes its slot from the binding instead of the control's tag, and a click or a double
-// click raised by the control reaches the handler the form named.
+// controls takes its slot from the binding instead of the control's tag, a click or a double
+// click raised by the control reaches the handler the form named, and a handler that changes
+// the key reaches the caller through the raise as the old ref parameter did.
 [Collection("Engine")]
 [EngineState]
 public sealed class LayoutHandlerBindingTests(LayoutHandlerBindingTests.Host host) : IClassFixture<LayoutHandlerBindingTests.Host>
@@ -73,6 +74,34 @@ public sealed class LayoutHandlerBindingTests(LayoutHandlerBindingTests.Host hos
 
             ImageLibraries.BaseImageLibraryPath = previousImagePath;
         }
+    }
+
+    [Fact]
+    public void DirectCallPassesNoSender()
+    {
+        using Component owner = new(null);
+        using RelationWindow window = new(new UIContext(EngineFixture.Engine));
+        window.BribeGoldSlider = new HorizontalScrollBar(owner);
+        window.BribeGoldValueLabel = new Label(owner);
+        window.BribeGoldSlider.SetPositionUnclamped(17);
+
+        window.SBGoldSlidChange();
+
+        Assert.Equal("17", window.BribeGoldValueLabel.Text);
+    }
+
+    [Fact]
+    public void KeyHandlerZeroesTheKeyTheCallerReads()
+    {
+        using Component owner = new(null);
+        WindowControl control = new(owner);
+        control.SetVisibleWithoutUpdate(true);
+        control.KeyPressed += (_, e) => e.Key = 0;
+        ushort key = 13;
+
+        control.CheckKeyDown(ref key, shift: default);
+
+        Assert.Equal((ushort)0, key);
     }
 
     // The events, raised the way their declaring classes raise them: the control is the sender.

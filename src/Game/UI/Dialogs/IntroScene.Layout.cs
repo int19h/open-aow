@@ -62,8 +62,15 @@ public sealed partial class IntroScene : ILayoutModule
         Window.Dockable = false;
         Window.SurfaceDrawing += (_, e) =>
         {
-            WindowDrawSurfaceEx(e.Surface, out bool handled);
-            e.Handled = handled;
+            bool handled = e.Handled;
+            try
+            {
+                WindowDrawSurfaceEx(e.Surface, out handled);
+            }
+            finally
+            {
+                e.Handled = handled || e.Handled;
+            }
         };
         session.EndRead(Window);
         LayoutVideoPlayer videoPlayer = new(this);

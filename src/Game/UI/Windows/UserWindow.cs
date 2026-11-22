@@ -16,17 +16,25 @@ public sealed class UserWindow(Component owner) : Window(owner)
     public override void DrawSurface(Surface? surface)
     {
         bool handled = false;
-        SurfaceDrawingEventArgs e = new()
+        if (SurfaceDrawing is not null)
         {
-            Surface = surface
-        };
-        SurfaceDrawing?.Invoke(this, e);
-        handled = e.Handled;
+            SurfaceDrawingEventArgs e = new()
+            {
+                Surface = surface
+            };
+            try
+            {
+                SurfaceDrawing(this, e);
+            }
+            finally
+            {
+                handled = e.Handled;
+            }
+        }
+
         if (!handled)
         {
             base.DrawSurface(surface);
         }
     }
-
-    public delegate void DrawSurfaceExEvent(Surface? Surface, out bool Handled);
 }

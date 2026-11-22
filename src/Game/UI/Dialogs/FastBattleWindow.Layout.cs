@@ -1550,7 +1550,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         LeftShieldView = new UserDrawBox(this);
         session.BeginRead(LeftShieldView);
         LeftShieldView.Name = "LShieldUser";
-        LeftShieldView.Drawn += (_, e) => LShieldUserDraw(LeftShieldView, e.Surface);
+        LeftShieldView.Drawn += (sender, e) => LShieldUserDraw((UserDrawBox)sender, e.Surface);
         LeftShieldView.Priority = 3000;
         LeftShieldView.WinLeft = 15;
         LeftShieldView.WinTop = 105;
@@ -1574,7 +1574,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         RightShieldView = new UserDrawBox(this);
         session.BeginRead(RightShieldView);
         RightShieldView.Name = "RShieldUser";
-        RightShieldView.Drawn += (_, e) => RShieldUserDraw(RightShieldView, e.Surface);
+        RightShieldView.Drawn += (sender, e) => RShieldUserDraw((UserDrawBox)sender, e.Surface);
         RightShieldView.Priority = 3000;
         RightShieldView.WinLeft = 525;
         RightShieldView.WinTop = 105;

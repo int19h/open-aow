@@ -409,7 +409,7 @@ public sealed partial class VideoDialog : ILayoutModule
         ResolutionCheckBox.TextSelectedColor = 0;
         ResolutionCheckBox.WinWidth = 12;
         ResolutionCheckBox.Checked = false;
-        ResolutionCheckBox.Changed += (_, _) => ResCBChange(ResolutionCheckBox);
+        ResolutionCheckBox.Changed += (sender, _) => ResCBChange((CheckBox)sender);
         ResolutionCheckBox.RadioIndex = 0;
         session.EndRead(ResolutionCheckBox);
         Label resSwLbl = new(this);

@@ -624,10 +624,6 @@ type,TAoWMapField,Aow.Game.World.Map.MapField
 type,TAoWMapLevel,Aow.Game.World.Map.MapLevel
 type,TAoWMapObjectEditor,Aow.Game.World.MapObjectEditor
 type,TAoWOnDebugEvent,Aow.Game.UI.Controls.UIComponent.AoWOnDebugEvent
-type,TAoWOnDrawBackEvent`1,Aow.Game.UI.Controls.AoWOnDrawBackEvent`1
-type,TAoWOnDrawEvent`1,Aow.Game.UI.Controls.AoWOnDrawEvent`1
-type,TAoWOnDrawItemEvent`1,Aow.Game.UI.Controls.AoWOnDrawItemEvent`1
-type,TAoWOnDrawSurface`1,Aow.Game.UI.Controls.AoWOnDrawSurface`1
 type,TAoWRegistry,Aow.Game.GameSettings
 type,TAoWRoad,Aow.Game.World.Hexes.Road
 type,TAoWTerrain,Aow.Game.World.Hexes.Terrain
@@ -939,7 +935,6 @@ type,TDoubleItemList,Aow.Engine.Collections.DoubleItemList
 type,TDoubleItemList`1,Aow.Game.Engine.Collections.DoubleItemList`1
 type,TDoubleItem`1,Aow.Game.Engine.Collections.DoubleItem`1
 type,TDrawCellEvent`1,Aow.Rtl.DrawCellEvent`1
-type,TDrawSurfaceExEvent,Aow.Game.UI.Windows.UserWindow.DrawSurfaceExEvent
 type,TDungeon,Aow.Game.World.Structures.Dungeon
 type,TDungeonResource,Aow.Game.World.Structures.Dungeon.Resource
 type,TDuplicates,Aow.Rtl.Duplicates
@@ -2149,7 +2144,6 @@ type,AoWTerrain,Aow.Game.World.Hexes.Terrain
 type,AoWTerrain.Resource,Aow.Game.World.Hexes.Terrain.Resource
 type,AoWTerrainType,Aow.Game.World.Map.TerrainType
 type,AoWUserWindow,Aow.Game.UI.Windows.UserWindow
-type,AoWUserWindow.DrawSurfaceExEvent,Aow.Game.UI.Windows.UserWindow.DrawSurfaceExEvent
 type,AoWWaterHexagon,Aow.Game.World.Hexes.WaterHex
 type,AoWWaterHexagon.Resource,Aow.Game.World.Hexes.WaterHex.Resource
 type,ArenaDlg,Aow.Game.UI.Dialogs.ArenaDialog

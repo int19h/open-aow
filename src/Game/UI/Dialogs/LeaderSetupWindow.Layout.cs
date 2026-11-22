@@ -4216,7 +4216,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         MainFaceFrame = new Frame(this);
         session.BeginRead(MainFaceFrame);
         MainFaceFrame.Name = "MainFaceFr";
-        MainFaceFrame.Drawing += (_, e) => MainFaceFrPreDraw(MainFaceFrame, lockedSurface: e.Surface);
+        MainFaceFrame.Drawing += (sender, e) => MainFaceFrPreDraw((Frame)sender, lockedSurface: e.Surface);
         MainFaceFrame.Priority = 10;
         MainFaceFrame.WinLeft = 50;
         MainFaceFrame.WinTop = 55;

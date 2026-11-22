@@ -103,7 +103,7 @@ public sealed partial class PopupWindows : ILayoutModule
         OverviewsMenu.ItemHeight = 20;
         OverviewsMenu.OwnerItem = 0;
         OverviewsMenu.SubMenuShowDelay = 0;
-        OverviewsMenu.ItemSelected += (_, _) => OverViewsMenuSelect(OverviewsMenu);
+        OverviewsMenu.ItemSelected += (sender, _) => OverViewsMenuSelect((Menu)sender);
         OverviewsMenu.WinHeight = 0;
         session.EndRead(OverviewsMenu);
         Menu settingsMenu = new(this);

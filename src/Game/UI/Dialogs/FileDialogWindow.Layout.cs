@@ -199,7 +199,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         FileList.WinHeight = 140;
         FileList.BorderWidth = 21;
         FileList.BorderHeight = 3;
-        FileList.Changed += (_, _) => FileLBChange(FileList);
+        FileList.Changed += (sender, _) => FileLBChange((ListBox<FileTime>)sender);
         FileList.DoubleClicked += (_, _) => OpenbutClick();
         FileList.Selected = -1;
         FileList.ItemDrawn += (_, e) =>
@@ -1143,7 +1143,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         SaveList.WinHeight = 125;
         SaveList.BorderWidth = 21;
         SaveList.BorderHeight = 4;
-        SaveList.Changed += (_, _) => FileLBChange(SaveList);
+        SaveList.Changed += (sender, _) => FileLBChange((ListBox<FileTime>)sender);
         SaveList.DoubleClicked += (_, _) => OpenbutClick();
         SaveList.Selected = -1;
         SaveList.ItemDrawn += (_, e) =>
@@ -1267,7 +1267,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         DateList.WinHeight = 125;
         DateList.BorderWidth = 8;
         DateList.BorderHeight = 4;
-        DateList.Changed += (_, _) => FileLBChange(DateList);
+        DateList.Changed += (sender, _) => FileLBChange((ListBox<FileTime>)sender);
         DateList.DoubleClicked += (_, _) => OpenbutClick();
         DateList.Selected = -1;
         DateList.TextColor = 9415072;

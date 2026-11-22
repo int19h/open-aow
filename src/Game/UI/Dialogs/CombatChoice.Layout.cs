@@ -392,9 +392,9 @@ public sealed partial class CombatChoice : ILayoutModule
         TacticalCombatCheckBox.TextSelectedColor = 255;
         TacticalCombatCheckBox.WinWidth = 93;
         TacticalCombatCheckBox.Checked = false;
-        TacticalCombatCheckBox.Changed += (_, _) => TCchkChange(TacticalCombatCheckBox);
+        TacticalCombatCheckBox.Changed += (sender, _) => TCchkChange((CheckBox)sender);
         TacticalCombatCheckBox.RadioIndex = 1;
-        TacticalCombatCheckBox.DoubleClicked += (_, _) => TCchkDoubleClick(TacticalCombatCheckBox);
+        TacticalCombatCheckBox.DoubleClicked += (sender, _) => TCchkDoubleClick((CheckBox)sender);
         session.EndRead(TacticalCombatCheckBox);
         CheckBox fCchk = new(this);
         session.BeginRead(fCchk);
@@ -464,7 +464,7 @@ public sealed partial class CombatChoice : ILayoutModule
         MapView = new UserDrawBox(this);
         session.BeginRead(MapView);
         MapView.Name = "MapView";
-        MapView.Drawn += (_, e) => MapViewDraw(MapView, lockedSurface: e.Surface);
+        MapView.Drawn += (sender, e) => MapViewDraw((UserDrawBox)sender, lockedSurface: e.Surface);
         MapView.Updated += (_, _) => MapViewUpdate();
         MapView.Priority = 50;
         MapView.WinLeft = 21;

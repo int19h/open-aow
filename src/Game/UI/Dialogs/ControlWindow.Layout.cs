@@ -121,7 +121,7 @@ public sealed partial class ControlWindow : ILayoutModule
         session.BeginRead(Unit1Frame);
         Unit1Frame.Name = "Unit1Frame";
         Unit1Frame.MousePressed += (_, e) => Unit1FrameMouseDown(e.Button, e.Shift, e.X, e.Y, slot: 0);
-        Unit1Frame.Drawing += (_, e) => Unit1FramePreDraw(Unit1Frame, lockedSurface: e.Surface, slot: 0);
+        Unit1Frame.Drawing += (sender, e) => Unit1FramePreDraw((Frame)sender, lockedSurface: e.Surface, slot: 0);
         Unit1Frame.Priority = 0;
         Unit1Frame.WinLeft = 1;
         Unit1Frame.WinTop = 0;
@@ -151,7 +151,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit2Frame.Name = "Unit2Frame";
         Unit2Frame.Tag = 1;
         Unit2Frame.MousePressed += (_, e) => Unit1FrameMouseDown(e.Button, e.Shift, e.X, e.Y, slot: 1);
-        Unit2Frame.Drawing += (_, e) => Unit1FramePreDraw(Unit2Frame, lockedSurface: e.Surface, slot: 1);
+        Unit2Frame.Drawing += (sender, e) => Unit1FramePreDraw((Frame)sender, lockedSurface: e.Surface, slot: 1);
         Unit2Frame.Priority = 0;
         Unit2Frame.WinLeft = 49;
         Unit2Frame.WinTop = 0;
@@ -181,7 +181,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit3Frame.Name = "Unit3Frame";
         Unit3Frame.Tag = 2;
         Unit3Frame.MousePressed += (_, e) => Unit1FrameMouseDown(e.Button, e.Shift, e.X, e.Y, slot: 2);
-        Unit3Frame.Drawing += (_, e) => Unit1FramePreDraw(Unit3Frame, lockedSurface: e.Surface, slot: 2);
+        Unit3Frame.Drawing += (sender, e) => Unit1FramePreDraw((Frame)sender, lockedSurface: e.Surface, slot: 2);
         Unit3Frame.Priority = 0;
         Unit3Frame.WinLeft = 97;
         Unit3Frame.WinTop = 0;
@@ -211,7 +211,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit4Frame.Name = "Unit4Frame";
         Unit4Frame.Tag = 3;
         Unit4Frame.MousePressed += (_, e) => Unit1FrameMouseDown(e.Button, e.Shift, e.X, e.Y, slot: 3);
-        Unit4Frame.Drawing += (_, e) => Unit1FramePreDraw(Unit4Frame, lockedSurface: e.Surface, slot: 3);
+        Unit4Frame.Drawing += (sender, e) => Unit1FramePreDraw((Frame)sender, lockedSurface: e.Surface, slot: 3);
         Unit4Frame.Priority = 0;
         Unit4Frame.WinLeft = 145;
         Unit4Frame.WinTop = 0;
@@ -241,7 +241,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit5Frame.Name = "Unit5Frame";
         Unit5Frame.Tag = 4;
         Unit5Frame.MousePressed += (_, e) => Unit1FrameMouseDown(e.Button, e.Shift, e.X, e.Y, slot: 4);
-        Unit5Frame.Drawing += (_, e) => Unit1FramePreDraw(Unit5Frame, lockedSurface: e.Surface, slot: 4);
+        Unit5Frame.Drawing += (sender, e) => Unit1FramePreDraw((Frame)sender, lockedSurface: e.Surface, slot: 4);
         Unit5Frame.Priority = 0;
         Unit5Frame.WinLeft = 1;
         Unit5Frame.WinTop = 0;
@@ -271,7 +271,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit6Frame.Name = "Unit6Frame";
         Unit6Frame.Tag = 5;
         Unit6Frame.MousePressed += (_, e) => Unit1FrameMouseDown(e.Button, e.Shift, e.X, e.Y, slot: 5);
-        Unit6Frame.Drawing += (_, e) => Unit1FramePreDraw(Unit6Frame, lockedSurface: e.Surface, slot: 5);
+        Unit6Frame.Drawing += (sender, e) => Unit1FramePreDraw((Frame)sender, lockedSurface: e.Surface, slot: 5);
         Unit6Frame.Priority = 0;
         Unit6Frame.WinLeft = 49;
         Unit6Frame.WinTop = 0;
@@ -301,7 +301,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit7Frame.Name = "Unit7Frame";
         Unit7Frame.Tag = 6;
         Unit7Frame.MousePressed += (_, e) => Unit1FrameMouseDown(e.Button, e.Shift, e.X, e.Y, slot: 6);
-        Unit7Frame.Drawing += (_, e) => Unit1FramePreDraw(Unit7Frame, lockedSurface: e.Surface, slot: 6);
+        Unit7Frame.Drawing += (sender, e) => Unit1FramePreDraw((Frame)sender, lockedSurface: e.Surface, slot: 6);
         Unit7Frame.Priority = 0;
         Unit7Frame.WinLeft = 97;
         Unit7Frame.WinTop = 0;
@@ -331,7 +331,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit8Frame.Name = "Unit8Frame";
         Unit8Frame.Tag = 7;
         Unit8Frame.MousePressed += (_, e) => Unit1FrameMouseDown(e.Button, e.Shift, e.X, e.Y, slot: 7);
-        Unit8Frame.Drawing += (_, e) => Unit1FramePreDraw(Unit8Frame, lockedSurface: e.Surface, slot: 7);
+        Unit8Frame.Drawing += (sender, e) => Unit1FramePreDraw((Frame)sender, lockedSurface: e.Surface, slot: 7);
         Unit8Frame.Priority = 0;
         Unit8Frame.WinLeft = 145;
         Unit8Frame.WinTop = 0;
@@ -1156,7 +1156,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit1CheckBox.TextSelectedColor = 0;
         Unit1CheckBox.WinWidth = 46;
         Unit1CheckBox.Checked = false;
-        Unit1CheckBox.Changed += (_, _) => Unit1ChkChange(Unit1CheckBox);
+        Unit1CheckBox.Changed += (sender, _) => Unit1ChkChange((CheckBox)sender);
         Unit1CheckBox.RadioIndex = 0;
         session.EndRead(Unit1CheckBox);
         Unit2CheckBox = new CheckBox(this);
@@ -1193,7 +1193,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit2CheckBox.TextSelectedColor = 0;
         Unit2CheckBox.WinWidth = 46;
         Unit2CheckBox.Checked = false;
-        Unit2CheckBox.Changed += (_, _) => Unit1ChkChange(Unit2CheckBox);
+        Unit2CheckBox.Changed += (sender, _) => Unit1ChkChange((CheckBox)sender);
         Unit2CheckBox.RadioIndex = 0;
         session.EndRead(Unit2CheckBox);
         Unit3CheckBox = new CheckBox(this);
@@ -1230,7 +1230,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit3CheckBox.TextSelectedColor = 0;
         Unit3CheckBox.WinWidth = 46;
         Unit3CheckBox.Checked = false;
-        Unit3CheckBox.Changed += (_, _) => Unit1ChkChange(Unit3CheckBox);
+        Unit3CheckBox.Changed += (sender, _) => Unit1ChkChange((CheckBox)sender);
         Unit3CheckBox.RadioIndex = 0;
         session.EndRead(Unit3CheckBox);
         Unit5CheckBox = new CheckBox(this);
@@ -1267,7 +1267,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit5CheckBox.TextSelectedColor = 0;
         Unit5CheckBox.WinWidth = 46;
         Unit5CheckBox.Checked = false;
-        Unit5CheckBox.Changed += (_, _) => Unit1ChkChange(Unit5CheckBox);
+        Unit5CheckBox.Changed += (sender, _) => Unit1ChkChange((CheckBox)sender);
         Unit5CheckBox.RadioIndex = 0;
         session.EndRead(Unit5CheckBox);
         Unit6CheckBox = new CheckBox(this);
@@ -1304,7 +1304,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit6CheckBox.TextSelectedColor = 0;
         Unit6CheckBox.WinWidth = 46;
         Unit6CheckBox.Checked = false;
-        Unit6CheckBox.Changed += (_, _) => Unit1ChkChange(Unit6CheckBox);
+        Unit6CheckBox.Changed += (sender, _) => Unit1ChkChange((CheckBox)sender);
         Unit6CheckBox.RadioIndex = 0;
         session.EndRead(Unit6CheckBox);
         Unit7CheckBox = new CheckBox(this);
@@ -1341,7 +1341,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit7CheckBox.TextSelectedColor = 0;
         Unit7CheckBox.WinWidth = 46;
         Unit7CheckBox.Checked = false;
-        Unit7CheckBox.Changed += (_, _) => Unit1ChkChange(Unit7CheckBox);
+        Unit7CheckBox.Changed += (sender, _) => Unit1ChkChange((CheckBox)sender);
         Unit7CheckBox.RadioIndex = 0;
         session.EndRead(Unit7CheckBox);
         Unit4CheckBox = new CheckBox(this);
@@ -1378,7 +1378,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit4CheckBox.TextSelectedColor = 0;
         Unit4CheckBox.WinWidth = 46;
         Unit4CheckBox.Checked = false;
-        Unit4CheckBox.Changed += (_, _) => Unit1ChkChange(Unit4CheckBox);
+        Unit4CheckBox.Changed += (sender, _) => Unit1ChkChange((CheckBox)sender);
         Unit4CheckBox.RadioIndex = 0;
         session.EndRead(Unit4CheckBox);
         Unit8CheckBox = new CheckBox(this);
@@ -1415,7 +1415,7 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit8CheckBox.TextSelectedColor = 0;
         Unit8CheckBox.WinWidth = 46;
         Unit8CheckBox.Checked = false;
-        Unit8CheckBox.Changed += (_, _) => Unit1ChkChange(Unit8CheckBox);
+        Unit8CheckBox.Changed += (sender, _) => Unit1ChkChange((CheckBox)sender);
         Unit8CheckBox.RadioIndex = 0;
         session.EndRead(Unit8CheckBox);
         EmptySlot1Frame = new Frame(this);

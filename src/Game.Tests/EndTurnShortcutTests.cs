@@ -104,11 +104,17 @@ public sealed class EndTurnShortcutTests
             Window = new MapWindow(UI);
             Window.MainWindow = new Window(null);
             Window.MainWindow.SetVisibleWithoutUpdate(true);
-            Window.MainWindow.KeyPressed += (_, e) =>
+            Window.MainWindow.KeyPressed += (sender, e) =>
             {
                 ushort key = e.Key;
-                Window.MapWindowKeyDown(Window.MainWindow, ref key, e.Shift);
-                e.Key = key;
+                try
+                {
+                    Window.MapWindowKeyDown((Window)sender, ref key, e.Shift);
+                }
+                finally
+                {
+                    e.Key = key;
+                }
             };
             Window.MapViewer = new HexSpriteMapViewer(null);
             TaskBar bar = UI.Add(new TaskBar(UI));
