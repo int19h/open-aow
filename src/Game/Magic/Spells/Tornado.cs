@@ -38,7 +38,7 @@ public class Tornado : GlobalTargetSpell
         {
             TornadoTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
-            eventValue.SetLocation((sbyte)X, (sbyte)Y, layer: (sbyte)L);
+            eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), layer: (sbyte)L);
             ArmyHexSprite army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
             if (army is not null)
             {
@@ -57,7 +57,7 @@ public class Tornado : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:1806
-    public bool ValidWarpLocation(ArmyHexSprite army, sbyte X, sbyte Y, sbyte layer)
+    public bool ValidWarpLocation(ArmyHexSprite army, int X, int Y, sbyte layer)
     {
         MapFieldMessage message = default;
         MapField mapField = StrategicMap.Current.MapContainer.GetField(X, Y, layer);
@@ -81,8 +81,8 @@ public class Tornado : GlobalTargetSpell
     {
         DelphiList<MapField> locations = [];
         MovePointTable table = army.Army.CreateMovePointTable(selection);
-        sbyte hexY = army.HexY;
-        sbyte hexX = army.HexX;
+        int hexY = army.HexY;
+        int hexX = army.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 10);
         MapLevel mapLevel = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
         MapField? mapField;
@@ -107,7 +107,7 @@ public class Tornado : GlobalTargetSpell
         {
             int index = Random(locations.Count);
             mapField = locations[index];
-            if (ValidWarpLocation(army, mapField.HexX, mapField.HexY, layer: mapField.HexLevel))
+            if (ValidWarpLocation(army, mapField.HexX, mapField.HexY, layer: (sbyte)mapField.HexLevel))
             {
                 found = true;
                 result = mapField.Location;

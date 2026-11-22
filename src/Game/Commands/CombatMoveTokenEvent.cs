@@ -81,7 +81,7 @@ public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                 int hexY = default;
                 while (hexNumber <= 6)
                 {
-                    sbyte yhx = Unit.UnitHexSprite.HexY;
+                    int yhx = Unit.UnitHexSprite.HexY;
                     HexGeometry.CenterHexNumberToHex(Unit.UnitHexSprite.HexX, yhx, hexNumber, ref hexX, ref hexY);
                     TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                     if (hexSprite is not null && PreviousUnit != hexSprite.Unit && hexSprite.Unit.GetEnabled() && !hexSprite.Unit.GetLocked() && CombatObject.MeleeDamageTypes(hexSprite.Unit) != DamageTypes.None && hexSprite.Unit.Side != Unit.Side && hexSprite.Action == TacticalBattleUnitHexSprite.SpriteAction.Move && hexSprite.Unit.GetAbilityEnabled(1) == Unit.GetAbilityEnabled(1))
@@ -132,12 +132,12 @@ public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                         {
                             Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Busy);
                             _freeStrikeUnit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepUp);
-                            sbyte hexY = _freeStrikeUnit.UnitHexSprite.HexY;
-                            sbyte fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
-                            sbyte hexX = _freeStrikeUnit.UnitHexSprite.HexX;
-                            sbyte fUnitHexSpriteHexX = Unit.UnitHexSprite.HexX;
-                            ushort meleeDirIndex = TacticalTables.GetMeleeDirectionIndex(_freeStrikeUnit.UnitHexSprite.HexX, hexX - fUnitHexSpriteHexX, hexY - fUnitHexSpriteHexY);
-                            _freeStrikeUnit.UnitHexSprite.SetDirection((byte)meleeDirIndex);
+                            int hexY = _freeStrikeUnit.UnitHexSprite.HexY;
+                            int fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
+                            int hexX = _freeStrikeUnit.UnitHexSprite.HexX;
+                            int fUnitHexSpriteHexX = Unit.UnitHexSprite.HexX;
+                            int meleeDirIndex = TacticalTables.GetMeleeDirectionIndex(_freeStrikeUnit.UnitHexSprite.HexX, hexX - fUnitHexSpriteHexX, hexY - fUnitHexSpriteHexY);
+                            _freeStrikeUnit.UnitHexSprite.SetDirection(meleeDirIndex.TruncateToByte());
                             Step = TokenStep.InitializeStrike;
                         }
                         catch
@@ -183,7 +183,7 @@ public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                                     TacticalBattleUnit.MakeHitBlood(Unit, Strike.Damage);
                                 }
 
-                                sbyte hexY = Unit.UnitHexSprite.HexY;
+                                int hexY = Unit.UnitHexSprite.HexY;
                                 HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out int x, out int y);
                                 if ((Strike.DamageTypes & ~Strike.Effects) != DamageTypes.None)
                                 {
@@ -295,15 +295,15 @@ public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                             bool notExplorationEnabled = !CombatMap.Current.ExplorationEnabled;
                             if (!notExplorationEnabled)
                             {
-                                sbyte hexY = Unit.UnitHexSprite.HexY;
-                                sbyte hexX = Unit.UnitHexSprite.HexX;
+                                int hexY = Unit.UnitHexSprite.HexY;
+                                int hexX = Unit.UnitHexSprite.HexX;
                                 notExplorationEnabled = CombatMap.Current.MapContainer.GetField(hexX, hexY, 0).GetExplored(CombatMap.Current.SeatedPlayer);
                             }
 
                             if (notExplorationEnabled)
                             {
-                                sbyte hexY = Unit.UnitHexSprite.HexY;
-                                sbyte hexX = Unit.UnitHexSprite.HexX;
+                                int hexY = Unit.UnitHexSprite.HexY;
+                                int hexX = Unit.UnitHexSprite.HexX;
                                 CombatMap.Current.MakeVisible(hexX, hexY, 0, radius: 3);
                             }
 
@@ -342,9 +342,9 @@ public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
             {
                 if (Unit.GetEnabled() && Unit.CombatPlayer == CombatMap.Current.CurrentCombatPlayer)
                 {
-                    sbyte hexX = Unit.UnitHexSprite.HexX;
+                    int hexX = Unit.UnitHexSprite.HexX;
                     CombatMap.Current.Players.GetPlayers(CombatMap.Current.CurrentCombatPlayer).LastX = hexX;
-                    sbyte hexY = Unit.UnitHexSprite.HexY;
+                    int hexY = Unit.UnitHexSprite.HexY;
                     CombatMap.Current.Players.GetPlayers(CombatMap.Current.CurrentCombatPlayer).LastY = hexY;
                 }
             }
@@ -396,9 +396,9 @@ public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
             if (MoveIndex == 0 && newField.FindChild(World.FleeLocation.ClassId) is not null && Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
             {
                 Unit.SetStatus(CombatObjectStatuses.Fled);
-                sbyte hexY = Unit.UnitHexSprite.HexY;
-                sbyte hexX = Unit.UnitHexSprite.HexX;
-                sbyte fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
+                int hexY = Unit.UnitHexSprite.HexY;
+                int hexX = Unit.UnitHexSprite.HexX;
+                int fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
                 Rect r = new(Unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, hexX + 1, hexY + 1);
                 Unit.UnitHexSprite?.Dispose();
                 CombatMap.Current.TriggerMapChangedEvent(r, L: 0);
@@ -411,19 +411,19 @@ public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                 {
                     sbyte player = Unit.GetPlayer();
                     int visibilityRange = Unit.GetVisibilityRange();
-                    sbyte hexY = Unit.UnitHexSprite.HexY;
-                    sbyte hexX = Unit.UnitHexSprite.HexX;
+                    int hexY = Unit.UnitHexSprite.HexY;
+                    int hexX = Unit.UnitHexSprite.HexX;
                     _ = CombatMap.Current.ExploreArea(hexX, hexY, 0, player, range: visibilityRange);
                     int fUnitVisibilityRange = Unit.GetVisibilityRange();
-                    sbyte fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
-                    sbyte fUnitHexSpriteHexX = Unit.UnitHexSprite.HexX;
+                    int fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
+                    int fUnitHexSpriteHexX = Unit.UnitHexSprite.HexX;
                     CombatMap.Current.MapChangedRadius(fUnitHexSpriteHexX, fUnitHexSpriteHexY, L: 0, radius: fUnitVisibilityRange + 1);
                 }
                 else
                 {
-                    sbyte hexY = Unit.UnitHexSprite.HexY;
-                    sbyte hexX = Unit.UnitHexSprite.HexX;
-                    sbyte fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
+                    int hexY = Unit.UnitHexSprite.HexY;
+                    int hexX = Unit.UnitHexSprite.HexX;
+                    int fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
                     Rect rectangle2 = new(Unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, hexX + 1, hexY + 1);
                     CombatMap.Current.TriggerMapChangedEvent(rectangle2, L: 0);
                 }

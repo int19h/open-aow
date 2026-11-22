@@ -43,10 +43,10 @@ public partial class HeroJoinEventLog(CustomNode? owner) : JoinEventLog(owner)
         {
             Troop? u = StrategicMap.Current.UnitControl.FindUnit(FirstUnitId);
             MapCoordinate coordinate18 = u.GetLocation();
-            sbyte locationX = coordinate18.X;
-            sbyte locationY = coordinate18.Y;
-            sbyte locationMapLevel = coordinate18.MapLevel;
-            MapCoordinate location = new(locationX, locationY, locationMapLevel);
+            int locationX = coordinate18.X;
+            int locationY = coordinate18.Y;
+            int locationMapLevel = coordinate18.MapLevel;
+            MapCoordinate location = new((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
             NegotiateTokenEvent tokenEvent = new(null)
             {
                 Holder = CreationHolder(),

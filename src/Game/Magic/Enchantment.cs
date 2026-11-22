@@ -79,9 +79,9 @@ public class Enchantment(CustomNode owner) : EngineObject(owner)
     public virtual bool CenterToLocation()
     {
         MapCoordinate coordinate22 = GetLocation();
-        sbyte x = coordinate22.X;
-        sbyte y = coordinate22.Y;
-        sbyte l = coordinate22.MapLevel;
+        int x = coordinate22.X;
+        int y = coordinate22.Y;
+        int l = coordinate22.MapLevel;
         if (x != -1)
         {
             if (StrategicMap.Current.Visible(x, y, l, radius: 0))

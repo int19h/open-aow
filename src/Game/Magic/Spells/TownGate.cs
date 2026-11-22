@@ -12,6 +12,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -37,9 +38,9 @@ public class TownGate : CityTargetSpell
         byte selection = default;
         ArmyHexSprite? army = default;
         MapCoordinate coordinate84 = source.GetLocation();
-        sbyte x = coordinate84.X;
-        sbyte y = coordinate84.Y;
-        sbyte l = coordinate84.MapLevel;
+        int x = coordinate84.X;
+        int y = coordinate84.Y;
+        int l = coordinate84.MapLevel;
         _ = townGateEvent.ArmyId.RetrieveArmy(ref army, ref selection);
         MapField field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(townGateEvent.TeleportLocation);
         army.Army.ResetDestinationPosition();
@@ -148,7 +149,7 @@ public class TownGate : CityTargetSpell
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    found = ValidTeleportLocation(army, selection, (sbyte)walk.X, (sbyte)walk.Y, L: (sbyte)L);
+                    found = ValidTeleportLocation(army, selection, walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), L: L.TruncateToSByte());
                 }
 
                 if (!found)
@@ -177,7 +178,7 @@ public class TownGate : CityTargetSpell
     }
 
     // CitySpells.pas:432
-    public bool ValidTeleportLocation(ArmyHexSprite? army, byte selection, sbyte X, sbyte Y, sbyte L)
+    public bool ValidTeleportLocation(ArmyHexSprite? army, byte selection, int X, int Y, int L)
     {
         MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
         bool result = field.GetPlayer() == -1 || field.GetPlayer() == army.Army.Player;

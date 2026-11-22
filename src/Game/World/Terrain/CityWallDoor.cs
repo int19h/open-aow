@@ -29,8 +29,8 @@ public class CityWallDoor(CustomNode? owner) : CityWall(owner)
         }
         else
         {
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexY = HexY;
+            int hexX = HexX;
             TacticalBattleUnitHexSprite? combatUnit = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
             if (combatUnit is not null)
             {

@@ -34,8 +34,8 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
         bool result = base.PlaceOnMap();
         if (result)
         {
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexY = HexY;
+            int hexX = HexX;
             UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 
@@ -111,10 +111,10 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
 
     // CombatObstacle.pas:104
-    public override bool CanPlace(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => true;
+    public override bool CanPlace(MapContainer? mapContainer, int hexX, int hexY, int hexLevel) => true;
 
     // CombatObstacle.pas:203
-    public override bool PlaceHex(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
+    public override bool PlaceHex(MapContainer? mapContainer, int hexX, int hexY, int hexLevel) => base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
 
     // CombatObstacle.pas:125
     public void CreateShadow()

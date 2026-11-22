@@ -101,7 +101,7 @@ public sealed class LibraryImageClass
             int j = 0;
             for (int number3 = lockedSurface.Width - 1; j <= number3; j++)
             {
-                ushort x = (ushort)j;
+                int x = j.TruncateToUInt16();
                 if (GetPixel(x, number2) == transparentColor)
                 {
                     Rectangle? rectangle = FindRectangle(x, number2);

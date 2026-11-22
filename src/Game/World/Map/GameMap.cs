@@ -280,7 +280,7 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:141, then AoWHSMap.PAS:440.
-    public virtual void TriggerTerrainChangedEvent(in Rect R, sbyte L)
+    public virtual void TriggerTerrainChangedEvent(in Rect R, int L)
     {
         TerrainChangedNotification notification = new();
         TerrainChangedNotification.TerrainChangedInfo info = notification.Info;
@@ -342,7 +342,7 @@ public partial class GameMap : OwningNode
         {
             for (int x = 0, lastX = MapContainer.Width - 1; x <= lastX; x++)
             {
-                _ = resource.PlaceResourceUser(this, (sbyte)x, (sbyte)y, (sbyte)L);
+                _ = resource.PlaceResourceUser(this, x.TruncateToSByte(), y.TruncateToSByte(), L.TruncateToSByte());
             }
         }
     }
@@ -508,7 +508,7 @@ public partial class GameMap : OwningNode
                 r.Bottom = mapLevel.Height;
             }
 
-            NotifyTerrainChanged(r, L: (sbyte)L);
+            NotifyTerrainChanged(r, L: L.TruncateToSByte());
         }
 
         return count;
@@ -619,7 +619,7 @@ public partial class GameMap : OwningNode
                     r.Bottom = mapLevel.Height;
                 }
 
-                NotifyTerrainChanged(r, L: (sbyte)L);
+                NotifyTerrainChanged(r, L: L.TruncateToSByte());
             }
 
             return count;
@@ -783,7 +783,7 @@ public partial class GameMap : OwningNode
     public void RemoveMapLevel(int index) => MapContainer.RemoveLevel(index);
 
     // HSMAP.PAS:151
-    public void NotifyTerrainChanged(in Rect R, sbyte L)
+    public void NotifyTerrainChanged(in Rect R, int L)
     {
         if (_terrainChangedLockCounter == 0)
         {
@@ -792,7 +792,7 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:157
-    public void TerrainChangedRadius(sbyte X, sbyte Y, sbyte L, int radius)
+    public void TerrainChangedRadius(int X, int Y, int L, int radius)
     {
         Rect r = default;
         MapLevel mapLevel = MapContainer.GetMapLevel(L);
@@ -931,7 +931,7 @@ public partial class GameMap : OwningNode
             r.Bottom = mapLevel.Height;
         }
 
-        NotifyTerrainChanged(r, L: (sbyte)L);
+        NotifyTerrainChanged(r, L: L.TruncateToSByte());
     }
 
     // HSMAP.PAS:561
@@ -1219,19 +1219,19 @@ public partial class GameMap : OwningNode
     public virtual void DropHeroItem(Hero hero, Item? item)
     {
         MapCoordinate coordinate30 = hero.GetLocation();
-        sbyte x = coordinate30.X;
-        sbyte y = coordinate30.Y;
-        sbyte l = coordinate30.MapLevel;
-        _ = item.PlaceOnMap(this, x, y, l);
+        int x = coordinate30.X;
+        int y = coordinate30.Y;
+        int l = coordinate30.MapLevel;
+        _ = item.PlaceOnMap(this, (sbyte)x, (sbyte)y, (sbyte)l);
     }
 
     // AoWHSMap.PAS:878
     public virtual ItemList? GetHeroItemsOnGround(Hero hero)
     {
         MapCoordinate coordinate31 = hero.GetLocation();
-        sbyte x = coordinate31.X;
-        sbyte y = coordinate31.Y;
-        sbyte l = coordinate31.MapLevel;
+        int x = coordinate31.X;
+        int y = coordinate31.Y;
+        int l = coordinate31.MapLevel;
         if (x != -1)
         {
             ItemHexSprite items = StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(ItemHexSprite.ClassId);
@@ -1281,7 +1281,7 @@ public partial class GameMap : OwningNode
     }
 
     // AoWHSMap.PAS:420
-    public void PlayCenterAnimation(sbyte X, sbyte Y, sbyte L)
+    public void PlayCenterAnimation(int X, int Y, int L)
     {
         ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
         animation.SetImageSequence(GamePack.Current.ImageSequences.GetImageSequence(11));
@@ -1304,7 +1304,7 @@ public partial class GameMap : OwningNode
     {
         if (MapChangedLockCount == 0 && Status.Contains(HexSpriteMapStatuses.Activated))
         {
-            TriggerTerrainChangedEvent(R, L: (sbyte)L);
+            TriggerTerrainChangedEvent(R, L: L.TruncateToSByte());
         }
     }
 
@@ -1337,7 +1337,7 @@ public partial class GameMap : OwningNode
             r.Bottom = level.Height;
         }
 
-        NotifyTerrainChanged(r, L: (sbyte)L);
+        NotifyTerrainChanged(r, L: L.TruncateToSByte());
     }
 
     // AoWHSMap.PAS:468

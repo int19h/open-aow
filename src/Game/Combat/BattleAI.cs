@@ -81,8 +81,8 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
             MoveType = moveType,
             Ability = (short)ability,
             Spell = (short)spell,
-            X = (ushort)x,
-            Y = (ushort)y,
+            X = x.TruncateToUInt16(),
+            Y = y.TruncateToUInt16(),
             Value = value
         };
         _moves.Add(m);
@@ -206,7 +206,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
             int distance;
             for (int i = 0, last = _enemies.Count - 1; i <= last; i++)
             {
-                sbyte hexY = _enemies[i].UnitHexSprite.HexY;
+                int hexY = _enemies[i].UnitHexSprite.HexY;
                 distance = HexGeometry.DeltaHexToRadius(x, y, _enemies[i].UnitHexSprite.HexX, hexY);
                 if (distance < 15 && _enemies[i].GetTargetStrength() > 0)
                 {
@@ -218,7 +218,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
             {
                 if (_units[i] != unit)
                 {
-                    sbyte hexY = _units[i].UnitHexSprite.HexY;
+                    int hexY = _units[i].UnitHexSprite.HexY;
                     distance = HexGeometry.DeltaHexToRadius(x, y, _units[i].UnitHexSprite.HexX, hexY);
                     if (distance < 15 && _units[i].GetTargetStrength() > 0)
                     {
@@ -229,7 +229,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
 
             for (int i = 0, last = _allies.Count - 1; i <= last; i++)
             {
-                sbyte hexY = _allies[i].UnitHexSprite.HexY;
+                int hexY = _allies[i].UnitHexSprite.HexY;
                 distance = HexGeometry.DeltaHexToRadius(x, y, _allies[i].UnitHexSprite.HexX, hexY);
                 if (distance < 15 && _allies[i].GetTargetStrength() > 0)
                 {
@@ -668,11 +668,11 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                 DelphiList<RangedObstacle> obstacles = [];
                 if (effect == BattleEffectType.Breath)
                 {
-                    TacticalTables.MakeRangedPath(U.Side, speed: 50, arc: 20, unusedHeight: 50, (short)x1, (short)y1, (short)x2, (short)y2, 0, 0, includeUnits: false, path: point3DList, obstacles);
+                    TacticalTables.MakeRangedPath(U.Side, speed: 50, arc: 20, unusedHeight: 50, x1.TruncateToInt16(), y1.TruncateToInt16(), x2.TruncateToInt16(), y2.TruncateToInt16(), 0, 0, includeUnits: false, path: point3DList, obstacles);
                 }
                 else
                 {
-                    TacticalTables.MakeAbilityPath(U.Side, ability: (short)ability, spell: (short)spell, (short)x1, (short)y1, (short)x2, (short)y2, path: point3DList, obstacles);
+                    TacticalTables.MakeAbilityPath(U.Side, ability: (short)ability, spell: (short)spell, x1.TruncateToInt16(), y1.TruncateToInt16(), x2.TruncateToInt16(), y2.TruncateToInt16(), path: point3DList, obstacles);
                 }
 
                 int total = 0;
@@ -774,8 +774,8 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
     {
         int x = default;
         int y = default;
-        sbyte hexX = U.UnitHexSprite.HexX;
-        sbyte hexY = U.UnitHexSprite.HexY;
+        int hexX = U.UnitHexSprite.HexX;
+        int hexY = U.UnitHexSprite.HexY;
         int result = EvalPath(ref value, ignore, ability, spell, hexX, hexY, x2, y2, hitWalls: false, U, ignoreWall: null);
         for (int i = 0; i <= 11; i++)
         {
@@ -785,8 +785,8 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
             EvalHex(ignore, ability, spell, x, y, value: ref v, hitWalls: true, friendly: true, U, ignoreWall: null);
             if (v != 0)
             {
-                sbyte fUnitHexSpriteHexX = U.UnitHexSprite.HexX;
-                sbyte fUnitHexSpriteHexY = U.UnitHexSprite.HexY;
+                int fUnitHexSpriteHexX = U.UnitHexSprite.HexX;
+                int fUnitHexSpriteHexY = U.UnitHexSprite.HexY;
                 _ = EvalPath(ref v, ignore, ability, spell, fUnitHexSpriteHexX, fUnitHexSpriteHexY, x, y, hitWalls: false, U, ignoreWall: null);
             }
 
@@ -807,13 +807,13 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
         int terrainValue = 0;
         int originalX = x2;
         int originalY = y2;
-        sbyte yhx = unit.UnitHexSprite.HexY;
+        int yhx = unit.UnitHexSprite.HexY;
         int distance = HexGeometry.DeltaHexToRadius(unit.UnitHexSprite.HexX, yhx, x2, y2);
         int i;
         int pathCost;
         if (unit.MovePoints > 0)
         {
-            CombatMap.Current.MoveControl.CalculatePath(settings, path: basePath, (sbyte)x2, (sbyte)y2, L: 0);
+            CombatMap.Current.MoveControl.CalculatePath(settings, path: basePath, x2.TruncateToSByte(), y2.TruncateToSByte(), L: 0);
             pathCost = MakeTerrainPath(settings, path: basePath, value: ref terrainValue, unit, ignore: target, freeStrikes: true, findWalls: target is TacticalBattleUnit && _side == CombatSideIndex.Attacker, cost: 1);
             i = 0;
             int last = basePath.Count - 1;
@@ -1042,8 +1042,8 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                         switch (spell)
                                                         {
                                                             case 117:
-                                                                sbyte xhx = unit.UnitHexSprite.HexX;
-                                                                sbyte fUnitHexSpriteHexY = unit.UnitHexSprite.HexY;
+                                                                int xhx = unit.UnitHexSprite.HexX;
+                                                                int fUnitHexSpriteHexY = unit.UnitHexSprite.HexY;
                                                                 pathValue = EvalPath(ref value, ignore: target, ability, spell, xhx, fUnitHexSpriteHexY, x2, y2, hitWalls: true, U: unit, ignoreWall: wall);
                                                                 EvalArea(ref value, ignore: target, ability, spell, x2, y2, hitWalls: true, includeCenter: true, friendly: true, unit, ignoreWall: wall);
                                                                 bestIndex = x2;
@@ -1053,12 +1053,12 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                                     for (; i <= 6; i += 1)
                                                                     {
                                                                         HexGeometry.CenterHexNumberToHex(x2, y2, hexNumber: i, ref hexX, ref hexY);
-                                                                        sbyte hexY2 = unit.UnitHexSprite.HexY;
+                                                                        int hexY2 = unit.UnitHexSprite.HexY;
                                                                         if (HexGeometry.DeltaHexToRadius(unit.UnitHexSprite.HexX, hexY2, hexX, hexY) <= range)
                                                                         {
                                                                             d = cost;
-                                                                            sbyte fUnitHexSpriteHexX = unit.UnitHexSprite.HexX;
-                                                                            sbyte hexY3 = unit.UnitHexSprite.HexY;
+                                                                            int fUnitHexSpriteHexX = unit.UnitHexSprite.HexX;
+                                                                            int hexY3 = unit.UnitHexSprite.HexY;
                                                                             v = EvalPath(ref d, ignore: target, ability, spell, fUnitHexSpriteHexX, hexY3, hexX, hexY, hitWalls: true, U: unit, ignoreWall: wall);
                                                                             EvalArea(ref d, ignore: target, ability, spell, hexX, hexY, hitWalls: true, includeCenter: true, friendly: true, unit, ignoreWall: wall);
                                                                             if (d > value)
@@ -1082,7 +1082,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                                     i = 1;
                                                                     for (; i <= 36; i += 1)
                                                                     {
-                                                                        sbyte hexY2 = unit.UnitHexSprite.HexY;
+                                                                        int hexY2 = unit.UnitHexSprite.HexY;
                                                                         HexGeometry.CenterHexNumberToHex(unit.UnitHexSprite.HexX, hexY2, hexNumber: i, ref hexX, ref hexY);
                                                                         EvalHex(null, ability, spell, hexX, hexY, ref value, hitWalls: true, friendly: true, U: unit, ignoreWall: wall);
                                                                     }
@@ -1107,7 +1107,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                                     for (; i <= 18; i += 1)
                                                                     {
                                                                         HexGeometry.CenterHexNumberToHex(x2, y2, hexNumber: i, ref hexX, ref hexY);
-                                                                        sbyte hexY2 = unit.UnitHexSprite.HexY;
+                                                                        int hexY2 = unit.UnitHexSprite.HexY;
                                                                         if (HexGeometry.DeltaHexToRadius(unit.UnitHexSprite.HexX, hexY2, hexX, hexY) <= range)
                                                                         {
                                                                             d = cost;
@@ -1137,8 +1137,8 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                             case 119:
                                                             case 122:
                                                             case 123:
-                                                                sbyte hexX2 = unit.UnitHexSprite.HexX;
-                                                                sbyte hexY4 = unit.UnitHexSprite.HexY;
+                                                                int hexX2 = unit.UnitHexSprite.HexX;
+                                                                int hexY4 = unit.UnitHexSprite.HexY;
                                                                 pathValue = EvalPath(ref value, ignore: target, ability, spell, hexX2, hexY4, x2, y2, hitWalls: false, U: unit, ignoreWall: wall);
                                                                 break;
                                                             case 116:
@@ -1150,7 +1150,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                                     for (; i <= 6; i += 1)
                                                                     {
                                                                         HexGeometry.CenterHexNumberToHex(x2, y2, hexNumber: i, ref hexX, ref hexY);
-                                                                        sbyte hexY2 = unit.UnitHexSprite.HexY;
+                                                                        int hexY2 = unit.UnitHexSprite.HexY;
                                                                         if (HexGeometry.DeltaHexToRadius(unit.UnitHexSprite.HexX, hexY2, hexX, hexY) <= range)
                                                                         {
                                                                             d = cost;
@@ -1178,7 +1178,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                                     for (; i <= 6; i += 1)
                                                                     {
                                                                         HexGeometry.CenterHexNumberToHex(x2, y2, hexNumber: i, ref hexX, ref hexY);
-                                                                        sbyte hexY2 = unit.UnitHexSprite.HexY;
+                                                                        int hexY2 = unit.UnitHexSprite.HexY;
                                                                         if (HexGeometry.DeltaHexToRadius(unit.UnitHexSprite.HexX, hexY2, hexX, hexY) <= range)
                                                                         {
                                                                             d = cost;
@@ -1205,7 +1205,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                                     for (; i <= 6; i += 1)
                                                                     {
                                                                         HexGeometry.CenterHexNumberToHex(x2, y2, hexNumber: i, ref hexX, ref hexY);
-                                                                        sbyte hexY2 = unit.UnitHexSprite.HexY;
+                                                                        int hexY2 = unit.UnitHexSprite.HexY;
                                                                         if (HexGeometry.DeltaHexToRadius(unit.UnitHexSprite.HexX, hexY2, hexX, hexY) <= range)
                                                                         {
                                                                             d = cost;
@@ -1249,8 +1249,8 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                                 break;
                                                             case 108:
                                                             case 114:
-                                                                sbyte hexX3 = unit.UnitHexSprite.HexX;
-                                                                sbyte hexY5 = unit.UnitHexSprite.HexY;
+                                                                int hexX3 = unit.UnitHexSprite.HexX;
+                                                                int hexY5 = unit.UnitHexSprite.HexY;
                                                                 pathValue = EvalBreath(ref value, ignore: target, ability, spell, hexX3, hexY5, x2, y2, U: unit);
                                                                 break;
                                                             default:
@@ -1668,20 +1668,20 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                         case 61:
                                                         case 62:
                                                         case >= 120 and <= 124:
-                                                            sbyte xhx = unit.UnitHexSprite.HexX;
-                                                            sbyte fUnitHexSpriteHexY = unit.UnitHexSprite.HexY;
+                                                            int xhx = unit.UnitHexSprite.HexX;
+                                                            int fUnitHexSpriteHexY = unit.UnitHexSprite.HexY;
                                                             pathValue = EvalPath(ref value, ignore: target, ability, spell, xhx, fUnitHexSpriteHexY, x2, y2, hitWalls: false, U: unit, ignoreWall: wall);
                                                             break;
                                                         case 24:
                                                         case 44:
-                                                            sbyte fUnitHexSpriteHexX = unit.UnitHexSprite.HexX;
-                                                            sbyte hexY2 = unit.UnitHexSprite.HexY;
+                                                            int fUnitHexSpriteHexX = unit.UnitHexSprite.HexX;
+                                                            int hexY2 = unit.UnitHexSprite.HexY;
                                                             pathValue = EvalPath(ref value, ignore: target, ability, spell, fUnitHexSpriteHexX, hexY2, x2, y2, hitWalls: true, U: unit, ignoreWall: wall);
                                                             break;
                                                         case 30:
                                                         case >= 86 and <= 90:
-                                                            sbyte hexX2 = unit.UnitHexSprite.HexX;
-                                                            sbyte hexY3 = unit.UnitHexSprite.HexY;
+                                                            int hexX2 = unit.UnitHexSprite.HexX;
+                                                            int hexY3 = unit.UnitHexSprite.HexY;
                                                             pathValue = EvalBreath(ref value, ignore: target, ability, spell, hexX2, hexY3, x2, y2, U: unit);
                                                             break;
                                                         default:
@@ -1824,7 +1824,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                 }
                                             }
 
-                                            sbyte hexY4 = unit.UnitHexSprite.HexY;
+                                            int hexY4 = unit.UnitHexSprite.HexY;
                                             if (!((UnitSafe(unit, unit.UnitHexSprite.HexX, hexY4) < 0 && _normalUnits != 0) || (pathValue != 0 && value == 0) || distance > range || unit.Moves != unit.MovePoints))
                                             {
                                                 _heroMoves += 1;
@@ -1972,7 +1972,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                 j = 0;
                                 while (!visible && j < 19)
                                 {
-                                    sbyte hexY = tacticalBattle.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.HexY;
+                                    int hexY = tacticalBattle.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.HexY;
                                     HexGeometry.CenterHexNumberToHex(tacticalBattle.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.HexX, hexY, hexNumber: j, ref k, ref l);
                                     if (!CombatMap.Current.ExplorationEnabled || CombatMap.Current.MapContainer.GetField(k, l, 0).GetExplored(CombatMap.Current.SeatedPlayer))
                                     {
@@ -2040,9 +2040,9 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                 target = _enemies[j];
                                 if (!_ignoreWalls && target.Side != u.Side)
                                 {
-                                    sbyte hexY = target.UnitHexSprite.HexY;
-                                    sbyte hexX = target.UnitHexSprite.HexX;
-                                    sbyte fUnitHexSpriteHexY = u.UnitHexSprite.HexY;
+                                    int hexY = target.UnitHexSprite.HexY;
+                                    int hexX = target.UnitHexSprite.HexX;
+                                    int fUnitHexSpriteHexY = u.UnitHexSprite.HexY;
                                     k = HexGeometry.DeltaHexToRadius(u.UnitHexSprite.HexX, fUnitHexSpriteHexY, hexX, hexY);
                                     l = 22;
                                     for (; l <= 169; l += 1)
@@ -2071,10 +2071,10 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                             {
                                                                 if (TacticalTables.SpellTypes[n] is (>= BattleEffectType.Arrow and <= BattleEffectType.Comet) or BattleEffectType.Breath or BattleEffectType.CometBall or BattleEffectType.Ray)
                                                                 {
-                                                                    sbyte fUnitHexSpriteHexX = target.UnitHexSprite.HexX;
-                                                                    sbyte hexY2 = target.UnitHexSprite.HexY;
-                                                                    sbyte hexX2 = u.UnitHexSprite.HexX;
-                                                                    sbyte hexY3 = u.UnitHexSprite.HexY;
+                                                                    int fUnitHexSpriteHexX = target.UnitHexSprite.HexX;
+                                                                    int hexY2 = target.UnitHexSprite.HexY;
+                                                                    int hexX2 = u.UnitHexSprite.HexX;
+                                                                    int hexY3 = u.UnitHexSprite.HexY;
                                                                     _ = EvalPath(ref value, ignore: u, ability: l, spell: n, fUnitHexSpriteHexX, hexY2, hexX2, hexY3, hitWalls: false, U: target, ignoreWall: null);
                                                                     if (value > 0)
                                                                     {
@@ -2110,10 +2110,10 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                             {
                                                                 if (TacticalTables.AbilityTypes[l] is (>= BattleEffectType.Arrow and <= BattleEffectType.Comet) or BattleEffectType.Breath or BattleEffectType.CometBall or BattleEffectType.Ray)
                                                                 {
-                                                                    sbyte fUnitHexSpriteHexX = target.UnitHexSprite.HexX;
-                                                                    sbyte hexY2 = target.UnitHexSprite.HexY;
-                                                                    sbyte hexX2 = u.UnitHexSprite.HexX;
-                                                                    sbyte hexY3 = u.UnitHexSprite.HexY;
+                                                                    int fUnitHexSpriteHexX = target.UnitHexSprite.HexX;
+                                                                    int hexY2 = target.UnitHexSprite.HexY;
+                                                                    int hexX2 = u.UnitHexSprite.HexX;
+                                                                    int hexY3 = u.UnitHexSprite.HexY;
                                                                     _ = EvalPath(ref value, ignore: u, ability: l, spell: 0, fUnitHexSpriteHexX, hexY2, hexX2, hexY3, hitWalls: false, U: target, ignoreWall: null);
                                                                     if (value > 0)
                                                                     {
@@ -2213,7 +2213,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                 settings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
                                 if (u.MovePoints > 0)
                                 {
-                                    sbyte hexY = u.UnitHexSprite.HexY;
+                                    int hexY = u.UnitHexSprite.HexY;
                                     settings.SetSourcePosition(u.UnitHexSprite.HexX, hexY, 0);
                                     settings.ArmyHexSprite = u.UnitHexSprite;
                                     settings.MoveFlags = CombatMoveModes.Melee | CombatMoveModes.Move | CombatMoveModes.Wall;
@@ -2236,7 +2236,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                         {
                                             int hits = target.GetHits();
                                             int hitPoints = target.HitPoints;
-                                            sbyte hexY = target.UnitHexSprite.HexY;
+                                            int hexY = target.UnitHexSprite.HexY;
                                             CheckUnit(target.UnitHexSprite.HexX, hexY, hits: hitPoints, hitPoints: hits, settings, unit: u, target, abilities, wall: null);
                                         }
                                     }
@@ -2312,7 +2312,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                         {
                                             int hits = target.GetHits();
                                             int hitPoints = target.HitPoints;
-                                            sbyte hexY = target.UnitHexSprite.HexY;
+                                            int hexY = target.UnitHexSprite.HexY;
                                             CheckUnit(target.UnitHexSprite.HexX, hexY, hits: hitPoints, hitPoints: hits, settings, unit: u, target, abilities, wall: null);
                                         }
                                     }
@@ -2468,7 +2468,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     settings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
                                     if (u.MovePoints > 0)
                                     {
-                                        sbyte hexY = u.UnitHexSprite.HexY;
+                                        int hexY = u.UnitHexSprite.HexY;
                                         settings.SetSourcePosition(u.UnitHexSprite.HexX, hexY, 0);
                                         settings.ArmyHexSprite = u.UnitHexSprite;
                                         settings.MoveFlags = CombatMoveModes.Melee | CombatMoveModes.Move | CombatMoveModes.Wall;
@@ -2492,7 +2492,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                         cityWall = _walls[j];
                                         if (u.Troop is not Hero || _heroMoves == 0)
                                         {
-                                            sbyte hexY = cityWall.HexY;
+                                            int hexY = cityWall.HexY;
                                             CheckUnit(cityWall.HexX, hexY, hits: cityWall.HitPoints, hitPoints: TacticalTables.WallMaxHitPoints[cityWall.WallType - 1] * 2, settings, unit: u, target: CombatMap.Current.Combat.CombatData.Wall, abilities, wall: cityWall);
                                         }
                                     }
@@ -2503,8 +2503,8 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                         cityWall = null;
                                         foreach (CityWall item in CombatMap.Current.Walls)
                                         {
-                                            sbyte hexY = u.UnitHexSprite.HexY;
-                                            sbyte hexY2 = item.HexY;
+                                            int hexY = u.UnitHexSprite.HexY;
+                                            int hexY2 = item.HexY;
                                             n = HexGeometry.DeltaHexToRadius(item.HexX, hexY2, u.UnitHexSprite.HexX, hexY);
                                             if (item.HitPoints > 0 && n < l)
                                             {
@@ -2515,7 +2515,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
 
                                         if (cityWall is not null)
                                         {
-                                            sbyte hexY = cityWall.HexY;
+                                            int hexY = cityWall.HexY;
                                             CheckUnit(cityWall.HexX, hexY, hits: cityWall.HitPoints * 2, hitPoints: TacticalTables.WallMaxHitPoints[cityWall.WallType - 1], settings, unit: u, target: CombatMap.Current.Combat.CombatData.Wall, abilities, wall: cityWall);
                                         }
                                     }
@@ -2635,7 +2635,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                             u = _units[i];
                             if (u.Troop is Hero && _heroMoves == 0 && u.MovePoints > 0)
                             {
-                                sbyte hexY = u.UnitHexSprite.HexY;
+                                int hexY = u.UnitHexSprite.HexY;
                                 k = UnitSafe(u, u.UnitHexSprite.HexX, hexY);
                                 value = k;
                                 n = -1;
@@ -2646,7 +2646,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     target = _units[j];
                                     if (u != target)
                                     {
-                                        sbyte fUnitHexSpriteHexY = target.UnitHexSprite.HexY;
+                                        int fUnitHexSpriteHexY = target.UnitHexSprite.HexY;
                                         l = UnitSafe(u, target.UnitHexSprite.HexX, fUnitHexSpriteHexY);
                                         if (l > k)
                                         {
@@ -2660,9 +2660,9 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                 {
                                     settings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
                                     // { Original uses X for both coordinates. }
-                                    sbyte hexX = u.UnitHexSprite.HexX;
+                                    int hexX = u.UnitHexSprite.HexX;
                                     settings.SetSourcePosition(u.UnitHexSprite.HexX, hexX, 0);
-                                    sbyte fUnitHexSpriteHexY = _units[n].UnitHexSprite.HexY;
+                                    int fUnitHexSpriteHexY = _units[n].UnitHexSprite.HexY;
                                     settings.SetDestinationPosition(_units[n].UnitHexSprite.HexX, fUnitHexSpriteHexY, 0);
                                     settings.ArmyHexSprite = u.UnitHexSprite;
                                     settings.MoveFlags = CombatMoveModes.Melee | CombatMoveModes.Move | CombatMoveModes.Wall;
@@ -2701,10 +2701,10 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                 {
                                     foreach (World.FleeLocation location in CombatMap.Current.FleeLocations)
                                     {
-                                        sbyte hexY = u.UnitHexSprite.HexY;
-                                        sbyte hexY2 = location.HexY;
+                                        int hexY = u.UnitHexSprite.HexY;
+                                        int hexY2 = location.HexY;
                                         int deltaHexToRadius2 = HexGeometry.DeltaHexToRadius(location.HexX, hexY2, u.UnitHexSprite.HexX, hexY);
-                                        sbyte hexY3 = location.HexY;
+                                        int hexY3 = location.HexY;
                                         CreateMove(BattleAIMoveType.Move, location.HexX, hexY3, value: 110_000_000 - (deltaHexToRadius2 * 10), ability: 0, spell: 0, unit: u, target: null);
                                     }
                                 }
@@ -2803,8 +2803,8 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                         }
 
                                         settings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
-                                        sbyte hexLevel = tacticalBattleUnitHexSprite.HexLevel;
-                                        sbyte hexY = tacticalBattleUnitHexSprite.HexY;
+                                        int hexLevel = tacticalBattleUnitHexSprite.HexLevel;
+                                        int hexY = tacticalBattleUnitHexSprite.HexY;
                                         settings.SetSourcePosition(tacticalBattleUnitHexSprite.HexX, hexY, hexLevel);
                                         settings.SetDestinationPosition(move.X, move.Y, 0);
                                         settings.ArmyHexSprite = move.UnitHexSprite;
@@ -2866,12 +2866,12 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                         }
 
                                                         // { Original repeats X. }
-                                                        Creator.GetEngine().OutputDebugString($"AI moves to X: {((int)move.X).ToString(CultureInfo.InvariantCulture)} Y: {((int)move.X).ToString(CultureInfo.InvariantCulture)}");
+                                                        Creator.GetEngine().OutputDebugString($"AI moves to X: {move.X.ToString(CultureInfo.InvariantCulture)} Y: {move.X.ToString(CultureInfo.InvariantCulture)}");
                                                         moved = TacticalBattleUnit.MoveCombatUnit(move.UnitHexSprite.Unit, path: pathStepList);
                                                         if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                         {
-                                                            sbyte unitHexSpriteHexY = move.UnitHexSprite.HexY;
-                                                            sbyte hexX = move.UnitHexSprite.HexX;
+                                                            int unitHexSpriteHexY = move.UnitHexSprite.HexY;
+                                                            int hexX = move.UnitHexSprite.HexX;
                                                             CombatMap.Current.CenterViewTo(hexX, unitHexSpriteHexY, 0);
                                                         }
                                                     }
@@ -2889,7 +2889,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     break;
                                 case BattleAIMoveType.Melee:
                                     settings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
-                                    sbyte hexY2 = move.UnitHexSprite.HexY;
+                                    int hexY2 = move.UnitHexSprite.HexY;
                                     settings.SetSourcePosition(move.UnitHexSprite.HexX, hexY2, 0);
                                     settings.SetDestinationPosition(move.X, move.Y, 0);
                                     settings.ArmyHexSprite = move.UnitHexSprite;
@@ -2908,12 +2908,12 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                             if (pathStepList[^2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)
                                             {
                                                 // { Original repeats X in the debug text. }
-                                                Creator.GetEngine().OutputDebugString($"AI touches at X: {((int)move.X).ToString(CultureInfo.InvariantCulture)} Y: {((int)move.X).ToString(CultureInfo.InvariantCulture)}");
+                                                Creator.GetEngine().OutputDebugString($"AI touches at X: {move.X.ToString(CultureInfo.InvariantCulture)} Y: {move.X.ToString(CultureInfo.InvariantCulture)}");
                                                 moved = move.UnitHexSprite.MeleeMoveTacticalBattle(pathStepList);
                                                 if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                 {
-                                                    sbyte hexY = move.UnitHexSprite.HexY;
-                                                    sbyte hexX = move.UnitHexSprite.HexX;
+                                                    int hexY = move.UnitHexSprite.HexY;
+                                                    int hexX = move.UnitHexSprite.HexX;
                                                     CombatMap.Current.CenterViewTo(hexX, hexY, 0);
                                                 }
                                             }
@@ -2925,7 +2925,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                 case BattleAIMoveType.Touch:
                                     GamePack.Current.AbilityControl[move.Ability].GetCombatInfo(move.UnitHexSprite.Unit.Troop, info: ref aiInfo);
                                     settings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
-                                    sbyte hexY3 = move.UnitHexSprite.HexY;
+                                    int hexY3 = move.UnitHexSprite.HexY;
                                     settings.SetSourcePosition(move.UnitHexSprite.HexX, hexY3, 0);
                                     settings.SetDestinationPosition(move.X, move.Y, 0);
                                     settings.ArmyHexSprite = move.UnitHexSprite;
@@ -2951,12 +2951,12 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                             {
                                                 move.UnitHexSprite.SelectedAbility = move.Ability;
                                                 // { Original repeats X in the debug text. }
-                                                Creator.GetEngine().OutputDebugString($"AI melees at X: {((int)move.X).ToString(CultureInfo.InvariantCulture)} Y: {((int)move.X).ToString(CultureInfo.InvariantCulture)}");
+                                                Creator.GetEngine().OutputDebugString($"AI melees at X: {move.X.ToString(CultureInfo.InvariantCulture)} Y: {move.X.ToString(CultureInfo.InvariantCulture)}");
                                                 moved = move.UnitHexSprite.AbilityTouchMoveTacticalBattle(pathStepList);
                                                 if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                 {
-                                                    sbyte hexY = move.UnitHexSprite.HexY;
-                                                    sbyte hexX = move.UnitHexSprite.HexX;
+                                                    int hexY = move.UnitHexSprite.HexY;
+                                                    int hexX = move.UnitHexSprite.HexX;
                                                     CombatMap.Current.CenterViewTo(hexX, hexY, 0);
                                                 }
                                             }
@@ -2969,12 +2969,12 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     move.UnitHexSprite.SelectedAbility = move.Ability;
                                     move.UnitHexSprite.SelectedSpell = move.Spell;
                                     // { Original repeats X in the debug text. }
-                                    Creator.GetEngine().OutputDebugString($"AI ranged at X: {((int)move.X).ToString(CultureInfo.InvariantCulture)} Y: {((int)move.X).ToString(CultureInfo.InvariantCulture)}");
+                                    Creator.GetEngine().OutputDebugString($"AI ranged at X: {move.X.ToString(CultureInfo.InvariantCulture)} Y: {move.X.ToString(CultureInfo.InvariantCulture)}");
                                     moved = move.UnitHexSprite.AbilityRangedTacticalBattle(move.X, move.Y);
                                     if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                     {
-                                        sbyte hexY = move.UnitHexSprite.HexY;
-                                        sbyte hexX = move.UnitHexSprite.HexX;
+                                        int hexY = move.UnitHexSprite.HexY;
+                                        int hexX = move.UnitHexSprite.HexX;
                                         CombatMap.Current.CenterViewTo(hexX, hexY, 0);
                                     }
 

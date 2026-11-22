@@ -158,9 +158,9 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     public virtual void ViewLocation()
     {
         MapCoordinate coordinate16 = GetLocation();
-        sbyte x = coordinate16.X;
-        sbyte y = coordinate16.Y;
-        sbyte l = coordinate16.MapLevel;
+        int x = coordinate16.X;
+        int y = coordinate16.Y;
+        int l = coordinate16.MapLevel;
         if (x != -1)
         {
             StrategicMap.Current.CenterViewTo(x, y, l);
@@ -169,7 +169,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     }
 
     // EventLog.pas:419
-    public void CenterViewTo(sbyte X, sbyte Y, sbyte L)
+    public void CenterViewTo(int X, int Y, int L)
     {
         StrategicMap.Current.CenterViewTo(X, Y, L);
         StrategicMap.Current.PlayCenterAnimation(X, Y, L);
@@ -194,7 +194,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         }
     }
 
-    internal static void DistributeLocationEventLog(EventLog log, sbyte player, sbyte x, sbyte y, sbyte level, bool execute)
+    internal static void DistributeLocationEventLog(EventLog log, sbyte player, int x, int y, sbyte level, bool execute)
     {
         for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
         {

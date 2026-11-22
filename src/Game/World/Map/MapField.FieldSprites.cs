@@ -25,14 +25,14 @@ public partial class MapField
 
     public byte GetHexNumber(int index) => index >= StoredCount ? throw new IndexOutOfRangeException("Index out of bounds") : _directions[index];
 
-    public void SetHexNumber(int index, byte value)
+    public void SetHexNumber(int index, int value)
     {
         if (index >= StoredCount)
         {
             throw new IndexOutOfRangeException("Index out of bounds");
         }
 
-        _directions[index] = value;
+        _directions[index] = (byte)value;
     }
 
     public int AddHexSprite(HexSprite? sprite, int hexNumber)
@@ -212,12 +212,12 @@ public partial class MapField
         UpdateMapField();
     }
 
-    public int SetHexNumberOfHexSprite(HexSprite sprite, byte hexNumber)
+    public int SetHexNumberOfHexSprite(HexSprite sprite, int hexNumber)
     {
         int index = FindChildIndex(sprite);
         if (index != -1)
         {
-            _directions[index] = hexNumber;
+            _directions[index] = (byte)hexNumber;
         }
 
         return index;

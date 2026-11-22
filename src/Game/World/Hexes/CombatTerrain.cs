@@ -40,8 +40,8 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
         bool result = base.PlaceOnMap();
         if (result)
         {
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexY = HexY;
+            int hexX = HexX;
             UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 

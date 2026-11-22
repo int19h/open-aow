@@ -184,7 +184,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     {
         if (!Status.Contains(MapObjectStatuses.Visible) && _explosionFrame != 0 && StrategicMap.Current.Frame == _explosionFrame)
         {
-            sbyte hexX = HexX;
+            int hexX = HexX;
             _ = AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[(hexX + StrategicMap.Current.Frame) % 2]);
         }
 
@@ -192,7 +192,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Structur.PAS:3497
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         bool result = base.CanPlace(mapContainer, hexX, hexY, hexLevel);
         if (result)
@@ -205,14 +205,14 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Structur.PAS:3435
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         CalculateShowPriority(mapContainer.GetField(hexX, hexY, hexLevel));
         return base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
     }
 
     // Structur.PAS:3441
-    public override sbyte GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY, sbyte defaultValue)
+    public override sbyte GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, int hexX, int hexY, sbyte defaultValue)
     {
         Span<byte> counts = stackalloc byte[128];
         sbyte result = defaultValue;
@@ -328,8 +328,8 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         if (Age > 0)
         {
             MapLevel mapLevel = Owner.Owner;
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexY = HexY;
+            int hexX = HexX;
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 1);
             while (walk.Radius == 1)
             {
@@ -340,7 +340,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
                     if (chance > StrategicMap.Current.Random(1_000))
                     {
                         RandSeed = StrategicMap.Current.Random(16777215);
-                        sbyte hexLevel = HexLevel;
+                        int hexLevel = HexLevel;
                         Fire? fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, L: hexLevel, fireType: FireType.Large);
                         if (fire is not null)
                         {

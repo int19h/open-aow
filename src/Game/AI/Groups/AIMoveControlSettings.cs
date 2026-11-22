@@ -108,8 +108,8 @@ public class AIMoveControlSettings : EngineObject
     // AIGroup.pas:3901
     public void Setup(ArmyHexSprite? army, byte selection, int X, int Y, int L)
     {
-        sbyte hexLevel = army.HexLevel;
-        sbyte hexY = army.HexY;
+        int hexLevel = army.HexLevel;
+        int hexY = army.HexY;
         SetSourcePosition(army.HexX, hexY, hexLevel);
         SetDestinationPosition(X, Y, L);
         ArmyHexSprite = army;

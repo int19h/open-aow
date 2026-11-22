@@ -406,7 +406,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
     }
 
     // MoveT.PAS:1436
-    public void CalculatePath(MoveControlSettings settings, MovePath path, sbyte X, sbyte Y, sbyte L)
+    public void CalculatePath(MoveControlSettings settings, MovePath path, int X, int Y, int L)
     {
         _ = Activate(settings);
         CalculatePath(path, X, Y, L);
@@ -523,7 +523,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
         GapEnds.Count = 0;
         _directRoute.Count = 0;
         int overCode = 1;
-        _ = _directRoute.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, 0);
+        _ = _directRoute.AddMapCoordinate(sourceX.TruncateToSByte(), sourceY.TruncateToSByte(), 0);
         int x = 0;
         int y = 0;
         int direction = 0;
@@ -640,7 +640,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
             {
                 if (clear)
                 {
-                    _ = GapStarts.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, (sbyte)direction);
+                    _ = GapStarts.AddMapCoordinate(sourceX.TruncateToSByte(), sourceY.TruncateToSByte(), direction.TruncateToSByte());
                     clear = false;
                     overCode = 1;
                 }
@@ -649,19 +649,19 @@ public partial class MoveControl(GameMap owner) : IDisposable
             {
                 if (!clear)
                 {
-                    _ = GapEnds.AddMapCoordinate((sbyte)x, (sbyte)y, -1);
+                    _ = GapEnds.AddMapCoordinate(x.TruncateToSByte(), y.TruncateToSByte(), -1);
                     clear = true;
                 }
             }
 
             sourceX = x;
             sourceY = y;
-            _ = _directRoute.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, (sbyte)points);
+            _ = _directRoute.AddMapCoordinate(sourceX.TruncateToSByte(), sourceY.TruncateToSByte(), points.TruncateToSByte());
         }
 
         if (!clear)
         {
-            _ = GapEnds.AddMapCoordinate((sbyte)destinationX, (sbyte)destinationY, -1);
+            _ = GapEnds.AddMapCoordinate(destinationX.TruncateToSByte(), destinationY.TruncateToSByte(), -1);
         }
     }
 

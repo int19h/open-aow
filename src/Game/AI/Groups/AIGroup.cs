@@ -281,9 +281,9 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             if (leader == troop)
             {
                 MapCoordinate coordinate91 = leader.GetLocation();
-                sbyte x1 = coordinate91.X;
-                sbyte y1 = coordinate91.Y;
-                sbyte l1 = coordinate91.MapLevel;
+                int x1 = coordinate91.X;
+                int y1 = coordinate91.Y;
+                int l1 = coordinate91.MapLevel;
                 Leader = null;
                 LeaderId = -1;
                 int i = Units.Count;
@@ -291,9 +291,9 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
                 {
                     i -= 1;
                     MapCoordinate coordinate92 = Units[i].GetLocation();
-                    sbyte x2 = coordinate92.X;
-                    sbyte y2 = coordinate92.Y;
-                    sbyte l2 = coordinate92.MapLevel;
+                    int x2 = coordinate92.X;
+                    int y2 = coordinate92.Y;
+                    int l2 = coordinate92.MapLevel;
                     if (x1 == x2 && y1 == y2 && l1 == l2)
                     {
                         SetLeader(Units[i]);
@@ -361,10 +361,10 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         if (Leader is not null)
         {
             MapCoordinate coordinate93 = Leader.GetLocation();
-            sbyte locationX = coordinate93.X;
-            sbyte locationY = coordinate93.Y;
-            sbyte locationMapLevel = coordinate93.MapLevel;
-            location = new MapCoordinate(locationX, locationY, locationMapLevel);
+            int locationX = coordinate93.X;
+            int locationY = coordinate93.Y;
+            int locationMapLevel = coordinate93.MapLevel;
+            location = new MapCoordinate((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
         }
         else
         {
@@ -415,10 +415,10 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         for (int i = Units.Count - 1; i >= 0; i--)
         {
             MapCoordinate coordinate94 = Units.GetUnit(i).GetLocation();
-            sbyte x = coordinate94.X;
-            sbyte y = coordinate94.Y;
-            sbyte l = coordinate94.MapLevel;
-            _ = locations.Add(new MapCoordinate(x, y, l));
+            int x = coordinate94.X;
+            int y = coordinate94.Y;
+            int l = coordinate94.MapLevel;
+            _ = locations.Add(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)l));
         }
 
         bool result = MapCoordinateList.LocationsConnected(locations);
@@ -657,13 +657,13 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         if (Leader is not null)
         {
             MapCoordinate coordinate95 = GetLocation();
-            sbyte x1 = coordinate95.X;
-            sbyte y1 = coordinate95.Y;
-            sbyte l1 = coordinate95.MapLevel;
+            int x1 = coordinate95.X;
+            int y1 = coordinate95.Y;
+            int l1 = coordinate95.MapLevel;
             MapCoordinate coordinate96 = troop.GetLocation();
-            sbyte x2 = coordinate96.X;
-            sbyte y2 = coordinate96.Y;
-            sbyte l2 = coordinate96.MapLevel;
+            int x2 = coordinate96.X;
+            int y2 = coordinate96.Y;
+            int l2 = coordinate96.MapLevel;
             if (l1 == l2 && HexGeometry.DeltaHexToRadius(x1, y1, x2, y2) <= 2)
             {
                 _ = AddUnit(troop);

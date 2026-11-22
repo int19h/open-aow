@@ -1,6 +1,7 @@
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Map;
 
@@ -26,9 +27,9 @@ public partial class MapLevel
             for (int x = 0; x < width; x++)
             {
                 MapField field = type.Create<MapField>(this, holder: CreationHolder());
-                field.HexX = (sbyte)x;
-                field.HexY = (sbyte)y;
-                field.HexLevel = (sbyte)HexLevel;
+                field.HexX = x.TruncateToSByte();
+                field.HexY = y.TruncateToSByte();
+                field.HexLevel = HexLevel.TruncateToSByte();
                 _fields[(y * width) + x] = field;
             }
         }

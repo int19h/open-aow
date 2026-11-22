@@ -349,7 +349,7 @@ public sealed class RandomBattleMapGenerator : IDisposable
                         {
                             if (_tags[shape - 1] != 127 && weights[shape - 1] == 4)
                             {
-                                _ = GamePack.Current.CombatRoads.Place(CombatMap.Current.MapContainer, (sbyte)column, (sbyte)row, L: 0, terrainType: 1);
+                                _ = GamePack.Current.CombatRoads.Place(CombatMap.Current.MapContainer, column.TruncateToSByte(), row.TruncateToSByte(), L: 0, terrainType: 1);
                                 terrainBuffer[(row * 65) + column] = 251;
                             }
                         }
@@ -635,7 +635,7 @@ public sealed class RandomBattleMapGenerator : IDisposable
                                 if (_resources[(_terrain[i - 1] * 19) + j].Count > 0)
                                 {
                                     int random = Random(_resources[(_terrain[i - 1] * 19) + j].Count);
-                                    _ = _resources[(_terrain[i - 1] * 19) + j][random].PlaceResourceUser(CombatMap.Current, (sbyte)column, (sbyte)row, 0);
+                                    _ = _resources[(_terrain[i - 1] * 19) + j][random].PlaceResourceUser(CombatMap.Current, column.TruncateToSByte(), row.TruncateToSByte(), 0);
                                 }
                             }
                         }
@@ -856,7 +856,7 @@ public sealed class RandomBattleMapGenerator : IDisposable
                     {
                         x = DefensePositionX[((direction - 1) * 8) + slot];
                         y = DefensePositionY[((direction - 1) * 8) + slot];
-                        unitHexSprite.SetDirection((byte)direction);
+                        unitHexSprite.SetDirection(direction.TruncateToByte());
                     }
                     else
                     {
@@ -966,9 +966,9 @@ public sealed class RandomBattleMapGenerator : IDisposable
         _ = CombatMap.Current.PlaceHex(unitHexSprite, hexX, hexY, L: 0);
         if (HexGeometry.DeltaHexToHexNumber(CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.AttackerLocation.X, CombatMap.Current.Combat.CombatData.AttackerLocation.Y) == position && CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastX == 0)
         {
-            sbyte xhx = unitHexSprite.HexX;
+            int xhx = unitHexSprite.HexX;
             CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastX = xhx;
-            sbyte yhx = unitHexSprite.HexY;
+            int yhx = unitHexSprite.HexY;
             CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastY = yhx;
         }
         return direction;

@@ -57,9 +57,9 @@ public class Anarchy : CityTargetSpell
                 a.SetPixelYOffset(a.PixelYOffset - 16);
                 a.Looped = true;
                 a.FrameCount = 120;
-                sbyte targetCityHexLevel = targetCity.HexLevel;
-                sbyte targetCityHexY = targetCity.HexY;
-                sbyte hexX = targetCity.HexX;
+                int targetCityHexLevel = targetCity.HexLevel;
+                int targetCityHexY = targetCity.HexY;
+                int hexX = targetCity.HexX;
                 _ = StrategicMap.Current.PlaceHex(a, hexX, targetCityHexY, L: targetCityHexLevel);
             }
 

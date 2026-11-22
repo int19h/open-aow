@@ -131,21 +131,21 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         if (ItemBag is not null)
         {
             ItemHexSprite itemHexSprite = ItemBag;
-            sbyte hexY = ItemBag.HexY;
-            sbyte hexX = itemHexSprite.HexX;
+            int hexY = ItemBag.HexY;
+            int hexX = itemHexSprite.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, ItemBag.HexLevel);
 
-            sbyte fItemBagHexY = ItemBag.HexY;
-            sbyte fItemBagHexX = ItemBag.HexX;
+            int fItemBagHexY = ItemBag.HexY;
+            int fItemBagHexX = ItemBag.HexX;
             StrategicMap.Current.PlayCenterAnimation(fItemBagHexX, fItemBagHexY, L: ItemBag.HexLevel);
         }
         else
         {
-            sbyte hexY = UI.General.Structure.HexY;
-            sbyte hexX = UI.General.Structure.HexX;
+            int hexY = UI.General.Structure.HexY;
+            int hexX = UI.General.Structure.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, UI.General.Structure.HexLevel);
-            sbyte fStructureHexY = UI.General.Structure.HexY;
-            sbyte fStructureHexX = UI.General.Structure.HexX;
+            int fStructureHexY = UI.General.Structure.HexY;
+            int fStructureHexX = UI.General.Structure.HexX;
             StrategicMap.Current.PlayCenterAnimation(fStructureHexX, fStructureHexY, L: UI.General.Structure.HexLevel);
         }
     }

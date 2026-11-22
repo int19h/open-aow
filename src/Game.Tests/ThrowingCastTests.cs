@@ -81,10 +81,10 @@ public sealed class ThrowingCastTests
         Leader leader = new(null) { Holder = EngineFixture.Engine };
         leader.SetOwnerWithoutNotify(player.Heroes);
         player.Leader = leader;
-        player.GetLeaderLocation(out sbyte x, out sbyte y, L: out sbyte level);
-        Assert.Equal((sbyte)-1, x);
-        Assert.Equal((sbyte)-1, y);
-        Assert.Equal((sbyte)-1, level);
+        player.GetLeaderLocation(out int x, out int y, L: out int level);
+        Assert.Equal((sbyte)-1, (sbyte)x);
+        Assert.Equal((sbyte)-1, (sbyte)y);
+        Assert.Equal((sbyte)-1, (sbyte)level);
 
         Army army = new(null)
         {
@@ -94,9 +94,9 @@ public sealed class ThrowingCastTests
         };
         leader.SetOwnerWithoutNotify(army);
         player.GetLeaderLocation(out x, out y, L: out level);
-        Assert.Equal((sbyte)4, x);
-        Assert.Equal((sbyte)6, y);
-        Assert.Equal((sbyte)1, level);
+        Assert.Equal((sbyte)4, (sbyte)x);
+        Assert.Equal((sbyte)6, (sbyte)y);
+        Assert.Equal((sbyte)1, (sbyte)level);
     }
 
     [Fact]

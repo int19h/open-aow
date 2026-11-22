@@ -301,9 +301,9 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public int Capacity { get; private set; }
     public int StaticCount { get; private set; }
     public MapFieldStatuses Status { get; private set; }
-    public sbyte HexX { get => Location.X; set => Location = Location with { X = value }; }
-    public sbyte HexY { get => Location.Y; set => Location = Location with { Y = value }; }
-    public sbyte HexLevel { get => Location.MapLevel; set => Location = Location with { MapLevel = value }; }
+    public int HexX { get => Location.X; set => Location = Location with { X = (sbyte)value }; }
+    public int HexY { get => Location.Y; set => Location = Location with { Y = (sbyte)value }; }
+    public int HexLevel { get => Location.MapLevel; set => Location = Location with { MapLevel = (sbyte)value }; }
     public MapCoordinate Location { get; private set; }
     public sbyte TerrainType { get; set; }
     public sbyte OverlayType { get; set; }

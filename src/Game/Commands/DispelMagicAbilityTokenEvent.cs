@@ -78,9 +78,9 @@ public class DispelMagicAbilityTokenEvent(CustomNode? owner) : TokenEvent(owner)
 
             ability.SetEnabled(source, enabled: false);
             MapCoordinate coordinate8 = target.GetLocation();
-            sbyte x = coordinate8.X;
-            sbyte y = coordinate8.Y;
-            sbyte l = coordinate8.MapLevel;
+            int x = coordinate8.X;
+            int y = coordinate8.Y;
+            int l = coordinate8.MapLevel;
             _ = StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, radius: 0);
             if (StrategicMap.Current.Visible(x, y, l, radius: 0))
             {

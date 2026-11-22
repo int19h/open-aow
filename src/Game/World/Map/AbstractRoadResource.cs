@@ -23,7 +23,7 @@ public class AbstractRoadResource(CustomNode owner) : MapObjectResource(owner)
     }
 
     // MAPOBJ.PAS:883
-    public override MapObject? PlaceResourceUser(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override MapObject? PlaceResourceUser(GameMap? hexSpriteMap, int hexX, int hexY, int hexLevel)
     {
         MapObject? result = CreateResourceUser();
         HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);

@@ -71,10 +71,10 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
     public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
 
     // FleeLoc.pas:87
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => true;
+    public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel) => true;
 
     // FleeLoc.pas:93
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         if (!EditMode)
         {

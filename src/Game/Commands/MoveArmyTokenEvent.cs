@@ -7,15 +7,12 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -207,9 +204,9 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                 StrategicMap.Current.SelectedArmy.Update();
                 if (Mode.Contains(ArmyMoveModes.SelectEndLocation))
                 {
-                    sbyte hexLevel = ArmyHexSprite.HexLevel;
-                    sbyte hexY = ArmyHexSprite.HexY;
-                    sbyte hexX = ArmyHexSprite.HexX;
+                    int hexLevel = ArmyHexSprite.HexLevel;
+                    int hexY = ArmyHexSprite.HexY;
+                    int hexX = ArmyHexSprite.HexX;
                     StrategicMap.Current.Selection.SelectLocationHex(hexX, hexY, hexLevel);
                 }
             }
@@ -239,9 +236,9 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                 bool condition = ArmyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer;
                 if (!condition)
                 {
-                    sbyte hexLevel = ArmyHexSprite.HexLevel;
-                    sbyte hexY = ArmyHexSprite.HexY;
-                    sbyte hexX = ArmyHexSprite.HexX;
+                    int hexLevel = ArmyHexSprite.HexLevel;
+                    int hexY = ArmyHexSprite.HexY;
+                    int hexX = ArmyHexSprite.HexX;
                     condition = StrategicMap.Current.Watching(hexX, hexY, L: hexLevel, radius: 0);
                 }
 
@@ -353,7 +350,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
 
             if (direction is > 0 and <= 6)
             {
-                ArmyHexSprite.SetDirection((byte)direction);
+                ArmyHexSprite.SetDirection(direction.TruncateToByte());
             }
             else
             {

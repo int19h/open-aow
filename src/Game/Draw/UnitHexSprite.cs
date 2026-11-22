@@ -27,7 +27,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
 
     public UnitGraphicsResource? UnitGraphicsResource { get; set; }
 
-    public byte Direction { get; set; } = 3;
+    public int Direction { get; set; } = 3;
 
     public int MoveStep { get; set; } = -1;
     // -1 when idle
@@ -59,7 +59,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Direction = persister.Byte("Direction", value: Direction);
+        Direction = persister.Byte("Direction", value: Direction.TruncateToByte());
         if (Direction == 0)
         {
             Direction = 3;
@@ -81,10 +81,10 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     public override bool GetSelected() => (Status & 0b0100) != 0;
 
     // UnitHS.PAS:228
-    public override sbyte HexX => Owner.HexX;
+    public override sbyte HexX => (sbyte)Owner.HexX;
 
     // UnitHS.PAS:230
-    public override sbyte HexY => Owner.HexY;
+    public override sbyte HexY => (sbyte)Owner.HexY;
 
     // UnitHS.PAS:232
     public override sbyte HexLevel
@@ -92,7 +92,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
         get
         {
             Assert(Owner is not null, message: "Onwer isn't defined", file: "UnitHS.PAS", line: 557);
-            return Owner.HexLevel;
+            return (sbyte)Owner.HexLevel;
         }
     }
 
@@ -186,7 +186,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     public override bool Place(MapContainer? map, int pixelX, int pixelY, int hexLevel)
     {
         HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int x, out int y);
-        return PlaceHex(map, (sbyte)x, (sbyte)y, (sbyte)hexLevel);
+        return PlaceHex(map, x.TruncateToSByte(), y.TruncateToSByte(), hexLevel.TruncateToSByte());
     }
 
     // UnitHS.PAS:779
@@ -323,7 +323,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:793
-    public virtual bool PlaceHex(MapContainer? map, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public virtual bool PlaceHex(MapContainer? map, int hexX, int hexY, int hexLevel)
     {
         MapField field = map.GetField(hexX, hexY, hexLevel);
         SetOwnerWithoutNotify(field);
@@ -352,7 +352,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
             Status = (byte)(Status | 0b0001_0000);
         }
 
-        Direction = (byte)direction;
+        Direction = direction.TruncateToByte();
         MoveStep = 0;
         CalculateShowPriority();
         return 0;
@@ -424,7 +424,7 @@ public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:902
-    public void SetDirection(byte value)
+    public void SetDirection(int value)
     {
         if (value != Direction)
         {

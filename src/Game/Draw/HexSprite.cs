@@ -70,10 +70,10 @@ public class HexSprite(CustomNode? owner) : EngineObject(owner), IOwned<MapField
     public virtual bool GetSelected() => false;
 
     // HXSPRITE.PAS:87
-    public virtual sbyte HexX => Owner.HexX;
+    public virtual sbyte HexX => (sbyte)Owner.HexX;
 
     // HXSPRITE.PAS:92
-    public virtual sbyte HexY => Owner.HexY;
+    public virtual sbyte HexY => (sbyte)Owner.HexY;
 
     // HXSPRITE.PAS:97
     public virtual sbyte HexLevel => (sbyte)Owner.Owner.HexLevel;

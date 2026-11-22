@@ -715,9 +715,9 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     public ArmyHexSprite? GetArmyHexSprite()
     {
         MapCoordinate coordinate26 = GetLocation();
-        sbyte x = coordinate26.X;
-        sbyte y = coordinate26.Y;
-        sbyte l = coordinate26.MapLevel;
+        int x = coordinate26.X;
+        int y = coordinate26.Y;
+        int l = coordinate26.MapLevel;
         return x != -1 ? StrategicMap.Current.MapContainer.GetField(x, y, l).GetArmyHexSprite() : null;
     }
 
@@ -803,8 +803,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         }
     }
 
-    public void SetMapCoordinate(sbyte x, sbyte y, int level)
-        => SetMapCoordinate(new MapCoordinate(x, y, (sbyte)level));
+    public void SetMapCoordinate(int x, int y, int level)
+        => SetMapCoordinate(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // Army.PAS:647
     public int GetRace(byte selection)
@@ -842,7 +842,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     public void ResetDestinationPosition() => Destination = new MapCoordinate(-1, -1, -1);
 
     // Army.PAS:672
-    public void SetDestinationPosition(sbyte X, sbyte Y, sbyte L) => Destination = new MapCoordinate(X, Y, L);
+    public void SetDestinationPosition(int X, int Y, int L) => Destination = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
 
     // Army.PAS:675
     public int ConcealedUnitsCount()
@@ -1582,7 +1582,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     }
 
     // Army.PAS:1529
-    public bool CanPlace(sbyte X, sbyte Y, sbyte L)
+    public bool CanPlace(int X, int Y, int L)
     {
         MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
         bool result = ValidTerrain(field.TerrainType, field.OverlayType);
@@ -2056,10 +2056,10 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:1919
     public void MakeIndependent(byte selection, ArmyHSList armies)
     {
-        sbyte x2;
-        sbyte y2;
-        sbyte l2;
-        ArmyHexSprite? PlaceIndependentArmy(sbyte x, sbyte y, sbyte l, Army? army)
+        int x2;
+        int y2;
+        int l2;
+        ArmyHexSprite? PlaceIndependentArmy(int x, int y, int l, Army? army)
         {
             ArmyHexSprite result;
             try
@@ -2765,8 +2765,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                             MapCoordinateList locations = new();
                             if (offer.ArmyHexSprite is not null)
                             {
-                                sbyte hexY = offer.ArmyHexSprite.HexY;
-                                sbyte hexX = offer.ArmyHexSprite.HexX;
+                                int hexY = offer.ArmyHexSprite.HexY;
+                                int hexX = offer.ArmyHexSprite.HexX;
                                 int direction = HexGeometry.DeltaHexToHexNumberFast(Location.X, Location.Y, hexX, hexY);
                                 if (direction is > 0 and <= 6)
                                 {
@@ -2781,7 +2781,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                                     int x = default;
                                     int y = default;
                                     HexGeometry.CenterHexNumberToHex(offer.Location.X, offer.Location.Y, hexNumber: side, ref x, ref y);
-                                    _ = locations.AddMapCoordinate((sbyte)x, (sbyte)y, Location.MapLevel);
+                                    _ = locations.AddMapCoordinate(x.TruncateToSByte(), y.TruncateToSByte(), Location.MapLevel);
                                     side = direction - 1;
                                     if (side == 0)
                                     {
@@ -2789,7 +2789,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                                     }
 
                                     HexGeometry.CenterHexNumberToHex(offer.Location.X, offer.Location.Y, hexNumber: side, ref x, ref y);
-                                    _ = locations.AddMapCoordinate((sbyte)x, (sbyte)y, Location.MapLevel);
+                                    _ = locations.AddMapCoordinate(x.TruncateToSByte(), y.TruncateToSByte(), Location.MapLevel);
                                 }
                             }
 

@@ -16,8 +16,8 @@ namespace Aow.Game.Draw;
 public sealed class BirdsViewHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
 
-    private sbyte _x;
-    private sbyte _y;
+    private int _x;
+    private int _y;
     private sbyte _layer;
     private readonly Int32List _hexes = [];
     private int _frame;
@@ -73,7 +73,7 @@ public sealed class BirdsViewHexSprite(CustomNode owner) : FixedVisibleHexSprite
     }
 
     // GlobalSpells.pas:421
-    public void StartAnimation(sbyte X, sbyte Y, sbyte layer, sbyte radius)
+    public void StartAnimation(int X, int Y, sbyte layer, int radius)
     {
         _x = X;
         _y = Y;

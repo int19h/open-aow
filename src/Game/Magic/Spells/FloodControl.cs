@@ -173,7 +173,7 @@ public sealed class FloodControl(CustomNode? owner) : EngineObject(owner)
                     mapField = mapLevel.GetField(x, y);
                     if ((byte)overlay is 4 or 5)
                     {
-                        _ = GamePack.Current.RoadControl.Place(StrategicMap.Current.MapContainer, (sbyte)x, (sbyte)y, L: 0, mapField.TerrainType);
+                        _ = GamePack.Current.RoadControl.Place(StrategicMap.Current.MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: 0, mapField.TerrainType);
                     }
                     else
                     {
@@ -189,7 +189,7 @@ public sealed class FloodControl(CustomNode? owner) : EngineObject(owner)
 
                         if (candidates.Count != 0)
                         {
-                            _ = candidates[StrategicMap.Current.Random(candidates.Count)].PlaceResourceUser(StrategicMap.Current, (sbyte)x, (sbyte)y, 0);
+                            _ = candidates[StrategicMap.Current.Random(candidates.Count)].PlaceResourceUser(StrategicMap.Current, x.TruncateToSByte(), y.TruncateToSByte(), 0);
                         }
                     }
                 }

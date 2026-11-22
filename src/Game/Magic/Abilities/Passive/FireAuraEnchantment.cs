@@ -25,9 +25,9 @@ public class FireAuraEnchantment : UnitEnchantmentAbility
         if (result && owner is Troop troop && owner.Owner is Army army)
         {
             MapCoordinate coordinate87 = troop.GetLocation();
-            sbyte x = coordinate87.X;
-            sbyte y = coordinate87.Y;
-            sbyte l = coordinate87.MapLevel;
+            int x = coordinate87.X;
+            int y = coordinate87.Y;
+            int l = coordinate87.MapLevel;
             if (x != -1)
             {
                 MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);

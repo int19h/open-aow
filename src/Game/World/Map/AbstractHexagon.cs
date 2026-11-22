@@ -35,16 +35,16 @@ public class AbstractHexagon(CustomNode owner) : MapObject(owner)
                 {
                     SetResource(r);
                     UpdateTransitions();
-                    sbyte hexLevel = HexLevel;
-                    sbyte hexY = HexY;
-                    sbyte hexX = HexX;
+                    int hexLevel = HexLevel;
+                    int hexY = HexY;
+                    int hexX = HexX;
                     Resource.Engine.HexSpriteMap.MapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
                 }
                 else
                 {
-                    sbyte hexLevel = HexLevel;
-                    sbyte hexY = HexY;
-                    sbyte hexX = HexX;
+                    int hexLevel = HexLevel;
+                    int hexY = HexY;
+                    int hexX = HexX;
                     _ = Resource.TerrainControl.Place(Owner.Owner.Owner, hexX, hexY, L: hexLevel, message.TerrainType);
                 }
             }
@@ -81,7 +81,7 @@ public class AbstractHexagon(CustomNode owner) : MapObject(owner)
     }
 
     // MAPOBJ.PAS:733
-    public override bool CanPlace(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool CanPlace(MapContainer? mapContainer, int hexX, int hexY, int hexLevel)
     {
         if (hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount)
         {
@@ -108,7 +108,7 @@ public class AbstractHexagon(CustomNode owner) : MapObject(owner)
     }
 
     // MAPOBJ.PAS:750
-    public override bool PlaceHex(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer? mapContainer, int hexX, int hexY, int hexLevel)
     {
         HexSprite? hexSprite = mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedHexSprite(typeof(AbstractHexagon));
         hexSprite?.Dispose();

@@ -347,7 +347,7 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
     }
 
     // AIGroup.pas:5465
-    public AIMoveExecutorMove? CreateTransporterMove(sbyte X, sbyte Y, sbyte L, bool queue)
+    public AIMoveExecutorMove? CreateTransporterMove(int X, int Y, int L, bool queue)
     {
         AIMoveExecutorMove? move = null;
         AIMoveExecutorArmy army = new(null) { Holder = CreationHolder() };
@@ -405,7 +405,7 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
                     move.MovePoints = movePoints;
                     move.Moves = armyHexSprite.Army.Moves(255);
                     move.Source = new MapCoordinate(armyHexSprite.HexX, armyHexSprite.HexY, armyHexSprite.HexLevel);
-                    move.Destination = new MapCoordinate(X, Y, L);
+                    move.Destination = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
                     if (queue)
                     {
                         move.Owner = Executor.Moves;

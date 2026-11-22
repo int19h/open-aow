@@ -37,9 +37,9 @@ public class AirMastery : GlobalEnchantmentSpell
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Air);
         MapCoordinate coordinate50 = source.GetLocation();
-        sbyte x = coordinate50.X;
-        sbyte y = coordinate50.Y;
-        sbyte l = coordinate50.MapLevel;
+        int x = coordinate50.X;
+        int y = coordinate50.Y;
+        int l = coordinate50.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         Animation animation = new(null, show: ShowAnimation)
         {

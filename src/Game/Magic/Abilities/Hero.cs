@@ -1004,17 +1004,17 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:875
-    public void DropItemsOnMap(StrategicMap? map, sbyte X, sbyte Y, sbyte L)
+    public void DropItemsOnMap(StrategicMap? map, int X, int Y, int L)
     {
         for (int i = Inventory.Items.Count - 1; i >= 0; i--)
         {
-            _ = (Inventory.Items.GetItem(i)?.PlaceOnMap(map, X, Y, L));
+            _ = (Inventory.Items.GetItem(i)?.PlaceOnMap(map, (sbyte)X, (sbyte)Y, (sbyte)L));
         }
 
         for (int positionOrdinal = (int)HeroItemPosition.AttackSlot; positionOrdinal <= (int)HeroItemPosition.RightRingSlot; positionOrdinal++)
         {
             HeroItemPosition position = (HeroItemPosition)positionOrdinal;
-            _ = (HeroItems.GetPositionItem(position)?.PlaceOnMap(map, X, Y, L));
+            _ = (HeroItems.GetPositionItem(position)?.PlaceOnMap(map, (sbyte)X, (sbyte)Y, (sbyte)L));
         }
     }
 
@@ -1437,9 +1437,9 @@ public partial class Hero : Troop
     public void ValidateHeroUpgrade()
     {
         MapCoordinate coordinate42 = GetLocation();
-        sbyte x = coordinate42.X;
-        sbyte y = coordinate42.Y;
-        sbyte l = coordinate42.MapLevel;
+        int x = coordinate42.X;
+        int y = coordinate42.Y;
+        int l = coordinate42.MapLevel;
         if (Player != 0 && x != -1)
         {
             UpgradePending = false;
@@ -1493,7 +1493,7 @@ public partial class Hero : Troop
                     Player = Player,
                     UnitId = UnitId
                 };
-                EventLog.DistributeLocationEventLog(log, Player, x, y, l, execute: true);
+                EventLog.DistributeLocationEventLog(log, Player, x, y, (sbyte)l, execute: true);
                 _ = log.Release();
                 if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
                 {
@@ -1669,9 +1669,9 @@ public partial class Hero : Troop
         if (item is not null)
         {
             MapCoordinate coordinate43 = GetLocation();
-            sbyte x = coordinate43.X;
-            sbyte y = coordinate43.Y;
-            sbyte l = coordinate43.MapLevel;
+            int x = coordinate43.X;
+            int y = coordinate43.Y;
+            int l = coordinate43.MapLevel;
             MapCoordinate coordinate44 = item.GetLocation();
             sbyte ix = coordinate44.X;
             sbyte iy = coordinate44.Y;

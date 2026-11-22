@@ -129,7 +129,7 @@ public sealed class TargetSelectionControl : IDisposable
     }
 
     // Structur.PAS:3845
-    public bool ValidTarget(sbyte X, sbyte Y, sbyte L)
+    public bool ValidTarget(int X, int Y, int L)
     {
         bool result;
         if (X != -1 && Y != -1)
@@ -145,7 +145,7 @@ public sealed class TargetSelectionControl : IDisposable
             result = result && mapField.TerrainType != 15;
             if (result && _validateTarget is not null)
             {
-                _validateTarget(this, X, Y, Lt: L, Valid: ref result);
+                _validateTarget(this, (sbyte)X, (sbyte)Y, Lt: (sbyte)L, Valid: ref result);
             }
         }
         else
@@ -184,7 +184,7 @@ public sealed class TargetSelectionControl : IDisposable
             if (condition)
             {
                 int hexY = StrategicMap.Current.Mouse.HexY;
-                condition = ValidTarget((sbyte)StrategicMap.Current.Mouse.HexX, (sbyte)hexY, L: (sbyte)StrategicMap.Current.ViewMapLevel);
+                condition = ValidTarget(StrategicMap.Current.Mouse.HexX.TruncateToSByte(), hexY.TruncateToSByte(), L: StrategicMap.Current.ViewMapLevel.TruncateToSByte());
             }
 
             Status = condition

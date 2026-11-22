@@ -567,8 +567,8 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
 
         FreePreview();
         RandomBattleMapGenerator generator = new(UI.Engine);
-        sbyte hexLevel = _place.HexLevel;
-        sbyte hexY = _place.HexY;
+        int hexLevel = _place.HexLevel;
+        int hexY = _place.HexY;
         _preview = generator.RandomMap(null, _place.HexX, hexY, L: hexLevel);
         generator?.Dispose();
         ArmyHexSprite army = _place.Owner.GetArmyHexSprite();
@@ -585,7 +585,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
         HexSprite? center = _preview.CenterViewLocation;
         if (center is not null)
         {
-            sbyte fCenterViewLocationHexY = _preview.CenterViewLocation.HexY;
+            int fCenterViewLocationHexY = _preview.CenterViewLocation.HexY;
             HexGeometry.HexToPixel(center.HexX, fCenterViewLocationHexY, out _viewX, out _viewY);
             _viewX = _viewX + 16 - (MapView.WinWidth / 2);
             _viewY = _viewY + 16 - (MapView.WinHeight / 2);

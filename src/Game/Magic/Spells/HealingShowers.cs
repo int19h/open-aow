@@ -8,6 +8,7 @@ using Aow.Game.Commands;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -41,7 +42,7 @@ public class HealingShowers : GlobalTargetSpell
     {
         HealingShowersTokenEvent eventValue = new(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
-        eventValue.SetLocation((sbyte)X, (sbyte)Y, layer: (sbyte)L);
+        eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), layer: (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         _ = eventValue.Release();
         return true;

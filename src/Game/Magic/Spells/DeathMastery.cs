@@ -37,9 +37,9 @@ public class DeathMastery : GlobalEnchantmentSpell
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Death);
         MapCoordinate coordinate63 = source.GetLocation();
-        sbyte x = coordinate63.X;
-        sbyte y = coordinate63.Y;
-        sbyte l = coordinate63.MapLevel;
+        int x = coordinate63.X;
+        int y = coordinate63.Y;
+        int l = coordinate63.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         Animation animation = new(null, show: ShowAnimation)
         {

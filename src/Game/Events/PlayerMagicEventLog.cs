@@ -77,7 +77,7 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
     // Spells.PAS:1863
     public override void ViewLocation()
     {
-        sbyte x = Location.X;
+        int x = Location.X;
         if (x != -1)
         {
             StrategicMap.Current.CenterViewTo(x, Location.Y, Location.MapLevel);

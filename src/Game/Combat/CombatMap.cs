@@ -212,7 +212,7 @@ public class CombatMap : GameMap
         {
             for (int y = 6, lastY = MapContainer.Height - 7; y <= lastY; y++)
             {
-                _ = GamePack.Current.CombatHexes.Place(MapContainer, (sbyte)x, (sbyte)y, L: 0, terrainType: 1);
+                _ = GamePack.Current.CombatHexes.Place(MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: 0, terrainType: 1);
             }
         }
 
@@ -221,12 +221,12 @@ public class CombatMap : GameMap
         {
             for (int y = 0; y <= 5; y++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: 0, terrainType: 15);
+                _ = control.Place(MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: 0, terrainType: 15);
             }
 
             for (int y = MapContainer.Height - 6, lastY = MapContainer.Height - 1; y <= lastY; y++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: 0, terrainType: 15);
+                _ = control.Place(MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: 0, terrainType: 15);
             }
         }
 
@@ -234,12 +234,12 @@ public class CombatMap : GameMap
         {
             for (int x = 0; x <= 5; x++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: 0, terrainType: 15);
+                _ = control.Place(MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: 0, terrainType: 15);
             }
 
             for (int x = MapContainer.Width - 6, last = MapContainer.Width - 1; x <= last; x++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: 0, terrainType: 15);
+                _ = control.Place(MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: 0, terrainType: 15);
             }
         }
     }
@@ -321,9 +321,9 @@ public class CombatMap : GameMap
     // AoWTC.pas:2515
     public override void DropHeroItem(Hero hero, Item? item)
     {
-        sbyte x = -1;
-        sbyte y = -1;
-        sbyte l = -1;
+        int x = -1;
+        int y = -1;
+        int l = -1;
         int i = Combat.CombatData.GetCount();
         while (i != 0 && x == -1)
         {
@@ -358,9 +358,9 @@ public class CombatMap : GameMap
     // AoWTC.pas:2544
     public override ItemList? GetHeroItemsOnGround(Hero hero)
     {
-        sbyte y = default;
+        int y = default;
         int l = default;
-        GetUnitLocation(hero, out sbyte x, ref y, ref l);
+        GetUnitLocation(hero, out int x, ref y, ref l);
         if (x > -1)
         {
             ItemHexSprite hexSprite = MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(ItemHexSprite.ClassId);
@@ -455,9 +455,9 @@ public class CombatMap : GameMap
                     TacticalBattleUnit? u = GetNextUnit(null, allUnits: true, forward: true);
                     if (u is not null)
                     {
-                        sbyte hexX = u.UnitHexSprite.HexX;
+                        int hexX = u.UnitHexSprite.HexX;
                         Players.GetPlayers(CurrentCombatPlayer).LastX = hexX;
-                        sbyte hexY = u.UnitHexSprite.HexY;
+                        int hexY = u.UnitHexSprite.HexY;
                         Players.GetPlayers(CurrentCombatPlayer).LastY = hexY;
                         if (ExplorationEnabled)
                         {
@@ -465,9 +465,9 @@ public class CombatMap : GameMap
                             {
                                 if (CurrentCombatPlayer != i)
                                 {
-                                    sbyte fUnitHexSpriteHexX = u.UnitHexSprite.HexX;
+                                    int fUnitHexSpriteHexX = u.UnitHexSprite.HexX;
                                     Players.GetPlayers((sbyte)i).LastX = fUnitHexSpriteHexX;
-                                    sbyte fUnitHexSpriteHexY = u.UnitHexSprite.HexY;
+                                    int fUnitHexSpriteHexY = u.UnitHexSprite.HexY;
                                     Players.GetPlayers((sbyte)i).LastY = fUnitHexSpriteHexY;
                                 }
                             }
@@ -666,10 +666,10 @@ public class CombatMap : GameMap
                 if (UnitSelection.TacticalBattleUnitHexSprite != u.UnitHexSprite)
                 {
                     Players.GetPlayers(SeatedCombatPlayer).LastUnit = u;
-                    sbyte hexY = u.UnitHexSprite.HexY;
+                    int hexY = u.UnitHexSprite.HexY;
                     CenterViewTo(u.UnitHexSprite.HexX, hexY, 0);
                     Selection.UnselectLocation();
-                    sbyte fUnitHexSpriteHexY = u.UnitHexSprite.HexY;
+                    int fUnitHexSpriteHexY = u.UnitHexSprite.HexY;
                     HexGeometry.HexToPixel(u.UnitHexSprite.HexX, fUnitHexSpriteHexY, out int x, out int y);
                     Selection.SelectLocation(x, y, lHitPoints: 0);
                 }
@@ -682,7 +682,7 @@ public class CombatMap : GameMap
     // TTacticalCombatUnit and reads FUnit. On a wall that offset is FWallType, FHitPoints and FLocked,
     // a small integer, so the unit comparison fails and the search continues. The port skips objects
     // that are not tactical units, which has the same result.
-    public void GetUnitLocation(Troop unit, out sbyte x, ref sbyte y, ref int level)
+    public void GetUnitLocation(Troop unit, out int x, ref int y, ref int level)
     {
         x = -1;
         int i = 0;

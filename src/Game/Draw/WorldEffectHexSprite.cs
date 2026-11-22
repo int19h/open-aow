@@ -2,12 +2,10 @@
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Draw.Images;
-
 using Aow.Game.Host;
-
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 using static Aow.Rtl.RtlHost;
@@ -425,7 +423,7 @@ public sealed class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSpri
                                     int random = Random(10);
                                     double mathPI = Math.PI;
                                     Point3DList path6 = effect.Path;
-                                    EffectPaths.MakeArcPathXY((short)Round((double)Math.Cos((double)(((i * 12) + (Frame * 5)) * mathPI) / 180) * (radiusX + Random(10))), (short)(Round((double)sin * (radiusY + random)) / 2), 0, -150, stepSize: 100, height: 10, list: path6);
+                                    EffectPaths.MakeArcPathXY(Round((double)Math.Cos((double)(((i * 12) + (Frame * 5)) * mathPI) / 180) * (radiusX + Random(10))).TruncateToInt16(), (Round((double)sin * (radiusY + random)) / 2).TruncateToInt16(), 0, -150, stepSize: 100, height: 10, list: path6);
                                     effect.Path = path6;
                                     for (int j = 0, last = effect.Path.Count - 1; j <= last; j++)
                                     {

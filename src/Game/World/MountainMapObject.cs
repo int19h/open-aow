@@ -23,7 +23,7 @@ public class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
     public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => true;
 
     // Mountain.pas:136
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         int x = default;
         int y = default;

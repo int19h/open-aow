@@ -572,8 +572,8 @@ public static class AbilityRules
         return result && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
     }
 
-    public static void RetrieveStormDamageInfo(sbyte player, StormType storm, sbyte x, sbyte y,
-                int level, sbyte innerRadius, sbyte outerRadius, out StormDamageInfo info)
+    public static void RetrieveStormDamageInfo(sbyte player, StormType storm, int x, int y,
+                int level, int innerRadius, int outerRadius, out StormDamageInfo info)
     {
         StormDamageQuery query = new()
         {
@@ -615,7 +615,7 @@ public static class AbilityRules
 
     internal static DamageTypes AllDamageTypes { get; } = DamageTypes.Fire | DamageTypes.Cold | DamageTypes.Lightning | DamageTypes.Magic | DamageTypes.Poison | DamageTypes.Death | DamageTypes.Holy | DamageTypes.Physical | DamageTypes.Wall | DamageTypes.NonSpecific;
 
-    internal static void TriggerStormDamage(StormType storm, sbyte x, sbyte y, sbyte mapLevel, sbyte innerRadius, sbyte outerRadius, sbyte player)
+    internal static void TriggerStormDamage(StormType storm, int x, int y, int mapLevel, int innerRadius, int outerRadius, sbyte player)
     {
         MapFieldMessage message = default;
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[mapLevel];

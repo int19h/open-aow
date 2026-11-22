@@ -390,9 +390,9 @@ public partial class ArmyHexSprite : UnitHexSprite
     public override void Activate()
     {
         base.Activate();
-        sbyte hexLevel = HexLevel;
-        sbyte hexY = HexY;
-        sbyte hexX = HexX;
+        int hexLevel = HexLevel;
+        int hexY = HexY;
+        int hexX = HexX;
         Army.SetMapCoordinate(hexX, hexY, hexLevel);
         Army.Activate();
         Army.SetUpdateHandler(ArmyUpdated);
@@ -537,7 +537,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     }
 
     // Army.PAS:3187
-    public override bool PlaceHex(MapContainer? map, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer? map, int hexX, int hexY, int hexLevel)
     {
         if (Army.CanPlace(hexX, hexY, L: hexLevel))
         {
@@ -609,7 +609,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         if (HexLevel > 0)
         {
             MapLevel level = Owner.Owner;
-            sbyte hexY = HexY;
+            int hexY = HexY;
             int x = default;
             int y = default;
             HexGeometry.CenterHexNumberToHex(HexX, hexY, hexNumber: direction, ref x, ref y);
@@ -627,9 +627,9 @@ public partial class ArmyHexSprite : UnitHexSprite
                         HexGeometry.HexNumberToPixel(direction, ref deltaX, ref deltaY);
                         animation.SetPixelXOffset(deltaX / 2);
                         animation.SetPixelYOffset(deltaY / 2);
-                        sbyte hexLevel = HexLevel;
-                        sbyte hexY2 = HexY;
-                        sbyte hexX = HexX;
+                        int hexLevel = HexLevel;
+                        int hexY2 = HexY;
+                        int hexX = HexX;
                         _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY2, L: hexLevel);
                     }
                 }
@@ -701,7 +701,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     }
 
     // Army.PAS:3200
-    public bool PlacePrivate(MapContainer? map, sbyte X, sbyte Y, sbyte L)
+    public bool PlacePrivate(MapContainer? map, int X, int Y, int L)
     {
         bool result = base.PlaceHex(map, X, Y, L);
         if (result)
@@ -727,7 +727,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     }
 
     // Army.PAS:3490
-    public bool Place(sbyte x, sbyte y, sbyte mapLevel, ArmyPlaceModes mode)
+    public bool Place(int x, int y, int mapLevel, ArmyPlaceModes mode)
     {
         MapFieldMessage message = default;
         bool result = false;
@@ -751,7 +751,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                         field.SendMapFieldMessage(ref message);
                         if (message.Result.Int == 0)
                         {
-                            if (Army.CanPlace((sbyte)walk.X, (sbyte)walk.Y, L: mapLevel))
+                            if (Army.CanPlace(walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), L: mapLevel))
                             {
                                 _ = MoveTo(field, moveCost: 0);
                                 result = true;
@@ -864,11 +864,11 @@ public partial class ArmyHexSprite : UnitHexSprite
 
     internal static bool MoveArmy(ArmyHexSprite? army, byte selection, MovePath? path) => MoveArmy(army, selection, path, mode: ArmyMoveModes.SelectEndLocation, force: false);
 
-    internal static bool MoveArmyMapCoordinate(ArmyHexSprite army, byte selection, sbyte X, sbyte Y, sbyte L, bool force)
+    internal static bool MoveArmyMapCoordinate(ArmyHexSprite army, byte selection, int X, int Y, int L, bool force)
     {
         MoveControlSettings settings = new(null) { Holder = army };
-        sbyte hexLevel = army.HexLevel;
-        sbyte hexY = army.HexY;
+        int hexLevel = army.HexLevel;
+        int hexY = army.HexY;
         settings.SetSourcePosition(army.HexX, hexY, hexLevel);
         settings.Player = army.Army.Player;
         settings.ArmyHexSprite = army;

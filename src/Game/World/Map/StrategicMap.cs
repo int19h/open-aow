@@ -1173,7 +1173,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1559
-    public bool TerrainVisible(sbyte X, sbyte Y, sbyte L, int radius)
+    public bool TerrainVisible(int X, int Y, int L, int radius)
     {
         // { Original returns true immediately when exploration is enabled. }
         bool result = Current.ExplorationEnabled;
@@ -1197,7 +1197,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1580
-    public bool Visible(sbyte X, sbyte Y, sbyte L, int radius)
+    public bool Visible(int X, int Y, int L, int radius)
     {
         bool result = false;
         MapLevel mapLevel = MapContainer.GetMapLevel(L);
@@ -1220,7 +1220,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1602
-    public bool WatchingTerrain(sbyte X, sbyte Y, sbyte L, int radius)
+    public bool WatchingTerrain(int X, int Y, int L, int radius)
     {
         bool result = false;
         MapLevel mapLevel = MapContainer.GetMapLevel(L);
@@ -1243,7 +1243,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1624
-    public bool Watching(sbyte X, sbyte Y, sbyte L, int radius)
+    public bool Watching(int X, int Y, int L, int radius)
     {
         bool result = false;
         MapLevel mapLevel = MapContainer.GetMapLevel(L);
@@ -1266,7 +1266,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1647
-    public bool ValidateTerrainObservation(sbyte player, sbyte X, sbyte Y, sbyte L, int radius)
+    public bool ValidateTerrainObservation(sbyte player, int X, int Y, int L, int radius)
     {
         bool result;
         if (ShowIndependentMoves && player != Current.SeatedPlayer)
@@ -1761,7 +1761,7 @@ public sealed partial class StrategicMap : GameMap
             {
                 for (int y = 6, lastY = MapContainer.Height - 7; y <= lastY; y++)
                 {
-                    _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: 0, terrainType: 0);
+                    _ = control.Place(MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: 0, terrainType: 0);
                 }
             }
         }
@@ -1771,7 +1771,7 @@ public sealed partial class StrategicMap : GameMap
             {
                 for (int y = 1, lastY = MapContainer.Height - 7; y <= lastY; y++)
                 {
-                    _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: (sbyte)level, terrainType: 7);
+                    _ = control.Place(MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: level.TruncateToSByte(), terrainType: 7);
                 }
             }
         }
@@ -1780,12 +1780,12 @@ public sealed partial class StrategicMap : GameMap
         {
             for (int y = 0; y <= 5; y++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: (sbyte)level, terrainType: 15);
+                _ = control.Place(MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: level.TruncateToSByte(), terrainType: 15);
             }
 
             for (int y = MapContainer.Height - 6, lastY = MapContainer.Height - 1; y <= lastY; y++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: (sbyte)level, terrainType: 15);
+                _ = control.Place(MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: level.TruncateToSByte(), terrainType: 15);
             }
         }
 
@@ -1793,12 +1793,12 @@ public sealed partial class StrategicMap : GameMap
         {
             for (int x = 0; x <= 5; x++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: (sbyte)level, terrainType: 15);
+                _ = control.Place(MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: level.TruncateToSByte(), terrainType: 15);
             }
 
             for (int x = MapContainer.Width - 6, last = MapContainer.Width - 1; x <= last; x++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: (sbyte)level, terrainType: 15);
+                _ = control.Place(MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: level.TruncateToSByte(), terrainType: 15);
             }
         }
     }
@@ -2031,8 +2031,8 @@ public sealed partial class StrategicMap : GameMap
             }
             else
             {
-                player.GetLeaderLocation(out sbyte locationX, out sbyte locationY, L: out sbyte locationMapLevel);
-                location = new MapCoordinate(locationX, locationY, locationMapLevel);
+                player.GetLeaderLocation(out int locationX, out int locationY, L: out int locationMapLevel);
+                location = new MapCoordinate((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
                 if (location.X == -1)
                 {
                     if (player.Armies.Count == 0)
@@ -2059,8 +2059,8 @@ public sealed partial class StrategicMap : GameMap
         Selection.SelectLocationHexSprite(sprite);
         if (center)
         {
-            sbyte hexLevel = sprite.HexLevel;
-            sbyte hexY = sprite.HexY;
+            int hexLevel = sprite.HexLevel;
+            int hexY = sprite.HexY;
             CenterViewTo(sprite.HexX, hexY, hexLevel);
         }
     }
@@ -2482,9 +2482,9 @@ public sealed partial class StrategicMap : GameMap
         if (Current.Players.GetPlayers(player).Leader is not null)
         {
             MapCoordinate coordinate32 = Current.Players.GetPlayers(player).Leader.GetLocation();
-            sbyte x = coordinate32.X;
-            sbyte y = coordinate32.Y;
-            sbyte l = coordinate32.MapLevel;
+            int x = coordinate32.X;
+            int y = coordinate32.Y;
+            int l = coordinate32.MapLevel;
             // { Original excludes X = 0. }
             if (x > 0)
             {
@@ -2505,7 +2505,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:3167
-    public void PlaceTerrain(sbyte X, sbyte Y, sbyte L, sbyte terrainType, sbyte overlayType)
+    public void PlaceTerrain(int X, int Y, int L, sbyte terrainType, sbyte overlayType)
     {
         RandSeed = Current.Random(16777215);
         MapObjectResourceList resources = GamePack.Current.MapObjectResourceList;
@@ -2570,7 +2570,7 @@ public sealed partial class StrategicMap : GameMap
         return effect;
     }
 
-    public bool ValidateObservation(sbyte player, sbyte x, sbyte y, int level, int radius)
+    public bool ValidateObservation(sbyte player, int x, int y, int level, int radius)
     {
         if (!ShowIndependentMoves || player == Current.SeatedPlayer)
         {

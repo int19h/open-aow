@@ -132,10 +132,10 @@ public class AIGroupControl : EngineObject
         if (!Group.Status.Contains(AIGroupStatuses.Done))
         {
             MapCoordinate coordinate97 = Group.GetLocation();
-            sbyte locationX = coordinate97.X;
-            sbyte locationY = coordinate97.Y;
-            sbyte locationMapLevel = coordinate97.MapLevel;
-            Location = new MapCoordinate(locationX, locationY, locationMapLevel);
+            int locationX = coordinate97.X;
+            int locationY = coordinate97.Y;
+            int locationMapLevel = coordinate97.MapLevel;
+            Location = new MapCoordinate((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
             if (Location.X != -1)
             {
                 ArmyHexSprite = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).GetArmyHexSprite();
@@ -167,9 +167,9 @@ public class AIGroupControl : EngineObject
     // AIGroup.pas:1170
     public virtual bool Split()
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
+        int x = default;
+        int y = default;
+        int l = default;
         bool result = false;
         bool finished = false;
         while (!finished)
@@ -195,8 +195,8 @@ public class AIGroupControl : EngineObject
                 for (; i >= 0; i -= 1)
                 {
                     MapCoordinate coordinate99 = Group.Units.GetUnit(i).GetLocation();
-                    sbyte unitX = coordinate99.X;
-                    sbyte unitY = coordinate99.Y;
+                    int unitX = coordinate99.X;
+                    int unitY = coordinate99.Y;
                     sbyte unitL = coordinate99.MapLevel;
                     if (x == unitX && y == unitY && l == unitL)
                     {
@@ -276,7 +276,7 @@ public class AIGroupControl : EngineObject
     }
 
     // AIGroup.pas:1124
-    public virtual void ExecuteME(sbyte X, sbyte Y, sbyte L)
+    public virtual void ExecuteME(int X, int Y, int L)
     {
         MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
         if (field.GetPlayer() != -1 && field.GetPlayer() != Group.Player)
@@ -355,7 +355,7 @@ public class AIGroupControl : EngineObject
     }
 
     // AIGroup.pas:1040
-    public bool RetrieveGroupArmy(sbyte X, sbyte Y, sbyte L, out Army? army, out byte selection)
+    public bool RetrieveGroupArmy(int X, int Y, int L, out Army? army, out byte selection)
     {
         ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
         if (armyHexSprite is not null)
@@ -527,10 +527,10 @@ public class AIGroupControl : EngineObject
             if (troop is not null && (troop.Group is null || troop.Group.EngineClass.ClassId == TransportAIGroup.ClassId))
             {
                 MapCoordinate coordinate100 = troop.GetLocation();
-                sbyte locationX = coordinate100.X;
-                sbyte locationY = coordinate100.Y;
-                sbyte locationMapLevel = coordinate100.MapLevel;
-                MapCoordinate location = new(locationX, locationY, locationMapLevel);
+                int locationX = coordinate100.X;
+                int locationY = coordinate100.Y;
+                int locationMapLevel = coordinate100.MapLevel;
+                MapCoordinate location = new((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
                 int distance = HexGeometry.DeltaHexToRadius(location.X, location.Y, Location.X, Location.Y);
                 if (Location.MapLevel == location.MapLevel && distance < 30)
                 {

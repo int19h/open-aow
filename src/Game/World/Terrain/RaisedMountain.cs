@@ -96,9 +96,9 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     // Mountain.pas:228
     public void ShowRaiseTerrainAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        sbyte hexLevel = animation.HexLevel;
-        sbyte hexY = animation.HexY;
-        sbyte hexX = animation.HexX;
+        int hexLevel = animation.HexLevel;
+        int hexY = animation.HexY;
+        int hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         // { Original tests the base mountain ID, although this object is raised terrain. }
         if (this == field.FindOwnedChild(MountainMapObject.ClassId) && animation.FrameCounter == 0)
@@ -106,9 +106,9 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
-                sbyte hexLevel2 = HexLevel;
-                sbyte hexY2 = HexY;
-                sbyte hexX2 = HexX;
+                int hexLevel2 = HexLevel;
+                int hexY2 = HexY;
+                int hexX2 = HexX;
                 condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
             }
 
@@ -122,9 +122,9 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     // Mountain.pas:240
     public void NewFrameRaiseTerrainAnimation(Animation animation, int frameCounter)
     {
-        sbyte hexLevel = animation.HexLevel;
-        sbyte hexY = animation.HexY;
-        sbyte hexX = animation.HexX;
+        int hexLevel = animation.HexLevel;
+        int hexY = animation.HexY;
+        int hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (field.FindOwnedChild(ClassId) == this && frameCounter == 9)
         {

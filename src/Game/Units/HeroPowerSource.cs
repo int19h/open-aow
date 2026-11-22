@@ -30,9 +30,9 @@ public class HeroPowerSource(CustomNode? owner) : PowerSource(owner)
     public override void Select()
     {
         MapCoordinate coordinate27 = GetLocation();
-        sbyte x = coordinate27.X;
-        sbyte y = coordinate27.Y;
-        sbyte l = coordinate27.MapLevel;
+        int x = coordinate27.X;
+        int y = coordinate27.Y;
+        int l = coordinate27.MapLevel;
         if (x != -1)
         {
             ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(x, y, l).GetArmyHexSprite();

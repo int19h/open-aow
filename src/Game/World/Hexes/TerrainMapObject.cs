@@ -84,7 +84,7 @@ public partial class TerrainMapObject(CustomNode? owner) : MultiHexMapObject(own
     }
 
     // Terrain.pas:291
-    public override bool PlaceHex(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer? mapContainer, int hexX, int hexY, int hexLevel)
     {
         bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
         if (result && !EditMode)
@@ -131,7 +131,7 @@ public partial class TerrainMapObject(CustomNode? owner) : MultiHexMapObject(own
                     if (terrainList.GetTerrain(i) >= 0 && i != hexNumber)
                     {
                         HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: i, ref x, ref y);
-                        _ = r.PlaceResourceUser(map, (sbyte)x, (sbyte)y, (sbyte)hexLevel);
+                        _ = r.PlaceResourceUser(map, x.TruncateToSByte(), y.TruncateToSByte(), hexLevel.TruncateToSByte());
                     }
                 }
             }

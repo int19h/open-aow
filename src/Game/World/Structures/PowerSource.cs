@@ -22,9 +22,9 @@ public class PowerSource(CustomNode owner) : EngineObject(owner)
     public virtual void CenterToLocation()
     {
         MapCoordinate coordinate34 = GetLocation();
-        sbyte x = coordinate34.X;
-        sbyte y = coordinate34.Y;
-        sbyte l = coordinate34.MapLevel;
+        int x = coordinate34.X;
+        int y = coordinate34.Y;
+        int l = coordinate34.MapLevel;
         if (x != -1)
         {
             StrategicMap.Current.CenterViewTo(x, y, l);

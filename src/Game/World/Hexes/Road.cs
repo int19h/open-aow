@@ -27,7 +27,7 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
     }
 
     // Road.pas:60
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
         HexSprite oldRoad = mapField.FindOwnedHexSprite(typeof(AbstractRoad));

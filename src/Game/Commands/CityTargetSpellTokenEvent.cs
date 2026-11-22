@@ -46,8 +46,8 @@ public class CityTargetSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner
     // CitySpells.pas:182
     public void SetLocation(MapCoordinate location) => _targetLocation = location;
 
-    public void SetLocation(sbyte x, sbyte y, int level)
-        => SetLocation(new MapCoordinate(x, y, (sbyte)level));
+    public void SetLocation(int x, int y, int level)
+        => SetLocation(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // CitySpells.pas:204
     public City GetSelectedCity() => StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_targetLocation).FindNoneTransparentHexSprite<City>();

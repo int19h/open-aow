@@ -47,9 +47,9 @@ public class StructureConstructionControl(CustomNode owner) : ConstructionContro
         bool result = true;
         StructureResource? resource = StructureResource(troop);
         MapCoordinate coordinate39 = troop.GetLocation();
-        sbyte x = coordinate39.X;
-        sbyte y = coordinate39.Y;
-        sbyte l = coordinate39.MapLevel;
+        int x = coordinate39.X;
+        int y = coordinate39.Y;
+        int l = coordinate39.MapLevel;
         MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(l);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 0);
         while (resource.TerrainList.Count > walk.HexNumber && result)

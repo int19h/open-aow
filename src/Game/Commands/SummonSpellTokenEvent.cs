@@ -43,9 +43,9 @@ public class SummonSpellTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
         _ = base.Process(source, value);
         bool done = false;
         MapCoordinate coordinate11 = source.GetLocation();
-        sbyte x = coordinate11.X;
-        sbyte y = coordinate11.Y;
-        sbyte l = coordinate11.MapLevel;
+        int x = coordinate11.X;
+        int y = coordinate11.Y;
+        int l = coordinate11.MapLevel;
         for (int i = 0, last = UnitIndices.Count - 1; i <= last; i++)
         {
             Unit u = new(null) { Holder = CreationHolder() };
@@ -54,8 +54,8 @@ public class SummonSpellTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
             ArmyHexSprite? army = u.Place(x, y, l, source.Player, mode: UnitPlaceModes.ScanArea);
             if (army is not null)
             {
-                sbyte hexY = army.HexY;
-                sbyte hexX = army.HexX;
+                int hexY = army.HexY;
+                int hexX = army.HexX;
                 if (HexGeometry.DeltaHexToRadius(x, y, hexX, hexY) <= 2)
                 {
                     if (u.ExpandAbility(155))

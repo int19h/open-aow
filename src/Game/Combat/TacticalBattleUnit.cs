@@ -62,7 +62,7 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
                         direction = 0;
                     }
 
-                    sbyte hexY = UnitHexSprite.HexY;
+                    int hexY = UnitHexSprite.HexY;
                     HexGeometry.CenterHexNumberToHex(UnitHexSprite.HexX, hexY, hexNumber: direction, ref x2, ref y2);
                     if (CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2].TerrainType is not 0 and not 9)
                     {
@@ -92,7 +92,7 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
                         BattleEffectSprite effect = CombatMap.Current.AddEffect(BattleEffectType.DecayComet);
                         effect.AbilityIndex = 52;
                         effect.SpellIndex = 106;
-                        sbyte hexY = UnitHexSprite.HexY;
+                        int hexY = UnitHexSprite.HexY;
                         HexGeometry.HexToPixel(UnitHexSprite.HexX, hexY, out int x, out int y);
                         Point3D xyz = new();
                         effect.Path.Add(xyz);
@@ -122,20 +122,20 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
                 }
                 else
                 {
-                    sbyte hexY = UnitHexSprite.HexY;
-                    sbyte hexX = UnitHexSprite.HexX;
+                    int hexY = UnitHexSprite.HexY;
+                    int hexX = UnitHexSprite.HexX;
                     bool condition = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].TerrainType != 0;
                     if (condition)
                     {
-                        sbyte fUnitHexSpriteHexY = UnitHexSprite.HexY;
-                        sbyte fUnitHexSpriteHexX = UnitHexSprite.HexX;
+                        int fUnitHexSpriteHexY = UnitHexSprite.HexY;
+                        int fUnitHexSpriteHexX = UnitHexSprite.HexX;
                         condition = CombatMap.Current.MapContainer.MapLevels[0].Field[fUnitHexSpriteHexX, fUnitHexSpriteHexY].TerrainType != 9;
                     }
 
                     if (condition)
                     {
-                        sbyte fUnitHexSpriteHexY = UnitHexSprite.HexY;
-                        sbyte fUnitHexSpriteHexX = UnitHexSprite.HexX;
+                        int fUnitHexSpriteHexY = UnitHexSprite.HexY;
+                        int fUnitHexSpriteHexX = UnitHexSprite.HexX;
                         TacticalBattleCorpseHexSprite corpse = new(CombatMap.Current.MapContainer.MapLevels[0].Field[fUnitHexSpriteHexX, fUnitHexSpriteHexY])
                         {
                             UnitGraphics = UnitHexSprite.UnitGraphicsResource
@@ -188,9 +188,9 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
                     }
                 }
 
-                sbyte hexY2 = UnitHexSprite.HexY;
-                sbyte hexX2 = UnitHexSprite.HexX;
-                sbyte hexY3 = UnitHexSprite.HexY;
+                int hexY2 = UnitHexSprite.HexY;
+                int hexX2 = UnitHexSprite.HexX;
+                int hexY3 = UnitHexSprite.HexY;
                 Rect r = new(UnitHexSprite.HexX, hexY3, hexX2 + 1, hexY2 + 1);
                 UnitHexSprite?.Dispose();
                 UnitHexSprite = null;
@@ -237,7 +237,7 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
 
         if (GetAbilityEnabled(43))
         {
-            sbyte hexY = UnitHexSprite.HexY;
+            int hexY = UnitHexSprite.HexY;
             EffectPaths.CreateFire(50, UnitHexSprite.HexX, hexY, engine: GetEngine());
         }
 
@@ -276,7 +276,7 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
                 break;
         }
 
-        sbyte hexY = unitObject.UnitHexSprite.HexY;
+        int hexY = unitObject.UnitHexSprite.HexY;
         _ = point.X;
         _ = point.Y;
         HexGeometry.HexToPixel(unitObject.UnitHexSprite.HexX, hexY, out int x, out int y);

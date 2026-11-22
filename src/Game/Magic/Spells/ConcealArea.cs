@@ -38,8 +38,8 @@ public class ConcealArea : Spell
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         CastingDone(source, mana: eventValue.EventMana);
         MapCoordinate coordinate60 = source.GetLocation();
-        sbyte x = coordinate60.X;
-        sbyte y = coordinate60.Y;
+        int x = coordinate60.X;
+        int y = coordinate60.Y;
         sbyte layer = coordinate60.MapLevel;
         if (source.Player == StrategicMap.Current.SeatedPlayer)
         {
@@ -89,7 +89,7 @@ public class ConcealArea : Spell
                     log = new LocationTextEventLog(null)
                     {
                         Holder = CreationHolder(),
-                        Location = new MapCoordinate(x, y, layer),
+                        Location = new MapCoordinate((sbyte)x, (sbyte)y, layer),
                         Player = source.Player
                     };
                     string concealArea = AbilityRules.TranslateResourceString(GetEngine(), S: s_concealAreaText);

@@ -200,16 +200,16 @@ public partial class ReflectingPool(CustomNode? owner) : PlayerStructure(owner)
                 if (_centerFrame / 8 < count)
                 {
                     PlayerStructure pool = list.GetStructure(_centerFrame / 8);
-                    sbyte hexLevel = pool.HexLevel;
-                    sbyte hexY = pool.HexY;
-                    sbyte hexX = pool.HexX;
+                    int hexLevel = pool.HexLevel;
+                    int hexY = pool.HexY;
+                    int hexX = pool.HexX;
                     StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
                 }
                 else
                 {
-                    sbyte hexLevel = HexLevel;
-                    sbyte hexY = HexY;
-                    sbyte hexX = HexX;
+                    int hexLevel = HexLevel;
+                    int hexY = HexY;
+                    int hexX = HexX;
                     StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
                     DeactivatePoolCentering();
                 }

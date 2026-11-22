@@ -1450,7 +1450,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     }
 
     // Player.PAS:1134
-    public void GetLeaderLocation(out sbyte X, out sbyte Y, out sbyte L)
+    public void GetLeaderLocation(out int X, out int Y, out int L)
     {
         if (Leader?.UnitHolder is { } holder)
         {

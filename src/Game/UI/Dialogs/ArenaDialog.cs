@@ -163,7 +163,7 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
         Rect r = new(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
         int w = r.Right - r.Left;
         int h = r.Bottom - r.Top;
-        sbyte hexY = _event.Arena.HexY;
+        int hexY = _event.Arena.HexY;
         HexGeometry.HexToPixel(_event.Arena.HexX, hexY, out int x, out int y);
         x = x + 16 - (w >>> 1);
         y = y + 16 - (h >>> 1);
@@ -178,7 +178,7 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
         }
 
         LockedSurface mapSurfaceDescription = LockedSurface.CreateFrom(lockedSurface, r);
-        sbyte hexLevel = _event.Arena.HexLevel;
+        int hexLevel = _event.Arena.HexLevel;
         _ = StrategicMap.Current.SetViewPort(x, y, lHitPoints: hexLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();

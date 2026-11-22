@@ -369,7 +369,7 @@ public partial class City : PlayerCropStructure
     public override void Select() => base.Select();
 
     // City.pas:1787
-    public override sbyte GetValidTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, defaultValue: -1);
+    public override sbyte GetValidTerrainType(MapLevel mapLevel, int hexX, int hexY) => GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, defaultValue: -1);
 
     // City.pas:2422
     public override LibraryImage? GetTopBorderImage()
@@ -491,9 +491,9 @@ public partial class City : PlayerCropStructure
         {
             BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, player, relation: 0, requests: BattleFieldInfoRequests.None, damageTypes: AbilityRules.AllDamageTypes & ~DamageTypes.Wall);
             info.Requests |= BattleFieldInfoRequests.IgnorePassiveIndependents;
-            sbyte hexLevel = HexLevel;
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexLevel = HexLevel;
+            int hexY = HexY;
+            int hexX = HexX;
             StrategicMap.Current.RetrieveBattleFieldInfo(hexX, hexY, hexLevel, radius: 10, ref info);
             requirements.Strength = info.Strength;
             int maximum = Round(Size * 5_000);
@@ -1260,24 +1260,24 @@ public partial class City : PlayerCropStructure
         {
             if (armies[i].Army.HealUnits(255))
             {
-                sbyte hexLevel = armies[i].HexLevel;
-                sbyte hexY = armies[i].HexY;
-                sbyte hexX = armies[i].HexX;
+                int hexLevel = armies[i].HexLevel;
+                int hexY = armies[i].HexY;
+                int hexX = armies[i].HexX;
                 if (StrategicMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, player: StrategicMap.Current.SeatedPlayer))
                 {
                     ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.AbilityControl[47].ImageSequences.ImageSequences[0]);
                     animation.AnimationLevel = 27;
-                    sbyte hexLevel2 = armies[i].HexLevel;
-                    sbyte hexY2 = armies[i].HexY;
-                    sbyte hexX2 = armies[i].HexX;
+                    int hexLevel2 = armies[i].HexLevel;
+                    int hexY2 = armies[i].HexY;
+                    int hexX2 = armies[i].HexX;
                     _ = StrategicMap.Current.PlaceHex(animation, hexX2, hexY2, L: hexLevel2);
                     bool condition = playSound || armies[i].Army.Player == StrategicMap.Current.SeatedPlayer;
                     if (!condition)
                     {
-                        sbyte hexLevel3 = armies[i].HexLevel;
-                        sbyte hexY3 = armies[i].HexY;
-                        sbyte hexX3 = armies[i].HexX;
+                        int hexLevel3 = armies[i].HexLevel;
+                        int hexY3 = armies[i].HexY;
+                        int hexX3 = armies[i].HexX;
                         condition = StrategicMap.Current.Watching(hexX3, hexY3, L: hexLevel3, radius: 1);
                     }
 
@@ -1434,7 +1434,7 @@ public partial class City : PlayerCropStructure
                 ArmyHexSprite army = mapLevel.GetField(walk.X, walk.Y).GetArmyHexSprite();
                 if (army is not null && (!selection.Contains(MoveOutOfCitySelections.SkipOwnPlayer) || army.Army.Player != Player))
                 {
-                    result = army.Place(mapLevel: HexLevel, x: (sbyte)walk.X, y: (sbyte)walk.Y, mode: ArmyPlaceModes.Safe | ArmyPlaceModes.ScanArea);
+                    result = army.Place(mapLevel: HexLevel, x: walk.X.TruncateToSByte(), y: walk.Y.TruncateToSByte(), mode: ArmyPlaceModes.Safe | ArmyPlaceModes.ScanArea);
                 }
             }
 
@@ -1455,8 +1455,8 @@ public partial class City : PlayerCropStructure
         int result = 0;
         int count = TerrainCount;
         MapLevel mapLevel = Owner.Owner;
-        sbyte hexY = HexY;
-        sbyte hexX = HexX;
+        int hexY = HexY;
+        int hexX = HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, radius: 0);
         while (walk.HexNumber < count)
         {
@@ -1823,9 +1823,9 @@ public partial class City : PlayerCropStructure
                     GenerateRebelUnits(units);
                     for (int i = units.Count - 1; i >= 0; i--)
                     {
-                        sbyte hexLevel2 = HexLevel;
-                        sbyte hexY2 = HexY;
-                        sbyte hexX2 = HexX;
+                        int hexLevel2 = HexLevel;
+                        int hexY2 = HexY;
+                        int hexX2 = HexX;
                         _ = units.GetUnit(i).Place(hexX2, hexY2, L: hexLevel2, player: 0, mode: UnitPlaceModes.None);
                     }
 
@@ -1859,8 +1859,8 @@ public partial class City : PlayerCropStructure
             {
                 RandSeed = StrategicMap.Current.Random(1_048_575);
                 RaceResource? raceResource = GamePack.Current.RaceResources.GetRaceResource(Race);
-                sbyte hexLevel = HexLevel;
-                sbyte hexY = HexY;
+                int hexLevel = HexLevel;
+                int hexY = HexY;
                 _ = AbilityRules.PlaceRandomUnits(HexX, hexY, L: hexLevel, player: 0, units: raceResource.UnitIndexes, level: UpgradeLevel, value, types: UnitTypes.Humanoid | UnitTypes.Creature, engine: GetEngine());
             }
 
@@ -2165,9 +2165,9 @@ public partial class City : PlayerCropStructure
             combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer).IndependentRelation = (byte)enemiesIndependentRelation;
         }
 
-        sbyte hexLevel = army.HexLevel;
-        sbyte hexY = army.HexY;
-        sbyte hexX = army.HexX;
+        int hexLevel = army.HexLevel;
+        int hexY = army.HexY;
+        int hexX = army.HexX;
         combat.InitializeDefaultArmies(army.Army, hexX, hexY, L: hexLevel);
     }
 

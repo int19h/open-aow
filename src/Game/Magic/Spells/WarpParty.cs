@@ -69,7 +69,7 @@ public class WarpParty : Spell
     }
 
     // GlobalSpells.pas:643
-    public bool ValidTarget(ArmyHexSprite? army, sbyte X, sbyte Y, sbyte layer)
+    public bool ValidTarget(ArmyHexSprite? army, int X, int Y, sbyte layer)
     {
         MapFieldMessage message = default;
         MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, layer);
@@ -94,8 +94,8 @@ public class WarpParty : Spell
         MapFieldMessage message = default;
         DelphiList<MapField> candidates = [];
         MovePointTable table = army.Army.CreateMovePointTable(255);
-        sbyte hexY = army.HexY;
-        sbyte hexX = army.HexX;
+        int hexY = army.HexY;
+        int hexX = army.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 10);
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
         MapField? field;
@@ -118,8 +118,8 @@ public class WarpParty : Spell
             if (Math.Abs(l - army.HexLevel) == 1)
             {
                 level = StrategicMap.Current.MapContainer.MapLevels[l];
-                sbyte armyHexY = army.HexY;
-                sbyte armyHexX = army.HexX;
+                int armyHexY = army.HexY;
+                int armyHexX = army.HexX;
                 HexNumberWalkData.InitializeHexNumberWalk(out walk, armyHexX, armyHexY, radius: 0);
                 while (walk.Radius < 10)
                 {

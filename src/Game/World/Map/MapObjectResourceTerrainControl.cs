@@ -81,7 +81,7 @@ public class MapObjectResourceTerrainControl(CustomNode owner) : EngineObject(ow
     }
 
     // HSEngine.pas:4604
-    public virtual MapObject? Place(MapContainer? container, sbyte X, sbyte Y, sbyte L, sbyte terrainType)
+    public virtual MapObject? Place(MapContainer? container, int X, int Y, int L, sbyte terrainType)
     {
         MapObject? result = null;
         DelphiList<MapObjectResource> list = Resources[terrainType];
@@ -116,7 +116,7 @@ public class MapObjectResourceTerrainControl(CustomNode owner) : EngineObject(ow
     }
 
     // HSEngine.pas:4637
-    public virtual MapObject? PlaceClass(MapContainer container, sbyte X, sbyte Y, sbyte L, sbyte terrainType, int classId)
+    public virtual MapObject? PlaceClass(MapContainer container, int X, int Y, int L, sbyte terrainType, int classId)
     {
         MapObject? result = null;
         if (Resources[terrainType].Count != 0)

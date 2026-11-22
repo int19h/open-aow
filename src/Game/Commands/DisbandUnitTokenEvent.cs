@@ -44,9 +44,9 @@ public class DisbandUnitTokenEvent(CustomNode? owner) : TokenEvent(owner)
             if (!troop.GetAbilityEnabled(155))
             {
                 MapCoordinate coordinate5 = troop.GetLocation();
-                sbyte x = coordinate5.X;
-                sbyte y = coordinate5.Y;
-                sbyte l = coordinate5.MapLevel;
+                int x = coordinate5.X;
+                int y = coordinate5.Y;
+                int l = coordinate5.MapLevel;
                 PlayerStructure structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
                 ArmyHexSprite? armyHexSprite;
                 if (troop.Owner is not Army || troop.Owner.Count > 1 || (structure is not null && structure.Player > 0))

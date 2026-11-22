@@ -51,7 +51,7 @@ public partial class CombatTypeRequestEventLog(CustomNode? owner) : EventLog(own
     public void Select(CombatType combatType) => CombatType = combatType;
 
     // Combat2.pas:30
-    public void SetCenterLocation(byte X, byte Y, int L)
+    public void SetCenterLocation(int X, int Y, int L)
     {
         {
             Location = Location with { X = (sbyte)X };

@@ -416,13 +416,13 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && sender.Selected != -1)
         {
             HexSprite? sprite = CityNameList.Items.Objects[sender.Selected];
-            sbyte hexLevel = sprite.HexLevel;
-            sbyte hexY = sprite.HexY;
-            sbyte hexX = sprite.HexX;
+            int hexLevel = sprite.HexLevel;
+            int hexY = sprite.HexY;
+            int hexX = sprite.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            sbyte spriteHexLevel = sprite.HexLevel;
-            sbyte spriteHexY = sprite.HexY;
-            sbyte spriteHexX = sprite.HexX;
+            int spriteHexLevel = sprite.HexLevel;
+            int spriteHexY = sprite.HexY;
+            int spriteHexX = sprite.HexX;
             StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, L: spriteHexLevel);
         }
     }
@@ -476,13 +476,13 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && sender.Selected != -1)
         {
             HexSprite? sprite = PlaceNameList.Items.Objects[sender.Selected];
-            sbyte hexLevel = sprite.HexLevel;
-            sbyte hexY = sprite.HexY;
-            sbyte hexX = sprite.HexX;
+            int hexLevel = sprite.HexLevel;
+            int hexY = sprite.HexY;
+            int hexX = sprite.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            sbyte spriteHexLevel = sprite.HexLevel;
-            sbyte spriteHexY = sprite.HexY;
-            sbyte spriteHexX = sprite.HexX;
+            int spriteHexLevel = sprite.HexLevel;
+            int spriteHexY = sprite.HexY;
+            int spriteHexX = sprite.HexX;
             StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, L: spriteHexLevel);
         }
     }
@@ -505,13 +505,13 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
         if (list.Selected != -1)
         {
             HexSprite? sprite = HeroNameList.Items.Objects[list.Selected].GetArmyHexSprite();
-            sbyte hexLevel = sprite.HexLevel;
-            sbyte hexY = sprite.HexY;
-            sbyte hexX = sprite.HexX;
+            int hexLevel = sprite.HexLevel;
+            int hexY = sprite.HexY;
+            int hexX = sprite.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            sbyte spriteHexLevel = sprite.HexLevel;
-            sbyte spriteHexY = sprite.HexY;
-            sbyte spriteHexX = sprite.HexX;
+            int spriteHexLevel = sprite.HexLevel;
+            int spriteHexY = sprite.HexY;
+            int spriteHexX = sprite.HexX;
             StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, L: spriteHexLevel);
         }
     }

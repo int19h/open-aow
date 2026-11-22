@@ -182,12 +182,12 @@ public partial class Dungeon : ExplorationSite
         _ = locationLog.Release();
         ArmyInfoEventLog armyLog = new(null) { Holder = CreationHolder() };
         armyLog.ArmyView.Setup(Prisoners, selection: 255);
-        sbyte hexX = HexX;
-        armyLog.ArmyView.Location = armyLog.ArmyView.Location with { X = hexX };
-        sbyte hexY3 = HexY;
-        armyLog.ArmyView.Location = armyLog.ArmyView.Location with { Y = hexY3 };
-        sbyte hexLevel3 = HexLevel;
-        armyLog.ArmyView.Location = armyLog.ArmyView.Location with { MapLevel = hexLevel3 };
+        int hexX = HexX;
+        armyLog.ArmyView.Location = armyLog.ArmyView.Location with { X = (sbyte)hexX };
+        int hexY3 = HexY;
+        armyLog.ArmyView.Location = armyLog.ArmyView.Location with { Y = (sbyte)hexY3 };
+        int hexLevel3 = HexLevel;
+        armyLog.ArmyView.Location = armyLog.ArmyView.Location with { MapLevel = (sbyte)hexLevel3 };
         armyLog.Selection = 255;
         armyLog.Player = GetPlayer();
         armyLog.Title = AbilityRules.TranslateResourceString(GetEngine(), S: PrisonerLiberationText);

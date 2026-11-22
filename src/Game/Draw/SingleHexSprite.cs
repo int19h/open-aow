@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Draw;
 
@@ -50,7 +51,7 @@ public class SingleHexSprite(CustomNode? owner) : HexSprite(owner)
     public override bool Place(MapContainer? map, int pixelX, int pixelY, int hexLevel)
     {
         HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
-        return PlaceHex(map, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel);
+        return PlaceHex(map, hexX.TruncateToSByte(), hexY.TruncateToSByte(), hexLevel.TruncateToSByte());
     }
 
     // HXSPRITE.PAS:721
@@ -112,10 +113,10 @@ public class SingleHexSprite(CustomNode? owner) : HexSprite(owner)
     }
 
     // HXSPRITE.PAS:743
-    public virtual bool CanPlace(MapContainer? map, sbyte hexX, sbyte hexY, sbyte hexLevel) => hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < map.Width && hexY < map.Height && hexLevel < map.LevelCount;
+    public virtual bool CanPlace(MapContainer? map, int hexX, int hexY, int hexLevel) => hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < map.Width && hexY < map.Height && hexLevel < map.LevelCount;
 
     // HXSPRITE.PAS:757
-    public virtual bool PlaceHex(MapContainer? map, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public virtual bool PlaceHex(MapContainer? map, int hexX, int hexY, int hexLevel)
     {
         if (EditMode || CanPlace(map, hexX, hexY, hexLevel))
         {

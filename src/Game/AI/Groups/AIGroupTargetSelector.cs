@@ -567,10 +567,10 @@ public class AIGroupTargetSelector : AIGroupTask
                         if (GroupControl.Group.Productions.Count != 0)
                         {
                             MapCoordinate coordinate101 = GroupControl.Group.Productions.GetProductions(0).Control.Location;
-                            sbyte locationX = coordinate101.X;
-                            sbyte locationY = coordinate101.Y;
-                            sbyte locationMapLevel = coordinate101.MapLevel;
-                            MapCoordinate location = new(locationX, locationY, locationMapLevel);
+                            int locationX = coordinate101.X;
+                            int locationY = coordinate101.Y;
+                            int locationMapLevel = coordinate101.MapLevel;
+                            MapCoordinate location = new((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
                             GroupControl.SetupME();
                             GroupControl.ExecuteME(location.X, location.Y, L: location.MapLevel);
                             result = true;

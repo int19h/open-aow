@@ -26,7 +26,7 @@ public class IsometricHexResource(CustomNode owner) : AbstractHexagonResource(ow
     }
 
     // IsoHex.pas:273
-    public override MapObject? PlaceResourceUser(GameMap? map, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override MapObject? PlaceResourceUser(GameMap? map, int hexX, int hexY, int hexLevel)
     {
         MapField mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
         // The lookup finds only IsometricHex, including a hex that derives from it.

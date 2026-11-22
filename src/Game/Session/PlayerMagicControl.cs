@@ -273,10 +273,10 @@ public sealed class PlayerMagicControl : EngineObject
                     Mode = PlayerMagicEventLog.EventMode.OutOfMana
                 };
                 MapCoordinate coordinate25 = Enchantments.GetEnchantments(index).GetLocation();
-                sbyte locationX = coordinate25.X;
-                sbyte locationY = coordinate25.Y;
-                sbyte locationMapLevel = coordinate25.MapLevel;
-                log.Location = new MapCoordinate(locationX, locationY, locationMapLevel);
+                int locationX = coordinate25.X;
+                int locationY = coordinate25.Y;
+                int locationMapLevel = coordinate25.MapLevel;
+                log.Location = new MapCoordinate((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
                 log.EnchantmentName = Enchantments.GetEnchantments(index).GetName();
                 StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex).EventLogbook.AddEvent(log);
                 _ = log.Release();

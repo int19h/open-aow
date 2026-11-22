@@ -1,12 +1,10 @@
 #nullable disable warnings
 using System.Globalization;
 using Aow.Game.Combat;
-
 using Aow.Game.Draw.Images;
-
 using Aow.Game.Host;
-
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.PCharStrings;
 using static Aow.Rtl.RtlHost;
 
@@ -530,10 +528,10 @@ public sealed partial class BattleEffectSprite
 
                         break;
                     case BattleEffectType.SWComet:
-                        sbyte hexY = Target.UnitHexSprite.HexY;
+                        int hexY = Target.UnitHexSprite.HexY;
                         HexGeometry.HexToPixel(Target.UnitHexSprite.HexX, hexY, out i, out j);
                         Point3DList path5 = Path;
-                        EffectPaths.MakeArcPathXY((short)((lockedSurfaceValue.Width / 2) + pixelXSurface), (short)((lockedSurfaceValue.Height / 2) + pixelYSurface), (short)i, (short)j, stepSize: 25, height: 50, list: path5);
+                        EffectPaths.MakeArcPathXY(((lockedSurfaceValue.Width / 2) + pixelXSurface).TruncateToInt16(), ((lockedSurfaceValue.Height / 2) + pixelYSurface).TruncateToInt16(), i.TruncateToInt16(), j.TruncateToInt16(), stepSize: 25, height: 50, list: path5);
                         Path = path5;
                         EffectType = BattleEffectType.Comet;
                         SelectSequence(0);

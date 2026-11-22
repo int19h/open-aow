@@ -30,9 +30,9 @@ public class ShipyardConstructionControl(CustomNode owner) : StructureConstructi
         {
             result = false;
             MapCoordinate coordinate37 = troop.GetLocation();
-            sbyte x = coordinate37.X;
-            sbyte y = coordinate37.Y;
-            sbyte l = coordinate37.MapLevel;
+            int x = coordinate37.X;
+            int y = coordinate37.Y;
+            int l = coordinate37.MapLevel;
             MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(l);
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 0);
             while (walk.HexNumber < 7 && !result)
@@ -61,7 +61,7 @@ public class ShipyardConstructionControl(CustomNode owner) : StructureConstructi
         MapCoordinate coordinate38 = troop.GetLocation();
         _ = coordinate38.X;
         _ = coordinate38.Y;
-        sbyte l = coordinate38.MapLevel;
+        int l = coordinate38.MapLevel;
         return l == 0
             ? GamePack.Current.MapObjectResourceList.FindResource<StructureResource>(60)
             : GamePack.Current.MapObjectResourceList.FindResource<StructureResource>(107);

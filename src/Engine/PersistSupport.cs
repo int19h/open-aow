@@ -61,12 +61,12 @@ public static class PersistSupport
         {
             if (width == CoordinateWidth.Byte)
             {
-                sbyte x = body.UnsignedByte("X", value.X);
-                sbyte y = body.UnsignedByte("Y", value.Y);
+                int x = body.UnsignedByte("X", value.X);
+                int y = body.UnsignedByte("Y", value.Y);
                 int level = body.UnsignedByte("MapLevel", value.MapLevel);
                 if (body.Loading)
                 {
-                    loaded = new MapCoordinate(x, y, (sbyte)level);
+                    loaded = new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level);
                 }
             }
             else

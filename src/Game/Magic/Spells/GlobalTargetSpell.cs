@@ -100,10 +100,10 @@ public class GlobalTargetSpell : Spell
         targetSelection.Initialize(source);
         targetSelection.TargetMode |= TargetSelectionModes.OwnerDraw | TargetSelectionModes.ValidateDistance | TargetSelectionModes.ExternalFloater;
         MapCoordinate coordinate69 = source.GetLocation();
-        sbyte unitX = coordinate69.X;
-        sbyte unitY = coordinate69.Y;
+        int unitX = coordinate69.X;
+        int unitY = coordinate69.Y;
         sbyte unitLayer = coordinate69.MapLevel;
-        targetSelection.SourceLocation = new MapCoordinate(unitX, unitY, unitLayer);
+        targetSelection.SourceLocation = new MapCoordinate((sbyte)unitX, (sbyte)unitY, unitLayer);
         targetSelection.Range = 12;
         targetSelection.Changed += OnTargetSelectionChange;
         targetSelection.SetShowHandler(ShowTargetSelection);

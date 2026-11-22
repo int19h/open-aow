@@ -24,7 +24,7 @@ public class LightningStorm(CustomNode? owner) : Storm(owner)
         int frame = FrameCounter % _stormImages.Count;
         if (_stormImages[frame] is not null)
         {
-            sbyte hexY = HexY;
+            int hexY = HexY;
             HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
             LibraryImage? stormImageWidth = _stormImages[frame];
             x = x - (stormImageWidth.Width >>> 1) + 20;
@@ -35,7 +35,7 @@ public class LightningStorm(CustomNode? owner) : Storm(owner)
     }
 
     // Storms.pas:487
-    public override StormDamageInfo GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, StormDamageInfo info)
+    public override StormDamageInfo GetTargetDamageInfo(sbyte player, int X, int Y, int L, StormDamageInfo info)
     {
         AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Lightning, X, Y, L, innerRadius: 0, outerRadius: 1, out info);
         return info;
@@ -53,7 +53,7 @@ public class LightningStorm(CustomNode? owner) : Storm(owner)
     }
 
     // Storms.pas:443
-    public override void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
+    public override void InitializeStorm(sbyte player, int X, int Y, int L)
     {
         Rect r = default;
         base.InitializeStorm(player, X, Y, L);

@@ -60,8 +60,8 @@ public class WarpPartyTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
         ArmyHexSprite? army = default;
         _ = base.Process(source, value);
         MapCoordinate coordinate15 = source.GetLocation();
-        sbyte x = coordinate15.X;
-        sbyte y = coordinate15.Y;
+        int x = coordinate15.X;
+        int y = coordinate15.Y;
         sbyte layer = coordinate15.MapLevel;
         _ = ArmyId.RetrieveArmy(ref army, ref selection);
         MapField field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(WarpLocation);

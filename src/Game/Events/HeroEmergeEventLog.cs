@@ -78,9 +78,9 @@ public partial class HeroEmergeEventLog(CustomNode? owner) : EventLog(owner)
         if (u is not null)
         {
             MapCoordinate coordinate17 = u.GetLocation();
-            sbyte x = coordinate17.X;
-            sbyte y = coordinate17.Y;
-            sbyte l = coordinate17.MapLevel;
+            int x = coordinate17.X;
+            int y = coordinate17.Y;
+            int l = coordinate17.MapLevel;
             if (x != -1)
             {
                 CenterViewTo(x, y, l);

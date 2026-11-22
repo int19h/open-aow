@@ -46,7 +46,7 @@ public class PlayerStructureResource(CustomNode owner) : StructureResource(owner
     public override int ResourceUserClassId() => PlayerStructure.ClassId;
 
     // Structur.PAS:2473
-    public override PlayerStructure? PlaceResourceUser(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override PlayerStructure? PlaceResourceUser(GameMap? hexSpriteMap, int hexX, int hexY, int hexLevel)
     {
         // The user class is a player structure (131916) or one of its kinds. Another class throws.
         PlayerStructure result = PlaceCreatedUser<PlayerStructure>(hexSpriteMap, hexX, hexY, hexLevel);

@@ -202,7 +202,7 @@ public class CombatStructure : CombatFixedImageLibraryTerrain
     }
 
     // CombatStructure.pas:253
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => base.CanPlace(mapContainer, hexX, hexY, hexLevel);
+    public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel) => base.CanPlace(mapContainer, hexX, hexY, hexLevel);
 
     // CombatStructure.pas:250
     public override bool CanPlaceOnHexSprite(HexSprite hexSprite) => base.CanPlaceOnHexSprite(hexSprite) || hexSprite is CombatRoad;

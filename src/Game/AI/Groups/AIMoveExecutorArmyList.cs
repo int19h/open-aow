@@ -45,7 +45,7 @@ public sealed class AIMoveExecutorArmyList(CustomNode? owner) : OwningNode(owner
     }
 
     // AIGroup.pas:4673
-    public int IndexOfMapCoordinate(sbyte X, sbyte Y, sbyte L)
+    public int IndexOfMapCoordinate(int X, int Y, int L)
     {
         int i = Count;
         while (i != 0)

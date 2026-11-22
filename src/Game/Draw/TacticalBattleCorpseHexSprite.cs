@@ -10,6 +10,7 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
@@ -84,14 +85,14 @@ public sealed class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexS
             BattleEffectSprite effect;
             if (message.MessageId == 200712 && message.HexNumber == 0)
             {
-                sbyte hexY = HexY;
-                sbyte hexX = HexX;
+                int hexY = HexY;
+                int hexX = HexX;
                 if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(TacticalBattleUnitHexSprite.ClassId) is null)
                 {
-                    sbyte hexY2 = HexY;
-                    sbyte hexX2 = HexX;
+                    int hexY2 = HexY;
+                    int hexX2 = HexX;
                     CombatMap.Current.MakeVisible(hexX2, hexY2, 0, radius: 5);
-                    sbyte hexY3 = HexY;
+                    int hexY3 = HexY;
                     HexGeometry.HexToPixel(HexX, hexY3, out x, out y);
                     for (int ring = 1; ring <= 3; ring++)
                     {
@@ -124,11 +125,11 @@ public sealed class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexS
 
             if (message.MessageId == 200713 && message.HexNumber == 0)
             {
-                sbyte hexY = HexY;
-                sbyte hexX = HexX;
+                int hexY = HexY;
+                int hexX = HexX;
                 if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(TacticalBattleUnitHexSprite.ClassId) is null)
                 {
-                    sbyte hexY2 = HexY;
+                    int hexY2 = HexY;
                     HexGeometry.HexToPixel(HexX, hexY2, out x, out y);
                     n = Random(6) + 25;
                     for (int i = 1; i <= n - 1; i++)
@@ -168,9 +169,9 @@ public sealed class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexS
                     {
                         TacticalBattleUnitHexSprite unitHexSprite = new(null) { Holder = CreationHolder() };
                         unitHexSprite.Initialize(Unit);
-                        unitHexSprite.SetDirection((byte)(Random(6) + 1));
-                        sbyte hexY3 = HexY;
-                        sbyte hexX2 = HexX;
+                        unitHexSprite.SetDirection((Random(6) + 1).TruncateToByte());
+                        int hexY3 = HexY;
+                        int hexX2 = HexX;
                         _ = CombatMap.Current.PlaceHex(unitHexSprite, hexX2, hexY3, L: 0);
                     }
 

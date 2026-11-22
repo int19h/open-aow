@@ -13,6 +13,7 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
+using Aow.Rtl;
 
 using static Aow.Rtl.DelphiRandom;
 
@@ -225,8 +226,8 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
             if (WallType == 0)
             {
                 RemoveFromMap();
-                sbyte hexY = HexY;
-                sbyte hexX = HexX;
+                int hexY = HexY;
+                int hexX = HexX;
                 UpdateMapFields(CombatMap.Current.MapContainer.GetMapLevel(0), hexX, hexY);
                 Dispose();
             }
@@ -277,7 +278,7 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
     }
 
     // CityWall.pas:130
-    public byte Direction => GetResource<Resource>().Direction;
+    public int Direction => GetResource<Resource>().Direction;
 
     // CityWall.pas:197
     public new int GetDefense() => -2;
@@ -333,8 +334,8 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
-        sbyte hexY = HexY;
-        sbyte hexX = HexX;
+        int hexY = HexY;
+        int hexX = HexX;
         int terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType switch
         {
             3 => 10,
@@ -355,8 +356,8 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
                         {
                             if (!CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
                             {
-                                sbyte hexX2 = HexX;
-                                sbyte hexY2 = HexY;
+                                int hexX2 = HexX;
+                                int hexY2 = HexY;
                                 GamePack.Current.FlagControl.ShowFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, frameOffset: hexX2 + StrategicMap.Current.Frame + (hexY2 * 100), flagId: (byte)_flagId, lockedSurface, showBase: false);
                             }
                         }
@@ -388,13 +389,13 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
         // CityWall.pas:366
         public new const int ClassId = 2_229_509;
 
-        public byte Direction { get; private set; }
+        public int Direction { get; private set; }
 
         // CityWall.pas:369
         public override void PersistFields(IPersister persister)
         {
             base.PersistFields(persister);
-            Direction = persister.Byte("Direction", value: Direction);
+            Direction = persister.Byte("Direction", value: Direction.TruncateToByte());
         }
 
         // CityWall.pas:378

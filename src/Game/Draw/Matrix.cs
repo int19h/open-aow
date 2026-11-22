@@ -24,7 +24,7 @@ public sealed class Matrix : IDisposable
 
     // DisplayC.pas:3166
     // { The value at X, Y, clipped to 2. }
-    public int GetValue(byte X, byte Y)
+    public int GetValue(int X, int Y)
     {
         int result;
         if (X < Width && Y < Height)
@@ -44,7 +44,7 @@ public sealed class Matrix : IDisposable
     }
 
     // DisplayC.pas:3178
-    public void SetValue(byte X, byte Y, byte value)
+    public void SetValue(int X, int Y, byte value)
     {
         if (X < Width && Y < Height)
         {

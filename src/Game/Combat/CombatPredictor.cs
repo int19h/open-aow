@@ -443,7 +443,7 @@ public sealed class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:739
-    public void InitializeAdjacentArmies(ArmyHexSprite army, sbyte X, sbyte Y, sbyte L)
+    public void InitializeAdjacentArmies(ArmyHexSprite army, int X, int Y, int L)
     {
         MapFieldMessage message = default;
         AddUnits(army.Army.Units);
@@ -505,7 +505,7 @@ public sealed class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:790
-    public void InitializeAdjacentOpponents(byte player, byte relation, sbyte X, sbyte Y, sbyte L)
+    public void InitializeAdjacentOpponents(byte player, byte relation, int X, int Y, int L)
     {
         MapFieldMessage message = default;
         MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(L);

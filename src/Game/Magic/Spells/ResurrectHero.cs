@@ -35,8 +35,8 @@ public class ResurrectHero : Spell
     // GlobalSpells.pas:991
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte x;
-        sbyte y;
+        int x;
+        int y;
         sbyte layer;
         if (executeCount == 0)
         {

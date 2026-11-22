@@ -37,9 +37,9 @@ public class FireMastery : GlobalEnchantmentSpell
         if (executeCount == 0)
         {
             MapCoordinate coordinate66 = source.GetLocation();
-            sbyte x = coordinate66.X;
-            sbyte y = coordinate66.Y;
-            sbyte l = coordinate66.MapLevel;
+            int x = coordinate66.X;
+            int y = coordinate66.Y;
+            int l = coordinate66.MapLevel;
             SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Fire);
             _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
             Animation animation = new(null, show: ShowAnimation)

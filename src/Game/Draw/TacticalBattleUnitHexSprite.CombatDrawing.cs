@@ -56,7 +56,7 @@ public partial class TacticalBattleUnitHexSprite
                 }
                 else
                 {
-                    sbyte yhx = HexY;
+                    int yhx = HexY;
                     int hexY = default;
                     HexGeometry.CenterHexNumberToHex(HexX, yhx, hexNumber: Direction, ref hexX, ref hexY);
                     CityWall? nextWall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(CityWall.ClassId) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2_229_510) as CityWall;

@@ -104,7 +104,7 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
     }
 
     // ILTer.pas:196
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         bool canPlaceHere = true;
         int count = Resource.TerrainList.Count;
@@ -143,7 +143,7 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
     }
 
     // ILTer.pas:236
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
         if (result)
@@ -187,10 +187,10 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
     public virtual int GetTerrainTypeImage(int terrainType) => terrainType;
 
     // ILTer.pas:84
-    public virtual sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => -2;
+    public virtual sbyte ForceTerrainType(MapLevel mapLevel, int hexX, int hexY) => -2;
 
     // ILTer.pas:107
-    public virtual sbyte GetValidTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY)
+    public virtual sbyte GetValidTerrainType(MapLevel mapLevel, int hexX, int hexY)
     {
         sbyte result = GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, defaultValue: -1);
         if (!ValidTerrainType(result))

@@ -95,9 +95,9 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
         if (u is not null)
         {
             MapCoordinate coordinate19 = u.GetLocation();
-            sbyte x = coordinate19.X;
-            sbyte y = coordinate19.Y;
-            sbyte l = coordinate19.MapLevel;
+            int x = coordinate19.X;
+            int y = coordinate19.Y;
+            int l = coordinate19.MapLevel;
             if (x != -1)
             {
                 CenterViewTo(x, y, l);

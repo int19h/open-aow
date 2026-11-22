@@ -32,8 +32,8 @@ public class BirdsView : Spell
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         CastingDone(source, mana: eventValue.EventMana);
         MapCoordinate coordinate53 = source.GetLocation();
-        sbyte x = coordinate53.X;
-        sbyte y = coordinate53.Y;
+        int x = coordinate53.X;
+        int y = coordinate53.Y;
         sbyte layer = coordinate53.MapLevel;
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {

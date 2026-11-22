@@ -29,7 +29,7 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
     // Bridge.pas:63
     // { Original oddity: the overlay of the owner of the previous owner (a map level, not a map field)
     //   is updated. }
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
         HexSprite oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));

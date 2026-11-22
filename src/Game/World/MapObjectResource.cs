@@ -188,12 +188,12 @@ public class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:556
-    public virtual MapObject? PlaceResourceUser(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public virtual MapObject? PlaceResourceUser(GameMap? hexSpriteMap, int hexX, int hexY, int hexLevel)
         => PlaceCreatedUser(hexSpriteMap, hexX, hexY, hexLevel);
 
     // Places the object this resource creates. A subclass that adjusts the placed object calls this
     // and then the adjustment, so the typed form does not re-enter that override.
-    protected MapObject? PlaceCreatedUser(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    protected MapObject? PlaceCreatedUser(GameMap? hexSpriteMap, int hexX, int hexY, int hexLevel)
     {
         MapObject? result = CreateResourceUser();
         HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
@@ -209,12 +209,12 @@ public class MapObjectResource : EngineResource
     }
 
     // The created user has the caller's class. Another class throws, and null stays null.
-    protected T PlaceCreatedUser<T>(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    protected T PlaceCreatedUser<T>(GameMap? hexSpriteMap, int hexX, int hexY, int hexLevel)
         where T : MapObject
         => (T)PlaceCreatedUser(hexSpriteMap, hexX, hexY, hexLevel);
 
     // The resource's user class selects the map object. Another class throws, and null stays null.
-    public T PlaceResourceUser<T>(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public T PlaceResourceUser<T>(GameMap? hexSpriteMap, int hexX, int hexY, int hexLevel)
         where T : MapObject
         => (T)PlaceResourceUser(hexSpriteMap, hexX, hexY, hexLevel);
 
@@ -278,7 +278,7 @@ public class MapObjectResource : EngineResource
                     ClearTerrain(walk.X, walk.Y, hexLevel);
                 }
 
-                placed = placed && PlaceResourceUser(Engine.HexSpriteMap, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)hexLevel) is not null;
+                placed = placed && PlaceResourceUser(Engine.HexSpriteMap, walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), hexLevel.TruncateToSByte()) is not null;
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);

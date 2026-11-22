@@ -146,7 +146,7 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader is not null)
         {
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out sbyte x, out sbyte y, out sbyte l);
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out int x, out int y, out int l);
             if (x > -1)
             {
                 StrategicMap.Current.CenterViewTo(x, y, l);
@@ -173,7 +173,7 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     {
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader is not null)
         {
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out sbyte hexX, out _, L: out _);
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out int hexX, out _, L: out _);
             if (hexX > -1)
             {
                 Player? player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);

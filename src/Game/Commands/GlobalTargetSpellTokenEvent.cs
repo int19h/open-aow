@@ -28,11 +28,11 @@ public class GlobalTargetSpellTokenEvent(CustomNode? owner) : SpellTokenEvent(ow
     // GlobalTargetSpells.pas:412
     public void SetLocation(MapCoordinate location) => Location = location;
 
-    public void SetLocation(sbyte x, sbyte y, sbyte layer)
-        => SetLocation(new MapCoordinate(x, y, layer));
+    public void SetLocation(int x, int y, sbyte layer)
+        => SetLocation(new MapCoordinate((sbyte)x, (sbyte)y, layer));
 
     // GlobalTargetSpells.pas:419
-    public void PlayDefaultEffects(sbyte X, sbyte Y, sbyte layer)
+    public void PlayDefaultEffects(int X, int Y, sbyte layer)
     {
         if (GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
         {

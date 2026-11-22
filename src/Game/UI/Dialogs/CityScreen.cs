@@ -776,8 +776,8 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
         }
 
         RandomBattleMapGenerator generator = new(UI.Engine);
-        sbyte hexLevel = _city.HexLevel;
-        sbyte hexY = _city.HexY;
+        int hexLevel = _city.HexLevel;
+        int hexY = _city.HexY;
         _preview = generator.RandomMap(null, _city.HexX, hexY, L: hexLevel);
         generator?.Dispose();
         ArmyHSList armies = new(null) { Holder = UI.Engine };
@@ -785,9 +785,9 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
         for (int i = 0, last = armies.GetCount() - 1; i <= last; i++)
         {
             ArmyHexSprite army = armies[i];
-            sbyte armyHexY = army.HexY;
-            sbyte hexX = army.HexX;
-            sbyte fCityHexY = _city.HexY;
+            int armyHexY = army.HexY;
+            int hexX = army.HexX;
+            int fCityHexY = _city.HexY;
             int direction = HexGeometry.DeltaHexToHexNumber(_city.HexX, fCityHexY, hexX, armyHexY);
             for (int j = 0, lastJ = army.Army.Units.Count - 1; j <= lastJ; j++)
             {
@@ -799,7 +799,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
         MapObject? mapObject = _preview.CenterViewLocation;
         if (_preview.CenterViewLocation is not null)
         {
-            sbyte mapObjectHexY = mapObject.HexY;
+            int mapObjectHexY = mapObject.HexY;
             HexGeometry.HexToPixel(mapObject.HexX, mapObjectHexY, out _viewX, out _viewY);
             _viewX = _viewX + 16 - (MapView.WinWidth / 2);
             _viewY = _viewY + 16 - (MapView.WinHeight / 2);

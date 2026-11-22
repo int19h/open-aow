@@ -70,10 +70,10 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
             if (troop is not null && troop.Player == 0)
             {
                 MapCoordinate coordinate20 = troop.GetLocation();
-                sbyte locationX = coordinate20.X;
-                sbyte locationY = coordinate20.Y;
-                sbyte locationMapLevel = coordinate20.MapLevel;
-                MapCoordinate location = new(locationX, locationY, locationMapLevel);
+                int locationX = coordinate20.X;
+                int locationY = coordinate20.Y;
+                int locationMapLevel = coordinate20.MapLevel;
+                MapCoordinate location = new((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
                 result = _location.X == location.X && _location.Y == location.Y && _location.MapLevel == location.MapLevel;
             }
         }

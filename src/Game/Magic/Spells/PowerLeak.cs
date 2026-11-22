@@ -33,9 +33,9 @@ public class PowerLeak : GlobalEnchantmentSpell
     {
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate74 = source.GetLocation();
-        sbyte x = coordinate74.X;
-        sbyte y = coordinate74.Y;
-        sbyte l = coordinate74.MapLevel;
+        int x = coordinate74.X;
+        int y = coordinate74.Y;
+        int l = coordinate74.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         TwinkleAnimation animation = new(null) { Holder = CreationHolder() };
         animation.Setup(GamePack.Current.SpellControl[48].CastImages.ImageSequences[0], mode: TwinkleModes.Implode, count: 100, radius: 64, duration: 50, startDelay: 30);

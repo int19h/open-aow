@@ -397,10 +397,10 @@ public class UnitSpell : Spell
         }
 
         MapCoordinate coordinate85 = source.GetLocation();
-        sbyte x = coordinate85.X;
-        sbyte y = coordinate85.Y;
-        sbyte l = coordinate85.MapLevel;
-        control.SourceLocation = new MapCoordinate(x, y, l);
+        int x = coordinate85.X;
+        int y = coordinate85.Y;
+        int l = coordinate85.MapLevel;
+        control.SourceLocation = new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)l);
         control.Changed += OnTargetSelectionChange;
         control.SetValidateTargetHandler(OnValidateTarget);
         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_selectTargetPartyFormat), arguments: [SpellName]);

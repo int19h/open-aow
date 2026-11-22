@@ -528,9 +528,9 @@ public sealed class CampaignTransferSettings : EngineObject
             fPlayersPlayers.MagicControl.ExternalMana += SelectedTransferMana;
             Leader? leader = StrategicMap.Current.Players.GetPlayers(player).Leader;
             MapCoordinate coordinate23 = leader.GetLocation();
-            sbyte x = coordinate23.X;
-            sbyte y = coordinate23.Y;
-            sbyte l = coordinate23.MapLevel;
+            int x = coordinate23.X;
+            int y = coordinate23.Y;
+            int l = coordinate23.MapLevel;
             Item? itemItem;
             if (Leader is not null)
             {
@@ -606,7 +606,7 @@ public sealed class CampaignTransferSettings : EngineObject
                 int item = SelectedItems[i];
                 itemItem = Items.GetItem(item).Copy<Item>(GetEngine());
                 StrategicMap.Current.ItemControl.RegisterItem(itemItem);
-                _ = itemItem.PlaceOnMap(StrategicMap.Current, x, y, l);
+                _ = itemItem.PlaceOnMap(StrategicMap.Current, (sbyte)x, (sbyte)y, (sbyte)l);
                 _ = itemItem.Release();
             }
 

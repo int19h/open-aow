@@ -58,13 +58,13 @@ public class MoveSelector : IDisposable
             if (capture == this && hexSpriteMapMouse.Button == MouseButton.Left)
             {
                 int hexY = Map.Mouse.HexY;
-                SelectPath((sbyte)hexSpriteMapMouse.HexX, (sbyte)hexY, L: (sbyte)Map.ViewMapLevel);
+                SelectPath(hexSpriteMapMouse.HexX.TruncateToSByte(), hexY.TruncateToSByte(), L: Map.ViewMapLevel.TruncateToSByte());
             }
         }
     }
 
     // Structur.PAS:4197
-    public virtual void CalculateMovePath(int index, sbyte X, sbyte Y, sbyte L)
+    public virtual void CalculateMovePath(int index, int X, int Y, int L)
     {
     }
 
@@ -80,7 +80,7 @@ public class MoveSelector : IDisposable
     public virtual void SetCurrentMove(int value) => CurrentMove = value;
 
     // Structur.PAS:4200
-    public virtual void SelectPath(sbyte X, sbyte Y, sbyte L)
+    public virtual void SelectPath(int X, int Y, int L)
     {
         if (CurrentMove != -1 && X != -1)
         {

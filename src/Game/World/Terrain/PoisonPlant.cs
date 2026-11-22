@@ -67,8 +67,8 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
         bool result = base.PlaceOnMap();
         if (result)
         {
-            sbyte hexY = HexY;
-            sbyte hexX = HexX;
+            int hexY = HexY;
+            int hexX = HexX;
             UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 
@@ -259,18 +259,18 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     // PoisonP.pas:267
     public void ShowSummonAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        sbyte hexLevel = animation.HexLevel;
-        sbyte hexY = animation.HexY;
-        sbyte hexX = animation.HexX;
+        int hexLevel = animation.HexLevel;
+        int hexY = animation.HexY;
+        int hexX = animation.HexX;
         MapField mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == mapField.FindOwnedChild(ClassId) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
-                sbyte hexLevel2 = HexLevel;
-                sbyte hexY2 = HexY;
-                sbyte hexX2 = HexX;
+                int hexLevel2 = HexLevel;
+                int hexY2 = HexY;
+                int hexX2 = HexX;
                 condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
             }
 
@@ -284,9 +284,9 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     // PoisonP.pas:279
     public void NewFrameSummonAnimation(Animation animation, int frameCounter)
     {
-        sbyte hexLevel = animation.HexLevel;
-        sbyte hexY = animation.HexY;
-        sbyte hexX = animation.HexX;
+        int hexLevel = animation.HexLevel;
+        int hexY = animation.HexY;
+        int hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(ClassId) && frameCounter == 9)
         {

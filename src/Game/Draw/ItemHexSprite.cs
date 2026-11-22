@@ -100,7 +100,7 @@ public partial class ItemHexSprite : SingleHexSprite
     public override string EditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_itemBagText);
 
     // Army.PAS:5297
-    public override bool CanPlace(MapContainer? map, sbyte hexX, sbyte hexY, sbyte hexLevel) => base.CanPlace(map, hexX, hexY, hexLevel);
+    public override bool CanPlace(MapContainer? map, int hexX, int hexY, int hexLevel) => base.CanPlace(map, hexX, hexY, hexLevel);
 
     // Army.PAS:5228
     public void ItemsChanged(object sender)

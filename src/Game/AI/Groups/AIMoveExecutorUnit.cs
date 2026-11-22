@@ -40,12 +40,12 @@ public sealed class AIMoveExecutorUnit(CustomNode? owner) : EngineObject(owner)
     public byte MoveResult { get; set; }
 
     // AIGroup.pas:4280
-    public void Initialize(Troop troop, sbyte X, sbyte Y, sbyte L)
+    public void Initialize(Troop troop, int X, int Y, int L)
     {
         Troop = troop;
         UnitId = Troop.UnitId;
-        Location = new MapCoordinate(X, Y, L);
-        _origin = new MapCoordinate(X, Y, L);
+        Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
+        _origin = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
         Destination = new MapCoordinate(-1, -1, -1);
         ResetTransporterSettings();
         Status = AIMoveExecutorUnitStatus.Idle;
@@ -61,10 +61,10 @@ public sealed class AIMoveExecutorUnit(CustomNode? owner) : EngineObject(owner)
             if (Status == AIMoveExecutorUnitStatus.Moving)
             {
                 MapCoordinate coordinate105 = Troop.GetLocation();
-                sbyte locationX = coordinate105.X;
-                sbyte locationY = coordinate105.Y;
-                sbyte locationMapLevel = coordinate105.MapLevel;
-                Location = new MapCoordinate(locationX, locationY, locationMapLevel);
+                int locationX = coordinate105.X;
+                int locationY = coordinate105.Y;
+                int locationMapLevel = coordinate105.MapLevel;
+                Location = new MapCoordinate((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
                 Status = AIMoveExecutorUnitStatus.Ready;
             }
         }

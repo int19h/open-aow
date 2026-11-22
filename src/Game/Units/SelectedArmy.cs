@@ -121,7 +121,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
                         if (StrategicMap.Current.Mouse.Capture == this && StrategicMap.Current.Mouse.Button == MouseButton.Left)
                         {
                             int hexY = Map.Mouse.HexY;
-                            SelectPath((sbyte)Map.Mouse.HexX, (sbyte)hexY, L: (sbyte)Map.ViewMapLevel);
+                            SelectPath(Map.Mouse.HexX.TruncateToSByte(), hexY.TruncateToSByte(), L: Map.ViewMapLevel.TruncateToSByte());
                         }
                     }
                 }
@@ -134,7 +134,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
     }
 
     // Army.PAS:3751
-    public override void CalculateMovePath(int index, sbyte X, sbyte Y, sbyte L)
+    public override void CalculateMovePath(int index, int X, int Y, int L)
     {
         if (X != -1)
         {
@@ -142,9 +142,9 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
             ArmyHexSprite? armyHexSprite = (ArmyHexSprite?)settings.MoveObject;
             settings.PathMovePoints = 0;
             MoveControlSettings.Reset();
-            sbyte hexLevel = armyHexSprite.HexLevel;
-            sbyte hexY = armyHexSprite.HexY;
-            sbyte hexX = armyHexSprite.HexX;
+            int hexLevel = armyHexSprite.HexLevel;
+            int hexY = armyHexSprite.HexY;
+            int hexX = armyHexSprite.HexX;
             MoveControlSettings.SetSourcePosition(hexX, hexY, hexLevel);
             MoveControlSettings.Player = armyHexSprite.Army.Player;
             MoveControlSettings.ArmyHexSprite = armyHexSprite;
@@ -215,13 +215,13 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
     }
 
     // Army.PAS:3795
-    public override void SelectPath(sbyte X, sbyte Y, sbyte L)
+    public override void SelectPath(int X, int Y, int L)
     {
         if (ArmyHexSprite is not null && ArmyHexSprite.HexX == StrategicMap.Current.Mouse.HexX && ArmyHexSprite.HexY == StrategicMap.Current.Mouse.HexY && ArmyHexSprite.HexLevel == StrategicMap.Current.ViewMapLevel)
         {
-            sbyte hexLevel = ArmyHexSprite.HexLevel;
-            sbyte hexY = ArmyHexSprite.HexY;
-            sbyte hexX = ArmyHexSprite.HexX;
+            int hexLevel = ArmyHexSprite.HexLevel;
+            int hexY = ArmyHexSprite.HexY;
+            int hexX = ArmyHexSprite.HexX;
             StrategicMap.Current.Selection.SelectLocationHex(hexX, hexY, hexLevel);
         }
         else
@@ -764,8 +764,8 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
         if (ArmyHexSprite is not null)
         {
             StrategicMap? hexSpriteMap = StrategicMap.Current;
-            sbyte hexLevel = ArmyHexSprite.HexLevel;
-            sbyte hexY = ArmyHexSprite.HexY;
+            int hexLevel = ArmyHexSprite.HexLevel;
+            int hexY = ArmyHexSprite.HexY;
             hexSpriteMap.CenterViewTo(ArmyHexSprite.HexX, hexY, hexLevel);
         }
     }

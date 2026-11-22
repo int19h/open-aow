@@ -175,10 +175,10 @@ public sealed class AIMoveTargetSelector : EngineObject
             Int32List gaps = [];
             MoveTarget target = _bufferedTargets.GetTarget(0);
             MapCoordinate coordinate106 = _transporter.GetLocation();
-            sbyte locationX = coordinate106.X;
-            sbyte locationY = coordinate106.Y;
-            sbyte locationMapLevel = coordinate106.MapLevel;
-            MapCoordinate location = new(locationX, locationY, locationMapLevel);
+            int locationX = coordinate106.X;
+            int locationY = coordinate106.Y;
+            int locationMapLevel = coordinate106.MapLevel;
+            MapCoordinate location = new((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
             bool valid;
             if (ListMovementGaps(StrategicMap.Current, path: target.MovePath, table: MovePointTable, starts: gaps, ends: null) != 0)
             {

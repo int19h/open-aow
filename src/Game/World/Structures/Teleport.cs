@@ -47,9 +47,9 @@ public partial class Teleport(CustomNode? owner) : Structure(owner)
             bool notFogEnabled = !StrategicMap.Current.FogEnabled;
             if (!notFogEnabled)
             {
-                sbyte hexLevel = HexLevel;
-                sbyte hexY = HexY;
-                sbyte hexX = HexX;
+                int hexLevel = HexLevel;
+                int hexY = HexY;
+                int hexX = HexX;
                 notFogEnabled = StrategicMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, player: StrategicMap.Current.SeatedPlayer);
             }
 
@@ -123,9 +123,9 @@ public partial class Teleport(CustomNode? owner) : Structure(owner)
     {
         ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
         animation.SetImageSequence(GamePack.Current.ImageSequences.ImageSequences[13]);
-        sbyte hexLevel = HexLevel;
-        sbyte hexY = HexY;
-        sbyte hexX = HexX;
+        int hexLevel = HexLevel;
+        int hexY = HexY;
+        int hexX = HexX;
         _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, L: hexLevel);
         animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
         animation.SetImageSequence(GamePack.Current.ImageSequences.ImageSequences[12]);

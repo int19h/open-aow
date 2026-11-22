@@ -25,9 +25,9 @@ public class WaterWalkingEnchantment : UnitEnchantmentAbility
         if (result && owner is Troop troop && owner.Owner is Army army)
         {
             MapCoordinate coordinate89 = troop.GetLocation();
-            sbyte x = coordinate89.X;
-            sbyte y = coordinate89.Y;
-            sbyte l = coordinate89.MapLevel;
+            int x = coordinate89.X;
+            int y = coordinate89.Y;
+            int l = coordinate89.MapLevel;
             if (x != -1)
             {
                 MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);

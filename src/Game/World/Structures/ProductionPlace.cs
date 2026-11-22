@@ -424,7 +424,7 @@ public partial class ProductionPlace : PlayerStructure
                         _ = units.Add(unitIndexListCollection.GetU(collection, index: i));
                     }
 
-                    sbyte hexY = HexY;
+                    int hexY = HexY;
                     _ = AbilityRules.PlaceRandomUnits(HexX, hexY, L: HexLevel, player: 0, units, level: 4, value: budget, types: UnitTypes.Humanoid | UnitTypes.Creature, engine: GetEngine());
                     armyHexSprite = Owner.GetArmyHexSprite();
                     if (armyHexSprite is not null && armyHexSprite.Army.Player == 0)
@@ -499,7 +499,7 @@ public partial class ProductionPlace : PlayerStructure
                 Unit unit = new(null) { Holder = CreationHolder() };
                 unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
                 unit.SetPlayer(Player);
-                sbyte hexY = HexY;
+                int hexY = HexY;
                 ArmyHexSprite? armyHexSprite = unit.Place(HexX, hexY, L: HexLevel, Player, mode: UnitPlaceModes.ScanArea);
                 if (armyHexSprite is not null)
                 {
@@ -511,14 +511,14 @@ public partial class ProductionPlace : PlayerStructure
                         enchantment.DispelResistance = SummonedAbility.GetDefaultDispelResistance(unit).TruncateToSByte();
                     }
 
-                    sbyte armyHexSpriteHexY = armyHexSprite.HexY;
-                    sbyte hexX = armyHexSprite.HexX;
+                    int armyHexSpriteHexY = armyHexSprite.HexY;
+                    int hexX = armyHexSprite.HexX;
                     if (StrategicMap.Current.Visible(hexX, armyHexSpriteHexY, L: armyHexSprite.HexLevel, radius: 0))
                     {
                         ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                         animation.SetImageSequence(GamePack.Current.SpellControl[29].CastImages.GetImageSequence(0));
-                        sbyte hexY2 = HexY;
-                        sbyte hexX2 = HexX;
+                        int hexY2 = HexY;
+                        int hexX2 = HexX;
                         _ = StrategicMap.Current.PlaceHex(animation, hexX2, hexY2, L: HexLevel);
                     }
                 }

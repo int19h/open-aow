@@ -52,11 +52,11 @@ public class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
     public virtual void PlayDefaultCastEffects(int unused1, int unused2)
     {
         MapCoordinate coordinate10 = Source.GetLocation();
-        sbyte x = coordinate10.X;
-        sbyte y = coordinate10.Y;
-        sbyte l = coordinate10.MapLevel;
+        int x = coordinate10.X;
+        int y = coordinate10.Y;
+        int l = coordinate10.MapLevel;
         Spell spell = GamePack.Current.SpellControl[EventSpellId];
-        spell.PlayDefaultCastEffects(Source.Player, x, y, layer: l);
+        spell.PlayDefaultCastEffects(Source.Player, x, y, layer: (sbyte)l);
     }
 
     public override ExecuteResult Execute(TokenExecutor executor)

@@ -7,6 +7,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -34,7 +35,7 @@ public partial class AIMoveExecutorControl : EngineObject
     }
 
     // AIGroup.pas:4738
-    public virtual (AIMoveExecutorMove, byte MoveResult) CreateMove(AIMoveExecutorArmy army, byte selection, sbyte x, sbyte y, sbyte mapLevel, CreateMoveModes mode)
+    public virtual (AIMoveExecutorMove, byte MoveResult) CreateMove(AIMoveExecutorArmy army, byte selection, int x, int y, int mapLevel, CreateMoveModes mode)
     {
         AIMoveExecutorMove? move = null;
         army.RetrieveArmy(selection, army: out ArmyHexSprite armyHexSprite, out byte armySelection);
@@ -56,9 +57,9 @@ public partial class AIMoveExecutorControl : EngineObject
                     MapField mapField = StrategicMap.Current.MapContainer.GetField(walk.X, walk.Y, mapLevel);
                     if (points != 16777215 && (mapField.GetPlayer() == -1 || mapField.GetPlayer() == army.Player))
                     {
-                        if (CanMoveTo(army, selection, (sbyte)walk.X, (sbyte)walk.Y, mapLevel) == selection)
+                        if (CanMoveTo(army, selection, walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), mapLevel) == selection)
                         {
-                            _ = candidates.Add(new SurroundCandidate(Location: new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, mapLevel), MovePoints: points));
+                            _ = candidates.Add(new SurroundCandidate(Location: new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)mapLevel), MovePoints: points));
                         }
                     }
                 }
@@ -139,7 +140,7 @@ public partial class AIMoveExecutorControl : EngineObject
                     move.MovePoints = points;
                     move.Moves = armyHexSprite.Army.Moves(armySelection);
                     move.Source = new MapCoordinate(armyHexSprite.HexX, armyHexSprite.HexY, armyHexSprite.HexLevel);
-                    move.Destination = new MapCoordinate(x, y, mapLevel);
+                    move.Destination = new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)mapLevel);
                     if (!mode.Contains(CreateMoveModes.DoNotQueue))
                     {
                         move.SetOwner(Executor.Moves);
@@ -164,7 +165,7 @@ public partial class AIMoveExecutorControl : EngineObject
     }
 
     // AIGroup.pas:4854
-    public virtual byte CanMoveTo(AIMoveExecutorArmy army, byte selection, sbyte x, sbyte y, sbyte mapLevel)
+    public virtual byte CanMoveTo(AIMoveExecutorArmy army, byte selection, int x, int y, int mapLevel)
     {
         int unitCount = 0;
         int transporterCount = 0;

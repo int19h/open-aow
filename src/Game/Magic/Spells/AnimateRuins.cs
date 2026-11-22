@@ -57,9 +57,9 @@ public class AnimateRuins : CityTargetSpell
                 a.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[20]);
                 a.SetPixelXOffset(a.PixelXOffset - 16);
                 a.SetPixelYOffset(a.PixelYOffset - 16);
-                sbyte hexLevel2 = targetCity.HexLevel;
-                sbyte hexY2 = targetCity.HexY;
-                sbyte targetCityHexX = targetCity.HexX;
+                int hexLevel2 = targetCity.HexLevel;
+                int hexY2 = targetCity.HexY;
+                int targetCityHexX = targetCity.HexX;
                 _ = StrategicMap.Current.PlaceHex(a, targetCityHexX, hexY2, L: hexLevel2);
             }
 
@@ -79,8 +79,8 @@ public class AnimateRuins : CityTargetSpell
                     Unit unit = new(null) { Holder = CreationHolder() };
                     int random = StrategicMap.Current.Random(2);
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(UndeadUnitResourceIds[random]));
-                    sbyte hexLevel = targetCity.HexLevel;
-                    sbyte hexY = targetCity.HexY;
+                    int hexLevel = targetCity.HexLevel;
+                    int hexY = targetCity.HexY;
                     _ = unit.Place(targetCity.HexX, hexY, L: hexLevel, source.Player, mode: UnitPlaceModes.ScanArea);
                     _ = unit.Release();
                 }

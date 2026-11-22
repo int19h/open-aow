@@ -515,9 +515,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             if (race != -1)
             {
                 MapCoordinate coordinate45 = GetLocation();
-                sbyte hexX = coordinate45.X;
-                sbyte hexY = coordinate45.Y;
-                sbyte hexLevel = coordinate45.MapLevel;
+                int hexX = coordinate45.X;
+                int hexY = coordinate45.Y;
+                int hexLevel = coordinate45.MapLevel;
                 if (hexX != -1)
                 {
                     byte rawTerrain = (byte)StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).TerrainType;
@@ -1185,9 +1185,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public bool GetTransporting()
     {
         MapCoordinate coordinate46 = GetLocation();
-        sbyte hexX = coordinate46.X;
-        sbyte hexY = coordinate46.Y;
-        sbyte hexLevel = coordinate46.MapLevel;
+        int hexX = coordinate46.X;
+        int hexY = coordinate46.Y;
+        int hexLevel = coordinate46.MapLevel;
         if (hexX != -1)
         {
             MapField mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
@@ -1404,9 +1404,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public void UpdatePathOfFrost()
     {
         MapCoordinate coordinate47 = GetLocation();
-        sbyte hexX = coordinate47.X;
-        sbyte hexY = coordinate47.Y;
-        sbyte hexLevel = coordinate47.MapLevel;
+        int hexX = coordinate47.X;
+        int hexY = coordinate47.Y;
+        int hexLevel = coordinate47.MapLevel;
         if (hexX > -1)
         {
             MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
@@ -1472,9 +1472,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (!doubleDamage && moves.Contains(MoveTypes.Flying))
         {
             MapCoordinate coordinate48 = GetLocation();
-            sbyte hexX = coordinate48.X;
-            sbyte hexY = coordinate48.Y;
-            sbyte hexLevel = coordinate48.MapLevel;
+            int hexX = coordinate48.X;
+            int hexY = coordinate48.Y;
+            int hexLevel = coordinate48.MapLevel;
             if (hexX != -1)
             {
                 MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
@@ -1731,7 +1731,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         MapCoordinate coordinate49 = GetLocation();
         _ = coordinate49.X;
         _ = coordinate49.Y;
-        sbyte hexLevel = coordinate49.MapLevel;
+        int hexLevel = coordinate49.MapLevel;
         return (hexLevel != 0 && !GetAbilityEnabled(39)) || (hexLevel == 0 && Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0)
             ? (result + 1) >>> 1
             : result;
