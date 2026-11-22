@@ -15,13 +15,13 @@ public sealed class LayoutDirectPlay(Component owner) : GDPlay(owner)
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnChatMessage keeps this backing field until the port raises it.")]
     private GDChatMessageEvent _onChatMessage;
 
-    public event GDChatMessageEvent ChatMessage { add => _onChatMessage += value; remove => _onChatMessage -= value; }
+    public event GDChatMessageEvent ChatMessageReceived { add => _onChatMessage += value; remove => _onChatMessage -= value; }
 
     // Nothing in the port raises OnDestroyPlayer. The bound handler is kept.
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnDestroyPlayer keeps this backing field until the port raises it.")]
     private GDDestroyPlayerEvent _onDestroyPlayer;
 
-    public event GDDestroyPlayerEvent DestroyPlayer { add => _onDestroyPlayer += value; remove => _onDestroyPlayer -= value; }
+    public event GDDestroyPlayerEvent PlayerDestroyed { add => _onDestroyPlayer += value; remove => _onDestroyPlayer -= value; }
 
     // Nothing in the port raises OnEjected. The bound handler is kept.
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnEjected keeps this backing field until the port raises it.")]
@@ -33,31 +33,31 @@ public sealed class LayoutDirectPlay(Component owner) : GDPlay(owner)
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnFileDoneMessage keeps this backing field until the port raises it.")]
     private GDFileDoneMessageEvent _onFileDoneMessage;
 
-    public event GDFileDoneMessageEvent FileDoneMessage { add => _onFileDoneMessage += value; remove => _onFileDoneMessage -= value; }
+    public event GDFileDoneMessageEvent FileTransferCompleted { add => _onFileDoneMessage += value; remove => _onFileDoneMessage -= value; }
 
     // Nothing in the port raises OnFileProgressMessage. The bound handler is kept.
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnFileProgressMessage keeps this backing field until the port raises it.")]
     private GDFileProgressMessageEvent _onFileProgressMessage;
 
-    public event GDFileProgressMessageEvent FileProgressMessage { add => _onFileProgressMessage += value; remove => _onFileProgressMessage -= value; }
+    public event GDFileProgressMessageEvent FileTransferProgressed { add => _onFileProgressMessage += value; remove => _onFileProgressMessage -= value; }
 
     // Nothing in the port raises OnFileStartMessage. The bound handler is kept.
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnFileStartMessage keeps this backing field until the port raises it.")]
     private GDFileStartMessageEvent _onFileStartMessage;
 
-    public event GDFileStartMessageEvent FileStartMessage { add => _onFileStartMessage += value; remove => _onFileStartMessage -= value; }
+    public event GDFileStartMessageEvent FileTransferStarting { add => _onFileStartMessage += value; remove => _onFileStartMessage -= value; }
 
     // Nothing in the port raises OnMessage. The bound handler is kept.
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnMessage keeps this backing field until the port raises it.")]
     private GDMessageEvent _onMessage;
 
-    public event GDMessageEvent Message { add => _onMessage += value; remove => _onMessage -= value; }
+    public event GDMessageEvent MessageReceived { add => _onMessage += value; remove => _onMessage -= value; }
 
     // Nothing in the port raises OnMessageError. The bound handler is kept.
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnMessageError keeps this backing field until the port raises it.")]
     private GDMessageErrorEvent _onMessageError;
 
-    public event GDMessageErrorEvent MessageError { add => _onMessageError += value; remove => _onMessageError -= value; }
+    public event GDMessageErrorEvent MessageFailed { add => _onMessageError += value; remove => _onMessageError -= value; }
 
     // Nothing in the port raises OnPingMessage. The bound handler is kept.
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnPingMessage keeps this backing field until the port raises it.")]

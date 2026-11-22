@@ -72,7 +72,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         };
         Statistics = new PlayerStatistics(null) { Holder = CreationHolder() };
         _armies.Player = this;
-        _armies.Events += ArmiesChanged;
+        _armies.Changed += ArmiesChanged;
         Heroes = new HeroList(null) { Holder = CreationHolder() };
         InitialGold = 250;
         BaseIncome = 0;

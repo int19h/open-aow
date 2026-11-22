@@ -315,46 +315,46 @@ public sealed partial class Gauge(Component owner) : Control(owner)
     [Published]
     public int ImageLibraryIndexTSelected { get => _imageLibraryIndexTSelected; set => SetImageLibraryTsIndex(value); }
 
-    public new event NotifyEvent<Gauge> Change
+    public new event NotifyEvent<Gauge> Changed
     {
-        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(Change), value: value);
-        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(Change), value: value);
+        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(Changed), value: value);
+        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(Changed), value: value);
     }
 
-    public new event MouseEvent<Gauge> MouseDown
+    public new event MouseEvent<Gauge> MousePressed
     {
-        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(MouseDown), value: value);
-        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(MouseDown), value: value);
+        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(MousePressed), value: value);
+        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(MousePressed), value: value);
     }
 
-    public new event MouseEvent<Gauge> MouseUp
+    public new event MouseEvent<Gauge> MouseReleased
     {
-        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(MouseUp), value: value);
-        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(MouseUp), value: value);
+        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(MouseReleased), value: value);
+        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(MouseReleased), value: value);
     }
 
-    public new event MouseMoveEvent<Gauge> MouseMove
+    public new event MouseMoveEvent<Gauge> MouseMoved
     {
-        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(MouseMove), value: value);
-        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(MouseMove), value: value);
+        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(MouseMoved), value: value);
+        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(MouseMoved), value: value);
     }
 
-    public new event KeyPressEvent<Gauge> KeyPress
+    public new event KeyPressEvent<Gauge> CharacterTyped
     {
-        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(KeyPress), value: value);
-        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(KeyPress), value: value);
+        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(CharacterTyped), value: value);
+        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(CharacterTyped), value: value);
     }
 
-    public new event KeyEvent<Gauge> KeyDown
+    public new event KeyEvent<Gauge> KeyPressed
     {
-        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(KeyDown), value: value);
-        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(KeyDown), value: value);
+        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(KeyPressed), value: value);
+        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(KeyPressed), value: value);
     }
 
-    public new event AoWOnDrawEvent<Gauge> PreDraw
+    public new event AoWOnDrawEvent<Gauge> Drawing
     {
-        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(PreDraw), value: value);
-        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(PreDraw), value: value);
+        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(Drawing), value: value);
+        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(Drawing), value: value);
     }
 
     public new event AoWOnDrawEvent<Gauge> Drawn

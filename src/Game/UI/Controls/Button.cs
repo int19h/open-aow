@@ -8,11 +8,11 @@ namespace Aow.Game.UI.Controls;
 public sealed partial class Button(Component? owner) : BaseButton(owner)
 {
     [Published]
-    public event NotifyEvent<Button>? Click;
+    public event NotifyEvent<Button>? Clicked;
 
-    internal bool HasClickHandlers => Click is not null;
+    internal bool HasClickHandlers => Clicked is not null;
 
-    internal void RaiseClick(Button sender) => Click?.Invoke(sender);
+    internal void RaiseClick(Button sender) => Clicked?.Invoke(sender);
 
     // AoWButton.pas:239
     public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
@@ -49,9 +49,9 @@ public sealed partial class Button(Component? owner) : BaseButton(owner)
             Handled = true;
             if (button == MouseButton.Left)
             {
-                if (IsMouseDown && Click is not null)
+                if (IsMouseDown && Clicked is not null)
                 {
-                    Click(this);
+                    Clicked(this);
                 }
 
                 IsDrawn = false;
@@ -96,46 +96,46 @@ public sealed partial class Button(Component? owner) : BaseButton(owner)
         }
     }
 
-    public new event NotifyEvent<Button> Change
+    public new event NotifyEvent<Button> Changed
     {
-        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, Button>(this, slot: nameof(Change), value: value);
-        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(Change), value: value);
+        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, Button>(this, slot: nameof(Changed), value: value);
+        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(Changed), value: value);
     }
 
-    public new event MouseEvent<Button> MouseDown
+    public new event MouseEvent<Button> MousePressed
     {
-        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, Button>(this, slot: nameof(MouseDown), value: value);
-        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(MouseDown), value: value);
+        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, Button>(this, slot: nameof(MousePressed), value: value);
+        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(MousePressed), value: value);
     }
 
-    public new event MouseEvent<Button> MouseUp
+    public new event MouseEvent<Button> MouseReleased
     {
-        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, Button>(this, slot: nameof(MouseUp), value: value);
-        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(MouseUp), value: value);
+        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, Button>(this, slot: nameof(MouseReleased), value: value);
+        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(MouseReleased), value: value);
     }
 
-    public new event MouseMoveEvent<Button> MouseMove
+    public new event MouseMoveEvent<Button> MouseMoved
     {
-        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, Button>(this, slot: nameof(MouseMove), value: value);
-        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(MouseMove), value: value);
+        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, Button>(this, slot: nameof(MouseMoved), value: value);
+        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(MouseMoved), value: value);
     }
 
-    public new event KeyPressEvent<Button> KeyPress
+    public new event KeyPressEvent<Button> CharacterTyped
     {
-        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, Button>(this, slot: nameof(KeyPress), value: value);
-        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(KeyPress), value: value);
+        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, Button>(this, slot: nameof(CharacterTyped), value: value);
+        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(CharacterTyped), value: value);
     }
 
-    public new event KeyEvent<Button> KeyDown
+    public new event KeyEvent<Button> KeyPressed
     {
-        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, Button>(this, slot: nameof(KeyDown), value: value);
-        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(KeyDown), value: value);
+        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, Button>(this, slot: nameof(KeyPressed), value: value);
+        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(KeyPressed), value: value);
     }
 
-    public new event AoWOnDrawEvent<Button> PreDraw
+    public new event AoWOnDrawEvent<Button> Drawing
     {
-        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, Button>(this, slot: nameof(PreDraw), value: value);
-        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(PreDraw), value: value);
+        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, Button>(this, slot: nameof(Drawing), value: value);
+        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(Drawing), value: value);
     }
 
     public new event AoWOnDrawEvent<Button> Drawn

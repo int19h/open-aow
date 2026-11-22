@@ -39588,7 +39588,7 @@
             "CityProductionControl.City": null,
             "EngineObject._owner": null,
             "ProductionControl.LoopQueue": false,
-            "ProductionControl.Change": null,
+            "ProductionControl.Changed": null,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "EngineObject._owner": null,
@@ -39649,7 +39649,7 @@
             "CityProductionControl.City": null,
             "EngineObject._owner": "$owner",
             "ProductionControl.LoopQueue": false,
-            "ProductionControl.Change": null,
+            "ProductionControl.Changed": null,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "EngineObject._owner": null,
@@ -39697,7 +39697,7 @@
               "CityProductionControl.City": null,
               "EngineObject._owner": "$owner",
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.Change": null,
+              "ProductionControl.Changed": null,
               "ProductionControl.Queue": null,
               "ProductionControl.Settings": null,
               "ProductionControl.Status": 0,
@@ -39942,7 +39942,7 @@
             "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
             "EngineObject._owner": null,
             "ProductionControl.LoopQueue": false,
-            "ProductionControl.Change": null,
+            "ProductionControl.Changed": null,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "EngineObject._owner": null,
@@ -40003,7 +40003,7 @@
             "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
             "EngineObject._owner": "$owner",
             "ProductionControl.LoopQueue": false,
-            "ProductionControl.Change": null,
+            "ProductionControl.Changed": null,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "EngineObject._owner": null,
@@ -40051,7 +40051,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": "$owner",
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.Change": null,
+              "ProductionControl.Changed": null,
               "ProductionControl.Queue": null,
               "ProductionControl.Settings": null,
               "ProductionControl.Status": 0,

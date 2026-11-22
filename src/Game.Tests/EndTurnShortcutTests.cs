@@ -104,12 +104,12 @@ public sealed class EndTurnShortcutTests
             Window = new MapWindow(UI);
             Window.MainWindow = new Window(null);
             Window.MainWindow.SetVisibleWithoutUpdate(true);
-            Window.MainWindow.KeyDown += Window.MapWindowKeyDown;
+            Window.MainWindow.KeyPressed += Window.MapWindowKeyDown;
             Window.MapViewer = new HexSpriteMapViewer(null);
             TaskBar bar = UI.Add(new TaskBar(UI));
             Button = new TurnButton(null);
             bar.WorldTurnButton = Button;
-            Button.Change += _ => bar.TurnButtonChange();
+            Button.Changed += _ => bar.TurnButtonChange();
         }
 
         private TaskBar Bar => UI.TaskBar;

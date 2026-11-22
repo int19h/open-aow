@@ -218,14 +218,14 @@ public sealed class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSpri
     public override void Activate()
     {
         base.Activate();
-        StrategicMap.Current.NewFrameEvents += NewFrame;
+        StrategicMap.Current.FrameStarted += NewFrame;
         Frame = -1;
     }
 
     // Army.PAS:5347
     public override void Deactivate()
     {
-        StrategicMap.Current.NewFrameEvents -= NewFrame;
+        StrategicMap.Current.FrameStarted -= NewFrame;
         base.Deactivate();
     }
 

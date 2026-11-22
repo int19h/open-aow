@@ -57,14 +57,14 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
     public override void Activate()
     {
         base.Activate();
-        CombatMap.Current.NewFrameEvents += NewFrame;
+        CombatMap.Current.FrameStarted += NewFrame;
         Frame = -1;
     }
 
     // AoWTC.pas:5208
     public override void Deactivate()
     {
-        CombatMap.Current.NewFrameEvents -= NewFrame;
+        CombatMap.Current.FrameStarted -= NewFrame;
         base.Deactivate();
     }
 

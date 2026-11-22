@@ -24,7 +24,7 @@ public sealed partial class CombatChoice : ILayoutModule
         Window.WinTop = 41;
         Window.WinWidth = 421;
         Window.Masked = true;
-        Window.Hide += _ => DlgHide();
+        Window.Hidden += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -138,7 +138,7 @@ public sealed partial class CombatChoice : ILayoutModule
         FightButton.TextColor = 0;
         FightButton.TextSelectedColor = 16777215;
         FightButton.WinWidth = 130;
-        FightButton.Click += _ => FightBtnClick();
+        FightButton.Clicked += _ => FightBtnClick();
         session.EndRead(FightButton);
         CancelButton = new Button(this);
         session.BeginRead(CancelButton);
@@ -173,7 +173,7 @@ public sealed partial class CombatChoice : ILayoutModule
         CancelButton.TextColor = 0;
         CancelButton.TextSelectedColor = 16777215;
         CancelButton.WinWidth = 130;
-        CancelButton.Click += _ => CancelBtnClick();
+        CancelButton.Clicked += _ => CancelBtnClick();
         session.EndRead(CancelButton);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -392,9 +392,9 @@ public sealed partial class CombatChoice : ILayoutModule
         TacticalCombatCheckBox.TextSelectedColor = 255;
         TacticalCombatCheckBox.WinWidth = 93;
         TacticalCombatCheckBox.Checked = false;
-        TacticalCombatCheckBox.Change += TCchkChange;
+        TacticalCombatCheckBox.Changed += TCchkChange;
         TacticalCombatCheckBox.RadioIndex = 1;
-        TacticalCombatCheckBox.DoubleClick += TCchkDoubleClick;
+        TacticalCombatCheckBox.DoubleClicked += TCchkDoubleClick;
         session.EndRead(TacticalCombatCheckBox);
         CheckBox fCchk = new(this);
         session.BeginRead(fCchk);
@@ -429,9 +429,9 @@ public sealed partial class CombatChoice : ILayoutModule
         fCchk.TextSelectedColor = 255;
         fCchk.WinWidth = 93;
         fCchk.Checked = true;
-        fCchk.Change += FCchkChange;
+        fCchk.Changed += FCchkChange;
         fCchk.RadioIndex = 1;
-        fCchk.DoubleClick += FCchkDoubleClick;
+        fCchk.DoubleClicked += FCchkDoubleClick;
         session.EndRead(fCchk);
         Panel mapViewPnl = new(this);
         session.BeginRead(mapViewPnl);

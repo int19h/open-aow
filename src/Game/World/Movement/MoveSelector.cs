@@ -128,7 +128,7 @@ public class MoveSelector : IDisposable
 
         Map = map;
         Map.Mouse.SetCapture(this);
-        Map.Mouse.ButtonDown += MouseDownEvent;
+        Map.Mouse.ButtonPressed += MouseDownEvent;
         Map.Mouse.Moved += MouseMoveEvent;
         Map.Mouse.CaptureChanged += MouseDownEvent;
         Map.Mouse.CursorMode = 256;
@@ -143,7 +143,7 @@ public class MoveSelector : IDisposable
         if (Status.Contains(MoveSelectorStatuses.Activated))
         {
             Status &= ~MoveSelectorStatuses.Activated;
-            Map.Mouse.ButtonDown -= MouseDownEvent;
+            Map.Mouse.ButtonPressed -= MouseDownEvent;
             Map.Mouse.Moved -= MouseMoveEvent;
             Map.Mouse.CaptureChanged -= MouseDownEvent;
             if (Map.Mouse.Capture == this)

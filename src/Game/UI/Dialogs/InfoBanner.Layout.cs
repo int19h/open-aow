@@ -78,7 +78,7 @@ public sealed partial class InfoBanner : ILayoutModule
         BannerMenu = new Menu(this);
         session.BeginRead(BannerMenu);
         BannerMenu.Name = "BannerPopup";
-        BannerMenu.MouseDown += (_, button, shift, x, y) => BannerPopupMouseDown(button, shift, x, y);
+        BannerMenu.MousePressed += (_, button, shift, x, y) => BannerPopupMouseDown(button, shift, x, y);
         BannerMenu.Visible = false;
         BannerMenu.Priority = 350;
         BannerMenu.WinLeft = 0;

@@ -49,8 +49,8 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         MainWindow.DragHeight = 20;
         MainWindow.Draggable = true;
         MainWindow.Resizable = true;
-        MainWindow.Drag += _ => TCUnitWinResize();
-        MainWindow.Resize += _ => TCUnitWinResize();
+        MainWindow.Dragged += _ => TCUnitWinResize();
+        MainWindow.Resized += _ => TCUnitWinResize();
         MainWindow.MinWidth = 150;
         MainWindow.MinHeight = 262;
         MainWindow.MaxWidth = 0;
@@ -120,7 +120,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         min.TextColor = 0;
         min.TextSelectedColor = 0;
         min.WinWidth = 15;
-        min.Click += _ => MinClick();
+        min.Clicked += _ => MinClick();
         session.EndRead(min);
         Button close = new(this);
         session.BeginRead(close);
@@ -154,7 +154,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.Click += _ => CloseClick();
+        close.Clicked += _ => CloseClick();
         session.EndRead(close);
         Label iwTitle = new(this);
         session.BeginRead(iwTitle);
@@ -591,8 +591,8 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         UnitAbilityList = new ListBox(this);
         session.BeginRead(UnitAbilityList);
         UnitAbilityList.Name = "UAbilLB";
-        UnitAbilityList.MouseDown += (_, button, shift, x, y) => UAbilLBMouseDown(button, shift, x, y);
-        UnitAbilityList.MouseMove += (_, shift, x, y) => UAbilLBMouseMove(shift, x, y);
+        UnitAbilityList.MousePressed += (_, button, shift, x, y) => UAbilLBMouseDown(button, shift, x, y);
+        UnitAbilityList.MouseMoved += (_, shift, x, y) => UAbilLBMouseMove(shift, x, y);
         UnitAbilityList.Updated += _ => UAbilLBUpdate();
         UnitAbilityList.Priority = 0;
         UnitAbilityList.WinLeft = 1;
@@ -616,7 +616,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         UnitAbilityList.BorderWidth = 20;
         UnitAbilityList.BorderHeight = 3;
         UnitAbilityList.Selected = -1;
-        UnitAbilityList.PreDrawItem += (_, in drawRectangle, drawItem, ref surface) => UAbilLBPreDrawItem(drawRectangle, drawItem, lockedSurface: in surface);
+        UnitAbilityList.ItemDrawing += (_, in drawRectangle, drawItem, ref surface) => UAbilLBPreDrawItem(drawRectangle, drawItem, lockedSurface: in surface);
         UnitAbilityList.TextColor = 9415072;
         UnitAbilityList.TextSelectedColor = 0;
         UnitAbilityList.ImageLibraryIndexFrame = 113;
@@ -1658,7 +1658,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         center.TextColor = 0;
         center.TextSelectedColor = 0;
         center.WinWidth = 15;
-        center.Click += _ => CenterClick();
+        center.Clicked += _ => CenterClick();
         session.EndRead(center);
         VerticalScrollBar abilSB = new(this);
         session.BeginRead(abilSB);
@@ -1880,7 +1880,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         UnitFramePanel = new Panel(this);
         session.BeginRead(UnitFramePanel);
         UnitFramePanel.Name = "UnitFr";
-        UnitFramePanel.MouseDown += (_, button, shift, x, y) => HeroSMapMouseDown(button, shift, x, y);
+        UnitFramePanel.MousePressed += (_, button, shift, x, y) => HeroSMapMouseDown(button, shift, x, y);
         UnitFramePanel.Priority = 30;
         UnitFramePanel.WinLeft = 1;
         UnitFramePanel.WinTop = 2;
@@ -1908,7 +1908,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         UserDrawBox unitBox = new(this);
         session.BeginRead(unitBox);
         unitBox.Name = "UnitBox";
-        unitBox.MouseDown += (_, button, shift, x, y) => HeroSMapMouseDown(button, shift, x, y);
+        unitBox.MousePressed += (_, button, shift, x, y) => HeroSMapMouseDown(button, shift, x, y);
         unitBox.Drawn += (_, surface) => TCUnitPnlDrawBack(surface);
         unitBox.Priority = 10;
         unitBox.WinLeft = 5;

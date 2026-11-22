@@ -433,46 +433,46 @@ public sealed partial class HorizontalScrollBar(Component owner) : ScrollBar(own
         }
     }
 
-    public new event NotifyEvent<HorizontalScrollBar> Change
+    public new event NotifyEvent<HorizontalScrollBar> Changed
     {
-        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(Change), value: value);
-        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(Change), value: value);
+        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(Changed), value: value);
+        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(Changed), value: value);
     }
 
-    public new event MouseEvent<HorizontalScrollBar> MouseDown
+    public new event MouseEvent<HorizontalScrollBar> MousePressed
     {
-        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(MouseDown), value: value);
-        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(MouseDown), value: value);
+        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(MousePressed), value: value);
+        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(MousePressed), value: value);
     }
 
-    public new event MouseEvent<HorizontalScrollBar> MouseUp
+    public new event MouseEvent<HorizontalScrollBar> MouseReleased
     {
-        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(MouseUp), value: value);
-        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(MouseUp), value: value);
+        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(MouseReleased), value: value);
+        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(MouseReleased), value: value);
     }
 
-    public new event MouseMoveEvent<HorizontalScrollBar> MouseMove
+    public new event MouseMoveEvent<HorizontalScrollBar> MouseMoved
     {
-        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(MouseMove), value: value);
-        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(MouseMove), value: value);
+        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(MouseMoved), value: value);
+        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(MouseMoved), value: value);
     }
 
-    public new event KeyPressEvent<HorizontalScrollBar> KeyPress
+    public new event KeyPressEvent<HorizontalScrollBar> CharacterTyped
     {
-        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(KeyPress), value: value);
-        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(KeyPress), value: value);
+        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(CharacterTyped), value: value);
+        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(CharacterTyped), value: value);
     }
 
-    public new event KeyEvent<HorizontalScrollBar> KeyDown
+    public new event KeyEvent<HorizontalScrollBar> KeyPressed
     {
-        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(KeyDown), value: value);
-        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(KeyDown), value: value);
+        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(KeyPressed), value: value);
+        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(KeyPressed), value: value);
     }
 
-    public new event AoWOnDrawEvent<HorizontalScrollBar> PreDraw
+    public new event AoWOnDrawEvent<HorizontalScrollBar> Drawing
     {
-        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(PreDraw), value: value);
-        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(PreDraw), value: value);
+        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(Drawing), value: value);
+        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(Drawing), value: value);
     }
 
     public new event AoWOnDrawEvent<HorizontalScrollBar> Drawn

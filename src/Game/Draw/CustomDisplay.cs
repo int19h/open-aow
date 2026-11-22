@@ -14,7 +14,7 @@ namespace Aow.Game.Draw;
 // show), _pauseCount, _mouseAboveSurface, _primaryDisplayController, _secondaryDisplayController, _activeDisplayController
 public partial class CustomDisplay : Component
 {
-    protected internal event EventHandler? BlitSurface;
+    protected internal event EventHandler? Blitting;
     private Action<object, DisplayController, int> _updateFrame;
 
     internal void SetUpdateFrameHandler(Action<object, DisplayController, int> handler) => _updateFrame = handler;
@@ -199,7 +199,7 @@ public partial class CustomDisplay : Component
             result = DisplayControllerError.Ok;
             if (ActiveDisplayController is not null && ActiveDisplayController.GetStatus().Contains(DisplayControllerStatuses.Visible))
             {
-                BlitSurface?.Invoke(this, e: EventArgs.Empty);
+                Blitting?.Invoke(this, e: EventArgs.Empty);
 
                 if (_bufferingScheme != BufferingScheme.Single)
                 {

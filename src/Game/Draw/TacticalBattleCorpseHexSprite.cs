@@ -186,7 +186,7 @@ public sealed class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexS
         base.Activate();
         if (SequenceIndex > -1)
         {
-            CombatMap.Current.NewFrameEvents += NewFrame;
+            CombatMap.Current.FrameStarted += NewFrame;
         }
 
         _ = UnitGraphics.AddRef();
@@ -196,7 +196,7 @@ public sealed class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexS
     // AoWTC.pas:3966
     public override void Deactivate()
     {
-        CombatMap.Current.NewFrameEvents -= NewFrame;
+        CombatMap.Current.FrameStarted -= NewFrame;
         _ = UnitGraphics.Release();
         base.Deactivate();
     }

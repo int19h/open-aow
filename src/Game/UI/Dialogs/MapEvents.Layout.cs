@@ -22,7 +22,7 @@ public sealed partial class MapEvents : ILayoutModule
         theMap.ArmyDestroyed += TheMapArmyDestroyed;
         theMap.StructureSelected += TheMapStructureSelected;
         theMap.StructureDeselected += _ => TheMapStructureDeselected();
-        theMap.StructureDoubleClick += TheMapStructureDoubleClick;
+        theMap.StructureDoubleClicked += TheMapStructureDoubleClick;
         theMap.StructureChanged += TheMapStructureChanged;
         theMap.StructureDestroyed += TheMapStructureDestroyed;
         theMap.UnitChanged += TheMapUnitChanged;
@@ -38,7 +38,7 @@ public sealed partial class MapEvents : ILayoutModule
         theMap.MapChanged += TheMapMapChanged;
         theMap.ScannerIconsChanged += TheMapScannerIconsChanged;
         theMap.LogbookChanged += TheMapLogbookChanged;
-        theMap.TargetSelectionChange += TheMapTargetSelectionChange;
+        theMap.TargetSelectionChanged += TheMapTargetSelectionChange;
         theMap.OnCastSpell += TheMapCastSpell;
         theMap.AbilityActivated += TheMapActivateAbility;
         theMap.PlayerMagicChanged += TheMapPlayerMagicChanged;

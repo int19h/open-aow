@@ -120,46 +120,46 @@ public sealed class ArnoLine : Control
     [Published]
     public LibraryImage? ImageBottom { get => _imageBottom; set => SetIBottom(value); }
 
-    public new event NotifyEvent<ArnoLine> Change
+    public new event NotifyEvent<ArnoLine> Changed
     {
-        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(Change), value: value);
-        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(Change), value: value);
+        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(Changed), value: value);
+        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(Changed), value: value);
     }
 
-    public new event MouseEvent<ArnoLine> MouseDown
+    public new event MouseEvent<ArnoLine> MousePressed
     {
-        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(MouseDown), value: value);
-        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(MouseDown), value: value);
+        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(MousePressed), value: value);
+        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(MousePressed), value: value);
     }
 
-    public new event MouseEvent<ArnoLine> MouseUp
+    public new event MouseEvent<ArnoLine> MouseReleased
     {
-        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(MouseUp), value: value);
-        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(MouseUp), value: value);
+        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(MouseReleased), value: value);
+        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(MouseReleased), value: value);
     }
 
-    public new event MouseMoveEvent<ArnoLine> MouseMove
+    public new event MouseMoveEvent<ArnoLine> MouseMoved
     {
-        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(MouseMove), value: value);
-        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(MouseMove), value: value);
+        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(MouseMoved), value: value);
+        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(MouseMoved), value: value);
     }
 
-    public new event KeyPressEvent<ArnoLine> KeyPress
+    public new event KeyPressEvent<ArnoLine> CharacterTyped
     {
-        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(KeyPress), value: value);
-        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(KeyPress), value: value);
+        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(CharacterTyped), value: value);
+        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(CharacterTyped), value: value);
     }
 
-    public new event KeyEvent<ArnoLine> KeyDown
+    public new event KeyEvent<ArnoLine> KeyPressed
     {
-        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(KeyDown), value: value);
-        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(KeyDown), value: value);
+        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(KeyPressed), value: value);
+        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(KeyPressed), value: value);
     }
 
-    public new event AoWOnDrawEvent<ArnoLine> PreDraw
+    public new event AoWOnDrawEvent<ArnoLine> Drawing
     {
-        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(PreDraw), value: value);
-        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(PreDraw), value: value);
+        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(Drawing), value: value);
+        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(Drawing), value: value);
     }
 
     public new event AoWOnDrawEvent<ArnoLine> Drawn

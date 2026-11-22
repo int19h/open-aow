@@ -218,7 +218,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
                         BookStartButton.Visible = !NextButton.Visible;
                         CancelButton.Visible = false;
                         BookWindow bookWindow = Book;
-                        bookWindow.Hidden = true;
+                        bookWindow.IsHidden = true;
                         bookWindow.Visible = true;
 
                         SetButton.Visible = false;
@@ -536,7 +536,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         BookStartButton.Visible = test;
         CancelButton.Visible = WorldPanel.Visible;
         BookWindow bookWindow = Book;
-        bookWindow.Hidden = true;
+        bookWindow.IsHidden = true;
         bookWindow.Visible = true;
 
         _ = (Book.BackSurface?.Clear(Book.MaskColor));
@@ -1025,7 +1025,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         BackButton.CaptureInput = true;
         NextButton.CaptureInput = true;
         BookStartButton.CaptureInput = true;
-        Book.Hidden = true;
+        Book.IsHidden = true;
     }
 
     // AoWWorldMap.pas:729

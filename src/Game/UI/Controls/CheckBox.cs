@@ -12,7 +12,7 @@ namespace Aow.Game.UI.Controls;
 public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
 {
     [Published]
-    public event NotifyEvent<CheckBox>? DoubleClick;
+    public event NotifyEvent<CheckBox>? DoubleClicked;
 
     // AoWCheckBox.pas:51
     public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
@@ -49,7 +49,7 @@ public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
 
                 if ((shift & ShiftStates.Double) == ShiftStates.Double)
                 {
-                    DoubleClick?.Invoke(this);
+                    DoubleClicked?.Invoke(this);
                 }
             }
             else
@@ -137,46 +137,46 @@ public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
     [Published]
     public override bool Checked { get => base.Checked; set => SetChecked(value); }
 
-    public new event NotifyEvent<CheckBox> Change
+    public new event NotifyEvent<CheckBox> Changed
     {
-        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(Change), value: value);
-        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(Change), value: value);
+        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(Changed), value: value);
+        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(Changed), value: value);
     }
 
-    public new event MouseEvent<CheckBox> MouseDown
+    public new event MouseEvent<CheckBox> MousePressed
     {
-        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(MouseDown), value: value);
-        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(MouseDown), value: value);
+        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(MousePressed), value: value);
+        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(MousePressed), value: value);
     }
 
-    public new event MouseEvent<CheckBox> MouseUp
+    public new event MouseEvent<CheckBox> MouseReleased
     {
-        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(MouseUp), value: value);
-        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(MouseUp), value: value);
+        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(MouseReleased), value: value);
+        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(MouseReleased), value: value);
     }
 
-    public new event MouseMoveEvent<CheckBox> MouseMove
+    public new event MouseMoveEvent<CheckBox> MouseMoved
     {
-        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(MouseMove), value: value);
-        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(MouseMove), value: value);
+        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(MouseMoved), value: value);
+        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(MouseMoved), value: value);
     }
 
-    public new event KeyPressEvent<CheckBox> KeyPress
+    public new event KeyPressEvent<CheckBox> CharacterTyped
     {
-        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(KeyPress), value: value);
-        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(KeyPress), value: value);
+        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(CharacterTyped), value: value);
+        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(CharacterTyped), value: value);
     }
 
-    public new event KeyEvent<CheckBox> KeyDown
+    public new event KeyEvent<CheckBox> KeyPressed
     {
-        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(KeyDown), value: value);
-        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(KeyDown), value: value);
+        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(KeyPressed), value: value);
+        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(KeyPressed), value: value);
     }
 
-    public new event AoWOnDrawEvent<CheckBox> PreDraw
+    public new event AoWOnDrawEvent<CheckBox> Drawing
     {
-        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(PreDraw), value: value);
-        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(PreDraw), value: value);
+        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(Drawing), value: value);
+        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(Drawing), value: value);
     }
 
     public new event AoWOnDrawEvent<CheckBox> Drawn

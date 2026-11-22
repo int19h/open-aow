@@ -26,9 +26,9 @@ public sealed partial class TitleScene : ILayoutModule
         Window = new UserWindow(this);
         session.BeginRead(Window);
         Window.Name = "Window";
-        Window.MouseDown += (_, button, shift, x, y) => WindowMouseDown(button, shift, x, y);
-        Window.MouseUp += (_, button, shift, x, y) => WindowMouseUp(button, shift, x, y);
-        Window.MouseMove += (_, shift, x, y) => WindowMouseMove(shift, x, y);
+        Window.MousePressed += (_, button, shift, x, y) => WindowMouseDown(button, shift, x, y);
+        Window.MouseReleased += (_, button, shift, x, y) => WindowMouseUp(button, shift, x, y);
+        Window.MouseMoved += (_, shift, x, y) => WindowMouseMove(shift, x, y);
         Window.Updated += _ => WindowUpdate();
         Window.Visible = false;
         Window.Priority = 0;
@@ -36,7 +36,7 @@ public sealed partial class TitleScene : ILayoutModule
         Window.WinTop = 0;
         Window.WinWidth = 640;
         Window.Masked = false;
-        Window.Hide += _ => WindowHide();
+        Window.Hidden += _ => WindowHide();
         Window.Alignment.AlignWidth = AlignWidth.Both;
         Window.Alignment.AlignHeight = AlignHeight.Both;
         Window.Alignment.HeightPercent = 0;
@@ -70,7 +70,7 @@ public sealed partial class TitleScene : ILayoutModule
         Window.Modal = false;
         Window.WinHeight = 480;
         Window.Dockable = false;
-        Window.CustomDrawSurface += WindowDrawSurfaceEx;
+        Window.SurfaceDrawing += WindowDrawSurfaceEx;
         session.EndRead(Window);
         LegalNoticeMemo = new Memo(this);
         session.BeginRead(LegalNoticeMemo);

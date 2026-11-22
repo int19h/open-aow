@@ -117,7 +117,7 @@ public sealed partial class TargetSelectionDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.Click += _ => CloseClick();
+        close.Clicked += _ => CloseClick();
         session.EndRead(close);
         Label title = new(this);
         session.BeginRead(title);
@@ -199,7 +199,7 @@ public sealed partial class TargetSelectionDialog : ILayoutModule
         MainButton.TextColor = 0;
         MainButton.TextSelectedColor = 16777215;
         MainButton.WinWidth = 110;
-        MainButton.Click += _ => MainBtnClick();
+        MainButton.Clicked += _ => MainBtnClick();
         session.EndRead(MainButton);
         DefaultMemo = new Memo(this);
         session.BeginRead(DefaultMemo);

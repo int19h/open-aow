@@ -36,44 +36,44 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
     protected void RaiseDraw(UIComponent sender, LockedSurface surfDesc) => Drawn?.Invoke(sender, surfDesc);
 
     [Published]
-    public event AoWOnDrawEvent<UIComponent>? PreDraw;
+    public event AoWOnDrawEvent<UIComponent>? Drawing;
 
-    protected void RaisePreDraw(UIComponent sender, LockedSurface surfDesc) => PreDraw?.Invoke(sender, surfDesc);
-
-    [Published]
-    public event MouseEvent<UIComponent>? MouseDown;
-
-    protected void RaiseMouseDown(UIComponent sender, MouseButton button, ShiftStates shift, int x, int y) => MouseDown?.Invoke(sender, button, shift, x, y);
+    protected void RaisePreDraw(UIComponent sender, LockedSurface surfDesc) => Drawing?.Invoke(sender, surfDesc);
 
     [Published]
-    public event MouseEvent<UIComponent>? MouseUp;
+    public event MouseEvent<UIComponent>? MousePressed;
 
-    protected void RaiseMouseUp(UIComponent sender, MouseButton button, ShiftStates shift, int x, int y) => MouseUp?.Invoke(sender, button, shift, x, y);
-
-    [Published]
-    public event MouseMoveEvent<UIComponent>? MouseMove;
-
-    protected void RaiseMouseMove(UIComponent sender, ShiftStates shift, int x, int y) => MouseMove?.Invoke(sender, shift, x, y);
+    protected void RaiseMouseDown(UIComponent sender, MouseButton button, ShiftStates shift, int x, int y) => MousePressed?.Invoke(sender, button, shift, x, y);
 
     [Published]
-    public event KeyPressEvent<UIComponent>? KeyPress;
+    public event MouseEvent<UIComponent>? MouseReleased;
 
-    protected void RaiseKeyPress(UIComponent sender, ref byte key) => KeyPress?.Invoke(sender, ref key);
+    protected void RaiseMouseUp(UIComponent sender, MouseButton button, ShiftStates shift, int x, int y) => MouseReleased?.Invoke(sender, button, shift, x, y);
+
+    [Published]
+    public event MouseMoveEvent<UIComponent>? MouseMoved;
+
+    protected void RaiseMouseMove(UIComponent sender, ShiftStates shift, int x, int y) => MouseMoved?.Invoke(sender, shift, x, y);
+
+    [Published]
+    public event KeyPressEvent<UIComponent>? CharacterTyped;
+
+    protected void RaiseKeyPress(UIComponent sender, ref byte key) => CharacterTyped?.Invoke(sender, ref key);
 
     // Memo.CheckKeyPress (AoWMemo.pas) calls OnKeyPress after a test of OnKeyDown only. This call
     // keeps that: it has no null test of its own and throws when OnKeyPress has no handler.
-    protected void RaiseKeyPressUnchecked(UIComponent sender, ref byte key) => KeyPress(sender, ref key);
+    protected void RaiseKeyPressUnchecked(UIComponent sender, ref byte key) => CharacterTyped(sender, ref key);
 
     [Published]
-    public event KeyEvent<UIComponent>? KeyDown;
+    public event KeyEvent<UIComponent>? KeyPressed;
 
-    protected void RaiseKeyDown(UIComponent sender, ref ushort key, ShiftStates shift) => KeyDown?.Invoke(sender, ref key, shift);
+    protected void RaiseKeyDown(UIComponent sender, ref ushort key, ShiftStates shift) => KeyPressed?.Invoke(sender, ref key, shift);
 
-    protected bool HasKeyDownHandlers => KeyDown is not null;
+    protected bool HasKeyDownHandlers => KeyPressed is not null;
 
-    public event NotifyEvent<UIComponent>? Change;
+    public event NotifyEvent<UIComponent>? Changed;
 
-    internal void RaiseChange(UIComponent sender) => Change?.Invoke(sender);
+    internal void RaiseChange(UIComponent sender) => Changed?.Invoke(sender);
 
     public bool IsMouseDown { get; protected set; }
 
@@ -126,7 +126,7 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
     private AoWOnDebugEvent _onDebugMessage;
 
     [Published]
-    public event AoWOnDebugEvent DebugMessage { add => _onDebugMessage += value; remove => _onDebugMessage -= value; }
+    public event AoWOnDebugEvent DebugMessageWritten { add => _onDebugMessage += value; remove => _onDebugMessage -= value; }
 
     private UIComponent? _ownerComponent;
 
@@ -140,7 +140,7 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
 
     public SizedRectangle OldRectangle { get; protected set; }
 
-    public bool Hidden { get; set; }
+    public bool IsHidden { get; set; }
 
     [Published]
     public virtual bool DoubleBuffered { get; set; }
@@ -954,7 +954,7 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
             IsDrawn = false;
             if (_visible)
             {
-                Hidden = false;
+                IsHidden = false;
                 ClearBlitList();
                 ClearDrawList();
                 if (!Valid || !Aligned || !Sized)
@@ -964,7 +964,7 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
             }
             else
             {
-                Hidden = true;
+                IsHidden = true;
             }
         }
     }

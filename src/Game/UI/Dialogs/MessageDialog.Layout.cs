@@ -24,7 +24,7 @@ public sealed partial class MessageDialog : ILayoutModule
         Window.WinTop = 119;
         Window.WinWidth = 385;
         Window.Masked = true;
-        Window.Hide += _ => DlgHide();
+        Window.Hidden += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -139,7 +139,7 @@ public sealed partial class MessageDialog : ILayoutModule
         yesBtn.TextColor = 0;
         yesBtn.TextSelectedColor = 16777215;
         yesBtn.WinWidth = 105;
-        yesBtn.Click += _ => YesBtnClick();
+        yesBtn.Clicked += _ => YesBtnClick();
         session.EndRead(yesBtn);
         Button noBtn = new(this);
         session.BeginRead(noBtn);
@@ -170,7 +170,7 @@ public sealed partial class MessageDialog : ILayoutModule
         noBtn.TextColor = 0;
         noBtn.TextSelectedColor = 16777215;
         noBtn.WinWidth = 105;
-        noBtn.Click += _ => NoBtnClick();
+        noBtn.Clicked += _ => NoBtnClick();
         session.EndRead(noBtn);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -339,7 +339,7 @@ public sealed partial class MessageDialog : ILayoutModule
         okBtn.TextColor = 0;
         okBtn.TextSelectedColor = 16777215;
         okBtn.WinWidth = 130;
-        okBtn.Click += _ => OKBtnClick();
+        okBtn.Clicked += _ => OKBtnClick();
         session.EndRead(okBtn);
         OKPanel = new Panel(this);
         session.BeginRead(OKPanel);
@@ -426,7 +426,7 @@ public sealed partial class MessageDialog : ILayoutModule
         okBtn2.TextColor = 0;
         okBtn2.TextSelectedColor = 16777215;
         okBtn2.WinWidth = 105;
-        okBtn2.Click += _ => OKBtn2Click();
+        okBtn2.Clicked += _ => OKBtn2Click();
         session.EndRead(okBtn2);
         Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
@@ -457,7 +457,7 @@ public sealed partial class MessageDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 105;
-        cancelBtn.Click += _ => CancelBtnClick();
+        cancelBtn.Clicked += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
         MessageMemo = new Memo(this);
         session.BeginRead(MessageMemo);
@@ -586,7 +586,7 @@ public sealed partial class MessageDialog : ILayoutModule
         yesBtn2.TextColor = 0;
         yesBtn2.TextSelectedColor = 16777215;
         yesBtn2.WinWidth = 105;
-        yesBtn2.Click += _ => YesBtnClick();
+        yesBtn2.Clicked += _ => YesBtnClick();
         session.EndRead(yesBtn2);
         Button noBtn2 = new(this);
         session.BeginRead(noBtn2);
@@ -617,7 +617,7 @@ public sealed partial class MessageDialog : ILayoutModule
         noBtn2.TextColor = 0;
         noBtn2.TextSelectedColor = 16777215;
         noBtn2.WinWidth = 105;
-        noBtn2.Click += _ => NoBtnClick();
+        noBtn2.Clicked += _ => NoBtnClick();
         session.EndRead(noBtn2);
         Button cancelBtn2 = new(this);
         session.BeginRead(cancelBtn2);
@@ -648,7 +648,7 @@ public sealed partial class MessageDialog : ILayoutModule
         cancelBtn2.TextColor = 0;
         cancelBtn2.TextSelectedColor = 16777215;
         cancelBtn2.WinWidth = 105;
-        cancelBtn2.Click += _ => CancelBtnClick();
+        cancelBtn2.Clicked += _ => CancelBtnClick();
         session.EndRead(cancelBtn2);
         MemoPanel = new Panel(this);
         session.BeginRead(MemoPanel);

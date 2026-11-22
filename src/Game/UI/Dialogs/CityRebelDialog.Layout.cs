@@ -18,14 +18,14 @@ public sealed partial class CityRebelDialog : ILayoutModule
         RebelWindow = new Window(this);
         session.BeginRead(RebelWindow);
         RebelWindow.Name = "RebelWin";
-        RebelWindow.KeyDown += (_, ref key, shift) => RebelWinKeyDown(key, shift);
+        RebelWindow.KeyPressed += (_, ref key, shift) => RebelWinKeyDown(key, shift);
         RebelWindow.Visible = false;
         RebelWindow.Priority = 300;
         RebelWindow.WinLeft = 162;
         RebelWindow.WinTop = 54;
         RebelWindow.WinWidth = 316;
         RebelWindow.Masked = true;
-        RebelWindow.Hide += _ => RebelWinHide();
+        RebelWindow.Hidden += _ => RebelWinHide();
         RebelWindow.Alignment.AlignWidth = AlignWidth.Center;
         RebelWindow.Alignment.AlignHeight = AlignHeight.Center;
         RebelWindow.Alignment.HeightPercent = 0;
@@ -115,7 +115,7 @@ public sealed partial class CityRebelDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.Click += _ => CloseClick();
+        close.Clicked += _ => CloseClick();
         session.EndRead(close);
         Image titleIcon = new(this);
         session.BeginRead(titleIcon);
@@ -201,7 +201,7 @@ public sealed partial class CityRebelDialog : ILayoutModule
         centerBut.TextColor = 0;
         centerBut.TextSelectedColor = 16777215;
         centerBut.WinWidth = 161;
-        centerBut.Click += _ => CenterButClick();
+        centerBut.Clicked += _ => CenterButClick();
         session.EndRead(centerBut);
         Button closeBut = new(this);
         session.BeginRead(closeBut);
@@ -232,7 +232,7 @@ public sealed partial class CityRebelDialog : ILayoutModule
         closeBut.TextColor = 0;
         closeBut.TextSelectedColor = 16777215;
         closeBut.WinWidth = 98;
-        closeBut.Click += _ => CloseClick();
+        closeBut.Clicked += _ => CloseClick();
         session.EndRead(closeBut);
         Image rebelBG = new(this);
         session.BeginRead(rebelBG);

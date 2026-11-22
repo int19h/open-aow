@@ -18,14 +18,14 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.KeyDown += (_, ref key, shift) => DlgKeyDown(key, shift);
+        Window.KeyPressed += (_, ref key, shift) => DlgKeyDown(key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 117;
         Window.WinTop = 0;
         Window.WinWidth = 407;
         Window.Masked = true;
-        Window.Hide += _ => DlgHide();
+        Window.Hidden += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -93,7 +93,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 135;
-        cancelBtn.Click += _ => CloseClick();
+        cancelBtn.Clicked += _ => CloseClick();
         session.EndRead(cancelBtn);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -155,7 +155,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         done.TextColor = 0;
         done.TextSelectedColor = 16777215;
         done.WinWidth = 135;
-        done.Click += _ => DoneClick();
+        done.Clicked += _ => DoneClick();
         session.EndRead(done);
         Label title = new(this);
         session.BeginRead(title);
@@ -212,7 +212,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.Click += _ => CloseClick();
+        close.Clicked += _ => CloseClick();
         session.EndRead(close);
         Image titleIcon = new(this);
         session.BeginRead(titleIcon);
@@ -457,7 +457,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         AvailableAbilitiesList = new ListBox(this);
         session.BeginRead(AvailableAbilitiesList);
         AvailableAbilitiesList.Name = "AvailableAbilities";
-        AvailableAbilitiesList.MouseDown += (_, button, shift, x, y) => AvailableAbilitiesMouseDown(button, shift, x, y);
+        AvailableAbilitiesList.MousePressed += (_, button, shift, x, y) => AvailableAbilitiesMouseDown(button, shift, x, y);
         AvailableAbilitiesList.Priority = 50;
         AvailableAbilitiesList.WinLeft = 185;
         AvailableAbilitiesList.WinTop = 15;
@@ -479,7 +479,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         AvailableAbilitiesList.WinHeight = 107;
         AvailableAbilitiesList.BorderWidth = 4;
         AvailableAbilitiesList.BorderHeight = 4;
-        AvailableAbilitiesList.Change += _ => AvailableAbilitiesChange();
+        AvailableAbilitiesList.Changed += _ => AvailableAbilitiesChange();
         AvailableAbilitiesList.Selected = -1;
         AvailableAbilitiesList.TextColor = 9402970;
         AvailableAbilitiesList.TextSelectedColor = 0;
@@ -518,7 +518,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         AvailableAbilitiesScrollBar.WinHeight = 107;
         AvailableAbilitiesScrollBar.WinWidth = 17;
         AvailableAbilitiesScrollBar.NumberVisible = 1;
-        AvailableAbilitiesScrollBar.Change += _ => AvailableAbilitiesSBChange();
+        AvailableAbilitiesScrollBar.Changed += _ => AvailableAbilitiesSBChange();
         AvailableAbilitiesScrollBar.VanishWhenFull = true;
         AvailableAbilitiesScrollBar.ImageLibraryIndexIncrementUp = 74;
         AvailableAbilitiesScrollBar.ImageLibraryIndexIncrementDown = 75;
@@ -530,7 +530,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         SelectedAbilitiesList = new ListBox(this);
         session.BeginRead(SelectedAbilitiesList);
         SelectedAbilitiesList.Name = "SelectedAbilities";
-        SelectedAbilitiesList.MouseDown += (_, button, shift, x, y) => SelectedAbilitiesMouseDown(button, shift, x, y);
+        SelectedAbilitiesList.MousePressed += (_, button, shift, x, y) => SelectedAbilitiesMouseDown(button, shift, x, y);
         SelectedAbilitiesList.Priority = 50;
         SelectedAbilitiesList.WinLeft = 5;
         SelectedAbilitiesList.WinTop = 15;
@@ -552,7 +552,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         SelectedAbilitiesList.WinHeight = 107;
         SelectedAbilitiesList.BorderWidth = 4;
         SelectedAbilitiesList.BorderHeight = 4;
-        SelectedAbilitiesList.Change += _ => SelectedAbilitiesChange();
+        SelectedAbilitiesList.Changed += _ => SelectedAbilitiesChange();
         SelectedAbilitiesList.Selected = -1;
         SelectedAbilitiesList.TextColor = 9402970;
         SelectedAbilitiesList.TextSelectedColor = 0;
@@ -591,7 +591,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         SelectedAbilitiesScrollBar.WinHeight = 107;
         SelectedAbilitiesScrollBar.WinWidth = 17;
         SelectedAbilitiesScrollBar.NumberVisible = 1;
-        SelectedAbilitiesScrollBar.Change += _ => SelectedAbilitiesSBChange();
+        SelectedAbilitiesScrollBar.Changed += _ => SelectedAbilitiesSBChange();
         SelectedAbilitiesScrollBar.VanishWhenFull = true;
         SelectedAbilitiesScrollBar.ImageLibraryIndexIncrementUp = 74;
         SelectedAbilitiesScrollBar.ImageLibraryIndexIncrementDown = 75;
@@ -629,7 +629,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         selectedAbilitiesSort.TextColor = 0;
         selectedAbilitiesSort.TextSelectedColor = 16777215;
         selectedAbilitiesSort.WinWidth = 123;
-        selectedAbilitiesSort.Click += _ => SelectedAbilitiesSortClick();
+        selectedAbilitiesSort.Clicked += _ => SelectedAbilitiesSortClick();
         session.EndRead(selectedAbilitiesSort);
         Button availableAbilityCostSort = new(this);
         session.BeginRead(availableAbilityCostSort);
@@ -660,12 +660,12 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         availableAbilityCostSort.TextColor = 0;
         availableAbilityCostSort.TextSelectedColor = 16777215;
         availableAbilityCostSort.WinWidth = 44;
-        availableAbilityCostSort.Click += _ => AvailableAbilityCostSortClick();
+        availableAbilityCostSort.Clicked += _ => AvailableAbilityCostSortClick();
         session.EndRead(availableAbilityCostSort);
         AvailableAbilitiesCostList = new ListBox(this);
         session.BeginRead(AvailableAbilitiesCostList);
         AvailableAbilitiesCostList.Name = "AvailableAbilitiesCost";
-        AvailableAbilitiesCostList.MouseDown += (_, button, shift, x, y) => AvailableAbilitiesMouseDown(button, shift, x, y);
+        AvailableAbilitiesCostList.MousePressed += (_, button, shift, x, y) => AvailableAbilitiesMouseDown(button, shift, x, y);
         AvailableAbilitiesCostList.Priority = 40;
         AvailableAbilitiesCostList.WinLeft = 308;
         AvailableAbilitiesCostList.WinTop = 15;
@@ -687,7 +687,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         AvailableAbilitiesCostList.WinHeight = 107;
         AvailableAbilitiesCostList.BorderWidth = 4;
         AvailableAbilitiesCostList.BorderHeight = 4;
-        AvailableAbilitiesCostList.Change += _ => AvailableAbilitiesCostChange();
+        AvailableAbilitiesCostList.Changed += _ => AvailableAbilitiesCostChange();
         AvailableAbilitiesCostList.Selected = -1;
         AvailableAbilitiesCostList.TextColor = 9402970;
         AvailableAbilitiesCostList.TextSelectedColor = 0;
@@ -726,7 +726,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         availableAbilitiesSort.TextColor = 0;
         availableAbilitiesSort.TextSelectedColor = 16777215;
         availableAbilitiesSort.WinWidth = 125;
-        availableAbilitiesSort.Click += _ => AvailableAbilitiesSortClick();
+        availableAbilitiesSort.Clicked += _ => AvailableAbilitiesSortClick();
         session.EndRead(availableAbilitiesSort);
         Button addAbilityBtn = new(this);
         session.BeginRead(addAbilityBtn);
@@ -761,7 +761,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         addAbilityBtn.TextColor = 0;
         addAbilityBtn.TextSelectedColor = 16777215;
         addAbilityBtn.WinWidth = 140;
-        addAbilityBtn.Click += _ => AddAbilityBtnClick();
+        addAbilityBtn.Clicked += _ => AddAbilityBtnClick();
         session.EndRead(addAbilityBtn);
         Button removeBtn = new(this);
         session.BeginRead(removeBtn);
@@ -796,12 +796,12 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         removeBtn.TextColor = 0;
         removeBtn.TextSelectedColor = 16777215;
         removeBtn.WinWidth = 140;
-        removeBtn.Click += _ => RemoveBtnClick();
+        removeBtn.Clicked += _ => RemoveBtnClick();
         session.EndRead(removeBtn);
         Image faceFrame = new(this);
         session.BeginRead(faceFrame);
         faceFrame.Name = "FaceFrame";
-        faceFrame.PreDraw += FaceFramePreDraw;
+        faceFrame.Drawing += FaceFramePreDraw;
         faceFrame.Priority = 100;
         faceFrame.WinLeft = 0;
         faceFrame.WinTop = 0;
@@ -1963,7 +1963,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         attUp.TextColor = 0;
         attUp.TextSelectedColor = 0;
         attUp.WinWidth = 9;
-        attUp.Click += _ => AttUpClick();
+        attUp.Clicked += _ => AttUpClick();
         session.EndRead(attUp);
         Button attDn = new(this);
         session.BeginRead(attDn);
@@ -1993,7 +1993,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         attDn.TextColor = 0;
         attDn.TextSelectedColor = 0;
         attDn.WinWidth = 9;
-        attDn.Click += _ => AttDnClick();
+        attDn.Clicked += _ => AttDnClick();
         session.EndRead(attDn);
         Button damUp = new(this);
         session.BeginRead(damUp);
@@ -2023,7 +2023,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         damUp.TextColor = 0;
         damUp.TextSelectedColor = 0;
         damUp.WinWidth = 9;
-        damUp.Click += _ => DamUpClick();
+        damUp.Clicked += _ => DamUpClick();
         session.EndRead(damUp);
         Button damDn = new(this);
         session.BeginRead(damDn);
@@ -2053,7 +2053,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         damDn.TextColor = 0;
         damDn.TextSelectedColor = 0;
         damDn.WinWidth = 9;
-        damDn.Click += _ => DamDnClick();
+        damDn.Clicked += _ => DamDnClick();
         session.EndRead(damDn);
         Button defUp = new(this);
         session.BeginRead(defUp);
@@ -2083,7 +2083,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         defUp.TextColor = 0;
         defUp.TextSelectedColor = 0;
         defUp.WinWidth = 9;
-        defUp.Click += _ => DefUpClick();
+        defUp.Clicked += _ => DefUpClick();
         session.EndRead(defUp);
         Button defDn = new(this);
         session.BeginRead(defDn);
@@ -2113,7 +2113,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         defDn.TextColor = 0;
         defDn.TextSelectedColor = 0;
         defDn.WinWidth = 9;
-        defDn.Click += _ => DefDnClick();
+        defDn.Clicked += _ => DefDnClick();
         session.EndRead(defDn);
         Button resUp = new(this);
         session.BeginRead(resUp);
@@ -2143,7 +2143,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         resUp.TextColor = 0;
         resUp.TextSelectedColor = 0;
         resUp.WinWidth = 9;
-        resUp.Click += _ => ResUpClick();
+        resUp.Clicked += _ => ResUpClick();
         session.EndRead(resUp);
         Button resDn = new(this);
         session.BeginRead(resDn);
@@ -2173,7 +2173,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         resDn.TextColor = 0;
         resDn.TextSelectedColor = 0;
         resDn.WinWidth = 9;
-        resDn.Click += _ => ResDnClick();
+        resDn.Clicked += _ => ResDnClick();
         session.EndRead(resDn);
         Button hitUp = new(this);
         session.BeginRead(hitUp);
@@ -2203,7 +2203,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         hitUp.TextColor = 0;
         hitUp.TextSelectedColor = 0;
         hitUp.WinWidth = 9;
-        hitUp.Click += _ => HitUpClick();
+        hitUp.Clicked += _ => HitUpClick();
         session.EndRead(hitUp);
         Button hitDn = new(this);
         session.BeginRead(hitDn);
@@ -2233,7 +2233,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         hitDn.TextColor = 0;
         hitDn.TextSelectedColor = 0;
         hitDn.WinWidth = 9;
-        hitDn.Click += _ => HitDnClick();
+        hitDn.Clicked += _ => HitDnClick();
         session.EndRead(hitDn);
         Button movUp = new(this);
         session.BeginRead(movUp);
@@ -2263,7 +2263,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         movUp.TextColor = 0;
         movUp.TextSelectedColor = 0;
         movUp.WinWidth = 9;
-        movUp.Click += _ => MovUpClick();
+        movUp.Clicked += _ => MovUpClick();
         session.EndRead(movUp);
         Button movDn = new(this);
         session.BeginRead(movDn);
@@ -2293,7 +2293,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         movDn.TextColor = 0;
         movDn.TextSelectedColor = 0;
         movDn.WinWidth = 9;
-        movDn.Click += _ => MovDnClick();
+        movDn.Clicked += _ => MovDnClick();
         session.EndRead(movDn);
         Image attIc = new(this);
         session.BeginRead(attIc);
@@ -2492,12 +2492,12 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         selectedAbilitiesCostSort.TextColor = 0;
         selectedAbilitiesCostSort.TextSelectedColor = 16777215;
         selectedAbilitiesCostSort.WinWidth = 47;
-        selectedAbilitiesCostSort.Click += _ => SelectedAbilitiesCostSortClick();
+        selectedAbilitiesCostSort.Clicked += _ => SelectedAbilitiesCostSortClick();
         session.EndRead(selectedAbilitiesCostSort);
         SelectedAbilitiesCostList = new ListBox(this);
         session.BeginRead(SelectedAbilitiesCostList);
         SelectedAbilitiesCostList.Name = "SelectedAbilitiesCost";
-        SelectedAbilitiesCostList.MouseDown += (_, button, shift, x, y) => SelectedAbilitiesMouseDown(button, shift, x, y);
+        SelectedAbilitiesCostList.MousePressed += (_, button, shift, x, y) => SelectedAbilitiesMouseDown(button, shift, x, y);
         SelectedAbilitiesCostList.Priority = 41;
         SelectedAbilitiesCostList.WinLeft = 128;
         SelectedAbilitiesCostList.WinTop = 15;
@@ -2519,7 +2519,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         SelectedAbilitiesCostList.WinHeight = 107;
         SelectedAbilitiesCostList.BorderWidth = 4;
         SelectedAbilitiesCostList.BorderHeight = 4;
-        SelectedAbilitiesCostList.Change += _ => SelectedAbilitiesCostChange();
+        SelectedAbilitiesCostList.Changed += _ => SelectedAbilitiesCostChange();
         SelectedAbilitiesCostList.Selected = -1;
         SelectedAbilitiesCostList.TextColor = 9402970;
         SelectedAbilitiesCostList.TextSelectedColor = 0;

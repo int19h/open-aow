@@ -301,46 +301,46 @@ public sealed partial class MenuBar : Control
     [Published]
     public int ImageLibraryIndexUp { get => _imageLibraryIndexUp; set => SetImageLibraryUIndex(value); }
 
-    public new event NotifyEvent<MenuBar> Change
+    public new event NotifyEvent<MenuBar> Changed
     {
-        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(Change), value: value);
-        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(Change), value: value);
+        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(Changed), value: value);
+        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(Changed), value: value);
     }
 
-    public new event MouseEvent<MenuBar> MouseDown
+    public new event MouseEvent<MenuBar> MousePressed
     {
-        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(MouseDown), value: value);
-        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(MouseDown), value: value);
+        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(MousePressed), value: value);
+        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(MousePressed), value: value);
     }
 
-    public new event MouseEvent<MenuBar> MouseUp
+    public new event MouseEvent<MenuBar> MouseReleased
     {
-        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(MouseUp), value: value);
-        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(MouseUp), value: value);
+        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(MouseReleased), value: value);
+        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(MouseReleased), value: value);
     }
 
-    public new event MouseMoveEvent<MenuBar> MouseMove
+    public new event MouseMoveEvent<MenuBar> MouseMoved
     {
-        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(MouseMove), value: value);
-        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(MouseMove), value: value);
+        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(MouseMoved), value: value);
+        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(MouseMoved), value: value);
     }
 
-    public new event KeyPressEvent<MenuBar> KeyPress
+    public new event KeyPressEvent<MenuBar> CharacterTyped
     {
-        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(KeyPress), value: value);
-        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(KeyPress), value: value);
+        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(CharacterTyped), value: value);
+        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(CharacterTyped), value: value);
     }
 
-    public new event KeyEvent<MenuBar> KeyDown
+    public new event KeyEvent<MenuBar> KeyPressed
     {
-        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(KeyDown), value: value);
-        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(KeyDown), value: value);
+        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(KeyPressed), value: value);
+        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(KeyPressed), value: value);
     }
 
-    public new event AoWOnDrawEvent<MenuBar> PreDraw
+    public new event AoWOnDrawEvent<MenuBar> Drawing
     {
-        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(PreDraw), value: value);
-        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(PreDraw), value: value);
+        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(Drawing), value: value);
+        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(Drawing), value: value);
     }
 
     public new event AoWOnDrawEvent<MenuBar> Drawn

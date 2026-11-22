@@ -49,8 +49,8 @@ public sealed partial class InfoWindow : ILayoutModule
         MainWindow.DragHeight = 20;
         MainWindow.Draggable = true;
         MainWindow.Resizable = true;
-        MainWindow.Drag += _ => InfoWinResize();
-        MainWindow.Resize += _ => InfoWinResize();
+        MainWindow.Dragged += _ => InfoWinResize();
+        MainWindow.Resized += _ => InfoWinResize();
         MainWindow.MinWidth = 200;
         MainWindow.MinHeight = 216;
         MainWindow.MaxWidth = 0;
@@ -92,7 +92,7 @@ public sealed partial class InfoWindow : ILayoutModule
         min.TextColor = 0;
         min.TextSelectedColor = 0;
         min.WinWidth = 15;
-        min.Click += _ => MinClick();
+        min.Clicked += _ => MinClick();
         session.EndRead(min);
         Button close = new(this);
         session.BeginRead(close);
@@ -126,7 +126,7 @@ public sealed partial class InfoWindow : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.Click += _ => CloseClick();
+        close.Clicked += _ => CloseClick();
         session.EndRead(close);
         TitleLabel = new Label(this);
         session.BeginRead(TitleLabel);
@@ -208,7 +208,7 @@ public sealed partial class InfoWindow : ILayoutModule
         MainButton.TextColor = 0;
         MainButton.TextSelectedColor = 16777215;
         MainButton.WinWidth = 108;
-        MainButton.Click += _ => MainBtnClick();
+        MainButton.Clicked += _ => MainBtnClick();
         session.EndRead(MainButton);
         Frame celtFrame = new(this);
         session.BeginRead(celtFrame);
@@ -1301,7 +1301,7 @@ public sealed partial class InfoWindow : ILayoutModule
         center.TextColor = 0;
         center.TextSelectedColor = 0;
         center.WinWidth = 15;
-        center.Click += _ => CenterClick();
+        center.Clicked += _ => CenterClick();
         session.EndRead(center);
         ConstructionPanel = new Panel(this);
         session.BeginRead(ConstructionPanel);
@@ -1498,7 +1498,7 @@ public sealed partial class InfoWindow : ILayoutModule
         RazeButton.TextColor = 0;
         RazeButton.TextSelectedColor = 0;
         RazeButton.WinWidth = 43;
-        RazeButton.Click += _ => RazeBtnClick();
+        RazeButton.Clicked += _ => RazeBtnClick();
         session.EndRead(RazeButton);
         CivilStatusLabel = new Label(this);
         session.BeginRead(CivilStatusLabel);
@@ -2205,7 +2205,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ItemBagList.BorderWidth = 6;
         ItemBagList.BorderHeight = 3;
         ItemBagList.Selected = -1;
-        ItemBagList.DrawItem += (_, in drawRectangle, _, ref surface) => ItembagLBDrawItem(drawRectangle, drawItem: default, surface);
+        ItemBagList.ItemDrawn += (_, in drawRectangle, _, ref surface) => ItembagLBDrawItem(drawRectangle, drawItem: default, surface);
         ItemBagList.TextColor = 9415072;
         ItemBagList.TextSelectedColor = 0;
         ItemBagList.ImageLibraryIndexFrame = 40;
@@ -2452,7 +2452,7 @@ public sealed partial class InfoWindow : ILayoutModule
         essb.WinHeight = 92;
         essb.WinWidth = 17;
         essb.NumberVisible = 1;
-        essb.Change += _ => ESSBChange();
+        essb.Changed += _ => ESSBChange();
         essb.VanishWhenFull = true;
         essb.ImageLibraryIndexIncrementUp = 96;
         essb.ImageLibraryIndexIncrementDown = 97;
@@ -2539,7 +2539,7 @@ public sealed partial class InfoWindow : ILayoutModule
         help.TextColor = 0;
         help.TextSelectedColor = 0;
         help.WinWidth = 15;
-        help.Click += _ => HelpClick();
+        help.Clicked += _ => HelpClick();
         session.EndRead(help);
         PopulationRaceLabel = new Label(this);
         session.BeginRead(PopulationRaceLabel);

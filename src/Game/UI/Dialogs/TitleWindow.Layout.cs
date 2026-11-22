@@ -67,7 +67,7 @@ public sealed partial class TitleWindow : ILayoutModule
         TitlePanel.WinLeft = 482;
         TitlePanel.WinTop = 0;
         TitlePanel.WinWidth = 640;
-        TitlePanel.DrawBack += (_, surface) => TitlePnlDrawBack(surface);
+        TitlePanel.BackgroundDrawn += (_, surface) => TitlePnlDrawBack(surface);
         TitlePanel.Masked = false;
         TitlePanel.Alignment.AlignWidth = AlignWidth.Center;
         TitlePanel.Alignment.AlignHeight = AlignHeight.Center;
@@ -91,8 +91,8 @@ public sealed partial class TitleWindow : ILayoutModule
         SplashPanel = new Panel(this);
         session.BeginRead(SplashPanel);
         SplashPanel.Name = "SplashPnl";
-        SplashPanel.MouseDown += (_, button, shift, x, y) => SplashPnlMouseDown(button, shift, x, y);
-        SplashPanel.KeyDown += (_, ref key, shift) => SplashPnlKeyDown(key, shift);
+        SplashPanel.MousePressed += (_, button, shift, x, y) => SplashPnlMouseDown(button, shift, x, y);
+        SplashPanel.KeyPressed += (_, ref key, shift) => SplashPnlKeyDown(key, shift);
         SplashPanel.Updated += _ => SplashPnlUpdate();
         SplashPanel.Visible = false;
         SplashPanel.Priority = 10;

@@ -21,7 +21,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         MainWindow = new Window(this);
         session.BeginRead(MainWindow);
         MainWindow.Name = "FCWin";
-        MainWindow.KeyDown += (_, ref key, shift) => FCWinKeyDown(key, shift);
+        MainWindow.KeyPressed += (_, ref key, shift) => FCWinKeyDown(key, shift);
         MainWindow.Updated += _ => FCWinUpdate();
         MainWindow.Visible = false;
         MainWindow.Priority = 55;
@@ -29,7 +29,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         MainWindow.WinTop = 10;
         MainWindow.WinWidth = 579;
         MainWindow.Masked = true;
-        MainWindow.Hide += _ => FCWinHide();
+        MainWindow.Hidden += _ => FCWinHide();
         MainWindow.Alignment.AlignWidth = AlignWidth.Center;
         MainWindow.Alignment.AlignHeight = AlignHeight.Center;
         MainWindow.Alignment.HeightPercent = 0;
@@ -392,7 +392,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         closeBut.TextColor = 9236989;
         closeBut.TextSelectedColor = 16777215;
         closeBut.WinWidth = 73;
-        closeBut.Click += _ => CloseButClick();
+        closeBut.Clicked += _ => CloseButClick();
         session.EndRead(closeBut);
         Party1Panel = new Panel(this);
         session.BeginRead(Party1Panel);
@@ -1153,7 +1153,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         initialView.TextColor = 0;
         initialView.TextSelectedColor = 0;
         initialView.WinWidth = 24;
-        initialView.Click += _ => InitialViewClick();
+        initialView.Clicked += _ => InitialViewClick();
         session.EndRead(initialView);
         Button finalView = new(this);
         session.BeginRead(finalView);
@@ -1187,7 +1187,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         finalView.TextColor = 0;
         finalView.TextSelectedColor = 0;
         finalView.WinWidth = 24;
-        finalView.Click += _ => FinalViewClick();
+        finalView.Clicked += _ => FinalViewClick();
         session.EndRead(finalView);
         Button playBtn = new(this);
         session.BeginRead(playBtn);
@@ -1221,7 +1221,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         playBtn.TextColor = 0;
         playBtn.TextSelectedColor = 0;
         playBtn.WinWidth = 48;
-        playBtn.Click += _ => PlayBtnClick();
+        playBtn.Clicked += _ => PlayBtnClick();
         session.EndRead(playBtn);
         Button pauseBtn = new(this);
         session.BeginRead(pauseBtn);
@@ -1255,7 +1255,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         pauseBtn.TextColor = 0;
         pauseBtn.TextSelectedColor = 0;
         pauseBtn.WinWidth = 24;
-        pauseBtn.Click += _ => PauseBtnClick();
+        pauseBtn.Clicked += _ => PauseBtnClick();
         session.EndRead(pauseBtn);
         SequencePositionSlider = new HorizontalScrollBar(this);
         session.BeginRead(SequencePositionSlider);
@@ -1285,7 +1285,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         SequencePositionSlider.WinHeight = 11;
         SequencePositionSlider.WinWidth = 40;
         SequencePositionSlider.NumberVisible = 1;
-        SequencePositionSlider.Change += _ => SequencePositionSldChange();
+        SequencePositionSlider.Changed += _ => SequencePositionSldChange();
         SequencePositionSlider.VanishWhenFull = false;
         SequencePositionSlider.ImageLibraryIndexIncrementUp = 0;
         SequencePositionSlider.ImageLibraryIndexIncrementDown = 0;
@@ -1322,7 +1322,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         SequenceSpeedSlider.WinHeight = 11;
         SequenceSpeedSlider.WinWidth = 40;
         SequenceSpeedSlider.NumberVisible = 1;
-        SequenceSpeedSlider.Change += _ => SequenceSpeedSldChange();
+        SequenceSpeedSlider.Changed += _ => SequenceSpeedSldChange();
         SequenceSpeedSlider.VanishWhenFull = false;
         SequenceSpeedSlider.ImageLibraryIndexIncrementUp = 0;
         SequenceSpeedSlider.ImageLibraryIndexIncrementDown = 0;

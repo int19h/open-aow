@@ -43,7 +43,7 @@ public partial class GameEngine : OwningNode
 
     internal EventStore<EngineDebugNotification> DebugEventsStore { get; set; }
 
-    internal event NotifyEvent<EngineDebugNotification> DebugMessage
+    internal event NotifyEvent<EngineDebugNotification> DebugMessageWritten
     {
         add => DebugEventsStore.Add(value);
         remove => DebugEventsStore.Remove(value);
@@ -513,12 +513,6 @@ public partial class GameEngine : OwningNode
     public Dictionary<int, EngineClass?> ClassTable { get; }
     public EngineObjectEditorList Editors { get; }
     public ControlStyleNode ControlNode { get; }
-
-    public event NotifyEvent<EngineDebugNotification> DebugEvents
-    {
-        add => DebugEventsStore.Add(value);
-        remove => DebugEventsStore.Remove(value);
-    }
 
     public string StartupDirectory { get => _startupDirectory; set => SetStartupDirectory(value); }
     public EngineModes Options { get; internal set; }

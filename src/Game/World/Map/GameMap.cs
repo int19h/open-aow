@@ -1069,36 +1069,6 @@ public partial class GameMap : OwningNode
     public HexSpriteMapStatuses Status { get; set; }
     public int Frame { get; private set; }
 
-    public event NotifyEvent<TerrainChangedNotification> TerrainChangedEvents
-    {
-        add => TerrainChangedEventsStore.Add(value);
-        remove => TerrainChangedEventsStore.Remove(value);
-    }
-
-    public event NotifyEvent<GameMap> NewFrameEvents
-    {
-        add => NewFrameEventsStore.Add(value);
-        remove => NewFrameEventsStore.Remove(value);
-    }
-
-    public event NotifyEvent<GameMap> ViewPortChangedEvents
-    {
-        add => ViewPortChangedEventsStore.Add(value);
-        remove => ViewPortChangedEventsStore.Remove(value);
-    }
-
-    public event NotifyEvent<GameMap> DestroyEvents
-    {
-        add => DestroyEventsStore.Add(value);
-        remove => DestroyEventsStore.Remove(value);
-    }
-
-    public event NotifyEvent<HexSprite> HexSpriteChangedEvents
-    {
-        add => HexSpriteChangedEventsStore.Add(value);
-        remove => HexSpriteChangedEventsStore.Remove(value);
-    }
-
     public string FileName { get; set; } = "";
     public int ViewPixelX { get; protected set; }
     public int ViewPixelY { get; protected set; }

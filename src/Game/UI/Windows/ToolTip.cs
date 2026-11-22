@@ -18,7 +18,7 @@ namespace Aow.Game.UI.Windows;
 public sealed class ToolTip : GenericWindow
 {
     [Published]
-    public event EventHandler? DrawItem;
+    public event EventHandler? ItemDrawn;
 
     public Rect ControlRectangle { get; set; }
 
@@ -234,7 +234,7 @@ public sealed class ToolTip : GenericWindow
             SetVisibleWithoutUpdate(value);
             if (!Visible)
             {
-                Hidden = true;
+                IsHidden = true;
                 RaiseHide(this);
             }
             else
@@ -248,7 +248,7 @@ public sealed class ToolTip : GenericWindow
                     IsDrawn = false;
                 }
 
-                if (!Hidden)
+                if (!IsHidden)
                 {
                     BackRectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
                 }
@@ -258,7 +258,7 @@ public sealed class ToolTip : GenericWindow
 
             if (Visible)
             {
-                Hidden = false;
+                IsHidden = false;
                 SetPriority(Priority);
             }
         }
@@ -307,7 +307,7 @@ public sealed class ToolTip : GenericWindow
                             LibraryImage? imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             LibraryImage? imageLibraryFrame9 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             LibraryImage? libraryImage = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                            DrawItem?.Invoke(this, e: EventArgs.Empty);
+                            ItemDrawn?.Invoke(this, e: EventArgs.Empty);
                         }
 
                         lockedSurface.ClipRectangle = oldClip;
@@ -357,46 +357,46 @@ public sealed class ToolTip : GenericWindow
     [Published]
     public int ItemHeight { get; set; }
 
-    public new event NotifyEvent<ToolTip> Change
+    public new event NotifyEvent<ToolTip> Changed
     {
-        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(Change), value: value);
-        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(Change), value: value);
+        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(Changed), value: value);
+        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(Changed), value: value);
     }
 
-    public new event MouseEvent<ToolTip> MouseDown
+    public new event MouseEvent<ToolTip> MousePressed
     {
-        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(MouseDown), value: value);
-        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(MouseDown), value: value);
+        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(MousePressed), value: value);
+        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(MousePressed), value: value);
     }
 
-    public new event MouseEvent<ToolTip> MouseUp
+    public new event MouseEvent<ToolTip> MouseReleased
     {
-        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(MouseUp), value: value);
-        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(MouseUp), value: value);
+        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(MouseReleased), value: value);
+        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(MouseReleased), value: value);
     }
 
-    public new event MouseMoveEvent<ToolTip> MouseMove
+    public new event MouseMoveEvent<ToolTip> MouseMoved
     {
-        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(MouseMove), value: value);
-        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(MouseMove), value: value);
+        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(MouseMoved), value: value);
+        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(MouseMoved), value: value);
     }
 
-    public new event KeyPressEvent<ToolTip> KeyPress
+    public new event KeyPressEvent<ToolTip> CharacterTyped
     {
-        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(KeyPress), value: value);
-        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(KeyPress), value: value);
+        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(CharacterTyped), value: value);
+        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(CharacterTyped), value: value);
     }
 
-    public new event KeyEvent<ToolTip> KeyDown
+    public new event KeyEvent<ToolTip> KeyPressed
     {
-        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(KeyDown), value: value);
-        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(KeyDown), value: value);
+        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(KeyPressed), value: value);
+        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(KeyPressed), value: value);
     }
 
-    public new event AoWOnDrawEvent<ToolTip> PreDraw
+    public new event AoWOnDrawEvent<ToolTip> Drawing
     {
-        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(PreDraw), value: value);
-        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(PreDraw), value: value);
+        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(Drawing), value: value);
+        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(Drawing), value: value);
     }
 
     public new event AoWOnDrawEvent<ToolTip> Drawn
@@ -411,28 +411,28 @@ public sealed class ToolTip : GenericWindow
         remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(Updated), value: value);
     }
 
-    public new event AoWOnDrawBackEvent<ToolTip> DrawBack
+    public new event AoWOnDrawBackEvent<ToolTip> BackgroundDrawn
     {
-        add => ((WindowControl)this).DrawBack += EventSlot.Add<WindowControl, ToolTip>(this, slot: nameof(DrawBack), value: value);
-        remove => ((WindowControl)this).DrawBack -= EventSlot.Remove<WindowControl, ToolTip>(this, slot: nameof(DrawBack), value: value);
+        add => ((WindowControl)this).BackgroundDrawn += EventSlot.Add<WindowControl, ToolTip>(this, slot: nameof(BackgroundDrawn), value: value);
+        remove => ((WindowControl)this).BackgroundDrawn -= EventSlot.Remove<WindowControl, ToolTip>(this, slot: nameof(BackgroundDrawn), value: value);
     }
 
-    public new event NotifyEvent<ToolTip> Enter
+    public new event NotifyEvent<ToolTip> MouseEntered
     {
-        add => ((WindowControl)this).Enter += EventSlot.Add<WindowControl, ToolTip>(this, slot: nameof(Enter), value: value);
-        remove => ((WindowControl)this).Enter -= EventSlot.Remove<WindowControl, ToolTip>(this, slot: nameof(Enter), value: value);
+        add => ((WindowControl)this).MouseEntered += EventSlot.Add<WindowControl, ToolTip>(this, slot: nameof(MouseEntered), value: value);
+        remove => ((WindowControl)this).MouseEntered -= EventSlot.Remove<WindowControl, ToolTip>(this, slot: nameof(MouseEntered), value: value);
     }
 
-    public new event NotifyEvent<ToolTip> Exit
+    public new event NotifyEvent<ToolTip> MouseLeft
     {
-        add => ((WindowControl)this).Exit += EventSlot.Add<WindowControl, ToolTip>(this, slot: nameof(Exit), value: value);
-        remove => ((WindowControl)this).Exit -= EventSlot.Remove<WindowControl, ToolTip>(this, slot: nameof(Exit), value: value);
+        add => ((WindowControl)this).MouseLeft += EventSlot.Add<WindowControl, ToolTip>(this, slot: nameof(MouseLeft), value: value);
+        remove => ((WindowControl)this).MouseLeft -= EventSlot.Remove<WindowControl, ToolTip>(this, slot: nameof(MouseLeft), value: value);
     }
 
-    public new event NotifyEvent<ToolTip> ChangeCursor
+    public new event NotifyEvent<ToolTip> CursorChanged
     {
-        add => ((WindowControl)this).ChangeCursor += EventSlot.Add<WindowControl, ToolTip>(this, slot: nameof(ChangeCursor), value: value);
-        remove => ((WindowControl)this).ChangeCursor -= EventSlot.Remove<WindowControl, ToolTip>(this, slot: nameof(ChangeCursor), value: value);
+        add => ((WindowControl)this).CursorChanged += EventSlot.Add<WindowControl, ToolTip>(this, slot: nameof(CursorChanged), value: value);
+        remove => ((WindowControl)this).CursorChanged -= EventSlot.Remove<WindowControl, ToolTip>(this, slot: nameof(CursorChanged), value: value);
     }
 
     public new event AoWOnDrawSurface<ToolTip> Blitted
@@ -447,15 +447,15 @@ public sealed class ToolTip : GenericWindow
         remove => ((WindowControl)this).Blitting -= EventSlot.Remove<WindowControl, ToolTip>(this, slot: nameof(Blitting), value: value);
     }
 
-    public new event NotifyEvent<ToolTip> Hide
+    public new event NotifyEvent<ToolTip> Hidden
     {
-        add => ((BaseWindow)this).Hide += EventSlot.Add<BaseWindow, ToolTip>(this, slot: nameof(Hide), value: value);
-        remove => ((BaseWindow)this).Hide -= EventSlot.Remove<BaseWindow, ToolTip>(this, slot: nameof(Hide), value: value);
+        add => ((BaseWindow)this).Hidden += EventSlot.Add<BaseWindow, ToolTip>(this, slot: nameof(Hidden), value: value);
+        remove => ((BaseWindow)this).Hidden -= EventSlot.Remove<BaseWindow, ToolTip>(this, slot: nameof(Hidden), value: value);
     }
 
-    public new event NotifyEvent<ToolTip> Show
+    public new event NotifyEvent<ToolTip> Shown
     {
-        add => ((BaseWindow)this).Show += EventSlot.Add<BaseWindow, ToolTip>(this, slot: nameof(Show), value: value);
-        remove => ((BaseWindow)this).Show -= EventSlot.Remove<BaseWindow, ToolTip>(this, slot: nameof(Show), value: value);
+        add => ((BaseWindow)this).Shown += EventSlot.Add<BaseWindow, ToolTip>(this, slot: nameof(Shown), value: value);
+        remove => ((BaseWindow)this).Shown -= EventSlot.Remove<BaseWindow, ToolTip>(this, slot: nameof(Shown), value: value);
     }
 }
