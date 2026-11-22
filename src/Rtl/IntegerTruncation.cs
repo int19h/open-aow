@@ -80,9 +80,10 @@ public static class IntegerTruncation
 
     extension(char value)
     {
-        public sbyte TruncateToSByte() => unchecked((sbyte)value);
+        // Through ushort: the strings check forbids a direct cast from a char to a byte.
+        public sbyte TruncateToSByte() => unchecked((sbyte)(ushort)value);
 
-        public byte TruncateToByte() => unchecked((byte)value);
+        public byte TruncateToByte() => unchecked((byte)(ushort)value);
 
         public short TruncateToInt16() => unchecked((short)value);
     }
