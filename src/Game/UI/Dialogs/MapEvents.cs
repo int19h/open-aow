@@ -624,7 +624,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
             {
                 if (caster is CosmagicSurgerySpellCaster cosmagicCaster)
                 {
-                    UI.DeformFaceDialog.Execute(cosmagicCaster);
+                    UI.CosmagicSurgeryDialog.Execute(cosmagicCaster);
                 }
             }
         }
