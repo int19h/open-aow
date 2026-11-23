@@ -15,8 +15,7 @@ public sealed partial class TitleScene : ILayoutModule
     {
         session.Begin(this);
         Name = "TitleScene";
-        LayoutOnCreate += _ => TitleSceneCreate();
-        LayoutOnDestroy += _ => TitleSceneDestroy();
+        _hasLayout = true;
         TitleSceneImages = new ImageLibrary(this);
         session.BeginRead(TitleSceneImages);
         TitleSceneImages.Name = "TitleSceneIL";
@@ -26,17 +25,17 @@ public sealed partial class TitleScene : ILayoutModule
         Window = new UserWindow(this);
         session.BeginRead(Window);
         Window.Name = "Window";
-        Window.MousePressed += (_, button, shift, x, y) => WindowMouseDown(button, shift, x, y);
-        Window.MouseReleased += (_, button, shift, x, y) => WindowMouseUp(button, shift, x, y);
-        Window.MouseMoved += (_, shift, x, y) => WindowMouseMove(shift, x, y);
-        Window.Updated += _ => WindowUpdate();
+        Window.MousePressed += (_, e) => WindowMouseDown(e.Button, e.Shift, e.X, e.Y);
+        Window.MouseReleased += (_, e) => WindowMouseUp(e.Button, e.Shift, e.X, e.Y);
+        Window.MouseMoved += (_, e) => WindowMouseMove(e.Shift, e.X, e.Y);
+        Window.Updated += (_, _) => WindowUpdate();
         Window.Visible = false;
         Window.Priority = 0;
         Window.WinLeft = 0;
         Window.WinTop = 0;
         Window.WinWidth = 640;
         Window.Masked = false;
-        Window.Hidden += _ => WindowHide();
+        Window.Hidden += (_, _) => WindowHide();
         Window.Alignment.AlignWidth = AlignWidth.Both;
         Window.Alignment.AlignHeight = AlignHeight.Both;
         Window.Alignment.HeightPercent = 0;
@@ -70,7 +69,18 @@ public sealed partial class TitleScene : ILayoutModule
         Window.Modal = false;
         Window.WinHeight = 480;
         Window.Dockable = false;
-        Window.SurfaceDrawing += WindowDrawSurfaceEx;
+        Window.SurfaceDrawing += (_, e) =>
+        {
+            bool handled = e.Handled;
+            try
+            {
+                WindowDrawSurfaceEx(e.Surface, drawn: out handled);
+            }
+            finally
+            {
+                e.Handled = handled || e.Handled;
+            }
+        };
         session.EndRead(Window);
         LegalNoticeMemo = new Memo(this);
         session.BeginRead(LegalNoticeMemo);
@@ -229,7 +239,7 @@ public sealed partial class TitleScene : ILayoutModule
         VersionLabel.Font = UI.Fonts.Age8Shadow;
         if (session.FireCreateEvents)
         {
-            LayoutOnCreate?.Invoke(this);
+            TitleSceneCreate();
         }
     }
 }

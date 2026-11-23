@@ -32,7 +32,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
     [Published]
     public event EventHandler? FocusLost;
     [Published]
-    public event NotifyEvent<Edit>? ReturnPressed;
+    public event EventHandler? ReturnPressed;
     private int _imageLibraryIndex;
     private int _cursorPosition;
 
@@ -106,7 +106,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, surfDesc: lockedSurface);
+                RaisePreDraw(surfDesc: lockedSurface);
 
                 SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                 _imageLibraryEdit.DrawHorizontalStrip(_imageLibraryIndex, area: rectangle, ref lockedSurface);
@@ -143,7 +143,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
                     Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth + textWidth, Window.AbsoluteTop + WinTop + BorderHeight, text: Cp1252.Text(CursorChar), lockedSurface);
                 }
 
-                RaiseDraw(this, surfDesc: lockedSurface);
+                RaiseDraw(surfDesc: lockedSurface);
             }
         }
         catch
@@ -203,7 +203,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
                     IsDrawn = false;
                 }
 
-                RaiseMouseDown(this, button, shift, X, Y);
+                RaiseMouseDown(button, shift, X, Y);
             }
         }
         else
@@ -230,7 +230,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
-            RaiseMouseUp(this, button, shift, X, Y);
+            RaiseMouseUp(button, shift, X, Y);
         }
     }
 
@@ -247,7 +247,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
                 Window.Cursor = -4;
             }
 
-            RaiseMouseMove(this, shift, X, Y);
+            RaiseMouseMove(shift, X, Y);
         }
     }
 
@@ -272,7 +272,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
                 case 13:
                     _cursorShown = false;
                     Redraw = false;
-                    ReturnPressed?.Invoke(this);
+                    ReturnPressed?.Invoke(this, e: EventArgs.Empty);
 
                     break;
                 case >= 0 and <= 7:
@@ -310,9 +310,9 @@ public sealed partial class Edit(Component? owner) : Control(owner)
 
             _blinkCount = 0;
             IsDrawn = false;
-            RaiseKeyPress(this, ref key);
+            RaiseKeyPress(ref key);
 
-            RaiseChange(this);
+            RaiseChange();
         }
     }
 
@@ -417,61 +417,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
         _cursorShown = true;
         _blinkCount = 0;
         IsDrawn = false;
-        RaiseKeyDown(this, ref key, shift);
-        RaiseChange(this);
-    }
-
-    public new event NotifyEvent<Edit> Changed
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(Changed), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(Changed), value: value);
-    }
-
-    public new event MouseEvent<Edit> MousePressed
-    {
-        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(MousePressed), value: value);
-        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(MousePressed), value: value);
-    }
-
-    public new event MouseEvent<Edit> MouseReleased
-    {
-        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(MouseReleased), value: value);
-        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(MouseReleased), value: value);
-    }
-
-    public new event MouseMoveEvent<Edit> MouseMoved
-    {
-        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(MouseMoved), value: value);
-        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(MouseMoved), value: value);
-    }
-
-    public new event KeyPressEvent<Edit> CharacterTyped
-    {
-        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(CharacterTyped), value: value);
-        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(CharacterTyped), value: value);
-    }
-
-    public new event KeyEvent<Edit> KeyPressed
-    {
-        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(KeyPressed), value: value);
-        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(KeyPressed), value: value);
-    }
-
-    public new event AoWOnDrawEvent<Edit> Drawing
-    {
-        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(Drawing), value: value);
-        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(Drawing), value: value);
-    }
-
-    public new event AoWOnDrawEvent<Edit> Drawn
-    {
-        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(Drawn), value: value);
-        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(Drawn), value: value);
-    }
-
-    public new event NotifyEvent<Edit> Updated
-    {
-        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(Updated), value: value);
-        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(Updated), value: value);
+        RaiseKeyDown(ref key, shift);
+        RaiseChange();
     }
 }

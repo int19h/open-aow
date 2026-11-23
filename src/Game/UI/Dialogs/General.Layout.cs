@@ -14,16 +14,15 @@ public sealed partial class General : ILayoutModule
     {
         session.Begin(this);
         Name = "General";
-        LayoutOnCreate += _ => GeneralCreate();
-        LayoutOnDestroy += _ => GeneralDestroy();
+        _hasLayout = true;
         Manager = new WindowManager(this);
         session.BeginRead(Manager);
         Manager.Name = "Manager";
-        Manager.KeyPressed += (_, ref key, shift) => ManagerKeyDown(key, shift);
-        Manager.Updated += _ => ManagerUpdate();
+        Manager.KeyPressed += (_, e) => ManagerKeyDown(e.Key, e.Shift);
+        Manager.Updated += (_, _) => ManagerUpdate();
         Manager.DebugMessageWritten += ManagerDebugMessage;
         Manager.Cursor = 0;
-        Manager.CursorChanged += _ => ManagerChangeCursor();
+        Manager.CursorChanged += (_, _) => ManagerChangeCursor();
         Manager.WinLeft = 0;
         Manager.WinTop = 0;
         Manager.WinWidth = 640;
@@ -87,7 +86,7 @@ public sealed partial class General : ILayoutModule
         ToolTip.Font = UI.Fonts.Age8;
         if (session.FireCreateEvents)
         {
-            LayoutOnCreate?.Invoke(this);
+            GeneralCreate();
         }
     }
 }

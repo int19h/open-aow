@@ -15,12 +15,11 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "CampaignJoinDlg";
-        LayoutOnCreate += _ => CampaignJoinDialogCreate();
-        LayoutOnDestroy += _ => CampaignJoinDialogDestroy();
+        _hasLayout = true;
         CharacterGenerationPanel = new Panel(this);
         session.BeginRead(CharacterGenerationPanel);
         CharacterGenerationPanel.Name = "CharGenPnl";
-        CharacterGenerationPanel.MousePressed += (_, button, shift, x, y) => CharGenPnlMouseDown(button, shift, x, y);
+        CharacterGenerationPanel.MousePressed += (_, e) => CharGenPnlMouseDown(e.Button, e.Shift, e.X, e.Y);
         CharacterGenerationPanel.Visible = false;
         CharacterGenerationPanel.Priority = 5;
         CharacterGenerationPanel.WinLeft = 0;
@@ -103,7 +102,7 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
         customBtn.TextColor = 0;
         customBtn.TextSelectedColor = 16777215;
         customBtn.WinWidth = 150;
-        customBtn.Clicked += _ => CustomBtnClick();
+        customBtn.Clicked += (_, _) => CustomBtnClick();
         session.EndRead(customBtn);
         Button defaultBtn = new(this);
         session.BeginRead(defaultBtn);
@@ -134,7 +133,7 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
         defaultBtn.TextColor = 0;
         defaultBtn.TextSelectedColor = 16777215;
         defaultBtn.WinWidth = 150;
-        defaultBtn.Clicked += _ => DefaultBtnClick();
+        defaultBtn.Clicked += (_, _) => DefaultBtnClick();
         session.EndRead(defaultBtn);
         Memo leaderTypeMsg = new(this);
         session.BeginRead(leaderTypeMsg);
@@ -177,8 +176,8 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
         DefaultFacePanel = new Panel(this);
         session.BeginRead(DefaultFacePanel);
         DefaultFacePanel.Name = "DefaultFacePnl";
-        DefaultFacePanel.MousePressed += (_, _, _, _, _) => DefaultFacePnlMouseDown(default, button: default, shift: default, default, default);
-        DefaultFacePanel.Drawn += (_, surface) => DefaultFacePnlDraw(surface);
+        DefaultFacePanel.MousePressed += (_, _) => DefaultFacePnlMouseDown(default, button: default, shift: default, default, default);
+        DefaultFacePanel.Drawn += (_, e) => DefaultFacePnlDraw(e.Surface);
         DefaultFacePanel.Priority = 0;
         DefaultFacePanel.WinLeft = 62;
         DefaultFacePanel.WinTop = 103;
@@ -233,8 +232,8 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
         ScrollTextView = new UserDrawBox(this);
         session.BeginRead(ScrollTextView);
         ScrollTextView.Name = "ScrollTextDB";
-        ScrollTextView.Drawn += (_, surface) => ScrollTextDBDraw(surface);
-        ScrollTextView.Updated += _ => ScrollTextDBUpdate();
+        ScrollTextView.Drawn += (_, e) => ScrollTextDBDraw(e.Surface);
+        ScrollTextView.Updated += (_, _) => ScrollTextDBUpdate();
         ScrollTextView.Priority = 0;
         ScrollTextView.WinLeft = 150;
         ScrollTextView.WinTop = 380;
@@ -297,7 +296,7 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
         customFacePnl.ImageLibraryTexture = UI.Graphics.FactionWindow;
         if (session.FireCreateEvents)
         {
-            LayoutOnCreate?.Invoke(this);
+            CampaignJoinDialogCreate();
         }
     }
 }

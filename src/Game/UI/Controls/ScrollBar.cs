@@ -151,7 +151,7 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
                         }
 
                         IsDrawn = false;
-                        RaiseChange(this);
+                        RaiseChange();
 
                         break;
                     case 3:
@@ -163,7 +163,7 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
                         }
 
                         IsDrawn = false;
-                        RaiseChange(this);
+                        RaiseChange();
 
                         break;
                     default:
@@ -458,60 +458,6 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
 
     [Published]
     public int ThumbImageIndex { get => _thumbImageIndex; set => SetImageLibraryTileIndex(value); }
-
-    public new event NotifyEvent<ScrollBar> Changed
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(Changed), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(Changed), value: value);
-    }
-
-    public new event MouseEvent<ScrollBar> MousePressed
-    {
-        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(MousePressed), value: value);
-        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(MousePressed), value: value);
-    }
-
-    public new event MouseEvent<ScrollBar> MouseReleased
-    {
-        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(MouseReleased), value: value);
-        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(MouseReleased), value: value);
-    }
-
-    public new event MouseMoveEvent<ScrollBar> MouseMoved
-    {
-        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(MouseMoved), value: value);
-        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(MouseMoved), value: value);
-    }
-
-    public new event KeyPressEvent<ScrollBar> CharacterTyped
-    {
-        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(CharacterTyped), value: value);
-        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(CharacterTyped), value: value);
-    }
-
-    public new event KeyEvent<ScrollBar> KeyPressed
-    {
-        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(KeyPressed), value: value);
-        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(KeyPressed), value: value);
-    }
-
-    public new event AoWOnDrawEvent<ScrollBar> Drawing
-    {
-        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(Drawing), value: value);
-        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(Drawing), value: value);
-    }
-
-    public new event AoWOnDrawEvent<ScrollBar> Drawn
-    {
-        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(Drawn), value: value);
-        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(Drawn), value: value);
-    }
-
-    public new event NotifyEvent<ScrollBar> Updated
-    {
-        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(Updated), value: value);
-        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(Updated), value: value);
-    }
 
     public enum Style : byte
     {

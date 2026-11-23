@@ -62,7 +62,8 @@ public sealed partial class PopupWindows : ILayoutModule
         startMenu.SubMenuShowDelay = 5;
         startMenu.WinHeight = 0;
         session.EndRead(startMenu);
-        OverviewsMenu = new Menu(this);
+        Menu overviewsMenu = new(this);
+        OverviewsMenu = overviewsMenu;
         session.BeginRead(OverviewsMenu);
         OverviewsMenu.Name = "OverViewsMenu";
         OverviewsMenu.Visible = false;
@@ -103,7 +104,7 @@ public sealed partial class PopupWindows : ILayoutModule
         OverviewsMenu.ItemHeight = 20;
         OverviewsMenu.OwnerItem = 0;
         OverviewsMenu.SubMenuShowDelay = 0;
-        OverviewsMenu.ItemSelected += OverViewsMenuSelect;
+        overviewsMenu.ItemSelected += (_, _) => OverViewsMenuSelect(overviewsMenu);
         OverviewsMenu.WinHeight = 0;
         session.EndRead(OverviewsMenu);
         Menu settingsMenu = new(this);
@@ -151,7 +152,7 @@ public sealed partial class PopupWindows : ILayoutModule
         settingsMenu.ItemHeight = 20;
         settingsMenu.OwnerItem = 1;
         settingsMenu.SubMenuShowDelay = 0;
-        settingsMenu.ItemSelected += SettingsMenuSelect;
+        settingsMenu.ItemSelected += (_, _) => SettingsMenuSelect(settingsMenu);
         settingsMenu.WinHeight = 112;
         session.EndRead(settingsMenu);
         Menu endMenu = new(this);
@@ -197,7 +198,7 @@ public sealed partial class PopupWindows : ILayoutModule
         endMenu.ItemHeight = 20;
         endMenu.OwnerItem = 2;
         endMenu.SubMenuShowDelay = 0;
-        endMenu.ItemSelected += EndMenuSelect;
+        endMenu.ItemSelected += (_, _) => EndMenuSelect(endMenu);
         endMenu.WinHeight = 92;
         session.EndRead(endMenu);
         Menu diskMenu = new(this);
@@ -242,7 +243,7 @@ public sealed partial class PopupWindows : ILayoutModule
         diskMenu.ItemHeight = 20;
         diskMenu.OwnerItem = 3;
         diskMenu.SubMenuShowDelay = 0;
-        diskMenu.ItemSelected += DiskMenuSelect;
+        diskMenu.ItemSelected += (_, _) => DiskMenuSelect(diskMenu);
         diskMenu.WinHeight = 0;
         session.EndRead(diskMenu);
         StartMenu tcStartMenu = new(this);
@@ -343,7 +344,7 @@ public sealed partial class PopupWindows : ILayoutModule
         helpMenu.ItemHeight = 20;
         helpMenu.OwnerItem = 4;
         helpMenu.SubMenuShowDelay = 0;
-        helpMenu.ItemSelected += HelpMenuSelect;
+        helpMenu.ItemSelected += (_, _) => HelpMenuSelect(helpMenu);
         helpMenu.WinHeight = 0;
         session.EndRead(helpMenu);
         Menu tcovMenu = new(this);
@@ -387,7 +388,7 @@ public sealed partial class PopupWindows : ILayoutModule
         tcovMenu.ItemHeight = 20;
         tcovMenu.OwnerItem = 0;
         tcovMenu.SubMenuShowDelay = 0;
-        tcovMenu.ItemSelected += OverViewsMenuSelect;
+        tcovMenu.ItemSelected += (_, _) => OverViewsMenuSelect(tcovMenu);
         tcovMenu.WinHeight = 0;
         session.EndRead(tcovMenu);
         Menu tcDiskMenu = new(this);
@@ -431,7 +432,7 @@ public sealed partial class PopupWindows : ILayoutModule
         tcDiskMenu.ItemHeight = 20;
         tcDiskMenu.OwnerItem = 3;
         tcDiskMenu.SubMenuShowDelay = 0;
-        tcDiskMenu.ItemSelected += DiskMenuSelect;
+        tcDiskMenu.ItemSelected += (_, _) => DiskMenuSelect(tcDiskMenu);
         tcDiskMenu.WinHeight = 0;
         session.EndRead(tcDiskMenu);
         Menu tcHelpMenu = new(this);
@@ -477,7 +478,7 @@ public sealed partial class PopupWindows : ILayoutModule
         tcHelpMenu.ItemHeight = 20;
         tcHelpMenu.OwnerItem = 4;
         tcHelpMenu.SubMenuShowDelay = 0;
-        tcHelpMenu.ItemSelected += HelpMenuSelect;
+        tcHelpMenu.ItemSelected += (_, _) => HelpMenuSelect(tcHelpMenu);
         tcHelpMenu.WinHeight = 0;
         session.EndRead(tcHelpMenu);
         Menu tcSettingsMenu = new(this);
@@ -525,7 +526,7 @@ public sealed partial class PopupWindows : ILayoutModule
         tcSettingsMenu.ItemHeight = 20;
         tcSettingsMenu.OwnerItem = 1;
         tcSettingsMenu.SubMenuShowDelay = 0;
-        tcSettingsMenu.ItemSelected += SettingsMenuSelect;
+        tcSettingsMenu.ItemSelected += (_, _) => SettingsMenuSelect(tcSettingsMenu);
         tcSettingsMenu.WinHeight = 0;
         session.EndRead(tcSettingsMenu);
         Menu tcEndMenu = new(this);
@@ -569,7 +570,7 @@ public sealed partial class PopupWindows : ILayoutModule
         tcEndMenu.ItemHeight = 20;
         tcEndMenu.OwnerItem = 2;
         tcEndMenu.SubMenuShowDelay = 0;
-        tcEndMenu.ItemSelected += TCEndMenuSelect;
+        tcEndMenu.ItemSelected += (_, _) => TCEndMenuSelect(tcEndMenu);
         tcEndMenu.WinHeight = 0;
         session.EndRead(tcEndMenu);
         session.EndRead(this);

@@ -15,12 +15,11 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "LeaderSetupWin";
-        LayoutOnCreate += _ => LeaderSetupWinCreate();
-        LayoutOnDestroy += _ => LeaderSetupWinDestroy();
+        _hasLayout = true;
         SelectedAbilitiesList = new ListBox(this);
         session.BeginRead(SelectedAbilitiesList);
         SelectedAbilitiesList.Name = "SelectedAbilities";
-        SelectedAbilitiesList.MousePressed += (_, button, shift, x, y) => SelectedAbilitiesCostMouseDown(button, shift, x, y);
+        SelectedAbilitiesList.MousePressed += (_, e) => SelectedAbilitiesCostMouseDown(e.Button, e.Shift, e.X, e.Y);
         SelectedAbilitiesList.Priority = 10000;
         SelectedAbilitiesList.WinLeft = 10;
         SelectedAbilitiesList.WinTop = 252;
@@ -46,7 +45,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedAbilitiesList.WinHeight = 87;
         SelectedAbilitiesList.BorderWidth = 6;
         SelectedAbilitiesList.BorderHeight = 4;
-        SelectedAbilitiesList.Changed += _ => SelectedAbilitiesChange();
+        SelectedAbilitiesList.Changed += (_, _) => SelectedAbilitiesChange();
         SelectedAbilitiesList.Selected = -1;
         SelectedAbilitiesList.TextColor = 8421504;
         SelectedAbilitiesList.TextSelectedColor = 0;
@@ -110,7 +109,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         AvailableAbilitiesList = new ListBox(this);
         session.BeginRead(AvailableAbilitiesList);
         AvailableAbilitiesList.Name = "AvailableAbilities";
-        AvailableAbilitiesList.MousePressed += (_, button, shift, x, y) => AvailableAbilitiesMouseDown(button, shift, x, y);
+        AvailableAbilitiesList.MousePressed += (_, e) => AvailableAbilitiesMouseDown(e.Button, e.Shift, e.X, e.Y);
         AvailableAbilitiesList.Priority = 10000;
         AvailableAbilitiesList.WinLeft = 235;
         AvailableAbilitiesList.WinTop = 64;
@@ -136,7 +135,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         AvailableAbilitiesList.WinHeight = 275;
         AvailableAbilitiesList.BorderWidth = 6;
         AvailableAbilitiesList.BorderHeight = 4;
-        AvailableAbilitiesList.Changed += _ => AvailableAbilitiesChange();
+        AvailableAbilitiesList.Changed += (_, _) => AvailableAbilitiesChange();
         AvailableAbilitiesList.Selected = -1;
         AvailableAbilitiesList.TextColor = 8421504;
         AvailableAbilitiesList.TextSelectedColor = 0;
@@ -175,7 +174,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         NextButton.TextColor = 15134446;
         NextButton.TextSelectedColor = 0;
         NextButton.WinWidth = 135;
-        NextButton.Clicked += _ => NextBtnClick();
+        NextButton.Clicked += (_, _) => NextBtnClick();
         session.EndRead(NextButton);
         PreviousButton = new Button(this);
         session.BeginRead(PreviousButton);
@@ -206,7 +205,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         PreviousButton.TextColor = 15134446;
         PreviousButton.TextSelectedColor = 0;
         PreviousButton.WinWidth = 125;
-        PreviousButton.Clicked += _ => PrevBtnClick();
+        PreviousButton.Clicked += (_, _) => PrevBtnClick();
         session.EndRead(PreviousButton);
         ClearButton = new Button(this);
         session.BeginRead(ClearButton);
@@ -241,7 +240,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         ClearButton.TextColor = 15134446;
         ClearButton.TextSelectedColor = 0;
         ClearButton.WinWidth = 135;
-        ClearButton.Clicked += _ => ClearBtnClick();
+        ClearButton.Clicked += (_, _) => ClearBtnClick();
         session.EndRead(ClearButton);
         DefaultButton = new Button(this);
         session.BeginRead(DefaultButton);
@@ -276,7 +275,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         DefaultButton.TextColor = 15134446;
         DefaultButton.TextSelectedColor = 0;
         DefaultButton.WinWidth = 135;
-        DefaultButton.Clicked += _ => DefaultBtnClick();
+        DefaultButton.Clicked += (_, _) => DefaultBtnClick();
         session.EndRead(DefaultButton);
         LeaderMainPanel = new Panel(this);
         session.BeginRead(LeaderMainPanel);
@@ -2058,7 +2057,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         removeAbility.TextColor = 15134446;
         removeAbility.TextSelectedColor = 0;
         removeAbility.WinWidth = 215;
-        removeAbility.Clicked += _ => RemoveAbilityClick();
+        removeAbility.Clicked += (_, _) => RemoveAbilityClick();
         session.EndRead(removeAbility);
         Button addAbility = new(this);
         session.BeginRead(addAbility);
@@ -2093,7 +2092,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         addAbility.TextColor = 15134446;
         addAbility.TextSelectedColor = 0;
         addAbility.WinWidth = 215;
-        addAbility.Clicked += _ => AddAbilityClick();
+        addAbility.Clicked += (_, _) => AddAbilityClick();
         session.EndRead(addAbility);
         MainFace = new Image(this);
         session.BeginRead(MainFace);
@@ -2370,7 +2369,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         NameEdit.Text = "########";
         NameEdit.BorderWidth = 8;
         NameEdit.BorderHeight = 6;
-        NameEdit.Changed += _ => NameEditChange();
+        NameEdit.Changed += (_, _) => NameEditChange();
         NameEdit.MaxChars = 0;
         NameEdit.CursorChar = 95;
         NameEdit.BlinkDelay = 2;
@@ -2514,7 +2513,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         AvailableAbilitiesScrollBar.WinHeight = 275;
         AvailableAbilitiesScrollBar.WinWidth = 17;
         AvailableAbilitiesScrollBar.NumberVisible = 1;
-        AvailableAbilitiesScrollBar.Changed += _ => AvailableAbilitiesLBChange();
+        AvailableAbilitiesScrollBar.Changed += (_, _) => AvailableAbilitiesLBChange();
         AvailableAbilitiesScrollBar.VanishWhenFull = true;
         AvailableAbilitiesScrollBar.ImageLibraryIndexIncrementUp = 58;
         AvailableAbilitiesScrollBar.ImageLibraryIndexIncrementDown = 59;
@@ -2552,7 +2551,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedAbilitiesScrollBar.WinHeight = 87;
         SelectedAbilitiesScrollBar.WinWidth = 17;
         SelectedAbilitiesScrollBar.NumberVisible = 1;
-        SelectedAbilitiesScrollBar.Changed += _ => SelectedAbilitiesLBChange();
+        SelectedAbilitiesScrollBar.Changed += (_, _) => SelectedAbilitiesLBChange();
         SelectedAbilitiesScrollBar.VanishWhenFull = true;
         SelectedAbilitiesScrollBar.ImageLibraryIndexIncrementUp = 58;
         SelectedAbilitiesScrollBar.ImageLibraryIndexIncrementDown = 59;
@@ -2644,7 +2643,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectDeathButton.TextColor = 0;
         SelectDeathButton.TextSelectedColor = 0;
         SelectDeathButton.WinWidth = 52;
-        SelectDeathButton.Clicked += _ => SelDeathClick();
+        SelectDeathButton.Clicked += (_, _) => SelDeathClick();
         session.EndRead(SelectDeathButton);
         Panel spherePnl = new(this);
         session.BeginRead(spherePnl);
@@ -2705,7 +2704,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectLifeButton.TextColor = 0;
         SelectLifeButton.TextSelectedColor = 0;
         SelectLifeButton.WinWidth = 52;
-        SelectLifeButton.Clicked += _ => SelLifeClick();
+        SelectLifeButton.Clicked += (_, _) => SelLifeClick();
         session.EndRead(SelectLifeButton);
         SelectFireButton = new Button(this);
         session.BeginRead(SelectFireButton);
@@ -2739,7 +2738,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectFireButton.TextColor = 0;
         SelectFireButton.TextSelectedColor = 0;
         SelectFireButton.WinWidth = 52;
-        SelectFireButton.Clicked += _ => SelFireClick();
+        SelectFireButton.Clicked += (_, _) => SelFireClick();
         session.EndRead(SelectFireButton);
         SelectEarthButton = new Button(this);
         session.BeginRead(SelectEarthButton);
@@ -2773,7 +2772,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectEarthButton.TextColor = 0;
         SelectEarthButton.TextSelectedColor = 0;
         SelectEarthButton.WinWidth = 52;
-        SelectEarthButton.Clicked += _ => SelEarthClick();
+        SelectEarthButton.Clicked += (_, _) => SelEarthClick();
         session.EndRead(SelectEarthButton);
         SelectAirButton = new Button(this);
         session.BeginRead(SelectAirButton);
@@ -2807,7 +2806,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectAirButton.TextColor = 0;
         SelectAirButton.TextSelectedColor = 0;
         SelectAirButton.WinWidth = 52;
-        SelectAirButton.Clicked += _ => SelAirClick();
+        SelectAirButton.Clicked += (_, _) => SelAirClick();
         session.EndRead(SelectAirButton);
         SelectWaterButton = new Button(this);
         session.BeginRead(SelectWaterButton);
@@ -2841,7 +2840,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectWaterButton.TextColor = 0;
         SelectWaterButton.TextSelectedColor = 0;
         SelectWaterButton.WinWidth = 52;
-        SelectWaterButton.Clicked += _ => SelWaterClick();
+        SelectWaterButton.Clicked += (_, _) => SelWaterClick();
         session.EndRead(SelectWaterButton);
         Label lifeLbl = new(this);
         session.BeginRead(lifeLbl);
@@ -2899,7 +2898,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere4Button.TextColor = 0;
         SelectedSphere4Button.TextSelectedColor = 0;
         SelectedSphere4Button.WinWidth = 52;
-        SelectedSphere4Button.Clicked += _ => DeleteSphereClick(3);
+        SelectedSphere4Button.Clicked += (_, _) => DeleteSphereClick(3);
         session.EndRead(SelectedSphere4Button);
         Panel sphereSelectionPnl = new(this);
         session.BeginRead(sphereSelectionPnl);
@@ -2961,7 +2960,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere3Button.TextColor = 0;
         SelectedSphere3Button.TextSelectedColor = 0;
         SelectedSphere3Button.WinWidth = 52;
-        SelectedSphere3Button.Clicked += _ => DeleteSphereClick(2);
+        SelectedSphere3Button.Clicked += (_, _) => DeleteSphereClick(2);
         session.EndRead(SelectedSphere3Button);
         SelectedSphere2Button = new Button(this);
         session.BeginRead(SelectedSphere2Button);
@@ -2996,7 +2995,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere2Button.TextColor = 0;
         SelectedSphere2Button.TextSelectedColor = 0;
         SelectedSphere2Button.WinWidth = 52;
-        SelectedSphere2Button.Clicked += _ => DeleteSphereClick(1);
+        SelectedSphere2Button.Clicked += (_, _) => DeleteSphereClick(1);
         session.EndRead(SelectedSphere2Button);
         SelectedSphere1Button = new Button(this);
         session.BeginRead(SelectedSphere1Button);
@@ -3030,7 +3029,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere1Button.TextColor = 0;
         SelectedSphere1Button.TextSelectedColor = 0;
         SelectedSphere1Button.WinWidth = 52;
-        SelectedSphere1Button.Clicked += _ => DeleteSphereClick(0);
+        SelectedSphere1Button.Clicked += (_, _) => DeleteSphereClick(0);
         session.EndRead(SelectedSphere1Button);
         SelectedSphere5Button = new Button(this);
         session.BeginRead(SelectedSphere5Button);
@@ -3065,7 +3064,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere5Button.TextColor = 0;
         SelectedSphere5Button.TextSelectedColor = 0;
         SelectedSphere5Button.WinWidth = 52;
-        SelectedSphere5Button.Clicked += _ => DeleteSphereClick(4);
+        SelectedSphere5Button.Clicked += (_, _) => DeleteSphereClick(4);
         session.EndRead(SelectedSphere5Button);
         SelectedSphere6Button = new Button(this);
         session.BeginRead(SelectedSphere6Button);
@@ -3100,7 +3099,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere6Button.TextColor = 0;
         SelectedSphere6Button.TextSelectedColor = 0;
         SelectedSphere6Button.WinWidth = 52;
-        SelectedSphere6Button.Clicked += _ => DeleteSphereClick(5);
+        SelectedSphere6Button.Clicked += (_, _) => DeleteSphereClick(5);
         session.EndRead(SelectedSphere6Button);
         SelectedSphere7Button = new Button(this);
         session.BeginRead(SelectedSphere7Button);
@@ -3135,7 +3134,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere7Button.TextColor = 0;
         SelectedSphere7Button.TextSelectedColor = 0;
         SelectedSphere7Button.WinWidth = 52;
-        SelectedSphere7Button.Clicked += _ => DeleteSphereClick(6);
+        SelectedSphere7Button.Clicked += (_, _) => DeleteSphereClick(6);
         session.EndRead(SelectedSphere7Button);
         Label deathLbl = new(this);
         session.BeginRead(deathLbl);
@@ -3308,7 +3307,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         faceNextBtn.TextColor = 15134446;
         faceNextBtn.TextSelectedColor = 0;
         faceNextBtn.WinWidth = 60;
-        faceNextBtn.Clicked += _ => FaceNextBtnClick();
+        faceNextBtn.Clicked += (_, _) => FaceNextBtnClick();
         session.EndRead(faceNextBtn);
         Button facePrevBtn = new(this);
         session.BeginRead(facePrevBtn);
@@ -3343,7 +3342,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         facePrevBtn.TextColor = 15134446;
         facePrevBtn.TextSelectedColor = 0;
         facePrevBtn.WinWidth = 60;
-        facePrevBtn.Clicked += _ => FacePrevBtnClick();
+        facePrevBtn.Clicked += (_, _) => FacePrevBtnClick();
         session.EndRead(facePrevBtn);
         LeaderLabel = new Label(this);
         session.BeginRead(LeaderLabel);
@@ -3394,7 +3393,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedAbilitiesCostList = new ListBox(this);
         session.BeginRead(SelectedAbilitiesCostList);
         SelectedAbilitiesCostList.Name = "SelectedAbilitiesCost";
-        SelectedAbilitiesCostList.MousePressed += (_, button, shift, x, y) => SelectedAbilitiesCostMouseDown(button, shift, x, y);
+        SelectedAbilitiesCostList.MousePressed += (_, e) => SelectedAbilitiesCostMouseDown(e.Button, e.Shift, e.X, e.Y);
         SelectedAbilitiesCostList.Priority = 10001;
         SelectedAbilitiesCostList.WinLeft = 180;
         SelectedAbilitiesCostList.WinTop = 252;
@@ -3420,7 +3419,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedAbilitiesCostList.WinHeight = 87;
         SelectedAbilitiesCostList.BorderWidth = 6;
         SelectedAbilitiesCostList.BorderHeight = 4;
-        SelectedAbilitiesCostList.Changed += _ => SelectedAbilitiesCostChange();
+        SelectedAbilitiesCostList.Changed += (_, _) => SelectedAbilitiesCostChange();
         SelectedAbilitiesCostList.Selected = -1;
         SelectedAbilitiesCostList.TextColor = 8421504;
         SelectedAbilitiesCostList.TextSelectedColor = 0;
@@ -3433,7 +3432,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         AvailableAbilitiesCostList = new ListBox(this);
         session.BeginRead(AvailableAbilitiesCostList);
         AvailableAbilitiesCostList.Name = "AvailableAbilitiesCost";
-        AvailableAbilitiesCostList.MousePressed += (_, button, shift, x, y) => AvailableAbilitiesMouseDown(button, shift, x, y);
+        AvailableAbilitiesCostList.MousePressed += (_, e) => AvailableAbilitiesMouseDown(e.Button, e.Shift, e.X, e.Y);
         AvailableAbilitiesCostList.Priority = 100001;
         AvailableAbilitiesCostList.WinLeft = 405;
         AvailableAbilitiesCostList.WinTop = 64;
@@ -3459,7 +3458,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         AvailableAbilitiesCostList.WinHeight = 275;
         AvailableAbilitiesCostList.BorderWidth = 6;
         AvailableAbilitiesCostList.BorderHeight = 4;
-        AvailableAbilitiesCostList.Changed += _ => AvailableAbilitiesCostChange();
+        AvailableAbilitiesCostList.Changed += (_, _) => AvailableAbilitiesCostChange();
         AvailableAbilitiesCostList.Selected = -1;
         AvailableAbilitiesCostList.TextColor = 8421504;
         AvailableAbilitiesCostList.TextSelectedColor = 0;
@@ -3497,7 +3496,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         attUp.TextColor = 0;
         attUp.TextSelectedColor = 0;
         attUp.WinWidth = 9;
-        attUp.Clicked += _ => AttUpClick();
+        attUp.Clicked += (_, _) => AttUpClick();
         session.EndRead(attUp);
         Button attDn = new(this);
         session.BeginRead(attDn);
@@ -3527,7 +3526,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         attDn.TextColor = 0;
         attDn.TextSelectedColor = 0;
         attDn.WinWidth = 9;
-        attDn.Clicked += _ => AttDnClick();
+        attDn.Clicked += (_, _) => AttDnClick();
         session.EndRead(attDn);
         Button damUp = new(this);
         session.BeginRead(damUp);
@@ -3557,7 +3556,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         damUp.TextColor = 0;
         damUp.TextSelectedColor = 0;
         damUp.WinWidth = 9;
-        damUp.Clicked += _ => DamUpClick();
+        damUp.Clicked += (_, _) => DamUpClick();
         session.EndRead(damUp);
         Button damDn = new(this);
         session.BeginRead(damDn);
@@ -3587,7 +3586,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         damDn.TextColor = 0;
         damDn.TextSelectedColor = 0;
         damDn.WinWidth = 9;
-        damDn.Clicked += _ => DamDnClick();
+        damDn.Clicked += (_, _) => DamDnClick();
         session.EndRead(damDn);
         Button defUp = new(this);
         session.BeginRead(defUp);
@@ -3617,7 +3616,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         defUp.TextColor = 0;
         defUp.TextSelectedColor = 0;
         defUp.WinWidth = 9;
-        defUp.Clicked += _ => DefUpClick();
+        defUp.Clicked += (_, _) => DefUpClick();
         session.EndRead(defUp);
         Button defDn = new(this);
         session.BeginRead(defDn);
@@ -3647,7 +3646,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         defDn.TextColor = 0;
         defDn.TextSelectedColor = 0;
         defDn.WinWidth = 9;
-        defDn.Clicked += _ => DefDnClick();
+        defDn.Clicked += (_, _) => DefDnClick();
         session.EndRead(defDn);
         Button resUp = new(this);
         session.BeginRead(resUp);
@@ -3677,7 +3676,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         resUp.TextColor = 0;
         resUp.TextSelectedColor = 0;
         resUp.WinWidth = 9;
-        resUp.Clicked += _ => ResUpClick();
+        resUp.Clicked += (_, _) => ResUpClick();
         session.EndRead(resUp);
         Button resDn = new(this);
         session.BeginRead(resDn);
@@ -3707,7 +3706,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         resDn.TextColor = 0;
         resDn.TextSelectedColor = 0;
         resDn.WinWidth = 9;
-        resDn.Clicked += _ => ResDnClick();
+        resDn.Clicked += (_, _) => ResDnClick();
         session.EndRead(resDn);
         Button hitUp = new(this);
         session.BeginRead(hitUp);
@@ -3737,7 +3736,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         hitUp.TextColor = 0;
         hitUp.TextSelectedColor = 0;
         hitUp.WinWidth = 9;
-        hitUp.Clicked += _ => HitUpClick();
+        hitUp.Clicked += (_, _) => HitUpClick();
         session.EndRead(hitUp);
         Button hitDn = new(this);
         session.BeginRead(hitDn);
@@ -3767,7 +3766,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         hitDn.TextColor = 0;
         hitDn.TextSelectedColor = 0;
         hitDn.WinWidth = 9;
-        hitDn.Clicked += _ => HitDnClick();
+        hitDn.Clicked += (_, _) => HitDnClick();
         session.EndRead(hitDn);
         Button movUp = new(this);
         session.BeginRead(movUp);
@@ -3797,7 +3796,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         movUp.TextColor = 0;
         movUp.TextSelectedColor = 0;
         movUp.WinWidth = 9;
-        movUp.Clicked += _ => MovUpClick();
+        movUp.Clicked += (_, _) => MovUpClick();
         session.EndRead(movUp);
         Button movDn = new(this);
         session.BeginRead(movDn);
@@ -3827,7 +3826,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         movDn.TextColor = 0;
         movDn.TextSelectedColor = 0;
         movDn.WinWidth = 9;
-        movDn.Clicked += _ => MovDnClick();
+        movDn.Clicked += (_, _) => MovDnClick();
         session.EndRead(movDn);
         Image attIc = new(this);
         session.BeginRead(attIc);
@@ -4026,7 +4025,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         sBase.TextColor = 0;
         sBase.TextSelectedColor = 16777215;
         sBase.WinWidth = 115;
-        sBase.Clicked += _ => SBaseClick();
+        sBase.Clicked += (_, _) => SBaseClick();
         session.EndRead(sBase);
         Button sExtra = new(this);
         session.BeginRead(sExtra);
@@ -4057,7 +4056,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         sExtra.TextColor = 0;
         sExtra.TextSelectedColor = 16777215;
         sExtra.WinWidth = 50;
-        sExtra.Clicked += _ => SExtraClick();
+        sExtra.Clicked += (_, _) => SExtraClick();
         session.EndRead(sExtra);
         Button sFinal = new(this);
         session.BeginRead(sFinal);
@@ -4088,7 +4087,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         sFinal.TextColor = 0;
         sFinal.TextSelectedColor = 16777215;
         sFinal.WinWidth = 50;
-        sFinal.Clicked += _ => SFinalClick();
+        sFinal.Clicked += (_, _) => SFinalClick();
         session.EndRead(sFinal);
         Button selectedAbilitiesSort = new(this);
         session.BeginRead(selectedAbilitiesSort);
@@ -4119,7 +4118,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         selectedAbilitiesSort.TextColor = 0;
         selectedAbilitiesSort.TextSelectedColor = 16777215;
         selectedAbilitiesSort.WinWidth = 170;
-        selectedAbilitiesSort.Clicked += _ => SelectedAbilitiesSortClick();
+        selectedAbilitiesSort.Clicked += (_, _) => SelectedAbilitiesSortClick();
         session.EndRead(selectedAbilitiesSort);
         Button selectedAbilitiesCostSort = new(this);
         session.BeginRead(selectedAbilitiesCostSort);
@@ -4150,7 +4149,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         selectedAbilitiesCostSort.TextColor = 0;
         selectedAbilitiesCostSort.TextSelectedColor = 16777215;
         selectedAbilitiesCostSort.WinWidth = 45;
-        selectedAbilitiesCostSort.Clicked += _ => SelectedAbilitiesCostSortClick();
+        selectedAbilitiesCostSort.Clicked += (_, _) => SelectedAbilitiesCostSortClick();
         session.EndRead(selectedAbilitiesCostSort);
         Button availableAbilitiesSort = new(this);
         session.BeginRead(availableAbilitiesSort);
@@ -4181,7 +4180,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         availableAbilitiesSort.TextColor = 0;
         availableAbilitiesSort.TextSelectedColor = 16777215;
         availableAbilitiesSort.WinWidth = 170;
-        availableAbilitiesSort.Clicked += _ => AvailableAbilitiesSortClick();
+        availableAbilitiesSort.Clicked += (_, _) => AvailableAbilitiesSortClick();
         session.EndRead(availableAbilitiesSort);
         Button availableAbilitiesCostSort = new(this);
         session.BeginRead(availableAbilitiesCostSort);
@@ -4212,12 +4211,13 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         availableAbilitiesCostSort.TextColor = 0;
         availableAbilitiesCostSort.TextSelectedColor = 16777215;
         availableAbilitiesCostSort.WinWidth = 45;
-        availableAbilitiesCostSort.Clicked += _ => AvailableAbilitiesCostSortClick();
+        availableAbilitiesCostSort.Clicked += (_, _) => AvailableAbilitiesCostSortClick();
         session.EndRead(availableAbilitiesCostSort);
-        MainFaceFrame = new Frame(this);
+        Frame mainFaceFrame = new(this);
+        MainFaceFrame = mainFaceFrame;
         session.BeginRead(MainFaceFrame);
         MainFaceFrame.Name = "MainFaceFr";
-        MainFaceFrame.Drawing += MainFaceFrPreDraw;
+        mainFaceFrame.Drawing += (_, e) => MainFaceFrPreDraw(mainFaceFrame, lockedSurface: e.Surface);
         MainFaceFrame.Priority = 10;
         MainFaceFrame.WinLeft = 50;
         MainFaceFrame.WinTop = 55;
@@ -4246,7 +4246,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         session.BeginRead(fFr1);
         fFr1.Name = "FFr1";
         fFr1.Tag = -3;
-        fFr1.Drawn += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: -3);
+        fFr1.Drawn += (_, e) => DrawSelectionFace(fFr1, lockedSurface: e.Surface, offset: -3);
         fFr1.Priority = 10;
         fFr1.WinLeft = 28;
         fFr1.WinTop = 50;
@@ -4275,7 +4275,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         session.BeginRead(fFr7);
         fFr7.Name = "FFr7";
         fFr7.Tag = 3;
-        fFr7.Drawn += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: 3);
+        fFr7.Drawn += (_, e) => DrawSelectionFace(fFr7, lockedSurface: e.Surface, offset: 3);
         fFr7.Priority = 10;
         fFr7.WinLeft = 412;
         fFr7.WinTop = 50;
@@ -4304,7 +4304,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         session.BeginRead(fFr2);
         fFr2.Name = "FFr2";
         fFr2.Tag = -2;
-        fFr2.Drawn += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: -2);
+        fFr2.Drawn += (_, e) => DrawSelectionFace(fFr2, lockedSurface: e.Surface, offset: -2);
         fFr2.Priority = 10;
         fFr2.WinLeft = 55;
         fFr2.WinTop = 50;
@@ -4333,7 +4333,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         session.BeginRead(fFr6);
         fFr6.Name = "FFr6";
         fFr6.Tag = 2;
-        fFr6.Drawn += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: 2);
+        fFr6.Drawn += (_, e) => DrawSelectionFace(fFr6, lockedSurface: e.Surface, offset: 2);
         fFr6.Priority = 10;
         fFr6.WinLeft = 370;
         fFr6.WinTop = 50;
@@ -4362,7 +4362,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         session.BeginRead(fFr3);
         fFr3.Name = "FFr3";
         fFr3.Tag = -1;
-        fFr3.Drawn += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: -1);
+        fFr3.Drawn += (_, e) => DrawSelectionFace(fFr3, lockedSurface: e.Surface, offset: -1);
         fFr3.Priority = 10;
         fFr3.WinLeft = 98;
         fFr3.WinTop = 50;
@@ -4391,7 +4391,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         session.BeginRead(fFr5);
         fFr5.Name = "FFr5";
         fFr5.Tag = 1;
-        fFr5.Drawn += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: 1);
+        fFr5.Drawn += (_, e) => DrawSelectionFace(fFr5, lockedSurface: e.Surface, offset: 1);
         fFr5.Priority = 10;
         fFr5.WinLeft = 290;
         fFr5.WinTop = 50;
@@ -4419,7 +4419,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         Frame fFr4 = new(this);
         session.BeginRead(fFr4);
         fFr4.Name = "FFr4";
-        fFr4.Drawn += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: 0);
+        fFr4.Drawn += (_, e) => DrawSelectionFace(fFr4, lockedSurface: e.Surface, offset: 0);
         fFr4.Priority = 10;
         fFr4.WinLeft = 179;
         fFr4.WinTop = 50;
@@ -4547,7 +4547,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         RaceComboBox.ListBorderWidth = 6;
         RaceComboBox.ListBorderHeight = 2;
         RaceComboBox.NumberVisible = 5;
-        RaceComboBox.Changed += _ => RaceCBChange();
+        RaceComboBox.Changed += (_, _) => RaceCBChange();
         RaceComboBox.Selected = -1;
         RaceComboBox.PriorityOpened = 150;
         RaceComboBox.TextColor = 15134446;
@@ -5162,7 +5162,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         RaceComboBox.ImageLibraryTextureSelected = UI.Graphics.GenericTextures;
         if (session.FireCreateEvents)
         {
-            LayoutOnCreate?.Invoke(this);
+            LeaderSetupWinCreate();
         }
     }
 }

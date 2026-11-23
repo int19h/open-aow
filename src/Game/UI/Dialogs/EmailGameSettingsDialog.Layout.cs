@@ -15,8 +15,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "EmailGameSettingsDlg";
-        LayoutOnCreate += _ => EmailGameSettingsDialogCreate();
-        LayoutOnDestroy += _ => EmailGameSettingsDialogDestroy();
+        _hasLayout = true;
         Button okBtn = new(this);
         session.BeginRead(okBtn);
         okBtn.Name = "OKBtn";
@@ -46,7 +45,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         okBtn.TextColor = 0;
         okBtn.TextSelectedColor = 16777215;
         okBtn.WinWidth = 110;
-        okBtn.Clicked += _ => OKBtnClick();
+        okBtn.Clicked += (_, _) => OKBtnClick();
         session.EndRead(okBtn);
         Image titleIcon = new(this);
         session.BeginRead(titleIcon);
@@ -128,12 +127,12 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         cancelBut.TextColor = 0;
         cancelBut.TextSelectedColor = 16777215;
         cancelBut.WinWidth = 110;
-        cancelBut.Clicked += _ => CancelButClick();
+        cancelBut.Clicked += (_, _) => CancelButClick();
         session.EndRead(cancelBut);
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.KeyPressed += (_, ref key, shift) => DlgKeyDown(key, shift);
+        Window.KeyPressed += (_, e) => DlgKeyDown(e.Key, e.Shift);
         Window.Visible = false;
         Window.Priority = 520;
         Window.WinLeft = 95;
@@ -283,7 +282,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         LocalEmailAddressEdit = new Edit(this);
         session.BeginRead(LocalEmailAddressEdit);
         LocalEmailAddressEdit.Name = "LocalEmailAddressEdit";
-        LocalEmailAddressEdit.Updated += _ => LocalEmailAddressEditUpdate();
+        LocalEmailAddressEdit.Updated += (_, _) => LocalEmailAddressEditUpdate();
         LocalEmailAddressEdit.Priority = 0;
         LocalEmailAddressEdit.WinLeft = 1;
         LocalEmailAddressEdit.WinTop = 0;
@@ -335,7 +334,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         playerEMailAddressesLbl.Text = "Player Email Addresses";
         playerEMailAddressesLbl.TextColor = 16777215;
         session.EndRead(playerEMailAddressesLbl);
-        EmailAddressEdit1 = new Edit(this);
+        Edit emailAddressEdit1 = new(this);
+        EmailAddressEdit1 = emailAddressEdit1;
         session.BeginRead(EmailAddressEdit1);
         EmailAddressEdit1.Name = "EmailAddressEdit1";
         EmailAddressEdit1.Priority = 0;
@@ -358,7 +358,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit1.WinWidth = 230;
         EmailAddressEdit1.BorderWidth = 8;
         EmailAddressEdit1.BorderHeight = 5;
-        EmailAddressEdit1.Changed += sender => EmailAddressEdit1Change(sender, slot: 0);
+        emailAddressEdit1.Changed += (_, _) => EmailAddressEdit1Change(emailAddressEdit1, slot: 0);
         EmailAddressEdit1.MaxChars = 0;
         EmailAddressEdit1.CursorChar = 95;
         EmailAddressEdit1.BlinkDelay = 1;
@@ -444,7 +444,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerScrollBar.WinHeight = 121;
         PlayerScrollBar.WinWidth = 17;
         PlayerScrollBar.NumberVisible = 4;
-        PlayerScrollBar.Changed += _ => PlayerSBChange();
+        PlayerScrollBar.Changed += (_, _) => PlayerSBChange();
         PlayerScrollBar.VanishWhenFull = true;
         PlayerScrollBar.ImageLibraryIndexIncrementUp = 96;
         PlayerScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -497,7 +497,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerLabel3.Masked = true;
         PlayerLabel3.TextColor = 9415072;
         session.EndRead(PlayerLabel3);
-        EmailAddressEdit2 = new Edit(this);
+        Edit emailAddressEdit2 = new(this);
+        EmailAddressEdit2 = emailAddressEdit2;
         session.BeginRead(EmailAddressEdit2);
         EmailAddressEdit2.Name = "EmailAddressEdit2";
         EmailAddressEdit2.Tag = 1;
@@ -521,7 +522,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit2.WinWidth = 230;
         EmailAddressEdit2.BorderWidth = 8;
         EmailAddressEdit2.BorderHeight = 6;
-        EmailAddressEdit2.Changed += sender => EmailAddressEdit1Change(sender, slot: 1);
+        emailAddressEdit2.Changed += (_, _) => EmailAddressEdit1Change(emailAddressEdit2, slot: 1);
         EmailAddressEdit2.MaxChars = 0;
         EmailAddressEdit2.CursorChar = 95;
         EmailAddressEdit2.BlinkDelay = 1;
@@ -530,7 +531,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit2.ImageLibraryIndex = 15;
         EmailAddressEdit2.PassWordChar = 0;
         session.EndRead(EmailAddressEdit2);
-        EmailAddressEdit3 = new Edit(this);
+        Edit emailAddressEdit3 = new(this);
+        EmailAddressEdit3 = emailAddressEdit3;
         session.BeginRead(EmailAddressEdit3);
         EmailAddressEdit3.Name = "EmailAddressEdit3";
         EmailAddressEdit3.Tag = 2;
@@ -554,7 +556,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit3.WinWidth = 230;
         EmailAddressEdit3.BorderWidth = 8;
         EmailAddressEdit3.BorderHeight = 6;
-        EmailAddressEdit3.Changed += sender => EmailAddressEdit1Change(sender, slot: 2);
+        emailAddressEdit3.Changed += (_, _) => EmailAddressEdit1Change(emailAddressEdit3, slot: 2);
         EmailAddressEdit3.MaxChars = 0;
         EmailAddressEdit3.CursorChar = 95;
         EmailAddressEdit3.BlinkDelay = 1;
@@ -585,7 +587,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerLabel4.Masked = true;
         PlayerLabel4.TextColor = 9415072;
         session.EndRead(PlayerLabel4);
-        EmailAddressEdit4 = new Edit(this);
+        Edit emailAddressEdit4 = new(this);
+        EmailAddressEdit4 = emailAddressEdit4;
         session.BeginRead(EmailAddressEdit4);
         EmailAddressEdit4.Name = "EmailAddressEdit4";
         EmailAddressEdit4.Tag = 3;
@@ -609,7 +612,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit4.WinWidth = 230;
         EmailAddressEdit4.BorderWidth = 8;
         EmailAddressEdit4.BorderHeight = 6;
-        EmailAddressEdit4.Changed += sender => EmailAddressEdit1Change(sender, slot: 3);
+        emailAddressEdit4.Changed += (_, _) => EmailAddressEdit1Change(emailAddressEdit4, slot: 3);
         EmailAddressEdit4.MaxChars = 0;
         EmailAddressEdit4.CursorChar = 95;
         EmailAddressEdit4.BlinkDelay = 1;
@@ -701,7 +704,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         settingsBtn.TextColor = 0;
         settingsBtn.TextSelectedColor = 16777215;
         settingsBtn.WinWidth = 135;
-        settingsBtn.Clicked += _ => SettingsBtnClick();
+        settingsBtn.Clicked += (_, _) => SettingsBtnClick();
         session.EndRead(settingsBtn);
         Panel player1Pnl = new(this);
         session.BeginRead(player1Pnl);
@@ -710,7 +713,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         player1Pnl.WinLeft = 1;
         player1Pnl.WinTop = 0;
         player1Pnl.WinWidth = 120;
-        player1Pnl.BackgroundDrawn += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 0);
+        player1Pnl.BackgroundDrawn += (_, e) => Player6PnlDrawBack(player1Pnl, lockedSurface: e.Surface, slot: 0);
         player1Pnl.Masked = true;
         player1Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player1Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -766,7 +769,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         player2Pnl.WinLeft = 1;
         player2Pnl.WinTop = 20;
         player2Pnl.WinWidth = 120;
-        player2Pnl.BackgroundDrawn += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 1);
+        player2Pnl.BackgroundDrawn += (_, e) => Player6PnlDrawBack(player2Pnl, lockedSurface: e.Surface, slot: 1);
         player2Pnl.Masked = true;
         player2Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player2Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -795,7 +798,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         player3Pnl.WinLeft = 1;
         player3Pnl.WinTop = 40;
         player3Pnl.WinWidth = 120;
-        player3Pnl.BackgroundDrawn += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 2);
+        player3Pnl.BackgroundDrawn += (_, e) => Player6PnlDrawBack(player3Pnl, lockedSurface: e.Surface, slot: 2);
         player3Pnl.Masked = true;
         player3Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player3Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -824,7 +827,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         player4Pnl.WinLeft = 1;
         player4Pnl.WinTop = 60;
         player4Pnl.WinWidth = 120;
-        player4Pnl.BackgroundDrawn += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 3);
+        player4Pnl.BackgroundDrawn += (_, e) => Player6PnlDrawBack(player4Pnl, lockedSurface: e.Surface, slot: 3);
         player4Pnl.Masked = true;
         player4Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player4Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -867,7 +870,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerLabel5.Masked = true;
         PlayerLabel5.TextColor = 9415072;
         session.EndRead(PlayerLabel5);
-        EmailAddressEdit5 = new Edit(this);
+        Edit emailAddressEdit5 = new(this);
+        EmailAddressEdit5 = emailAddressEdit5;
         session.BeginRead(EmailAddressEdit5);
         EmailAddressEdit5.Name = "EmailAddressEdit5";
         EmailAddressEdit5.Tag = 4;
@@ -891,7 +895,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit5.WinWidth = 230;
         EmailAddressEdit5.BorderWidth = 8;
         EmailAddressEdit5.BorderHeight = 6;
-        EmailAddressEdit5.Changed += sender => EmailAddressEdit1Change(sender, slot: 4);
+        emailAddressEdit5.Changed += (_, _) => EmailAddressEdit1Change(emailAddressEdit5, slot: 4);
         EmailAddressEdit5.MaxChars = 0;
         EmailAddressEdit5.CursorChar = 95;
         EmailAddressEdit5.BlinkDelay = 1;
@@ -922,7 +926,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerLabel6.Masked = true;
         PlayerLabel6.TextColor = 9415072;
         session.EndRead(PlayerLabel6);
-        EmailAddressEdit6 = new Edit(this);
+        Edit emailAddressEdit6 = new(this);
+        EmailAddressEdit6 = emailAddressEdit6;
         session.BeginRead(EmailAddressEdit6);
         EmailAddressEdit6.Name = "EmailAddressEdit6";
         EmailAddressEdit6.Tag = 5;
@@ -946,7 +951,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit6.WinWidth = 230;
         EmailAddressEdit6.BorderWidth = 8;
         EmailAddressEdit6.BorderHeight = 6;
-        EmailAddressEdit6.Changed += sender => EmailAddressEdit1Change(sender, slot: 5);
+        emailAddressEdit6.Changed += (_, _) => EmailAddressEdit1Change(emailAddressEdit6, slot: 5);
         EmailAddressEdit6.MaxChars = 0;
         EmailAddressEdit6.CursorChar = 95;
         EmailAddressEdit6.BlinkDelay = 1;
@@ -963,7 +968,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         player5Pnl.WinLeft = 1;
         player5Pnl.WinTop = 80;
         player5Pnl.WinWidth = 120;
-        player5Pnl.BackgroundDrawn += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 4);
+        player5Pnl.BackgroundDrawn += (_, e) => Player6PnlDrawBack(player5Pnl, lockedSurface: e.Surface, slot: 4);
         player5Pnl.Masked = true;
         player5Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player5Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -992,7 +997,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         player6Pnl.WinLeft = 1;
         player6Pnl.WinTop = 100;
         player6Pnl.WinWidth = 120;
-        player6Pnl.BackgroundDrawn += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 5);
+        player6Pnl.BackgroundDrawn += (_, e) => Player6PnlDrawBack(player6Pnl, lockedSurface: e.Surface, slot: 5);
         player6Pnl.Masked = true;
         player6Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player6Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -1099,7 +1104,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         closeBtn.TextColor = 0;
         closeBtn.TextSelectedColor = 0;
         closeBtn.WinWidth = 15;
-        closeBtn.Clicked += _ => CancelButClick();
+        closeBtn.Clicked += (_, _) => CancelButClick();
         session.EndRead(closeBtn);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
@@ -1249,7 +1254,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         closeBtn.ImageLibraryIcon = UI.Graphics.GenericIcons;
         if (session.FireCreateEvents)
         {
-            LayoutOnCreate?.Invoke(this);
+            EmailGameSettingsDialogCreate();
         }
     }
 }

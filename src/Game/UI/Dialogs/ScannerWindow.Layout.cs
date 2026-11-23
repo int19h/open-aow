@@ -50,8 +50,8 @@ public sealed partial class ScannerWindow : ILayoutModule
         MainWindow.DragHeight = 20;
         MainWindow.Draggable = true;
         MainWindow.Resizable = true;
-        MainWindow.Dragged += _ => ScannerWindowResize();
-        MainWindow.Resized += _ => ScannerWindowResize();
+        MainWindow.Changed += (_, _) => ScannerWindowResize();
+        MainWindow.Resized += (_, _) => ScannerWindowResize();
         MainWindow.MinWidth = 200;
         MainWindow.MinHeight = 216;
         MainWindow.MaxWidth = 0;
@@ -91,7 +91,7 @@ public sealed partial class ScannerWindow : ILayoutModule
         ScannerTabs = new TabPanel(this);
         session.BeginRead(ScannerTabs);
         ScannerTabs.Name = "ScannerTab";
-        ScannerTabs.MousePressed += (_, button, shift, x, y) => ScannerTabMouseDown(button, shift, x, y);
+        ScannerTabs.MousePressed += (_, e) => ScannerTabMouseDown(e.Button, e.Shift, e.X, e.Y);
         ScannerTabs.Priority = 10000;
         ScannerTabs.WinLeft = 31;
         ScannerTabs.WinTop = 182;
@@ -114,7 +114,7 @@ public sealed partial class ScannerWindow : ILayoutModule
         ScannerTabs.Alignment.BottomOffset = 19;
         ScannerTabs.Masked = false;
         ScannerTabs.BorderHeight = 3;
-        ScannerTabs.Changed += _ => ScannerTabChange();
+        ScannerTabs.Changed += (_, _) => ScannerTabChange();
         ScannerTabs.Selected = 1;
         ScannerTabs.WinWidth = 145;
         ScannerTabs.TextColor = 1777703;
@@ -123,7 +123,8 @@ public sealed partial class ScannerWindow : ILayoutModule
         ScannerTabs.ImageLibraryIndexUp = 14;
         ScannerTabs.BorderHeightSelected = 3;
         session.EndRead(ScannerTabs);
-        BuildingCheckBox = new CheckBox(this);
+        CheckBox buildingCheckBox = new(this);
+        BuildingCheckBox = buildingCheckBox;
         session.BeginRead(BuildingCheckBox);
         BuildingCheckBox.Name = "BuildingCheck";
         BuildingCheckBox.Priority = 1001;
@@ -156,10 +157,11 @@ public sealed partial class ScannerWindow : ILayoutModule
         BuildingCheckBox.TextSelectedColor = 0;
         BuildingCheckBox.WinWidth = 15;
         BuildingCheckBox.Checked = true;
-        BuildingCheckBox.Changed += BuildingCheckChange;
+        buildingCheckBox.Changed += (_, _) => BuildingCheckChange(buildingCheckBox);
         BuildingCheckBox.RadioIndex = 0;
         session.EndRead(BuildingCheckBox);
-        ArmyCheckBox = new CheckBox(this);
+        CheckBox armyCheckBox = new(this);
+        ArmyCheckBox = armyCheckBox;
         session.BeginRead(ArmyCheckBox);
         ArmyCheckBox.Name = "ArmyCheck";
         ArmyCheckBox.Priority = 1002;
@@ -192,10 +194,11 @@ public sealed partial class ScannerWindow : ILayoutModule
         ArmyCheckBox.TextSelectedColor = 0;
         ArmyCheckBox.WinWidth = 15;
         ArmyCheckBox.Checked = true;
-        ArmyCheckBox.Changed += ArmyCheckChange;
+        armyCheckBox.Changed += (_, _) => ArmyCheckChange(armyCheckBox);
         ArmyCheckBox.RadioIndex = 0;
         session.EndRead(ArmyCheckBox);
-        NaturalCheckBox = new CheckBox(this);
+        CheckBox naturalCheckBox = new(this);
+        NaturalCheckBox = naturalCheckBox;
         session.BeginRead(NaturalCheckBox);
         NaturalCheckBox.Name = "NaturalCheck";
         NaturalCheckBox.Priority = 1003;
@@ -228,7 +231,7 @@ public sealed partial class ScannerWindow : ILayoutModule
         NaturalCheckBox.TextSelectedColor = 0;
         NaturalCheckBox.WinWidth = 15;
         NaturalCheckBox.Checked = true;
-        NaturalCheckBox.Changed += NaturalCheckChange;
+        naturalCheckBox.Changed += (_, _) => NaturalCheckChange(naturalCheckBox);
         NaturalCheckBox.RadioIndex = 0;
         session.EndRead(NaturalCheckBox);
         Scanner = new Scanner(this);
@@ -261,7 +264,7 @@ public sealed partial class ScannerWindow : ILayoutModule
         Scanner.Buildings = true;
         Scanner.Armies = true;
         Scanner.Naturals = true;
-        Scanner.TileBoxChanged += _ => ScannerChangeTileBox();
+        Scanner.TileBoxChanged += (_, _) => ScannerChangeTileBox();
         Scanner.MapDrawSteps = 5;
         Scanner.ImageLibraryIndexFrame = 20;
         session.EndRead(Scanner);
@@ -348,7 +351,7 @@ public sealed partial class ScannerWindow : ILayoutModule
         sMinIcon.TextColor = 0;
         sMinIcon.TextSelectedColor = 0;
         sMinIcon.WinWidth = 15;
-        sMinIcon.Clicked += _ => SMinIconClick();
+        sMinIcon.Clicked += (_, _) => SMinIconClick();
         session.EndRead(sMinIcon);
         Button help = new(this);
         session.BeginRead(help);
@@ -382,7 +385,7 @@ public sealed partial class ScannerWindow : ILayoutModule
         help.TextColor = 0;
         help.TextSelectedColor = 0;
         help.WinWidth = 15;
-        help.Clicked += _ => HelpClick();
+        help.Clicked += (_, _) => HelpClick();
         session.EndRead(help);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);

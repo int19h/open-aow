@@ -12,7 +12,7 @@ namespace Aow.Game.UI.Controls;
 public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
 {
     [Published]
-    public event NotifyEvent<CheckBox>? DoubleClicked;
+    public event EventHandler? DoubleClicked;
 
     // AoWCheckBox.pas:51
     public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
@@ -23,7 +23,7 @@ public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight && Valid && Visible)
         {
             Handled = true;
-            RaiseMouseDown(this, button, shift, X, Y);
+            RaiseMouseDown(button, shift, X, Y);
 
             if (button == MouseButton.Left)
             {
@@ -32,7 +32,7 @@ public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
                     if (!base.Checked)
                     {
                         base.Checked = true;
-                        RaiseChange(this);
+                        RaiseChange();
 
                         base.Checked = !base.Checked;
                         Checked = !base.Checked;
@@ -41,7 +41,7 @@ public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
                 else
                 {
                     base.Checked = !base.Checked;
-                    RaiseChange(this);
+                    RaiseChange();
 
                     base.Checked = !base.Checked;
                     Checked = !base.Checked;
@@ -49,7 +49,7 @@ public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
 
                 if ((shift & ShiftStates.Double) == ShiftStates.Double)
                 {
-                    DoubleClicked?.Invoke(this);
+                    DoubleClicked?.Invoke(this, e: EventArgs.Empty);
                 }
             }
             else
@@ -86,7 +86,7 @@ public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight && Valid && Visible)
         {
             Handled = true;
-            RaiseMouseUp(this, button, shift, X, Y);
+            RaiseMouseUp(button, shift, X, Y);
         }
     }
 
@@ -104,7 +104,7 @@ public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
         {
             Handled = true;
             Lit = !base.Checked && !OwnerComponent.Handled;
-            RaiseMouseMove(this, shift, X, Y);
+            RaiseMouseMove(shift, X, Y);
         }
 
         Redraw = Lit;
@@ -136,58 +136,4 @@ public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
 
     [Published]
     public override bool Checked { get => base.Checked; set => SetChecked(value); }
-
-    public new event NotifyEvent<CheckBox> Changed
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(Changed), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(Changed), value: value);
-    }
-
-    public new event MouseEvent<CheckBox> MousePressed
-    {
-        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(MousePressed), value: value);
-        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(MousePressed), value: value);
-    }
-
-    public new event MouseEvent<CheckBox> MouseReleased
-    {
-        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(MouseReleased), value: value);
-        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(MouseReleased), value: value);
-    }
-
-    public new event MouseMoveEvent<CheckBox> MouseMoved
-    {
-        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(MouseMoved), value: value);
-        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(MouseMoved), value: value);
-    }
-
-    public new event KeyPressEvent<CheckBox> CharacterTyped
-    {
-        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(CharacterTyped), value: value);
-        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(CharacterTyped), value: value);
-    }
-
-    public new event KeyEvent<CheckBox> KeyPressed
-    {
-        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(KeyPressed), value: value);
-        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(KeyPressed), value: value);
-    }
-
-    public new event AoWOnDrawEvent<CheckBox> Drawing
-    {
-        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(Drawing), value: value);
-        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(Drawing), value: value);
-    }
-
-    public new event AoWOnDrawEvent<CheckBox> Drawn
-    {
-        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(Drawn), value: value);
-        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(Drawn), value: value);
-    }
-
-    public new event NotifyEvent<CheckBox> Updated
-    {
-        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(Updated), value: value);
-        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(Updated), value: value);
-    }
 }

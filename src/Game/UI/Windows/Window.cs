@@ -266,7 +266,7 @@ public partial class Window : GenericWindow
             }
         }
 
-        RaiseInternalResize(this);
+        RaiseInternalResize();
 
         SurfaceValid = false;
         base.SetSize();
@@ -325,7 +325,7 @@ public partial class Window : GenericWindow
                         break;
                 }
 
-                RaiseDrawBack(this, surfDesc: lockedSurface);
+                RaiseDrawBack(surfDesc: lockedSurface);
 
                 SurfaceValid = false;
             }
@@ -466,12 +466,12 @@ public partial class Window : GenericWindow
                 {
                     if (!WindowManager.Handled)
                     {
-                        RaiseMouseDown(this, button, shift, X, Y);
+                        RaiseMouseDown(button, shift, X, Y);
                     }
                 }
                 else
                 {
-                    RaiseMouseDown(this, button, shift, X, Y);
+                    RaiseMouseDown(button, shift, X, Y);
                 }
             }
 
@@ -513,12 +513,12 @@ public partial class Window : GenericWindow
             {
                 if (!WindowManager.Handled)
                 {
-                    RaiseMouseUp(this, button, shift, X, Y);
+                    RaiseMouseUp(button, shift, X, Y);
                 }
             }
             else
             {
-                RaiseMouseUp(this, button, shift, X, Y);
+                RaiseMouseUp(button, shift, X, Y);
             }
 
             if (Modal)
@@ -568,7 +568,7 @@ public partial class Window : GenericWindow
                         }
                     }
 
-                    RaiseChange(this);
+                    RaiseChange();
 
                     if (!DoubleBuffered)
                     {
@@ -691,7 +691,7 @@ public partial class Window : GenericWindow
 
                     if (resized)
                     {
-                        RaiseResize(this);
+                        RaiseResize();
 
                         Aligned = false;
                     }
@@ -792,12 +792,12 @@ public partial class Window : GenericWindow
                 {
                     if (!WindowManager.Handled)
                     {
-                        RaiseMouseMove(this, shift, X, Y);
+                        RaiseMouseMove(shift, X, Y);
                     }
                 }
                 else
                 {
-                    RaiseMouseMove(this, shift, X, Y);
+                    RaiseMouseMove(shift, X, Y);
                 }
             }
 
@@ -809,130 +809,7 @@ public partial class Window : GenericWindow
 
         if (Cursor != OldCursor)
         {
-            RaiseChangeCursor(this);
+            RaiseChangeCursor();
         }
-    }
-
-    [Published]
-    public event NotifyEvent<Window> Dragged
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, Window>(this, slot: nameof(Dragged), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(Dragged), value: value);
-    }
-
-    [Published]
-    public new event NotifyEvent<Window> Resized
-    {
-        add => ((WindowControl)this).Resized += EventSlot.Add<WindowControl, Window>(this, slot: nameof(Resized), value: value);
-        remove => ((WindowControl)this).Resized -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(Resized), value: value);
-    }
-
-    [Published]
-    public new event NotifyEvent<Window> SizeChanged
-    {
-        add => ((WindowControl)this).SizeChanged += EventSlot.Add<WindowControl, Window>(this, slot: nameof(SizeChanged), value: value);
-        remove => ((WindowControl)this).SizeChanged -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(SizeChanged), value: value);
-    }
-
-    public new event NotifyEvent<Window> Changed
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, Window>(this, slot: nameof(Changed), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(Changed), value: value);
-    }
-
-    public new event MouseEvent<Window> MousePressed
-    {
-        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, Window>(this, slot: nameof(MousePressed), value: value);
-        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(MousePressed), value: value);
-    }
-
-    public new event MouseEvent<Window> MouseReleased
-    {
-        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, Window>(this, slot: nameof(MouseReleased), value: value);
-        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(MouseReleased), value: value);
-    }
-
-    public new event MouseMoveEvent<Window> MouseMoved
-    {
-        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, Window>(this, slot: nameof(MouseMoved), value: value);
-        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(MouseMoved), value: value);
-    }
-
-    public new event KeyPressEvent<Window> CharacterTyped
-    {
-        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, Window>(this, slot: nameof(CharacterTyped), value: value);
-        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(CharacterTyped), value: value);
-    }
-
-    public new event KeyEvent<Window> KeyPressed
-    {
-        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, Window>(this, slot: nameof(KeyPressed), value: value);
-        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(KeyPressed), value: value);
-    }
-
-    public new event AoWOnDrawEvent<Window> Drawing
-    {
-        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, Window>(this, slot: nameof(Drawing), value: value);
-        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(Drawing), value: value);
-    }
-
-    public new event AoWOnDrawEvent<Window> Drawn
-    {
-        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Window>(this, slot: nameof(Drawn), value: value);
-        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(Drawn), value: value);
-    }
-
-    public new event NotifyEvent<Window> Updated
-    {
-        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, Window>(this, slot: nameof(Updated), value: value);
-        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(Updated), value: value);
-    }
-
-    public new event AoWOnDrawBackEvent<Window> BackgroundDrawn
-    {
-        add => ((WindowControl)this).BackgroundDrawn += EventSlot.Add<WindowControl, Window>(this, slot: nameof(BackgroundDrawn), value: value);
-        remove => ((WindowControl)this).BackgroundDrawn -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(BackgroundDrawn), value: value);
-    }
-
-    public new event NotifyEvent<Window> MouseEntered
-    {
-        add => ((WindowControl)this).MouseEntered += EventSlot.Add<WindowControl, Window>(this, slot: nameof(MouseEntered), value: value);
-        remove => ((WindowControl)this).MouseEntered -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(MouseEntered), value: value);
-    }
-
-    public new event NotifyEvent<Window> MouseLeft
-    {
-        add => ((WindowControl)this).MouseLeft += EventSlot.Add<WindowControl, Window>(this, slot: nameof(MouseLeft), value: value);
-        remove => ((WindowControl)this).MouseLeft -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(MouseLeft), value: value);
-    }
-
-    public new event NotifyEvent<Window> CursorChanged
-    {
-        add => ((WindowControl)this).CursorChanged += EventSlot.Add<WindowControl, Window>(this, slot: nameof(CursorChanged), value: value);
-        remove => ((WindowControl)this).CursorChanged -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(CursorChanged), value: value);
-    }
-
-    public new event AoWOnDrawSurface<Window> Blitted
-    {
-        add => ((WindowControl)this).Blitted += EventSlot.Add<WindowControl, Window>(this, slot: nameof(Blitted), value: value);
-        remove => ((WindowControl)this).Blitted -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(Blitted), value: value);
-    }
-
-    public new event AoWOnDrawSurface<Window> Blitting
-    {
-        add => ((WindowControl)this).Blitting += EventSlot.Add<WindowControl, Window>(this, slot: nameof(Blitting), value: value);
-        remove => ((WindowControl)this).Blitting -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(Blitting), value: value);
-    }
-
-    public new event NotifyEvent<Window> Hidden
-    {
-        add => ((BaseWindow)this).Hidden += EventSlot.Add<BaseWindow, Window>(this, slot: nameof(Hidden), value: value);
-        remove => ((BaseWindow)this).Hidden -= EventSlot.Remove<BaseWindow, Window>(this, slot: nameof(Hidden), value: value);
-    }
-
-    public new event NotifyEvent<Window> Shown
-    {
-        add => ((BaseWindow)this).Shown += EventSlot.Add<BaseWindow, Window>(this, slot: nameof(Shown), value: value);
-        remove => ((BaseWindow)this).Shown -= EventSlot.Remove<BaseWindow, Window>(this, slot: nameof(Shown), value: value);
     }
 }

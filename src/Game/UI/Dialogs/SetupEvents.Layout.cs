@@ -13,7 +13,6 @@ public sealed partial class SetupEvents : ILayoutModule
     {
         session.Begin(this);
         Name = "SetupEvents";
-        LayoutOnCreate += _ => SetupEventsCreate();
         LayoutDirectPlay createdDirectPlay = new(this);
         DirectPlay = createdDirectPlay;
         session.BeginRead(createdDirectPlay);
@@ -58,7 +57,7 @@ public sealed partial class SetupEvents : ILayoutModule
         session.Resolve(this);
         if (session.FireCreateEvents)
         {
-            LayoutOnCreate?.Invoke(this);
+            SetupEventsCreate();
         }
     }
 }

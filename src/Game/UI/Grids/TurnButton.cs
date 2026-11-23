@@ -18,7 +18,7 @@ public sealed partial class TurnButton(Component? owner) : Control(owner)
     private int _animationPhase;
     private int _frameOffset = 11;
     [Published]
-    public event NotifyEvent<TurnButton>? AnimationEnded;
+    public event EventHandler? AnimationEnded;
     [Published]
     public new event NotifyEvent<TurnButton>? Changed;
 
@@ -95,7 +95,7 @@ public sealed partial class TurnButton(Component? owner) : Control(owner)
                         _frameOffset = 11;
                         LastPlayer = CurrentPlayer;
                         Animating = false;
-                        AnimationEnded?.Invoke(this);
+                        AnimationEnded?.Invoke(this, e: EventArgs.Empty);
                     }
 
                     break;
@@ -112,7 +112,7 @@ public sealed partial class TurnButton(Component? owner) : Control(owner)
         {
             if (Visible && Valid)
             {
-                RaisePreDraw(this, surfDesc: lockedSurface);
+                RaisePreDraw(surfDesc: lockedSurface);
 
                 if (!Animating && ButtonChecked)
                 {
@@ -123,7 +123,7 @@ public sealed partial class TurnButton(Component? owner) : Control(owner)
                     _imageLibrary[_frameOffset + AnimationFrame].ShowClipped(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, lockedSurface);
                 }
 
-                RaiseDraw(this, surfDesc: lockedSurface);
+                RaiseDraw(surfDesc: lockedSurface);
             }
         }
         catch
@@ -142,7 +142,7 @@ public sealed partial class TurnButton(Component? owner) : Control(owner)
             Handled = true;
             if (button == MouseButton.Left && Press())
             {
-                RaiseMouseDown(this, button, shift, X, Y);
+                RaiseMouseDown(button, shift, X, Y);
             }
         }
     }
@@ -154,7 +154,7 @@ public sealed partial class TurnButton(Component? owner) : Control(owner)
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
-            RaiseMouseUp(this, button, shift, X, Y);
+            RaiseMouseUp(button, shift, X, Y);
         }
     }
 
@@ -166,7 +166,7 @@ public sealed partial class TurnButton(Component? owner) : Control(owner)
         if (X >= Window.AbsoluteLeft + WinLeft && X <= Window.AbsoluteLeft + WinLeft + WinWidth - 1 && Y >= Window.AbsoluteTop + WinTop && Y <= Window.AbsoluteTop + WinTop + WinHeight - 1)
         {
             Handled = true;
-            RaiseMouseMove(this, shift, X, Y);
+            RaiseMouseMove(shift, X, Y);
         }
     }
 
@@ -187,52 +187,4 @@ public sealed partial class TurnButton(Component? owner) : Control(owner)
 
     [Published]
     public override bool Checked { get => ButtonChecked; set => ButtonChecked = value; }
-
-    public new event MouseEvent<TurnButton> MousePressed
-    {
-        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(MousePressed), value: value);
-        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(MousePressed), value: value);
-    }
-
-    public new event MouseEvent<TurnButton> MouseReleased
-    {
-        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(MouseReleased), value: value);
-        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(MouseReleased), value: value);
-    }
-
-    public new event MouseMoveEvent<TurnButton> MouseMoved
-    {
-        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(MouseMoved), value: value);
-        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(MouseMoved), value: value);
-    }
-
-    public new event KeyPressEvent<TurnButton> CharacterTyped
-    {
-        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(CharacterTyped), value: value);
-        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(CharacterTyped), value: value);
-    }
-
-    public new event KeyEvent<TurnButton> KeyPressed
-    {
-        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(KeyPressed), value: value);
-        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(KeyPressed), value: value);
-    }
-
-    public new event AoWOnDrawEvent<TurnButton> Drawing
-    {
-        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(Drawing), value: value);
-        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(Drawing), value: value);
-    }
-
-    public new event AoWOnDrawEvent<TurnButton> Drawn
-    {
-        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(Drawn), value: value);
-        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(Drawn), value: value);
-    }
-
-    public new event NotifyEvent<TurnButton> Updated
-    {
-        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(Updated), value: value);
-        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(Updated), value: value);
-    }
 }

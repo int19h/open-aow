@@ -26,9 +26,9 @@ public partial class ListBox : Control
     private int _selected;
 
     [Published]
-    public event AoWOnDrawItemEvent<ListBox>? ItemDrawing;
+    public event EventHandler<DrawItemEventArgs>? ItemDrawing;
     [Published]
-    public event AoWOnDrawItemEvent<ListBox>? ItemDrawn;
+    public event EventHandler<DrawItemEventArgs>? ItemDrawn;
     private int _scrollWidth;
 
     private InterfaceImageLibrary? _imageLibraryFrame;
@@ -36,7 +36,7 @@ public partial class ListBox : Control
     private InterfaceImageLibrary? _imageLibraryTextureSelected;
 
     [Published]
-    public event NotifyEvent<ListBox>? DoubleClicked;
+    public event EventHandler? DoubleClicked;
 
     public int FirstShownItem { get; private set; }
 
@@ -244,7 +244,7 @@ public partial class ListBox : Control
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, surfDesc: lockedSurface);
+                RaisePreDraw(surfDesc: lockedSurface);
 
                 base.Font.Color = Color;
                 Rect oldClip = lockedSurface.ClipRectangle;
@@ -308,7 +308,23 @@ public partial class ListBox : Control
                             _drawItemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
                         }
 
-                        ItemDrawing?.Invoke(this, DrawRect: _drawItemRectangle, _drawItem, SurfDesc: ref lockedSurface);
+                        if (ItemDrawing is not null)
+                        {
+                            DrawItemEventArgs e = new()
+                            {
+                                Rectangle = _drawItemRectangle,
+                                Item = _drawItem,
+                                Surface = lockedSurface
+                            };
+                            try
+                            {
+                                ItemDrawing(this, e);
+                            }
+                            finally
+                            {
+                                lockedSurface = e.Surface;
+                            }
+                        }
 
                         if (FirstShownItem + i == _selected)
                         {
@@ -345,12 +361,28 @@ public partial class ListBox : Control
                                 break;
                         }
 
-                        ItemDrawn?.Invoke(this, DrawRect: _drawItemRectangle, _drawItem, SurfDesc: ref lockedSurface);
+                        if (ItemDrawn is not null)
+                        {
+                            DrawItemEventArgs e = new()
+                            {
+                                Rectangle = _drawItemRectangle,
+                                Item = _drawItem,
+                                Surface = lockedSurface
+                            };
+                            try
+                            {
+                                ItemDrawn(this, e);
+                            }
+                            finally
+                            {
+                                lockedSurface = e.Surface;
+                            }
+                        }
                     }
                 }
 
                 lockedSurface.ClipRectangle = oldClip;
-                RaiseDraw(this, surfDesc: lockedSurface);
+                RaiseDraw(surfDesc: lockedSurface);
             }
         }
         catch
@@ -387,12 +419,12 @@ public partial class ListBox : Control
                 {
                     _selected = i;
                     IsDrawn = false;
-                    RaiseChange(this);
+                    RaiseChange();
                 }
 
                 if (button == MouseButton.Left && (ShiftStates.Double & shift) == ShiftStates.Double && DoubleClicked is not null)
                 {
-                    DoubleClicked(this);
+                    DoubleClicked(this, e: EventArgs.Empty);
                 }
 
                 if (_selected > -1 && button == MouseButton.Right && PopupMenu is not null)
@@ -432,7 +464,7 @@ public partial class ListBox : Control
                 }
             }
 
-            RaiseMouseDown(this, button, shift, X, Y);
+            RaiseMouseDown(button, shift, X, Y);
         }
     }
 
@@ -443,7 +475,7 @@ public partial class ListBox : Control
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth - _scrollWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
-            RaiseMouseUp(this, button, shift, X, Y);
+            RaiseMouseUp(button, shift, X, Y);
         }
     }
 
@@ -470,7 +502,7 @@ public partial class ListBox : Control
                 HoverItem = ((Y - Window.AbsoluteTop - WinTop) / ItemHeight) + FirstShownItem;
             }
 
-            RaiseMouseMove(this, shift, X, Y);
+            RaiseMouseMove(shift, X, Y);
         }
     }
 
@@ -628,58 +660,4 @@ public partial class ListBox : Control
 
     [Published]
     public TextAlignment TextAlign { get; set; }
-
-    public new event NotifyEvent<ListBox> Changed
-    {
-        add => ((UIComponent)this).Changed += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(Changed), value: value);
-        remove => ((UIComponent)this).Changed -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(Changed), value: value);
-    }
-
-    public new event MouseEvent<ListBox> MousePressed
-    {
-        add => ((UIComponent)this).MousePressed += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(MousePressed), value: value);
-        remove => ((UIComponent)this).MousePressed -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(MousePressed), value: value);
-    }
-
-    public new event MouseEvent<ListBox> MouseReleased
-    {
-        add => ((UIComponent)this).MouseReleased += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(MouseReleased), value: value);
-        remove => ((UIComponent)this).MouseReleased -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(MouseReleased), value: value);
-    }
-
-    public new event MouseMoveEvent<ListBox> MouseMoved
-    {
-        add => ((UIComponent)this).MouseMoved += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(MouseMoved), value: value);
-        remove => ((UIComponent)this).MouseMoved -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(MouseMoved), value: value);
-    }
-
-    public new event KeyPressEvent<ListBox> CharacterTyped
-    {
-        add => ((UIComponent)this).CharacterTyped += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(CharacterTyped), value: value);
-        remove => ((UIComponent)this).CharacterTyped -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(CharacterTyped), value: value);
-    }
-
-    public new event KeyEvent<ListBox> KeyPressed
-    {
-        add => ((UIComponent)this).KeyPressed += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(KeyPressed), value: value);
-        remove => ((UIComponent)this).KeyPressed -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(KeyPressed), value: value);
-    }
-
-    public new event AoWOnDrawEvent<ListBox> Drawing
-    {
-        add => ((UIComponent)this).Drawing += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(Drawing), value: value);
-        remove => ((UIComponent)this).Drawing -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(Drawing), value: value);
-    }
-
-    public new event AoWOnDrawEvent<ListBox> Drawn
-    {
-        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(Drawn), value: value);
-        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(Drawn), value: value);
-    }
-
-    public new event NotifyEvent<ListBox> Updated
-    {
-        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(Updated), value: value);
-        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(Updated), value: value);
-    }
 }

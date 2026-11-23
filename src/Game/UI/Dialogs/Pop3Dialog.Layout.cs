@@ -18,8 +18,8 @@ public sealed partial class Pop3Dialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.KeyPressed += (_, ref key, shift) => DlgKeyDown(key, shift);
-        Window.Updated += _ => DlgUpdate();
+        Window.KeyPressed += (_, e) => DlgKeyDown(e.Key, e.Shift);
+        Window.Updated += (_, _) => DlgUpdate();
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 117;
@@ -291,7 +291,7 @@ public sealed partial class Pop3Dialog : ILayoutModule
         FoundEmailGamesList.WinHeight = 125;
         FoundEmailGamesList.BorderWidth = 6;
         FoundEmailGamesList.BorderHeight = 4;
-        FoundEmailGamesList.Changed += _ => FoundEmailGamesChange();
+        FoundEmailGamesList.Changed += (_, _) => FoundEmailGamesChange();
         FoundEmailGamesList.Selected = -1;
         FoundEmailGamesList.TextColor = 9415072;
         FoundEmailGamesList.TextSelectedColor = 0;
@@ -358,7 +358,7 @@ public sealed partial class Pop3Dialog : ILayoutModule
         exit2Btn.TextColor = 0;
         exit2Btn.TextSelectedColor = 16777215;
         exit2Btn.WinWidth = 115;
-        exit2Btn.Clicked += _ => ExitBtnClick();
+        exit2Btn.Clicked += (_, _) => ExitBtnClick();
         session.EndRead(exit2Btn);
         StartExitPanel = new Panel(this);
         session.BeginRead(StartExitPanel);
@@ -416,7 +416,7 @@ public sealed partial class Pop3Dialog : ILayoutModule
         startBtn.TextColor = 0;
         startBtn.TextSelectedColor = 16777215;
         startBtn.WinWidth = 115;
-        startBtn.Clicked += _ => StartBtnClick();
+        startBtn.Clicked += (_, _) => StartBtnClick();
         session.EndRead(startBtn);
         Button exitBtn = new(this);
         session.BeginRead(exitBtn);
@@ -447,7 +447,7 @@ public sealed partial class Pop3Dialog : ILayoutModule
         exitBtn.TextColor = 0;
         exitBtn.TextSelectedColor = 16777215;
         exitBtn.WinWidth = 115;
-        exitBtn.Clicked += _ => ExitBtnClick();
+        exitBtn.Clicked += (_, _) => ExitBtnClick();
         session.EndRead(exitBtn);
         LocalEmailAddressEdit = new Edit(this);
         session.BeginRead(LocalEmailAddressEdit);

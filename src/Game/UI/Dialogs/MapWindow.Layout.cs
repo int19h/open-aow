@@ -15,21 +15,32 @@ public sealed partial class MapWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "MWindow";
-        LayoutOnCreate += _ => MWindowCreate();
-        MainWindow = new Window(this);
+        Window mainWindow = new(this);
+        MainWindow = mainWindow;
         session.BeginRead(MainWindow);
         MainWindow.Name = "MapWindow";
-        MainWindow.MousePressed += (_, button, shift, x, y) => MapWindowMouseDown(button, shift, x, y);
-        MainWindow.MouseReleased += (_, button, shift, x, y) => MapWindowMouseUp(button, shift, x, y);
-        MainWindow.MouseMoved += (_, shift, x, y) => MapWindowMouseMove(shift, x, y);
-        MainWindow.KeyPressed += MapWindowKeyDown;
-        MainWindow.Updated += _ => MapWindowUpdate();
+        MainWindow.MousePressed += (_, e) => MapWindowMouseDown(e.Button, e.Shift, e.X, e.Y);
+        MainWindow.MouseReleased += (_, e) => MapWindowMouseUp(e.Button, e.Shift, e.X, e.Y);
+        MainWindow.MouseMoved += (_, e) => MapWindowMouseMove(e.Shift, e.X, e.Y);
+        mainWindow.KeyPressed += (_, e) =>
+        {
+            ushort key = e.Key;
+            try
+            {
+                MapWindowKeyDown(mainWindow, ref key, e.Shift);
+            }
+            finally
+            {
+                e.Key = key;
+            }
+        };
+        MainWindow.Updated += (_, _) => MapWindowUpdate();
         MainWindow.Visible = false;
         MainWindow.Priority = 0;
         MainWindow.WinLeft = 0;
         MainWindow.WinTop = 0;
         MainWindow.WinWidth = 440;
-        MainWindow.MouseLeft += _ => MapWindowExit();
+        MainWindow.MouseLeft += (_, _) => MapWindowExit();
         MainWindow.Masked = false;
         MainWindow.Alignment.AlignWidth = AlignWidth.Left;
         MainWindow.Alignment.AlignHeight = AlignHeight.Top;
@@ -50,14 +61,14 @@ public sealed partial class MapWindow : ILayoutModule
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = false;
         MainWindow.MaskColor = 0;
-        MainWindow.Blitting += (_, surface, left, top) => MapWindowPreDrawSurface(surface, left, top);
+        MainWindow.Blitting += (_, e) => MapWindowPreDrawSurface(e.Surface, e.Left, e.Top);
         MainWindow.FreeSurfaceOnHide = false;
         MainWindow.ImageLibraryIndexFrame = 8;
         MainWindow.ImageLibraryIndexTexture = 0;
         MainWindow.DragHeight = 0;
         MainWindow.Draggable = false;
         MainWindow.Resizable = true;
-        MainWindow.Resized += _ => MapWindowResize();
+        MainWindow.Resized += (_, _) => MapWindowResize();
         MainWindow.MinWidth = 200;
         MainWindow.MinHeight = 200;
         MainWindow.MaxWidth = 0;
@@ -79,7 +90,7 @@ public sealed partial class MapWindow : ILayoutModule
         session.Resolve(this);
         if (session.FireCreateEvents)
         {
-            LayoutOnCreate?.Invoke(this);
+            MWindowCreate();
         }
     }
 }

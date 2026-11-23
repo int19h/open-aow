@@ -39,14 +39,14 @@ public sealed partial class ItemBanner : ILayoutModule
         BannerMenu = new Menu(this);
         session.BeginRead(BannerMenu);
         BannerMenu.Name = "IBannerPopup";
-        BannerMenu.MousePressed += (_, button, _, _, _) => IBannerPopupMouseDown(default, button: (byte)button, shift: default, default, default);
+        BannerMenu.MousePressed += (_, e) => IBannerPopupMouseDown(default, button: (byte)e.Button, shift: default, default, default);
         BannerMenu.Visible = false;
         BannerMenu.Priority = 350;
         BannerMenu.WinLeft = 0;
         BannerMenu.WinTop = 0;
         BannerMenu.WinWidth = 160;
         BannerMenu.Masked = true;
-        BannerMenu.Shown += _ => IBannerPopupShow();
+        BannerMenu.Shown += (_, _) => IBannerPopupShow();
         BannerMenu.Alignment.AlignWidth = AlignWidth.None;
         BannerMenu.Alignment.AlignHeight = AlignHeight.None;
         BannerMenu.Alignment.HeightPercent = 0;
@@ -280,7 +280,7 @@ public sealed partial class ItemBanner : ILayoutModule
         ItemView = new UserDrawBox(this);
         session.BeginRead(ItemView);
         ItemView.Name = "DrawBox";
-        ItemView.Drawing += (_, surface) => DrawBoxPreDraw(surface);
+        ItemView.Drawing += (_, e) => DrawBoxPreDraw(e.Surface);
         ItemView.Priority = 0;
         ItemView.WinLeft = 0;
         ItemView.WinTop = 0;

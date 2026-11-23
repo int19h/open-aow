@@ -75,7 +75,7 @@ public sealed partial class PowerDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.Clicked += _ => CancelBtnClick();
+        close.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(close);
         Label title = new(this);
         session.BeginRead(title);
@@ -156,7 +156,7 @@ public sealed partial class PowerDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 120;
-        cancelBtn.Clicked += _ => CancelBtnClick();
+        cancelBtn.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(cancelBtn);
         Button setBtn = new(this);
         session.BeginRead(setBtn);
@@ -187,12 +187,12 @@ public sealed partial class PowerDialog : ILayoutModule
         setBtn.TextColor = 0;
         setBtn.TextSelectedColor = 16777215;
         setBtn.WinWidth = 120;
-        setBtn.Clicked += _ => SetBtnClick();
+        setBtn.Clicked += (_, _) => SetBtnClick();
         session.EndRead(setBtn);
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.KeyPressed += (_, ref key, shift) => DlgKeyDown(key, shift);
+        Window.KeyPressed += (_, e) => DlgKeyDown(e.Key, e.Shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 159;
@@ -626,7 +626,7 @@ public sealed partial class PowerDialog : ILayoutModule
         PowerSlider.WinHeight = 11;
         PowerSlider.WinWidth = 78;
         PowerSlider.NumberVisible = 1;
-        PowerSlider.Changed += _ => PowerSliderChange();
+        PowerSlider.Changed += (_, _) => PowerSliderChange();
         PowerSlider.VanishWhenFull = false;
         PowerSlider.ImageLibraryIndexIncrementUp = 0;
         PowerSlider.ImageLibraryIndexIncrementDown = 0;
@@ -638,7 +638,7 @@ public sealed partial class PowerDialog : ILayoutModule
         Image paMana = new(this);
         session.BeginRead(paMana);
         paMana.Name = "PAMana";
-        paMana.Drawn += PAManaDraw;
+        paMana.Drawn += (_, e) => PAManaDraw(paMana, lockedSurface: e.Surface);
         paMana.Priority = 0;
         paMana.WinLeft = 0;
         paMana.WinTop = 89;
@@ -667,7 +667,7 @@ public sealed partial class PowerDialog : ILayoutModule
         Image paRes = new(this);
         session.BeginRead(paRes);
         paRes.Name = "PARes";
-        paRes.Drawn += PAResDraw;
+        paRes.Drawn += (_, e) => PAResDraw(paRes, lockedSurface: e.Surface);
         paRes.Priority = 0;
         paRes.WinLeft = 141;
         paRes.WinTop = 89;

@@ -17,16 +17,16 @@ public sealed partial class IntroScene : ILayoutModule
         Window = new UserWindow(this);
         session.BeginRead(Window);
         Window.Name = "Window";
-        Window.MousePressed += (_, button, shift, x, y) => WindowMouseDown(button, shift, x, y);
-        Window.KeyPressed += (_, ref key, shift) => WindowKeyDown(key, shift);
-        Window.Updated += _ => WindowUpdate();
+        Window.MousePressed += (_, e) => WindowMouseDown(e.Button, e.Shift, e.X, e.Y);
+        Window.KeyPressed += (_, e) => WindowKeyDown(e.Key, e.Shift);
+        Window.Updated += (_, _) => WindowUpdate();
         Window.Visible = false;
         Window.Priority = 0;
         Window.WinLeft = 0;
         Window.WinTop = 0;
         Window.WinWidth = 640;
         Window.Masked = false;
-        Window.Hidden += _ => WindowHide();
+        Window.Hidden += (_, _) => WindowHide();
         Window.Alignment.AlignWidth = AlignWidth.Both;
         Window.Alignment.AlignHeight = AlignHeight.Both;
         Window.Alignment.HeightPercent = 0;
@@ -60,7 +60,18 @@ public sealed partial class IntroScene : ILayoutModule
         Window.Modal = false;
         Window.WinHeight = 480;
         Window.Dockable = false;
-        Window.SurfaceDrawing += WindowDrawSurfaceEx;
+        Window.SurfaceDrawing += (_, e) =>
+        {
+            bool handled = e.Handled;
+            try
+            {
+                WindowDrawSurfaceEx(e.Surface, out handled);
+            }
+            finally
+            {
+                e.Handled = handled || e.Handled;
+            }
+        };
         session.EndRead(Window);
         LayoutVideoPlayer videoPlayer = new(this);
         session.BeginRead(videoPlayer);

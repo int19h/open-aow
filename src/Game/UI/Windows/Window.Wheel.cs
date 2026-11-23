@@ -42,7 +42,7 @@ public partial class Window
                 break;
             }
 
-            button.RaiseClick(button);
+            button.RaiseClick();
             turned = true;
             if (OneWheelTurnPerEvent)
             {

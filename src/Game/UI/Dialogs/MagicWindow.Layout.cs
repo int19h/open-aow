@@ -26,8 +26,8 @@ public sealed partial class MagicWindow : ILayoutModule
         Window.WinTop = 272;
         Window.WinWidth = 440;
         Window.Masked = false;
-        Window.Hidden += _ => DlgHide();
-        Window.Shown += _ => DlgShow();
+        Window.Hidden += (_, _) => DlgHide();
+        Window.Shown += (_, _) => DlgShow();
         Window.Alignment.AlignWidth = AlignWidth.Left;
         Window.Alignment.AlignHeight = AlignHeight.Bottom;
         Window.Alignment.HeightPercent = 0;
@@ -53,7 +53,7 @@ public sealed partial class MagicWindow : ILayoutModule
         Window.DragHeight = 20;
         Window.Draggable = true;
         Window.Resizable = true;
-        Window.Resized += _ => DlgResize();
+        Window.Resized += (_, _) => DlgResize();
         Window.MinWidth = 440;
         Window.MinHeight = 160;
         Window.MaxWidth = 1280;
@@ -142,7 +142,7 @@ public sealed partial class MagicWindow : ILayoutModule
             "POWER"
         ];
         headerTab.BorderHeight = 6;
-        headerTab.Changed += _ => HeaderTabChange();
+        headerTab.Changed += (_, _) => HeaderTabChange();
         headerTab.Selected = 0;
         headerTab.WinWidth = 433;
         headerTab.TextColor = 0;
@@ -338,7 +338,7 @@ public sealed partial class MagicWindow : ILayoutModule
         EnchantmentList = new ListBox<Enchantment>(this);
         session.BeginRead(EnchantmentList);
         EnchantmentList.Name = "EnchantmentList";
-        EnchantmentList.MousePressed += (_, button, shift, x, y) => EnchantmentListMouseDown(button, shift, x, y);
+        EnchantmentList.MousePressed += (_, e) => EnchantmentListMouseDown(e.Button, e.Shift, e.X, e.Y);
         EnchantmentList.Priority = 30;
         EnchantmentList.WinLeft = 1;
         EnchantmentList.WinTop = 14;
@@ -360,8 +360,8 @@ public sealed partial class MagicWindow : ILayoutModule
         EnchantmentList.WinHeight = 73;
         EnchantmentList.BorderWidth = 6;
         EnchantmentList.BorderHeight = 3;
-        EnchantmentList.Changed += _ => EnchantmentListChange();
-        EnchantmentList.DoubleClicked += _ => EnchantmentListDoubleClick();
+        EnchantmentList.Changed += (_, _) => EnchantmentListChange();
+        EnchantmentList.DoubleClicked += (_, _) => EnchantmentListDoubleClick();
         EnchantmentList.Selected = -1;
         EnchantmentList.TextColor = 9415072;
         EnchantmentList.TextSelectedColor = 0;
@@ -400,12 +400,12 @@ public sealed partial class MagicWindow : ILayoutModule
         enchantmentSortBtn.TextColor = 0;
         enchantmentSortBtn.TextSelectedColor = 16777215;
         enchantmentSortBtn.WinWidth = 160;
-        enchantmentSortBtn.Clicked += _ => EnchantmentSortBtnClick();
+        enchantmentSortBtn.Clicked += (_, _) => EnchantmentSortBtnClick();
         session.EndRead(enchantmentSortBtn);
         UpkeepList = new ListBox(this);
         session.BeginRead(UpkeepList);
         UpkeepList.Name = "UpkeepList";
-        UpkeepList.MousePressed += (_, button, shift, x, y) => EnchantmentListMouseDown(button, shift, x, y);
+        UpkeepList.MousePressed += (_, e) => EnchantmentListMouseDown(e.Button, e.Shift, e.X, e.Y);
         UpkeepList.Priority = 10;
         UpkeepList.WinLeft = 344;
         UpkeepList.WinTop = 14;
@@ -427,8 +427,8 @@ public sealed partial class MagicWindow : ILayoutModule
         UpkeepList.WinHeight = 73;
         UpkeepList.BorderWidth = 6;
         UpkeepList.BorderHeight = 3;
-        UpkeepList.Changed += _ => UpkeepListChange();
-        UpkeepList.DoubleClicked += _ => EnchantmentListDoubleClick();
+        UpkeepList.Changed += (_, _) => UpkeepListChange();
+        UpkeepList.DoubleClicked += (_, _) => EnchantmentListDoubleClick();
         UpkeepList.Selected = -1;
         UpkeepList.TextColor = 9415072;
         UpkeepList.TextSelectedColor = 0;
@@ -467,12 +467,12 @@ public sealed partial class MagicWindow : ILayoutModule
         upkeepSortBtn.TextColor = 0;
         upkeepSortBtn.TextSelectedColor = 16777215;
         upkeepSortBtn.WinWidth = 77;
-        upkeepSortBtn.Clicked += _ => UpkeepSortBtnClick();
+        upkeepSortBtn.Clicked += (_, _) => UpkeepSortBtnClick();
         session.EndRead(upkeepSortBtn);
         BindingList = new ListBox(this);
         session.BeginRead(BindingList);
         BindingList.Name = "BindingList";
-        BindingList.MousePressed += (_, button, shift, x, y) => EnchantmentListMouseDown(button, shift, x, y);
+        BindingList.MousePressed += (_, e) => EnchantmentListMouseDown(e.Button, e.Shift, e.X, e.Y);
         BindingList.Priority = 20;
         BindingList.WinLeft = 160;
         BindingList.WinTop = 14;
@@ -494,8 +494,8 @@ public sealed partial class MagicWindow : ILayoutModule
         BindingList.WinHeight = 73;
         BindingList.BorderWidth = 6;
         BindingList.BorderHeight = 3;
-        BindingList.Changed += _ => BindingListChange();
-        BindingList.DoubleClicked += _ => EnchantmentListDoubleClick();
+        BindingList.Changed += (_, _) => BindingListChange();
+        BindingList.DoubleClicked += (_, _) => EnchantmentListDoubleClick();
         BindingList.Selected = -1;
         BindingList.TextColor = 9415072;
         BindingList.TextSelectedColor = 0;
@@ -534,7 +534,7 @@ public sealed partial class MagicWindow : ILayoutModule
         bindingSortBtn.TextColor = 0;
         bindingSortBtn.TextSelectedColor = 16777215;
         bindingSortBtn.WinWidth = 186;
-        bindingSortBtn.Clicked += _ => BindingSortBtnClick();
+        bindingSortBtn.Clicked += (_, _) => BindingSortBtnClick();
         session.EndRead(bindingSortBtn);
         Panel resPnl = new(this);
         session.BeginRead(resPnl);
@@ -694,7 +694,7 @@ public sealed partial class MagicWindow : ILayoutModule
         GlobalEnchantmentList = new ListBox<GlobalEnchantment>(this);
         session.BeginRead(GlobalEnchantmentList);
         GlobalEnchantmentList.Name = "GlobalEnchantmentList";
-        GlobalEnchantmentList.MousePressed += (_, button, shift, x, y) => GlobalEnchantmentMouseDown(button, shift, x, y);
+        GlobalEnchantmentList.MousePressed += (_, e) => GlobalEnchantmentMouseDown(e.Button, e.Shift, e.X, e.Y);
         GlobalEnchantmentList.Priority = 30;
         GlobalEnchantmentList.WinLeft = 1;
         GlobalEnchantmentList.WinTop = 14;
@@ -716,7 +716,7 @@ public sealed partial class MagicWindow : ILayoutModule
         GlobalEnchantmentList.WinHeight = 73;
         GlobalEnchantmentList.BorderWidth = 6;
         GlobalEnchantmentList.BorderHeight = 3;
-        GlobalEnchantmentList.Changed += _ => GlobalEnchantmentListChange();
+        GlobalEnchantmentList.Changed += (_, _) => GlobalEnchantmentListChange();
         GlobalEnchantmentList.Selected = -1;
         GlobalEnchantmentList.TextColor = 9415072;
         GlobalEnchantmentList.TextSelectedColor = 0;
@@ -755,12 +755,12 @@ public sealed partial class MagicWindow : ILayoutModule
         globalEnchantmentSortBtn.TextColor = 0;
         globalEnchantmentSortBtn.TextSelectedColor = 16777215;
         globalEnchantmentSortBtn.WinWidth = 160;
-        globalEnchantmentSortBtn.Clicked += _ => GlobalEnchantmentSortBtnClick();
+        globalEnchantmentSortBtn.Clicked += (_, _) => GlobalEnchantmentSortBtnClick();
         session.EndRead(globalEnchantmentSortBtn);
         GlobalUpkeepList = new ListBox(this);
         session.BeginRead(GlobalUpkeepList);
         GlobalUpkeepList.Name = "GlobalUpkeepList";
-        GlobalUpkeepList.MousePressed += (_, button, shift, x, y) => GlobalEnchantmentMouseDown(button, shift, x, y);
+        GlobalUpkeepList.MousePressed += (_, e) => GlobalEnchantmentMouseDown(e.Button, e.Shift, e.X, e.Y);
         GlobalUpkeepList.Priority = 10;
         GlobalUpkeepList.WinLeft = 344;
         GlobalUpkeepList.WinTop = 14;
@@ -782,7 +782,7 @@ public sealed partial class MagicWindow : ILayoutModule
         GlobalUpkeepList.WinHeight = 73;
         GlobalUpkeepList.BorderWidth = 6;
         GlobalUpkeepList.BorderHeight = 3;
-        GlobalUpkeepList.Changed += _ => GlobalUpkeepListChange();
+        GlobalUpkeepList.Changed += (_, _) => GlobalUpkeepListChange();
         GlobalUpkeepList.Selected = -1;
         GlobalUpkeepList.TextColor = 9415072;
         GlobalUpkeepList.TextSelectedColor = 0;
@@ -821,12 +821,12 @@ public sealed partial class MagicWindow : ILayoutModule
         globalUpkeepSortBtn.TextColor = 0;
         globalUpkeepSortBtn.TextSelectedColor = 16777215;
         globalUpkeepSortBtn.WinWidth = 77;
-        globalUpkeepSortBtn.Clicked += _ => GlobalUpkeepSortBtnClick();
+        globalUpkeepSortBtn.Clicked += (_, _) => GlobalUpkeepSortBtnClick();
         session.EndRead(globalUpkeepSortBtn);
         GlobalNameList = new ListBox(this);
         session.BeginRead(GlobalNameList);
         GlobalNameList.Name = "GlobalNameList";
-        GlobalNameList.MousePressed += (_, button, shift, x, y) => GlobalEnchantmentMouseDown(button, shift, x, y);
+        GlobalNameList.MousePressed += (_, e) => GlobalEnchantmentMouseDown(e.Button, e.Shift, e.X, e.Y);
         GlobalNameList.Priority = 20;
         GlobalNameList.WinLeft = 160;
         GlobalNameList.WinTop = 14;
@@ -848,7 +848,7 @@ public sealed partial class MagicWindow : ILayoutModule
         GlobalNameList.WinHeight = 73;
         GlobalNameList.BorderWidth = 6;
         GlobalNameList.BorderHeight = 3;
-        GlobalNameList.Changed += _ => GlobalNameListChange();
+        GlobalNameList.Changed += (_, _) => GlobalNameListChange();
         GlobalNameList.Selected = -1;
         GlobalNameList.TextColor = 9415072;
         GlobalNameList.TextSelectedColor = 0;
@@ -887,7 +887,7 @@ public sealed partial class MagicWindow : ILayoutModule
         globalNameSortBtn.TextColor = 0;
         globalNameSortBtn.TextSelectedColor = 16777215;
         globalNameSortBtn.WinWidth = 186;
-        globalNameSortBtn.Clicked += _ => GlobalNameSortBtnClick();
+        globalNameSortBtn.Clicked += (_, _) => GlobalNameSortBtnClick();
         session.EndRead(globalNameSortBtn);
         Panel rightPnl = new(this);
         session.BeginRead(rightPnl);
@@ -969,7 +969,7 @@ public sealed partial class MagicWindow : ILayoutModule
         GlobalDispelButton.TextColor = 0;
         GlobalDispelButton.TextSelectedColor = 16777215;
         GlobalDispelButton.WinWidth = 160;
-        GlobalDispelButton.Clicked += _ => GlobalDispelBtnClick();
+        GlobalDispelButton.Clicked += (_, _) => GlobalDispelBtnClick();
         session.EndRead(GlobalDispelButton);
         DispelButton = new Button(this);
         session.BeginRead(DispelButton);
@@ -1001,7 +1001,7 @@ public sealed partial class MagicWindow : ILayoutModule
         DispelButton.TextColor = 0;
         DispelButton.TextSelectedColor = 16777215;
         DispelButton.WinWidth = 160;
-        DispelButton.Clicked += _ => DispelBtnClick();
+        DispelButton.Clicked += (_, _) => DispelBtnClick();
         session.EndRead(DispelButton);
         Button researchBtn = new(this);
         session.BeginRead(researchBtn);
@@ -1036,7 +1036,7 @@ public sealed partial class MagicWindow : ILayoutModule
         researchBtn.TextColor = 0;
         researchBtn.TextSelectedColor = 16777215;
         researchBtn.WinWidth = 183;
-        researchBtn.Clicked += _ => ResearchBtnClick();
+        researchBtn.Clicked += (_, _) => ResearchBtnClick();
         session.EndRead(researchBtn);
         ResearchTurnsLeftLabel = new Label(this);
         session.BeginRead(ResearchTurnsLeftLabel);
@@ -1137,7 +1137,7 @@ public sealed partial class MagicWindow : ILayoutModule
         Image spellIcn = new(this);
         session.BeginRead(spellIcn);
         spellIcn.Name = "SpellIcn";
-        spellIcn.Drawn += SpellIcnDraw;
+        spellIcn.Drawn += (_, e) => SpellIcnDraw(spellIcn, e.Surface);
         spellIcn.Priority = 0;
         spellIcn.WinLeft = 8;
         spellIcn.WinTop = 8;
@@ -1195,7 +1195,7 @@ public sealed partial class MagicWindow : ILayoutModule
         minimize.TextColor = 0;
         minimize.TextSelectedColor = 0;
         minimize.WinWidth = 15;
-        minimize.Clicked += _ => MinimizeClick();
+        minimize.Clicked += (_, _) => MinimizeClick();
         session.EndRead(minimize);
         Button changePowerBut = new(this);
         session.BeginRead(changePowerBut);
@@ -1230,7 +1230,7 @@ public sealed partial class MagicWindow : ILayoutModule
         changePowerBut.TextColor = 0;
         changePowerBut.TextSelectedColor = 16777215;
         changePowerBut.WinWidth = 183;
-        changePowerBut.Clicked += _ => ChangePowerButClick();
+        changePowerBut.Clicked += (_, _) => ChangePowerButClick();
         session.EndRead(changePowerBut);
         PowerLabel = new Label(this);
         session.BeginRead(PowerLabel);
@@ -1440,7 +1440,7 @@ public sealed partial class MagicWindow : ILayoutModule
         PowerValueList = new ListBox(this);
         session.BeginRead(PowerValueList);
         PowerValueList.Name = "PowerValueList";
-        PowerValueList.MousePressed += (_, button, shift, x, y) => PowerValueListMouseDown(button, shift, x, y);
+        PowerValueList.MousePressed += (_, e) => PowerValueListMouseDown(e.Button, e.Shift, e.X, e.Y);
         PowerValueList.Priority = 10;
         PowerValueList.WinLeft = 344;
         PowerValueList.WinTop = 14;
@@ -1462,8 +1462,8 @@ public sealed partial class MagicWindow : ILayoutModule
         PowerValueList.WinHeight = 92;
         PowerValueList.BorderWidth = 6;
         PowerValueList.BorderHeight = 3;
-        PowerValueList.Changed += _ => PowerValueListChange();
-        PowerValueList.DoubleClicked += _ => PowerSourceListDoubleClick();
+        PowerValueList.Changed += (_, _) => PowerValueListChange();
+        PowerValueList.DoubleClicked += (_, _) => PowerSourceListDoubleClick();
         PowerValueList.Selected = -1;
         PowerValueList.TextColor = 9415072;
         PowerValueList.TextSelectedColor = 0;
@@ -1502,12 +1502,12 @@ public sealed partial class MagicWindow : ILayoutModule
         powerValueSortBtn.TextColor = 0;
         powerValueSortBtn.TextSelectedColor = 16777215;
         powerValueSortBtn.WinWidth = 78;
-        powerValueSortBtn.Clicked += _ => PowerValueSortBtnClick();
+        powerValueSortBtn.Clicked += (_, _) => PowerValueSortBtnClick();
         session.EndRead(powerValueSortBtn);
         PowerSourceList = new ListBox<PowerSource>(this);
         session.BeginRead(PowerSourceList);
         PowerSourceList.Name = "PowerSourceList";
-        PowerSourceList.MousePressed += (_, button, shift, x, y) => PowerValueListMouseDown(button, shift, x, y);
+        PowerSourceList.MousePressed += (_, e) => PowerValueListMouseDown(e.Button, e.Shift, e.X, e.Y);
         PowerSourceList.Priority = 20;
         PowerSourceList.WinLeft = 1;
         PowerSourceList.WinTop = 14;
@@ -1529,8 +1529,8 @@ public sealed partial class MagicWindow : ILayoutModule
         PowerSourceList.WinHeight = 92;
         PowerSourceList.BorderWidth = 6;
         PowerSourceList.BorderHeight = 3;
-        PowerSourceList.Changed += _ => PowerSourceListChange();
-        PowerSourceList.DoubleClicked += _ => PowerSourceListDoubleClick();
+        PowerSourceList.Changed += (_, _) => PowerSourceListChange();
+        PowerSourceList.DoubleClicked += (_, _) => PowerSourceListDoubleClick();
         PowerSourceList.Selected = -1;
         PowerSourceList.TextColor = 9415072;
         PowerSourceList.TextSelectedColor = 0;
@@ -1569,7 +1569,7 @@ public sealed partial class MagicWindow : ILayoutModule
         powerSourceSortBtn.TextColor = 0;
         powerSourceSortBtn.TextSelectedColor = 16777215;
         powerSourceSortBtn.WinWidth = 344;
-        powerSourceSortBtn.Clicked += _ => PowerSourceSortBtnClick();
+        powerSourceSortBtn.Clicked += (_, _) => PowerSourceSortBtnClick();
         session.EndRead(powerSourceSortBtn);
         Panel t2BottonPnl = new(this);
         session.BeginRead(t2BottonPnl);
@@ -1627,7 +1627,7 @@ public sealed partial class MagicWindow : ILayoutModule
         EnchantmentScrollBar.WinHeight = 73;
         EnchantmentScrollBar.WinWidth = 17;
         EnchantmentScrollBar.NumberVisible = 1;
-        EnchantmentScrollBar.Changed += _ => EnchantmentSBChange();
+        EnchantmentScrollBar.Changed += (_, _) => EnchantmentSBChange();
         EnchantmentScrollBar.VanishWhenFull = true;
         EnchantmentScrollBar.ImageLibraryIndexIncrementUp = 96;
         EnchantmentScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -1665,7 +1665,7 @@ public sealed partial class MagicWindow : ILayoutModule
         GlobalEnchantmentScrollBar.WinHeight = 73;
         GlobalEnchantmentScrollBar.WinWidth = 17;
         GlobalEnchantmentScrollBar.NumberVisible = 1;
-        GlobalEnchantmentScrollBar.Changed += _ => GlobalEnchantmentSBChange();
+        GlobalEnchantmentScrollBar.Changed += (_, _) => GlobalEnchantmentSBChange();
         GlobalEnchantmentScrollBar.VanishWhenFull = true;
         GlobalEnchantmentScrollBar.ImageLibraryIndexIncrementUp = 96;
         GlobalEnchantmentScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -1703,7 +1703,7 @@ public sealed partial class MagicWindow : ILayoutModule
         PowerScrollBar.WinHeight = 92;
         PowerScrollBar.WinWidth = 17;
         PowerScrollBar.NumberVisible = 1;
-        PowerScrollBar.Changed += _ => PowerSBChange();
+        PowerScrollBar.Changed += (_, _) => PowerSBChange();
         PowerScrollBar.VanishWhenFull = true;
         PowerScrollBar.ImageLibraryIndexIncrementUp = 96;
         PowerScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -1860,7 +1860,7 @@ public sealed partial class MagicWindow : ILayoutModule
         help.TextColor = 0;
         help.TextSelectedColor = 0;
         help.WinWidth = 15;
-        help.Clicked += _ => HelpClick();
+        help.Clicked += (_, _) => HelpClick();
         session.EndRead(help);
         session.EndRead(this);
         owTitle.Window = Window;

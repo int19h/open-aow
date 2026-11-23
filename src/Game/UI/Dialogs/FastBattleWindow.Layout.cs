@@ -16,20 +16,19 @@ public sealed partial class FastBattleWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "FastCombatWindow";
-        LayoutOnCreate += _ => FastBattleWindowCreate();
-        LayoutOnDestroy += _ => FastBattleWindowDestroy();
+        _hasLayout = true;
         MainWindow = new Window(this);
         session.BeginRead(MainWindow);
         MainWindow.Name = "FCWin";
-        MainWindow.KeyPressed += (_, ref key, shift) => FCWinKeyDown(key, shift);
-        MainWindow.Updated += _ => FCWinUpdate();
+        MainWindow.KeyPressed += (_, e) => FCWinKeyDown(e.Key, e.Shift);
+        MainWindow.Updated += (_, _) => FCWinUpdate();
         MainWindow.Visible = false;
         MainWindow.Priority = 55;
         MainWindow.WinLeft = 31;
         MainWindow.WinTop = 10;
         MainWindow.WinWidth = 579;
         MainWindow.Masked = true;
-        MainWindow.Hidden += _ => FCWinHide();
+        MainWindow.Hidden += (_, _) => FCWinHide();
         MainWindow.Alignment.AlignWidth = AlignWidth.Center;
         MainWindow.Alignment.AlignHeight = AlignHeight.Center;
         MainWindow.Alignment.HeightPercent = 0;
@@ -49,7 +48,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
         MainWindow.MaskColor = 7346272;
-        MainWindow.Blitted += (_, surface, left, top) => FCWinDrawSurface(surface, left, top);
+        MainWindow.Blitted += (_, e) => FCWinDrawSurface(e.Surface, e.Left, e.Top);
         MainWindow.FreeSurfaceOnHide = true;
         MainWindow.ImageLibraryIndexFrame = 0;
         MainWindow.ImageLibraryIndexTexture = 8;
@@ -392,7 +391,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         closeBut.TextColor = 9236989;
         closeBut.TextSelectedColor = 16777215;
         closeBut.WinWidth = 73;
-        closeBut.Clicked += _ => CloseButClick();
+        closeBut.Clicked += (_, _) => CloseButClick();
         session.EndRead(closeBut);
         Party1Panel = new Panel(this);
         session.BeginRead(Party1Panel);
@@ -1153,7 +1152,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         initialView.TextColor = 0;
         initialView.TextSelectedColor = 0;
         initialView.WinWidth = 24;
-        initialView.Clicked += _ => InitialViewClick();
+        initialView.Clicked += (_, _) => InitialViewClick();
         session.EndRead(initialView);
         Button finalView = new(this);
         session.BeginRead(finalView);
@@ -1187,7 +1186,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         finalView.TextColor = 0;
         finalView.TextSelectedColor = 0;
         finalView.WinWidth = 24;
-        finalView.Clicked += _ => FinalViewClick();
+        finalView.Clicked += (_, _) => FinalViewClick();
         session.EndRead(finalView);
         Button playBtn = new(this);
         session.BeginRead(playBtn);
@@ -1221,7 +1220,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         playBtn.TextColor = 0;
         playBtn.TextSelectedColor = 0;
         playBtn.WinWidth = 48;
-        playBtn.Clicked += _ => PlayBtnClick();
+        playBtn.Clicked += (_, _) => PlayBtnClick();
         session.EndRead(playBtn);
         Button pauseBtn = new(this);
         session.BeginRead(pauseBtn);
@@ -1255,7 +1254,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         pauseBtn.TextColor = 0;
         pauseBtn.TextSelectedColor = 0;
         pauseBtn.WinWidth = 24;
-        pauseBtn.Clicked += _ => PauseBtnClick();
+        pauseBtn.Clicked += (_, _) => PauseBtnClick();
         session.EndRead(pauseBtn);
         SequencePositionSlider = new HorizontalScrollBar(this);
         session.BeginRead(SequencePositionSlider);
@@ -1285,7 +1284,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         SequencePositionSlider.WinHeight = 11;
         SequencePositionSlider.WinWidth = 40;
         SequencePositionSlider.NumberVisible = 1;
-        SequencePositionSlider.Changed += _ => SequencePositionSldChange();
+        SequencePositionSlider.Changed += (_, _) => SequencePositionSldChange();
         SequencePositionSlider.VanishWhenFull = false;
         SequencePositionSlider.ImageLibraryIndexIncrementUp = 0;
         SequencePositionSlider.ImageLibraryIndexIncrementDown = 0;
@@ -1322,7 +1321,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         SequenceSpeedSlider.WinHeight = 11;
         SequenceSpeedSlider.WinWidth = 40;
         SequenceSpeedSlider.NumberVisible = 1;
-        SequenceSpeedSlider.Changed += _ => SequenceSpeedSldChange();
+        SequenceSpeedSlider.Changed += (_, _) => SequenceSpeedSldChange();
         SequenceSpeedSlider.VanishWhenFull = false;
         SequenceSpeedSlider.ImageLibraryIndexIncrementUp = 0;
         SequenceSpeedSlider.ImageLibraryIndexIncrementDown = 0;
@@ -1548,10 +1547,11 @@ public sealed partial class FastBattleWindow : ILayoutModule
         ModeLabel.Text = "#####";
         ModeLabel.TextColor = 16777215;
         session.EndRead(ModeLabel);
-        LeftShieldView = new UserDrawBox(this);
+        UserDrawBox leftShieldView = new(this);
+        LeftShieldView = leftShieldView;
         session.BeginRead(LeftShieldView);
         LeftShieldView.Name = "LShieldUser";
-        LeftShieldView.Drawn += LShieldUserDraw;
+        leftShieldView.Drawn += (_, e) => LShieldUserDraw(leftShieldView, e.Surface);
         LeftShieldView.Priority = 3000;
         LeftShieldView.WinLeft = 15;
         LeftShieldView.WinTop = 105;
@@ -1572,10 +1572,11 @@ public sealed partial class FastBattleWindow : ILayoutModule
         LeftShieldView.WinWidth = 40;
         LeftShieldView.WinHeight = 53;
         session.EndRead(LeftShieldView);
-        RightShieldView = new UserDrawBox(this);
+        UserDrawBox rightShieldView = new(this);
+        RightShieldView = rightShieldView;
         session.BeginRead(RightShieldView);
         RightShieldView.Name = "RShieldUser";
-        RightShieldView.Drawn += RShieldUserDraw;
+        rightShieldView.Drawn += (_, e) => RShieldUserDraw(rightShieldView, e.Surface);
         RightShieldView.Priority = 3000;
         RightShieldView.WinLeft = 525;
         RightShieldView.WinTop = 105;
@@ -1769,7 +1770,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         ModeLabel.Font = UI.Fonts.Age10Shadow;
         if (session.FireCreateEvents)
         {
-            LayoutOnCreate?.Invoke(this);
+            FastBattleWindowCreate();
         }
     }
 }
