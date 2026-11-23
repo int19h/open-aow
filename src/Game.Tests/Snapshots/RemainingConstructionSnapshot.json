@@ -669,7 +669,6 @@
               ],
               "AIMoveTargetSelector.MovePointsMax": 0,
               "AIMoveTargetSelector.MovePointsMin": 0,
-              "AIMoveTargetSelector._targetFound": null,
               "AIMoveTargetSelector.SourceLocation": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
                 "MapCoordinate.MapLevel": 0,
@@ -1088,6 +1087,7 @@
                 "MoveControlSettings._width": 0
               },
               "AIMoveTargetSelector._state": 0,
+              "AIMoveTargetSelector._targetFound": null,
               "AIMoveTargetSelector._targets": {
                 "$type": "Aow.Game.World.Movement.MoveTargetList",
                 "EngineObject._owner": null,
@@ -1729,7 +1729,6 @@
               ],
               "AIMoveTargetSelector.MovePointsMax": 0,
               "AIMoveTargetSelector.MovePointsMin": 0,
-              "AIMoveTargetSelector._targetFound": null,
               "AIMoveTargetSelector.SourceLocation": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
                 "MapCoordinate.MapLevel": 0,
@@ -2148,6 +2147,7 @@
                 "MoveControlSettings._width": 0
               },
               "AIMoveTargetSelector._state": 0,
+              "AIMoveTargetSelector._targetFound": null,
               "AIMoveTargetSelector._targets": {
                 "$type": "Aow.Game.World.Movement.MoveTargetList",
                 "EngineObject._owner": null,
@@ -33105,8 +33105,6 @@
               "CombatLogbook._refCount": 1,
               "EngineObject._owner": null
             },
-            "Battle._executed": null,
-            "Battle._terminated": null,
             "Battle.Sides": [
               {
                 "$type": "Aow.Game.Combat.CombatSide",
@@ -33137,6 +33135,7 @@
             ],
             "Battle.Status": 0,
             "Battle.Terminated": false,
+            "Battle._executed": null,
             "Battle._executedEventsStore": {
               "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.Battle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "EventStore\u00601.Count": 0,
@@ -33144,6 +33143,7 @@
             },
             "Battle._executedLock": 0,
             "Battle._nextCombatObjectId": 1,
+            "Battle._terminated": null,
             "EngineObject._owner": null,
             "TacticalBattle.HostPlayer": 0
           }
@@ -33421,8 +33421,6 @@
               "CombatLogbook._refCount": 1,
               "EngineObject._owner": null
             },
-            "Battle._executed": null,
-            "Battle._terminated": null,
             "Battle.Sides": [
               {
                 "$type": "Aow.Game.Combat.CombatSide",
@@ -33453,6 +33451,7 @@
             ],
             "Battle.Status": 0,
             "Battle.Terminated": false,
+            "Battle._executed": null,
             "Battle._executedEventsStore": {
               "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.Battle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "EventStore\u00601.Count": 0,
@@ -33460,6 +33459,7 @@
             },
             "Battle._executedLock": 0,
             "Battle._nextCombatObjectId": 1,
+            "Battle._terminated": null,
             "EngineObject._owner": "$owner",
             "TacticalBattle.HostPlayer": 0
           }
@@ -33476,17 +33476,17 @@
               "Battle.ExplorationSite": 0,
               "Battle.Items": null,
               "Battle.Logbook": null,
-              "Battle._executed": null,
-              "Battle._terminated": null,
               "Battle.Sides": [
                 null,
                 null
               ],
               "Battle.Status": 0,
               "Battle.Terminated": false,
+              "Battle._executed": null,
               "Battle._executedEventsStore": null,
               "Battle._executedLock": 0,
               "Battle._nextCombatObjectId": 0,
+              "Battle._terminated": null,
               "EngineObject._owner": "$owner",
               "TacticalBattle.HostPlayer": 0
             }
@@ -36141,7 +36141,6 @@
               ]
             },
             "LeaderSetupControl.Mode": 7,
-            "LeaderSetupControl._done": null,
             "LeaderSetupControl.OriginalLeader": {
               "$type": "Aow.Game.Magic.Abilities.Leader",
               "AbilityOwner.AbilityData": null,
@@ -36240,6 +36239,7 @@
               ]
             },
             "LeaderSetupControl.Status": 0,
+            "LeaderSetupControl._done": null,
             "LeaderSetupControl._refCount": 1
           }
         }
@@ -36371,7 +36371,6 @@
               ]
             },
             "LeaderSetupControl.Mode": 7,
-            "LeaderSetupControl._done": null,
             "LeaderSetupControl.OriginalLeader": {
               "$type": "Aow.Game.Magic.Abilities.Leader",
               "AbilityOwner.AbilityData": null,
@@ -36470,6 +36469,7 @@
               ]
             },
             "LeaderSetupControl.Status": 0,
+            "LeaderSetupControl._done": null,
             "LeaderSetupControl._refCount": 1
           }
         }
@@ -36486,9 +36486,9 @@
               "LeaderSetupControl.Items": null,
               "LeaderSetupControl.Leader": null,
               "LeaderSetupControl.Mode": 0,
-              "LeaderSetupControl._done": null,
               "LeaderSetupControl.OriginalLeader": null,
               "LeaderSetupControl.Status": 0,
+              "LeaderSetupControl._done": null,
               "LeaderSetupControl._refCount": 0
             }
           }
@@ -38346,7 +38346,12 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.ColorChange",
-            "ColorChange.Color": 0,
+            "ColorChange.Color": {
+              "$type": "Aow.Graphics.Color",
+              "Color.B": 0,
+              "Color.G": 0,
+              "Color.R": 0
+            },
             "ColorChange.HasColor": false
           }
         }
@@ -39325,11 +39330,11 @@
             },
             "Army.Mode": 0,
             "Army.OldAIBehavior": 0,
-            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": 0,
             "Army.UserMode": 0,
             "Army._unfogRange": 0,
+            "Army._update": null,
             "Army._upkeep": 0,
             "Army._visibilityRanges": 0,
             "EngineObject._owner": null,
@@ -39391,11 +39396,11 @@
             },
             "Army.Mode": 0,
             "Army.OldAIBehavior": 0,
-            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": 0,
             "Army.UserMode": 0,
             "Army._unfogRange": 0,
+            "Army._update": null,
             "Army._upkeep": 0,
             "Army._visibilityRanges": 0,
             "EngineObject._owner": "$owner",
@@ -39443,11 +39448,11 @@
               },
               "Army.Mode": 0,
               "Army.OldAIBehavior": 0,
-              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": 0,
               "Army.UserMode": 0,
               "Army._unfogRange": 0,
+              "Army._update": null,
               "Army._upkeep": 0,
               "Army._visibilityRanges": 0,
               "EngineObject._owner": "$owner",
@@ -39587,8 +39592,8 @@
             "$type": "Aow.Game.World.Structures.CityProductionControl",
             "CityProductionControl.City": null,
             "EngineObject._owner": null,
-            "ProductionControl.LoopQueue": false,
             "ProductionControl.Changed": null,
+            "ProductionControl.LoopQueue": false,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "EngineObject._owner": null,
@@ -39648,8 +39653,8 @@
             "$type": "Aow.Game.World.Structures.CityProductionControl",
             "CityProductionControl.City": null,
             "EngineObject._owner": "$owner",
-            "ProductionControl.LoopQueue": false,
             "ProductionControl.Changed": null,
+            "ProductionControl.LoopQueue": false,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "EngineObject._owner": null,
@@ -39696,8 +39701,8 @@
               "$type": "Aow.Game.World.Structures.CityProductionControl",
               "CityProductionControl.City": null,
               "EngineObject._owner": "$owner",
-              "ProductionControl.LoopQueue": false,
               "ProductionControl.Changed": null,
+              "ProductionControl.LoopQueue": false,
               "ProductionControl.Queue": null,
               "ProductionControl.Settings": null,
               "ProductionControl.Status": 0,
@@ -39742,11 +39747,11 @@
             },
             "Army.Mode": 0,
             "Army.OldAIBehavior": 0,
-            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": 0,
             "Army.UserMode": 0,
             "Army._unfogRange": 0,
+            "Army._update": null,
             "Army._upkeep": 0,
             "Army._visibilityRanges": 0,
             "EngineObject._owner": null,
@@ -39796,11 +39801,11 @@
             },
             "Army.Mode": 0,
             "Army.OldAIBehavior": 0,
-            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": 0,
             "Army.UserMode": 0,
             "Army._unfogRange": 0,
+            "Army._update": null,
             "Army._upkeep": 0,
             "Army._visibilityRanges": 0,
             "EngineObject._owner": "$owner",
@@ -39836,11 +39841,11 @@
               },
               "Army.Mode": 0,
               "Army.OldAIBehavior": 0,
-              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": 0,
               "Army.UserMode": 0,
               "Army._unfogRange": 0,
+              "Army._update": null,
               "Army._upkeep": 0,
               "Army._visibilityRanges": 0,
               "EngineObject._owner": "$owner",
@@ -39941,8 +39946,8 @@
           "$jsonText": {
             "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
             "EngineObject._owner": null,
-            "ProductionControl.LoopQueue": false,
             "ProductionControl.Changed": null,
+            "ProductionControl.LoopQueue": false,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "EngineObject._owner": null,
@@ -40002,8 +40007,8 @@
           "$jsonText": {
             "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
             "EngineObject._owner": "$owner",
-            "ProductionControl.LoopQueue": false,
             "ProductionControl.Changed": null,
+            "ProductionControl.LoopQueue": false,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "EngineObject._owner": null,
@@ -40050,8 +40055,8 @@
             "$jsonText": {
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": "$owner",
-              "ProductionControl.LoopQueue": false,
               "ProductionControl.Changed": null,
+              "ProductionControl.LoopQueue": false,
               "ProductionControl.Queue": null,
               "ProductionControl.Settings": null,
               "ProductionControl.Status": 0,
