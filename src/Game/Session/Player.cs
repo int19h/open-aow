@@ -1504,14 +1504,14 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     public int CaptureLocationsLeft()
     {
         int result = 0;
-        for (int i = 0, last = _victoryLocations.Count - 1; i <= last; i++)
+        foreach (PlayerStructure playerStructure in _victoryLocations)
         {
-            if (_victoryLocations.GetStructure(i).Player != PlayerIndex)
+            if (playerStructure.Player != PlayerIndex)
             {
-                bool condition = _victoryLocations.GetStructure(i).Player > 0;
+                bool condition = playerStructure.Player > 0;
                 if (condition)
                 {
-                    PlayerStructure structure = _victoryLocations.GetStructure(i);
+                    PlayerStructure structure = playerStructure;
                     condition = StrategicMap.Current.Players.GetDiplomaticRelation(structure.Player, otherPlayer: PlayerIndex) == DiplomaticRelation.Alliance;
                 }
 

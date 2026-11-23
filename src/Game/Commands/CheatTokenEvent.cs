@@ -8,6 +8,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
+using System.Linq;
 
 namespace Aow.Game.Commands;
 
@@ -95,10 +96,10 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
                 }
 
                 {
-                    for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+                    foreach (Session.Player? player in StrategicMap.Current.Players.Skip(1))
                     {
                         bool fMagicControlCheatEnabled = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
-                        StrategicMap.Current.Players.GetPlayers(i).MagicControl.CheatEnabled = fMagicControlCheatEnabled;
+                        player.MagicControl.CheatEnabled = fMagicControlCheatEnabled;
                     }
                 }
 
@@ -137,14 +138,14 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
                 break;
             case 9:
                 {
-                    for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+                    foreach (Session.Player? player in StrategicMap.Current.Players.Skip(1))
                     {
-                        StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.Clear();
+                        player.MagicControl.Spells.Clear();
                         for (int j = 1, lastJ = GamePack.Current.SpellControl.GetCount() - 1; j <= lastJ; j++)
                         {
                             if (GamePack.Current.SpellControl[j] is not null)
                             {
-                                _ = StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.Add(j);
+                                _ = player.MagicControl.Spells.Add(j);
                             }
                         }
                     }

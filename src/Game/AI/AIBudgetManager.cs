@@ -9,6 +9,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Session;
 
 using Aow.Game.World.Structures;
+using System.Linq;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI;
@@ -83,9 +84,9 @@ public sealed class AIBudgetManager : EngineObject
     public int GetBudgetGoldUpkeep()
     {
         int result = 0;
-        for (int i = Budgets.Count - 1; i >= 0; i--)
+        foreach (AIBudget budget in Budgets.Reverse())
         {
-            result += Budgets.GetBudgets(i).GoldUpkeep;
+            result += budget.GoldUpkeep;
         }
 
         return result;
@@ -95,9 +96,9 @@ public sealed class AIBudgetManager : EngineObject
     public int GetBudgetManaUpkeep()
     {
         int result = 0;
-        for (int i = Budgets.Count - 1; i >= 0; i--)
+        foreach (AIBudget budget in Budgets.Reverse())
         {
-            result += Budgets.GetBudgets(i).ManaUpkeep;
+            result += budget.ManaUpkeep;
         }
 
         return result;
@@ -107,9 +108,9 @@ public sealed class AIBudgetManager : EngineObject
     public int GetReservedBudgetGold()
     {
         int result = 0;
-        for (int i = Budgets.Count - 1; i >= 0; i--)
+        foreach (AIBudget budget in Budgets.Reverse())
         {
-            result += Budgets.GetBudgets(i).Gold;
+            result += budget.Gold;
         }
 
         return result;
@@ -119,9 +120,9 @@ public sealed class AIBudgetManager : EngineObject
     public int GetReservedBudgetMana()
     {
         int result = 0;
-        for (int i = Budgets.Count - 1; i >= 0; i--)
+        foreach (AIBudget budget in Budgets.Reverse())
         {
-            result += Budgets.GetBudgets(i).Mana;
+            result += budget.Mana;
         }
 
         return result;
@@ -131,9 +132,9 @@ public sealed class AIBudgetManager : EngineObject
     public int GetRequiredBudgetDayGold()
     {
         int result = 0;
-        for (int i = Budgets.Count - 1; i >= 0; i--)
+        foreach (AIBudget budget in Budgets.Reverse())
         {
-            result += Budgets.GetBudgets(i).DayGold;
+            result += budget.DayGold;
         }
 
         return result;
@@ -143,9 +144,9 @@ public sealed class AIBudgetManager : EngineObject
     public int GetRequiredBudgetDayMana()
     {
         int result = 0;
-        for (int i = Budgets.Count - 1; i >= 0; i--)
+        foreach (AIBudget budget in Budgets.Reverse())
         {
-            result += Budgets.GetBudgets(i).DayMana;
+            result += budget.DayMana;
         }
 
         return result;

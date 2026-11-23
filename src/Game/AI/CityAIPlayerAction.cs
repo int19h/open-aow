@@ -8,6 +8,7 @@ using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
+using System.Linq;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 
@@ -136,9 +137,8 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
         Player player = Control.Player;
         int count = 0;
         int total = 0;
-        for (int i = player.Structures.Count - 1; i >= 0; i--)
+        foreach (PlayerStructure structure in player.Structures.Reverse())
         {
-            PlayerStructure structure = player.Structures.GetStructure(i);
             if (structure is City city)
             {
                 total += 1;
@@ -329,9 +329,8 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     {
         Player player = Control.Player;
         int count = 0;
-        for (int i = player.Structures.Count - 1; i >= 0; i--)
+        foreach (PlayerStructure structure in player.Structures.Reverse())
         {
-            PlayerStructure structure = player.Structures.GetStructure(i);
             if (structure is City city)
             {
                 if (ValidUpgradeBudgetCity(city))
@@ -447,9 +446,8 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     {
         Player player = Control.Player;
         int count = 0;
-        for (int i = player.Structures.Count - 1; i >= 0; i--)
+        foreach (PlayerStructure structure in player.Structures.Reverse())
         {
-            PlayerStructure structure = player.Structures.GetStructure(i);
             if (structure is City city)
             {
                 if (ValidFortifyBudgetCity(city))
@@ -488,9 +486,8 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     public int UpgradeableCities()
     {
         int count = 0;
-        for (int i = Control.Player.Structures.Count - 1; i >= 0; i--)
+        foreach (PlayerStructure structure in Control.Player.Structures.Reverse())
         {
-            PlayerStructure structure = Control.Player.Structures.GetStructure(i);
             if (structure is City city)
             {
                 if (city.Size > city.UpgradeLevel)
@@ -511,9 +508,9 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
         int available = 0;
         int busy = 0;
         Array.Clear(_productionLevelCounts);
-        for (int i = Control.Player.Structures.Count - 1; i >= 0; i--)
+        foreach (PlayerStructure structure in Control.Player.Structures.Reverse())
         {
-            if (Control.Player.Structures.GetStructure(i) is City found)
+            if (structure is City found)
             {
                 _cityCount += 1;
                 City city = found;

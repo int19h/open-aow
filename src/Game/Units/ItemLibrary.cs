@@ -189,4 +189,6 @@ public sealed class ItemLibrary(CustomNode? owner) : ObservableNode(owner), IChi
     public void SaveToFile(string fileName) => GetEngine().WriteToFile(fileName, this, progress: null, profile: GameProfile.ItemList);
 
     private static readonly string s_systemItemLibraryText = "System";
+
+    Item System.Collections.Generic.IReadOnlyList<Item>.this[int index] => Items[index];
 }

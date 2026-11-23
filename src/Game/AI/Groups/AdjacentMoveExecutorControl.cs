@@ -6,6 +6,7 @@ using Aow.Game.Draw;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using System.Linq;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI.Groups;
@@ -72,9 +73,9 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
 
                     // { Original suppresses a RetrieveArmy exception. }
                     // { Original uses transporter IDs as visited markers during adjacent moves. }
-                    for (int j = aiMoveExecutorArmyList.GetArmies(i).Count - 1; j >= 0; j--)
+                    foreach (AIMoveExecutorUnit unit in aiMoveExecutorArmyList.GetArmies(i).Reverse())
                     {
-                        aiMoveExecutorArmyList.GetArmies(i).GetUnits(j).TransporterId = 0;
+                        unit.TransporterId = 0;
                     }
 
                     settings.Reset();
@@ -162,9 +163,9 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
 
                         if (index < aiMoveExecutorArmyList.Count)
                         {
-                            for (int j = aiMoveExecutorArmyList.GetArmies(index).Count - 1; j >= 0; j--)
+                            foreach (AIMoveExecutorUnit unit in aiMoveExecutorArmyList.GetArmies(index).Reverse())
                             {
-                                aiMoveExecutorArmyList.GetArmies(index).GetUnits(j).TransporterId = 1;
+                                unit.TransporterId = 1;
                             }
 
                             mode = Executor.Mode.Contains(AIMoveExecutorModes.Attack)

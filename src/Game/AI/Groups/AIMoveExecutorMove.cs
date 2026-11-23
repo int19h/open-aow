@@ -7,6 +7,7 @@ using Aow.Game.Draw;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
+using System.Linq;
 
 using static Aow.Rtl.LegacyApplication;
 
@@ -63,9 +64,9 @@ public sealed class AIMoveExecutorMove(CustomNode? owner) : AIMoveExecutorUnitLi
     // AIGroup.pas:4476
     public void SetUnitStatus(AIMoveExecutorUnitStatus status)
     {
-        for (int i = Count - 1; i >= 0; i--)
+        foreach (AIMoveExecutorUnit unit in this.Reverse())
         {
-            this[i].Status = status;
+            unit.Status = status;
         }
     }
 
@@ -76,9 +77,8 @@ public sealed class AIMoveExecutorMove(CustomNode? owner) : AIMoveExecutorUnitLi
         if (army is not null)
         {
             selection = 0;
-            for (int i = Count - 1; i >= 0; i--)
+            foreach (AIMoveExecutorUnit units in this.Reverse())
             {
-                AIMoveExecutorUnit units = GetUnits(i);
                 int index = army.Army.FindChildIndex(units.Troop);
                 selection = index != -1 ? (selection | (1 << index)).TruncateToByte() : throw new KeyNotFoundException("Unit missing!");
             }

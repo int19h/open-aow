@@ -51,11 +51,11 @@ public sealed class AIMoveExecutorArmy(CustomNode? owner) : AIMoveExecutorUnitLi
         if (army is not null)
         {
             armySelection = 0;
-            for (int i = 0, last = Count - 1; i <= last; i++)
+            foreach (AIMoveExecutorUnit unit in this)
             {
                 if ((selection & 1) != 0)
                 {
-                    AIMoveExecutorUnit units = GetUnits(i);
+                    AIMoveExecutorUnit units = unit;
                     int index = army.Army.FindChildIndex(units.Troop);
                     armySelection = index != -1 ? (armySelection | (1 << index)).TruncateToByte() : throw new KeyNotFoundException("Unit missing!");
                 }
@@ -86,13 +86,13 @@ public sealed class AIMoveExecutorArmy(CustomNode? owner) : AIMoveExecutorUnitLi
     public int Moves(int selection)
     {
         int result = 65_535;
-        for (int i = 0, last = Count - 1; i <= last; i++)
+        foreach (AIMoveExecutorUnit unit in this)
         {
             if ((selection & 1) != 0)
             {
-                if (result > GetUnits(i).Troop.Moves)
+                if (result > unit.Troop.Moves)
                 {
-                    result = GetUnits(i).Troop.Moves;
+                    result = unit.Troop.Moves;
                 }
             }
 
@@ -106,13 +106,13 @@ public sealed class AIMoveExecutorArmy(CustomNode? owner) : AIMoveExecutorUnitLi
     public int MovePoints(int selection)
     {
         int result = 65_535;
-        for (int i = 0, last = Count - 1; i <= last; i++)
+        foreach (AIMoveExecutorUnit unit in this)
         {
             if ((selection & 1) != 0)
             {
-                if (result > GetUnits(i).Troop.GetMovePoints())
+                if (result > unit.Troop.GetMovePoints())
                 {
-                    result = GetUnits(i).Troop.GetMovePoints();
+                    result = unit.Troop.GetMovePoints();
                 }
             }
 

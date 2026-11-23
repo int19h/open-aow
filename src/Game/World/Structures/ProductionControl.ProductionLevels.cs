@@ -2,6 +2,7 @@
 
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using System.Linq;
 
 namespace Aow.Game.World.Structures;
 
@@ -13,9 +14,8 @@ public partial class ProductionControl
     private int MaximumUnitLevel(bool researched)
     {
         int result = 0;
-        for (int i = UnitProductions.Count - 1; i >= 0; i--)
+        foreach (UnitProduction production in UnitProductions.Reverse())
         {
-            UnitProduction production = UnitProductions.GetItem(i);
             if (production.Researched != researched || production.UnitIndex < 0)
             {
                 continue;

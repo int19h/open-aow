@@ -9,7 +9,7 @@ namespace Aow.Game.World.Map;
 // Engine's value list (Classes.TList adapted to a value type, with a default item for new and
 // out-of-range items), the list code of TXYLList. MapCoordinateList holds locations, PathStepList
 // the steps of a path and UnitPositionControl the unit positions of a combat map.
-public class DefaultItemList<TItem> : Persistent where TItem : struct, IEquatable<TItem>
+public class DefaultItemList<TItem> : Persistent, System.Collections.Generic.IReadOnlyList<TItem> where TItem : struct, IEquatable<TItem>
 {
     private TItem[] _list = [];
     private int _count;
@@ -243,4 +243,16 @@ public class DefaultItemList<TItem> : Persistent where TItem : struct, IEquatabl
 
     // HSEngine.pas:1640
     protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: DelphiFormat.Format(message, args: [data]));
+
+    // The items from the first to the last in index order, read through the indexer. Each step
+    // reads the count again, as the index loop over a live count does.
+    public System.Collections.Generic.IEnumerator<TItem> GetEnumerator()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            yield return this[i];
+        }
+    }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }

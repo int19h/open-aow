@@ -4,6 +4,7 @@ using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
+using System.Linq;
 
 namespace Aow.Game.Combat;
 
@@ -104,9 +105,8 @@ public sealed class CombatSide(CustomNode? owner) : OwningNode(owner), IChildLis
     {
         Strength = 0;
         ConquerCount = 0;
-        for (int i = Count - 1; i >= 0; i--)
+        foreach (CombatObject objectValue in this.Reverse())
         {
-            CombatObject objectValue = this[i];
             int n = objectValue.Targets.Count;
             if (n > 0)
             {

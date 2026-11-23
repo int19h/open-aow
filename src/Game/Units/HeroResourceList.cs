@@ -60,4 +60,6 @@ public sealed class HeroResourceList : ResourceCollection, IChildList<HeroResour
 
         return result;
     }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => ((System.Collections.Generic.IEnumerable<HeroResource>)this).GetEnumerator();
 }

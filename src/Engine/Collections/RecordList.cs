@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Engine.Collections;
 
-public class RecordList<TRecord> : Persistent where TRecord : struct
+public class RecordList<TRecord> : Persistent, System.Collections.Generic.IReadOnlyList<TRecord> where TRecord : struct
 {
     private TRecord[] _list = [];
     private int _count;
@@ -223,4 +223,16 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
     // column that held a number stays an int. Sort runs the quicksort of EngineUnit.QuickSortDoubleItem,
     // so a list sorted on its int columns keeps the original order.
     public delegate int RecordSortCompare<TItem>(in TItem Item1, in TItem Item2);
+
+    // The records from the first to the last in index order, read through the indexer. Each step
+    // reads the count again, as the index loop over a live count does.
+    public System.Collections.Generic.IEnumerator<TRecord> GetEnumerator()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            yield return this[i];
+        }
+    }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }

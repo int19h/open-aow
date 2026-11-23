@@ -237,4 +237,6 @@ public sealed partial class HeroInventory : ObservableNode, IChildList<Item>, II
                 return null;
         }
     }
+
+    Item System.Collections.Generic.IReadOnlyList<Item>.this[int index] => Items[index];
 }

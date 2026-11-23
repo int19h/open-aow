@@ -9,6 +9,7 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 using Aow.Rtl;
+using System.Linq;
 
 namespace Aow.Game.Combat;
 
@@ -54,9 +55,8 @@ public class CombatWall : CombatObject
             }
 
             TargetPriority = 0;
-            for (int i = Combat.Sides[(int)CombatSideIndex.Defender].Count - 1; i >= 0; i--)
+            foreach (CombatObject objectValue in Combat.Sides[(int)CombatSideIndex.Defender].Reverse())
             {
-                CombatObject objectValue = Combat.Sides[(int)CombatSideIndex.Defender].GetObjects(i);
                 TargetPriority += objectValue.IncomingCombatValue - objectValue.IncomingWallCombatValue;
             }
 

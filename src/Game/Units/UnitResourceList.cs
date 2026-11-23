@@ -19,4 +19,6 @@ public sealed class UnitResourceList : ResourceCollection, IChildList<UnitResour
 
     // UnitRes.PAS:212
     public UnitResource? GetUnitResource(int index) => index >= 0 && index < Count ? this[index] : null;
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => ((System.Collections.Generic.IEnumerable<UnitResource>)this).GetEnumerator();
 }

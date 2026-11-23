@@ -3183,4 +3183,6 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     {
         Unruly = 0, Unrest = 1, Stable = 2, Content = 3, Cheerful = 4
     }
+
+    Troop System.Collections.Generic.IReadOnlyList<Troop>.this[int index] => Units[index];
 }

@@ -731,4 +731,5 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     // AIGroup.pas:121
     public static GroupBehavior Behavior => GroupBehavior.None;
 
+    Troop System.Collections.Generic.IReadOnlyList<Troop>.this[int index] => Units[index];
 }

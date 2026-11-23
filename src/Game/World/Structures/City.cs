@@ -1491,9 +1491,8 @@ public partial class City : PlayerCropStructure
         int level = UpgradeLevel;
         if (queue)
         {
-            for (int i = 0, last = Production.Queue.Count - 1; i <= last; i++)
+            foreach (ProductionItem? queueLocal in Production.Queue)
             {
-                ProductionItem? queueLocal = Production.Queue.GetItem(i);
                 if (queueLocal.Order is Upgrade)
                 {
                     level += 1;
@@ -1558,9 +1557,8 @@ public partial class City : PlayerCropStructure
         int level = WallType;
         if (queue)
         {
-            for (int i = 0, last = Production.Queue.Count - 1; i <= last; i++)
+            foreach (ProductionItem? queueLocal in Production.Queue)
             {
-                ProductionItem? queueLocal = Production.Queue.GetItem(i);
                 if (queueLocal.Order is Fortify)
                 {
                     level += 1;

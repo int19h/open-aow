@@ -120,11 +120,11 @@ public class AIMoveExecutorUnitList(CustomNode? owner) : OwningNode(owner), IChi
     // AIGroup.pas:4403
     public void SetMoveResult(int selection, int moveResult)
     {
-        for (int i = 0, last = Count - 1; i <= last; i++)
+        foreach (AIMoveExecutorUnit unit in this)
         {
             if ((selection & 1) != 0)
             {
-                this[i].MoveResult = moveResult;
+                unit.MoveResult = moveResult;
             }
 
             selection >>>= 1;
@@ -134,11 +134,11 @@ public class AIMoveExecutorUnitList(CustomNode? owner) : OwningNode(owner), IChi
     // AIGroup.pas:4415
     public void SetTransportStatus(int selection, AIMoveExecutorTransportStatus status)
     {
-        for (int i = 0, last = Count - 1; i <= last; i++)
+        foreach (AIMoveExecutorUnit unit in this)
         {
             if ((selection & 1) != 0)
             {
-                this[i].TransportStatus = status;
+                unit.TransportStatus = status;
             }
 
             selection >>>= 1;
@@ -148,11 +148,11 @@ public class AIMoveExecutorUnitList(CustomNode? owner) : OwningNode(owner), IChi
     // AIGroup.pas:4428
     public void SetStatus(int selection, AIMoveExecutorUnitStatus status)
     {
-        for (int i = 0, last = Count - 1; i <= last; i++)
+        foreach (AIMoveExecutorUnit unit in this)
         {
             if ((selection & 1) != 0)
             {
-                this[i].Status = status;
+                unit.Status = status;
             }
 
             selection >>>= 1;

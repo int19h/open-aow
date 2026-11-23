@@ -12,6 +12,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
+using System.Linq;
 
 using static Aow.Rtl.LegacyApplication;
 
@@ -271,12 +272,12 @@ public sealed class AIMoveExecutor : EngineObject
     // AIGroup.pas:6152
     public void UnitsMoveDone()
     {
-        for (int i = Units.Count - 1; i >= 0; i--)
+        foreach (AIMoveExecutorUnit unit in Units.Reverse())
         {
-            if (Units.GetUnits(i).Status != AIMoveExecutorUnitStatus.Lost)
+            if (unit.Status != AIMoveExecutorUnitStatus.Lost)
             {
-                AIMoveExecutorUnit units = Units.GetUnits(i);
-                Units.GetUnits(i).Troop.UnitStatus = units.Troop.UnitStatus | UnitStatuses.MoveDone;
+                AIMoveExecutorUnit units = unit;
+                unit.Troop.UnitStatus = units.Troop.UnitStatus | UnitStatuses.MoveDone;
             }
         }
     }
@@ -545,9 +546,9 @@ public sealed class AIMoveExecutor : EngineObject
             _processCycles = 0;
             Destination = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
             AIMoveExecutorArmyList aiMoveExecutorArmyList = CreateArmies(AIMoveExecutorUnitStatuses.Idle);
-            for (int i = 0, last = aiMoveExecutorArmyList.Count - 1; i <= last; i++)
+            foreach (AIMoveExecutorArmy army in aiMoveExecutorArmyList)
             {
-                aiMoveExecutorArmyList.GetArmies(i).SetStatus(255, status: AIMoveExecutorUnitStatus.Ready);
+                army.SetStatus(255, status: AIMoveExecutorUnitStatus.Ready);
             }
 
             if (aiMoveExecutorArmyList.Count != 0)

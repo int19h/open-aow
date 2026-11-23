@@ -38,4 +38,6 @@ public sealed class ItemGFXList : ResourceCollection, IChildList<ItemGraphics>
 
         return result;
     }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => ((System.Collections.Generic.IEnumerable<ItemGraphics>)this).GetEnumerator();
 }

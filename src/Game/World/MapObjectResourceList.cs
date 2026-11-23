@@ -52,4 +52,5 @@ public sealed class MapObjectResourceList(CustomNode owner) : ResourceCollection
 
     public ResourcesAccessor Resources => new(this);
 
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => ((System.Collections.Generic.IEnumerable<MapObjectResource>)this).GetEnumerator();
 }

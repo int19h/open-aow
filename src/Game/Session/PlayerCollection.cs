@@ -141,9 +141,9 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1526
     public void BeginUpdate()
     {
-        for (int i = 0, last = Count - 1; i <= last; i++)
+        foreach (Player player in this)
         {
-            this[i].BeginUpdate();
+            player.BeginUpdate();
         }
     }
 

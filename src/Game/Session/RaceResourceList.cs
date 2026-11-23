@@ -31,4 +31,6 @@ public sealed class RaceResourceList : ResourceCollection, IChildList<RaceResour
 
         return result;
     }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => ((System.Collections.Generic.IEnumerable<RaceResource>)this).GetEnumerator();
 }
