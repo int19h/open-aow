@@ -4,7 +4,7 @@ namespace Aow.Engine.Nodes;
 /// A node whose children have a known type, read by index in their stored order. Every write of a
 /// child checks the type once, so this read needs no cast.
 /// </summary>
-public interface IOwner<out TChild> : IOwner, System.Collections.Generic.IReadOnlyList<TChild>
+public interface IOwner<out TChild> : IOwner, IReadOnlyList<TChild>
 {
     new int Count { get; }
 
@@ -15,7 +15,7 @@ public interface IOwner<out TChild> : IOwner, System.Collections.Generic.IReadOn
     /// last, read through the indexer. Each step reads the count again, as the index loop over a live
     /// count does.
     /// </summary>
-    System.Collections.Generic.IEnumerator<TChild> System.Collections.Generic.IEnumerable<TChild>.GetEnumerator()
+    IEnumerator<TChild> IEnumerable<TChild>.GetEnumerator()
     {
         for (int i = 0; i < Count; i++)
         {

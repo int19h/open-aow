@@ -56,7 +56,7 @@ public sealed class AdjacentArmyList(CustomNode owner) : OwningNode(owner), IChi
     // AIGroup.pas:5106
     public bool GetAdjacent()
     {
-        MapCoordinateList locations = new();
+        MapCoordinateList locations = [];
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             _ = locations.Add(GetAdjacentArmies(i).Location);

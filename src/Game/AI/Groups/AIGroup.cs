@@ -411,7 +411,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     // AIGroup.pas:171
     public bool GetAdjacent()
     {
-        MapCoordinateList locations = new();
+        MapCoordinateList locations = [];
         for (int i = Units.Count - 1; i >= 0; i--)
         {
             MapCoordinate coordinate94 = Units.GetUnit(i).GetLocation();
@@ -731,5 +731,5 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     // AIGroup.pas:121
     public static GroupBehavior Behavior => GroupBehavior.None;
 
-    Troop System.Collections.Generic.IReadOnlyList<Troop>.this[int index] => Units[index];
+    Troop IReadOnlyList<Troop>.this[int index] => Units[index];
 }

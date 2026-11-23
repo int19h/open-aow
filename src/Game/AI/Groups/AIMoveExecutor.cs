@@ -3,17 +3,11 @@
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
-using System.Linq;
-
 using static Aow.Rtl.LegacyApplication;
 
 namespace Aow.Game.AI.Groups;

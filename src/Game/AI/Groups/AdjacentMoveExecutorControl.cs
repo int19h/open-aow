@@ -6,7 +6,6 @@ using Aow.Game.Draw;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using System.Linq;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI.Groups;
@@ -355,7 +354,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
     {
         bool result = true;
         AIMoveExecutorArmyList armies = Executor.CreateArmies(AIMoveExecutorUnitStatuses.Ready | AIMoveExecutorUnitStatuses.Done);
-        DoubleItemList<AdjacentArmy> sorted = new();
+        DoubleItemList<AdjacentArmy> sorted = [];
         int i = 0;
         int last = _adjacentArmies.Count - 1;
         for (; i <= last; i += 1)
@@ -465,7 +464,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
         }
 
         AIMoveExecutorArmyList armies = Executor.CreateArmies(AIMoveExecutorUnitStatuses.Ready);
-        DoubleItemList<AdjacentArmy> sorted = new();
+        DoubleItemList<AdjacentArmy> sorted = [];
         for (int i = 0, last = _adjacentArmies.Count - 1; i <= last; i++)
         {
             float movementDays = _adjacentArmies.GetAdjacentArmies(i).GetMovementDays();

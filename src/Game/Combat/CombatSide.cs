@@ -4,7 +4,6 @@ using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-using System.Linq;
 
 namespace Aow.Game.Combat;
 

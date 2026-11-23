@@ -1116,7 +1116,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     // Player.PAS:738
     public void MakeHeroEmerge(HeroEmergeMode mode)
     {
-        DoubleItemList<Hero> heroes = new();
+        DoubleItemList<Hero> heroes = [];
         int i;
         Hero hero;
         if (mode == HeroEmergeMode.Normal)
@@ -1158,7 +1158,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
 
         if (heroes.Count != 0)
         {
-            MapCoordinateList locations = new();
+            MapCoordinateList locations = [];
             i = Structures.Count - 1;
             Structure structure;
             for (; i >= 0; i -= 1)

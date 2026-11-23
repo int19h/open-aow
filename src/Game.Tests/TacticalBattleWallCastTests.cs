@@ -26,7 +26,7 @@ public sealed class TacticalBattleWallCastTests
     {
         BattleAI ai = new(EngineFixture.Engine);
         CombatMoveControlSettings settings = new(null) { Holder = EngineFixture.Engine };
-        MovePath path = new();
+        MovePath path = [];
         int value = 7;
         TacticalBattle combat = new(null) { Holder = EngineFixture.Engine };
         OwningNode objects = combat.CombatData.CombatObjects;

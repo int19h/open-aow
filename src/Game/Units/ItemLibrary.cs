@@ -190,5 +190,5 @@ public sealed class ItemLibrary(CustomNode? owner) : ObservableNode(owner), IChi
 
     private static readonly string s_systemItemLibraryText = "System";
 
-    Item System.Collections.Generic.IReadOnlyList<Item>.this[int index] => Items[index];
+    Item IReadOnlyList<Item>.this[int index] => Items[index];
 }

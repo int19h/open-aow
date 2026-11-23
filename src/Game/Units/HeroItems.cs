@@ -355,5 +355,5 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
         HeroItemPosition.None
     ];
 
-    Item System.Collections.Generic.IReadOnlyList<Item>.this[int index] => Items[index];
+    Item IReadOnlyList<Item>.this[int index] => Items[index];
 }

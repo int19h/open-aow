@@ -277,7 +277,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         {
             int selection = CanEnterSelection(armyHexSprite.Army.Units);
             int l = 0;
-            MovePath path = new();
+            MovePath path = [];
             switch (Entrance)
             {
                 case CaveEntrance.Down:

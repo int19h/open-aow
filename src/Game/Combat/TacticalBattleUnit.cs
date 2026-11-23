@@ -317,7 +317,7 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
 
             if (index < path.Count - 1)
             {
-                MovePath newPath = new();
+                MovePath newPath = [];
                 for (int i = index, last = path.Count - 1; i <= last; i++)
                 {
                     _ = newPath.Add(path[i]);

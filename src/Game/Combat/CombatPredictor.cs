@@ -659,7 +659,7 @@ public sealed class CombatPredictor : IDisposable
         CombatPredictorUnit? u;
         if (GetSuperiority() > superiority && Sides[0].Count != 0)
         {
-            DoubleItemList<CombatPredictorUnit> list = new();
+            DoubleItemList<CombatPredictorUnit> list = [];
             int total = 0;
             for (int i = Sides[0].Count - 1; i >= 0; i--)
             {

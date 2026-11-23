@@ -2,14 +2,10 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using System.Linq;
 
 namespace Aow.Game.Combat;
 

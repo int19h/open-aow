@@ -8,7 +8,7 @@ using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Engine.Collections;
 
-public class QuadItemList : Persistent, System.Collections.Generic.IReadOnlyList<QuadItemList.QuadInteger>
+public class QuadItemList : Persistent, IReadOnlyList<QuadItemList.QuadInteger>
 {
     private QuadInteger[] _list = [];
     private int _count;
@@ -409,7 +409,7 @@ public class QuadItemList : Persistent, System.Collections.Generic.IReadOnlyList
 
     // The items from the first to the last in index order, read through the indexer. Each step
     // reads the count again, as the index loop over a live count does.
-    public System.Collections.Generic.IEnumerator<QuadItemList.QuadInteger> GetEnumerator()
+    public IEnumerator<QuadInteger> GetEnumerator()
     {
         for (int i = 0; i < Count; i++)
         {

@@ -8,7 +8,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
-using System.Linq;
 
 namespace Aow.Game.Commands;
 
@@ -96,7 +95,7 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
                 }
 
                 {
-                    foreach (Session.Player? player in StrategicMap.Current.Players.Skip(1))
+                    foreach (Player? player in StrategicMap.Current.Players.Skip(1))
                     {
                         bool fMagicControlCheatEnabled = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
                         player.MagicControl.CheatEnabled = fMagicControlCheatEnabled;
@@ -138,7 +137,7 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
                 break;
             case 9:
                 {
-                    foreach (Session.Player? player in StrategicMap.Current.Players.Skip(1))
+                    foreach (Player? player in StrategicMap.Current.Players.Skip(1))
                     {
                         player.MagicControl.Spells.Clear();
                         for (int j = 1, lastJ = GamePack.Current.SpellControl.GetCount() - 1; j <= lastJ; j++)

@@ -289,7 +289,7 @@ public class UnitSpell : Spell
     // Spells.PAS:1422
     public virtual bool AIRetrieveOptimalTargetUnit(Troop source, UnitCollection targets, ref Troop? target, ref int priority)
     {
-        DoubleItemList<Troop?> list = new();
+        DoubleItemList<Troop?> list = [];
         for (int i = 0, last = targets.Count - 1; i <= last; i++)
         {
             if (ValidTargetUnit(source, target: targets.GetUnit(i)) && targets.GetUnit(i).GetUnitType() != UnitType.Machine)

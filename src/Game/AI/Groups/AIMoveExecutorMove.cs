@@ -1,14 +1,10 @@
 #nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Draw;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
-using System.Linq;
-
 using static Aow.Rtl.LegacyApplication;
 
 namespace Aow.Game.AI.Groups;
@@ -17,7 +13,7 @@ namespace Aow.Game.AI.Groups;
 public sealed class AIMoveExecutorMove(CustomNode? owner) : AIMoveExecutorUnitList(owner)
 {
 
-    public MovePath? Path { get; private set; } = new MovePath();
+    public MovePath? Path { get; private set; } = [];
     public int MovePoints { get; set; }
     public int Moves { get; set; }
     public MapCoordinate Source { get; set; }

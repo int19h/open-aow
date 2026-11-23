@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Engine.Collections;
 
-public class RecordList<TRecord> : Persistent, System.Collections.Generic.IReadOnlyList<TRecord> where TRecord : struct
+public class RecordList<TRecord> : Persistent, IReadOnlyList<TRecord> where TRecord : struct
 {
     private TRecord[] _list = [];
     private int _count;
@@ -226,7 +226,7 @@ public class RecordList<TRecord> : Persistent, System.Collections.Generic.IReadO
 
     // The records from the first to the last in index order, read through the indexer. Each step
     // reads the count again, as the index loop over a live count does.
-    public System.Collections.Generic.IEnumerator<TRecord> GetEnumerator()
+    public IEnumerator<TRecord> GetEnumerator()
     {
         for (int i = 0; i < Count; i++)
         {

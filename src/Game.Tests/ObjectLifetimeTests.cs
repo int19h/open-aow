@@ -1,6 +1,5 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 using System.Runtime.CompilerServices;
-using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -31,7 +30,7 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static (WeakReference Attacker, WeakReference Target) PredictRound()
     {
-        CombatPredictorUnit attacker = new() { Enabled = 1, Targets = new QuadItemList<CombatPredictorUnit>() };
+        CombatPredictorUnit attacker = new() { Enabled = 1, Targets = [] };
         CombatPredictorUnit target = new() { Enabled = 1, HitPoints = 10, CpuId = 7 };
         _ = attacker.Targets.AddABCD(target, 4, C: target.CpuId, D: 0);
         attacker.SetupRoundTargets(0);

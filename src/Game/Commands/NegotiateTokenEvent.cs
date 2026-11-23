@@ -123,7 +123,7 @@ public class NegotiateTokenEvent(CustomNode? owner) : TokenEvent(owner)
 
             if (ArmyHexSprite is not null && Mode.Contains(NegotiateModes.MoveOnAccept))
             {
-                MovePath path = new();
+                MovePath path = [];
                 _ = path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
                 _ = path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
                 path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
@@ -141,7 +141,7 @@ public class NegotiateTokenEvent(CustomNode? owner) : TokenEvent(owner)
     {
         if (Offer == NegotiateOffer.ForceOffer && ArmyHexSprite is not null && Mode.Contains(NegotiateModes.AttackOnReject))
         {
-            MovePath path = new();
+            MovePath path = [];
             _ = path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
             _ = path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
             path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };

@@ -115,5 +115,5 @@ public sealed class HeroLibrary(CustomNode? owner) : Engine.Nodes.ReferenceNode(
     // Hero.PAS:2636
     public void SaveToFile(string fileName) => GetEngine().WriteToFile(fileName, this, progress: null, profile: GameProfile.HeroList);
 
-    Hero System.Collections.Generic.IReadOnlyList<Hero>.this[int index] => Heroes[index];
+    Hero IReadOnlyList<Hero>.this[int index] => Heroes[index];
 }

@@ -75,5 +75,5 @@ public sealed class FaceResourceList : ResourceCollection, IChildList<FaceResour
         return result;
     }
 
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => ((System.Collections.Generic.IEnumerable<FaceResource>)this).GetEnumerator();
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => ((IEnumerable<FaceResource>)this).GetEnumerator();
 }

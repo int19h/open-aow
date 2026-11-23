@@ -2,13 +2,9 @@
 // Translated from City.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Session;
-
 using Aow.Game.World.Map;
-
 using Aow.Game.World.Structures;
-using System.Linq;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 
@@ -179,7 +175,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     {
         bool result = false;
         Player player = Control.Player;
-        DoubleItemList<City> cities = new();
+        DoubleItemList<City> cities = [];
         City city;
         for (int i = player.Structures.Count - 1; i >= 0; i--)
         {
@@ -284,7 +280,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     public bool UpgradeCity(AIBudget budget)
     {
         Player player = Control.Player;
-        DoubleItemList<City> cities = new();
+        DoubleItemList<City> cities = [];
         City city;
         for (int i = player.Structures.Count - 1; i >= 0; i--)
         {
@@ -395,7 +391,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     public bool FortifyCity(AIBudget budget)
     {
         Player player = Control.Player;
-        DoubleItemList<City> cities = new();
+        DoubleItemList<City> cities = [];
         City city;
         for (int i = player.Structures.Count - 1; i >= 0; i--)
         {

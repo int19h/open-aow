@@ -2,7 +2,6 @@
 
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using System.Linq;
 
 namespace Aow.Game.World.Structures;
 

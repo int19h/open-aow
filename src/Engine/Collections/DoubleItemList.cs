@@ -9,7 +9,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Engine.Collections;
 
-public class DoubleItemList : Persistent, System.Collections.Generic.IReadOnlyList<DoubleItemList.DoubleItem>
+public class DoubleItemList : Persistent, IReadOnlyList<DoubleItemList.DoubleItem>
 {
     private DoubleItem[] _list = [];
     private int _count;
@@ -453,7 +453,7 @@ public class DoubleItemList : Persistent, System.Collections.Generic.IReadOnlyLi
 
     // The items from the first to the last in index order, read through the indexer. Each step
     // reads the count again, as the index loop over a live count does.
-    public System.Collections.Generic.IEnumerator<DoubleItemList.DoubleItem> GetEnumerator()
+    public IEnumerator<DoubleItem> GetEnumerator()
     {
         for (int i = 0; i < Count; i++)
         {

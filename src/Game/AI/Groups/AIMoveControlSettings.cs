@@ -16,7 +16,7 @@ public class AIMoveControlSettings : EngineObject
     // AIGroup.pas:3841
     public AIMoveControlSettings(CustomNode? owner) : base(owner)
     {
-        TransportPath = new MovePath();
+        TransportPath = [];
         RefCount = 1;
         Clear();
     }

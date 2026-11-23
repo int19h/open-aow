@@ -147,7 +147,7 @@ public class CallHero : Spell
     // GlobalSpells.pas:1212
     public Hero? FindCallHero(Troop source)
     {
-        DoubleItemList<Hero> heroes = new();
+        DoubleItemList<Hero> heroes = [];
         Hero hero;
         for (int i = StrategicMap.Current.HeroControl.GetCount() - 1; i >= 0; i--)
         {

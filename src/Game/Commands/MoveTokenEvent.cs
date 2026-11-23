@@ -14,7 +14,7 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
 
     private MoveStatus _status = MoveStatus.Idle;
 
-    public MovePath Path { get; } = new MovePath();
+    public MovePath Path { get; } = [];
     public int MoveIndex { get; protected set; }
 
     // MoveT.PAS:1958

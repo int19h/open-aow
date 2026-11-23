@@ -37,5 +37,5 @@ public sealed class UnitGFXResourceList : ResourceCollection, IChildList<UnitGra
         }
     }
 
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => ((System.Collections.Generic.IEnumerable<UnitGraphicsResource>)this).GetEnumerator();
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => ((IEnumerable<UnitGraphicsResource>)this).GetEnumerator();
 }

@@ -167,7 +167,7 @@ public partial class Teleport(CustomNode? owner) : Structure(owner)
             if (CanTeleportArmy(armyHexSprite))
             {
                 armyHexSprite.Army.ResetDestinationPosition();
-                MovePath path = new();
+                MovePath path = [];
                 _ = path.AddMapCoordinate(Destination.X, Destination.Y, Destination.MapLevel);
                 _ = path.AddMapCoordinate(mapLevel: HexLevel, y: HexY, x: HexX);
                 MapField field = StrategicMap.Current.MapContainer.GetField(Destination.X, Destination.Y, Destination.MapLevel);

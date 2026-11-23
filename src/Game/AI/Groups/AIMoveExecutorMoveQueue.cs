@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using System.Linq;
 
 namespace Aow.Game.AI.Groups;
 

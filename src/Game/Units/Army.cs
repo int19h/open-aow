@@ -2762,7 +2762,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                         _ = log.Release();
                         if (ValidateSelection(255) != selection)
                         {
-                            MapCoordinateList locations = new();
+                            MapCoordinateList locations = [];
                             if (offer.ArmyHexSprite is not null)
                             {
                                 int hexY = offer.ArmyHexSprite.HexY;
@@ -3184,5 +3184,5 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         Unruly = 0, Unrest = 1, Stable = 2, Content = 3, Cheerful = 4
     }
 
-    Troop System.Collections.Generic.IReadOnlyList<Troop>.this[int index] => Units[index];
+    Troop IReadOnlyList<Troop>.this[int index] => Units[index];
 }

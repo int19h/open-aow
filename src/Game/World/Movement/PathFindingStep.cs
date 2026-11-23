@@ -14,7 +14,7 @@ public sealed class PathFindingStep(CustomNode owner) : EngineObject(owner)
     public MapCoordinate Location { get; internal set; } = MapCoordinate.None;
     public MapCoordinate Origin { get; internal set; } = MapCoordinate.None;
 
-    public DoubleItemList MovePointLines { get; } = new DoubleItemList();
+    public DoubleItemList MovePointLines { get; } = [];
 
     // MoveT.PAS:28
     public override void Dispose()

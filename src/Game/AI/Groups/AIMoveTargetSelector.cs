@@ -293,7 +293,7 @@ public sealed class AIMoveTargetSelector : EngineObject
                             target.Data = data;
                             if (Mode.Contains(AIMoveTargetSelectorModes.CreateMovePaths))
                             {
-                                target.MovePath = new MovePath();
+                                target.MovePath = [];
                                 _ = StrategicMap.Current.MoveControl.Activate(_settings);
                                 StrategicMap.Current.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
                                 if (target.MovePath.Count != 0)
@@ -399,7 +399,7 @@ public sealed class AIMoveTargetSelector : EngineObject
                             target.MovePoints = settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
                             target.TransporterId = _transporter.UnitId;
                             target.Data = data;
-                            target.MovePath = new MovePath();
+                            target.MovePath = [];
                             _ = StrategicMap.Current.MoveControl.Activate(_settings);
                             StrategicMap.Current.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
                             StrategicMap.Current.MoveControl.Deactivate();

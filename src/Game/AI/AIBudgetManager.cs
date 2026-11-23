@@ -3,13 +3,9 @@
 using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
-
 using Aow.Formats.Tree;
-
 using Aow.Game.Session;
-
 using Aow.Game.World.Structures;
-using System.Linq;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI;

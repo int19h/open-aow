@@ -231,7 +231,7 @@ public sealed class ItemControl(CustomNode? owner) : EngineObject(owner)
     // Army.PAS:4807
     public Item? GenerateItem(ItemTypes types, int minValue, int maxValue)
     {
-        DoubleItemList<Item> list = new();
+        DoubleItemList<Item> list = [];
         for (int i = 0, last = GetCount() - 1; i <= last; i++)
         {
             Item item = _items[i];
@@ -255,7 +255,7 @@ public sealed class ItemControl(CustomNode? owner) : EngineObject(owner)
     public int GenerateItems(ItemTypes types, CustomNode owner, int value)
     {
         int result = 0;
-        DoubleItemList<Item> list = new();
+        DoubleItemList<Item> list = [];
         Item item;
         for (int i = 0, last = GetCount() - 1; i <= last; i++)
         {

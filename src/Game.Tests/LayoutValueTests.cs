@@ -30,10 +30,10 @@ public sealed class LayoutValueTests
         Assert.Equal(0, list.IndexOf(low));
         list.Default = high;
         list.Pack();
-        Assert.Equal(1, list.Count);
+        _ = Assert.Single(list);
         list.Default = low;
         list.Pack();
-        Assert.Equal(0, list.Count);
+        Assert.Empty(list);
     }
 
     [Fact]
