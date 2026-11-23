@@ -129,9 +129,9 @@ public sealed class EventListTests
     [Fact]
     public void PlayerGemsChangeReachesATypedSubscriber()
     {
-        StrategicMap previous = StrategicMap.Current;
+        IDisposable previousScope = EngineFixture.UseMap(StrategicMap.Current);
         StrategicMap map = new(null, holder: EngineFixture.Engine);
-        StrategicMap.Current = map;
+        EngineFixture.SetMap(map);
         Player player = new(null) { Holder = EngineFixture.Engine };
         try
         {
@@ -147,7 +147,7 @@ public sealed class EventListTests
         finally
         {
             player.Dispose();
-            StrategicMap.Current = previous;
+            previousScope.Dispose();
             map.Dispose();
         }
     }

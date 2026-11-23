@@ -88,5 +88,5 @@ public class PlayerStructureResource(CustomNode owner) : StructureResource(owner
     }
 
     // Structur.PAS:2462
-    public void ActivateMessage() => FlagControl = Engine.HexSpriteSet.FlagControl;
+    public void ActivateMessage() => FlagControl = Engine.GamePack.FlagControl;
 }

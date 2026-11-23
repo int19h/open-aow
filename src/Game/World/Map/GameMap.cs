@@ -35,7 +35,9 @@ public partial class GameMap : OwningNode
 {
     public new const int ClassId = 66_048;
 
-    public GameMap(CustomNode? owner) : base(owner)
+    public GameMap(CustomNode? owner) : this(null, owner) { }
+
+    private protected GameMap(ConstructionContext? context, CustomNode? owner) : base(context, owner)
     {
         Mouse = CreateMouse();
         Mouse.HexSpriteMap = this;

@@ -283,9 +283,9 @@ public sealed class ProductionOrderTests
     [Fact]
     public void OrdersAnswerAsTheOldSwitches()
     {
-        StrategicMap? previousMap = StrategicMap.Current;
+        IDisposable previousMapScope = EngineFixture.UseMap(StrategicMap.Current);
         StrategicMap map = new(null, holder: EngineFixture.Engine);
-        StrategicMap.Current = map;
+        EngineFixture.SetMap(map);
         EngineFixture.FieldOwner owner = new(new EngineFixture.Owner());
         City city = (City)EngineClass.Of<City>().CreateInstance(owner, holder: EngineFixture.Engine);
         BuildersGuild guild = (BuildersGuild)EngineClass.Of<BuildersGuild>().CreateInstance(owner, holder: EngineFixture.Engine);
@@ -337,7 +337,7 @@ public sealed class ProductionOrderTests
                 _ = Record.Exception(structure.Dispose);
             }
 
-            StrategicMap.Current = previousMap;
+            previousMapScope.Dispose();
             map.Dispose();
         }
     }

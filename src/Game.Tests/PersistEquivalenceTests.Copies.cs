@@ -343,7 +343,7 @@ public sealed partial class PersistEquivalenceTests
             ("Release/ITEMS.PFS", "ItemLibrary", "game", false),
         ];
         EngineClass[] enlisted = EnlistCopiedClasses();
-        GamePack? gameSet = GamePack.Current;
+        GamePack? gameSet = EngineFixture.Engine.GamePack;
         UnitResourceList previous = gameSet.UnitResources;
         UnitResourceList unitResources = new(null) { Holder = EngineFixture.Engine };
         try

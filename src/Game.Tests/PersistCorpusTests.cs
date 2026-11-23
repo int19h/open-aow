@@ -88,7 +88,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
     [CorpusFact]
     public void CorpusInstancesMatchTheConverter()
     {
-        StrategicMap? previous = StrategicMap.Current;
+        IDisposable previousScope = EngineFixture.UseMap(StrategicMap.Current);
         StrategicMap map = new(null, holder: EngineFixture.Engine)
         {
             Status = HexSpriteMapStatuses.Destroying
@@ -96,7 +96,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         s_reaper = map;
         // A player's write reads the current map (its seat, its connection type and the view
         // center), so the walk runs with the destroying map current.
-        StrategicMap.Current = map;
+        EngineFixture.SetMap(map);
         s_blocked.Clear();
         s_proved.Clear();
         s_refusers.Clear();
@@ -105,7 +105,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         // A unit's load looks its resource up in the game set, so the walk reads the installed
         // unit resources into the fixture's game set and puts the empty list back after.
         int previousSeed = DelphiRandom.RandSeed;
-        GamePack? gameSet = GamePack.Current;
+        GamePack? gameSet = EngineFixture.Engine.GamePack;
         UnitResourceList emptyResources = gameSet.UnitResources;
         UnitResourceList unitResources = UnitResources();
         gameSet.UnitResources = unitResources;
@@ -191,7 +191,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
             gameSet.UnitResources = emptyResources;
             unitResources.Dispose();
             s_reaper = null;
-            StrategicMap.Current = previous;
+            previousScope.Dispose();
             map.Dispose();
         }
     }
@@ -623,15 +623,15 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
 
     private static void Release(EngineObject objectValue)
     {
-        StrategicMap? previous = StrategicMap.Current;
-        StrategicMap.Current = s_reaper;
+        IDisposable previousScope = EngineFixture.UseMap(StrategicMap.Current);
+        EngineFixture.SetMap(s_reaper);
         try
         {
             objectValue.Dispose();
         }
         finally
         {
-            StrategicMap.Current = previous;
+            previousScope.Dispose();
         }
     }
 

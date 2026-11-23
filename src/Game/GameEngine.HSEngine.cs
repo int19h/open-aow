@@ -191,7 +191,7 @@ public partial class GameEngine : OwningNode
     public virtual void CloseHss()
     {
         _onHssCloseStore.Raise(this);
-        HexSpriteSet.Clear();
+        GamePack.Clear();
         HssFileName = "noname.hss";
     }
 
@@ -247,15 +247,15 @@ public partial class GameEngine : OwningNode
     public void LoadHss(string fileName, bool edit, ProgressEvent? progress, GameProfile profile)
     {
         GameFileTree tree = FileBoundary.OpenOrRaise(ExpandFileName(fileName), profile: profile);
-        HexSpriteSet.Clear();
+        GamePack.Clear();
         HssFileName = ExpandFileName(fileName);
         Status |= HexSpriteEngineStatuses.LoadingHss;
         try
         {
-            ReadTree(tree, objectValue: HexSpriteSet, progress: progress);
-            ActivateEngineObject(HexSpriteSet);
+            ReadTree(tree, objectValue: GamePack, progress: progress);
+            ActivateEngineObject(GamePack);
             EngineMessage.InitializeMessage(out EngineMessage message, messageId: 65556, sender: this);
-            HexSpriteSet.MessageProc(ref message, sender: this);
+            GamePack.MessageProc(ref message, sender: this);
             ControlNode.MessageProc(ref message, sender: this);
             _onHssLoadedStore.Raise(this);
         }
@@ -271,14 +271,14 @@ public partial class GameEngine : OwningNode
     public void SaveHss(string fileName, ProgressEvent? progress, GameProfile profile)
     {
         HssHeader header = default;
-        if (HexSpriteSet is not null)
+        if (GamePack is not null)
         {
-            header.Name = HexSpriteSet.Name;
+            header.Name = GamePack.Name;
             HssFileName = ExpandFileName(fileName);
             Status |= HexSpriteEngineStatuses.SavingHss;
             try
             {
-                FileBoundary.Save(HssFileName, profile: profile, root: HexSpriteSet, progress: progress, headerName: header.Name);
+                FileBoundary.Save(HssFileName, profile: profile, root: GamePack, progress: progress, headerName: header.Name);
             }
             finally
             {
@@ -494,14 +494,14 @@ public partial class GameEngine : OwningNode
     public void InitializeHexSpriteSet(string fileName, ProgressEvent? progress)
     {
         fileName = FileBoundary.ReadName(fileName);
-        if (HexSpriteSet is null || CompareText(fileName, HssFileName) != 0)
+        if (GamePack is null || CompareText(fileName, HssFileName) != 0)
         {
             LoadHss(fileName, edit: false, progress, profile: GameProfile.ScenarioSet);
         }
         else
         {
             EngineMessage.InitializeMessage(out EngineMessage message, messageId: 65557, sender: this);
-            HexSpriteSet.MessageProc(ref message, sender: this);
+            GamePack.MessageProc(ref message, sender: this);
         }
     }
 
@@ -522,7 +522,6 @@ public partial class GameEngine : OwningNode
     }
 
     public HexSpriteEngineStatuses Status { get; private set; }
-    public GamePack HexSpriteSet { get; private set; }
     public GameMap? HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }
 
     internal void SetHexSpriteMapWithoutCurrentMap(GameMap? value) => _hexSpriteMap = value;

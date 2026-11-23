@@ -138,7 +138,7 @@ public sealed class ControlStyleConstructionTests
 
         internal ImageLibraryManagerObject Entry { get; }
 
-        private readonly GamePack _previous = GamePack.Current;
+        private readonly IDisposable _previousScope = EngineFixture.UsePack(GamePack.Current);
         private readonly IFileSystem _previousFiles = RtlHost.Files;
         private readonly string _previousStartup = EngineFixture.Engine.StartupDirectory;
         private readonly string _previousSoundPath = AudioHost.BaseSoundEnginePath;
@@ -182,7 +182,7 @@ public sealed class ControlStyleConstructionTests
                     Field(typeof(ImageLibraryManagerObject), name: "ImageLibrary").SetValue(Entry, value: new ImageLibrary(null!));
                 }
 
-                GamePack.Current = Owner;
+                EngineFixture.SetPack(Owner);
                 Owner.Members.Clear();
             }
             catch
@@ -203,7 +203,7 @@ public sealed class ControlStyleConstructionTests
             }
             finally
             {
-                GamePack.Current = _previous;
+                _previousScope.Dispose();
                 try
                 {
                     _manager.Dispose();

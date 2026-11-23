@@ -33,7 +33,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game;
 
 // { Interface declaration run owned by P2. }
-// Version, Registry, GameMap, GameSet, CombatFont, FDebugMode, AnimationDetail, Demo,
+// Version, Registry, StrategicMap, GamePack, CombatMap, CombatFont, FDebugMode, AnimationDetail, Demo,
 // Campaign, EmailGames, Dictionary, Language
 public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 {
@@ -43,7 +43,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // AcceptsChild admits only the kinds of GameEngineChild, so the read never fails.
     public GameEngineChild this[int index] => GameEngineChild.Of(GetChild(index));
 
-    protected sealed override bool AcceptsChild(EngineObject child) => child is ControlStyleNode or GamePack or GameMap;
+    protected sealed override bool AcceptsChild(EngineObject child) => child is ControlStyleNode or World.Map.GamePack or GameMap;
 
     int IChildSink<GameEngineChild>.AddChild(GameEngineChild child) => AddChild(child.Node);
 
@@ -55,9 +55,15 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     public GameSettings Registry { get; set; }
 
-    private StrategicMap? _gameMap;
+    // Army.PAS:5973. The world map while the engine runs one, null otherwise.
+    public StrategicMap? StrategicMap { get; internal set; }
 
-    public GamePack GameSet { get; private set; }
+    // Army.PAS:5955. The rules pack, previously named GameSet and HexSpriteSet.
+    public GamePack GamePack { get; internal set; }
+
+    // AoWTC.pas:2189 and 2222, aowTCMapEvents.pas:64. The battle map with the global's lifetime.
+    public CombatMap? CombatMap { get; internal set; }
+
     public ImageLibraryFont CombatFont { get; set; }
     public bool Debug { get; set; }
     public int AnimationDetail { get; private set; }
@@ -72,7 +78,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public int Language { get; private set; }
 
     // Army.PAS:5767-5786. A bare constructor leaves the flag clear and skips this body.
-    private protected sealed override void InitializeBeforeInherited()
+    private protected sealed override void InitializeBeforeInherited(CustomNode? owner)
     {
         if (!s_fullConstruction)
         {
@@ -123,9 +129,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:5955
     public virtual void CreateHexSpriteSet()
     {
-        HexSpriteSet = GamePack.Create(this, holder: this);
-        GameSet = HexSpriteSet;
-        GamePack.Current = GameSet;
+        GamePack = GamePack.Create(this, holder: this);
+        GamePack.Current = GamePack;
     }
 
     // Army.PAS:5973. The HSEngine body assigns the map, then the game body records an AoW map.
@@ -134,7 +139,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         _hexSpriteMap = value;
         if (value is StrategicMap strategicMap)
         {
-            _gameMap = strategicMap;
+            StrategicMap = strategicMap;
             StrategicMap.Current = strategicMap;
         }
     }
@@ -152,7 +157,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
                 SetHexSpriteMap(null);
             }
 
-            _gameMap = null;
+            StrategicMap = null;
             StrategicMap.Current = null;
         }
         catch
@@ -441,7 +446,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         if (Campaign is not null)
         {
             Campaign.Stream.Clear();
-            if (_gameMap is not null)
+            if (StrategicMap is not null)
             {
                 SaveHsmToStream(Campaign.Stream, progress: null);
             }
@@ -528,7 +533,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     private static void UnregisterCoreSpells(GameEngine engine)
     {
-        SpellControl control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GamePack.SpellControl;
         engine.UnregisterEngineClasses([EngineClass.Of<SpellTokenEvent>()]);
         engine.UnregisterEngineClasses([EngineClass.Of<SpellCastEventLog>()]);
         engine.UnregisterEngineClasses([EngineClass.Of<UnitSpellTokenEvent>(), EngineClass.Of<UnitSpellCombatAction>()]);
@@ -895,7 +900,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     internal static void UnregisterCitySpells(GameEngine engine)
     {
         engine.UnregisterEngineClasses([EngineClass.Of<CityEnchantmentSpellTokenEvent>(), EngineClass.Of<CityTargetSpellTokenEvent>(), EngineClass.Of<TownGateTokenEvent>()]);
-        SpellControl spellControl = engine.GameSet.SpellControl;
+        SpellControl spellControl = engine.GamePack.SpellControl;
         spellControl.UnregisterSpellId(72);
         // { Original leaves Town Quake ($47) registered. }
         spellControl.UnregisterSpellId(38);
@@ -908,7 +913,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     internal static void UnregisterCombatSpells(GameEngine engine)
     {
-        SpellControl control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GamePack.SpellControl;
         engine.UnregisterEngineClasses([EngineClass.Of<CombatSpellCombatAction>(), EngineClass.Of<FastBattleTerrorCombatAction>(), EngineClass.Of<TacticalBattleTerrorCombatAction>(), EngineClass.Of<RecallSpiritCombatAction>(), EngineClass.Of<AnimateDeadCombatAction>(), EngineClass.Of<FastBattleHighPrayerCombatAction>(), EngineClass.Of<TacticalBattleHighPrayerCombatAction>(), EngineClass.Of<EntangleSpellCombatAction>(), EngineClass.Of<MindDecayCombatAction>(), EngineClass.Of<TurnUndeadSpellCombatAction>(), EngineClass.Of<SlowCombatAction>()]);
         control.UnregisterSpellId(100);
         control.UnregisterSpellId(101);
@@ -944,7 +949,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     internal static void UnregisterGlobalSpells(GameEngine engine)
     {
-        SpellControl control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GamePack.SpellControl;
         engine.UnregisterEngineClasses([EngineClass.Of<WarpPartyTokenEvent>(), EngineClass.Of<DisjunctionTokenEvent>()]);
         control.UnregisterSpellId(1);
         control.UnregisterSpellId(2);
@@ -958,7 +963,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     internal static void UnregisterGlobalEnchantmentSpells(GameEngine engine)
     {
-        SpellControl control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GamePack.SpellControl;
         control.UnregisterSpellId(44);
         control.UnregisterSpellId(46);
         control.UnregisterSpellId(47);
@@ -978,7 +983,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     internal static void UnregisterGlobalTargetSpells(GameEngine engine)
     {
-        SpellControl control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GamePack.SpellControl;
         control.UnregisterSpellId(10);
         control.UnregisterSpellId(11);
         control.UnregisterSpellId(18);
@@ -993,7 +998,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     internal static void UnregisterSummonSpells(GameEngine engine)
     {
-        SpellControl control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GamePack.SpellControl;
         engine.UnregisterEngineClasses([EngineClass.Of<SummonSpellTokenEvent>()]);
         control.UnregisterSpellId(24);
         control.UnregisterSpellId(22);
@@ -1012,7 +1017,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     internal static void UnregisterUnitSpells(GameEngine engine)
     {
-        SpellControl control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GamePack.SpellControl;
         control.UnregisterSpellId(8);
         control.UnregisterSpellId(15);
         control.UnregisterSpellId(17);
@@ -1037,12 +1042,12 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     internal static void UnregisterPoisonPlant(GameEngine engine)
     {
         engine.UnregisterEngineClasses([EngineClass.Of<PoisonPlant>(), EngineClass.Of<PoisonPlant.Resource>(), EngineClass.Of<PoisonPlantSpellTokenEvent>()]);
-        engine.GameSet.SpellControl.UnregisterSpellId(12);
+        engine.GamePack.SpellControl.UnregisterSpellId(12);
     }
 
     internal static void UnregisterUnholyGround(GameEngine engine)
     {
         engine.UnregisterEngineClasses([EngineClass.Of<UnholyGround>(), EngineClass.Of<UnholyGround.Resource>(), EngineClass.Of<UnholyGroundSpellTokenEvent>()]);
-        engine.GameSet.SpellControl.UnregisterSpellId(14);
+        engine.GamePack.SpellControl.UnregisterSpellId(14);
     }
 }

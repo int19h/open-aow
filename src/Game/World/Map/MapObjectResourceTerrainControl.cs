@@ -19,7 +19,7 @@ public class MapObjectResourceTerrainControl(CustomNode owner) : EngineObject(ow
     internal void Initialize()
     {
         Clear();
-        for (int i = 0, last = HexSpriteEngine.HexSpriteSet.TerrainTypes.Count - 1; i <= last; i++)
+        for (int i = 0, last = HexSpriteEngine.GamePack.TerrainTypes.Count - 1; i <= last; i++)
         {
             DelphiList<MapObjectResource> list = [];
             Resources.Add(list);

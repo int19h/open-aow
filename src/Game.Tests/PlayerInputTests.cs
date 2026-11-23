@@ -19,17 +19,17 @@ public sealed class PlayerInputTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly StrategicMap _previous = StrategicMap.Current;
+        private readonly IDisposable _previousScope = EngineFixture.UseMap(StrategicMap.Current);
 
         public MapScope()
         {
             Map = new StrategicMap(null, holder: EngineFixture.Engine);
-            StrategicMap.Current = Map;
+            EngineFixture.SetMap(Map);
         }
 
         public StrategicMap Map { get; }
 
-        public void Dispose() => StrategicMap.Current = _previous;
+        public void Dispose() => _previousScope.Dispose();
     }
 
     private sealed class TestSpell(CustomNode owner) : Spell(owner)

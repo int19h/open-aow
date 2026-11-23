@@ -45,6 +45,7 @@ public sealed partial class CombatMapEvents
         UI.MapWindow.MainWindow.Visible = true;
         UI.General.HideWindows();
         CombatMap.Current = StrategicMap.Current.CombatMap;
+        UI.Engine.CombatMap = StrategicMap.Current.CombatMap;
         UI.MapWindow.MainWindow.Visible = CombatMap.Current.PlaySounds;
         UI.MapWindow.WorldAlignWidth = UI.MapWindow.MainWindow.Alignment.AlignWidth;
         UI.MapWindow.WorldAlignHeight = UI.MapWindow.MainWindow.Alignment.AlignHeight;

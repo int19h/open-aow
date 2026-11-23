@@ -127,7 +127,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         List<string> failures = [];
         List<string> skipped = [];
         int objects = 0, values = 0;
-        CombatMap combatMap = CombatMap.Current;
+        IDisposable combatMapScope = EngineFixture.UseCombatMap(CombatMap.Current);
         foreach (EngineClass? engineClass in EngineClass.All)
         {
             SchemaClass? classValue = schema.Find(engineClass.StorageKey);
@@ -169,7 +169,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             finally
             {
                 Release(objectValue);
-                CombatMap.Current = combatMap;
+                combatMapScope.Dispose();
             }
         }
         output.WriteLine($"{objects} objects, {values} stored integers checked, {skipped.Count} classes skipped");

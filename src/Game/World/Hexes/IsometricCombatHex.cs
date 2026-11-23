@@ -152,7 +152,7 @@ public class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(owner)
         public override int ResourceUserClassId() => IsometricCombatHex.ClassId;
 
         // IsoCombatHex.pas:117
-        public override HexControl HexControl => Engine.HexSpriteSet.CombatHexes;
+        public override HexControl HexControl => Engine.GamePack.CombatHexes;
 
         // IsoCombatHex.pas:111
         public override string ResourceEditName() => "Combat ISO-Hex";

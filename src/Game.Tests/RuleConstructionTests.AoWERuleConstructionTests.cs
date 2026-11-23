@@ -44,8 +44,8 @@ public sealed partial class RuleConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly GamePack _previousSet = GamePack.Current;
-        private readonly StrategicMap _previousMap = StrategicMap.Current;
+        private readonly IDisposable _previousSetScope = EngineFixture.UsePack(GamePack.Current);
+        private readonly IDisposable _previousMapScope = EngineFixture.UseMap(StrategicMap.Current);
         private readonly ImageLibraryManager _manager = new(null);
 
         internal StrategicMap Map { get; }
@@ -53,19 +53,19 @@ public sealed partial class RuleConstructionTests
         internal Fixture()
         {
             Map = new StrategicMap(null, holder: EngineFixture.Engine);
-            GamePack set = EngineFixture.CreateGameSet(_manager);
-            GamePack.Current = set;
+            GamePack set = EngineFixture.CreateGamePack(_manager);
+            EngineFixture.SetPack(set);
             Map.Status = HexSpriteMapStatuses.Destroying;
             Map.Races = new RaceList(null) { Holder = EngineFixture.Engine };
             Map.UnitControl = new UnitControl(null) { Holder = EngineFixture.Engine };
             Map.HeroControl = new HeroControl(null) { Holder = EngineFixture.Engine };
-            StrategicMap.Current = Map;
+            EngineFixture.SetMap(Map);
         }
 
         public void Dispose()
         {
-            GamePack.Current = _previousSet;
-            StrategicMap.Current = _previousMap;
+            _previousSetScope.Dispose();
+            _previousMapScope.Dispose();
             _manager.Dispose();
             Map.Races.Dispose();
             Map.UnitControl.Dispose();

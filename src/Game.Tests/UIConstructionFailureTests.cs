@@ -1,6 +1,5 @@
 using Aow.Engine;
 
-using Aow.Game.Combat;
 using Aow.Game.Draw.Images;
 using Aow.Game.UI.Grids;
 using Aow.Game.World.Map;
@@ -22,8 +21,8 @@ public sealed class UIConstructionFailureTests
         EventStore<GameMap> previousClose = engine.OnHsmCloseStore;
         engine.OnHsmLoadedStore = new EventStore<GameMap>();
         engine.OnHsmCloseStore = new EventStore<GameMap>();
-        StrategicMap.Current = null;
-        CombatMap.Current = null;
+        EngineFixture.SetMap(null);
+        EngineFixture.SetCombatMap(null);
         Component owner = new(null);
         try
         {

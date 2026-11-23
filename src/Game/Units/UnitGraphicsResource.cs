@@ -123,7 +123,7 @@ public sealed class UnitGraphicsResource : EngineResource
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
         {
-            Sequences.ImageLibraryManager = message.Payload.As<GameEngine>().HexSpriteSet.ImageLibraryManager;
+            Sequences.ImageLibraryManager = message.Payload.As<GameEngine>().GamePack.ImageLibraryManager;
         }
     }
 

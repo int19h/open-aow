@@ -44,19 +44,19 @@ public sealed partial class SpellConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly GamePack _previousSet = GamePack.Current;
+        private readonly IDisposable _previousSetScope = EngineFixture.UsePack(GamePack.Current);
 
         internal ImageLibraryManager Manager { get; } = new ImageLibraryManager(null);
 
         internal Fixture()
         {
-            GamePack set = EngineFixture.CreateGameSet(Manager);
-            GamePack.Current = set;
+            GamePack set = EngineFixture.CreateGamePack(Manager);
+            EngineFixture.SetPack(set);
         }
 
         public void Dispose()
         {
-            GamePack.Current = _previousSet;
+            _previousSetScope.Dispose();
             Manager.Dispose();
         }
     }

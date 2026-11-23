@@ -18,17 +18,17 @@ public sealed class LocalPlayerInputTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly StrategicMap _previous = StrategicMap.Current;
+        private readonly IDisposable _previousScope = EngineFixture.UseMap(StrategicMap.Current);
 
         public MapScope()
         {
             Map = new StrategicMap(null, holder: EngineFixture.Engine);
-            StrategicMap.Current = Map;
+            EngineFixture.SetMap(Map);
         }
 
         public StrategicMap Map { get; }
 
-        public void Dispose() => StrategicMap.Current = _previous;
+        public void Dispose() => _previousScope.Dispose();
     }
 
     // The graphics, fonts, general module, map events and disjunction dialog, loaded the way

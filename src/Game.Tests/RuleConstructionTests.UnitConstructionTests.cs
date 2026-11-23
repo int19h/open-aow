@@ -73,8 +73,8 @@ public sealed partial class RuleConstructionTests
     public void UnitCreationMatchesTheBaseCommitThroughEveryFacade(string name)
     {
         Type type = TypeNamed(name);
-        StrategicMap? previous = StrategicMap.Current;
-        StrategicMap.Current = null;
+        IDisposable previousScope = EngineFixture.UseMap(StrategicMap.Current);
+        EngineFixture.SetMap(null);
         try
         {
             List<string> states = [];
@@ -106,7 +106,7 @@ public sealed partial class RuleConstructionTests
         }
         finally
         {
-            StrategicMap.Current = previous;
+            previousScope.Dispose();
         }
     }
 
@@ -114,16 +114,16 @@ public sealed partial class RuleConstructionTests
     [MemberData(nameof(UnitClasses))]
     public void BinarySavedClassIdLoadsTheExactUnitWithOneReference(string name)
     {
-        StrategicMap? previousMap = StrategicMap.Current;
-        GamePack? previousSet = GamePack.Current;
-        StrategicMap.Current = null;
+        IDisposable previousMapScope = EngineFixture.UseMap(StrategicMap.Current);
+        IDisposable previousSetScope = EngineFixture.UsePack(GamePack.Current);
+        EngineFixture.SetMap(null);
         GamePack set = EngineFixture.Configure(GamePack.Create(null, holder: EngineFixture.Engine), value =>
         {
             value.UnitResources = new UnitResourceList(null) { Holder = EngineFixture.Engine };
             value.HeroResources = new HeroResourceList(null) { Holder = EngineFixture.Engine };
             value.AbilityControl = new AbilityControl(null) { Holder = EngineFixture.Engine };
         });
-        GamePack.Current = set;
+        EngineFixture.SetPack(set);
         Type type = TypeNamed(name);
         EngineClass meta = EngineClass.Of(type);
         GameEngine engine = new(null);
@@ -174,8 +174,8 @@ public sealed partial class RuleConstructionTests
             set.UnitResources.Dispose();
             set.HeroResources.Dispose();
             set.AbilityControl.Dispose();
-            StrategicMap.Current = previousMap;
-            GamePack.Current = previousSet;
+            previousMapScope.Dispose();
+            previousSetScope.Dispose();
         }
     }
 
@@ -222,8 +222,8 @@ public sealed partial class RuleConstructionTests
     [InlineData(true, true)]
     public void UnitReferenceCountsKeepThePreBaseSequence(bool hero, bool reject)
     {
-        StrategicMap? previous = StrategicMap.Current;
-        StrategicMap.Current = null;
+        IDisposable previousScope = EngineFixture.UseMap(StrategicMap.Current);
+        EngineFixture.SetMap(null);
         UnitOwner owner = new(reject);
         s_refcountOwner = owner;
         try
@@ -239,7 +239,7 @@ public sealed partial class RuleConstructionTests
         finally
         {
             s_refcountOwner = null;
-            StrategicMap.Current = previous;
+            previousScope.Dispose();
         }
     }
 }

@@ -353,7 +353,7 @@ public class PlayerCropStructure : PlayerStructure
 
             if (crops.Count < value)
             {
-                Crop.Resource resource = Resource.Engine.HexSpriteSet.MapObjectResourceList.FindChild<Crop.Resource>(Crop.Resource.ClassId);
+                Crop.Resource resource = Resource.Engine.GamePack.MapObjectResourceList.FindChild<Crop.Resource>(Crop.Resource.ClassId);
                 if (resource is not null)
                 {
                     while (crops.Count != value && locations.Count != 0)

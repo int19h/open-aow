@@ -37,10 +37,10 @@ public sealed class CombatUnitSelectionConstructionTests
             using OrderingRecording.Fixture fixture = new();
             ImageLibraryManagerObject entry = fixture.Manager.DiskList.AddImageLibraryFile("TargHex.ILB");
             entry.ImageLibrary = new ImageLibrary(null!);
-            GamePack set = GamePack.Current;
+            IDisposable setScope = EngineFixture.UsePack(GamePack.Current);
             if (fail == 1)
             {
-                GamePack.Current = null!;
+                EngineFixture.SetPack(null!);
             }
 
             int before = entry.RefCount;
@@ -59,7 +59,7 @@ public sealed class CombatUnitSelectionConstructionTests
             }
             finally
             {
-                GamePack.Current = set;
+                setScope.Dispose();
             }
             Assert.Equal(fail == 0, actual: value is not null);
             actual.Add($"fail{fail}", JsonSerializer.Serialize(new { State = state, Before = before, After = entry.RefCount }));

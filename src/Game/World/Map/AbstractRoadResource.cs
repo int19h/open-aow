@@ -39,7 +39,7 @@ public class AbstractRoadResource(CustomNode owner) : MapObjectResource(owner)
     }
 
     // MAPOBJ.PAS:869
-    public virtual RoadControl RoadControl => Engine.HexSpriteSet.RoadControl;
+    public virtual RoadControl RoadControl => Engine.GamePack.RoadControl;
 
     public override MapObjectResourceTerrainControl TerrainControl => RoadControl;
 }

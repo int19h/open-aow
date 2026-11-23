@@ -25,7 +25,7 @@ public sealed class ObjectCastCrashTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly StrategicMap? _previous = StrategicMap.Current;
+        private readonly IDisposable _previousScope = EngineFixture.UseMap(StrategicMap.Current);
 
         public MapScope()
         {
@@ -36,14 +36,14 @@ public sealed class ObjectCastCrashTests
             container.Map = Map;
             Map.MapContainer = container;
             Field = container.GetField(0, 0, 0);
-            StrategicMap.Current = Map;
+            EngineFixture.SetMap(Map);
         }
 
         public StrategicMap Map { get; }
 
         public MapField Field { get; }
 
-        public void Dispose() => StrategicMap.Current = _previous;
+        public void Dispose() => _previousScope.Dispose();
     }
 
     private sealed class MasteryUnit : Troop
@@ -152,7 +152,7 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void MasterySettersWriteUpkeepSourceAndResistance()
     {
-        SpellControl control = GamePack.Current.SpellControl;
+        SpellControl control = EngineFixture.Engine.GamePack.SpellControl;
         control.RegisterSpell(new StoneSkin(null, holder: EngineFixture.Engine));
         control.RegisterSpell(new Bless(null, holder: EngineFixture.Engine));
         try
@@ -359,7 +359,7 @@ public sealed class ObjectCastCrashTests
     public void MasteryGuardianDefaultsNeedNoSummonedSpell()
     {
         // MasterySpellCast and TSummonSpell read these through GetSpell(155), which has no spell.
-        Assert.Null(GamePack.Current.SpellControl[155]);
+        Assert.Null(EngineFixture.Engine.GamePack.SpellControl[155]);
         Unit unit = new(null)
         {
             Holder = EngineFixture.Engine,
@@ -374,7 +374,7 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void MovingAPlacedBridgeSkipsTheLevelOverlay()
     {
-        StrategicMap? previous = StrategicMap.Current;
+        IDisposable previousScope = EngineFixture.UseMap(StrategicMap.Current);
         try
         {
             StrategicMap map = new(null, holder: EngineFixture.Engine);
@@ -383,7 +383,7 @@ public sealed class ObjectCastCrashTests
             level.CreateMapFieldList(2, 1);
             container.Map = map;
             map.MapContainer = container;
-            StrategicMap.Current = map;
+            EngineFixture.SetMap(map);
             MapField first = container.GetField(0, 0, 0);
             MapField second = container.GetField(1, 0, 0);
             Bridge bridge = new(null) { Holder = EngineFixture.Engine };
@@ -396,7 +396,7 @@ public sealed class ObjectCastCrashTests
         }
         finally
         {
-            StrategicMap.Current = previous;
+            previousScope.Dispose();
         }
     }
 }

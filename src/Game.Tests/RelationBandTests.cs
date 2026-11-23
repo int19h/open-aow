@@ -15,17 +15,17 @@ public sealed class RelationBandTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly StrategicMap? previous = StrategicMap.Current;
+        private readonly IDisposable previousScope = EngineFixture.UseMap(StrategicMap.Current);
 
         public MapScope()
         {
             Map = new StrategicMap(null, holder: EngineFixture.Engine);
-            StrategicMap.Current = Map;
+            EngineFixture.SetMap(Map);
         }
 
         public StrategicMap Map { get; }
 
-        public void Dispose() => StrategicMap.Current = previous;
+        public void Dispose() => previousScope.Dispose();
     }
 
     private sealed class RecordingRelWindow(UIContext ui) : RelationWindow(ui)
