@@ -36,24 +36,24 @@ public sealed class RemainingConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly GamePack _previousSet = GamePack.Current;
-        private readonly StrategicMap _previousMap = StrategicMap.Current;
+        private readonly IDisposable _previousSetScope = EngineFixture.UsePack(GamePack.Current);
+        private readonly IDisposable _previousMapScope = EngineFixture.UseMap(StrategicMap.Current);
         private readonly ImageLibraryManager _manager = new(null);
         private readonly MapObjectResourceList _combatResources = new(null!) { Holder = EngineFixture.Engine };
 
         internal Fixture()
         {
-            GamePack set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
-            GamePack.Current = set;
-            StrategicMap.Current = null;
-            GamePack.Current.UnitGraphicsResources = null;
+            GamePack set = EngineFixture.Configure(EngineFixture.CreateGamePack(_manager), value => { value.CombatResources = _combatResources; });
+            EngineFixture.SetPack(set);
+            EngineFixture.SetMap(null);
+            EngineFixture.Engine.GamePack.UnitGraphicsResources = null;
             DelphiRandom.RandSeed = 123456789;
         }
 
         public void Dispose()
         {
-            GamePack.Current = _previousSet;
-            StrategicMap.Current = _previousMap;
+            _previousSetScope.Dispose();
+            _previousMapScope.Dispose();
             _combatResources.Dispose();
             _manager.Dispose();
         }

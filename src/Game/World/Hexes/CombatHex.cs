@@ -28,14 +28,14 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                _ = base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
+                _ = base.Resource.Engine.GamePack.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
             }
             else
             {
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                _ = base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: 0);
+                _ = base.Resource.Engine.GamePack.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: 0);
             }
         }
     }
@@ -252,7 +252,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
         public override int ResourceUserClassId() => CombatHex.ClassId;
 
         // CombatHex.pas:191
-        public override HexControl HexControl => Engine.HexSpriteSet.CombatHexes;
+        public override HexControl HexControl => Engine.GamePack.CombatHexes;
 
         // CombatHex.pas:188
         public override string ResourceEditName() => "Combat Hexagon";

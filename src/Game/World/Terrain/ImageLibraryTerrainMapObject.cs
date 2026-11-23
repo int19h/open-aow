@@ -202,7 +202,7 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
                 if (!ValidTerrainType(result))
                 {
                     result = 0;
-                    int count = Resource.Engine.HexSpriteSet.TerrainTypes.Count;
+                    int count = Resource.Engine.GamePack.TerrainTypes.Count;
                     while (result < count && !ValidTerrainType(result))
                     {
                         result = (result + 1).TruncateToSByte();

@@ -504,8 +504,8 @@ public sealed class DiplomaticProposalTests
     [Fact]
     public void ProposalsAnswerAsTheOldSwitches()
     {
-        StrategicMap? previousMap = StrategicMap.Current;
-        StrategicMap.Current = new StrategicMap(null, holder: EngineFixture.Engine);
+        IDisposable previousMapScope = EngineFixture.UseMap(StrategicMap.Current);
+        EngineFixture.SetMap(new StrategicMap(null, holder: EngineFixture.Engine));
         TextControl control = TextControl();
         try
         {
@@ -534,7 +534,7 @@ public sealed class DiplomaticProposalTests
                     {
                         DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Source = source, Target = 2, Reaction = (DiplomaticActionReaction)reaction, Proposal = proposal };
                         string where = $"{proposal} reaction {reaction} source {source}";
-                        Assert.True(OldText(kind, reaction: (DiplomaticActionReaction)reaction, sourceSeated: source == StrategicMap.Current.SeatedPlayer) == proposal.LogText(action), userMessage: where);
+                        Assert.True(OldText(kind, reaction: (DiplomaticActionReaction)reaction, sourceSeated: source == EngineFixture.Engine.StrategicMap.SeatedPlayer) == proposal.LogText(action), userMessage: where);
                         Assert.True(OldMiddleIcon(kind, reaction) == proposal.MiddleIcon(action), userMessage: where);
                         checks += 2;
                     }
@@ -557,7 +557,7 @@ public sealed class DiplomaticProposalTests
         finally
         {
             control?.Dispose();
-            StrategicMap.Current = previousMap;
+            previousMapScope.Dispose();
         }
     }
 }

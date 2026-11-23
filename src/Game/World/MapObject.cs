@@ -346,7 +346,7 @@ public partial class MapObject(CustomNode? owner) : HexSprite(owner)
     public override string EditName() => IsEmpty(_resource.Name) ? _resource.ResourceEditName() : _resource.Name;
 
     // MAPOBJ.PAS:63
-    public virtual MapObjectResourceList GetResourceList(GameEngine? engine) => engine.HexSpriteSet.MapObjectResourceList;
+    public virtual MapObjectResourceList GetResourceList(GameEngine? engine) => engine.GamePack.MapObjectResourceList;
 
     // MAPOBJ.PAS:68
     public virtual void SetResource(MapObjectResource value) => _resource = value;

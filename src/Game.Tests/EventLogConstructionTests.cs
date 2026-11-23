@@ -135,11 +135,11 @@ public sealed class EventLogConstructionTests
                         using OrderingRecording.Fixture fixture = new(type);
                         if (mapped == 1)
                         {
-                            StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value =>
+                            EngineFixture.SetMap(EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value =>
                             {
                                 value.Day = 7;
                                 value.CurrentPlayer = unchecked((sbyte)200);
-                            });
+                            }));
                         }
 
                         EventListOwner? owner = owned == 1 ? new EventListOwner() : null;
@@ -158,7 +158,7 @@ public sealed class EventLogConstructionTests
                         Assert.NotNull(value);
                         actual.Add($"{name}.map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, (value ?? owner?.Last)?.RefCount }));
                         EngineFixture.Engine.Dictionary = fixture.Dictionary;
-                        StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = HexSpriteMapStatuses.Destroying; });
+                        EngineFixture.SetMap(EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = HexSpriteMapStatuses.Destroying; }));
                         if (owner is not null)
                         {
                             _ = (value?.AddRef());

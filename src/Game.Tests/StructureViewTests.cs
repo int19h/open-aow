@@ -248,7 +248,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
     private sealed class Scene : IDisposable
     {
-        private readonly StrategicMap? _previousMap = StrategicMap.Current;
+        private readonly IDisposable _previousMapScope = EngineFixture.UseMap(StrategicMap.Current);
         private readonly bool _previousDebug = EngineFixture.Engine.Debug;
         private readonly List<Structure> _created = [];
 
@@ -260,7 +260,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             {
                 SeatedPlayer = Viewer
             };
-            StrategicMap.Current = Map;
+            EngineFixture.SetMap(Map);
         }
 
         internal (Structure Structure, ArmyOwner Owner) Create(Type type)
@@ -274,7 +274,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
         public void Dispose()
         {
-            StrategicMap.Current = _previousMap;
+            _previousMapScope.Dispose();
             EngineFixture.Engine.Debug = _previousDebug;
             // Some kinds need a world to tear down (ClassRegistryTests lists them).
             foreach (Structure structure in _created)

@@ -33,15 +33,19 @@ public class EngineObject : IDisposable, IPersistable, IOwned
         }
     }
 
-    // The Delphi pre-inherited statements run after capture and before any inherited body.
-    private protected virtual void InitializeBeforeInherited() { }
+    private protected EngineObject? ConstructionHolder { get; private set; }
+
+    // The Delphi pre-inherited statements run after capture and before any inherited body. The
+    // owner reaches the hook before the base body assigns it to this instance.
+    private protected virtual void InitializeBeforeInherited(CustomNode? owner) { }
 
     public EngineObject(CustomNode? owner) : this(null, owner) { }
 
     private protected EngineObject(ConstructionContext? context, CustomNode? owner)
     {
+        ConstructionHolder = context?.State as EngineObject;
         context?.Capture(this);
-        InitializeBeforeInherited();
+        InitializeBeforeInherited(owner);
         SetOwner(owner);
     }
 

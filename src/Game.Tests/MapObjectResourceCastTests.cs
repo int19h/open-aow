@@ -11,14 +11,14 @@ public sealed class MapObjectResourceCastTests
     [Fact]
     public void CovariantResourceReturnsTypedResourceAndThrowsOnMismatch()
     {
-        Structure structure = new(null!);
+        Structure structure = new(null!) { Holder = EngineFixture.Engine };
         Assert.Null(structure.Resource);
 
-        StructureResource structureResource = new(null!);
+        StructureResource structureResource = new(null!) { Holder = EngineFixture.Engine };
         structure.SetResource(structureResource);
         Assert.Same(structureResource, structure.Resource);
 
-        TerrainMapObjectResource wrongResource = new(null!);
+        TerrainMapObjectResource wrongResource = new(null!) { Holder = EngineFixture.Engine };
         structure.SetResource(wrongResource);
         _ = Assert.Throws<InvalidCastException>(() => structure.Resource);
     }
@@ -26,18 +26,18 @@ public sealed class MapObjectResourceCastTests
     [Fact]
     public void PlayerAndCropStructuresReturnCovariantResources()
     {
-        PlayerStructure playerStructure = new(null!);
-        PlayerStructureResource playerResource = new(null!);
+        PlayerStructure playerStructure = new(null!) { Holder = EngineFixture.Engine };
+        PlayerStructureResource playerResource = new(null!) { Holder = EngineFixture.Engine };
         playerStructure.SetResource(playerResource);
         Assert.Same(playerResource, playerStructure.Resource);
 
-        PlayerCropStructure cropStructure = new(null!);
-        PlayerCropStructureResource cropResource = new(null!);
+        PlayerCropStructure cropStructure = new(null!) { Holder = EngineFixture.Engine };
+        PlayerCropStructureResource cropResource = new(null!) { Holder = EngineFixture.Engine };
         cropStructure.SetResource(cropResource);
         Assert.Same(cropResource, cropStructure.Resource);
 
-        TerrainMapObject terrainObject = new(null!);
-        TerrainMapObjectResource terrainResource = new(null!);
+        TerrainMapObject terrainObject = new(null!) { Holder = EngineFixture.Engine };
+        TerrainMapObjectResource terrainResource = new(null!) { Holder = EngineFixture.Engine };
         terrainObject.SetResource(terrainResource);
         Assert.Same(terrainResource, terrainObject.Resource);
     }
@@ -45,11 +45,11 @@ public sealed class MapObjectResourceCastTests
     [Fact]
     public void FindChildAndFindResourceReturnTypedResultAndThrowOnMismatch()
     {
-        MapObjectResourceList list = new(null!);
+        MapObjectResourceList list = new(null!) { Holder = EngineFixture.Engine };
         Assert.Null(list.FindChild<StructureResource>(StructureResource.ClassId));
         Assert.Null(list.FindResource<StructureResource>(60));
 
-        StructureResource structureResource = new(null!) { ResourceId = 60 };
+        StructureResource structureResource = new(null!) { Holder = EngineFixture.Engine, ResourceId = 60 };
         _ = list.AddChild(structureResource);
         Assert.Same(structureResource, list.FindChild<StructureResource>(StructureResource.ClassId));
         Assert.Same(structureResource, list.FindResource<StructureResource>(60));
@@ -61,7 +61,7 @@ public sealed class MapObjectResourceCastTests
     [Fact]
     public void CreateResourceUserWithoutAUserClassStaysNull()
     {
-        MapObjectResource resource = new(null);
+        MapObjectResource resource = new(null) { Holder = EngineFixture.Engine };
         Assert.Null(resource.CreateResourceUser());
         Assert.Null(resource.CreateResourceUser<MapObject>());
     }

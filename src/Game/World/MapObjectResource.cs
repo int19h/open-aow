@@ -91,7 +91,7 @@ public class MapObjectResource : EngineResource
             Engine = message.Payload.As<GameEngine>();
             if (ImageSequenceList is not null)
             {
-                ImageSequenceList.ImageLibraryManager = Engine.HexSpriteSet.ImageLibraryManager;
+                ImageSequenceList.ImageLibraryManager = Engine.GamePack.ImageLibraryManager;
                 ImageSequenceList.LinkToImageLibrary();
             }
         }

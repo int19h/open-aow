@@ -27,17 +27,17 @@ public sealed class ThrowingCastTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly StrategicMap? _previous = StrategicMap.Current;
+        private readonly IDisposable _previousScope = EngineFixture.UseMap(StrategicMap.Current);
 
         public MapScope()
         {
             Map = new StrategicMap(null, holder: EngineFixture.Engine);
-            StrategicMap.Current = Map;
+            EngineFixture.SetMap(Map);
         }
 
         public StrategicMap Map { get; }
 
-        public void Dispose() => StrategicMap.Current = _previous;
+        public void Dispose() => _previousScope.Dispose();
     }
 
     // A hero that always wishes to join the seated player.
@@ -161,8 +161,8 @@ public sealed class ThrowingCastTests
     [Fact]
     public void SharedWallIdSkipsAStructureAndKeepsADoor()
     {
-        CombatMap? previous = CombatMap.Current;
-        CombatMap map = new(null) { Holder = EngineFixture.Engine };
+        IDisposable previousScope = EngineFixture.UseCombatMap(CombatMap.Current);
+        CombatMap map = new(null, holder: EngineFixture.Engine);
         try
         {
             MapContainer container = new(null) { Holder = EngineFixture.Engine };
@@ -192,14 +192,14 @@ public sealed class ThrowingCastTests
         }
         finally
         {
-            CombatMap.Current = previous;
+            previousScope.Dispose();
         }
     }
 
     [Fact]
     public void PrisonersStayOffTheItemList()
     {
-        CombatMap? previous = CombatMap.Current;
+        IDisposable previousScope = EngineFixture.UseCombatMap(CombatMap.Current);
         using MapScope scope = new();
         try
         {
@@ -235,7 +235,7 @@ public sealed class ThrowingCastTests
         }
         finally
         {
-            CombatMap.Current = previous;
+            previousScope.Dispose();
         }
     }
 
@@ -275,8 +275,8 @@ public sealed class ThrowingCastTests
         Assert.True(scope.Map.MoveControl.Activate(world));
         Assert.Same(army, scope.Map.MoveControl.ArmyHexSprite);
 
-        CombatMap? previous = CombatMap.Current;
-        CombatMap combatMap = new(null) { Holder = EngineFixture.Engine };
+        IDisposable previousScope = EngineFixture.UseCombatMap(CombatMap.Current);
+        CombatMap combatMap = new(null, holder: EngineFixture.Engine);
         try
         {
             CombatMoveControlSettings settings = new(null)
@@ -297,7 +297,7 @@ public sealed class ThrowingCastTests
         }
         finally
         {
-            CombatMap.Current = previous;
+            previousScope.Dispose();
         }
     }
 

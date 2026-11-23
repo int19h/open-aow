@@ -14,8 +14,8 @@ public sealed class ProductionControlOrderTests
     [Fact]
     public void BothKindsKeepRegistrationOrderThroughTheReaders()
     {
-        StrategicMap previous = StrategicMap.Current;
-        StrategicMap.Current = null;
+        IDisposable previousScope = EngineFixture.UseMap(StrategicMap.Current);
+        EngineFixture.SetMap(null);
         Player player = new(null) { Holder = EngineFixture.Engine };
         AutoProduceAIPlayerAction action = new(null) { Holder = EngineFixture.Engine };
         try
@@ -67,7 +67,7 @@ public sealed class ProductionControlOrderTests
         {
             action.Dispose();
             player.Dispose();
-            StrategicMap.Current = previous;
+            previousScope.Dispose();
         }
     }
 }

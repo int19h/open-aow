@@ -5,7 +5,6 @@ using Aow.Game.Combat;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Spells;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Tests;
 
@@ -100,7 +99,7 @@ public sealed class ObjectLifetimeTests
     [Fact]
     public void DrawnEffectsAreCollectibleOnceDropped()
     {
-        SpellControl control = GamePack.Current.SpellControl;
+        SpellControl control = EngineFixture.Engine.GamePack.SpellControl;
         EarthMastery spell = new(null, holder: EngineFixture.Engine);
         control.RegisterSpell(spell);
         WeakReference particle;

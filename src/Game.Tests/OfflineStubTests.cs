@@ -34,9 +34,9 @@ public sealed class OfflineStubTests
     private sealed class SavedGlobals : IDisposable
     {
         private readonly object?[] _values = [.. s_globals.Select(field => field.GetValue(null))];
-        private readonly StrategicMap _map = StrategicMap.Current;
-        private readonly TextControl _text = GamePack.Current.TextControl;
-        private readonly HeroResourceList _heroes = GamePack.Current.HeroResources;
+        private readonly IDisposable _mapScope = EngineFixture.UseMap(StrategicMap.Current);
+        private readonly TextControl _text = EngineFixture.Engine.GamePack.TextControl;
+        private readonly HeroResourceList _heroes = EngineFixture.Engine.GamePack.HeroResources;
 
         public void Dispose()
         {
@@ -45,9 +45,9 @@ public sealed class OfflineStubTests
                 s_globals[i].SetValue(null, value: _values[i]);
             }
 
-            StrategicMap.Current = _map;
-            GamePack.Current.TextControl = _text;
-            GamePack.Current.HeroResources = _heroes;
+            _mapScope.Dispose();
+            EngineFixture.Engine.GamePack.TextControl = _text;
+            EngineFixture.Engine.GamePack.HeroResources = _heroes;
         }
     }
 
@@ -127,7 +127,7 @@ public sealed class OfflineStubTests
         SetupEvents events = OfflineSetupEvents(ui);
         HeroResourceList heroes = new(null) { Holder = EngineFixture.Engine };
         _ = new HeroResource(heroes);
-        GamePack.Current.HeroResources = heroes;
+        EngineFixture.Engine.GamePack.HeroResources = heroes;
         LeaderSetupWindow window = Populate(new LeaderSetupWindow(ui));
         LeaderSetupControl control = new(null) { Holder = EngineFixture.Engine, OriginalLeader = new Leader(null) { Holder = EngineFixture.Engine } };
         bool done = false;
@@ -261,7 +261,7 @@ public sealed class OfflineStubTests
             item.Id = id;
             item.Text.Text = $"{header}\r\nBody {id}";
         }
-        GamePack.Current.TextControl = text;
+        EngineFixture.Engine.GamePack.TextControl = text;
         HelpWindow help = ui.Add(Populate(new HelpWindow(ui)));
         PopupWindows popups = new(ui);
         Menu menu = new(null)
@@ -316,7 +316,7 @@ public sealed class OfflineStubTests
         SetField(map, "MapContainer", container);
         SetField(map, "ViewWidthHex", 2);
         SetField(map, "ViewHeightHex", 3);
-        StrategicMap.Current = map;
+        EngineFixture.SetMap(map);
         ImageSequence sequence = new(null);
         SetField(sequence, "ImageLibrary", library);
         sequence.SequenceMode = SequenceMode.Up;

@@ -45,7 +45,7 @@ public sealed class PreInheritedTests
             return 1;
         }
 
-        private protected sealed override void InitializeBeforeInherited()
+        private protected sealed override void InitializeBeforeInherited(CustomNode? owner)
         {
             Assert.Equal(1, _initialized);
             s_events.Add("hook");

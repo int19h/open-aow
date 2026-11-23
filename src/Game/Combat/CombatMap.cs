@@ -114,6 +114,8 @@ public class CombatMap : GameMap
 
     public int Round { get; private set; }
 
+    private GameEngine? _slotEngine;
+
     // AoWTC.pas:2213 around AoWHSMap.PAS:914.
     public override void Dispose()
     {
@@ -127,10 +129,17 @@ public class CombatMap : GameMap
             Effects.RemoveAt(0);
         }
 
+        GameEngine? slotEngine = _slotEngine;
         base.Dispose();
         AbilityActivatedEventsStore.Clear();
 
         Current = null;
+        if (slotEngine?.CombatMap == this)
+        {
+            slotEngine.CombatMap = null;
+        }
+
+        _slotEngine = null;
         UnitPositions?.Dispose();
         ChangeTurnEventsStore.Clear();
         _playerChangedEventsStore.Clear();
@@ -148,11 +157,20 @@ public class CombatMap : GameMap
     }
 
     // AoWTC.pas:2189
-    private protected sealed override void InitializeBeforeInherited() => Current = this;
+    private protected sealed override void InitializeBeforeInherited(CustomNode? owner)
+    {
+        Current = this;
+        GameEngine? engine = owner?.GetEngine() ?? ConstructionHolder?.GetEngine();
+        _slotEngine = engine;
+        engine?.CombatMap = this;
+    }
 
     // AoWHSMap.PAS:907, then AoWTC.pas:2186.
-    public CombatMap(CustomNode? owner) : base(owner)
+    public CombatMap(CustomNode? owner, EngineObject? holder = null) : this(new ConstructionContext { State = holder }, owner, holder) { }
+
+    private protected CombatMap(ConstructionContext? context, CustomNode? owner, EngineObject? holder) : base(context, owner)
     {
+        Holder = holder;
         AbilityActivatedEventsStore = new();
 
         UnitPositions = new UnitPositionControl(null) { Holder = CreationHolder() };
@@ -206,7 +224,7 @@ public class CombatMap : GameMap
             }
         }
 
-        HexControl control = Engine.HexSpriteSet.HexControl;
+        HexControl control = Engine.GamePack.HexControl;
         for (int x = 0, last = MapContainer.Width - 1; x <= last; x++)
         {
             for (int y = 0; y <= 5; y++)

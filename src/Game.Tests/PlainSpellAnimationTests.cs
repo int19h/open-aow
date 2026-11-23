@@ -15,12 +15,12 @@ public sealed class PlainSpellAnimationTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly StrategicMap _previous = StrategicMap.Current;
+        private readonly IDisposable _previousScope = EngineFixture.UseMap(StrategicMap.Current);
 
         public MapScope()
         {
             Map = new StrategicMap(null, holder: EngineFixture.Engine);
-            StrategicMap.Current = Map;
+            EngineFixture.SetMap(Map);
             MapContainer container = new(null) { Holder = EngineFixture.Engine };
             MapLevel level = new(container);
             level.CreateMapFieldList(7, 7);
@@ -30,12 +30,12 @@ public sealed class PlainSpellAnimationTests
 
         public StrategicMap Map { get; }
 
-        public void Dispose() => StrategicMap.Current = _previous;
+        public void Dispose() => _previousScope.Dispose();
     }
 
     private static void Run(Spell spell, Action<Spell> process)
     {
-        SpellControl control = GamePack.Current.SpellControl;
+        SpellControl control = EngineFixture.Engine.GamePack.SpellControl;
         int count = control.RegisteredSpells.Count;
         control.RegisterSpell(spell);
         try

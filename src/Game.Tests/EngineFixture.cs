@@ -47,8 +47,76 @@ public sealed partial class EngineFixture : IDisposable
     internal static RecordingPlayerInput PlayerInput { get; } = new();
 
     internal static GameEngine Engine { get; private set; } = null!;
-    internal static GamePack GameSet { get; private set; } = null!;
+    internal static GamePack GamePack { get; private set; } = null!;
     internal static string Root => s_services.GameRoot;
+    internal static StrategicMap? GlobalMap => StrategicMap.Current;
+    internal static GamePack? GlobalPack => GamePack.Current;
+    internal static CombatMap? GlobalCombatMap => CombatMap.Current;
+
+    private sealed class RestoreScope(Action restore) : IDisposable
+    {
+        private Action? _restore = restore;
+
+        public void Dispose()
+        {
+            _restore?.Invoke();
+            _restore = null;
+        }
+    }
+
+    internal static IDisposable UseMap(StrategicMap? map)
+    {
+        StrategicMap? previousGlobal = StrategicMap.Current;
+        StrategicMap? previousSlot = Engine.StrategicMap;
+        SetMap(map);
+        return new RestoreScope(() =>
+        {
+            Engine.StrategicMap = previousSlot;
+            StrategicMap.Current = previousGlobal;
+        });
+    }
+
+    internal static IDisposable UsePack(GamePack? pack)
+    {
+        GamePack? previousGlobal = GamePack.Current;
+        GamePack? previousSlot = Engine.GamePack;
+        SetPack(pack);
+        return new RestoreScope(() =>
+        {
+            Engine.GamePack = previousSlot;
+            GamePack.Current = previousGlobal;
+        });
+    }
+
+    internal static IDisposable UseCombatMap(CombatMap? map)
+    {
+        CombatMap? previousGlobal = CombatMap.Current;
+        CombatMap? previousSlot = Engine.CombatMap;
+        SetCombatMap(map);
+        return new RestoreScope(() =>
+        {
+            Engine.CombatMap = previousSlot;
+            CombatMap.Current = previousGlobal;
+        });
+    }
+
+    internal static void SetMap(StrategicMap? map)
+    {
+        Engine.StrategicMap = map;
+        StrategicMap.Current = map;
+    }
+
+    internal static void SetPack(GamePack? pack)
+    {
+        Engine.GamePack = pack;
+        GamePack.Current = pack;
+    }
+
+    internal static void SetCombatMap(CombatMap? map)
+    {
+        Engine.CombatMap = map;
+        CombatMap.Current = map;
+    }
 
     private static readonly Dictionary<FieldInfo, object?> s_state = [];
 
@@ -59,8 +127,9 @@ public sealed partial class EngineFixture : IDisposable
             pair.Key.SetValue(Engine, pair.Value);
         }
 
-        GamePack.Current = GameSet;
-        StrategicMap.Current = null;
+        SetPack(GamePack);
+        SetMap(Engine.StrategicMap);
+        SetCombatMap(Engine.CombatMap);
     }
 
     public EngineFixture()
@@ -68,7 +137,7 @@ public sealed partial class EngineFixture : IDisposable
         RtlHost.InstallHost(_host);
         s_services = _host;
         Engine = GameEngine.Create(null, playerInput: PlayerInput);
-        GameSet = GamePack.Current;
+        GamePack = GamePack.Current;
         for (Type? type = Engine.GetType(); type is not null && type != typeof(object); type = type.BaseType)
         {
             foreach (FieldInfo field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
@@ -87,7 +156,7 @@ public sealed partial class EngineFixture : IDisposable
 
     internal static IRtlHost Services => s_services;
 
-    internal static GamePack CreateGameSet(ImageLibraryManager manager)
+    internal static GamePack CreateGamePack(ImageLibraryManager manager)
     {
         GamePack value = GamePack.Create(null!, holder: Engine);
         MemberNames.Field(typeof(GamePack), name: "ImageLibraryManager")!.SetValue(value, value: manager);
@@ -365,7 +434,7 @@ public sealed partial class EngineFixture : IDisposable
         finally
         {
             Engine = null!;
-            GameSet = null!;
+            GamePack = null!;
             s_services = null!;
             s_state.Clear();
             _host.Dispose();

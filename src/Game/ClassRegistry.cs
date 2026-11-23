@@ -841,7 +841,7 @@ internal static class ClassRegistry
         _ = EngineClass.Register(BorderHex.ClassId, static owner => new BorderHex(owner));
         _ = EngineClass.Register(WaterHex.ClassId, static owner => new WaterHex(owner));
         _ = EngineClass.Register(WaterHex.Resource.ClassId, static owner => new WaterHex.Resource(owner));
-        _ = EngineClass.Register(CombatMap.ClassId, static owner => new CombatMap(owner));
+        _ = EngineClass.Register(CombatMap.ClassId, static (owner, holder) => new CombatMap(owner, holder));
         _ = EngineClass.Register(AIGroup.ClassId, static owner => new BehaviorAIGroup(owner));
         _ = EngineClass.Register(CityWall.ClassId, static owner => new CityWall(owner));
         _ = EngineClass.Register(CityWall.Resource.ClassId, static owner => new CityWall.Resource(owner));

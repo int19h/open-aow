@@ -5,6 +5,8 @@ namespace Aow.Rtl;
 // this failure boundary. Independently allocated children use their own factory and context.
 public sealed class ConstructionContext
 {
+    public object? State { get; set; }
+
     private object? _instance;
     private bool _finished;
 

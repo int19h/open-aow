@@ -300,7 +300,7 @@ public sealed partial class PersistEquivalenceTests
     // list of one resource and puts the fixture's list back after.
     private static void WithUnitResource(Action<UnitResource> body)
     {
-        GamePack gameSet = GamePack.Current;
+        GamePack gameSet = EngineFixture.Engine.GamePack;
         UnitResourceList previous = gameSet.UnitResources;
         UnitResourceList resources = new(null) { Holder = EngineFixture.Engine };
         UnitResource resource = new(resources);

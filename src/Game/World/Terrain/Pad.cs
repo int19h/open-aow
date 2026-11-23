@@ -33,9 +33,9 @@ public class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
         // Pad.pas:69
         public override void Dispose()
         {
-            if (Engine is not null && !Engine.HexSpriteSet.Status.Contains(HexSpriteSetStatuses.Destroying))
+            if (Engine is not null && !Engine.GamePack.Status.Contains(HexSpriteSetStatuses.Destroying))
             {
-                Engine.HexSpriteSet.PadControl.UnregisterPadResource(this, size: _padSize);
+                Engine.GamePack.PadControl.UnregisterPadResource(this, size: _padSize);
             }
 
             base.Dispose();
@@ -69,7 +69,7 @@ public class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
                 }
             }
 
-            Engine.HexSpriteSet.PadControl.RegisterPadResource(this, size: _padSize);
+            Engine.GamePack.PadControl.RegisterPadResource(this, size: _padSize);
         }
 
         // Pad.pas:79

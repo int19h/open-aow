@@ -55,7 +55,8 @@ internal static class FrameFixtureChecks
         Check(FrameFixture.FileStampUtc(displayedFileTime, offset: TimeSpan.FromHours(-8)) ==
             new DateTime(2000, 1, 1, 21, 0, 0, kind: DateTimeKind.Utc), label: "standard file stamp preserves captured 1 PM text");
 
-        StrategicMap? oldMap = StrategicMap.Current;
+        StrategicMap? oldGlobalMap = StrategicMap.Current;
+        StrategicMap? oldSlotMap = startup.Engine.StrategicMap;
         ISettingsStore? oldSettings = RtlHost.Settings;
         try
         {
@@ -88,6 +89,7 @@ internal static class FrameFixtureChecks
             {
                 Players = players
             };
+            startup.Engine.StrategicMap = StrategicMap.Current;
             TaskBar bar = new(ui)
             {
                 PlayerIndicatorFrame = new(null) { Aligned = true },
@@ -108,25 +110,26 @@ internal static class FrameFixtureChecks
             FrameFixtureInputs.MeasuredFrameRate = 9;
             MapWindow world = new(ui) { MainWindow = mapWindow };
             world.MapWindowUpdate();
-            Check(StrategicMap.Current.FPS == 9, label: "captured FPS reaches the strategic movement input");
+            Check(startup.Engine.StrategicMap.FPS == 9, label: "captured FPS reaches the strategic movement input");
             MovementArmy army = new() { Holder = startup.Engine, MoveStep = -1, UnitGraphicsResource = new(null) { Holder = startup.Engine, MoveAnimationSpeed = 2 } };
             _ = (sbyte)army.MoveFirst(1, instant: false);
             Check(army.MoveSteps == 4, label: "native capture advances each eight-step move in four frames");
             foreach (int fps in new[] { 1, 6, 8, 9, 14 })
             {
-                StrategicMap.Current.UpdateFPS(fps);
+                startup.Engine.StrategicMap.UpdateFPS(fps);
                 army.MoveStep = -1;
                 _ = (sbyte)army.MoveFirst(1, instant: false);
                 Check(army.MoveSteps == 4, label: $"positive FPS below 15 preserves the captured movement tier: {fps}");
             }
-            StrategicMap.Current.UpdateFPS(30);
+            startup.Engine.StrategicMap.UpdateFPS(30);
             army.MoveStep = -1;
             _ = (sbyte)army.MoveFirst(1, instant: false);
             Check(army.MoveSteps == 8, label: "normal measured FPS retains the eight-step animation");
         }
         finally
         {
-            StrategicMap.Current = oldMap;
+            StrategicMap.Current = oldGlobalMap;
+            startup.Engine.StrategicMap = oldSlotMap;
             RtlHost.Settings = oldSettings;
             FrameFixtureInputs.AddressAnimationPhase = null;
             FrameFixtureInputs.MeasuredFrameRate = null;

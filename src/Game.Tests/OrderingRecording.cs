@@ -58,8 +58,8 @@ internal static class OrderingRecording
 
         internal IvBinaryDictionary Dictionary { get; } = EngineFixture.Engine.Dictionary;
 
-        private readonly GamePack _set = GamePack.Current;
-        private readonly StrategicMap _map = StrategicMap.Current;
+        private readonly IDisposable _setScope = EngineFixture.UsePack(GamePack.Current);
+        private readonly IDisposable _mapScope = EngineFixture.UseMap(StrategicMap.Current);
 
         internal ImageLibraryManager Manager { get; } = new ImageLibraryManager(null);
         internal GameEngine Engine { get; }
@@ -67,17 +67,17 @@ internal static class OrderingRecording
         internal Fixture(Type? type = null)
         {
             DelphiRandom.RandSeed = 123456789;
-            GamePack value = EngineFixture.CreateGameSet(Manager);
+            GamePack value = EngineFixture.CreateGamePack(Manager);
             if (type == typeof(ArmyHexSprite))
             {
                 value.UnitGraphicsResources = new UnitGFXResourceList(null) { Holder = EngineFixture.Engine };
             }
 
-            GamePack.Current = value;
-            StrategicMap.Current = null;
+            EngineFixture.SetPack(value);
+            EngineFixture.SetMap(null);
             if (type != typeof(ArmyHexSprite))
             {
-                GamePack.Current.UnitGraphicsResources = null;
+                EngineFixture.GlobalPack.UnitGraphicsResources = null;
             }
 
             DelphiRandom.RandSeed = 123456789;
@@ -99,9 +99,9 @@ internal static class OrderingRecording
         {
             Engine.Dispose();
             EngineFixture.Engine.Dictionary = Dictionary;
-            GamePack.Current?.UnitGraphicsResources?.Dispose();
-            GamePack.Current = _set;
-            StrategicMap.Current = _map;
+            EngineFixture.GlobalPack?.UnitGraphicsResources?.Dispose();
+            _setScope.Dispose();
+            _mapScope.Dispose();
             DelphiRandom.RandSeed = _seed;
             Manager.Dispose();
         }
@@ -172,7 +172,7 @@ internal static class OrderingRecording
             {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, comparer: StringComparer.Ordinal))
                 {
-                    if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "Holder" or "Creator")
+                    if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "Holder" or "Creator" or "_slotEngine" or "ConstructionHolder")
                     {
                         continue; // the descriptor cache and the link to the engine are not constructor state
                     }

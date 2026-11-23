@@ -57,7 +57,7 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
+                _ = base.Resource.Engine.GamePack.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
             }
         }
     }
@@ -72,14 +72,14 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
+                _ = base.Resource.Engine.GamePack.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
             }
             else
             {
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: 0);
+                _ = base.Resource.Engine.GamePack.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: 0);
             }
         }
     }

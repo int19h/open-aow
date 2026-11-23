@@ -77,7 +77,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
             if (negotiateRequestEventLog.Object == NegotiateObject.Army)
             {
-                ArmyHexSprite armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(negotiateRequestEventLog.Hex.X, negotiateRequestEventLog.Hex.Y, negotiateRequestEventLog.Hex.MapLevel).FindOwnedChild(131607);
+                ArmyHexSprite armyHexSprite = (ArmyHexSprite)EngineFixture.Engine.StrategicMap.MapContainer.GetField(negotiateRequestEventLog.Hex.X, negotiateRequestEventLog.Hex.Y, negotiateRequestEventLog.Hex.MapLevel).FindOwnedChild(131607);
                 if (armyHexSprite is not null)
                 {
                     int joinSelection = armyHexSprite.Army.GetJoinSelection(negotiateRequestEventLog.Player);
@@ -88,7 +88,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         }
         if (eventValue is GameOverEventLog)
         {
-            return StrategicMap.Current.SeatedPlayer == eventValue.Player ? "GameOver" : "ReceivedMessage";
+            return EngineFixture.Engine.StrategicMap.SeatedPlayer == eventValue.Player ? "GameOver" : "ReceivedMessage";
         }
 
         if (eventValue is NewTurnEventLog)
@@ -132,7 +132,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         }
         if (eventValue is PrisonersJoinEventLog prisonersJoinEventLog)
         {
-            Troop troopObject = StrategicMap.Current.UnitControl.FindUnit(prisonersJoinEventLog.FirstUnitId);
+            Troop troopObject = EngineFixture.Engine.StrategicMap.UnitControl.FindUnit(prisonersJoinEventLog.FirstUnitId);
             return troopObject is Hero ? "PrisonerHero" : "PrisonersJoin";
         }
         return eventValue is EnterWizardsTowerEventLog
@@ -305,7 +305,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
     private sealed class Scene : IDisposable
     {
-        private readonly StrategicMap _previousMap = StrategicMap.Current;
+        private readonly IDisposable _previousMapScope = EngineFixture.UseMap(StrategicMap.Current);
         private readonly List<EngineObject> _created = [];
         private readonly StrategicMap _map;
         private readonly MapField _field;
@@ -329,7 +329,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             level.CreateMapFieldList(1, 1);
             _map.MapContainer = container;
             _field = container.GetField(0, 0, 0);
-            StrategicMap.Current = _map;
+            EngineFixture.SetMap(_map);
         }
 
         internal EventLog Create(Type type)
@@ -383,7 +383,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         public void Dispose()
         {
-            StrategicMap.Current = _previousMap;
+            _previousMapScope.Dispose();
             foreach (EngineObject log in _created)
             {
                 _ = Record.Exception(log.Dispose);

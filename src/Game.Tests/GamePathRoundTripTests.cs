@@ -7,7 +7,6 @@ using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Magic.Abilities;
-using Aow.Game.Saves;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Platform;
@@ -94,14 +93,14 @@ public sealed class GamePathRoundTripTests : IDisposable
     public void AScenarioSetRoundTripsThroughTheGame()
     {
         UseLayers();
-        GamePack set = Engine.HexSpriteSet;
+        GamePack set = Engine.GamePack;
         byte[] before = Image(set);
         string file = Path.Combine(Folder, "Release.ohss");
         Engine.SaveHss(file, progress: null, profile: GameProfile.ScenarioSet);
         JsonObject document = GameFiles.Read(ReadBack(file)).Document;
         Assert.Equal("scenario-set", ((JsonString)((JsonObject)document["$container"])["profile"]).Value);
         Engine.LoadHss(file, edit: false, progress: null, profile: GameProfile.ScenarioSet);
-        Assert.Same(set, Engine.HexSpriteSet);
+        Assert.Same(set, Engine.GamePack);
         Assert.Equal(before, Image(set));
         SavesTheSameDocumentAgain(file, () => Engine.SaveHss(file, progress: null, profile: GameProfile.ScenarioSet));
     }
@@ -151,7 +150,9 @@ public sealed class GamePathRoundTripTests : IDisposable
         try
         {
             Engine.LoadHsm(source, edit: true, progress: null, profile: GameProfile.TacticalMap);
-            Assert.True(Engine.HexSpriteMap is CombatMap, userMessage: FileBoundary.LastFailure?.ToString());
+            CombatMap loaded = Assert.IsType<CombatMap>(Engine.HexSpriteMap);
+            Assert.Same(loaded, Engine.CombatMap);
+            Assert.Same(loaded, EngineFixture.Engine.CombatMap);
             Engine.SaveHsm(file, progress: null, profile: GameProfile.TacticalMap);
             Assert.Equal(constructed, ReadBack(file));
             Engine.LoadHsm(file, edit: true, progress: null, profile: GameProfile.TacticalMap);

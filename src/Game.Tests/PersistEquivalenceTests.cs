@@ -785,12 +785,12 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void ArmyViewCoversBothArrayWidths()
     {
-        StrategicMap? previous = StrategicMap.Current;
+        IDisposable previousScope = EngineFixture.UseMap(StrategicMap.Current);
         StrategicMap map = new(null, holder: EngineFixture.Engine)
         {
             Status = HexSpriteMapStatuses.Destroying
         };
-        StrategicMap.Current = map;
+        EngineFixture.SetMap(map);
         try
         {
             Check("Army", new Army(null) { Holder = EngineFixture.Engine });
@@ -825,7 +825,7 @@ public sealed partial class PersistEquivalenceTests
         }
         finally
         {
-            StrategicMap.Current = previous;
+            previousScope.Dispose();
             map.Dispose();
         }
     }
@@ -1408,19 +1408,19 @@ public sealed partial class PersistEquivalenceTests
 
     private static void WithDestroyingMap(Action<StrategicMap> body)
     {
-        StrategicMap? previous = StrategicMap.Current;
+        IDisposable previousScope = EngineFixture.UseMap(StrategicMap.Current);
         StrategicMap map = new(null, holder: EngineFixture.Engine)
         {
             Status = HexSpriteMapStatuses.Destroying
         };
-        StrategicMap.Current = map;
+        EngineFixture.SetMap(map);
         try
         {
             body(map);
         }
         finally
         {
-            StrategicMap.Current = previous;
+            previousScope.Dispose();
             map.Dispose();
         }
     }
@@ -1648,7 +1648,7 @@ public sealed partial class PersistEquivalenceTests
             Holder = EngineFixture.Engine,
             AbilityId = id
         };
-        List<Ability?> list = GamePack.Current.AbilityControl.Abilities;
+        List<Ability?> list = EngineFixture.Engine.GamePack.AbilityControl.Abilities;
         while (id >= list.Count)
         {
             list.Add(null);
@@ -1660,7 +1660,7 @@ public sealed partial class PersistEquivalenceTests
 
     private static void ReleaseAbility(Ability ability)
     {
-        List<Ability?> list = GamePack.Current.AbilityControl.Abilities;
+        List<Ability?> list = EngineFixture.Engine.GamePack.AbilityControl.Abilities;
         int id = ability.AbilityId;
         if ((uint)id < (uint)list.Count && ReferenceEquals(list[id], ability))
         {

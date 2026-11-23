@@ -37,12 +37,12 @@ public sealed class PrisonersSaveListingTests
         _ = Directory.CreateDirectory(directory);
         string source = Path.Combine(directory, "prisoners-source.oasg");
         string saved = Path.Combine(directory, "prisoners.oasg");
-        MapObjectResourceList resources = engine.HexSpriteSet.MapObjectResourceList;
+        MapObjectResourceList resources = engine.GamePack.MapObjectResourceList;
         StructureResource resource = new(null)
         {
             Holder = engine,
             ResourceId = PackResourceId,         // An explored dungeon reads this list while it activates. An empty list keeps that read in range.
-            ImageSequenceList = new ImageSequenceList(engine.HexSpriteSet.ImageLibraryManager, imageLibrary: null)
+            ImageSequenceList = new ImageSequenceList(engine.GamePack.ImageLibraryManager, imageLibrary: null)
         };
         // Activation stores the engine on the resource. A structure reads that engine while it chooses a terrain type.
         engine.ActivateEngineObject(resource);
@@ -128,7 +128,7 @@ public sealed class PrisonersSaveListingTests
             // leaves its player there, and a disposed current map has no player list.
             if (engine.HexSpriteMap is StrategicMap loaded && loaded != previous)
             {
-                StrategicMap.Current = loaded;
+                EngineFixture.SetMap(loaded);
             }
 
             if (engine.HexSpriteMap != previous)
@@ -137,7 +137,7 @@ public sealed class PrisonersSaveListingTests
             }
 
             engine.SetHexSpriteMapWithoutCurrentMap(previous);
-            StrategicMap.Current = previous as StrategicMap ?? null;
+            EngineFixture.SetMap(previous as StrategicMap ?? null);
             if (registerDungeon)
             {
                 engine.UnregisterEngineClasses([dungeonClass]);
@@ -167,12 +167,12 @@ public sealed class PrisonersSaveListingTests
         _ = Directory.CreateDirectory(directory);
         string source = Path.Combine(directory, "prisoners-campaign-source.oasg");
         string saved = Path.Combine(directory, $"prisoners{FileBoundary.WriteExtension(DocumentKind.CampaignSave)}");
-        MapObjectResourceList resources = engine.HexSpriteSet.MapObjectResourceList;
+        MapObjectResourceList resources = engine.GamePack.MapObjectResourceList;
         StructureResource resource = new(null)
         {
             Holder = engine,
             ResourceId = PackResourceId,
-            ImageSequenceList = new ImageSequenceList(engine.HexSpriteSet.ImageLibraryManager, imageLibrary: null)
+            ImageSequenceList = new ImageSequenceList(engine.GamePack.ImageLibraryManager, imageLibrary: null)
         };
         engine.ActivateEngineObject(resource);
         EngineClass dungeonClass = EngineClass.Of<Dungeon>();
@@ -239,7 +239,7 @@ public sealed class PrisonersSaveListingTests
             RtlHost.Files = recordedFiles;
             if (engine.HexSpriteMap is StrategicMap loaded && loaded != previous)
             {
-                StrategicMap.Current = loaded;
+                EngineFixture.SetMap(loaded);
             }
 
             if (engine.HexSpriteMap != previous)
@@ -248,7 +248,7 @@ public sealed class PrisonersSaveListingTests
             }
 
             engine.SetHexSpriteMapWithoutCurrentMap(previous);
-            StrategicMap.Current = previous as StrategicMap ?? null;
+            EngineFixture.SetMap(previous as StrategicMap ?? null);
             engine.CloseCampaign();
             if (registerCampaign)
             {
@@ -298,8 +298,8 @@ public sealed class PrisonersSaveListingTests
     {
         GameFileTree tree = FileBoundary.OpenOrRaise(file, profile: GameProfile.WorldMap);
         StrategicMap map = (StrategicMap)engine.CreateEngineObject(tree.ClassId, owner: engine);
-        StrategicMap? previous = StrategicMap.Current;
-        StrategicMap.Current = map;
+        IDisposable previousScope = EngineFixture.UseMap(StrategicMap.Current);
+        EngineFixture.SetMap(map);
         Exception? caught = null;
         try
         {
@@ -320,7 +320,7 @@ public sealed class PrisonersSaveListingTests
             {
                 caught ??= error;
             }
-            StrategicMap.Current = previous;
+            previousScope.Dispose();
         }
         Assert.Fail(caught?.ToString() ?? FileBoundary.LastFailure?.ToString() ?? "the map load returned null");
     }

@@ -1,7 +1,6 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Tests;
 
@@ -33,7 +32,7 @@ public sealed class UnitSelectorTests
     [Fact]
     public void HealingSetupAcceptsHeroesAndSelectsOnlyTheWounded()
     {
-        GamePack.Current = null;
+        EngineFixture.SetPack(null);
         UnitUserList units = new(null) { Holder = EngineFixture.Engine };
         HealingUnitSelector selector = new(EngineFixture.Engine);
         try

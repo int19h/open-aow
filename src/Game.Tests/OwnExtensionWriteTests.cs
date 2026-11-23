@@ -27,7 +27,7 @@ public sealed class OwnExtensionWriteTests
         GameMap previousMap = engine.HexSpriteMap;
         Action<FileLogRecord>? previousLog = FileBoundary.Log;
         engine.SetHexSpriteMapWithoutCurrentMap(map);
-        StrategicMap.Current = map;
+        EngineFixture.SetMap(map);
         FileBoundary.Log = _log.Add;
         try
         {
@@ -37,7 +37,7 @@ public sealed class OwnExtensionWriteTests
         {
             FileBoundary.Log = previousLog;
             engine.SetHexSpriteMapWithoutCurrentMap(previousMap);
-            StrategicMap.Current = null;
+            EngineFixture.SetMap(null);
             foreach (string file in Directory.GetFiles(Path.Combine(EngineFixture.Root, "Save")))
             {
                 File.Delete(file);

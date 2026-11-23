@@ -20,7 +20,7 @@ public class AbstractHexagonResource : MapObjectResource
     }
 
     // MAPOBJ.PAS:776
-    public virtual HexControl HexControl => Engine.HexSpriteSet.HexControl;
+    public virtual HexControl HexControl => Engine.GamePack.HexControl;
 
     public override MapObjectResourceTerrainControl TerrainControl => HexControl;
 

@@ -1742,7 +1742,7 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:2261
     public void InitializeMapLevel(int level)
     {
-        HexControl control = Engine.HexSpriteSet.HexControl;
+        HexControl control = Engine.GamePack.HexControl;
         if (level == 0)
         {
             for (int x = 6, last = MapContainer.Width - 7; x <= last; x++)

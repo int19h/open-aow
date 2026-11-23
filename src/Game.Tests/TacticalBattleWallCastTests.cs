@@ -46,8 +46,8 @@ public sealed class TacticalBattleWallCastTests
     [Fact]
     public void UnitLocationSkipsTheCombatWallAndFindsTheUnit()
     {
-        CombatMap? previous = CombatMap.Current;
-        CombatMap map = new(null) { Holder = EngineFixture.Engine };
+        IDisposable previousScope = EngineFixture.UseCombatMap(CombatMap.Current);
+        CombatMap map = new(null, holder: EngineFixture.Engine);
         try
         {
             TacticalBattle combat = new(null) { Holder = EngineFixture.Engine };
@@ -71,7 +71,7 @@ public sealed class TacticalBattleWallCastTests
         {
             map.SetOwner(null);
             map.Dispose();
-            CombatMap.Current = previous;
+            previousScope.Dispose();
         }
     }
 }

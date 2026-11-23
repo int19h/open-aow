@@ -35,8 +35,8 @@ public sealed class UIConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly StrategicMap _previousMap = StrategicMap.Current;
-        private readonly CombatMap _previousCombat = CombatMap.Current;
+        private readonly IDisposable _previousMapScope = EngineFixture.UseMap(StrategicMap.Current);
+        private readonly IDisposable _previousCombatScope = EngineFixture.UseCombatMap(CombatMap.Current);
         private readonly EventStore<GameMap> _loaded;
         private readonly EventStore<GameMap> _closed;
 
@@ -46,16 +46,16 @@ public sealed class UIConstructionTests
             _closed = EngineFixture.Engine.OnHsmCloseStore;
             EngineFixture.Engine.OnHsmLoadedStore = new EventStore<GameMap>();
             EngineFixture.Engine.OnHsmCloseStore = new EventStore<GameMap>();
-            StrategicMap.Current = null;
-            CombatMap.Current = null;
+            EngineFixture.SetMap(null);
+            EngineFixture.SetCombatMap(null);
         }
 
         public void Dispose()
         {
             EngineFixture.Engine.OnHsmLoadedStore = _loaded;
             EngineFixture.Engine.OnHsmCloseStore = _closed;
-            StrategicMap.Current = _previousMap;
-            CombatMap.Current = _previousCombat;
+            _previousMapScope.Dispose();
+            _previousCombatScope.Dispose();
         }
     }
 

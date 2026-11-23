@@ -76,8 +76,8 @@ public sealed class EndTurnShortcutTests
 
     private sealed class Play : IDisposable
     {
-        private readonly StrategicMap _previousMap = StrategicMap.Current;
-        private readonly CombatMap _previousCombat = CombatMap.Current;
+        private readonly IDisposable _previousMapScope = EngineFixture.UseMap(StrategicMap.Current);
+        private readonly IDisposable _previousCombatScope = EngineFixture.UseCombatMap(CombatMap.Current);
         private CombatMap? _combat;
 
         internal UIContext UI { get; } = new(EngineFixture.Engine);
@@ -88,7 +88,7 @@ public sealed class EndTurnShortcutTests
         public Play()
         {
             Map = new StrategicMap(null, holder: EngineFixture.Engine);
-            StrategicMap.Current = Map;
+            EngineFixture.SetMap(Map);
             LocalPlayerCommunicationControl playerCommunicationControl = new(EngineFixture.Engine);
             playerCommunicationControl.Setup(Map.Players.Count);
             for (int i = 0; i < Map.Players.Count; i++)
@@ -128,7 +128,7 @@ public sealed class EndTurnShortcutTests
 
         public void Press(ushort key) => Window.MainWindow.CheckKeyDown(ref key, shift: ShiftStates.Ctrl);
 
-        public void BeginCombat() => _combat = new CombatMap(null) { Holder = EngineFixture.Engine };
+        public void BeginCombat() => _combat = new CombatMap(null, holder: EngineFixture.Engine);
 
         public int QueuedCount() => Control().GetCount();
 
@@ -156,13 +156,13 @@ public sealed class EndTurnShortcutTests
         public void Dispose()
         {
             _combat?.Dispose();
-            CombatMap.Current = _previousCombat;
+            _previousCombatScope.Dispose();
             Window.MapViewer.Dispose();
             Window.MainWindow.Dispose();
             Window.Dispose();
             Button.Dispose();
             Bar.Dispose();
-            StrategicMap.Current = _previousMap;
+            _previousMapScope.Dispose();
             Map.Dispose();
         }
     }

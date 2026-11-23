@@ -119,7 +119,7 @@ public partial class GameEngine : OwningNode
         RegisterNetworkEngine(this);
         RegisterMoveEvents(this);
         RegisterEventLog(this);
-        RegisterAbilities(GameSet.AbilityControl);
+        RegisterAbilities(GamePack.AbilityControl);
         RegisterSpells(this);
         Editors.RegisterClass(EditorClass.Of<MapObjectEditor>());
         EmailGames.Load();
@@ -135,7 +135,7 @@ public partial class GameEngine : OwningNode
             CloseCampaign();
             CloseHsm(null);
             UnregisterCoreSpells(this);
-            UnregisterCoreAbilities(GameSet.AbilityControl);
+            UnregisterCoreAbilities(GamePack.AbilityControl);
             OnHsmLoadedStore.Clear();
             OnHsmCloseStore.Clear();
             CloseHsm(null);
@@ -555,7 +555,7 @@ public partial class GameEngine : OwningNode
 
     internal static void UnregisterStorms(GameEngine engine)
     {
-        SpellControl spells = engine.GameSet.SpellControl;
+        SpellControl spells = engine.GamePack.SpellControl;
         spells.UnregisterSpellId(3);
         spells.UnregisterSpellId(5);
         spells.UnregisterSpellId(6);
@@ -568,7 +568,7 @@ public partial class GameEngine : OwningNode
     {
         engine.UnregisterEngineClasses([EngineClass.Of<MountainMapObject>(), EngineClass.Of<MountainMapObjectResource>(), EngineClass.Of<RaiseTerrainTokenEvent>(), EngineClass.Of<RaisedMountain>(), EngineClass.Of<RaisedMountain.Resource>()]);
         // { Original unregisters spell 12, although Raise Terrain registers as spell 19. }
-        engine.GameSet.SpellControl.UnregisterSpellId(12);
+        engine.GamePack.SpellControl.UnregisterSpellId(12);
     }
 
     internal static void RegisterBorderHex(GameEngine engine) => engine.RegisterEngineClasses([EngineClass.Of<BorderHex>(), EngineClass.Of<BorderHex.Resource>()]);
@@ -596,7 +596,7 @@ public partial class GameEngine : OwningNode
     internal static void UnregisterHolyGround(GameEngine engine)
     {
         engine.UnregisterEngineClasses([EngineClass.Of<HolyGround>(), EngineClass.Of<HolyGround.Resource>(), EngineClass.Of<HolyGroundSpellTokenEvent>()]);
-        engine.GameSet.SpellControl.UnregisterSpellId(13);
+        engine.GamePack.SpellControl.UnregisterSpellId(13);
     }
 
     internal static void UnregisterOverlayObject(GameEngine engine) => engine.UnregisterEngineClasses([EngineClass.Of<OverlayObject>(), EngineClass.Of<OverlayObject.Resource>()]);

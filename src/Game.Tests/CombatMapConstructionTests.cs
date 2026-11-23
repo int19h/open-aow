@@ -24,7 +24,7 @@ public sealed class CombatMapConstructionTests
         public override int AddChild(EngineObject child)
         {
             _ = base.AddChild(child);
-            PublishedAtInsertion.Add(ReferenceEquals(CombatMap.Current, child));
+            PublishedAtInsertion.Add(ReferenceEquals(EngineFixture.GlobalCombatMap, child));
             return reject ? throw new InvalidDataException("owner rejects after insertion") : Members.Count - 1;
         }
 
@@ -36,7 +36,7 @@ public sealed class CombatMapConstructionTests
     [Fact]
     public void RoutesStateOwnerPublicationOffsetsAndFixtureFailuresMatchBaseCommit()
     {
-        CombatMap previous = CombatMap.Current;
+        IDisposable previousScope = EngineFixture.UseCombatMap(CombatMap.Current);
         JsonObject actual = [];
         bool plain = EngineClassCreation.OwnerConstructor(typeof(CombatMap)) is not null;
         try
@@ -50,13 +50,13 @@ public sealed class CombatMapConstructionTests
                         using OrderingRecording.Fixture fixture = new(typeof(CombatMap));
                         ImageLibraryManagerObject entry = fixture.Manager.DiskList.AddImageLibraryFile("TargHex.ILB");
                         entry.ImageLibrary = new ImageLibrary(null!);
-                        GamePack set = GamePack.Current;
+                        IDisposable setScope = EngineFixture.UsePack(GamePack.Current);
                         if (failure == 2)
                         {
-                            GamePack.Current = null!;
+                            EngineFixture.SetPack(null!);
                         }
 
-                        CombatMap.Current = null!;
+                        EngineFixture.SetCombatMap(null!);
                         MapPublicationOwner? owner = owned == 1 || failure == 1 ? new MapPublicationOwner(failure == 1) : null;
                         CombatMap? value = null;
                         Exception? caught = null;
@@ -70,10 +70,10 @@ public sealed class CombatMapConstructionTests
                         }
                         finally
                         {
-                            GamePack.Current = set;
+                            setScope.Dispose();
                         }
                         Assert.Equal(failure == 0, actual: value is not null);
-                        CombatMap published = CombatMap.Current;
+                        CombatMap published = EngineFixture.GlobalCombatMap;
                         Assert.NotNull(published);
                         if (owner is not null)
                         {
@@ -101,7 +101,7 @@ public sealed class CombatMapConstructionTests
                             Assert.Contains("RectangleSelectEvent", record["FieldGraph"]!.ToJsonString());
                             value.SetOwner(null!);
                             value.Dispose();
-                            Assert.Null(CombatMap.Current);
+                            Assert.Null(EngineFixture.GlobalCombatMap);
                             Assert.Equal(0, entry.RefCount);
                         }
                         else
@@ -142,7 +142,7 @@ public sealed class CombatMapConstructionTests
         }
         finally
         {
-            CombatMap.Current = previous;
+            previousScope.Dispose();
         }
     }
 }
