@@ -16,6 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <ProjectReference Include="../Game/Aow.Game.csproj" />
+    <ProjectReference Include="../Headless/Aow.Headless.csproj" />
     <ProjectReference Include="../Platform/Aow.Platform.csproj" />
     <Using Include="Xunit" />
     <Using Include="Aow.Rtl" />

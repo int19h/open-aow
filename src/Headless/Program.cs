@@ -159,7 +159,7 @@ internal static class Program
                 }
             }
             Startup.InitializeAll();
-            GameEngine engine = Startup.CreateEngine(PlayerInput.Unattended);
+            GameEngine engine = Startup.CreateEngine(new HeadlessPlayerInput());
             NullSoundSystem.Install();
             CombatClasses.Register(engine);
             gameplay = true;

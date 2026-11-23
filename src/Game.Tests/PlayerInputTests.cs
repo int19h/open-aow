@@ -66,6 +66,17 @@ public sealed class PlayerInputTests
         }
     }
 
+    // The headless host input of a directed run: the cast stays accepted, no dialog opens and
+    // nothing throws, as a raise with no subscriber behaved.
+    [Fact]
+    public void DirectedDisjunctionRunsWithoutThrowing()
+    {
+        GameEngine engine = GameEngine.Create(null, playerInput: new Aow.Headless.HeadlessPlayerInput());
+        TestDisjunction spell = new(null, holder: engine);
+        Troop source = new(null) { Holder = engine, Player = 2, UnitId = 11 };
+        Assert.True(spell.Activate(source));
+    }
+
     [Fact]
     public void CosmagicSurgeryCastAsksTheInputOnce()
     {
