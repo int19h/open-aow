@@ -14,6 +14,9 @@ public class SpellCaster(CustomNode owner) : EngineObject(owner)
     public int CasterSpellId { get; set; }
     public int CasterSourceId { get; set; }
 
+    // The dialog the input opens for this caster. The base caster opens none.
+    public virtual SpellCasterView InputView => SpellCasterView.None;
+
     private int _casterRefCount = 1;
 
     // Spells.PAS:753

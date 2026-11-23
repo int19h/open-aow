@@ -13,6 +13,8 @@ public partial class UnitSpellCaster : SpellCaster
     // Spells.PAS:859
     public UnitSpellCaster(CustomNode? owner) : base(owner) => TargetUnits = new UnitUserList(null) { Holder = CreationHolder() };
 
+    public override SpellCasterView InputView => SpellCasterView.UnitTargets;
+
     public UnitUserList TargetUnits { get; }
     public int SelectionMask { get; private set; }
     public bool AllowMultipleTargets { get; set; }
