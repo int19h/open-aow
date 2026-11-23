@@ -45,7 +45,7 @@ public partial class Surface : IDisposable
                     case PixelFormat.Xrgb32:
                     default:
                         Assert(false, message: "Pixel format not supported (GetColor)", file: "GFXE.pas", line: 11999);
-                        return Color.Black;
+                        return null;
                 }
             }
             finally
