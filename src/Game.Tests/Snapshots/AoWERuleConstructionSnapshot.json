@@ -17224,11 +17224,6 @@
             "EventStore\u00601._items": null
           },
           "StrategicMap.ConnectionType": 0,
-          "StrategicMap.CosmagicSurgeryEventsStore": {
-            "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Spells.SpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "EventStore\u00601.Count": 0,
-            "EventStore\u00601._items": null
-          },
           "StrategicMap.Day": 0,
           "StrategicMap.DayLimit": 0,
           "StrategicMap.DebugSave": false,

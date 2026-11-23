@@ -3,7 +3,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Aow.Engine.Nodes;
 
+using Aow.Game.Combat;
 using Aow.Game.Draw.Images;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
 
 using Aow.Game.World.Map;
 
@@ -14,6 +17,34 @@ public sealed partial class EngineFixture : IDisposable
 {
     private readonly RecordingHost _host = new("fixture");
     private static RecordingHost s_services = null!;
+
+    // The input the fixture engine asks. It records each call with the caster kind and ids, then
+    // releases the caster the call handed it, as the local input does after a dialog opens.
+    internal sealed class RecordingPlayerInput : IPlayerInput
+    {
+        internal List<string> SpellCalls { get; } = [];
+        internal List<string> CombatCalls { get; } = [];
+
+        internal void Clear()
+        {
+            SpellCalls.Clear();
+            CombatCalls.Clear();
+        }
+
+        public void ChooseSpellTargets(SpellCaster caster)
+        {
+            SpellCalls.Add($"{caster.GetType().Name}:{caster.CasterSpellId}:{caster.CasterSourceId}:{caster.InputView.Name}");
+            _ = caster.Release();
+        }
+
+        public void ChooseCombatSpellTarget(CombatSpellCaster caster)
+        {
+            CombatCalls.Add($"{caster.GetType().Name}:{caster.CombatCasterSpellId}:{caster.CombatCasterSourceId}");
+            _ = caster.Release();
+        }
+    }
+
+    internal static RecordingPlayerInput PlayerInput { get; } = new();
 
     internal static GameEngine Engine { get; private set; } = null!;
     internal static GamePack GameSet { get; private set; } = null!;
@@ -36,7 +67,7 @@ public sealed partial class EngineFixture : IDisposable
     {
         RtlHost.InstallHost(_host);
         s_services = _host;
-        Engine = GameEngine.Create(null);
+        Engine = GameEngine.Create(null, playerInput: PlayerInput);
         GameSet = GamePack.Current;
         for (Type? type = Engine.GetType(); type is not null && type != typeof(object); type = type.BaseType)
         {
@@ -139,7 +170,7 @@ public sealed partial class EngineFixture : IDisposable
         public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
     }
 
-    internal sealed class RaceListOwner(Owner recorder) : Session.RaceList(null!), IForwarder
+    internal sealed class RaceListOwner(Owner recorder) : RaceList(null!), IForwarder
     {
         public Owner Recorder => recorder;
 
@@ -222,7 +253,7 @@ public sealed partial class EngineFixture : IDisposable
         public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
     }
 
-    internal sealed class CombatActionsOwner(Owner recorder) : Combat.CombatActionList(null!), IForwarder
+    internal sealed class CombatActionsOwner(Owner recorder) : CombatActionList(null!), IForwarder
     {
         public Owner Recorder => recorder;
 
@@ -240,7 +271,7 @@ public sealed partial class EngineFixture : IDisposable
         public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
     }
 
-    internal sealed class DiplomaticActionsOwner(Owner recorder) : Session.DiplomaticActionList(null!), IForwarder
+    internal sealed class DiplomaticActionsOwner(Owner recorder) : DiplomaticActionList(null!), IForwarder
     {
         public Owner Recorder => recorder;
 
@@ -267,7 +298,7 @@ public sealed partial class EngineFixture : IDisposable
         public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
     }
 
-    internal sealed class PlayersOwner(Owner recorder) : Session.PlayerCollection(null!), IForwarder
+    internal sealed class PlayersOwner(Owner recorder) : PlayerCollection(null!), IForwarder
     {
         public Owner Recorder => recorder;
 
