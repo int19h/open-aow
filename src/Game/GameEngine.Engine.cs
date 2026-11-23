@@ -63,10 +63,13 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8814
     public override GameEngine GetEngine() => this;
 
-    public GameEngine(CustomNode? owner) : this(null, owner) { }
+    public GameEngine(CustomNode? owner) : this(null, owner: owner, playerInput: PlayerInput.Unattended) { }
 
-    private protected GameEngine(ConstructionContext? context, CustomNode? owner) : base(context, owner)
+    private protected GameEngine(ConstructionContext? context, CustomNode? owner) : this(context, owner: owner, playerInput: PlayerInput.Unattended) { }
+
+    private protected GameEngine(ConstructionContext? context, CustomNode? owner, IPlayerInput playerInput) : base(context, owner)
     {
+        LocalInput = playerInput ?? throw new ArgumentNullException(nameof(playerInput));
         UpdateStartupDirectory();
         Options = VerifyClasses;
         DebugEventsStore = new();

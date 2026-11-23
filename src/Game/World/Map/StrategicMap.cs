@@ -17,7 +17,6 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
-using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
 using Aow.Game.Saves;
 using Aow.Game.Session;
@@ -236,14 +235,6 @@ public sealed partial class StrategicMap : GameMap
 
     private int _executeEventLogDelay;
 
-    internal EventStore<SpellCaster> CosmagicSurgeryEventsStore { get; }
-
-    public event NotifyEvent<SpellCaster> CosmeticSurgeryCast
-    {
-        add => CosmagicSurgeryEventsStore.Add(value);
-        remove => CosmagicSurgeryEventsStore.Remove(value);
-    }
-
     internal EventStore<AbilityActivation> OnActivateAbilityStore { get; }
 
     public event NotifyEvent<AbilityActivation> AbilityActivated
@@ -403,7 +394,6 @@ public sealed partial class StrategicMap : GameMap
         CombatMapDestroyedEventsStore.Clear();
         _updateVisibilityEventsStore.Clear();
         DiplomaticRelationsChangedEventsStore.Clear();
-        CosmagicSurgeryEventsStore.Clear();
         OnActivateAbilityStore.Clear();
         _tokenControlActivatedEventsStore.Clear();
         _playerChangedEventsStore.Clear();
@@ -452,7 +442,6 @@ public sealed partial class StrategicMap : GameMap
         _playerChangedEventsStore.Clear();
         _executeEventLogEventsStore.Clear();
         _executeEventLogCallBacks?.Dispose();
-        CosmagicSurgeryEventsStore.Clear();
         OnActivateAbilityStore.Clear();
         GameSongs?.Dispose();
         StartupSongs?.Dispose();
@@ -709,7 +698,6 @@ public sealed partial class StrategicMap : GameMap
         UnitChanged += TargetSelection.UnitChanged;
         ArmyDestroyed += SelectedArmy.OnDestroyArmy;
         _executeEventLogCallBacks = new ExecuteEventLogCallbackList();
-        CosmagicSurgeryEventsStore = new();
         OnActivateAbilityStore = new();
         StartupSongs = new StartupSongList(null) { Holder = CreationHolder() };
         GameSongs = new SongList(null) { Holder = CreationHolder() };

@@ -53,10 +53,11 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         VideoDialog.DesktopSize = () => host.DesktopSize;
         VideoDialog.FullscreenSizes = () => host.FullscreenSizes;
         Startup.InitializeAll();
-        GameEngine engine = Startup.CreateEngine();
+        UIContext ui = null;
+        GameEngine engine = Startup.CreateEngine(new Game.UI.LocalPlayerInput(() => ui));
         SdlSoundSystem.Install(mute, audioOutput);
         LayoutSession layouts = new();
-        UIContext ui = new(engine);
+        ui = new(engine);
         try
         {
             GameLayouts.Initialize(layouts, ui: ui);

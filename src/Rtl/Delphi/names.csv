@@ -713,7 +713,6 @@ type,TCampaignSettingsDlg,Aow.Game.UI.Dialogs.CampaignSettingsDialog
 type,TCampaignTransferDlg,Aow.Game.UI.Dialogs.CampaignTransferDialog
 type,TCanMoveModeElement,Aow.Game.World.Movement.CanMoveModes,CanMoveModeElement
 type,TCanvas,Aow.Rtl.Canvas
-type,TCastCombatSpellEvent,Aow.Game.UI.Grids.CombatMapControl.CastCombatSpellEvent
 type,TCastSpellAIPA,Aow.Game.AI.CastSpellAIPlayerAction
 type,TCastUnitSpellDlg,Aow.Game.UI.Dialogs.CastUnitSpellDialog
 type,TCave,Aow.Game.World.Structures.Cave
@@ -2106,7 +2105,6 @@ type,AoWCampaignTransferSettings,Aow.Game.Session.CampaignTransferSettings
 type,AoWCombatMap,Aow.Game.Combat.CombatMap
 type,AoWCombatMapControl,Aow.Game.UI.Grids.CombatMapControl
 type,AoWCombatMapControl.ActivateCombatAbilityEvent,Aow.Game.UI.Grids.CombatMapControl.ActivateCombatAbilityEvent
-type,AoWCombatMapControl.CastCombatSpellEvent,Aow.Game.UI.Grids.CombatMapControl.CastCombatSpellEvent
 type,AoWCombatMapControl.MapChangedEvent,Aow.Game.UI.Grids.CombatMapControl.MapChangedEvent
 type,AoWCombatMapControl.PlayerChangedEvent,Aow.Game.UI.Grids.CombatMapControl.PlayerChangedEvent
 type,AoWCombatMapControl.SelectCombatUnitEvent,Aow.Game.UI.Grids.CombatMapControl.SelectCombatUnitEvent

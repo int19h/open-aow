@@ -58,8 +58,6 @@ public sealed class CombatMapControl : Component
     [Published]
     public event SelectCombatUnitEvent? UnitChanged;
     [Published]
-    public event CastCombatSpellEvent? OnCastSpell;
-    [Published]
     public event ActivateCombatAbilityEvent? AbilityActivated;
 
     // CMapCtrl.pas:117
@@ -106,7 +104,6 @@ public sealed class CombatMapControl : Component
         CombatMap.Current.MouseOverTargetChanged += CombatMap_MouseOverTarget;
         CombatMap.Current.UnitChanged += CombatMap_UnitChanged;
         CombatMap.Current.AbilityActivated += CombatMap_AbilityActivated;
-        CombatMap.Current.CombatStarted += CastSpell;
         StrategicMap.Current.ExecutingEventLog += StrategicMap_ExecutingEventLog;
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
@@ -133,7 +130,6 @@ public sealed class CombatMapControl : Component
         CombatMap.Current.MouseOverTargetChanged -= CombatMap_MouseOverTarget;
         CombatMap.Current.UnitChanged -= CombatMap_UnitChanged;
         CombatMap.Current.AbilityActivated -= CombatMap_AbilityActivated;
-        CombatMap.Current.CombatStarted -= CastSpell;
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
             StrategicMap.Current.Players.GetPlayers(i).GemsChanged -= Player_GemsChanged;
@@ -338,19 +334,6 @@ public sealed class CombatMapControl : Component
         }
     }
 
-    // CMapCtrl.pas:343
-    public void CastSpell(CombatSpellCaster sender)
-    {
-        try
-        {
-            OnCastSpell?.Invoke(sender);
-        }
-        catch
-        {
-            LegacyApplication.ShowMessage("Exception occurred during OnCastSpell event (TAoWCombatMapControl)");
-        }
-    }
-
     // CMapCtrl.pas:352
     public void CombatMap_AbilityActivated(AbilityActivation sender)
     {
@@ -417,6 +400,5 @@ public sealed class CombatMapControl : Component
     public delegate void ShowMessageEvent(in ShowMessageInfo Info);
     public delegate void TurnChangedEvent(int Turn);
     public delegate void MapChangedEvent(in MapChangedInfo ChangedArea);
-    public delegate void CastCombatSpellEvent(CombatSpellCaster SC);
     public delegate void ActivateCombatAbilityEvent(AbilityActivation AAI);
 }

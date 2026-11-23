@@ -22,14 +22,6 @@ namespace Aow.Game.Combat;
 // PositionStatus. Round
 public class CombatMap : GameMap
 {
-    internal EventStore<CombatSpellCaster> CombatStartedEventsStore { get; }
-
-    public event NotifyEvent<CombatSpellCaster> CombatStarted
-    {
-        add => CombatStartedEventsStore.Add(value);
-        remove => CombatStartedEventsStore.Remove(value);
-    }
-
     internal EventStore<AbilityActivation> AbilityActivatedEventsStore { get; }
 
     public event NotifyEvent<AbilityActivation> AbilityActivated
@@ -136,7 +128,6 @@ public class CombatMap : GameMap
         }
 
         base.Dispose();
-        CombatStartedEventsStore.Clear();
         AbilityActivatedEventsStore.Clear();
 
         Current = null;
@@ -162,7 +153,6 @@ public class CombatMap : GameMap
     // AoWHSMap.PAS:907, then AoWTC.pas:2186.
     public CombatMap(CustomNode? owner) : base(owner)
     {
-        CombatStartedEventsStore = new();
         AbilityActivatedEventsStore = new();
 
         UnitPositions = new UnitPositionControl(null) { Holder = CreationHolder() };

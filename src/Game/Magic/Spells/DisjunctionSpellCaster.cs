@@ -12,6 +12,8 @@ namespace Aow.Game.Magic.Spells;
 public class DisjunctionSpellCaster(CustomNode? owner) : SpellCaster(owner)
 {
 
+    public override SpellCasterView InputView => SpellCasterView.Disjunction;
+
     public int EnchantmentId { get; set; }
     public int DispelChance { get; private set; } = 50;
 

@@ -38,11 +38,6 @@
         "EventStore\u00601._items": null
       },
       "CombatMap.Combat": null,
-      "CombatMap.CombatStartedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
       "CombatMap.CurrentCombatPlayer": 0,
       "CombatMap.DeselectEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1239,11 +1234,6 @@
         "EventStore\u00601._items": null
       },
       "CombatMap.Combat": null,
-      "CombatMap.CombatStartedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
       "CombatMap.CurrentCombatPlayer": 0,
       "CombatMap.DeselectEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2440,11 +2430,6 @@
         "EventStore\u00601._items": null
       },
       "CombatMap.Combat": null,
-      "CombatMap.CombatStartedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
       "CombatMap.CurrentCombatPlayer": 0,
       "CombatMap.DeselectEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3641,11 +3626,6 @@
         "EventStore\u00601._items": null
       },
       "CombatMap.Combat": null,
-      "CombatMap.CombatStartedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
       "CombatMap.CurrentCombatPlayer": 0,
       "CombatMap.DeselectEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -4844,11 +4824,6 @@
         "EventStore\u00601._items": null
       },
       "CombatMap.Combat": null,
-      "CombatMap.CombatStartedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
       "CombatMap.CurrentCombatPlayer": 0,
       "CombatMap.DeselectEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6047,11 +6022,6 @@
         "EventStore\u00601._items": null
       },
       "CombatMap.Combat": null,
-      "CombatMap.CombatStartedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
       "CombatMap.CurrentCombatPlayer": 0,
       "CombatMap.DeselectEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7250,11 +7220,6 @@
         "EventStore\u00601._items": null
       },
       "CombatMap.Combat": null,
-      "CombatMap.CombatStartedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
       "CombatMap.CurrentCombatPlayer": 0,
       "CombatMap.DeselectEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -8453,11 +8418,6 @@
         "EventStore\u00601._items": null
       },
       "CombatMap.Combat": null,
-      "CombatMap.CombatStartedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
       "CombatMap.CurrentCombatPlayer": 0,
       "CombatMap.DeselectEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",

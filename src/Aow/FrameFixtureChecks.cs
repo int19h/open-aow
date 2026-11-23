@@ -151,7 +151,7 @@ internal static class FrameFixtureChecks
             RtlHost.InstallHost(new FrameFixture.FixtureHost(root, user: _scratch, settings: [], _clock, saveDirectory: null));
             Startup.InitializeAll();
             NullSoundSystem.Install();
-            Engine = Startup.CreateEngine();
+            Engine = Startup.CreateEngine(PlayerInput.Unattended);
         }
 
         internal GameEngine Engine { get; }

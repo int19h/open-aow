@@ -5,7 +5,6 @@ using Aow.Game.Draw;
 
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
-using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
 using Aow.Game.UI.Dialogs;
 using Aow.Game.Units;
@@ -102,8 +101,6 @@ public sealed class MapControl : Component
     [Published]
     public event EventHandler? ViewPortChanged;
     [Published]
-    public event MapObjectEvent<SpellCaster>? OnCastSpell;
-    [Published]
     public event MapEndTurnEvent? TurnEnded;
     [Published]
     public event NotifyEvent<object>? PlayerChanged;
@@ -174,7 +171,6 @@ public sealed class MapControl : Component
         StrategicMap.Current.ExecutingEventLog += StrategicMap_ExecutingEventLog;
         StrategicMap.Current.TargetSelection.Changed += TargetSelection_Changed;
         StrategicMap.Current.ViewPortChanged += StrategicMap_ViewPortChanged;
-        StrategicMap.Current.CosmeticSurgeryCast += CastSpell;
         StrategicMap.Current.AbilityActivated += StrategicMap_AbilityActivated;
         StrategicMap.Current.GlobalMagicControl.Changed += GlobalMagicControl_Changed;
         StrategicMap.Current.PlayerChanged += StrategicMap_PlayerChanged;
@@ -221,7 +217,6 @@ public sealed class MapControl : Component
         StrategicMap.Current.ExecutingEventLog -= StrategicMap_ExecutingEventLog;
         StrategicMap.Current.TargetSelection.Changed -= TargetSelection_Changed;
         StrategicMap.Current.ViewPortChanged -= StrategicMap_ViewPortChanged;
-        StrategicMap.Current.CosmeticSurgeryCast -= CastSpell;
         StrategicMap.Current.AbilityActivated -= StrategicMap_AbilityActivated;
         StrategicMap.Current.GlobalMagicControl.Changed -= GlobalMagicControl_Changed;
         StrategicMap.Current.PlayerChanged -= StrategicMap_PlayerChanged;
@@ -759,19 +754,6 @@ public sealed class MapControl : Component
         catch
         {
             LegacyApplication.ShowMessage("Exception occurred during OnTargetSelectionChange event (TAoWMapControl)");
-        }
-    }
-
-    // MapCtrl.pas:630
-    public void CastSpell(SpellCaster sender)
-    {
-        try
-        {
-            OnCastSpell?.Invoke(sender);
-        }
-        catch
-        {
-            LegacyApplication.ShowMessage("Exception occurred during OnCastSpell event (TAoWMapControl)");
         }
     }
 

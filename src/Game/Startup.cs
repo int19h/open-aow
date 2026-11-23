@@ -7,6 +7,7 @@ using Aow.Game.Audio;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
+using Aow.Game.Session;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game;
@@ -29,9 +30,9 @@ public static class Startup
     /// map-load handlers of the city and AI units and then the game's classes, in the order the
     /// Delphi units City, BehaviorAG, MainAG, IndependentAG and AoWEReg ran them after AoWE created
     /// the engine.</summary>
-    public static GameEngine CreateEngine()
+    public static GameEngine CreateEngine(IPlayerInput playerInput)
     {
-        GameEngine engine = GameEngine.Create(null);
+        GameEngine engine = GameEngine.Create(null, playerInput: playerInput);
         CityRegistrar.SubscribeMapLoaded(engine);
         BehaviorRegistrar.SubscribeMapLoaded(engine);
         MainRegistrar.SubscribeMapLoaded(engine);

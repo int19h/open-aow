@@ -48,6 +48,11 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     int IChildSink<GameEngineChild>.AddChild(GameEngineChild child) => AddChild(child.Node);
 
     public int Version { get; private set; }
+
+    // The input the host installed for the local player. The owner-only constructor installs
+    // the unattended input, and a host that takes player choices passes its own at Create.
+    public IPlayerInput LocalInput { get; }
+
     public GameSettings Registry { get; set; }
 
     private StrategicMap? _gameMap;
@@ -454,12 +459,14 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     }
 
     // intf_P2_08.inc:29. The flag is set before construction and cleared when it returns.
-    public static GameEngine Create(CustomNode? owner)
+    public static GameEngine Create(CustomNode? owner) => Create(owner, playerInput: PlayerInput.Unattended);
+
+    public static GameEngine Create(CustomNode? owner, IPlayerInput playerInput)
     {
         s_fullConstruction = true;
         try
         {
-            return ConstructionContext.Create(owner, static (context, owner) => new GameEngine(context, owner));
+            return ConstructionContext.Create((owner, playerInput), static (context, value) => new GameEngine(context, value.owner, value.playerInput));
         }
         finally
         {

@@ -122,8 +122,7 @@ public class UnitSpell : Spell
                     SetupUnitSelectionControl(caster, source, targets: source.OwnerUnits);
                 }
 
-                StrategicMap.Current.CosmagicSurgeryEventsStore.Raise(caster);
-                _ = caster.Release();
+                GetEngine().LocalInput.ChooseSpellTargets(caster);
             }
             else
             {
@@ -250,8 +249,7 @@ public class UnitSpell : Spell
     {
         UnitSpellCaster caster = new(null) { Holder = CreationHolder() };
         SetupUnitSelectionControl(caster, source, targets: party.Army.Units);
-        StrategicMap.Current.CosmagicSurgeryEventsStore.Raise(caster);
-        _ = caster.Release();
+        GetEngine().LocalInput.ChooseSpellTargets(caster);
     }
 
     // Spells.PAS:1224

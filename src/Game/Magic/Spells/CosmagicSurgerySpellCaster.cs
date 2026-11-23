@@ -13,6 +13,8 @@ namespace Aow.Game.Magic.Spells;
 // replacement face index, target unit ID
 public class CosmagicSurgerySpellCaster(CustomNode? owner) : SpellCaster(owner)
 {
+    public override SpellCasterView InputView => SpellCasterView.CosmagicSurgery;
+
     public int FaceIndex { get; set; }
     public int TargetUnitId { get; init; }
 

@@ -7,7 +7,6 @@ using Aow.Game.Combat;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -57,8 +56,7 @@ public class CosmagicSurgery : UnitSpell
                 FaceIndex = targets.GetUnit(0) is Hero faceTarget ? faceTarget.FaceIndex : 0
             };
 
-            StrategicMap.Current.CosmagicSurgeryEventsStore.Raise(caster);
-            _ = caster.Release();
+            GetEngine().LocalInput.ChooseSpellTargets(caster);
             return true;
         }
         else

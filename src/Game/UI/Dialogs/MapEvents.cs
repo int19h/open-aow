@@ -35,6 +35,19 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         where TStructure : Structure
         => StructureScreens.Add(view, value: (events, structure) => open(events, (TStructure)structure));
 
+    // A dialog the local input opens for a spell caster: the caster kind the dialog takes and
+    // the call that opens it.
+    public sealed record SpellCasterScreen(Type CasterType, Action<MapEvents, SpellCaster> Open);
+
+    // The dialogs the local input opens for a spell caster, by its view key. ClassRegistry adds
+    // the original dialogs.
+    public static Catalog<SpellCasterView, SpellCasterScreen> SpellCasterScreens { get; } = new("spell caster screen");
+
+    // The view key names the caster kind. Another kind throws.
+    internal static void AddSpellScreen<TCaster>(SpellCasterView view, Action<MapEvents, TCaster> open)
+        where TCaster : SpellCaster
+        => SpellCasterScreens.Add(view, value: new SpellCasterScreen(typeof(TCaster), Open: (events, caster) => open(events, (TCaster)caster)));
+
     // Renderers of the event log views (EventLog.Views.cs), called with the screen, the event, the
     // immediate mode and the done callback. The original renderers ignore the mode (the three that
     // take it name it Unused), it is there for a renderer that wants it. ClassRegistry adds the
@@ -607,26 +620,12 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         UI.SpellBook.UnitChanged(U);
     }
 
-    // aowMapEvents.pas:500
-    public void TheMapCastSpell(SpellCaster caster)
+    // aowMapEvents.pas:500. The caster view key selects the dialog in the catalog.
+    public void OpenSpellDialog(SpellCaster caster)
     {
-        if (caster is UnitSpellCaster unitCaster)
+        if (SpellCasterScreens.TryGet(caster.InputView, out SpellCasterScreen screen))
         {
-            ShowUnitSpellCaster(UI.CastUnitSpellDialog, caster: unitCaster);
-        }
-        else
-        {
-            if (caster is DisjunctionSpellCaster disjunctionCaster)
-            {
-                UI.DisjunctionDialog.Execute(disjunctionCaster);
-            }
-            else
-            {
-                if (caster is CosmagicSurgerySpellCaster cosmagicCaster)
-                {
-                    UI.CosmagicSurgeryDialog.Execute(cosmagicCaster);
-                }
-            }
+            screen.Open(this, caster);
         }
     }
 
@@ -838,7 +837,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         }
     }
 
-    private static void ShowUnitSpellCaster(CastUnitSpellDialog dialog, UnitSpellCaster caster)
+    internal static void ShowUnitSpellCaster(CastUnitSpellDialog dialog, UnitSpellCaster caster)
     {
         _ = (dialog.Caster?.Release());
         dialog.Caster = caster;
