@@ -109,20 +109,7 @@ public sealed class ItemControl(CustomNode? owner) : EngineObject(owner)
     public int GetCount() => _items.Count;
 
     // Army.PAS:4717
-    public Item? FindItem(int itemId)
-    {
-        int i = _items.Count;
-        while (i != 0)
-        {
-            i -= 1;
-            if (_items[i].ItemId == itemId)
-            {
-                return _items[i];
-            }
-        }
-
-        return null;
-    }
+    public Item? FindItem(int itemId) => _items.FindLast(item => item.ItemId == itemId);
 
     // Army.PAS:4733
     public void NotifyItemChanged(Item item) => _onItemChangedStore.Raise(item);

@@ -1,5 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
+using Aow.Rtl;
 
 namespace Aow.Game.Net;
 
@@ -17,18 +18,5 @@ public sealed class EmailGameList(CustomNode owner) : OwningNode(owner), IChildL
     public EmailGame GetEmailGames(int index) => this[index];
 
     // Diplomacy.pas:2478
-    public int IndexOfUniqueLocalId(int id)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].UniqueLocalId == id)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfUniqueLocalId(int id) => this.FindLastIndex(item => item.UniqueLocalId == id);
 }

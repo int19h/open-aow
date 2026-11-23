@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
+using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -21,52 +22,13 @@ public class AIMoveExecutorUnitList(CustomNode? owner) : OwningNode(owner), IChi
     public AIMoveExecutorUnit GetUnits(int index) => this[index];
 
     // AIGroup.pas:4333
-    public int IndexOfUnitId(int id)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].UnitId == id)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfUnitId(int id) => this.FindLastIndex(item => item.UnitId == id);
 
     // AIGroup.pas:4344
-    public int IndexOfUnit(Troop? troop)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].Troop == troop)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfUnit(Troop? troop) => this.FindLastIndex(item => item.Troop == troop);
 
     // AIGroup.pas:4355
-    public int FindStatusUnit(AIMoveExecutorUnitStatus status)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].Status == status)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int FindStatusUnit(AIMoveExecutorUnitStatus status) => this.FindLastIndex(item => item.Status == status);
 
     // AIGroup.pas:4366
     public int ValidateSelection(int selection)

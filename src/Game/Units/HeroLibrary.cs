@@ -5,7 +5,7 @@ using Aow.Formats;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Rtl;
 using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Units;
@@ -94,20 +94,7 @@ public sealed class HeroLibrary(CustomNode? owner) : Engine.Nodes.ReferenceNode(
     }
 
     // Hero.PAS:2620
-    public Hero? FindLibraryId(int id)
-    {
-        int i = Heroes.Count;
-        while (i != 0)
-        {
-            i -= 1;
-            if (id == Heroes[i].LibraryId)
-            {
-                return Heroes[i];
-            }
-        }
-
-        return null;
-    }
+    public Hero? FindLibraryId(int id) => Heroes.FindLast(item => id == item.LibraryId);
 
     // Hero.PAS:2633
     public void LoadFromFile(string fileName) => GetEngine().ReadFromFile(fileName, this, progress: null, profile: GameProfile.HeroList);

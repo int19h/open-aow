@@ -112,8 +112,8 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
             case 1:
                 if (_adjacentArmies.GetAdjacent())
                 {
-                    int slowestArmy = _adjacentArmies.GetSlowestArmy();
-                    if ((double)_adjacentArmies.GetAdjacentArmies(slowestArmy).GetMovementDays() <= 1.25 && Executor.Mode.Contains(AIMoveExecutorModes.Attack))
+                    AdjacentArmy? slowestArmy = _adjacentArmies.GetSlowestArmy();
+                    if ((double)slowestArmy!.GetMovementDays() <= 1.25 && Executor.Mode.Contains(AIMoveExecutorModes.Attack))
                     {
                         if (ExecuteSurroundMove())
                         {
@@ -133,8 +133,8 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 }
                 else
                 {
-                    int slowestArmy = _adjacentArmies.GetSlowestArmy();
-                    if ((double)_adjacentArmies.GetAdjacentArmies(slowestArmy).GetMovementDays() <= 1 && Executor.Mode.Contains(AIMoveExecutorModes.Attack))
+                    AdjacentArmy? slowestArmy = _adjacentArmies.GetSlowestArmy();
+                    if ((double)slowestArmy!.GetMovementDays() <= 1 && Executor.Mode.Contains(AIMoveExecutorModes.Attack))
                     {
                         State = ExecuteSurroundMove() ? 5 : 3;
                     }
@@ -404,23 +404,23 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
     {
         AIMoveExecutorArmyList armies = Executor.CreateArmies(AIMoveExecutorUnitStatuses.Ready | AIMoveExecutorUnitStatuses.Done);
         MapCoordinate result = MapCoordinate.None;
-        int i = _adjacentArmies.GetSlowestArmy();
-        if (i != -1)
+        AdjacentArmy? i = _adjacentArmies.GetSlowestArmy();
+        if (i != null)
         {
-            if ((double)_adjacentArmies.GetAdjacentArmies(i).GetMovementDays() > 1 || !Executor.Mode.Contains(AIMoveExecutorModes.Attack))
+            if ((double)i!.GetMovementDays() > 1 || !Executor.Mode.Contains(AIMoveExecutorModes.Attack))
             {
-                int points = _adjacentArmies.GetAdjacentArmies(i).MovePoints;
+                int points = i!.MovePoints;
                 if (Executor.Mode.Contains(AIMoveExecutorModes.Attack))
                 {
                     int reserve = Round(points * 0.75);
-                    if (reserve > _adjacentArmies.GetAdjacentArmies(i).Path.GetMovePoints() - points)
+                    if (reserve > i!.Path.GetMovePoints() - points)
                     {
-                        points = _adjacentArmies.GetAdjacentArmies(i).Path.GetMovePoints() - reserve;
+                        points = i!.Path.GetMovePoints() - reserve;
                     }
                 }
 
-                AdjacentArmy adjacent = _adjacentArmies.GetAdjacentArmies(i);
-                int index = armies.IndexOfLocation(_adjacentArmies.GetAdjacentArmies(i).Location);
+                AdjacentArmy adjacent = i!;
+                int index = armies.IndexOfLocation(i!.Location);
                 if (index != -1)
                 {
                     AIMoveExecutorArmy army = armies.GetArmies(index);
@@ -443,7 +443,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                         position -= 1;
                     }
 
-                    result = _adjacentArmies.GetAdjacentArmies(i).Path[position].Location;
+                    result = i!.Path[position].Location;
                 }
             }
         }

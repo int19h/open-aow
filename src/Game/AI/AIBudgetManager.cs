@@ -80,11 +80,7 @@ public sealed class AIBudgetManager : EngineObject
     public int GetBudgetGoldUpkeep()
     {
         int result = 0;
-        foreach (AIBudget budget in Budgets.Reverse())
-        {
-            result += budget.GoldUpkeep;
-        }
-
+        result = Budgets.Reverse().Sum(item => item.GoldUpkeep);
         return result;
     }
 
@@ -92,11 +88,7 @@ public sealed class AIBudgetManager : EngineObject
     public int GetBudgetManaUpkeep()
     {
         int result = 0;
-        foreach (AIBudget budget in Budgets.Reverse())
-        {
-            result += budget.ManaUpkeep;
-        }
-
+        result = Budgets.Reverse().Sum(item => item.ManaUpkeep);
         return result;
     }
 
@@ -104,11 +96,7 @@ public sealed class AIBudgetManager : EngineObject
     public int GetReservedBudgetGold()
     {
         int result = 0;
-        foreach (AIBudget budget in Budgets.Reverse())
-        {
-            result += budget.Gold;
-        }
-
+        result = Budgets.Reverse().Sum(item => item.Gold);
         return result;
     }
 
@@ -116,11 +104,7 @@ public sealed class AIBudgetManager : EngineObject
     public int GetReservedBudgetMana()
     {
         int result = 0;
-        foreach (AIBudget budget in Budgets.Reverse())
-        {
-            result += budget.Mana;
-        }
-
+        result = Budgets.Reverse().Sum(item => item.Mana);
         return result;
     }
 
@@ -128,11 +112,7 @@ public sealed class AIBudgetManager : EngineObject
     public int GetRequiredBudgetDayGold()
     {
         int result = 0;
-        foreach (AIBudget budget in Budgets.Reverse())
-        {
-            result += budget.DayGold;
-        }
-
+        result = Budgets.Reverse().Sum(item => item.DayGold);
         return result;
     }
 
@@ -140,11 +120,7 @@ public sealed class AIBudgetManager : EngineObject
     public int GetRequiredBudgetDayMana()
     {
         int result = 0;
-        foreach (AIBudget budget in Budgets.Reverse())
-        {
-            result += budget.DayMana;
-        }
-
+        result = Budgets.Reverse().Sum(item => item.DayMana);
         return result;
     }
 

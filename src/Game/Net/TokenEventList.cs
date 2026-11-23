@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Commands;
+using Aow.Rtl;
 
 namespace Aow.Game.Net;
 
@@ -44,20 +45,7 @@ public sealed class TokenEventList : EngineObject
     }
 
     // NetworkE.pas:1012
-    public int IndexOfTokenCounter(int tokenCounter)
-    {
-        int result = List.Events.Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (List.Events[result].TokenCounter == tokenCounter)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfTokenCounter(int tokenCounter) => List.Events.FindLastIndex(item => item.TokenCounter == tokenCounter);
 
     // NetworkE.pas:1024
     public int FindTokenEvent(int classId)

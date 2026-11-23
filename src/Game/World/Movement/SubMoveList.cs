@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Movement;
 
@@ -37,18 +38,5 @@ public sealed class SubMoveList(CustomNode owner) : OwningNode(owner), IChildLis
     public void Delete(int index) => this[index]?.Dispose();
 
     // MoveT.PAS:62
-    public int IndexOfMapCoordinate(MapCoordinate location)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (location == this[result].Location)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfMapCoordinate(MapCoordinate location) => this.FindLastIndex(item => location == item.Location);
 }

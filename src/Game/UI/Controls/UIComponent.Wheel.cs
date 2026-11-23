@@ -48,18 +48,7 @@ public partial class UIComponent
 
     private WheelLink? Link() => s_wheelLinks.GetOrCreateValue(this);
 
-    protected UIComponent? TopWheelChild(int X, int Y)
-    {
-        foreach (UIComponent? child in Children.Reverse())
-        {
-            if (child.WantsMouseWheel && child.ContainsPoint(X, Y))
-            {
-                return child;
-            }
-        }
-
-        return null;
-    }
+    protected UIComponent? TopWheelChild(int X, int Y) => Children.Reverse().FirstOrDefault(item => item.WantsMouseWheel && item.ContainsPoint(X, Y));
 
     // The named bar wins. A hidden named bar does not fall through to another bar. With no named
     // bar, exactly one visible enabled vertical scroll bar among the direct children is used.

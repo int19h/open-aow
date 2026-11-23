@@ -67,14 +67,7 @@ public sealed partial class CombatData : EngineObject
     public bool GetSideLeaderInvolved(int side)
     {
         bool result = false;
-        int i = InvolvedLeaders.Count;
-        while (!result && i != 0)
-        {
-            i -= 1;
-            int item = InvolvedLeaders[i];
-            result = Players.GetPlayers((sbyte)item).SideIndex == side;
-        }
-
+        result = InvolvedLeaders.Any(item => Players.GetPlayers((sbyte)item).SideIndex == side);
         return result;
     }
 

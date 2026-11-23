@@ -840,19 +840,8 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
         }
     }
 
-    internal static bool HasModalWindow(General controller)
-    {
-        foreach (UIComponent? component in controller.Manager.Children.Reverse())
-        {
-            if (component is WindowControl window &&
-                window != controller.UI.MapWindow.MainWindow && window.Modal && window.Visible)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
+    internal static bool HasModalWindow(General controller) => controller.Manager.Children.Reverse().Any(item => item is WindowControl window &&
+                                                                            window != controller.UI.MapWindow.MainWindow && window.Modal && window.Visible);
 
     internal static void LoadGame(General controller, string name)
     {

@@ -1,6 +1,7 @@
 #nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
+using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
@@ -33,20 +34,7 @@ public sealed class AoWCampaignScenarioList(CustomNode? owner) : OwningNode(owne
     }
 
     // Diplomacy.pas:2227
-    public int IndexOfId(int id)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].Id == id)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfId(int id) => this.FindLastIndex(item => item.Id == id);
 
     // Diplomacy.pas:2238
     public CampaignScenario? FindId(int id)

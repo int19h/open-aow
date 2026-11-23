@@ -1,5 +1,6 @@
 #nullable disable warnings
 using System.Collections;
+using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
@@ -35,20 +36,5 @@ public readonly struct DiplomaticActionCollection : IReadOnlyList<DiplomaticActi
     public DiplomaticAction GetDiplomaticActions(int index) => this[index];
 
     // Diplomacy.pas:1100
-    public DiplomaticAction? FindLastAction(int kind, DiplomaticActionReaction reaction, int source, int target, int other)
-    {
-        DiplomaticAction? result = null;
-        int index = Count;
-        while (result is null && index != 0)
-        {
-            index -= 1;
-            DiplomaticAction candidate = this[index];
-            if (candidate.Proposal.ToFields().Kind == kind && candidate.Reaction == reaction && (source == candidate.Source || source == -1) && (candidate.Target == target || target == -1) && (candidate.OtherPlayer == other || other == -1))
-            {
-                result = candidate;
-            }
-        }
-
-        return result;
-    }
+    public DiplomaticAction? FindLastAction(int kind, DiplomaticActionReaction reaction, int source, int target, int other) => this.FindLast(item => item.Proposal.ToFields().Kind == kind && item.Reaction == reaction && (source == item.Source || source == -1) && (item.Target == target || target == -1) && (item.OtherPlayer == other || other == -1));
 }

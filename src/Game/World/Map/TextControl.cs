@@ -36,17 +36,7 @@ public sealed class TextControl(CustomNode? owner) : OwningNode(owner), IChildLi
     public TextControlItem? FindId(int id)
     {
         int i = Count;
-        TextControlItem? result = null;
-        while (result is null && i != 0)
-        {
-            i -= 1;
-            if (this[i].Id == id)
-            {
-                result = this[i];
-            }
-        }
-
-        return result;
+        return this.FindLast(item => item.Id == id);
     }
 
     // Structur.PAS:4458

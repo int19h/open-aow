@@ -640,11 +640,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     public int GetUnitCount()
     {
         int result = 0;
-        foreach (Army army in Armies.Reverse())
-        {
-            result += army.Units.Count;
-        }
-
+        result = Armies.Reverse().Sum(item => item.Units.Count);
         return result;
     }
 

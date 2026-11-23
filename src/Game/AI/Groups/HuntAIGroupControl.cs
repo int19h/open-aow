@@ -27,14 +27,7 @@ public class HuntAIGroupControl(CustomNode owner) : AIGroupControl(owner)
             {
                 HuntAIGroup group = Group;
                 bool found = false;
-                int i = group.TargetUnitIds.Count;
-                while (!found && i != 0)
-                {
-                    i -= 1;
-                    int item = group.TargetUnitIds[i];
-                    found = army.Army.Units.IndexOfId(item) != -1;
-                }
-
+                found = group.TargetUnitIds.Any(item => army.Army.Units.IndexOfId(item) != -1);
                 if (found)
                 {
                     SetupCP(target);

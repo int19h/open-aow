@@ -7,6 +7,7 @@ using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
+using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
@@ -124,20 +125,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     public int IndexOf(Troop? troop) => Holder.IndexOfChild(troop);
 
     // Unit.PAS:2221
-    public int IndexOfId(int id)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].UnitId == id)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfId(int id) => this.FindLastIndex(item => item.UnitId == id);
 
     // Unit.PAS:2231
     public int IndexOfBehavior(GroupBehavior behavior)
@@ -157,20 +145,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     }
 
     // Unit.PAS:2243
-    public int IndexOfGroup(AIGroup group)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].Group == group)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfGroup(AIGroup group) => this.FindLastIndex(item => item.Group == group);
 
     // Unit.PAS:2253
     public int IndexOfGroupId(int id)
@@ -190,21 +165,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     }
 
     // Unit.PAS:2265
-    public Troop? FindId(int id)
-    {
-        int i = Count;
-        while (i != 0)
-        {
-            i -= 1;
-            Troop result = this[i];
-            if (result.UnitId == id)
-            {
-                return result;
-            }
-        }
-
-        return null;
-    }
+    public Troop? FindId(int id) => this.FindLast(item => item.UnitId == id);
 
     // Unit.PAS:2277
     public Troop? GetUnit(int index)

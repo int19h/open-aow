@@ -299,14 +299,7 @@ internal sealed partial class CampaignMapCodec
         EncodeContext nested = new(site.Schema, Nested.Engine, profile: Nested.Name, site.Context.File, site.Context.Limits);
         SchemaClass classValue = Nested.RootClass(nested, root);
         JsonObject body = new() { Span = root.Span };
-        foreach (JsonMember member in root.Members)
-        {
-            if (member.Name != "$class")
-            {
-                body.Members.Add(member);
-            }
-        }
-
+        body.Members.AddRange(root.Members.Where(item => item.Name != "$class"));
         _ = DocumentBackend.Read(body, classValue: classValue, schema: site.Schema, engine: Nested.Engine, path: site.Path.Member("root"), file: site.Context.File);
     }
 

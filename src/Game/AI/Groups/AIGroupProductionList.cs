@@ -6,6 +6,7 @@ using Aow.Game.Combat;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Structures;
+using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -28,11 +29,7 @@ public sealed class AIGroupProductionList(CustomNode owner) : OwningNode(owner),
     public int GetStrengthMax(DamageTypes damageTypes)
     {
         int result = 0;
-        for (int i = 0, last = Count - 1; i <= last; i++)
-        {
-            result += this[i].Troop.GetStrengthMax(damageTypes);
-        }
-
+        result = this.Sum(item => item.Troop.GetStrengthMax(damageTypes));
         return result;
     }
 
@@ -68,18 +65,5 @@ public sealed class AIGroupProductionList(CustomNode owner) : OwningNode(owner),
     }
 
     // AIGroup.pas:46
-    public int IndexOfU(Troop troop)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (troop == this[result].Troop)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfU(Troop troop) => this.FindLastIndex(item => troop == item.Troop);
 }
