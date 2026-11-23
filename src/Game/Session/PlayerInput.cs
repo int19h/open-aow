@@ -14,9 +14,16 @@ public sealed class PlayerInput : IPlayerInput
     // asks by mistake stops instead of waiting for an answer that never arrives.
     public static PlayerInput Unattended { get; } = new();
 
+    // The call hands the caster to this input, so a refused call releases it before it throws.
     public void ChooseSpellTargets(SpellCaster caster)
-        => throw new InvalidOperationException("No player input is installed for a strategic spell choice.");
+    {
+        _ = caster.Release();
+        throw new InvalidOperationException("No player input is installed for a strategic spell choice.");
+    }
 
     public void ChooseCombatSpellTarget(CombatSpellCaster caster)
-        => throw new InvalidOperationException("No player input is installed for a combat spell choice.");
+    {
+        _ = caster.Release();
+        throw new InvalidOperationException("No player input is installed for a combat spell choice.");
+    }
 }

@@ -46,24 +46,13 @@ public sealed class PlayerInputTests
     public void UnattendedInputThrows()
     {
         UnitSpellCaster caster = new(null) { Holder = EngineFixture.Engine };
-        try
-        {
-            _ = Assert.Throws<InvalidOperationException>(() => PlayerInput.Unattended.ChooseSpellTargets(caster));
-        }
-        finally
-        {
-            _ = caster.Release();
-        }
+        _ = Assert.Throws<InvalidOperationException>(() => PlayerInput.Unattended.ChooseSpellTargets(caster));
+        // The refused call released the handed caster, so this release lands below zero.
+        Assert.Equal(-1, caster.Release());
 
         CombatSpellCaster combatCaster = new(null) { Holder = EngineFixture.Engine };
-        try
-        {
-            _ = Assert.Throws<InvalidOperationException>(() => PlayerInput.Unattended.ChooseCombatSpellTarget(combatCaster));
-        }
-        finally
-        {
-            _ = combatCaster.Release();
-        }
+        _ = Assert.Throws<InvalidOperationException>(() => PlayerInput.Unattended.ChooseCombatSpellTarget(combatCaster));
+        Assert.Equal(-1, combatCaster.Release());
     }
 
     // The headless host input of a directed run: the cast stays accepted, no dialog opens and
