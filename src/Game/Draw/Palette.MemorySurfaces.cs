@@ -6,7 +6,7 @@ public sealed partial class Palette
 {
     public int GetNearestColor(Color color)
     {
-        int r = color.ToPacked() & 0xFF, g = (color.ToPacked() >> 8) & 0xFF, b = (color.ToPacked() >> 16) & 0xFF, best = 0, distance = int.MaxValue;
+        int r = color.R, g = color.G, b = color.B, best = 0, distance = int.MaxValue;
         for (int i = 0; i < 256; i++)
         {
             (byte red, byte green, byte blue) = (this[i].Red, this[i].Green, this[i].Blue);

@@ -31,14 +31,14 @@ public static class PixelFormats
 
     internal static int Color2PixelInfo(Color color, PixelFormat pixelFormatId, Palette? palette)
     {
-        int r = color.ToPacked() & 0xFF, g = (color.ToPacked() >> 8) & 0xFF, b = (color.ToPacked() >> 16) & 0xFF;
+        int r = color.R, g = color.G, b = color.B;
         return pixelFormatId switch
         {
             PixelFormat.Pal8 => palette is null ? throw new InvalidOperationException("Palette required") : palette.GetNearestColor(color),
             PixelFormat.Rgb555 or PixelFormat.Argb1555 => ((r & 0b1111_1000) << 7) + ((g & 0b1111_1000) << 2) + (b >> 3),
             PixelFormat.Rgb565 => ((r & 0b1111_1000) << 8) + ((g & 0b1111_1100) << 3) + (b >> 3),
             PixelFormat.Rgb24 or PixelFormat.Rgb32 or PixelFormat.Xrgb32 => (r << 16) + (g << 8) + b,
-            PixelFormat.Bgr24 => color.ToPacked() & 0xFF_FF_FF,
+            PixelFormat.Bgr24 => color.ToPacked(),
             PixelFormat.None => throw new NotSupportedException("Pixel format"),
             _ => throw new NotSupportedException("Pixel format")
         };
