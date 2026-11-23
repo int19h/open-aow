@@ -143,12 +143,13 @@ internal static class FrameFixtureChecks
         private readonly IClock _clock = RtlHost.Clock;
         private readonly string _executable = LegacyApplication.Application.ExeName;
         private readonly bool _ownExtensions = RtlHost.WritesOwnExtensions;
+        private readonly Microsoft.Extensions.Logging.ILoggerFactory _loggerFactory = RtlHost.GlobalLoggerFactory;
         private readonly string _scratch = Path.Combine(Path.GetTempPath(), $"aow-frame-inputs-{Guid.NewGuid():N}");
 
         internal StartupScope(string root)
         {
             _ = Directory.CreateDirectory(_scratch);
-            RtlHost.InstallHost(new FrameFixture.FixtureHost(root, user: _scratch, settings: [], _clock, saveDirectory: null));
+            RtlHost.InstallHost(new FrameFixture.FixtureHost(root, user: _scratch, settings: [], _clock, saveDirectory: null, loggerFactory: _loggerFactory));
             Startup.InitializeAll();
             NullSoundSystem.Install();
             Engine = Startup.CreateEngine(PlayerInput.Unattended);
@@ -165,6 +166,7 @@ internal static class FrameFixtureChecks
             RtlHost.Clock = _clock;
             LegacyApplication.Application.ExeName = _executable;
             RtlHost.WritesOwnExtensions = _ownExtensions;
+            RtlHost.GlobalLoggerFactory = _loggerFactory;
             Directory.Delete(_scratch, recursive: true);
         }
     }

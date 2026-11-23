@@ -64,6 +64,14 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
 
     public UnitStatuses UnitStatus { get; set; }
 
+    public override string ToString() => Describe(() =>
+    {
+        UnitResource? resource = (this as Unit)?.UnitResource;
+        string kind = resource is null ? "no-resource" : string.Create(CultureInfo.InvariantCulture, handler: $"{resource.UnitType} race={resource.Race} L{resource.Level}");
+        string location = Owner is Army army ? string.Create(CultureInfo.InvariantCulture, handler: $" ({army.Location.X},{army.Location.Y} L{army.Location.MapLevel})") : "";
+        return string.Create(CultureInfo.InvariantCulture, handler: $"Unit#{UnitId} P{Player} {kind}{location}");
+    });
+
     public int MoraleValue { get; set; }
 
     private readonly byte[] _offensiveStrength = new byte[10];
@@ -124,8 +132,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 legacy = persister.Created("LegacyGroup", objectValue: legacy);
                 LegacyGroupBehavior = legacy is not null ? (byte)((GroupControl)(object)legacy).Behavior() : 0;
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
         }
         else

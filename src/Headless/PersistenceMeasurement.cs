@@ -9,6 +9,7 @@ using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.UI.Dialogs;
 using Aow.Rtl;
+using Microsoft.Extensions.Logging;
 
 namespace Aow.Headless;
 
@@ -22,10 +23,10 @@ namespace Aow.Headless;
 /// </summary>
 internal static class PersistenceMeasurement
 {
-    public static int Run(string root, string kind, string file, string? map, string output)
+    public static int Run(string root, string kind, string file, string? map, string output, ILoggerFactory? loggerFactory = null)
     {
         _ = Directory.CreateDirectory(output);
-        HeadlessHost host = new(root, output, settings: null, input: Path.GetFullPath(file));
+        HeadlessHost host = new(root, output, settings: null, input: Path.GetFullPath(file), loggerFactory: loggerFactory);
         RtlHost.InstallHost(host);
         Startup.InitializeAll();
         GameEngine engine = Startup.CreateEngine(PlayerInput.Unattended);
@@ -115,7 +116,7 @@ internal static class PersistenceMeasurement
             own_load_ms = ownLoad,
             peak_mib = peak,
         }, options: new JsonSerializerOptions { WriteIndented = true }) + "\n");
-        Console.WriteLine($"persistence {name}: original load {originalLoad:F0} ms, save {save:F0} ms, own load {ownLoad:F0} ms, peak {peak:F1} MiB, {original} original bytes, {own} own bytes");
+        HostLog.Information(RtlHost.LoggerFactory.CreateLogger("OpenAoW.Headless.Persistence"), text: $"persistence {name}: original load {originalLoad:F0} ms, save {save:F0} ms, own load {ownLoad:F0} ms, peak {peak:F1} MiB, {original} original bytes, {own} own bytes");
         return 0;
     }
 

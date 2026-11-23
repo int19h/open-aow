@@ -1,5 +1,7 @@
 #nullable disable warnings
 // Translated from Engine.pas.
+using System.Diagnostics;
+using System.Globalization;
 using Aow.Formats.Tree;
 using Aow.Game;
 
@@ -8,6 +10,7 @@ using Aow.Rtl;
 namespace Aow.Engine.Nodes;
 
 // _owner
+[DebuggerDisplay("{ToString(),nq}")]
 public class EngineObject : IDisposable, IPersistable, IOwned
 {
     // Engine.pas:2461
@@ -15,6 +18,20 @@ public class EngineObject : IDisposable, IPersistable, IOwned
 
     // The engine class descriptor of the instance's exact type, read once and cached.
     public EngineClass EngineClass => field ??= EngineClass.Of(GetType());
+
+    public override string ToString() => Describe(() => string.Create(CultureInfo.InvariantCulture, handler: $"{GetType().Name} class={EngineClass.Of(GetType()).ClassId}"));
+
+    protected string Describe(Func<string> describe)
+    {
+        try
+        {
+            return describe();
+        }
+        catch
+        {
+            return $"{GetType().Name} class=?";
+        }
+    }
 
     // The Delphi pre-inherited statements run after capture and before any inherited body.
     private protected virtual void InitializeBeforeInherited() { }

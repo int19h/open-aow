@@ -98,6 +98,7 @@ public sealed class PhysicalFileSystem : IFileSystem
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: e);
             return false;
         }
     }
@@ -116,6 +117,7 @@ public sealed class PhysicalFileSystem : IFileSystem
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: e);
             return -1;
         }
     }

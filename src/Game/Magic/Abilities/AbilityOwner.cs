@@ -559,8 +559,9 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
                 }
             }
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
         }
     }
 

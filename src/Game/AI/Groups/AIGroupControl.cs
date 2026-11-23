@@ -450,21 +450,14 @@ public class AIGroupControl : EngineObject
     // AIGroup.pas:1256
     public void MainProcessStates(bool looped)
     {
-        try
+        UpdateGroupChanges();
+        if (looped)
         {
-            UpdateGroupChanges();
-            if (looped)
-            {
-                ProcessStatesLooped();
-            }
-            else
-            {
-                ProcessStates();
-            }
+            ProcessStatesLooped();
         }
-        catch
+        else
         {
-            throw;
+            ProcessStates();
         }
     }
 
@@ -497,8 +490,9 @@ public class AIGroupControl : EngineObject
                     }
                 }
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.DebugFallback(RtlHost.Logger, error: error, location: "AIGroupControl.Process");
                 Done();
             }
 

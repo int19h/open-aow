@@ -1740,9 +1740,10 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
                 Done = true;
             }
         }
-        catch
+        catch (Exception error)
         {
             // { Original puts the diagnostic in the message-box caption. }
+            HostLog.DebugFallback(Logger, error: error, location: "BattleEffectSprite.NewFrame");
             _ = MessageBox(0, text: "Error during NewFrame", caption: NullTerminatedText($"Error - fxHS {AbilityIndex.ToString(CultureInfo.InvariantCulture)} {SpellIndex.ToString(CultureInfo.InvariantCulture)}"), flags: 0);
         }
     }

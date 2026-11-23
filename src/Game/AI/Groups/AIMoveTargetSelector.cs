@@ -7,6 +7,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -445,8 +446,9 @@ public sealed class AIMoveTargetSelector : EngineObject
                 yield = ProcessStates();
             }
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.DebugFallback(RtlHost.Logger, error: error, location: "AIMoveTargetSelector.Process");
             _state = -1;
         }
 

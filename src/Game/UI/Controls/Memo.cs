@@ -177,8 +177,9 @@ public sealed partial class Memo : Control
                 {
                     cc.Color = Color.FromPacked(StrToInt($"${Copy(_items[i], index: 2, count: 6)}"));
                 }
-                catch
+                catch (Exception error)
                 {
+                    HostLog.FallbackAtCallSite(Logger, error: error);
                 }
 
                 j = 8;

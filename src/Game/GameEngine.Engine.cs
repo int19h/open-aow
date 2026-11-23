@@ -29,6 +29,7 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
+using Microsoft.Extensions.Logging;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiStreams;
 using static Aow.Rtl.DelphiStrings;
@@ -208,6 +209,11 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8796
     public void OutputDebugString(string S)
     {
+        ILogger logger = RtlHost.LoggerFor("OpenAoW.Engine");
+        if (logger.IsEnabled(LogLevel.Debug))
+        {
+            HostLog.DebugChannel(logger, channel: nameof(DebugChannel.User), text: S);
+        }
         EngineDebugNotification notification = new();
         EngineDebugNotification.DebugInfo info = notification.Info;
         info.Channel = DebugChannel.User;
@@ -219,6 +225,11 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8805
     public void OutputDebugMessage(DebugChannel channel, string S)
     {
+        ILogger logger = RtlHost.LoggerFor("OpenAoW.Engine");
+        if (logger.IsEnabled(LogLevel.Debug))
+        {
+            HostLog.DebugChannel(logger, channel: channel.ToString(), text: S);
+        }
         EngineDebugNotification notification = new();
         EngineDebugNotification.DebugInfo info = notification.Info;
         info.Channel = channel;

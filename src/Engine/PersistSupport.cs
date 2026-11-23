@@ -368,9 +368,10 @@ public static class PersistSupport
         {
             load();
         }
-        catch (Exception)
+        catch (Exception error)
         {
             // rwStreamProc ignores the failure.
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
         }
     }
 

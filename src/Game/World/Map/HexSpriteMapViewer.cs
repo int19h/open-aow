@@ -289,6 +289,7 @@ public sealed class HexSpriteMapViewer : Component
         }
         catch
         {
+            HostLog.CatchDialogAtCallSite(RtlHost.Logger, text: "Exception during MapViewer.ShowScene");
             ShowMessage("Exception during MapViewer.ShowScene");
         }
     }

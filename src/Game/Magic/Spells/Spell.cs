@@ -1,5 +1,6 @@
 #nullable disable warnings
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -41,6 +42,8 @@ public class Spell : EngineObject
     public int ManaUpkeep { get; protected set; }
     public MagicSphere MagicSphere { get; protected set; }
     public int SpellLevel { get; protected set; }
+
+    public override string ToString() => Describe(() => string.Create(CultureInfo.InvariantCulture, handler: $"{(string.IsNullOrEmpty(SpellName) ? "<no name>" : SpellName)} id={SpellId} {MagicSphere} L{SpellLevel}"));
 
     public SpellType SpellType { get; protected init; }
     // stGlobal guard

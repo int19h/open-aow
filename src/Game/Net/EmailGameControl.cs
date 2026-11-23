@@ -65,8 +65,9 @@ public sealed class EmailGameControl : EngineObject
             int fileCrc = GetFileCrc32(fileName);
             GetEngine().Registry.SetEmailGamesCrc(fileCrc);
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
         }
     }
 
@@ -214,8 +215,9 @@ public sealed class EmailGameControl : EngineObject
 
             map?.Dispose();
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
         }
         return destination;
     }

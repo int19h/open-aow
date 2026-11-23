@@ -346,8 +346,9 @@ public partial class ExplorationSite : Structure
             {
                 _ = Int32List.FillWithRandomUnits(list, _defenders.Units, level: 4, value: (int)_defendersMode * 50, types: UnitTypes.Humanoid | UnitTypes.Creature | UnitTypes.Machine);
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
 
             // { Original silently ignores defender-generation failures. }

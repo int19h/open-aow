@@ -101,16 +101,18 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
             EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537001985, sender: this);
             StrategicMap.Current.SendMessage(ref message, sender: this);
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
         }
 
         try
         {
             StrategicMap.Current.NewDayEventsStore.Raise(this);
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
         }
 
         if (StrategicMap.Current.DayLimit == StrategicMap.Current.Day)
@@ -191,8 +193,9 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
                     GetEngine().SaveHsm($"{GetEngine().StartupDirectory}DEBUG\\{StrategicMap.Current.MapName}{StrategicMap.Current.Day.ToString(CultureInfo.InvariantCulture)}-{((int)player).ToString(CultureInfo.InvariantCulture)}_p{((int)StrategicMap.Current.SeatedPlayer).ToString(CultureInfo.InvariantCulture)}{FileBoundary.WriteExtension(DocumentKind.Save)}", progress: null, profile: GameProfile.WorldMap);
                 }
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
         }
     }

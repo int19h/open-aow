@@ -117,8 +117,9 @@ public sealed class ImageLibraryManager : Component
             {
                 throw new FileNotFoundException($"Missing IL Resource: {fileName}");
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(Logger, error: error);
             }
         }
 

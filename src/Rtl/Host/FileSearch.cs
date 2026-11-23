@@ -38,6 +38,7 @@ public static class FileSearch
         }
         catch (Exception error) when (error is DirectoryNotFoundException or UnauthorizedAccessException)
         {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             return [];
         }
     }

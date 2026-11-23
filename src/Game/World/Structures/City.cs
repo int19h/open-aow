@@ -67,6 +67,12 @@ public partial class City : PlayerCropStructure
     public int WallType { get; set; }
     public int UpgradeLevel { get; private set; }
 
+    public override string ToString() => Describe(() =>
+    {
+        string location = Owner is null ? "no-owner" : string.Create(CultureInfo.InvariantCulture, handler: $"({Owner.HexX},{Owner.HexY} L{Owner.HexLevel})");
+        return string.Create(CultureInfo.InvariantCulture, handler: $"City {(string.IsNullOrEmpty(Name) ? "<no name>" : Name)} P{Player} {location}");
+    });
+
     public CityProductionControl Production { get; }
 
     private byte _flagId;

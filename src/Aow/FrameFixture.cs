@@ -19,6 +19,8 @@ using Aow.Game.World.Structures;
 using Aow.Platform;
 using Aow.Rtl;
 using Aow.Rtl.Host;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Aow;
 
@@ -81,8 +83,20 @@ internal sealed class FrameFixture
         HeadlessDisplayHost display = new(output, width, height, captureFrame: frame) { Mouse = mouse, FixtureFrame = frame };
         _ = Directory.CreateDirectory(output);
         using FrameDiagnostics? diagnostics = FrameDiagnostics.Start(output);
-        using StreamWriter trace = new(Path.Combine(output, "exceptions.log")) { NewLine = "\n", AutoFlush = true };
-        void Record(object? sender, FirstChanceExceptionEventArgs error) => trace.WriteLine($"{error.Exception}\n{new StackTrace(1, fNeedFileInfo: true)}");
+        ILoggerFactory fixtureLoggerFactory = RtlHost.LoggerFactory;
+        ILogger logger = fixtureLoggerFactory.CreateLogger("OpenAoW.FrameFixture.FirstChance");
+        void Record(object? sender, FirstChanceExceptionEventArgs error)
+        {
+            string detail = $"{error.Exception}\n{new StackTrace(1, fNeedFileInfo: true)}";
+            HostLog.FirstChanceException(logger, detail: detail);
+            try
+            {
+                File.AppendAllText(Path.Combine(output, "first-chance.log"), contents: detail + "\n");
+            }
+            catch
+            {
+            }
+        }
         AppDomain.CurrentDomain.FirstChanceException += Record;
         string? saveDirectory = fixture._values.GetValueOrDefault("save_directory");
         if (saveDirectory is not null)
@@ -101,7 +115,7 @@ internal sealed class FrameFixture
                 }
             }
         }
-        FixtureHost host = new(gameRoot, user: Path.Combine(output, "user"), fixture._settings, clock: new FixtureClock(now), saveDirectory);
+        FixtureHost host = new(gameRoot, user: Path.Combine(output, "user"), fixture._settings, clock: new FixtureClock(now), saveDirectory, loggerFactory: fixtureLoggerFactory);
         RtlHost.InstallHost(host);
         DelphiRandom.SuppressRandomize = true;
         // Native startup resource sequences load with seed zero, before the fixed Randomize seed.
@@ -654,8 +668,9 @@ internal sealed class FrameFixture
 
     internal sealed class FixtureHost : IRtlHost, IDialogService
     {
-        public FixtureHost(string root, string user, Dictionary<string, object> settings, IClock clock, string? saveDirectory)
+        public FixtureHost(string root, string user, Dictionary<string, object> settings, IClock clock, string? saveDirectory, ILoggerFactory? loggerFactory = null)
         {
+            LoggerFactory = loggerFactory ?? NullLoggerFactory.Instance;
             GameRoot = Path.GetFullPath(root);
             if (saveDirectory is not null)
             {
@@ -677,6 +692,7 @@ internal sealed class FrameFixture
         public IShellService Shell => Urls;
         public IClock Clock { get; }
         public ISettingsStore Settings { get; } = new MemorySettingsStore();
+        public ILoggerFactory LoggerFactory { get; }
         public string ExecutableName => Files.ExpandPath(Path.Combine(GameRoot, "AoW.exe"));
         public string GameRoot { get; }
         // The fixtures replay native scripts and compare frames exactly with the original game, so

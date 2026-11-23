@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using Aow.Game.Draw;
 using Aow.Game.Host;
+using Aow.Rtl;
 using Aow.Rtl.Host;
 using SDL;
 using static SDL.SDL_EventType;
@@ -239,7 +240,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             OnThread();
             if (!SDL_SetRenderVSync(_renderer, vsync: value ? 1 : 0))
             {
-                Console.Error.WriteLine($"SDL: vsync unavailable: {SDL_GetError()}");
+                HostLog.Warning(RtlHost.Logger, text: $"SDL: vsync unavailable: {SDL_GetError()}");
             }
         }
     }

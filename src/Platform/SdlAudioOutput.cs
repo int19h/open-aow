@@ -2,6 +2,7 @@ using System.Buffers.Binary;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Aow.Game.Audio;
+using Aow.Rtl;
 using SDL;
 using static SDL.SDL3;
 
@@ -103,8 +104,9 @@ public sealed unsafe class SdlAudioOutput : IDisposable
                 frames -= count;
             }
         }
-        catch (Exception)
+        catch (Exception error)
         {
+            HostLog.DebugFallback(RtlHost.Logger, error: error, location: "SdlAudioOutput.Callback");
             Volatile.Write(ref output._callbackFailed, value: 1);
         }
     }

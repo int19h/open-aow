@@ -83,6 +83,7 @@ public sealed class OwnExtensionWriteTests
         public ISettingsStore Settings => inner.Settings;
         public string ExecutableName => inner.ExecutableName;
         public string GameRoot => inner.GameRoot;
+        public Microsoft.Extensions.Logging.ILoggerFactory LoggerFactory => inner.LoggerFactory;
         public bool WritesOwnExtensions => false;
     }
 

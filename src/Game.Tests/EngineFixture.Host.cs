@@ -9,6 +9,7 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Rtl.Localize;
+using Microsoft.Extensions.Logging;
 
 namespace Aow.Game.Tests;
 
@@ -25,6 +26,7 @@ public sealed partial class EngineFixture
         private readonly ISettingsStore? _previousSettings = RtlHost.Settings;
         private readonly IDialogService? _previousDialogs = RtlHost.Dialogs;
         private readonly IShellService? _previousShell = RtlHost.Shell;
+        private readonly ILoggerFactory _previousLoggerFactory = RtlHost.GlobalLoggerFactory;
         private readonly string _previousExecutable = LegacyApplication.Application.ExeName;
         private readonly Action<string> _previousMessage = LegacyApplication.MessageHandler;
         private readonly string _previousLocalization = LocalizationRuntime.StartupDirectory;
@@ -210,6 +212,7 @@ public sealed partial class EngineFixture
             RtlHost.Settings = _previousSettings;
             RtlHost.Dialogs = _previousDialogs;
             RtlHost.Shell = _previousShell;
+            RtlHost.GlobalLoggerFactory = _previousLoggerFactory;
             RtlHost.Clock = Clock;
             LegacyApplication.Application.ExeName = _previousExecutable;
             LegacyApplication.MessageHandler = _previousMessage;

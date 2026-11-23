@@ -629,9 +629,10 @@ public sealed partial class BattleEffectSprite
                 }
             }
         }
-        catch
+        catch (Exception error)
         {
             // { Original puts the diagnostic in the message-box caption. }
+            HostLog.DebugFallback(Logger, error: error, location: "BattleEffectSprite.Show");
             _ = MessageBox(0, text: "Error during Show", caption: NullTerminatedText($"Error - fxHS {AbilityIndex.ToString(CultureInfo.InvariantCulture)} {SpellIndex.ToString(CultureInfo.InvariantCulture)}"), flags: 0);
         }
     }

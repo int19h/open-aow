@@ -5,6 +5,7 @@ using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Hexes;
 
@@ -24,8 +25,9 @@ public class Terrain(CustomNode owner) : TerrainMapObject(owner)
                     ValidateDeadTreeRegrow();
                 }
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
         }
     }

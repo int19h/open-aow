@@ -6,6 +6,7 @@ using Aow.Game.Draw;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI.Groups;
@@ -66,8 +67,9 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     {
                         aiMoveExecutorArmyList.GetArmies(i).RetrieveArmy(255, army: out armyHexSprite, out armySelection);
                     }
-                    catch
+                    catch (Exception error)
                     {
+                        HostLog.DebugFallback(RtlHost.Logger, error: error, location: "AdjacentMoveExecutorControl.CalculateMoves");
                     }
 
                     // { Original suppresses a RetrieveArmy exception. }

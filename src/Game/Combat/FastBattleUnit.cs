@@ -10,6 +10,7 @@ using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 using static Aow.Rtl.DelphiRounding;
 
@@ -215,8 +216,9 @@ public class FastBattleUnit(CustomNode? owner) : CombatUnit(owner)
                 int commandingTargetPriority = CommandingTargetPriority();
                 TargetPriority += commandingTargetPriority * 2;
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.DebugFallback(RtlHost.Logger, error: error, location: "FastBattleUnit.GetTargetPriority");
             }
         }
 

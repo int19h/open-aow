@@ -1,11 +1,15 @@
+using Aow.Rtl;
 using Aow.Rtl.Host;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Aow.Platform;
 
 public sealed class SdlHost : IRtlHost, IDisposable
 {
-    public SdlHost(string gameRoot, string? userDirectory = null, int scale = 1, bool? fullscreen = null, bool hidden = false, IDialogService? dialogs = null, bool? vsync = null)
+    public SdlHost(string gameRoot, string? userDirectory = null, int scale = 1, bool? fullscreen = null, bool hidden = false, IDialogService? dialogs = null, bool? vsync = null, ILoggerFactory? loggerFactory = null)
     {
+        LoggerFactory = loggerFactory ?? NullLoggerFactory.Instance;
         GameRoot = Path.GetFullPath(gameRoot);
         LayeredFileSystem files = new(GameRoot, userDirectory: userDirectory ?? DefaultUserDirectory());
         Files = files;
@@ -44,6 +48,7 @@ public sealed class SdlHost : IRtlHost, IDisposable
     public IFileSystem Files { get; }
     public ISettingsStore Settings { get; }
     public IClock Clock { get; } = new SdlClock();
+    public ILoggerFactory LoggerFactory { get; }
     public IDialogService Dialogs { get; }
     public IShellService Shell { get; } = new SdlShell();
     public SdlDisplayHost Display { get; }
@@ -52,21 +57,19 @@ public sealed class SdlHost : IRtlHost, IDisposable
 
     public void Dispose() => Display.Dispose();
 
-    /// <summary>The default browser through SDL_OpenURL. A failure goes to the error stream, as
-    /// the original ignored the result of ShellExecute.</summary>
+    /// <summary>The default browser through SDL_OpenURL. The original ignored the result of ShellExecute.</summary>
     private sealed class SdlShell : IShellService
     {
         public void OpenUrl(string url)
         {
             if (!SDL.SDL3.SDL_OpenURL(url))
             {
-                Console.Error.WriteLine($"Open URL failed: {url}: {SDL.SDL3.SDL_GetError()}");
+                HostLog.Error(RtlHost.LoggerFactory.CreateLogger("OpenAoW.Shell"), text: $"Open URL failed: {url}: {SDL.SDL3.SDL_GetError()}");
             }
         }
     }
 
-    /// <summary>Game message boxes on the window. Each text also goes to the error stream, so a
-    /// run's log keeps what the player saw.</summary>
+    /// <summary>Game message boxes on the window. Each text also goes to the run's log.</summary>
     private sealed class DisplayDialogs : IDialogService
     {
         // The game's catch blocks drop the exception and show only a message (as the original
@@ -82,10 +85,10 @@ public sealed class SdlHost : IRtlHost, IDisposable
 
         public int Show(DialogRequest request)
         {
-            Console.Error.WriteLine($"Message: {request.Text}");
+            HostLog.Information(RtlHost.LoggerFor("OpenAoW.Dialogs"), text: $"Message: {request.Text}");
             if (request.Text.StartsWith("Exception", comparisonType: StringComparison.Ordinal) && t_last is { } error)
             {
-                Console.Error.WriteLine(error);
+                HostLog.HostError(RtlHost.LoggerFor("OpenAoW.Dialogs"), error: error, location: "Dialog");
             }
 
             return _display.ShowMessageBox(request);

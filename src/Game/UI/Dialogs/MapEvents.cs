@@ -672,6 +672,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         }
         catch
         {
+            HostLog.CatchDialogAtCallSite(RtlHost.Logger, text: "Error during close");
             ShowMessage("Error during close");
         }
     }

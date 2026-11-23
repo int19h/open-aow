@@ -141,8 +141,9 @@ public class Leader(CustomNode? owner) : Hero(owner)
                     {
                         throw new InvalidOperationException("Double leader used");
                     }
-                    catch
+                    catch (Exception error)
                     {
+                        HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
                     }
                 }
 

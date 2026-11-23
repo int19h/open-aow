@@ -228,6 +228,7 @@ public partial class CustomDisplay : Component
         }
         catch
         {
+            HostLog.CatchDialogAtCallSite(RtlHost.Logger, text: "Exception occured during ExecuteBltSurface event");
             ShowMessage("Exception occured during ExecuteBltSurface event");
             throw;
         }

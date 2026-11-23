@@ -59,6 +59,19 @@ the same way and pass it on. The engine objects reach it through their owners or
 | `FormCloseQuery` | asks the map to exit (`ExitGame(egmTerminate)`), refuses while in combat with a confirm dialog | the window close event asks the same question |
 | `FormDestroy` | releases sound, saves the layout and every setting | the same on exit |
 
+Both game hosts create their `ILoggerFactory` immediately after the process safety setup, before the
+culture check and every game startup step. `GlobalExceptionHandlers` then logs
+unhandled exceptions and unobserved task exceptions to the console and the current run's file. The
+`IRtlHost.LoggerFactory` slot travels with the other host services. Tests replace its resolution for
+one asynchronous flow with `RtlHost.IsolateLoggerFactory`, which uses `AsyncLocal` and restores the
+previous override on disposal.
+
+The coded factory uses the Microsoft console provider and the port's small file provider. Options
+come from code, not an `IConfiguration` binder. The console package carries
+`Microsoft.Extensions.Configuration.Binder`, which stays unused. Console entries start at
+Information. The file also keeps Debug entries, including the engine debug channel and hot AI loop
+fallbacks. The publish check uses a self-contained deployment, not Native AOT or trimming.
+
 `AoWEngine.StartupDirectory` defaults to `ExtractFilePath(Application.ExeName)` (`Engine.pas:8768`)
 and the registry's `Startup Directory` can override it; `Root Directory` is a second registry path
 the engine reads for data (`GetRootDirectory`). In the port `Application.ExeName` reports
@@ -204,6 +217,18 @@ when the codec was missing.
    directories is found regardless of name.
 6. Mobile later: the root layer is a zip the user supplies (`../design.md`), read through the same
    interface; the listing and the case-insensitive lookup come from the archive's central directory.
+7. Diagnostic logs. `openaow.log` is the current run. Creating a host factory at every game start
+   shifts the previous current file to `openaow.1.log`, increments the older numbered files and
+   deletes the file beyond the kept count. The default count is 10 numbered files. The desktop
+   directory defaults to the user data directory and the headless directory to its run directory.
+   `FileLoggerSettings.Directory` and `RetainedFileCount` configure these values in code.
+   `OPENAOW_LOG_DIRECTORY` overrides the directory and `OPENAOW_LOG_RETAINED_COUNT` overrides the
+   count, which ranges from 0 to 100. An invalid value keeps its default and logs an Error. A
+   directory or file that cannot be opened leaves console-only logging. A locked current log skips
+   rollover and uses `openaow.<pid>.log` for that process. Test, fixture and tool hosts ignore both
+   environment overrides and give the file provider a separate test directory, never the playtest
+   directory. The next playtest build's `play.cmd` has no `last-run.log` redirection because console
+   and file logging are both active without shell redirection.
 
 `FastLoadFileStream` (Delphi `TFastLoadFileStream`) and `TFileStream` open through the service. `DeleteFile` (4 sites: user lists,
 e-mail attachments) acts on the user layer only.
@@ -300,7 +325,9 @@ from the form files and fail every operation, pending `../design.md` open questi
 system registered under `'Galaxy'` that accepts every call, the scripted dialog service, the same
 file service with both layers on the run directory, and settings from a JSON given on the command
 line. It shares every line of the game and the shim with the desktop host; only the service
-implementations differ.
+implementations differ. Its first-chance handler keeps the TODO, runtime-error and exception
+collections and forwards every entry to the run's `openaow.log`. The former separate
+`exceptions.log` stream is gone.
 
 ## 11. Done measures
 

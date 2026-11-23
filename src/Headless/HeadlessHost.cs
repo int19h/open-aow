@@ -3,6 +3,8 @@ using Aow.Formats;
 using Aow.Platform;
 using Aow.Rtl;
 using Aow.Rtl.Host;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Aow.Headless;
 
@@ -10,8 +12,9 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
 {
     private readonly string _dialogFile;
 
-    public HeadlessHost(string root, string output, string? settings, string movementSpeed = "normal", string? input = null)
+    public HeadlessHost(string root, string output, string? settings, string movementSpeed = "normal", string? input = null, ILoggerFactory? loggerFactory = null)
     {
+        LoggerFactory = loggerFactory ?? NullLoggerFactory.Instance;
         GameRoot = Path.GetFullPath(root);
         FilesForRun = new RunFiles(GameRoot, runDirectory: output, inputFile: input);
         _dialogFile = Path.Combine(output, "dialogs.jsonl");
@@ -63,6 +66,7 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
     public IShellService Shell => this;
     public IClock Clock => this;
     public ISettingsStore Settings { get; } = new MemorySettingsStore();
+    public ILoggerFactory LoggerFactory { get; }
     public string GameRoot { get; }
     public string ExecutableName => Files.ExpandPath(Path.Combine(GameRoot, "AoW.exe"));
     public DateTime Now => new(2000, 1, 1, 0, 0, 0, kind: DateTimeKind.Utc);
@@ -77,14 +81,14 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
     public void OpenUrl(string url)
     {
         File.AppendAllText(Path.Combine(Path.GetDirectoryName(_dialogFile)!, "urls.jsonl"), contents: $"{JsonSerializer.Serialize(new { url })}\n");
-        Console.WriteLine($"open url: {url}");
+        HostLog.Information(RtlHost.LoggerFor("OpenAoW.Headless.Host"), text: $"open url: {url}");
     }
 
     public int Show(DialogRequest request)
     {
         DialogCount++;
         File.AppendAllText(_dialogFile, contents: $"{JsonSerializer.Serialize(new { index = DialogCount, request.Text, request.Caption, request.Flags, result = request.DefaultResult })}\n");
-        Console.WriteLine($"dialog {DialogCount}: {request.Text} -> {request.DefaultResult}");
+        HostLog.Information(RtlHost.LoggerFor("OpenAoW.Headless.Host"), text: $"dialog {DialogCount}: {request.Text} -> {request.DefaultResult}");
         return request.DefaultResult;
     }
 }

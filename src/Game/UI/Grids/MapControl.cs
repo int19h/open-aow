@@ -18,6 +18,12 @@ public sealed class MapControl : Component
 {
     private readonly GameEngine? _engine;
 
+    private static void ShowMessageLogged(string text)
+    {
+        HostLog.CatchDialogAtCallSite(RtlHost.Logger, text: text);
+        LegacyApplication.ShowMessage(text);
+    }
+
     [Published]
     public event MapObjectEvent<Army>? ArmySelected;
     [Published]
@@ -292,7 +298,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during MapChanged event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during MapChanged event (TAoWMapControl)");
         }
     }
 
@@ -310,7 +316,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during ScannerIconsChanged event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during ScannerIconsChanged event (TAoWMapControl)");
         }
     }
 
@@ -323,7 +329,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during MapSettingsChanged event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during MapSettingsChanged event (TAoWMapControl)");
         }
     }
 
@@ -350,7 +356,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during SelectHS event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during SelectHS event (TAoWMapControl)");
         }
     }
 
@@ -377,7 +383,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during DeselectHS event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during DeselectHS event (TAoWMapControl)");
         }
     }
 
@@ -390,7 +396,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during PlayerChanged event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during PlayerChanged event (TAoWMapControl)");
         }
     }
 
@@ -403,7 +409,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during ExitGame event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during ExitGame event (TAoWMapControl)");
         }
     }
 
@@ -416,7 +422,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during NewTurn event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during NewTurn event (TAoWMapControl)");
         }
     }
 
@@ -433,7 +439,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during EndTurn event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during EndTurn event (TAoWMapControl)");
         }
     }
 
@@ -446,7 +452,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during PlayerChanged event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during PlayerChanged event (TAoWMapControl)");
         }
     }
 
@@ -459,7 +465,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during Gems Changed event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during Gems Changed event (TAoWMapControl)");
         }
     }
 
@@ -472,7 +478,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during Income Changed event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during Income Changed event (TAoWMapControl)");
         }
     }
 
@@ -485,7 +491,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during Upkeep Changed event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during Upkeep Changed event (TAoWMapControl)");
         }
     }
 
@@ -498,7 +504,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during Player Magic Changed event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during Player Magic Changed event (TAoWMapControl)");
         }
     }
 
@@ -511,7 +517,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during Magic Changed event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during Magic Changed event (TAoWMapControl)");
         }
     }
 
@@ -529,7 +535,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during ShowMessage event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during ShowMessage event (TAoWMapControl)");
         }
     }
 
@@ -542,7 +548,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during ChangeDay event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during ChangeDay event (TAoWMapControl)");
         }
     }
 
@@ -555,7 +561,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during on combat event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during on combat event (TAoWMapControl)");
         }
     }
 
@@ -568,7 +574,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during LogbookChanged event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during LogbookChanged event (TAoWMapControl)");
         }
     }
 
@@ -581,7 +587,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnStructureChanged event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnStructureChanged event (TAoWMapControl)");
         }
     }
 
@@ -594,7 +600,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnStructureDestroyed event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnStructureDestroyed event (TAoWMapControl)");
         }
     }
 
@@ -607,7 +613,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnArmyChanged event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnArmyChanged event (TAoWMapControl)");
         }
     }
 
@@ -620,7 +626,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnArmyDestroyed event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnArmyDestroyed event (TAoWMapControl)");
         }
     }
 
@@ -633,7 +639,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnHSChanged event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnHSChanged event (TAoWMapControl)");
         }
     }
 
@@ -646,7 +652,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnUnitChanged event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnUnitChanged event (TAoWMapControl)");
         }
     }
 
@@ -659,7 +665,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnUnitDestroyed event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnUnitDestroyed event (TAoWMapControl)");
         }
     }
 
@@ -672,7 +678,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnGameOver event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnGameOver event (TAoWMapControl)");
         }
     }
 
@@ -685,7 +691,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnGameTerminated event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnGameTerminated event (TAoWMapControl)");
         }
     }
 
@@ -698,7 +704,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnPlayerTerminated event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnPlayerTerminated event (TAoWMapControl)");
         }
     }
 
@@ -711,7 +717,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnExecuteEventLog event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnExecuteEventLog event (TAoWMapControl)");
         }
     }
 
@@ -724,7 +730,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnActivateCombatMap event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnActivateCombatMap event (TAoWMapControl)");
         }
     }
 
@@ -737,7 +743,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnDeactivateCombatMap event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnDeactivateCombatMap event (TAoWMapControl)");
         }
     }
 
@@ -753,7 +759,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnTargetSelectionChange event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnTargetSelectionChange event (TAoWMapControl)");
         }
     }
 
@@ -766,7 +772,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnViewPortChange event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnViewPortChange event (TAoWMapControl)");
         }
     }
 
@@ -779,7 +785,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnActivateAbility event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnActivateAbility event (TAoWMapControl)");
         }
     }
 
@@ -792,7 +798,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnDiplomaticChange event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnDiplomaticChange event (TAoWMapControl)");
         }
     }
 
@@ -805,7 +811,7 @@ public sealed class MapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnRelationsChanged event (TAoWMapControl)");
+            ShowMessageLogged("Exception occurred during OnRelationsChanged event (TAoWMapControl)");
         }
     }
 

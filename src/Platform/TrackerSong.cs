@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Aow.Rtl;
 
 namespace Aow.Platform;
 
@@ -71,7 +72,7 @@ public sealed unsafe class TrackerSong : IDisposable
             LastError = ex.Message;
             if (LastError != s_reported)
             {
-                Console.Error.WriteLine(s_reported = LastError);
+                HostLog.Warning(RtlHost.Logger, text: s_reported = LastError);
             }
 
             return null;
