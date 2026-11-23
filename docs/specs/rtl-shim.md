@@ -532,8 +532,9 @@ with `CompareText`, raises `EComponentError`), `Tag`, `ComponentCount`, `Compone
 notifications, `Destroying`, `DestroyComponents`, removal from the owner, `base.Destroy()`.
 
 The layout loader (`ui-layout.md`) creates components and sets their published properties by
-reflection on the `[Published]` attribute. The shim provides `Rtti.PublishedProperties(Type)`
-with the property name, type, default value and setter, cached per type.
+reflection on the `[Published]` attribute. That reflection loader is not built. Layouts apply
+through compiled `InitializeComponent` methods, and no reader or writer over `[Published]`
+exists in the tree.
 
 ### 4.5 Others
 
@@ -546,10 +547,11 @@ with the property name, type, default value and setter, cached per type.
 
 `Rect` (Delphi `TRect`) (`Left, Top, Right, Bottom`, plus `Rect()`, `Bounds()`, `OffsetRect`, `InflateRect`,
 `UnionRect`, `IntersectRect`, `PtInRect`, `IsRectEmpty`, `EqualRect`), `TPoint` (`Point()`),
-`HWND`, `HDC`, `DWORD`, `BOOL`, `HResult`. `TColor` is `int` with the `cl*` constants the code uses
-(`clBtnFace`, `clRed`, `clBlack`, `clWhite`, `clNone`, `clDefault`, `clBtnShadow`,
-`clBtnHighlight`, `clAppWorkSpace`) and `ColorToRGB` mapping the system colors to the Windows
-default theme values. `ShiftState` (Delphi `TShiftState`) (a `Set` of `ssShift`, `ssAlt`, `ssCtrl`, `ssLeft`,
+`HWND`, `HDC`, `DWORD`, `BOOL`, `HResult`. `TColor` is `Aow.Graphics.Color`, a record struct
+with `R`, `G` and `B` bytes and the named values the code uses. `ToPacked` gives the packed
+`0x00BBGGRR` int and `FromPacked` reads it back, and packed data converts through those two
+at the boundary. No product slot holds a Delphi system color, so no system color has a Color
+value. `ShiftState` (Delphi `TShiftState`) (a `Set` of `ssShift`, `ssAlt`, `ssCtrl`, `ssLeft`,
 `ssRight`, `ssMiddle`, `ssDouble`), `MouseButton` (Delphi `TMouseButton`), `TCursor`, `NotifyEvent` (Delphi `TNotifyEvent`), `KeyEvent` (Delphi `TKeyEvent`),
 `MouseEvent` (Delphi `TMouseEvent`), `MouseMoveEvent` (Delphi `TMouseMoveEvent`), `KeyPressEvent` (Delphi `TKeyPressEvent`), the `VK_*` and `WM_*` constants the code
 names, `MulDiv`, `HiWord`, `LoWord`, `MakeLong`, `GetSystemMetrics` (screen size from the host).
