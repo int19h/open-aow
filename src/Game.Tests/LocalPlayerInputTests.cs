@@ -7,7 +7,6 @@ using Aow.Game.UI;
 using Aow.Game.UI.Dialogs;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Tests;
 

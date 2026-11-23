@@ -60,7 +60,7 @@ public sealed class PlayerInputTests
     [Fact]
     public void DirectedDisjunctionRunsWithoutThrowing()
     {
-        GameEngine engine = GameEngine.Create(null, playerInput: new Aow.Headless.HeadlessPlayerInput());
+        GameEngine engine = GameEngine.Create(null, playerInput: new Headless.HeadlessPlayerInput());
         TestDisjunction spell = new(null, holder: engine);
         Troop source = new(null) { Holder = engine, Player = 2, UnitId = 11 };
         Assert.True(spell.Activate(source));
