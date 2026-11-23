@@ -143,9 +143,10 @@ public sealed class PlayerInputTests
             SpellCaster caster = (SpellCaster)engineClass.CreateInstance(null, holder: EngineFixture.Engine);
             try
             {
+                bool hasScreen = UI.Dialogs.MapEvents.SpellCasterScreens.TryGet(caster.InputView, out UI.Dialogs.MapEvents.SpellCasterScreen screen);
                 Assert.True(caster.InputView == SpellCasterView.None
-                    || UI.Dialogs.MapEvents.SpellCasterScreens.TryGet(caster.InputView, out _),
-                    userMessage: $"{caster.GetType().Name} view {caster.InputView.Name} has no screen");
+                    || (hasScreen && screen.CasterType.IsAssignableFrom(caster.GetType())),
+                    userMessage: $"{caster.GetType().Name} view {caster.InputView.Name} has no screen for its kind");
             }
             finally
             {

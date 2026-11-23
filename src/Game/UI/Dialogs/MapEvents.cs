@@ -35,14 +35,18 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         where TStructure : Structure
         => StructureScreens.Add(view, value: (events, structure) => open(events, (TStructure)structure));
 
+    // A dialog the local input opens for a spell caster: the caster kind the dialog takes and
+    // the call that opens it.
+    public sealed record SpellCasterScreen(Type CasterType, Action<MapEvents, SpellCaster> Open);
+
     // The dialogs the local input opens for a spell caster, by its view key. ClassRegistry adds
     // the original dialogs.
-    public static Catalog<SpellCasterView, Action<MapEvents, SpellCaster>> SpellCasterScreens { get; } = new("spell caster screen");
+    public static Catalog<SpellCasterView, SpellCasterScreen> SpellCasterScreens { get; } = new("spell caster screen");
 
     // The view key names the caster kind. Another kind throws.
     internal static void AddSpellScreen<TCaster>(SpellCasterView view, Action<MapEvents, TCaster> open)
         where TCaster : SpellCaster
-        => SpellCasterScreens.Add(view, value: (events, caster) => open(events, (TCaster)caster));
+        => SpellCasterScreens.Add(view, value: new SpellCasterScreen(typeof(TCaster), Open: (events, caster) => open(events, (TCaster)caster)));
 
     // Renderers of the event log views (EventLog.Views.cs), called with the screen, the event, the
     // immediate mode and the done callback. The original renderers ignore the mode (the three that
@@ -619,9 +623,9 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
     // aowMapEvents.pas:500. The caster view key selects the dialog in the catalog.
     public void OpenSpellDialog(SpellCaster caster)
     {
-        if (SpellCasterScreens.TryGet(caster.InputView, out Action<MapEvents, SpellCaster> open))
+        if (SpellCasterScreens.TryGet(caster.InputView, out SpellCasterScreen screen))
         {
-            open(this, caster);
+            screen.Open(this, caster);
         }
     }
 
