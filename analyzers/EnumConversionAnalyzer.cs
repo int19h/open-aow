@@ -5,8 +5,9 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Aow.Analyzers;
 
 /// <summary>
-/// AOW0002: an integer becomes an enum value only in read and write code (issue 333). The
-/// places that count as read and write code are those of <see cref="EnumConversionRules.Place"/>.
+/// AOW0002: an integer becomes an enum value only in read and write code or in a member the
+/// allow list names (issues 333 and 357). The places that count as read and write code are
+/// those of <see cref="EnumConversionRules.Place"/>.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class EnumConversionAnalyzer : DiagnosticAnalyzer
@@ -16,14 +17,17 @@ public sealed class EnumConversionAnalyzer : DiagnosticAnalyzer
     /// <summary>The property of a diagnostic that carries the <see cref="EnumConversionKind"/>.</summary>
     public const string KindProperty = "Kind";
 
+    /// <summary>The property of a diagnostic that carries the documentation id of the reported member.</summary>
+    public const string MemberIdProperty = "MemberId";
+
     public static DiagnosticDescriptor Rule { get; } = new(
         id: DiagnosticId,
         title: "Convert integers to enums only in read and write code",
-        messageFormat: "{0} converts an integer to '{1}' outside read and write code",
+        messageFormat: "{0} converts an integer to '{1}' outside read and write code (member '{2}' is not in the allow list)",
         category: "Design",
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
-        description: "An integer becomes an enum value only where a format is read or written: a stored image type, a member that takes a persister, a stream, a binary reader or a binary writer, a persister, or a namespace that aow_read_write_namespaces names (issue 333).");
+        description: "An integer becomes an enum value only where a format is read or written: a stored image type, a member that takes a persister, a stream, a binary reader or a binary writer, a persister, a namespace that aow_read_write_namespaces names, or a member that EnumCastAllowList.txt names (issues 333 and 357).");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [Rule];
 
@@ -31,12 +35,27 @@ public sealed class EnumConversionAnalyzer : DiagnosticAnalyzer
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
-        context.RegisterOperationAction(Analyze, OperationKind.Conversion, OperationKind.Invocation);
+        context.RegisterCompilationStartAction(compilationContext =>
+        {
+            ImmutableHashSet<string> allowList = EnumConversionRules.ParseAllowList(compilationContext.Options.AdditionalFiles, compilationContext.CancellationToken);
+            compilationContext.RegisterOperationAction(operationContext => Analyze(operationContext, allowList), OperationKind.Conversion, OperationKind.Invocation);
+        });
     }
 
-    private static void Analyze(OperationAnalysisContext context)
+    private static void Analyze(OperationAnalysisContext context, ImmutableHashSet<string> allowList)
     {
+        context.CancellationToken.ThrowIfCancellationRequested();
         if (EnumConversionRules.Classify(context.Operation) is not EnumConversionKind kind)
+        {
+            return;
+        }
+        string? id = null;
+        if (context.Operation.SemanticModel is SemanticModel model
+            && EnumConversionRules.DeclaringMember(model, node: context.Operation.Syntax) is ISymbol member)
+        {
+            id = DocumentationCommentId.CreateDeclarationId(member);
+        }
+        if (id is not null && allowList.Contains(id))
         {
             return;
         }
@@ -47,12 +66,17 @@ public sealed class EnumConversionAnalyzer : DiagnosticAnalyzer
             return;
         }
         ImmutableDictionary<string, string?> properties = ImmutableDictionary<string, string?>.Empty.Add(KindProperty, kind.ToString());
+        if (id is not null)
+        {
+            properties = properties.Add(MemberIdProperty, id);
+        }
         context.ReportDiagnostic(Diagnostic.Create(
             Rule,
             location: context.Operation.Syntax.GetLocation(),
             properties: properties,
             KindText(kind),
-            EnumConversionRules.TargetName(context.Operation)));
+            EnumConversionRules.TargetName(context.Operation),
+            id ?? "?"));
     }
 
     private static string KindText(EnumConversionKind kind) => kind switch
@@ -64,6 +88,7 @@ public sealed class EnumConversionAnalyzer : DiagnosticAnalyzer
         EnumConversionKind.PointerCast => "A pointer cast",
         EnumConversionKind.EnumToObject => "Enum.ToObject",
         EnumConversionKind.EnumParse => "Enum.Parse",
+        EnumConversionKind.EnumTryParse => "Enum.TryParse",
         EnumConversionKind.Reinterpretation => "A reinterpretation",
         _ => kind.ToString(),
     };
