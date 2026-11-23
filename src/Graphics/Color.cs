@@ -2,7 +2,9 @@ namespace Aow.Graphics;
 
 // A color: red, green and blue bytes. The packed int is 0x00BBGGRR, the layout of
 // layout data, saves and the renderer, and ToPacked and FromPacked convert at that
-// boundary and nowhere else.
+// boundary and nowhere else. Persisted and streamed data converts through ToPacked
+// and never stores the struct. The named value table below has two more copies, in
+// the colors rewrite tool and in the forms generator, and all three stay in step.
 public readonly record struct Color(byte R, byte G, byte B)
 {
     public static Color White { get; } = new(255, 255, 255);
