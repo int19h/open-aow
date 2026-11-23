@@ -2664,7 +2664,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         if (player > 0)
         {
             bool wantsJoin = false;
-            wantsJoin = Units.Any(item => item.OfferToJoin(player));
+            wantsJoin = Units.Reverse().Any(item => item.OfferToJoin(player));
             if (wantsJoin)
             {
                 return GetCanJoinSelection(player);

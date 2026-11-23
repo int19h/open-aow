@@ -1491,7 +1491,7 @@ public partial class City : PlayerCropStructure
         int level = UpgradeLevel;
         if (queue)
         {
-            level += Production.Queue.Where(item => item.Order is Upgrade).Sum(item => 1);
+            level += Production.Queue.Count(item => item.Order is Upgrade);
         }
         if (level < Size)
         {
@@ -1551,7 +1551,7 @@ public partial class City : PlayerCropStructure
         int level = WallType;
         if (queue)
         {
-            level += Production.Queue.Where(item => item.Order is Fortify).Sum(item => 1);
+            level += Production.Queue.Count(item => item.Order is Fortify);
         }
         if (level != 2)
         {

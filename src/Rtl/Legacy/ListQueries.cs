@@ -23,10 +23,16 @@ public static class ListQueries
         }
 
         /// <summary>The first matching index from startIndex on, walking forwards, or -1.
-        /// A startIndex at or past the count finds nothing, as the loop did.</summary>
+        /// A startIndex equal to the count finds nothing. A startIndex below zero or
+        /// past the count throws, as List's ranged FindIndex does.</summary>
         public int FindIndex(int startIndex, Func<T, bool> match)
         {
             ArgumentNullException.ThrowIfNull(match);
+            if (startIndex < 0 || startIndex > list.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+            }
+
             for (int i = startIndex; i < list.Count; i++)
             {
                 if (match(list[i]))
@@ -54,10 +60,17 @@ public static class ListQueries
             return -1;
         }
 
-        /// <summary>The first matching index from startIndex on, walking backwards, or -1.</summary>
+        /// <summary>The first matching index from startIndex on, walking backwards, or -1.
+        /// A startIndex below zero or at or past the count throws, as List's ranged
+        /// FindLastIndex does.</summary>
         public int FindLastIndex(int startIndex, Func<T, bool> match)
         {
             ArgumentNullException.ThrowIfNull(match);
+            if (startIndex < 0 || startIndex >= list.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+            }
+
             for (int i = startIndex; i >= 0; i--)
             {
                 if (match(list[i]))
@@ -69,15 +82,17 @@ public static class ListQueries
             return -1;
         }
 
-        /// <summary>The last matching element, walking backwards, or the default.</summary>
+        /// <summary>The last matching element, walking backwards, or the default. A hit
+        /// reads its element once.</summary>
         public T? FindLast(Func<T, bool> match)
         {
             ArgumentNullException.ThrowIfNull(match);
             for (int i = list.Count - 1; i >= 0; i--)
             {
-                if (match(list[i]))
+                T element = list[i];
+                if (match(element))
                 {
-                    return list[i];
+                    return element;
                 }
             }
 

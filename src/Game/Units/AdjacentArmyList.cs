@@ -24,7 +24,7 @@ public sealed class AdjacentArmyList(CustomNode owner) : OwningNode(owner), IChi
     public int IndexOfLocation(MapCoordinate location) => this.FindLastIndex(item => item.Location == location);
 
     // AIGroup.pas:5088
-    public AdjacentArmy? GetSlowestArmy() => this.MaxBy(army => army.GetMovementDays());
+    public AdjacentArmy? GetSlowestArmy() => this.Where(army => army.GetMovementDays() > -1).MaxBy(army => army.GetMovementDays());
 
     // AIGroup.pas:5106
     public bool GetAdjacent()
