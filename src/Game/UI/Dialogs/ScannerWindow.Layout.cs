@@ -123,7 +123,8 @@ public sealed partial class ScannerWindow : ILayoutModule
         ScannerTabs.ImageLibraryIndexUp = 14;
         ScannerTabs.BorderHeightSelected = 3;
         session.EndRead(ScannerTabs);
-        BuildingCheckBox = new CheckBox(this);
+        CheckBox buildingCheckBox = new(this);
+        BuildingCheckBox = buildingCheckBox;
         session.BeginRead(BuildingCheckBox);
         BuildingCheckBox.Name = "BuildingCheck";
         BuildingCheckBox.Priority = 1001;
@@ -156,10 +157,11 @@ public sealed partial class ScannerWindow : ILayoutModule
         BuildingCheckBox.TextSelectedColor = 0;
         BuildingCheckBox.WinWidth = 15;
         BuildingCheckBox.Checked = true;
-        BuildingCheckBox.Changed += (sender, _) => BuildingCheckChange((CheckBox)sender);
+        buildingCheckBox.Changed += (_, _) => BuildingCheckChange(buildingCheckBox);
         BuildingCheckBox.RadioIndex = 0;
         session.EndRead(BuildingCheckBox);
-        ArmyCheckBox = new CheckBox(this);
+        CheckBox armyCheckBox = new(this);
+        ArmyCheckBox = armyCheckBox;
         session.BeginRead(ArmyCheckBox);
         ArmyCheckBox.Name = "ArmyCheck";
         ArmyCheckBox.Priority = 1002;
@@ -192,10 +194,11 @@ public sealed partial class ScannerWindow : ILayoutModule
         ArmyCheckBox.TextSelectedColor = 0;
         ArmyCheckBox.WinWidth = 15;
         ArmyCheckBox.Checked = true;
-        ArmyCheckBox.Changed += (sender, _) => ArmyCheckChange((CheckBox)sender);
+        armyCheckBox.Changed += (_, _) => ArmyCheckChange(armyCheckBox);
         ArmyCheckBox.RadioIndex = 0;
         session.EndRead(ArmyCheckBox);
-        NaturalCheckBox = new CheckBox(this);
+        CheckBox naturalCheckBox = new(this);
+        NaturalCheckBox = naturalCheckBox;
         session.BeginRead(NaturalCheckBox);
         NaturalCheckBox.Name = "NaturalCheck";
         NaturalCheckBox.Priority = 1003;
@@ -228,7 +231,7 @@ public sealed partial class ScannerWindow : ILayoutModule
         NaturalCheckBox.TextSelectedColor = 0;
         NaturalCheckBox.WinWidth = 15;
         NaturalCheckBox.Checked = true;
-        NaturalCheckBox.Changed += (sender, _) => NaturalCheckChange((CheckBox)sender);
+        naturalCheckBox.Changed += (_, _) => NaturalCheckChange(naturalCheckBox);
         NaturalCheckBox.RadioIndex = 0;
         session.EndRead(NaturalCheckBox);
         Scanner = new Scanner(this);

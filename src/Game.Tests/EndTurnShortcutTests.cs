@@ -104,12 +104,13 @@ public sealed class EndTurnShortcutTests
             Window = new MapWindow(UI);
             Window.MainWindow = new Window(null);
             Window.MainWindow.SetVisibleWithoutUpdate(true);
-            Window.MainWindow.KeyPressed += (sender, e) =>
+            Window mainWindow = Window.MainWindow;
+            mainWindow.KeyPressed += (_, e) =>
             {
                 ushort key = e.Key;
                 try
                 {
-                    Window.MapWindowKeyDown((Window)sender, ref key, e.Shift);
+                    Window.MapWindowKeyDown(mainWindow, ref key, e.Shift);
                 }
                 finally
                 {

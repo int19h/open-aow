@@ -175,7 +175,8 @@ public sealed partial class FileDialogWindow : ILayoutModule
         TitleLabel.Text = "Open";
         TitleLabel.TextColor = 0;
         session.EndRead(TitleLabel);
-        FileList = new ListBox<FileTime>(this);
+        ListBox<FileTime> fileList = new(this);
+        FileList = fileList;
         session.BeginRead(FileList);
         FileList.Name = "FileLB";
         FileList.Priority = 0;
@@ -199,7 +200,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         FileList.WinHeight = 140;
         FileList.BorderWidth = 21;
         FileList.BorderHeight = 3;
-        FileList.Changed += (sender, _) => FileLBChange((ListBox<FileTime>)sender);
+        fileList.Changed += (_, _) => FileLBChange(fileList);
         FileList.DoubleClicked += (_, _) => OpenbutClick();
         FileList.Selected = -1;
         FileList.ItemDrawn += (_, e) =>
@@ -1119,7 +1120,8 @@ public sealed partial class FileDialogWindow : ILayoutModule
         NewPanel.MinWidth = 0;
         NewPanel.MinHeight = 0;
         session.EndRead(NewPanel);
-        SaveList = new ListBox<FileTime>(this);
+        ListBox<FileTime> saveList = new(this);
+        SaveList = saveList;
         session.BeginRead(SaveList);
         SaveList.Name = "SaveLB";
         SaveList.Priority = 30;
@@ -1143,7 +1145,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         SaveList.WinHeight = 125;
         SaveList.BorderWidth = 21;
         SaveList.BorderHeight = 4;
-        SaveList.Changed += (sender, _) => FileLBChange((ListBox<FileTime>)sender);
+        saveList.Changed += (_, _) => FileLBChange(saveList);
         SaveList.DoubleClicked += (_, _) => OpenbutClick();
         SaveList.Selected = -1;
         SaveList.ItemDrawn += (_, e) =>
@@ -1243,7 +1245,8 @@ public sealed partial class FileDialogWindow : ILayoutModule
         SavePanel.MinWidth = 0;
         SavePanel.MinHeight = 0;
         session.EndRead(SavePanel);
-        DateList = new ListBox<FileTime>(this);
+        ListBox<FileTime> dateList = new(this);
+        DateList = dateList;
         session.BeginRead(DateList);
         DateList.Name = "DateLB";
         DateList.Priority = 20;
@@ -1267,7 +1270,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         DateList.WinHeight = 125;
         DateList.BorderWidth = 8;
         DateList.BorderHeight = 4;
-        DateList.Changed += (sender, _) => FileLBChange((ListBox<FileTime>)sender);
+        dateList.Changed += (_, _) => FileLBChange(dateList);
         DateList.DoubleClicked += (_, _) => OpenbutClick();
         DateList.Selected = -1;
         DateList.TextColor = 9415072;

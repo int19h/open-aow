@@ -359,7 +359,8 @@ public sealed partial class CombatChoice : ILayoutModule
         automatic.Text = "Automatic";
         automatic.TextColor = 13165253;
         session.EndRead(automatic);
-        TacticalCombatCheckBox = new CheckBox(this);
+        CheckBox tacticalCombatCheckBox = new(this);
+        TacticalCombatCheckBox = tacticalCombatCheckBox;
         session.BeginRead(TacticalCombatCheckBox);
         TacticalCombatCheckBox.Name = "TCchk";
         TacticalCombatCheckBox.Priority = 0;
@@ -392,9 +393,9 @@ public sealed partial class CombatChoice : ILayoutModule
         TacticalCombatCheckBox.TextSelectedColor = 255;
         TacticalCombatCheckBox.WinWidth = 93;
         TacticalCombatCheckBox.Checked = false;
-        TacticalCombatCheckBox.Changed += (sender, _) => TCchkChange((CheckBox)sender);
+        tacticalCombatCheckBox.Changed += (_, _) => TCchkChange(tacticalCombatCheckBox);
         TacticalCombatCheckBox.RadioIndex = 1;
-        TacticalCombatCheckBox.DoubleClicked += (sender, _) => TCchkDoubleClick((CheckBox)sender);
+        tacticalCombatCheckBox.DoubleClicked += (_, _) => TCchkDoubleClick(tacticalCombatCheckBox);
         session.EndRead(TacticalCombatCheckBox);
         CheckBox fCchk = new(this);
         session.BeginRead(fCchk);
@@ -461,10 +462,11 @@ public sealed partial class CombatChoice : ILayoutModule
         mapViewPnl.MinWidth = 0;
         mapViewPnl.MinHeight = 0;
         session.EndRead(mapViewPnl);
-        MapView = new UserDrawBox(this);
+        UserDrawBox mapView = new(this);
+        MapView = mapView;
         session.BeginRead(MapView);
         MapView.Name = "MapView";
-        MapView.Drawn += (sender, e) => MapViewDraw((UserDrawBox)sender, lockedSurface: e.Surface);
+        mapView.Drawn += (_, e) => MapViewDraw(mapView, lockedSurface: e.Surface);
         MapView.Updated += (_, _) => MapViewUpdate();
         MapView.Priority = 50;
         MapView.WinLeft = 21;

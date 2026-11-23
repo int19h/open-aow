@@ -725,7 +725,8 @@ public sealed partial class SoundDialog : ILayoutModule
         sqPnl.MinWidth = 0;
         sqPnl.MinHeight = 0;
         session.EndRead(sqPnl);
-        SoundQualityNoneCheckBox = new CheckBox(this);
+        CheckBox soundQualityNoneCheckBox = new(this);
+        SoundQualityNoneCheckBox = soundQualityNoneCheckBox;
         session.BeginRead(SoundQualityNoneCheckBox);
         SoundQualityNoneCheckBox.Name = "SQCB1";
         SoundQualityNoneCheckBox.Priority = 0;
@@ -758,7 +759,7 @@ public sealed partial class SoundDialog : ILayoutModule
         SoundQualityNoneCheckBox.TextSelectedColor = 0;
         SoundQualityNoneCheckBox.WinWidth = 12;
         SoundQualityNoneCheckBox.Checked = false;
-        SoundQualityNoneCheckBox.Changed += (sender, _) => SQCB1Change((CheckBox)sender);
+        soundQualityNoneCheckBox.Changed += (_, _) => SQCB1Change(soundQualityNoneCheckBox);
         SoundQualityNoneCheckBox.RadioIndex = 1;
         session.EndRead(SoundQualityNoneCheckBox);
         Label sqlbL1 = new(this);
@@ -788,7 +789,8 @@ public sealed partial class SoundDialog : ILayoutModule
         sqlbL1.Text = "No Sound";
         sqlbL1.TextColor = 9415072;
         session.EndRead(sqlbL1);
-        SoundQualityLowCheckBox = new CheckBox(this);
+        CheckBox soundQualityLowCheckBox = new(this);
+        SoundQualityLowCheckBox = soundQualityLowCheckBox;
         session.BeginRead(SoundQualityLowCheckBox);
         SoundQualityLowCheckBox.Name = "SQCB2";
         SoundQualityLowCheckBox.Priority = 0;
@@ -821,7 +823,7 @@ public sealed partial class SoundDialog : ILayoutModule
         SoundQualityLowCheckBox.TextSelectedColor = 0;
         SoundQualityLowCheckBox.WinWidth = 12;
         SoundQualityLowCheckBox.Checked = false;
-        SoundQualityLowCheckBox.Changed += (sender, _) => SQCB2Change((CheckBox)sender);
+        soundQualityLowCheckBox.Changed += (_, _) => SQCB2Change(soundQualityLowCheckBox);
         SoundQualityLowCheckBox.RadioIndex = 1;
         session.EndRead(SoundQualityLowCheckBox);
         Label sqlbL2 = new(this);
@@ -851,7 +853,8 @@ public sealed partial class SoundDialog : ILayoutModule
         sqlbL2.Text = "Low";
         sqlbL2.TextColor = 9415072;
         session.EndRead(sqlbL2);
-        SoundQualityMediumCheckBox = new CheckBox(this);
+        CheckBox soundQualityMediumCheckBox = new(this);
+        SoundQualityMediumCheckBox = soundQualityMediumCheckBox;
         session.BeginRead(SoundQualityMediumCheckBox);
         SoundQualityMediumCheckBox.Name = "SQCB3";
         SoundQualityMediumCheckBox.Priority = 0;
@@ -884,7 +887,7 @@ public sealed partial class SoundDialog : ILayoutModule
         SoundQualityMediumCheckBox.TextSelectedColor = 0;
         SoundQualityMediumCheckBox.WinWidth = 12;
         SoundQualityMediumCheckBox.Checked = false;
-        SoundQualityMediumCheckBox.Changed += (sender, _) => SQCB3Change((CheckBox)sender);
+        soundQualityMediumCheckBox.Changed += (_, _) => SQCB3Change(soundQualityMediumCheckBox);
         SoundQualityMediumCheckBox.RadioIndex = 1;
         session.EndRead(SoundQualityMediumCheckBox);
         Label sqlbL3 = new(this);
@@ -914,7 +917,8 @@ public sealed partial class SoundDialog : ILayoutModule
         sqlbL3.Text = "Normal";
         sqlbL3.TextColor = 9415072;
         session.EndRead(sqlbL3);
-        SoundQualityHighCheckBox = new CheckBox(this);
+        CheckBox soundQualityHighCheckBox = new(this);
+        SoundQualityHighCheckBox = soundQualityHighCheckBox;
         session.BeginRead(SoundQualityHighCheckBox);
         SoundQualityHighCheckBox.Name = "SQCB4";
         SoundQualityHighCheckBox.Priority = 0;
@@ -947,7 +951,7 @@ public sealed partial class SoundDialog : ILayoutModule
         SoundQualityHighCheckBox.TextSelectedColor = 0;
         SoundQualityHighCheckBox.WinWidth = 12;
         SoundQualityHighCheckBox.Checked = false;
-        SoundQualityHighCheckBox.Changed += (sender, _) => SQCB4Change((CheckBox)sender);
+        soundQualityHighCheckBox.Changed += (_, _) => SQCB4Change(soundQualityHighCheckBox);
         SoundQualityHighCheckBox.RadioIndex = 1;
         session.EndRead(SoundQualityHighCheckBox);
         Label sqlbL4 = new(this);
@@ -1004,7 +1008,8 @@ public sealed partial class SoundDialog : ILayoutModule
         sfxPnl.MinWidth = 0;
         sfxPnl.MinHeight = 0;
         session.EndRead(sfxPnl);
-        MusicEnabledCheckBox = new CheckBox(this);
+        CheckBox musicEnabledCheckBox = new(this);
+        MusicEnabledCheckBox = musicEnabledCheckBox;
         session.BeginRead(MusicEnabledCheckBox);
         MusicEnabledCheckBox.Name = "MusicEnabledChk";
         MusicEnabledCheckBox.Priority = 0;
@@ -1037,7 +1042,7 @@ public sealed partial class SoundDialog : ILayoutModule
         MusicEnabledCheckBox.TextSelectedColor = 0;
         MusicEnabledCheckBox.WinWidth = 12;
         MusicEnabledCheckBox.Checked = false;
-        MusicEnabledCheckBox.Changed += (sender, _) => MusicEnabledChkChange((CheckBox)sender);
+        musicEnabledCheckBox.Changed += (_, _) => MusicEnabledChkChange(musicEnabledCheckBox);
         MusicEnabledCheckBox.RadioIndex = 0;
         session.EndRead(MusicEnabledCheckBox);
         Label sfxlbL2 = new(this);
@@ -1067,7 +1072,8 @@ public sealed partial class SoundDialog : ILayoutModule
         sfxlbL2.Text = "Music";
         sfxlbL2.TextColor = 9415072;
         session.EndRead(sfxlbL2);
-        EffectsEnabledCheckBox = new CheckBox(this);
+        CheckBox effectsEnabledCheckBox = new(this);
+        EffectsEnabledCheckBox = effectsEnabledCheckBox;
         session.BeginRead(EffectsEnabledCheckBox);
         EffectsEnabledCheckBox.Name = "SFXEnabledChk";
         EffectsEnabledCheckBox.Priority = 0;
@@ -1100,7 +1106,7 @@ public sealed partial class SoundDialog : ILayoutModule
         EffectsEnabledCheckBox.TextSelectedColor = 0;
         EffectsEnabledCheckBox.WinWidth = 12;
         EffectsEnabledCheckBox.Checked = false;
-        EffectsEnabledCheckBox.Changed += (sender, _) => SFXEnabledChkChange((CheckBox)sender);
+        effectsEnabledCheckBox.Changed += (_, _) => SFXEnabledChkChange(effectsEnabledCheckBox);
         EffectsEnabledCheckBox.RadioIndex = 0;
         session.EndRead(EffectsEnabledCheckBox);
         Label sfxlbL3 = new(this);
@@ -1425,7 +1431,8 @@ public sealed partial class SoundDialog : ILayoutModule
         playSB.ImageLibraryIndexBack = 101;
         playSB.ThumbImageIndex = 98;
         session.EndRead(playSB);
-        DirectSoundEnabledCheckBox = new CheckBox(this);
+        CheckBox directSoundEnabledCheckBox = new(this);
+        DirectSoundEnabledCheckBox = directSoundEnabledCheckBox;
         session.BeginRead(DirectSoundEnabledCheckBox);
         DirectSoundEnabledCheckBox.Name = "DirectSoundEnabledChk";
         DirectSoundEnabledCheckBox.Priority = 0;
@@ -1458,7 +1465,7 @@ public sealed partial class SoundDialog : ILayoutModule
         DirectSoundEnabledCheckBox.TextSelectedColor = 0;
         DirectSoundEnabledCheckBox.WinWidth = 12;
         DirectSoundEnabledCheckBox.Checked = false;
-        DirectSoundEnabledCheckBox.Changed += (sender, _) => DirectSoundEnabledChkChange((CheckBox)sender);
+        directSoundEnabledCheckBox.Changed += (_, _) => DirectSoundEnabledChkChange(directSoundEnabledCheckBox);
         DirectSoundEnabledCheckBox.RadioIndex = 0;
         session.EndRead(DirectSoundEnabledCheckBox);
         Label useDirectSoundLbl = new(this);

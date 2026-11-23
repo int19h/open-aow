@@ -461,10 +461,11 @@ public sealed partial class TaskBar : ILayoutModule
         infoBtn.WinWidth = 70;
         infoBtn.Clicked += (_, _) => InfoBtnClick();
         session.EndRead(infoBtn);
-        ChatButton = new Button(this);
+        Button chatButton = new(this);
+        ChatButton = chatButton;
         session.BeginRead(ChatButton);
         ChatButton.Name = "ChatBtn";
-        ChatButton.Updated += (sender, _) => ChatBtnUpdate((Button)sender);
+        chatButton.Updated += (_, _) => ChatBtnUpdate(chatButton);
         ChatButton.Visible = false;
         ChatButton.Priority = 0;
         ChatButton.WinLeft = 437;
@@ -1186,10 +1187,11 @@ public sealed partial class TaskBar : ILayoutModule
         tcPnl.MinWidth = 0;
         tcPnl.MinHeight = 0;
         session.EndRead(tcPnl);
-        CombatChatButton = new Button(this);
+        Button combatChatButton = new(this);
+        CombatChatButton = combatChatButton;
         session.BeginRead(CombatChatButton);
         CombatChatButton.Name = "TCChatBtn";
-        CombatChatButton.Updated += (sender, _) => ChatBtnUpdate((Button)sender);
+        combatChatButton.Updated += (_, _) => ChatBtnUpdate(combatChatButton);
         CombatChatButton.Visible = false;
         CombatChatButton.Priority = 0;
         CombatChatButton.WinLeft = 437;

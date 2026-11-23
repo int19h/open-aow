@@ -15,18 +15,19 @@ public sealed partial class MapWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "MWindow";
-        MainWindow = new Window(this);
+        Window mainWindow = new(this);
+        MainWindow = mainWindow;
         session.BeginRead(MainWindow);
         MainWindow.Name = "MapWindow";
         MainWindow.MousePressed += (_, e) => MapWindowMouseDown(e.Button, e.Shift, e.X, e.Y);
         MainWindow.MouseReleased += (_, e) => MapWindowMouseUp(e.Button, e.Shift, e.X, e.Y);
         MainWindow.MouseMoved += (_, e) => MapWindowMouseMove(e.Shift, e.X, e.Y);
-        MainWindow.KeyPressed += (sender, e) =>
+        mainWindow.KeyPressed += (_, e) =>
         {
             ushort key = e.Key;
             try
             {
-                MapWindowKeyDown((Window)sender, ref key, e.Shift);
+                MapWindowKeyDown(mainWindow, ref key, e.Shift);
             }
             finally
             {

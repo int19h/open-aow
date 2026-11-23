@@ -1547,10 +1547,11 @@ public sealed partial class FastBattleWindow : ILayoutModule
         ModeLabel.Text = "#####";
         ModeLabel.TextColor = 16777215;
         session.EndRead(ModeLabel);
-        LeftShieldView = new UserDrawBox(this);
+        UserDrawBox leftShieldView = new(this);
+        LeftShieldView = leftShieldView;
         session.BeginRead(LeftShieldView);
         LeftShieldView.Name = "LShieldUser";
-        LeftShieldView.Drawn += (sender, e) => LShieldUserDraw((UserDrawBox)sender, e.Surface);
+        leftShieldView.Drawn += (_, e) => LShieldUserDraw(leftShieldView, e.Surface);
         LeftShieldView.Priority = 3000;
         LeftShieldView.WinLeft = 15;
         LeftShieldView.WinTop = 105;
@@ -1571,10 +1572,11 @@ public sealed partial class FastBattleWindow : ILayoutModule
         LeftShieldView.WinWidth = 40;
         LeftShieldView.WinHeight = 53;
         session.EndRead(LeftShieldView);
-        RightShieldView = new UserDrawBox(this);
+        UserDrawBox rightShieldView = new(this);
+        RightShieldView = rightShieldView;
         session.BeginRead(RightShieldView);
         RightShieldView.Name = "RShieldUser";
-        RightShieldView.Drawn += (sender, e) => RShieldUserDraw((UserDrawBox)sender, e.Surface);
+        rightShieldView.Drawn += (_, e) => RShieldUserDraw(rightShieldView, e.Surface);
         RightShieldView.Priority = 3000;
         RightShieldView.WinLeft = 525;
         RightShieldView.WinTop = 105;

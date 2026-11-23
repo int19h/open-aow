@@ -397,7 +397,8 @@ public sealed partial class UnitWindow : ILayoutModule
         ManaLabel.Masked = true;
         ManaLabel.TextColor = 16777215;
         session.EndRead(ManaLabel);
-        AbilityAbilityList = new ListBox(this);
+        ListBox abilityAbilityList = new(this);
+        AbilityAbilityList = abilityAbilityList;
         session.BeginRead(AbilityAbilityList);
         AbilityAbilityList.Name = "T1AbilityLB";
         AbilityAbilityList.MousePressed += (_, e) => T1AbilityLBMouseDown(e.Button, e.Shift, e.X, e.Y);
@@ -422,15 +423,15 @@ public sealed partial class UnitWindow : ILayoutModule
         AbilityAbilityList.WinHeight = 141;
         AbilityAbilityList.BorderWidth = 4;
         AbilityAbilityList.BorderHeight = 4;
-        AbilityAbilityList.Changed += (sender, _) => T1AbilityLBChange((ListBox)sender);
+        abilityAbilityList.Changed += (_, _) => T1AbilityLBChange(abilityAbilityList);
         AbilityAbilityList.DoubleClicked += (_, _) => UseAbility();
         AbilityAbilityList.Selected = -1;
-        AbilityAbilityList.ItemDrawing += (sender, e) =>
+        abilityAbilityList.ItemDrawing += (_, e) =>
         {
             LockedSurface surface = e.Surface;
             try
             {
-                PreDrawAbilityItem((ListBox)sender, drawRectangle: e.Rectangle, drawItem: e.Item, lockedSurface: ref surface);
+                PreDrawAbilityItem(abilityAbilityList, drawRectangle: e.Rectangle, drawItem: e.Item, lockedSurface: ref surface);
             }
             finally
             {
@@ -648,7 +649,8 @@ public sealed partial class UnitWindow : ILayoutModule
         t2Panel.MinWidth = 0;
         t2Panel.MinHeight = 0;
         session.EndRead(t2Panel);
-        AbilityTypeList = new ListBox(this);
+        ListBox abilityTypeList = new(this);
+        AbilityTypeList = abilityTypeList;
         session.BeginRead(AbilityTypeList);
         AbilityTypeList.Name = "T1TypeLB";
         AbilityTypeList.MousePressed += (_, e) => T1AbilityLBMouseDown(e.Button, e.Shift, e.X, e.Y);
@@ -673,15 +675,15 @@ public sealed partial class UnitWindow : ILayoutModule
         AbilityTypeList.WinHeight = 141;
         AbilityTypeList.BorderWidth = 4;
         AbilityTypeList.BorderHeight = 4;
-        AbilityTypeList.Changed += (sender, _) => T1AbilityLBChange((ListBox)sender);
+        abilityTypeList.Changed += (_, _) => T1AbilityLBChange(abilityTypeList);
         AbilityTypeList.DoubleClicked += (_, _) => UseAbility();
         AbilityTypeList.Selected = -1;
-        AbilityTypeList.ItemDrawing += (sender, e) =>
+        abilityTypeList.ItemDrawing += (_, e) =>
         {
             LockedSurface surface = e.Surface;
             try
             {
-                PreDrawAbilityItem((ListBox)sender, drawRectangle: e.Rectangle, drawItem: e.Item, lockedSurface: ref surface);
+                PreDrawAbilityItem(abilityTypeList, drawRectangle: e.Rectangle, drawItem: e.Item, lockedSurface: ref surface);
             }
             finally
             {
@@ -696,7 +698,8 @@ public sealed partial class UnitWindow : ILayoutModule
         AbilityTypeList.ItemHeight = 17;
         AbilityTypeList.TextAlign = TextAlignment.Left;
         session.EndRead(AbilityTypeList);
-        AbilitySourceList = new ListBox(this);
+        ListBox abilitySourceList = new(this);
+        AbilitySourceList = abilitySourceList;
         session.BeginRead(AbilitySourceList);
         AbilitySourceList.Name = "T1SrcLB";
         AbilitySourceList.MousePressed += (_, e) => T1AbilityLBMouseDown(e.Button, e.Shift, e.X, e.Y);
@@ -721,15 +724,15 @@ public sealed partial class UnitWindow : ILayoutModule
         AbilitySourceList.WinHeight = 141;
         AbilitySourceList.BorderWidth = 4;
         AbilitySourceList.BorderHeight = 4;
-        AbilitySourceList.Changed += (sender, _) => T1AbilityLBChange((ListBox)sender);
+        abilitySourceList.Changed += (_, _) => T1AbilityLBChange(abilitySourceList);
         AbilitySourceList.DoubleClicked += (_, _) => UseAbility();
         AbilitySourceList.Selected = -1;
-        AbilitySourceList.ItemDrawing += (sender, e) =>
+        abilitySourceList.ItemDrawing += (_, e) =>
         {
             LockedSurface surface = e.Surface;
             try
             {
-                PreDrawAbilityItem((ListBox)sender, drawRectangle: e.Rectangle, drawItem: e.Item, lockedSurface: ref surface);
+                PreDrawAbilityItem(abilitySourceList, drawRectangle: e.Rectangle, drawItem: e.Item, lockedSurface: ref surface);
             }
             finally
             {
@@ -1416,11 +1419,12 @@ public sealed partial class UnitWindow : ILayoutModule
         InventoryPanel.MinWidth = 0;
         InventoryPanel.MinHeight = 0;
         session.EndRead(InventoryPanel);
-        Backpack1CheckBox = new CheckBox(this);
+        CheckBox backpack1CheckBox = new(this);
+        Backpack1CheckBox = backpack1CheckBox;
         session.BeginRead(Backpack1CheckBox);
         Backpack1CheckBox.Name = "BP1";
-        Backpack1CheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        Backpack1CheckBox.Drawn += (sender, e) => Gnd1Draw((CheckBox)sender, lockedSurface: e.Surface);
+        backpack1CheckBox.MousePressed += (_, e) => Gnd3MouseDown(backpack1CheckBox, e.Button, e.Shift, e.X, e.Y);
+        backpack1CheckBox.Drawn += (_, e) => Gnd1Draw(backpack1CheckBox, lockedSurface: e.Surface);
         Backpack1CheckBox.Priority = 1000;
         Backpack1CheckBox.WinLeft = 10;
         Backpack1CheckBox.WinTop = 29;
@@ -1451,7 +1455,7 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack1CheckBox.TextSelectedColor = 0;
         Backpack1CheckBox.WinWidth = 41;
         Backpack1CheckBox.Checked = false;
-        Backpack1CheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        backpack1CheckBox.Changed += (_, _) => Gnd1Change(backpack1CheckBox);
         Backpack1CheckBox.RadioIndex = 1;
         session.EndRead(Backpack1CheckBox);
         Label bpLbl1 = new(this);
@@ -1478,11 +1482,12 @@ public sealed partial class UnitWindow : ILayoutModule
         bpLbl1.Text = "Backpack";
         bpLbl1.TextColor = 2370853;
         session.EndRead(bpLbl1);
-        Backpack2CheckBox = new CheckBox(this);
+        CheckBox backpack2CheckBox = new(this);
+        Backpack2CheckBox = backpack2CheckBox;
         session.BeginRead(Backpack2CheckBox);
         Backpack2CheckBox.Name = "BP2";
-        Backpack2CheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        Backpack2CheckBox.Drawn += (sender, e) => Gnd1Draw((CheckBox)sender, lockedSurface: e.Surface);
+        backpack2CheckBox.MousePressed += (_, e) => Gnd3MouseDown(backpack2CheckBox, e.Button, e.Shift, e.X, e.Y);
+        backpack2CheckBox.Drawn += (_, e) => Gnd1Draw(backpack2CheckBox, lockedSurface: e.Surface);
         Backpack2CheckBox.Priority = 1000;
         Backpack2CheckBox.WinLeft = 10;
         Backpack2CheckBox.WinTop = 71;
@@ -1513,14 +1518,15 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack2CheckBox.TextSelectedColor = 0;
         Backpack2CheckBox.WinWidth = 41;
         Backpack2CheckBox.Checked = false;
-        Backpack2CheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        backpack2CheckBox.Changed += (_, _) => Gnd1Change(backpack2CheckBox);
         Backpack2CheckBox.RadioIndex = 1;
         session.EndRead(Backpack2CheckBox);
-        Backpack3CheckBox = new CheckBox(this);
+        CheckBox backpack3CheckBox = new(this);
+        Backpack3CheckBox = backpack3CheckBox;
         session.BeginRead(Backpack3CheckBox);
         Backpack3CheckBox.Name = "BP3";
-        Backpack3CheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        Backpack3CheckBox.Drawn += (sender, e) => Gnd1Draw((CheckBox)sender, lockedSurface: e.Surface);
+        backpack3CheckBox.MousePressed += (_, e) => Gnd3MouseDown(backpack3CheckBox, e.Button, e.Shift, e.X, e.Y);
+        backpack3CheckBox.Drawn += (_, e) => Gnd1Draw(backpack3CheckBox, lockedSurface: e.Surface);
         Backpack3CheckBox.Priority = 1000;
         Backpack3CheckBox.WinLeft = 10;
         Backpack3CheckBox.WinTop = 113;
@@ -1551,14 +1557,15 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack3CheckBox.TextSelectedColor = 0;
         Backpack3CheckBox.WinWidth = 41;
         Backpack3CheckBox.Checked = false;
-        Backpack3CheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        backpack3CheckBox.Changed += (_, _) => Gnd1Change(backpack3CheckBox);
         Backpack3CheckBox.RadioIndex = 1;
         session.EndRead(Backpack3CheckBox);
-        Backpack4CheckBox = new CheckBox(this);
+        CheckBox backpack4CheckBox = new(this);
+        Backpack4CheckBox = backpack4CheckBox;
         session.BeginRead(Backpack4CheckBox);
         Backpack4CheckBox.Name = "BP4";
-        Backpack4CheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        Backpack4CheckBox.Drawn += (sender, e) => Gnd1Draw((CheckBox)sender, lockedSurface: e.Surface);
+        backpack4CheckBox.MousePressed += (_, e) => Gnd3MouseDown(backpack4CheckBox, e.Button, e.Shift, e.X, e.Y);
+        backpack4CheckBox.Drawn += (_, e) => Gnd1Draw(backpack4CheckBox, lockedSurface: e.Surface);
         Backpack4CheckBox.Priority = 1000;
         Backpack4CheckBox.WinLeft = 10;
         Backpack4CheckBox.WinTop = 155;
@@ -1589,14 +1596,15 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack4CheckBox.TextSelectedColor = 0;
         Backpack4CheckBox.WinWidth = 41;
         Backpack4CheckBox.Checked = false;
-        Backpack4CheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        backpack4CheckBox.Changed += (_, _) => Gnd1Change(backpack4CheckBox);
         Backpack4CheckBox.RadioIndex = 1;
         session.EndRead(Backpack4CheckBox);
-        Backpack5CheckBox = new CheckBox(this);
+        CheckBox backpack5CheckBox = new(this);
+        Backpack5CheckBox = backpack5CheckBox;
         session.BeginRead(Backpack5CheckBox);
         Backpack5CheckBox.Name = "BP5";
-        Backpack5CheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        Backpack5CheckBox.Drawn += (sender, e) => Gnd1Draw((CheckBox)sender, lockedSurface: e.Surface);
+        backpack5CheckBox.MousePressed += (_, e) => Gnd3MouseDown(backpack5CheckBox, e.Button, e.Shift, e.X, e.Y);
+        backpack5CheckBox.Drawn += (_, e) => Gnd1Draw(backpack5CheckBox, lockedSurface: e.Surface);
         Backpack5CheckBox.Priority = 1000;
         Backpack5CheckBox.WinLeft = 325;
         Backpack5CheckBox.WinTop = 29;
@@ -1627,14 +1635,15 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack5CheckBox.TextSelectedColor = 0;
         Backpack5CheckBox.WinWidth = 41;
         Backpack5CheckBox.Checked = false;
-        Backpack5CheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        backpack5CheckBox.Changed += (_, _) => Gnd1Change(backpack5CheckBox);
         Backpack5CheckBox.RadioIndex = 1;
         session.EndRead(Backpack5CheckBox);
-        Backpack6CheckBox = new CheckBox(this);
+        CheckBox backpack6CheckBox = new(this);
+        Backpack6CheckBox = backpack6CheckBox;
         session.BeginRead(Backpack6CheckBox);
         Backpack6CheckBox.Name = "BP6";
-        Backpack6CheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        Backpack6CheckBox.Drawn += (sender, e) => Gnd1Draw((CheckBox)sender, lockedSurface: e.Surface);
+        backpack6CheckBox.MousePressed += (_, e) => Gnd3MouseDown(backpack6CheckBox, e.Button, e.Shift, e.X, e.Y);
+        backpack6CheckBox.Drawn += (_, e) => Gnd1Draw(backpack6CheckBox, lockedSurface: e.Surface);
         Backpack6CheckBox.Priority = 1000;
         Backpack6CheckBox.WinLeft = 325;
         Backpack6CheckBox.WinTop = 71;
@@ -1665,14 +1674,15 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack6CheckBox.TextSelectedColor = 0;
         Backpack6CheckBox.WinWidth = 41;
         Backpack6CheckBox.Checked = false;
-        Backpack6CheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        backpack6CheckBox.Changed += (_, _) => Gnd1Change(backpack6CheckBox);
         Backpack6CheckBox.RadioIndex = 1;
         session.EndRead(Backpack6CheckBox);
-        Backpack7CheckBox = new CheckBox(this);
+        CheckBox backpack7CheckBox = new(this);
+        Backpack7CheckBox = backpack7CheckBox;
         session.BeginRead(Backpack7CheckBox);
         Backpack7CheckBox.Name = "BP7";
-        Backpack7CheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        Backpack7CheckBox.Drawn += (sender, e) => Gnd1Draw((CheckBox)sender, lockedSurface: e.Surface);
+        backpack7CheckBox.MousePressed += (_, e) => Gnd3MouseDown(backpack7CheckBox, e.Button, e.Shift, e.X, e.Y);
+        backpack7CheckBox.Drawn += (_, e) => Gnd1Draw(backpack7CheckBox, lockedSurface: e.Surface);
         Backpack7CheckBox.Priority = 1000;
         Backpack7CheckBox.WinLeft = 325;
         Backpack7CheckBox.WinTop = 113;
@@ -1703,14 +1713,15 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack7CheckBox.TextSelectedColor = 0;
         Backpack7CheckBox.WinWidth = 41;
         Backpack7CheckBox.Checked = false;
-        Backpack7CheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        backpack7CheckBox.Changed += (_, _) => Gnd1Change(backpack7CheckBox);
         Backpack7CheckBox.RadioIndex = 1;
         session.EndRead(Backpack7CheckBox);
-        Backpack8CheckBox = new CheckBox(this);
+        CheckBox backpack8CheckBox = new(this);
+        Backpack8CheckBox = backpack8CheckBox;
         session.BeginRead(Backpack8CheckBox);
         Backpack8CheckBox.Name = "BP8";
-        Backpack8CheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        Backpack8CheckBox.Drawn += (sender, e) => Gnd1Draw((CheckBox)sender, lockedSurface: e.Surface);
+        backpack8CheckBox.MousePressed += (_, e) => Gnd3MouseDown(backpack8CheckBox, e.Button, e.Shift, e.X, e.Y);
+        backpack8CheckBox.Drawn += (_, e) => Gnd1Draw(backpack8CheckBox, lockedSurface: e.Surface);
         Backpack8CheckBox.Priority = 1000;
         Backpack8CheckBox.WinLeft = 325;
         Backpack8CheckBox.WinTop = 155;
@@ -1741,7 +1752,7 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack8CheckBox.TextSelectedColor = 0;
         Backpack8CheckBox.WinWidth = 41;
         Backpack8CheckBox.Checked = false;
-        Backpack8CheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        backpack8CheckBox.Changed += (_, _) => Gnd1Change(backpack8CheckBox);
         Backpack8CheckBox.RadioIndex = 1;
         session.EndRead(Backpack8CheckBox);
         Label bpLbl2 = new(this);
@@ -1791,11 +1802,12 @@ public sealed partial class UnitWindow : ILayoutModule
         bodyLbl.Text = "Body Slots";
         bodyLbl.TextColor = 2370853;
         session.EndRead(bodyLbl);
-        HeadSlotCheckBox = new CheckBox(this);
+        CheckBox headSlotCheckBox = new(this);
+        HeadSlotCheckBox = headSlotCheckBox;
         session.BeginRead(HeadSlotCheckBox);
         HeadSlotCheckBox.Name = "Head";
-        HeadSlotCheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        HeadSlotCheckBox.Drawn += (sender, e) => HeadDraw((CheckBox)sender, lockedSurface: e.Surface);
+        headSlotCheckBox.MousePressed += (_, e) => Gnd3MouseDown(headSlotCheckBox, e.Button, e.Shift, e.X, e.Y);
+        headSlotCheckBox.Drawn += (_, e) => HeadDraw(headSlotCheckBox, lockedSurface: e.Surface);
         HeadSlotCheckBox.Priority = 500;
         HeadSlotCheckBox.WinLeft = 168;
         HeadSlotCheckBox.WinTop = 25;
@@ -1827,14 +1839,15 @@ public sealed partial class UnitWindow : ILayoutModule
         HeadSlotCheckBox.TextSelectedColor = 0;
         HeadSlotCheckBox.WinWidth = 41;
         HeadSlotCheckBox.Checked = false;
-        HeadSlotCheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        headSlotCheckBox.Changed += (_, _) => Gnd1Change(headSlotCheckBox);
         HeadSlotCheckBox.RadioIndex = 1;
         session.EndRead(HeadSlotCheckBox);
-        TorsoSlotCheckBox = new CheckBox(this);
+        CheckBox torsoSlotCheckBox = new(this);
+        TorsoSlotCheckBox = torsoSlotCheckBox;
         session.BeginRead(TorsoSlotCheckBox);
         TorsoSlotCheckBox.Name = "Torso";
-        TorsoSlotCheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        TorsoSlotCheckBox.Drawn += (sender, e) => TorsoDraw((CheckBox)sender, lockedSurface: e.Surface);
+        torsoSlotCheckBox.MousePressed += (_, e) => Gnd3MouseDown(torsoSlotCheckBox, e.Button, e.Shift, e.X, e.Y);
+        torsoSlotCheckBox.Drawn += (_, e) => TorsoDraw(torsoSlotCheckBox, lockedSurface: e.Surface);
         TorsoSlotCheckBox.Priority = 500;
         TorsoSlotCheckBox.WinLeft = 168;
         TorsoSlotCheckBox.WinTop = 84;
@@ -1865,14 +1878,15 @@ public sealed partial class UnitWindow : ILayoutModule
         TorsoSlotCheckBox.TextSelectedColor = 0;
         TorsoSlotCheckBox.WinWidth = 41;
         TorsoSlotCheckBox.Checked = false;
-        TorsoSlotCheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        torsoSlotCheckBox.Changed += (_, _) => Gnd1Change(torsoSlotCheckBox);
         TorsoSlotCheckBox.RadioIndex = 1;
         session.EndRead(TorsoSlotCheckBox);
-        AttackSlotCheckBox = new CheckBox(this);
+        CheckBox attackSlotCheckBox = new(this);
+        AttackSlotCheckBox = attackSlotCheckBox;
         session.BeginRead(AttackSlotCheckBox);
         AttackSlotCheckBox.Name = "Attack";
-        AttackSlotCheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        AttackSlotCheckBox.Drawn += (sender, e) => AttackDraw((CheckBox)sender, lockedSurface: e.Surface);
+        attackSlotCheckBox.MousePressed += (_, e) => Gnd3MouseDown(attackSlotCheckBox, e.Button, e.Shift, e.X, e.Y);
+        attackSlotCheckBox.Drawn += (_, e) => AttackDraw(attackSlotCheckBox, lockedSurface: e.Surface);
         AttackSlotCheckBox.Priority = 500;
         AttackSlotCheckBox.WinLeft = 78;
         AttackSlotCheckBox.WinTop = 46;
@@ -1903,14 +1917,15 @@ public sealed partial class UnitWindow : ILayoutModule
         AttackSlotCheckBox.TextSelectedColor = 0;
         AttackSlotCheckBox.WinWidth = 41;
         AttackSlotCheckBox.Checked = false;
-        AttackSlotCheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        attackSlotCheckBox.Changed += (_, _) => Gnd1Change(attackSlotCheckBox);
         AttackSlotCheckBox.RadioIndex = 1;
         session.EndRead(AttackSlotCheckBox);
-        DefendSlotCheckBox = new CheckBox(this);
+        CheckBox defendSlotCheckBox = new(this);
+        DefendSlotCheckBox = defendSlotCheckBox;
         session.BeginRead(DefendSlotCheckBox);
         DefendSlotCheckBox.Name = "Defend";
-        DefendSlotCheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        DefendSlotCheckBox.Drawn += (sender, e) => DefendDraw((CheckBox)sender, lockedSurface: e.Surface);
+        defendSlotCheckBox.MousePressed += (_, e) => Gnd3MouseDown(defendSlotCheckBox, e.Button, e.Shift, e.X, e.Y);
+        defendSlotCheckBox.Drawn += (_, e) => DefendDraw(defendSlotCheckBox, lockedSurface: e.Surface);
         DefendSlotCheckBox.Priority = 500;
         DefendSlotCheckBox.WinLeft = 256;
         DefendSlotCheckBox.WinTop = 46;
@@ -1941,14 +1956,15 @@ public sealed partial class UnitWindow : ILayoutModule
         DefendSlotCheckBox.TextSelectedColor = 0;
         DefendSlotCheckBox.WinWidth = 41;
         DefendSlotCheckBox.Checked = false;
-        DefendSlotCheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        defendSlotCheckBox.Changed += (_, _) => Gnd1Change(defendSlotCheckBox);
         DefendSlotCheckBox.RadioIndex = 1;
         session.EndRead(DefendSlotCheckBox);
-        LeftRingCheckBox = new CheckBox(this);
+        CheckBox leftRingCheckBox = new(this);
+        LeftRingCheckBox = leftRingCheckBox;
         session.BeginRead(LeftRingCheckBox);
         LeftRingCheckBox.Name = "RingL";
-        LeftRingCheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        LeftRingCheckBox.Drawn += (sender, e) => RingLDraw((CheckBox)sender, lockedSurface: e.Surface);
+        leftRingCheckBox.MousePressed += (_, e) => Gnd3MouseDown(leftRingCheckBox, e.Button, e.Shift, e.X, e.Y);
+        leftRingCheckBox.Drawn += (_, e) => RingLDraw(leftRingCheckBox, lockedSurface: e.Surface);
         LeftRingCheckBox.Priority = 500;
         LeftRingCheckBox.WinLeft = 230;
         LeftRingCheckBox.WinTop = 95;
@@ -1979,14 +1995,15 @@ public sealed partial class UnitWindow : ILayoutModule
         LeftRingCheckBox.TextSelectedColor = 0;
         LeftRingCheckBox.WinWidth = 41;
         LeftRingCheckBox.Checked = false;
-        LeftRingCheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        leftRingCheckBox.Changed += (_, _) => Gnd1Change(leftRingCheckBox);
         LeftRingCheckBox.RadioIndex = 1;
         session.EndRead(LeftRingCheckBox);
-        RightRingCheckBox = new CheckBox(this);
+        CheckBox rightRingCheckBox = new(this);
+        RightRingCheckBox = rightRingCheckBox;
         session.BeginRead(RightRingCheckBox);
         RightRingCheckBox.Name = "RingR";
-        RightRingCheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        RightRingCheckBox.Drawn += (sender, e) => RingLDraw((CheckBox)sender, lockedSurface: e.Surface);
+        rightRingCheckBox.MousePressed += (_, e) => Gnd3MouseDown(rightRingCheckBox, e.Button, e.Shift, e.X, e.Y);
+        rightRingCheckBox.Drawn += (_, e) => RingLDraw(rightRingCheckBox, lockedSurface: e.Surface);
         RightRingCheckBox.Priority = 500;
         RightRingCheckBox.WinLeft = 105;
         RightRingCheckBox.WinTop = 95;
@@ -2018,14 +2035,15 @@ public sealed partial class UnitWindow : ILayoutModule
         RightRingCheckBox.TextSelectedColor = 0;
         RightRingCheckBox.WinWidth = 41;
         RightRingCheckBox.Checked = false;
-        RightRingCheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        rightRingCheckBox.Changed += (_, _) => Gnd1Change(rightRingCheckBox);
         RightRingCheckBox.RadioIndex = 1;
         session.EndRead(RightRingCheckBox);
-        Ground3CheckBox = new CheckBox(this);
+        CheckBox ground3CheckBox = new(this);
+        Ground3CheckBox = ground3CheckBox;
         session.BeginRead(Ground3CheckBox);
         Ground3CheckBox.Name = "Gnd3";
-        Ground3CheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        Ground3CheckBox.Drawn += (sender, e) => Gnd1Draw((CheckBox)sender, lockedSurface: e.Surface);
+        ground3CheckBox.MousePressed += (_, e) => Gnd3MouseDown(ground3CheckBox, e.Button, e.Shift, e.X, e.Y);
+        ground3CheckBox.Drawn += (_, e) => Gnd1Draw(ground3CheckBox, lockedSurface: e.Surface);
         Ground3CheckBox.Priority = 1000;
         Ground3CheckBox.WinLeft = 168;
         Ground3CheckBox.WinTop = 155;
@@ -2056,14 +2074,15 @@ public sealed partial class UnitWindow : ILayoutModule
         Ground3CheckBox.TextSelectedColor = 0;
         Ground3CheckBox.WinWidth = 41;
         Ground3CheckBox.Checked = false;
-        Ground3CheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        ground3CheckBox.Changed += (_, _) => Gnd1Change(ground3CheckBox);
         Ground3CheckBox.RadioIndex = 1;
         session.EndRead(Ground3CheckBox);
-        Ground2CheckBox = new CheckBox(this);
+        CheckBox ground2CheckBox = new(this);
+        Ground2CheckBox = ground2CheckBox;
         session.BeginRead(Ground2CheckBox);
         Ground2CheckBox.Name = "Gnd2";
-        Ground2CheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        Ground2CheckBox.Drawn += (sender, e) => Gnd1Draw((CheckBox)sender, lockedSurface: e.Surface);
+        ground2CheckBox.MousePressed += (_, e) => Gnd3MouseDown(ground2CheckBox, e.Button, e.Shift, e.X, e.Y);
+        ground2CheckBox.Drawn += (_, e) => Gnd1Draw(ground2CheckBox, lockedSurface: e.Surface);
         Ground2CheckBox.Priority = 1000;
         Ground2CheckBox.WinLeft = 124;
         Ground2CheckBox.WinTop = 155;
@@ -2094,14 +2113,15 @@ public sealed partial class UnitWindow : ILayoutModule
         Ground2CheckBox.TextSelectedColor = 0;
         Ground2CheckBox.WinWidth = 41;
         Ground2CheckBox.Checked = false;
-        Ground2CheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        ground2CheckBox.Changed += (_, _) => Gnd1Change(ground2CheckBox);
         Ground2CheckBox.RadioIndex = 1;
         session.EndRead(Ground2CheckBox);
-        Ground1CheckBox = new CheckBox(this);
+        CheckBox ground1CheckBox = new(this);
+        Ground1CheckBox = ground1CheckBox;
         session.BeginRead(Ground1CheckBox);
         Ground1CheckBox.Name = "Gnd1";
-        Ground1CheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        Ground1CheckBox.Drawn += (sender, e) => Gnd1Draw((CheckBox)sender, lockedSurface: e.Surface);
+        ground1CheckBox.MousePressed += (_, e) => Gnd3MouseDown(ground1CheckBox, e.Button, e.Shift, e.X, e.Y);
+        ground1CheckBox.Drawn += (_, e) => Gnd1Draw(ground1CheckBox, lockedSurface: e.Surface);
         Ground1CheckBox.Priority = 1000;
         Ground1CheckBox.WinLeft = 80;
         Ground1CheckBox.WinTop = 155;
@@ -2132,14 +2152,15 @@ public sealed partial class UnitWindow : ILayoutModule
         Ground1CheckBox.TextSelectedColor = 0;
         Ground1CheckBox.WinWidth = 41;
         Ground1CheckBox.Checked = false;
-        Ground1CheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        ground1CheckBox.Changed += (_, _) => Gnd1Change(ground1CheckBox);
         Ground1CheckBox.RadioIndex = 1;
         session.EndRead(Ground1CheckBox);
-        Ground4CheckBox = new CheckBox(this);
+        CheckBox ground4CheckBox = new(this);
+        Ground4CheckBox = ground4CheckBox;
         session.BeginRead(Ground4CheckBox);
         Ground4CheckBox.Name = "Gnd4";
-        Ground4CheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        Ground4CheckBox.Drawn += (sender, e) => Gnd1Draw((CheckBox)sender, lockedSurface: e.Surface);
+        ground4CheckBox.MousePressed += (_, e) => Gnd3MouseDown(ground4CheckBox, e.Button, e.Shift, e.X, e.Y);
+        ground4CheckBox.Drawn += (_, e) => Gnd1Draw(ground4CheckBox, lockedSurface: e.Surface);
         Ground4CheckBox.Priority = 1000;
         Ground4CheckBox.WinLeft = 212;
         Ground4CheckBox.WinTop = 155;
@@ -2170,14 +2191,15 @@ public sealed partial class UnitWindow : ILayoutModule
         Ground4CheckBox.TextSelectedColor = 0;
         Ground4CheckBox.WinWidth = 41;
         Ground4CheckBox.Checked = false;
-        Ground4CheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        ground4CheckBox.Changed += (_, _) => Gnd1Change(ground4CheckBox);
         Ground4CheckBox.RadioIndex = 1;
         session.EndRead(Ground4CheckBox);
-        Ground5CheckBox = new CheckBox(this);
+        CheckBox ground5CheckBox = new(this);
+        Ground5CheckBox = ground5CheckBox;
         session.BeginRead(Ground5CheckBox);
         Ground5CheckBox.Name = "Gnd5";
-        Ground5CheckBox.MousePressed += (sender, e) => Gnd3MouseDown((CheckBox)sender, e.Button, e.Shift, e.X, e.Y);
-        Ground5CheckBox.Drawn += (sender, e) => Gnd1Draw((CheckBox)sender, lockedSurface: e.Surface);
+        ground5CheckBox.MousePressed += (_, e) => Gnd3MouseDown(ground5CheckBox, e.Button, e.Shift, e.X, e.Y);
+        ground5CheckBox.Drawn += (_, e) => Gnd1Draw(ground5CheckBox, lockedSurface: e.Surface);
         Ground5CheckBox.Priority = 1000;
         Ground5CheckBox.WinLeft = 256;
         Ground5CheckBox.WinTop = 155;
@@ -2208,7 +2230,7 @@ public sealed partial class UnitWindow : ILayoutModule
         Ground5CheckBox.TextSelectedColor = 0;
         Ground5CheckBox.WinWidth = 41;
         Ground5CheckBox.Checked = false;
-        Ground5CheckBox.Changed += (sender, _) => Gnd1Change((CheckBox)sender);
+        ground5CheckBox.Changed += (_, _) => Gnd1Change(ground5CheckBox);
         Ground5CheckBox.RadioIndex = 1;
         session.EndRead(Ground5CheckBox);
         Label gndLbl = new(this);

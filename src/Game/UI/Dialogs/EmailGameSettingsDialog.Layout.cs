@@ -334,7 +334,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         playerEMailAddressesLbl.Text = "Player Email Addresses";
         playerEMailAddressesLbl.TextColor = 16777215;
         session.EndRead(playerEMailAddressesLbl);
-        EmailAddressEdit1 = new Edit(this);
+        Edit emailAddressEdit1 = new(this);
+        EmailAddressEdit1 = emailAddressEdit1;
         session.BeginRead(EmailAddressEdit1);
         EmailAddressEdit1.Name = "EmailAddressEdit1";
         EmailAddressEdit1.Priority = 0;
@@ -357,7 +358,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit1.WinWidth = 230;
         EmailAddressEdit1.BorderWidth = 8;
         EmailAddressEdit1.BorderHeight = 5;
-        EmailAddressEdit1.Changed += (sender, _) => EmailAddressEdit1Change((Edit)sender, slot: 0);
+        emailAddressEdit1.Changed += (_, _) => EmailAddressEdit1Change(emailAddressEdit1, slot: 0);
         EmailAddressEdit1.MaxChars = 0;
         EmailAddressEdit1.CursorChar = 95;
         EmailAddressEdit1.BlinkDelay = 1;
@@ -496,7 +497,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerLabel3.Masked = true;
         PlayerLabel3.TextColor = 9415072;
         session.EndRead(PlayerLabel3);
-        EmailAddressEdit2 = new Edit(this);
+        Edit emailAddressEdit2 = new(this);
+        EmailAddressEdit2 = emailAddressEdit2;
         session.BeginRead(EmailAddressEdit2);
         EmailAddressEdit2.Name = "EmailAddressEdit2";
         EmailAddressEdit2.Tag = 1;
@@ -520,7 +522,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit2.WinWidth = 230;
         EmailAddressEdit2.BorderWidth = 8;
         EmailAddressEdit2.BorderHeight = 6;
-        EmailAddressEdit2.Changed += (sender, _) => EmailAddressEdit1Change((Edit)sender, slot: 1);
+        emailAddressEdit2.Changed += (_, _) => EmailAddressEdit1Change(emailAddressEdit2, slot: 1);
         EmailAddressEdit2.MaxChars = 0;
         EmailAddressEdit2.CursorChar = 95;
         EmailAddressEdit2.BlinkDelay = 1;
@@ -529,7 +531,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit2.ImageLibraryIndex = 15;
         EmailAddressEdit2.PassWordChar = 0;
         session.EndRead(EmailAddressEdit2);
-        EmailAddressEdit3 = new Edit(this);
+        Edit emailAddressEdit3 = new(this);
+        EmailAddressEdit3 = emailAddressEdit3;
         session.BeginRead(EmailAddressEdit3);
         EmailAddressEdit3.Name = "EmailAddressEdit3";
         EmailAddressEdit3.Tag = 2;
@@ -553,7 +556,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit3.WinWidth = 230;
         EmailAddressEdit3.BorderWidth = 8;
         EmailAddressEdit3.BorderHeight = 6;
-        EmailAddressEdit3.Changed += (sender, _) => EmailAddressEdit1Change((Edit)sender, slot: 2);
+        emailAddressEdit3.Changed += (_, _) => EmailAddressEdit1Change(emailAddressEdit3, slot: 2);
         EmailAddressEdit3.MaxChars = 0;
         EmailAddressEdit3.CursorChar = 95;
         EmailAddressEdit3.BlinkDelay = 1;
@@ -584,7 +587,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerLabel4.Masked = true;
         PlayerLabel4.TextColor = 9415072;
         session.EndRead(PlayerLabel4);
-        EmailAddressEdit4 = new Edit(this);
+        Edit emailAddressEdit4 = new(this);
+        EmailAddressEdit4 = emailAddressEdit4;
         session.BeginRead(EmailAddressEdit4);
         EmailAddressEdit4.Name = "EmailAddressEdit4";
         EmailAddressEdit4.Tag = 3;
@@ -608,7 +612,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit4.WinWidth = 230;
         EmailAddressEdit4.BorderWidth = 8;
         EmailAddressEdit4.BorderHeight = 6;
-        EmailAddressEdit4.Changed += (sender, _) => EmailAddressEdit1Change((Edit)sender, slot: 3);
+        emailAddressEdit4.Changed += (_, _) => EmailAddressEdit1Change(emailAddressEdit4, slot: 3);
         EmailAddressEdit4.MaxChars = 0;
         EmailAddressEdit4.CursorChar = 95;
         EmailAddressEdit4.BlinkDelay = 1;
@@ -866,7 +870,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerLabel5.Masked = true;
         PlayerLabel5.TextColor = 9415072;
         session.EndRead(PlayerLabel5);
-        EmailAddressEdit5 = new Edit(this);
+        Edit emailAddressEdit5 = new(this);
+        EmailAddressEdit5 = emailAddressEdit5;
         session.BeginRead(EmailAddressEdit5);
         EmailAddressEdit5.Name = "EmailAddressEdit5";
         EmailAddressEdit5.Tag = 4;
@@ -890,7 +895,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit5.WinWidth = 230;
         EmailAddressEdit5.BorderWidth = 8;
         EmailAddressEdit5.BorderHeight = 6;
-        EmailAddressEdit5.Changed += (sender, _) => EmailAddressEdit1Change((Edit)sender, slot: 4);
+        emailAddressEdit5.Changed += (_, _) => EmailAddressEdit1Change(emailAddressEdit5, slot: 4);
         EmailAddressEdit5.MaxChars = 0;
         EmailAddressEdit5.CursorChar = 95;
         EmailAddressEdit5.BlinkDelay = 1;
@@ -921,7 +926,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerLabel6.Masked = true;
         PlayerLabel6.TextColor = 9415072;
         session.EndRead(PlayerLabel6);
-        EmailAddressEdit6 = new Edit(this);
+        Edit emailAddressEdit6 = new(this);
+        EmailAddressEdit6 = emailAddressEdit6;
         session.BeginRead(EmailAddressEdit6);
         EmailAddressEdit6.Name = "EmailAddressEdit6";
         EmailAddressEdit6.Tag = 5;
@@ -945,7 +951,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit6.WinWidth = 230;
         EmailAddressEdit6.BorderWidth = 8;
         EmailAddressEdit6.BorderHeight = 6;
-        EmailAddressEdit6.Changed += (sender, _) => EmailAddressEdit1Change((Edit)sender, slot: 5);
+        emailAddressEdit6.Changed += (_, _) => EmailAddressEdit1Change(emailAddressEdit6, slot: 5);
         EmailAddressEdit6.MaxChars = 0;
         EmailAddressEdit6.CursorChar = 95;
         EmailAddressEdit6.BlinkDelay = 1;

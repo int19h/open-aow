@@ -376,7 +376,8 @@ public sealed partial class VideoDialog : ILayoutModule
         DisplayModesList.ItemHeight = 17;
         DisplayModesList.TextAlign = TextAlignment.Left;
         session.EndRead(DisplayModesList);
-        ResolutionCheckBox = new CheckBox(this);
+        CheckBox resolutionCheckBox = new(this);
+        ResolutionCheckBox = resolutionCheckBox;
         session.BeginRead(ResolutionCheckBox);
         ResolutionCheckBox.Name = "ResCB";
         ResolutionCheckBox.Priority = 0;
@@ -409,7 +410,7 @@ public sealed partial class VideoDialog : ILayoutModule
         ResolutionCheckBox.TextSelectedColor = 0;
         ResolutionCheckBox.WinWidth = 12;
         ResolutionCheckBox.Checked = false;
-        ResolutionCheckBox.Changed += (sender, _) => ResCBChange((CheckBox)sender);
+        resolutionCheckBox.Changed += (_, _) => ResCBChange(resolutionCheckBox);
         ResolutionCheckBox.RadioIndex = 0;
         session.EndRead(ResolutionCheckBox);
         Label resSwLbl = new(this);

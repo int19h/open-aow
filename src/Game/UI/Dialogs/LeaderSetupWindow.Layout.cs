@@ -4213,10 +4213,11 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         availableAbilitiesCostSort.WinWidth = 45;
         availableAbilitiesCostSort.Clicked += (_, _) => AvailableAbilitiesCostSortClick();
         session.EndRead(availableAbilitiesCostSort);
-        MainFaceFrame = new Frame(this);
+        Frame mainFaceFrame = new(this);
+        MainFaceFrame = mainFaceFrame;
         session.BeginRead(MainFaceFrame);
         MainFaceFrame.Name = "MainFaceFr";
-        MainFaceFrame.Drawing += (sender, e) => MainFaceFrPreDraw((Frame)sender, lockedSurface: e.Surface);
+        mainFaceFrame.Drawing += (_, e) => MainFaceFrPreDraw(mainFaceFrame, lockedSurface: e.Surface);
         MainFaceFrame.Priority = 10;
         MainFaceFrame.WinLeft = 50;
         MainFaceFrame.WinTop = 55;

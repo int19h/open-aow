@@ -382,10 +382,11 @@ public sealed partial class RealmWindow : ILayoutModule
         PartyListPanel.MinWidth = 0;
         PartyListPanel.MinHeight = 0;
         session.EndRead(PartyListPanel);
-        CityNameList = new ListBox<City>(this);
+        ListBox<City> cityNameList = new(this);
+        CityNameList = cityNameList;
         session.BeginRead(CityNameList);
         CityNameList.Name = "T2NameLB";
-        CityNameList.MousePressed += (sender, e) => CityListMouseDown((ListBox<City>)sender, e.Button, e.Shift, e.X, e.Y);
+        cityNameList.MousePressed += (_, e) => CityListMouseDown(cityNameList, e.Button, e.Shift, e.X, e.Y);
         CityNameList.Priority = 0;
         CityNameList.WinLeft = 1;
         CityNameList.WinTop = 14;
@@ -407,8 +408,8 @@ public sealed partial class RealmWindow : ILayoutModule
         CityNameList.WinHeight = 92;
         CityNameList.BorderWidth = 4;
         CityNameList.BorderHeight = 3;
-        CityNameList.Changed += (sender, _) => CityListChange((ListBox<City>)sender);
-        CityNameList.DoubleClicked += (sender, _) => CityDoubleClick((ListBox<City>)sender);
+        cityNameList.Changed += (_, _) => CityListChange(cityNameList);
+        cityNameList.DoubleClicked += (_, _) => CityDoubleClick(cityNameList);
         CityNameList.Selected = -1;
         CityNameList.TextColor = 9415072;
         CityNameList.TextSelectedColor = 0;
@@ -418,10 +419,11 @@ public sealed partial class RealmWindow : ILayoutModule
         CityNameList.ItemHeight = 17;
         CityNameList.TextAlign = TextAlignment.Left;
         session.EndRead(CityNameList);
-        CityRaceList = new ListBox(this);
+        ListBox cityRaceList = new(this);
+        CityRaceList = cityRaceList;
         session.BeginRead(CityRaceList);
         CityRaceList.Name = "T2RaceLB";
-        CityRaceList.MousePressed += (sender, e) => CityListMouseDown((ListBox)sender, e.Button, e.Shift, e.X, e.Y);
+        cityRaceList.MousePressed += (_, e) => CityListMouseDown(cityRaceList, e.Button, e.Shift, e.X, e.Y);
         CityRaceList.Priority = 0;
         CityRaceList.WinLeft = 113;
         CityRaceList.WinTop = 14;
@@ -443,8 +445,8 @@ public sealed partial class RealmWindow : ILayoutModule
         CityRaceList.WinHeight = 92;
         CityRaceList.BorderWidth = 4;
         CityRaceList.BorderHeight = 3;
-        CityRaceList.Changed += (sender, _) => CityListChange((ListBox)sender);
-        CityRaceList.DoubleClicked += (sender, _) => CityDoubleClick((ListBox)sender);
+        cityRaceList.Changed += (_, _) => CityListChange(cityRaceList);
+        cityRaceList.DoubleClicked += (_, _) => CityDoubleClick(cityRaceList);
         CityRaceList.Selected = -1;
         CityRaceList.TextColor = 9415072;
         CityRaceList.TextSelectedColor = 0;
@@ -454,10 +456,11 @@ public sealed partial class RealmWindow : ILayoutModule
         CityRaceList.ItemHeight = 17;
         CityRaceList.TextAlign = TextAlignment.Left;
         session.EndRead(CityRaceList);
-        CityIncomeList = new ListBox(this);
+        ListBox cityIncomeList = new(this);
+        CityIncomeList = cityIncomeList;
         session.BeginRead(CityIncomeList);
         CityIncomeList.Name = "T2IncomeLB";
-        CityIncomeList.MousePressed += (sender, e) => CityListMouseDown((ListBox)sender, e.Button, e.Shift, e.X, e.Y);
+        cityIncomeList.MousePressed += (_, e) => CityListMouseDown(cityIncomeList, e.Button, e.Shift, e.X, e.Y);
         CityIncomeList.Priority = 0;
         CityIncomeList.WinLeft = 200;
         CityIncomeList.WinTop = 14;
@@ -479,8 +482,8 @@ public sealed partial class RealmWindow : ILayoutModule
         CityIncomeList.WinHeight = 92;
         CityIncomeList.BorderWidth = 3;
         CityIncomeList.BorderHeight = 3;
-        CityIncomeList.Changed += (sender, _) => CityListChange((ListBox)sender);
-        CityIncomeList.DoubleClicked += (sender, _) => CityDoubleClick((ListBox)sender);
+        cityIncomeList.Changed += (_, _) => CityListChange(cityIncomeList);
+        cityIncomeList.DoubleClicked += (_, _) => CityDoubleClick(cityIncomeList);
         CityIncomeList.Selected = -1;
         CityIncomeList.TextColor = 9415072;
         CityIncomeList.TextSelectedColor = 0;
@@ -490,10 +493,11 @@ public sealed partial class RealmWindow : ILayoutModule
         CityIncomeList.ItemHeight = 17;
         CityIncomeList.TextAlign = TextAlignment.Left;
         session.EndRead(CityIncomeList);
-        CityLevelList = new ListBox(this);
+        ListBox cityLevelList = new(this);
+        CityLevelList = cityLevelList;
         session.BeginRead(CityLevelList);
         CityLevelList.Name = "T2LevelLB";
-        CityLevelList.MousePressed += (sender, e) => CityListMouseDown((ListBox)sender, e.Button, e.Shift, e.X, e.Y);
+        cityLevelList.MousePressed += (_, e) => CityListMouseDown(cityLevelList, e.Button, e.Shift, e.X, e.Y);
         CityLevelList.Priority = 0;
         CityLevelList.WinLeft = 225;
         CityLevelList.WinTop = 14;
@@ -515,8 +519,8 @@ public sealed partial class RealmWindow : ILayoutModule
         CityLevelList.WinHeight = 92;
         CityLevelList.BorderWidth = 3;
         CityLevelList.BorderHeight = 3;
-        CityLevelList.Changed += (sender, _) => CityListChange((ListBox)sender);
-        CityLevelList.DoubleClicked += (sender, _) => CityDoubleClick((ListBox)sender);
+        cityLevelList.Changed += (_, _) => CityListChange(cityLevelList);
+        cityLevelList.DoubleClicked += (_, _) => CityDoubleClick(cityLevelList);
         CityLevelList.Selected = -1;
         CityLevelList.TextColor = 9415072;
         CityLevelList.TextSelectedColor = 0;
@@ -526,10 +530,11 @@ public sealed partial class RealmWindow : ILayoutModule
         CityLevelList.ItemHeight = 17;
         CityLevelList.TextAlign = TextAlignment.Left;
         session.EndRead(CityLevelList);
-        CityWallList = new ListBox(this);
+        ListBox cityWallList = new(this);
+        CityWallList = cityWallList;
         session.BeginRead(CityWallList);
         CityWallList.Name = "T2WallLB";
-        CityWallList.MousePressed += (sender, e) => CityListMouseDown((ListBox)sender, e.Button, e.Shift, e.X, e.Y);
+        cityWallList.MousePressed += (_, e) => CityListMouseDown(cityWallList, e.Button, e.Shift, e.X, e.Y);
         CityWallList.Priority = 0;
         CityWallList.WinLeft = 250;
         CityWallList.WinTop = 14;
@@ -551,8 +556,8 @@ public sealed partial class RealmWindow : ILayoutModule
         CityWallList.WinHeight = 92;
         CityWallList.BorderWidth = 3;
         CityWallList.BorderHeight = 3;
-        CityWallList.Changed += (sender, _) => CityListChange((ListBox)sender);
-        CityWallList.DoubleClicked += (sender, _) => CityDoubleClick((ListBox)sender);
+        cityWallList.Changed += (_, _) => CityListChange(cityWallList);
+        cityWallList.DoubleClicked += (_, _) => CityDoubleClick(cityWallList);
         CityWallList.Selected = -1;
         CityWallList.ItemDrawn += (_, e) =>
         {
@@ -567,10 +572,11 @@ public sealed partial class RealmWindow : ILayoutModule
         CityWallList.ItemHeight = 17;
         CityWallList.TextAlign = TextAlignment.Center;
         session.EndRead(CityWallList);
-        CitySizeList = new ListBox(this);
+        ListBox citySizeList = new(this);
+        CitySizeList = citySizeList;
         session.BeginRead(CitySizeList);
         CitySizeList.Name = "T2SizeLB";
-        CitySizeList.MousePressed += (sender, e) => CityListMouseDown((ListBox)sender, e.Button, e.Shift, e.X, e.Y);
+        citySizeList.MousePressed += (_, e) => CityListMouseDown(citySizeList, e.Button, e.Shift, e.X, e.Y);
         CitySizeList.Priority = 0;
         CitySizeList.WinLeft = 275;
         CitySizeList.WinTop = 14;
@@ -592,8 +598,8 @@ public sealed partial class RealmWindow : ILayoutModule
         CitySizeList.WinHeight = 92;
         CitySizeList.BorderWidth = 3;
         CitySizeList.BorderHeight = 3;
-        CitySizeList.Changed += (sender, _) => CityListChange((ListBox)sender);
-        CitySizeList.DoubleClicked += (sender, _) => CityDoubleClick((ListBox)sender);
+        citySizeList.Changed += (_, _) => CityListChange(citySizeList);
+        citySizeList.DoubleClicked += (_, _) => CityDoubleClick(citySizeList);
         CitySizeList.Selected = -1;
         CitySizeList.TextColor = 9415072;
         CitySizeList.TextSelectedColor = 0;
@@ -603,10 +609,11 @@ public sealed partial class RealmWindow : ILayoutModule
         CitySizeList.ItemHeight = 17;
         CitySizeList.TextAlign = TextAlignment.Left;
         session.EndRead(CitySizeList);
-        CityEnchantmentList = new ListBox(this);
+        ListBox cityEnchantmentList = new(this);
+        CityEnchantmentList = cityEnchantmentList;
         session.BeginRead(CityEnchantmentList);
         CityEnchantmentList.Name = "T2EncLB";
-        CityEnchantmentList.MousePressed += (sender, e) => CityListMouseDown((ListBox)sender, e.Button, e.Shift, e.X, e.Y);
+        cityEnchantmentList.MousePressed += (_, e) => CityListMouseDown(cityEnchantmentList, e.Button, e.Shift, e.X, e.Y);
         CityEnchantmentList.Priority = 400;
         CityEnchantmentList.WinLeft = 375;
         CityEnchantmentList.WinTop = 14;
@@ -628,8 +635,8 @@ public sealed partial class RealmWindow : ILayoutModule
         CityEnchantmentList.WinHeight = 92;
         CityEnchantmentList.BorderWidth = 4;
         CityEnchantmentList.BorderHeight = 3;
-        CityEnchantmentList.Changed += (sender, _) => CityListChange((ListBox)sender);
-        CityEnchantmentList.DoubleClicked += (sender, _) => CityDoubleClick((ListBox)sender);
+        cityEnchantmentList.Changed += (_, _) => CityListChange(cityEnchantmentList);
+        cityEnchantmentList.DoubleClicked += (_, _) => CityDoubleClick(cityEnchantmentList);
         CityEnchantmentList.Selected = -1;
         CityEnchantmentList.TextColor = 9415072;
         CityEnchantmentList.TextSelectedColor = 16777215;
@@ -884,10 +891,11 @@ public sealed partial class RealmWindow : ILayoutModule
         t2SEnc.WinWidth = 47;
         t2SEnc.Clicked += (_, _) => T2SEncClick(default);
         session.EndRead(t2SEnc);
-        CityActionList = new ListBox(this);
+        ListBox cityActionList = new(this);
+        CityActionList = cityActionList;
         session.BeginRead(CityActionList);
         CityActionList.Name = "T2ActLB";
-        CityActionList.MousePressed += (sender, e) => CityListMouseDown((ListBox)sender, e.Button, e.Shift, e.X, e.Y);
+        cityActionList.MousePressed += (_, e) => CityListMouseDown(cityActionList, e.Button, e.Shift, e.X, e.Y);
         CityActionList.Priority = 300;
         CityActionList.WinLeft = 350;
         CityActionList.WinTop = 14;
@@ -909,8 +917,8 @@ public sealed partial class RealmWindow : ILayoutModule
         CityActionList.WinHeight = 92;
         CityActionList.BorderWidth = 3;
         CityActionList.BorderHeight = 3;
-        CityActionList.Changed += (sender, _) => CityListChange((ListBox)sender);
-        CityActionList.DoubleClicked += (sender, _) => CityDoubleClick((ListBox)sender);
+        cityActionList.Changed += (_, _) => CityListChange(cityActionList);
+        cityActionList.DoubleClicked += (_, _) => CityDoubleClick(cityActionList);
         CityActionList.Selected = -1;
         CityActionList.ItemDrawn += (_, e) =>
         {
@@ -960,10 +968,11 @@ public sealed partial class RealmWindow : ILayoutModule
         t2SAct.WinWidth = 26;
         t2SAct.Clicked += (_, _) => T2SActClick(default);
         session.EndRead(t2SAct);
-        CityRelationList = new ListBox(this);
+        ListBox cityRelationList = new(this);
+        CityRelationList = cityRelationList;
         session.BeginRead(CityRelationList);
         CityRelationList.Name = "T2RelLB";
-        CityRelationList.MousePressed += (sender, e) => CityListMouseDown((ListBox)sender, e.Button, e.Shift, e.X, e.Y);
+        cityRelationList.MousePressed += (_, e) => CityListMouseDown(cityRelationList, e.Button, e.Shift, e.X, e.Y);
         CityRelationList.Priority = 100;
         CityRelationList.WinLeft = 300;
         CityRelationList.WinTop = 14;
@@ -985,8 +994,8 @@ public sealed partial class RealmWindow : ILayoutModule
         CityRelationList.WinHeight = 92;
         CityRelationList.BorderWidth = 3;
         CityRelationList.BorderHeight = 3;
-        CityRelationList.Changed += (sender, _) => CityListChange((ListBox)sender);
-        CityRelationList.DoubleClicked += (sender, _) => CityDoubleClick((ListBox)sender);
+        cityRelationList.Changed += (_, _) => CityListChange(cityRelationList);
+        cityRelationList.DoubleClicked += (_, _) => CityDoubleClick(cityRelationList);
         CityRelationList.Selected = -1;
         CityRelationList.ItemDrawn += (_, e) =>
         {
@@ -1036,10 +1045,11 @@ public sealed partial class RealmWindow : ILayoutModule
         t2SRel.WinWidth = 26;
         t2SRel.Clicked += (_, _) => T2SRelClick(default);
         session.EndRead(t2SRel);
-        CityMoraleList = new ListBox(this);
+        ListBox cityMoraleList = new(this);
+        CityMoraleList = cityMoraleList;
         session.BeginRead(CityMoraleList);
         CityMoraleList.Name = "T2MorLB";
-        CityMoraleList.MousePressed += (sender, e) => CityListMouseDown((ListBox)sender, e.Button, e.Shift, e.X, e.Y);
+        cityMoraleList.MousePressed += (_, e) => CityListMouseDown(cityMoraleList, e.Button, e.Shift, e.X, e.Y);
         CityMoraleList.Priority = 100;
         CityMoraleList.WinLeft = 325;
         CityMoraleList.WinTop = 14;
@@ -1061,8 +1071,8 @@ public sealed partial class RealmWindow : ILayoutModule
         CityMoraleList.WinHeight = 92;
         CityMoraleList.BorderWidth = 3;
         CityMoraleList.BorderHeight = 3;
-        CityMoraleList.Changed += (sender, _) => CityListChange((ListBox)sender);
-        CityMoraleList.DoubleClicked += (sender, _) => CityDoubleClick((ListBox)sender);
+        cityMoraleList.Changed += (_, _) => CityListChange(cityMoraleList);
+        cityMoraleList.DoubleClicked += (_, _) => CityDoubleClick(cityMoraleList);
         CityMoraleList.Selected = -1;
         CityMoraleList.ItemDrawn += (_, e) =>
         {
@@ -1149,10 +1159,11 @@ public sealed partial class RealmWindow : ILayoutModule
         CityScrollBar.ImageLibraryIndexBack = 101;
         CityScrollBar.ThumbImageIndex = 98;
         session.EndRead(CityScrollBar);
-        PlaceNameList = new ListBox<PlayerStructure>(this);
+        ListBox<PlayerStructure> placeNameList = new(this);
+        PlaceNameList = placeNameList;
         session.BeginRead(PlaceNameList);
         PlaceNameList.Name = "T3Name";
-        PlaceNameList.MousePressed += (sender, e) => PlacesListMouseDown((ListBox<PlayerStructure>)sender, e.Button, e.Shift, e.X, e.Y);
+        placeNameList.MousePressed += (_, e) => PlacesListMouseDown(placeNameList, e.Button, e.Shift, e.X, e.Y);
         PlaceNameList.Priority = 0;
         PlaceNameList.WinLeft = 1;
         PlaceNameList.WinTop = 14;
@@ -1174,8 +1185,8 @@ public sealed partial class RealmWindow : ILayoutModule
         PlaceNameList.WinHeight = 92;
         PlaceNameList.BorderWidth = 4;
         PlaceNameList.BorderHeight = 3;
-        PlaceNameList.Changed += (sender, _) => T3NameChange((ListBox<PlayerStructure>)sender);
-        PlaceNameList.DoubleClicked += (sender, _) => PlaceListDoubleClick((ListBox<PlayerStructure>)sender);
+        placeNameList.Changed += (_, _) => T3NameChange(placeNameList);
+        placeNameList.DoubleClicked += (_, _) => PlaceListDoubleClick(placeNameList);
         PlaceNameList.Selected = -1;
         PlaceNameList.TextColor = 9415072;
         PlaceNameList.TextSelectedColor = 0;
@@ -1220,10 +1231,11 @@ public sealed partial class RealmWindow : ILayoutModule
         t3SName.WinWidth = 209;
         t3SName.Clicked += (_, _) => T3SNameClick(default);
         session.EndRead(t3SName);
-        PlaceActionList = new ListBox(this);
+        ListBox placeActionList = new(this);
+        PlaceActionList = placeActionList;
         session.BeginRead(PlaceActionList);
         PlaceActionList.Name = "T3ActLB";
-        PlaceActionList.MousePressed += (sender, e) => PlacesListMouseDown((ListBox)sender, e.Button, e.Shift, e.X, e.Y);
+        placeActionList.MousePressed += (_, e) => PlacesListMouseDown(placeActionList, e.Button, e.Shift, e.X, e.Y);
         PlaceActionList.Priority = 0;
         PlaceActionList.WinLeft = 209;
         PlaceActionList.WinTop = 14;
@@ -1245,8 +1257,8 @@ public sealed partial class RealmWindow : ILayoutModule
         PlaceActionList.WinHeight = 92;
         PlaceActionList.BorderWidth = 3;
         PlaceActionList.BorderHeight = 3;
-        PlaceActionList.Changed += (sender, _) => T3NameChange((ListBox)sender);
-        PlaceActionList.DoubleClicked += (sender, _) => PlaceListDoubleClick((ListBox)sender);
+        placeActionList.Changed += (_, _) => T3NameChange(placeActionList);
+        placeActionList.DoubleClicked += (_, _) => PlaceListDoubleClick(placeActionList);
         PlaceActionList.Selected = -1;
         PlaceActionList.TextColor = 9415072;
         PlaceActionList.TextSelectedColor = 0;
@@ -1386,7 +1398,8 @@ public sealed partial class RealmWindow : ILayoutModule
         UnitGauge.ImageLibraryIndexTNormal = 4;
         UnitGauge.ImageLibraryIndexTSelected = 5;
         session.EndRead(UnitGauge);
-        Unit1List = new ListBox(this);
+        ListBox unit1List = new(this);
+        Unit1List = unit1List;
         session.BeginRead(Unit1List);
         Unit1List.Name = "Unit1LB";
         Unit1List.Priority = 0;
@@ -1410,8 +1423,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit1List.WinHeight = 104;
         Unit1List.BorderWidth = 0;
         Unit1List.BorderHeight = 3;
-        Unit1List.Changed += (sender, _) => Unit1LBChange((ListBox)sender, slot: 0);
-        Unit1List.DoubleClicked += (sender, _) => Unit1LBDoubleClick((ListBox)sender, slot: 0);
+        unit1List.Changed += (_, _) => Unit1LBChange(unit1List, slot: 0);
+        unit1List.DoubleClicked += (_, _) => Unit1LBDoubleClick(unit1List, slot: 0);
         Unit1List.Selected = -1;
         Unit1List.ItemDrawn += (_, e) =>
         {
@@ -1433,7 +1446,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit1List.ItemHeight = 60;
         Unit1List.TextAlign = TextAlignment.Left;
         session.EndRead(Unit1List);
-        Unit2List = new ListBox(this);
+        ListBox unit2List = new(this);
+        Unit2List = unit2List;
         session.BeginRead(Unit2List);
         Unit2List.Name = "Unit2LB";
         Unit2List.Tag = 1;
@@ -1458,8 +1472,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit2List.WinHeight = 104;
         Unit2List.BorderWidth = 0;
         Unit2List.BorderHeight = 3;
-        Unit2List.Changed += (sender, _) => Unit1LBChange((ListBox)sender, slot: 1);
-        Unit2List.DoubleClicked += (sender, _) => Unit1LBDoubleClick((ListBox)sender, slot: 1);
+        unit2List.Changed += (_, _) => Unit1LBChange(unit2List, slot: 1);
+        unit2List.DoubleClicked += (_, _) => Unit1LBDoubleClick(unit2List, slot: 1);
         Unit2List.Selected = -1;
         Unit2List.ItemDrawn += (_, e) =>
         {
@@ -1481,7 +1495,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit2List.ItemHeight = 60;
         Unit2List.TextAlign = TextAlignment.Left;
         session.EndRead(Unit2List);
-        Unit3List = new ListBox(this);
+        ListBox unit3List = new(this);
+        Unit3List = unit3List;
         session.BeginRead(Unit3List);
         Unit3List.Name = "Unit3LB";
         Unit3List.Tag = 2;
@@ -1506,8 +1521,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit3List.WinHeight = 104;
         Unit3List.BorderWidth = 0;
         Unit3List.BorderHeight = 3;
-        Unit3List.Changed += (sender, _) => Unit1LBChange((ListBox)sender, slot: 2);
-        Unit3List.DoubleClicked += (sender, _) => Unit1LBDoubleClick((ListBox)sender, slot: 2);
+        unit3List.Changed += (_, _) => Unit1LBChange(unit3List, slot: 2);
+        unit3List.DoubleClicked += (_, _) => Unit1LBDoubleClick(unit3List, slot: 2);
         Unit3List.Selected = -1;
         Unit3List.ItemDrawn += (_, e) =>
         {
@@ -1529,7 +1544,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit3List.ItemHeight = 60;
         Unit3List.TextAlign = TextAlignment.Left;
         session.EndRead(Unit3List);
-        Unit4List = new ListBox(this);
+        ListBox unit4List = new(this);
+        Unit4List = unit4List;
         session.BeginRead(Unit4List);
         Unit4List.Name = "Unit4LB";
         Unit4List.Tag = 3;
@@ -1554,8 +1570,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit4List.WinHeight = 104;
         Unit4List.BorderWidth = 0;
         Unit4List.BorderHeight = 3;
-        Unit4List.Changed += (sender, _) => Unit1LBChange((ListBox)sender, slot: 3);
-        Unit4List.DoubleClicked += (sender, _) => Unit1LBDoubleClick((ListBox)sender, slot: 3);
+        unit4List.Changed += (_, _) => Unit1LBChange(unit4List, slot: 3);
+        unit4List.DoubleClicked += (_, _) => Unit1LBDoubleClick(unit4List, slot: 3);
         Unit4List.Selected = -1;
         Unit4List.ItemDrawn += (_, e) =>
         {
@@ -1577,7 +1593,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit4List.ItemHeight = 60;
         Unit4List.TextAlign = TextAlignment.Left;
         session.EndRead(Unit4List);
-        Unit5List = new ListBox(this);
+        ListBox unit5List = new(this);
+        Unit5List = unit5List;
         session.BeginRead(Unit5List);
         Unit5List.Name = "Unit5LB";
         Unit5List.Tag = 4;
@@ -1602,8 +1619,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit5List.WinHeight = 104;
         Unit5List.BorderWidth = 0;
         Unit5List.BorderHeight = 3;
-        Unit5List.Changed += (sender, _) => Unit1LBChange((ListBox)sender, slot: 4);
-        Unit5List.DoubleClicked += (sender, _) => Unit1LBDoubleClick((ListBox)sender, slot: 4);
+        unit5List.Changed += (_, _) => Unit1LBChange(unit5List, slot: 4);
+        unit5List.DoubleClicked += (_, _) => Unit1LBDoubleClick(unit5List, slot: 4);
         Unit5List.Selected = -1;
         Unit5List.ItemDrawn += (_, e) =>
         {
@@ -1625,7 +1642,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit5List.ItemHeight = 60;
         Unit5List.TextAlign = TextAlignment.Left;
         session.EndRead(Unit5List);
-        Unit6List = new ListBox(this);
+        ListBox unit6List = new(this);
+        Unit6List = unit6List;
         session.BeginRead(Unit6List);
         Unit6List.Name = "Unit6LB";
         Unit6List.Tag = 5;
@@ -1650,8 +1668,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit6List.WinHeight = 104;
         Unit6List.BorderWidth = 0;
         Unit6List.BorderHeight = 3;
-        Unit6List.Changed += (sender, _) => Unit1LBChange((ListBox)sender, slot: 5);
-        Unit6List.DoubleClicked += (sender, _) => Unit1LBDoubleClick((ListBox)sender, slot: 5);
+        unit6List.Changed += (_, _) => Unit1LBChange(unit6List, slot: 5);
+        unit6List.DoubleClicked += (_, _) => Unit1LBDoubleClick(unit6List, slot: 5);
         Unit6List.Selected = -1;
         Unit6List.ItemDrawn += (_, e) =>
         {
@@ -1673,7 +1691,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit6List.ItemHeight = 60;
         Unit6List.TextAlign = TextAlignment.Left;
         session.EndRead(Unit6List);
-        Unit7List = new ListBox(this);
+        ListBox unit7List = new(this);
+        Unit7List = unit7List;
         session.BeginRead(Unit7List);
         Unit7List.Name = "Unit7LB";
         Unit7List.Tag = 6;
@@ -1698,8 +1717,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit7List.WinHeight = 104;
         Unit7List.BorderWidth = 0;
         Unit7List.BorderHeight = 3;
-        Unit7List.Changed += (sender, _) => Unit1LBChange((ListBox)sender, slot: 6);
-        Unit7List.DoubleClicked += (sender, _) => Unit1LBDoubleClick((ListBox)sender, slot: 6);
+        unit7List.Changed += (_, _) => Unit1LBChange(unit7List, slot: 6);
+        unit7List.DoubleClicked += (_, _) => Unit1LBDoubleClick(unit7List, slot: 6);
         Unit7List.Selected = -1;
         Unit7List.ItemDrawn += (_, e) =>
         {
@@ -1721,7 +1740,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit7List.ItemHeight = 60;
         Unit7List.TextAlign = TextAlignment.Left;
         session.EndRead(Unit7List);
-        Unit8List = new ListBox(this);
+        ListBox unit8List = new(this);
+        Unit8List = unit8List;
         session.BeginRead(Unit8List);
         Unit8List.Name = "Unit8LB";
         Unit8List.Tag = 7;
@@ -1746,8 +1766,8 @@ public sealed partial class RealmWindow : ILayoutModule
         Unit8List.WinHeight = 104;
         Unit8List.BorderWidth = 0;
         Unit8List.BorderHeight = 3;
-        Unit8List.Changed += (sender, _) => Unit1LBChange((ListBox)sender, slot: 7);
-        Unit8List.DoubleClicked += (sender, _) => Unit1LBDoubleClick((ListBox)sender, slot: 7);
+        unit8List.Changed += (_, _) => Unit1LBChange(unit8List, slot: 7);
+        unit8List.DoubleClicked += (_, _) => Unit1LBDoubleClick(unit8List, slot: 7);
         Unit8List.Selected = -1;
         Unit8List.ItemDrawn += (_, e) =>
         {
@@ -1862,10 +1882,11 @@ public sealed partial class RealmWindow : ILayoutModule
         t5MainPnl.MinWidth = 0;
         t5MainPnl.MinHeight = 0;
         session.EndRead(t5MainPnl);
-        HeroNameList = new ListBox<Army>(this);
+        ListBox<Army> heroNameList = new(this);
+        HeroNameList = heroNameList;
         session.BeginRead(HeroNameList);
         HeroNameList.Name = "T5Name";
-        HeroNameList.MousePressed += (sender, e) => HeroListMouseDown((ListBox<Army>)sender, e.Button, e.Shift, e.X, e.Y);
+        heroNameList.MousePressed += (_, e) => HeroListMouseDown(heroNameList, e.Button, e.Shift, e.X, e.Y);
         HeroNameList.Priority = 0;
         HeroNameList.WinLeft = 0;
         HeroNameList.WinTop = 14;
@@ -1887,8 +1908,8 @@ public sealed partial class RealmWindow : ILayoutModule
         HeroNameList.WinHeight = 91;
         HeroNameList.BorderWidth = 4;
         HeroNameList.BorderHeight = 3;
-        HeroNameList.Changed += (sender, _) => HeroListChange((ListBox<Army>)sender);
-        HeroNameList.DoubleClicked += (sender, _) => HeroListDoubleClick((ListBox<Army>)sender);
+        heroNameList.Changed += (_, _) => HeroListChange(heroNameList);
+        heroNameList.DoubleClicked += (_, _) => HeroListDoubleClick(heroNameList);
         HeroNameList.Selected = -1;
         HeroNameList.TextColor = 9415072;
         HeroNameList.TextSelectedColor = 0;
@@ -1898,10 +1919,11 @@ public sealed partial class RealmWindow : ILayoutModule
         HeroNameList.ItemHeight = 17;
         HeroNameList.TextAlign = TextAlignment.Left;
         session.EndRead(HeroNameList);
-        HeroHealthList = new ListBox<Hero>(this);
+        ListBox<Hero> heroHealthList = new(this);
+        HeroHealthList = heroHealthList;
         session.BeginRead(HeroHealthList);
         HeroHealthList.Name = "T5Health";
-        HeroHealthList.MousePressed += (sender, e) => HeroListMouseDown((ListBox<Hero>)sender, e.Button, e.Shift, e.X, e.Y);
+        heroHealthList.MousePressed += (_, e) => HeroListMouseDown(heroHealthList, e.Button, e.Shift, e.X, e.Y);
         HeroHealthList.Priority = 0;
         HeroHealthList.WinLeft = 229;
         HeroHealthList.WinTop = 14;
@@ -1923,8 +1945,8 @@ public sealed partial class RealmWindow : ILayoutModule
         HeroHealthList.WinHeight = 91;
         HeroHealthList.BorderWidth = 4;
         HeroHealthList.BorderHeight = 3;
-        HeroHealthList.Changed += (sender, _) => HeroListChange((ListBox<Hero>)sender);
-        HeroHealthList.DoubleClicked += (sender, _) => HeroListDoubleClick((ListBox<Hero>)sender);
+        heroHealthList.Changed += (_, _) => HeroListChange(heroHealthList);
+        heroHealthList.DoubleClicked += (_, _) => HeroListDoubleClick(heroHealthList);
         HeroHealthList.Selected = -1;
         HeroHealthList.TextColor = 9415072;
         HeroHealthList.TextSelectedColor = 0;
@@ -1934,10 +1956,11 @@ public sealed partial class RealmWindow : ILayoutModule
         HeroHealthList.ItemHeight = 17;
         HeroHealthList.TextAlign = TextAlignment.Center;
         session.EndRead(HeroHealthList);
-        HeroLevelList = new ListBox(this);
+        ListBox heroLevelList = new(this);
+        HeroLevelList = heroLevelList;
         session.BeginRead(HeroLevelList);
         HeroLevelList.Name = "T5Level";
-        HeroLevelList.MousePressed += (sender, e) => HeroListMouseDown((ListBox)sender, e.Button, e.Shift, e.X, e.Y);
+        heroLevelList.MousePressed += (_, e) => HeroListMouseDown(heroLevelList, e.Button, e.Shift, e.X, e.Y);
         HeroLevelList.Priority = 0;
         HeroLevelList.WinLeft = 300;
         HeroLevelList.WinTop = 14;
@@ -1959,8 +1982,8 @@ public sealed partial class RealmWindow : ILayoutModule
         HeroLevelList.WinHeight = 91;
         HeroLevelList.BorderWidth = 3;
         HeroLevelList.BorderHeight = 3;
-        HeroLevelList.Changed += (sender, _) => HeroListChange((ListBox)sender);
-        HeroLevelList.DoubleClicked += (sender, _) => HeroListDoubleClick((ListBox)sender);
+        heroLevelList.Changed += (_, _) => HeroListChange(heroLevelList);
+        heroLevelList.DoubleClicked += (_, _) => HeroListDoubleClick(heroLevelList);
         HeroLevelList.Selected = -1;
         HeroLevelList.TextColor = 9415072;
         HeroLevelList.TextSelectedColor = 0;
