@@ -26,7 +26,6 @@ public sealed partial class CombatMapEvents : ILayoutModule
         tcMap.MapChanged += CombatMapMapChanged;
         tcMap.BattleStarted += _ => CombatMapActivateMap();
         tcMap.BattleEnding += _ => CombatMapDeactivateMap();
-        tcMap.OnCastSpell += CombatMapCastSpell;
         tcMap.AbilityActivated += CombatMapActivateAbility;
         session.EndRead(tcMap);
         session.EndRead(this);

@@ -196,8 +196,7 @@ public class Spell : EngineObject
                 CombatCasterSpellId = SpellId,
                 CombatCasterSourceId = source.UnitId
             };
-            StrategicMap.Current.CombatMap.CombatStartedEventsStore.Raise(caster);
-            _ = caster.Release();
+            GetEngine().LocalInput.ChooseCombatSpellTarget(caster);
             return true;
         }
         else

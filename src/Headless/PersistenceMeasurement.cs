@@ -28,7 +28,7 @@ internal static class PersistenceMeasurement
         HeadlessHost host = new(root, output, settings: null, input: Path.GetFullPath(file));
         RtlHost.InstallHost(host);
         Startup.InitializeAll();
-        GameEngine engine = Startup.CreateEngine();
+        GameEngine engine = Startup.CreateEngine(PlayerInput.Unattended);
         NullSoundSystem.Install();
         CombatClasses.Register(engine);
         // The world map screen registers the campaign classes when it starts (WorldMap.RegisterWorldMapCampaign).

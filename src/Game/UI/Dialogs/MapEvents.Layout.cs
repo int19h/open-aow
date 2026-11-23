@@ -39,7 +39,6 @@ public sealed partial class MapEvents : ILayoutModule
         theMap.ScannerIconsChanged += TheMapScannerIconsChanged;
         theMap.LogbookChanged += TheMapLogbookChanged;
         theMap.TargetSelectionChanged += TheMapTargetSelectionChange;
-        theMap.OnCastSpell += TheMapCastSpell;
         theMap.AbilityActivated += TheMapActivateAbility;
         theMap.PlayerMagicChanged += TheMapPlayerMagicChanged;
         theMap.GlobalMagicChanged += _ => TheMapGlobalMagicChanged();

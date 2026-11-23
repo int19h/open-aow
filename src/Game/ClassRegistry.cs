@@ -1020,6 +1020,9 @@ internal static class ClassRegistry
         InfoWindow.AddButton<ProductionPlace>(StructureView.ProductionScreen, open: static (dialog, structure) => dialog.UI.ProductionScreen.ShowPlace(structure));
         MapEvents.AddScreen<City>(StructureView.CityScreen, open: static (events, structure) => events.UI.CityScreen.ShowCity(structure));
         MapEvents.AddScreen<ProductionPlace>(StructureView.ProductionScreen, open: static (events, structure) => events.UI.ProductionScreen.ShowPlace(structure));
+        MapEvents.AddSpellScreen<UnitSpellCaster>(SpellCasterView.UnitTargets, open: static (events, caster) => MapEvents.ShowUnitSpellCaster(events.UI.CastUnitSpellDialog, caster: caster));
+        MapEvents.AddSpellScreen<DisjunctionSpellCaster>(SpellCasterView.Disjunction, open: static (events, caster) => events.UI.DisjunctionDialog.Execute(caster));
+        MapEvents.AddSpellScreen<CosmagicSurgerySpellCaster>(SpellCasterView.CosmagicSurgery, open: static (events, caster) => events.UI.CosmagicSurgeryDialog.Execute(caster));
         _ = MapEvents.EventRenderers.Add(EventView.Acknowledge, static (events, log, mode, done) => done(log));
         MapEvents.AddRenderer<CombatEventLog>(EventView.Combat, render: static (events, log, mode, done) => FastBattleWindow.ShowCombatEvent(events.UI.FastBattleWindow, eventValue: log, done));
         MapEvents.AddRenderer<ArmyEventLog>(EventView.ArmyEvent, render: static (events, log, mode, done) => ArmyEventDialog.ShowArmyEvent(events.UI.ArmyEventDialog, eventValue: log, done));

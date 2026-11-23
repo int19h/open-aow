@@ -58,8 +58,7 @@ public class Disjunction : Spell
                 CasterSpellId = SpellId,
                 CasterSourceId = source.UnitId
             };
-            StrategicMap.Current.CosmagicSurgeryEventsStore.Raise(caster);
-            _ = caster.Release();
+            GetEngine().LocalInput.ChooseSpellTargets(caster);
             return true;
         }
         else
