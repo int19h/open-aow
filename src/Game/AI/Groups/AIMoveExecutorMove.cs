@@ -30,6 +30,7 @@ public sealed class AIMoveExecutorMove(CustomNode? owner) : AIMoveExecutorUnitLi
             }
             catch
             {
+                HostLog.CatchDialog(RtlHost.Logger, location: "AIMoveExecutorMove.Dispose", text: "Path already destroyed!?!");
                 ShowMessage("Path already destroyed!?!");
             }
         }

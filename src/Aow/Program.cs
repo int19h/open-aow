@@ -1,4 +1,8 @@
 using Aow.Platform;
+using Aow.Platform.Logging;
+using Aow.Rtl;
+using Aow.Rtl.Host;
+using Microsoft.Extensions.Logging;
 
 namespace Aow;
 
@@ -6,13 +10,16 @@ internal static class Program
 {
     public static int Main(string[] arguments)
     {
-        Rtl.Host.ProcessSafety.Initialize();
-        if (Rtl.Host.GateSwitches.CultureError("OpenAoW") is { } culture)
+        ProcessSafety.Initialize();
+        using ILoggerFactory loggerFactory = HostLogging.Create(LogDirectory(arguments), honorEnvironmentOverrides: !IsToolRun(arguments));
+        GlobalExceptionHandlers.Install(loggerFactory);
+        RtlHost.LoggerFactory = loggerFactory;
+        if (GateSwitches.CultureError("OpenAoW") is { } culture)
         {
             Console.Error.WriteLine(culture);
             return 1;
         }
-        Rtl.Host.GateSwitches.Enter("Game", arguments);
+        GateSwitches.Enter("Game", arguments);
         StreamWriter? fileLog = null;
         try
         {
@@ -87,8 +94,8 @@ internal static class Program
                 throw new ArgumentOutOfRangeException(nameof(frames));
             }
 
-            using SdlHost host = new(root, userDirectory: single ?? Value(arguments, name: "--user-data"), scale, fullscreen: arguments.Contains("--fullscreen") ? true : null, vsync: arguments.Contains("--no-vsync") ? false : null);
-            Rtl.RtlHost.InstallHost(host);
+            using SdlHost host = new(root, userDirectory: single ?? Value(arguments, name: "--user-data"), scale, fullscreen: arguments.Contains("--fullscreen") ? true : null, vsync: arguments.Contains("--no-vsync") ? false : null, loggerFactory: loggerFactory);
+            RtlHost.InstallHost(host);
             using MainForm form = MainForm.Create(host.Display, argument: arguments.FirstOrDefault(MainForm.IsSaveName) ?? "", mute: arguments.Contains("--mute"), audioOutput: true);
             form.Run(frames);
             Console.WriteLine($"Title scene: presented {form.Display.PresentedFrames} frames, mute={arguments.Contains("--mute")}");
@@ -96,7 +103,7 @@ internal static class Program
         }
         catch (Exception error)
         {
-            Console.Error.WriteLine(error.ToString());
+            HostLog.HostError(loggerFactory.CreateLogger("OpenAoW"), error: error, location: "Program.Main");
             return 1;
         }
         finally
@@ -110,5 +117,32 @@ internal static class Program
     {
         int index = Array.IndexOf(arguments, value: name);
         return index < 0 ? null : index + 1 < arguments.Length ? arguments[index + 1] : throw new ArgumentException($"Missing value for {name}");
+    }
+
+    private static bool IsToolRun(string[] arguments) => arguments.Contains("--fixture") || arguments.Contains("--smoke-test") || arguments.Any(argument => argument.StartsWith("--verify", comparisonType: StringComparison.Ordinal));
+
+    private static string LogDirectory(string[] arguments)
+    {
+        try
+        {
+            string? output = OptionalValue(arguments, name: "--out");
+            if (arguments.Contains("--fixture") || arguments.Contains("--smoke-test") || IsToolRun(arguments))
+            {
+                return output is null ? Path.Combine(AppContext.BaseDirectory, "logs") : Path.GetFullPath(output);
+            }
+
+            string? directory = OptionalValue(arguments, name: "--single-directory") ?? OptionalValue(arguments, name: "--user-data");
+            return directory is null ? SdlHost.DefaultUserDirectory() : Path.GetFullPath(directory);
+        }
+        catch
+        {
+            return SdlHost.DefaultUserDirectory();
+        }
+    }
+
+    private static string? OptionalValue(string[] arguments, string name)
+    {
+        int index = Array.IndexOf(arguments, value: name);
+        return index >= 0 && index + 1 < arguments.Length ? arguments[index + 1] : null;
     }
 }

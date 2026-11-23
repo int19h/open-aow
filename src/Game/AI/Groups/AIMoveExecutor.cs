@@ -8,6 +8,8 @@ using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl;
+
 using static Aow.Rtl.LegacyApplication;
 
 namespace Aow.Game.AI.Groups;
@@ -445,8 +447,9 @@ public sealed class AIMoveExecutor : EngineObject
                     }
                 }
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.DebugFallback(RtlHost.Logger, error: error, location: "AIMoveExecutor.Process");
                 Status = AIMoveExecutorStatus.Invalidated;
             }
         }
@@ -465,6 +468,7 @@ public sealed class AIMoveExecutor : EngineObject
             }
             catch
             {
+                HostLog.CatchDialog(RtlHost.Logger, location: "AIMoveExecutor.Process.OnDone", text: "MoveExecute.OnDone failed");
                 ShowMessage("MoveExecute.OnDone failed");
             }
         }

@@ -92,7 +92,7 @@ public sealed class SdlSoundSystem : SoundSystem
             }
             catch (Exception ex) when (ex is InvalidOperationException or DllNotFoundException or EntryPointNotFoundException)
             {
-                Console.Error.WriteLine($"Audio output is silent: {ex.Message}");
+                HostLog.FallbackWithText(RtlHost.Logger, error: ex, text: "Audio output is silent", location: "SdlSoundSystem.SetSoundSettings");
             }
         }
         return true;
@@ -221,7 +221,7 @@ public sealed class SdlSoundSystem : SoundSystem
             }
             catch (IOException ex)
             {
-                Console.Error.WriteLine($"Music is silent: {ex.Message}");
+                HostLog.FallbackWithText(RtlHost.Logger, error: ex, text: "Music is silent", location: "SdlSoundSystem.PlaySong");
                 return false;
             }
         }
@@ -239,7 +239,7 @@ public sealed class SdlSoundSystem : SoundSystem
 
         if (_output?.CallbackFailed == true)
         {
-            Console.Error.WriteLine("Audio callback failed. Output stopped.");
+            HostLog.Error(RtlHost.Logger, text: "Audio callback failed. Output stopped.");
             _output.Dispose();
             _output = null;
         }

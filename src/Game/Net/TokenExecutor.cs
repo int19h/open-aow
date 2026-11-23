@@ -68,6 +68,7 @@ public sealed class TokenExecutor : IDisposable
         }
         catch
         {
+            HostLog.CatchDialog(RtlHost.Logger, location: "TokenExecutor.ExecuteTokenEvent", text: $"Exception occured during {tokenEvent.GetType().Name}");
             ShowMessage($"Exception occured during {tokenEvent.GetType().Name}");
             result = ExecuteResult.Done;
         }

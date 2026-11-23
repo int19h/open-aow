@@ -100,8 +100,9 @@ public sealed class PlayerCommunicator(CustomNode? owner) : EngineObject(owner)
                     objectValue?.Dispose();
                 }
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
 
             ReceivedPackage = null;

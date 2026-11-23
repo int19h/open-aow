@@ -102,8 +102,9 @@ public sealed class PlayerMagicControl : EngineObject
                 {
                     throw new InvalidOperationException("oohps");
                 }
-                catch
+                catch (Exception error)
                 {
+                    HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
                 }
             }
 
@@ -112,8 +113,9 @@ public sealed class PlayerMagicControl : EngineObject
             _externalPowerSource?.Dispose();
             base.Dispose();
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
         }
     }
 

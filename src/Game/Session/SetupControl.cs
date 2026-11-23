@@ -188,9 +188,10 @@ public sealed class SetupControl : Component
 
             objectValue?.Dispose();
         }
-        catch
+        catch (Exception error)
         {
             // { Original swallows the exception and frees the stream again below. }
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             stream?.Dispose();
         }
 
@@ -860,8 +861,9 @@ public sealed class SetupControl : Component
             {
                 MapSetUp(this, e: EventArgs.Empty);
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
         }
 
@@ -872,8 +874,9 @@ public sealed class SetupControl : Component
             {
                 Start(this);
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
         }
     }

@@ -27,7 +27,10 @@ public sealed partial class StrategicMap
                 _tokenLog.Flush();
             }
         }
-        catch (IOException) { }
+        catch (IOException error)
+        {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
+        }
     }
 
     public void StartTokenEventLogging()
@@ -43,15 +46,24 @@ public sealed partial class StrategicMap
             {
                 _tokenLog = RtlHost.Files.Open($"{GetEngine().StartupDirectory}Debug\\SYNC_LOG{PixelFormats.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture)}.TXT", mode: FileOpenMode.Create);
             }
-            catch (IOException) { }
-            catch (UnauthorizedAccessException) { }
+            catch (IOException error)
+            {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
+            }
+            catch (UnauthorizedAccessException error)
+            {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
+            }
             WriteTokenLog($"Map Session: {MapName}");
             int player = Current.Players.LocalHumanPlayers[0];
             WriteTokenLog($"Local Player: {player.ToString(CultureInfo.InvariantCulture)}");
             WriteTokenLog($"Local Race: {AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[Current.Players.GetPlayers((sbyte)player).PlayerRace])}");
             TokenEventLogging = true;
         }
-        catch { }
+        catch (Exception error)
+        {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
+        }
     }
 
     public void StopTokenEventLogging()
@@ -65,7 +77,10 @@ public sealed partial class StrategicMap
         {
             _tokenLog?.Dispose();
         }
-        catch (IOException) { }
+        catch (IOException error)
+        {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
+        }
         _tokenLog = null;
         TokenEventLogging = false;
     }

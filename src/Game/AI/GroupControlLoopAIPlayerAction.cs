@@ -6,6 +6,7 @@ using Aow.Game.AI.Groups;
 using Aow.Game.Session;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.AI;
 
@@ -83,8 +84,9 @@ public class GroupControlLoopAIPlayerAction(CustomNode owner) : AIPlayerAction(o
 
             return !done;
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.DebugFallback(RtlHost.Logger, error: error, location: "GroupControlLoopAIPlayerAction.Process");
             return false;
         }
     }

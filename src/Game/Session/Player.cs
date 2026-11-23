@@ -217,6 +217,9 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     public sbyte PlayerRace { get; set; }
     public sbyte PlayerIndex { get; set; }
     public PlayerType PlayerType { get; set; }
+
+    public override string ToString() => Describe(() => string.Create(CultureInfo.InvariantCulture, handler: $"Player {(string.IsNullOrEmpty(Name) ? "<no name>" : Name)} idx={PlayerIndex} {PlayerType}"));
+
     public PlayerBehavior Behavior { get; set; }
     public bool Participating { get; private set; }
     public int InitialGold { get; set; }
@@ -272,8 +275,9 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                     }
                 }
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
 
             _messages?.Dispose();
@@ -289,8 +293,9 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                 EventLogbook?.Dispose();
                 _logbookChangedEventsStore.Clear();
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
 
             try
@@ -298,48 +303,54 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                 LegacyNewRelations?.Dispose();
                 DiplomaticRelations?.Dispose();
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
 
             try
             {
                 ProductionControls?.Dispose();
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
 
             try
             {
                 AIControl?.Dispose();
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
 
             try
             {
                 Statistics?.Dispose();
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
 
             try
             {
                 MagicControl?.Dispose();
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
 
             try
             {
                 LeaderSetup?.Dispose();
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
 
             try
@@ -347,16 +358,18 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                 FirstDaySeen?.Dispose();
                 _lastDaySeen?.Dispose();
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
 
             try
             {
                 Heroes?.Dispose();
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
 
             try
@@ -369,16 +382,18 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                 _incomeSources?.Dispose();
                 KnownStructures?.Dispose();
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
 
             try
             {
                 base.Dispose();
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
 
             PbemSettings?.Dispose();
@@ -387,8 +402,9 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
             _gemsChangedEventsStore.Clear();
             _upkeepChangedEventsStore.Clear();
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
         }
     }
 
@@ -569,8 +585,9 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                     SetupAIValidAttackPlayers();
                 }
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
         }
 

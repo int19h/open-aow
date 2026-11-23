@@ -14,8 +14,10 @@ using Aow.Game.Host;
 using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
+using Aow.Platform.Logging;
 using Aow.Rtl;
 using Aow.Rtl.Host;
+using Microsoft.Extensions.Logging;
 
 namespace Aow.Headless;
 
@@ -24,6 +26,10 @@ internal static class Program
     private static int Main(string[] arguments)
     {
         ProcessSafety.Initialize();
+        using ILoggerFactory loggerFactory = HostLogging.Create(LogDirectory(arguments), honorEnvironmentOverrides: false);
+        GlobalExceptionHandlers.Install(loggerFactory);
+        RtlHost.LoggerFactory = loggerFactory;
+        ILogger logger = loggerFactory.CreateLogger("OpenAoW.Headless");
         if (GateSwitches.CultureError("Headless") is { } culture)
         {
             Console.Error.WriteLine(culture);
@@ -34,7 +40,7 @@ internal static class Program
         if (arguments.Length >= 3 && arguments[0] == "--measure-persistence")
         {
             string? Option(string name) => Array.IndexOf(arguments, value: name) is int at and >= 0 && at + 1 < arguments.Length ? arguments[at + 1] : null;
-            return PersistenceMeasurement.Run(Option("--game-root") ?? Environment.GetEnvironmentVariable("AOW_GAME_ROOT") ?? @"D:\Games\GOG\Age of Wonders", kind: arguments[1], file: arguments[2], map: Option("--map"), output: Option("--out") ?? throw new ArgumentException("--measure-persistence needs --out"));
+            return PersistenceMeasurement.Run(Option("--game-root") ?? Environment.GetEnvironmentVariable("AOW_GAME_ROOT") ?? @"D:\Games\GOG\Age of Wonders", kind: arguments[1], file: arguments[2], map: Option("--map"), output: Option("--out") ?? throw new ArgumentException("--measure-persistence needs --out"), loggerFactory: loggerFactory);
         }
         string? output = null;
         List<object> saves = [];
@@ -52,7 +58,6 @@ internal static class Program
         int viewportWidth = 1600, viewportHeight = 937, animationFps = 30;
         string? error = null, input = null;
         string movementSpeed = "normal";
-        StreamWriter? trace = null;
         StreamWriter? fileLog = null;
         RandomTrace? randomTrace = null;
         try
@@ -113,7 +118,6 @@ internal static class Program
             }
 
             writeManifest = true;
-            trace = new StreamWriter(Path.Combine(output, "exceptions.log")) { NewLine = "\n" };
             AppDomain.CurrentDomain.FirstChanceException += (sender, e) =>
             {
                 string detail = (e.Exception.ToString() + (gameplay ? $"\n{new StackTrace(1, fNeedFileInfo: true)}" : "")).Replace("\r\n", "\n");
@@ -129,11 +133,10 @@ internal static class Program
 
                 if (exceptions.Add(detail))
                 {
-                    trace.WriteLine(detail);
-                    trace.Flush();
+                    HostLog.FirstChanceException(logger, detail: detail);
                 }
             };
-            HeadlessHost host = new(root, output, settings, movementSpeed, input);
+            HeadlessHost host = new(root, output, settings, movementSpeed, input, loggerFactory: loggerFactory);
             RtlHost.InstallHost(host);
             if (fileLogPath is not null)
             {
@@ -227,13 +230,12 @@ internal static class Program
                 }
 
                 saves.Add(new { day, file = name, sha256 = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(file))) });
-                Console.WriteLine($"day {day}: {name}, frame {frames}, viewport {map.ViewWidth}x{map.ViewHeight}");
-                Console.Out.Flush();
+                HostLog.Information(logger, text: $"day {day}: {name}, frame {frames}, viewport {map.ViewWidth}x{map.ViewHeight}");
             }
             HeadlessHooks.AfterNewDay = Save;
-            Console.WriteLine("activating map");
+            HostLog.Information(logger, text: "activating map");
             map.Activate();
-            Console.WriteLine("map activated");
+            HostLog.Information(logger, text: "map activated");
             CheckTodos();
             if (saves.Count == 0)
             {
@@ -257,11 +259,11 @@ internal static class Program
                 if (frames <= 3 || frames % 1000000 == 0)
                 {
                     Player player = map.Players.GetPlayers(map.CurrentPlayer);
-                    Console.WriteLine($"frame {frames}, map {(ulong)map.Status:X}, player {map.CurrentPlayer}, busy {player.GetBusy()}, ready {map.TokenManager.PlayerReady(map.CurrentPlayer)}, AI locks {map.AILockCount}/{map.AIExecutor.LockCount}, AI {(ulong)map.AIExecutor.Status:X}, phase {player.AIControl.Phase}, actions {player.AIControl.Actions.Count}");
+                    HostLog.Information(logger, text: $"frame {frames}, map {(ulong)map.Status:X}, player {map.CurrentPlayer}, busy {player.GetBusy()}, ready {map.TokenManager.PlayerReady(map.CurrentPlayer)}, AI locks {map.AILockCount}/{map.AIExecutor.LockCount}, AI {(ulong)map.AIExecutor.Status:X}, phase {player.AIControl.Phase}, actions {player.AIControl.Actions.Count}");
                 }
                 if (randomTrace is not null && frames % 100000 == 0 && map.CombatMap is CombatMap tacticalMap)
                 {
-                    Console.WriteLine($"combat frame {tacticalMap.Frame}, status {(ulong)tacticalMap.Status:X}, player {tacticalMap.CurrentCombatPlayer}, end pending {tacticalMap.EndTurnPending}, AI {tacticalMap.AI.Status}, effects {tacticalMap.Effects.Count}, result {tacticalMap.Combat.CombatResult}");
+                    HostLog.Information(logger, text: $"combat frame {tacticalMap.Frame}, status {(ulong)tacticalMap.Status:X}, player {tacticalMap.CurrentCombatPlayer}, end pending {tacticalMap.EndTurnPending}, AI {tacticalMap.AI.Status}, effects {tacticalMap.Effects.Count}, result {tacticalMap.Combat.CombatResult}");
                 }
 
                 map.NewFrame();
@@ -277,12 +279,12 @@ internal static class Program
                 }
             }
             complete = ended || saves.Count >= turns + 1;
-            Console.WriteLine($"complete: {complete}, day {day}, turns {day - firstDay}, frames {frames}, TODOs reached {todos.Count}, dialogs {host.DialogCount}, game ended {ended}");
+            HostLog.Information(logger, text: $"complete: {complete}, day {day}, turns {day - firstDay}, frames {frames}, TODOs reached {todos.Count}, dialogs {host.DialogCount}, game ended {ended}");
         }
         catch (Exception e)
         {
             error = e.ToString();
-            Console.Error.WriteLine(error);
+            HostLog.HostError(logger, error: e, location: "Headless.Program.Main");
         }
         finally
         {
@@ -318,7 +320,6 @@ internal static class Program
                 }, options: new JsonSerializerOptions { WriteIndented = true }) + "\n");
             }
 
-            trace?.Flush();
             FileBoundary.Log = null;
             fileLog?.Dispose();
             DelphiRandom.RandomTrace = null;
@@ -331,5 +332,20 @@ internal static class Program
             randomTrace?.Dispose();
         }
         return complete && error is null ? 0 : 1;
+    }
+
+    private static string LogDirectory(string[] arguments)
+    {
+        try
+        {
+            int output = Array.IndexOf(arguments, value: "--out");
+            return output >= 0 && output + 1 < arguments.Length
+                ? Path.GetFullPath(arguments[output + 1])
+                : Path.Combine(Environment.CurrentDirectory, "logs");
+        }
+        catch
+        {
+            return Path.Combine(Environment.CurrentDirectory, "logs");
+        }
     }
 }

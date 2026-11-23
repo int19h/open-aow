@@ -108,8 +108,9 @@ public partial class Menu : GenericWindow
                     i += 1;
                 }
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(Logger, error: error);
             }
         }
 
@@ -130,8 +131,9 @@ public partial class Menu : GenericWindow
                     i += 1;
                 }
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(Logger, error: error);
             }
         }
 

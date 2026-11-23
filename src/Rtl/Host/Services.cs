@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+
 namespace Aow.Rtl.Host;
 
 public interface IRtlHost
@@ -8,6 +11,8 @@ public interface IRtlHost
     ISettingsStore Settings { get; }
     string ExecutableName { get; }
     string GameRoot { get; }
+
+    ILoggerFactory LoggerFactory => NullLoggerFactory.Instance;
 
     /// <summary>
     /// Whether the game names the documents it writes with the own extensions (own-formats.md

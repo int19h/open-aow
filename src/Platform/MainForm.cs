@@ -235,7 +235,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         }
         catch (Exception error)
         {
-            Console.Error.WriteLine(error);
+            HostLog.CatchDialog(RtlHost.Logger, location: "MainForm.DisplayUpdateFrame.NewFrame", text: "Exception during AoWHSMap.NewFrame", error: error);
             LegacyApplication.ShowMessage("Exception during AoWHSMap.NewFrame");
         }
         if (displayController?.GetSurface(1) is Surface back)
@@ -257,7 +257,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             }
             catch (Exception error)
             {
-                Console.Error.WriteLine(error);
+                HostLog.CatchDialog(RtlHost.Logger, location: "MainForm.DisplayUpdateFrame.DrawSurface", text: "Exception during WinManager DrawSurface", error: error);
                 LegacyApplication.ShowMessage("Exception during WinManager DrawSurface");
             }
             LockedSurface descriptor = default;

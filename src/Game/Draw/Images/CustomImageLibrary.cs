@@ -97,7 +97,9 @@ public partial class CustomImageLibrary : Component
                 }
                 catch
                 {
-                    ShowMessage($"Error loading: {GetFullFileName()}");
+                    string text = $"Error loading: {GetFullFileName()}";
+                    HostLog.CatchDialogAtCallSite(RtlHost.Logger, text: text);
+                    ShowMessage(text);
                     _fileName = "";
                 }
             }

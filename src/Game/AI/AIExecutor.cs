@@ -239,6 +239,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
             }
             catch
             {
+                HostLog.CatchDialog(RtlHost.Logger, location: "AIExecutor.Process", text: "AI ERROR");
                 ShowMessage("AI ERROR");
             }
 

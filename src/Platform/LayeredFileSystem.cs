@@ -291,6 +291,7 @@ public sealed class LayeredFileSystem : IFileSystem
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: e);
             return false;
         }
         finally

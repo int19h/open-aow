@@ -1,5 +1,6 @@
 #nullable disable warnings
 // Translated from HSEngine.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Draw;
@@ -18,6 +19,13 @@ public partial class MapObject(CustomNode? owner) : HexSprite(owner)
     public new const int ClassId = 65_878;
 
     private MapObjectResource? _resource;
+
+    public override string ToString() => Describe(() =>
+    {
+        int resourceId = ResourceLinked && _resource is not null ? _resource.ResourceId : _unlinkedResourceId;
+        string location = Owner is null ? "no-owner" : string.Create(CultureInfo.InvariantCulture, handler: $"({Owner.HexX},{Owner.HexY} L{Owner.HexLevel})");
+        return string.Create(CultureInfo.InvariantCulture, handler: $"{GetType().Name} res={resourceId} status={Status} {location}");
+    });
 
     // MAPOBJ.PAS:88
     public bool ResourceLinked

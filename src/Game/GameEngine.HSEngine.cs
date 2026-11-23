@@ -106,8 +106,9 @@ public partial class GameEngine : OwningNode
 
             Status &= ~HexSpriteEngineStatuses.LoadingHsm;
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(Logger, error: error);
         }
     }
 
@@ -154,8 +155,9 @@ public partial class GameEngine : OwningNode
 
             Status &= ~HexSpriteEngineStatuses.LoadingHsm;
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(Logger, error: error);
         }
 
         return result;
@@ -319,8 +321,9 @@ public partial class GameEngine : OwningNode
 
             Status &= ~HexSpriteEngineStatuses.LoadingHsm;
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(Logger, error: error);
         }
     }
 
@@ -361,8 +364,9 @@ public partial class GameEngine : OwningNode
 
             Status &= ~HexSpriteEngineStatuses.LoadingHsm;
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(Logger, error: error);
         }
 
         return result;
@@ -423,8 +427,9 @@ public partial class GameEngine : OwningNode
                 cStream?.Dispose();
             }
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(Logger, error: error);
         }
     }
 

@@ -421,8 +421,9 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                             ? LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle, destination: destinationSurfaceDescription, WinLeft, WinTop, colorKey: MaskColor)
                             : LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, sourceRectangle, destination: destinationSurfaceDescription, WinLeft, WinTop);
                     }
-                    catch
+                    catch (Exception error)
                     {
+                        HostLog.DebugFallback(Logger, error: error, location: "BaseWindow.DrawTo");
                     }
 
                     _ = BackSurface.Unlock();

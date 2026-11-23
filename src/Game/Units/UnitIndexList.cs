@@ -3,6 +3,7 @@
 using System.Globalization;
 using Aow.Engine.Collections;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.LegacyApplication;
 
@@ -57,8 +58,9 @@ public sealed class UnitIndexList : Int32List
             {
                 Sort(CompareUnitIndexes);
             }
-            catch
+            catch (Exception error)
             {
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
         }
     }

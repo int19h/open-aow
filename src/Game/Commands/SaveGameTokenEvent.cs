@@ -6,6 +6,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiPaths;
 
 namespace Aow.Game.Commands;
@@ -58,9 +59,10 @@ public class SaveGameTokenEvent(CustomNode? owner) : TokenEvent(owner)
 
                     StrategicMap.Current.EnableTurnTimer();
                 }
-                catch
+                catch (Exception error)
                 {
                     // { Original leaves the turn timer disabled after a save failure. }
+                    HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
                     string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_errorSavingFormat), arguments: [FileName]);
                     StrategicMap.Current.ShowMessage(formattedText);
                 }

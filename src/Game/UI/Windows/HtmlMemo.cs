@@ -346,8 +346,9 @@ public sealed partial class HtmlMemo : BaseWindow
                                 {
                                     ci.Height = StrToInt(Copy(item, index: tagStart + 1, count: j - tagStart));
                                 }
-                                catch
+                                catch (Exception error)
                                 {
+                                    HostLog.FallbackAtCallSite(Logger, error: error);
                                 }
 
                                 NewChange();
@@ -408,8 +409,9 @@ public sealed partial class HtmlMemo : BaseWindow
                                     ci.Spacing = StrToInt(Copy(item, index: tagStart + 1, count: j - tagStart));
                                     Font?.CharacterDistance = ci.Spacing;
                                 }
-                                catch
+                                catch (Exception error)
                                 {
+                                    HostLog.FallbackAtCallSite(Logger, error: error);
                                 }
 
                                 NewChange();
@@ -479,8 +481,9 @@ public sealed partial class HtmlMemo : BaseWindow
                                 {
                                     ImageLibraryIndexTexture = StrToInt(Copy(item, index: tagStart + 1, count: j - tagStart));
                                 }
-                                catch
+                                catch (Exception error)
                                 {
+                                    HostLog.FallbackAtCallSite(Logger, error: error);
                                 }
 
                                 if (c == 62)

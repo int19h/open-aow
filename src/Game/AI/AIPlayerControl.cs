@@ -47,8 +47,9 @@ public sealed partial class AIPlayerControl : EngineObject
             Actions?.Dispose();
             Actions = null;
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
         }
 
         try
@@ -56,8 +57,9 @@ public sealed partial class AIPlayerControl : EngineObject
             MoveExecutor?.Dispose();
             MoveExecutor = null;
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
         }
 
         base.Dispose();

@@ -49,7 +49,9 @@ public partial class MapField
                 throw new InvalidOperationException("HS already defined");
             }
         }
-        catch { }
+        catch
+        {
+        }
         if (Capacity == StoredCount)
         {
             Resize((Capacity + 1).TruncateToByte());
@@ -112,7 +114,9 @@ public partial class MapField
                 {
                     throw new ArgumentException($"Invalid StaticCount ({sprite.GetType().Name})");
                 }
-                catch { }
+                catch
+                {
+                }
             }
         }
         return StoredCount;

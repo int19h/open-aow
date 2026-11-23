@@ -18,6 +18,12 @@ public sealed class CombatMapControl : Component
 {
     private readonly GameEngine? _engine;
 
+    private static void ShowMessageLogged(string text)
+    {
+        HostLog.CatchDialogAtCallSite(RtlHost.Logger, text: text);
+        LegacyApplication.ShowMessage(text);
+    }
+
     [Published]
     public event SelectHSEvent? Selected;
     [Published]
@@ -169,7 +175,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnSelect event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during OnSelect event (TAoWCombatMapControl)");
         }
     }
 
@@ -182,7 +188,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnDeselect event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during OnDeselect event (TAoWCombatMapControl)");
         }
     }
 
@@ -195,7 +201,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnMouseOverTarget event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during OnMouseOverTarget event (TAoWCombatMapControl)");
         }
     }
 
@@ -212,7 +218,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during UnitChanged event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during UnitChanged event (TAoWCombatMapControl)");
         }
     }
 
@@ -225,7 +231,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
         }
     }
 
@@ -238,7 +244,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
         }
     }
 
@@ -251,7 +257,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during Gems Changed event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during Gems Changed event (TAoWCombatMapControl)");
         }
     }
 
@@ -264,7 +270,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during Income Changed event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during Income Changed event (TAoWCombatMapControl)");
         }
     }
 
@@ -277,7 +283,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during Upkeep Changed event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during Upkeep Changed event (TAoWCombatMapControl)");
         }
     }
 
@@ -291,7 +297,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during ChangeTurn event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during ChangeTurn event (TAoWCombatMapControl)");
         }
     }
 
@@ -304,7 +310,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during LogbookChanged event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during LogbookChanged event (TAoWCombatMapControl)");
         }
     }
 
@@ -317,7 +323,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnActivateMap event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during OnActivateMap event (TAoWCombatMapControl)");
         }
     }
 
@@ -330,7 +336,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnDeactivateMap event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during OnDeactivateMap event (TAoWCombatMapControl)");
         }
     }
 
@@ -343,7 +349,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnActivateAbility event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during OnActivateAbility event (TAoWCombatMapControl)");
         }
     }
 
@@ -362,7 +368,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during OnExecuteEventLog event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during OnExecuteEventLog event (TAoWCombatMapControl)");
         }
     }
 
@@ -378,7 +384,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during MapChanged event (TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during MapChanged event (TAoWCombatMapControl)");
         }
     }
 
@@ -390,7 +396,7 @@ public sealed class CombatMapControl : Component
         }
         catch
         {
-            LegacyApplication.ShowMessage("Exception occurred during ShowMessage event(TAoWCombatMapControl)");
+            ShowMessageLogged("Exception occurred during ShowMessage event(TAoWCombatMapControl)");
         }
     }
 

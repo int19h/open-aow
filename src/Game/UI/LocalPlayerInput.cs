@@ -12,6 +12,12 @@ public sealed class LocalPlayerInput(Func<UIContext?> ui) : IPlayerInput
 {
     private UIContext UI => ui() ?? throw new InvalidOperationException("No UI context is loaded for a spell choice.");
 
+    private static void ShowMessageLogged(string text)
+    {
+        HostLog.CatchDialogAtCallSite(RtlHost.Logger, text: text);
+        LegacyApplication.ShowMessage(text);
+    }
+
     // The call hands the caster to this input. A dialog that keeps the caster takes its own
     // reference, and this input releases the handed reference when the dialog opens.
     public void ChooseSpellTargets(SpellCaster caster)
@@ -25,7 +31,7 @@ public sealed class LocalPlayerInput(Func<UIContext?> ui) : IPlayerInput
             }
             catch
             {
-                LegacyApplication.ShowMessage("Exception occurred during OnCastSpell event (TAoWMapControl)");
+                ShowMessageLogged("Exception occurred during OnCastSpell event (TAoWMapControl)");
             }
         }
         finally
@@ -45,7 +51,7 @@ public sealed class LocalPlayerInput(Func<UIContext?> ui) : IPlayerInput
             }
             catch
             {
-                LegacyApplication.ShowMessage("Exception occurred during OnCastSpell event (TAoWCombatMapControl)");
+                ShowMessageLogged("Exception occurred during OnCastSpell event (TAoWCombatMapControl)");
             }
         }
         finally

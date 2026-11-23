@@ -47,6 +47,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
 
     public ArmyStatuses Status { get; set; }
 
+    public override string ToString() => Describe(() => string.Create(CultureInfo.InvariantCulture, handler: $"Army P{Player} status={Status}"));
+
     public ArmyModes Mode { get; set; }
     public sbyte Player { get; set; }
     public MapCoordinate Location { get; set; } = new MapCoordinate(-1, -1, -1);
@@ -2086,9 +2088,10 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                     return null;
                 }
             }
-            catch
+            catch (Exception error)
             {
                 // { Original suppresses placement failures without releasing a partly built army. }
+                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
                 return null;
             }
 

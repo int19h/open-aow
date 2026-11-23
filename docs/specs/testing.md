@@ -162,7 +162,12 @@ The port is driven by calls, not by a debugger. `tools/oracle/run.py` does, for 
 3. Run the port headless: `dotnet run --project src/Headless -- --load <save> --seed 123456789
    --turns 20 --out <dir>`. The headless host implements `IRtlHost` with a null display, a null
    sound system, a scripted dialog service that answers every dialog with its default button and
-   logs it, and a fixed clock. It drives the game the way the original's frame loop does, with the
+   logs it, and a fixed clock. Diagnostic output goes to the console and `openaow.log` in the run
+   directory. Console lines use `<UTC timestamp> <level>: <category>[<event id>] <message>`.
+   Exception details follow on the next lines. Console and file timestamps are both UTC. Debug
+   entries stay in the file unless another logger raises the console floor. The first-chance
+   handler retains its TODO, runtime-error and exception collections and forwards each new detail
+   to the file at Debug. It drives the game the way the original's frame loop does, with the
    display left out. The original's path, verified by the recovery in the source on 2026-10-25:
    - `AoW.exe` reads only `ParamStr(1)`. A `.asg` or `.acg` path shows the title scene and is
      loaded on the first frame (`AoWUnit.pas:403-417`) from `TMainForm.DisplayUpdateFrame` through

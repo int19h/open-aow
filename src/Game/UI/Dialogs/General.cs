@@ -264,8 +264,9 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
                                 insertAt = j;
                             }
                         }
-                        catch
+                        catch (Exception error)
                         {
+                            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
                         }
 
                         break;
@@ -279,8 +280,9 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
                                 insertAt = j;
                             }
                         }
-                        catch
+                        catch (Exception error)
                         {
+                            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
                         }
 
                         break;

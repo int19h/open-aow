@@ -259,8 +259,9 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                 UI.MultiWindow.Execute("");
             }
         }
-        catch
+        catch (Exception error)
         {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
         }
     }
 
