@@ -819,7 +819,7 @@ public sealed class PlayerMagicControl : EngineObject
 
     public int AIOverrideUpkeep(int priority, int amount)
     {
-        RecordList<UpkeepCandidate> list = new();
+        RecordList<UpkeepCandidate> list = [];
         for (int i = 0; i < Enchantments.GetCount(); i++)
         {
             Enchantment enchantment = Enchantments.GetEnchantments(i);

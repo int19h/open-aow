@@ -17,7 +17,7 @@ public partial class MoveControlSettings : EngineObject
     {
         _refCount = 1;
         ProcessedMapFields = [];
-        Path = new MovePath();
+        Path = [];
         SubMoves = new SubMoveList(null) { Holder = CreationHolder() };
         Units = new UnitUserList(null) { Holder = CreationHolder() };
         Reset();

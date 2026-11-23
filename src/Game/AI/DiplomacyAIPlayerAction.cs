@@ -149,7 +149,7 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
             case DiplomaticRelation.War:
                 if (!Control.CanDeclareWar((byte)player))
                 {
-                    DoubleItemList candidates = new();
+                    DoubleItemList candidates = [];
                     int score;
                     int candidate;
                     for (int i = 0, last = idealPeace.Count - 1; i <= last; i++)

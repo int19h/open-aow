@@ -1505,10 +1505,10 @@ public sealed partial class PersistEquivalenceTests
                 foreach (CombatActionList loaded in new[] { viaReadWrite, fromDocument, fromImage })
                 {
                     Assert.Equal(2, loaded.Count);
-                    for (int index = 0; index < loaded.Count; index++)
+                    foreach (CombatAction action in loaded)
                     {
-                        Assert.Null(loaded[index].Owner);
-                        Assert.Equal(1, loaded[index].RefCount);
+                        Assert.Null(action.Owner);
+                        Assert.Equal(1, action.RefCount);
                     }
                 }
                 EqualBytes(Image(viaReadWrite), Image(fromDocument), label: "reference list document read");

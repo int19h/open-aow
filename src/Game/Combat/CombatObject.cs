@@ -26,8 +26,8 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
 
     public byte Id { get; set; }
 
-    public QuadItemList<CombatObject> Targets { get; } = new QuadItemList<CombatObject>();
-    public QuadItemList<CombatObject> TargetedBy { get; } = new QuadItemList<CombatObject>();
+    public QuadItemList<CombatObject> Targets { get; } = [];
+    public QuadItemList<CombatObject> TargetedBy { get; } = [];
     public int CombatValue { get; private set; }
 
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]

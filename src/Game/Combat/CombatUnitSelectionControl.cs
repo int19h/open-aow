@@ -1372,7 +1372,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
         bool flag;
         if (flag2)
         {
-            MovePath movePath = new();
+            MovePath movePath = [];
             MultiMoveTokenEvent multiMoveTokenEvent = new(null)
             {
                 Holder = moves,

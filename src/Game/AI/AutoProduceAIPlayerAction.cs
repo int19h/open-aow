@@ -25,7 +25,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
     private int _state;
     private int _goldUpkeep;
     private int _manaUpkeep;
-    private readonly QuadItemList<ProductionControl> _productions = new();
+    private readonly QuadItemList<ProductionControl> _productions = [];
 
     // AI.pas:1208
     public override void Dispose()
@@ -259,7 +259,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
         Player player = Control.Player;
         if (budget.Gold > 50)
         {
-            QuadItemList<ProductionControl> candidates = new();
+            QuadItemList<ProductionControl> candidates = [];
             int i = player.ProductionControls.Count;
             while (i != 0)
             {
@@ -334,7 +334,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
         Player player = Control.Player;
         if (budget.Gold > 50)
         {
-            QuadItemList<ProductionControl> candidates = new();
+            QuadItemList<ProductionControl> candidates = [];
             int i = player.ProductionControls.Count;
             while (i != 0)
             {

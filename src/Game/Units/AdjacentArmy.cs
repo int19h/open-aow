@@ -14,7 +14,7 @@ public sealed class AdjacentArmy(CustomNode owner) : EngineObject(owner)
 
     public int Moves { get; set; }
     public int MovePoints { get; set; }
-    public MovePath Path { get; } = new MovePath();
+    public MovePath Path { get; } = [];
 
     // AIGroup.pas:5051
     public override void Dispose()

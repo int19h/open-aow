@@ -71,7 +71,7 @@ public class AIGroupWanderControl : AIGroupTask
                 return false;
             case 1:
                 MoveControlSettings settings = _moveSettings;
-                DoubleItemList<MapField> fields = new();
+                DoubleItemList<MapField> fields = [];
                 MapField? field;
                 int i;
                 if (settings.ProcessedMapFields.Count > 40)

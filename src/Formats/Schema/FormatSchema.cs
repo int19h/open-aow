@@ -500,18 +500,7 @@ public sealed class SchemaClass
     }
 
     // True when the two properties share an original id. A coordinate counts each part id.
-    private static bool SharesImageId(SchemaProperty existing, SchemaProperty incoming)
-    {
-        foreach (int id in incoming.ImageIds)
-        {
-            if (existing.ImageIds.Contains(id))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
+    private static bool SharesImageId(SchemaProperty existing, SchemaProperty incoming) => incoming.ImageIds.Any(item => existing.ImageIds.Contains(item));
 
     public SchemaProperty? PropertyById(int id)
     {
@@ -572,13 +561,7 @@ public sealed class SchemaProperty
 
         if (codec is CoordinateCodec coordinate)
         {
-            foreach (int extra in coordinate.ImageIds)
-            {
-                if (!ids.Contains(extra))
-                {
-                    ids.Add(extra);
-                }
-            }
+            ids.AddRange(coordinate.ImageIds.Where(item => !ids.Contains(item)));
         }
 
         return [.. ids];

@@ -274,14 +274,7 @@ public static class GameBoundary
                 // no member of it.
                 classValue = schema.Get(((JsonString)root["$class"]!).Value);
                 JsonObject members = new();
-                foreach (JsonMember member in root.Members)
-                {
-                    if (member.Name != "$class")
-                    {
-                        members.Members.Add(member);
-                    }
-                }
-
+                members.Members.AddRange(root.Members.Where(item => item.Name != "$class"));
                 root = members;
             }
             else

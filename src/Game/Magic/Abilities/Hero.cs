@@ -1334,7 +1334,7 @@ public partial class Hero : Troop
     // Hero.PAS:1226
     public void ExecuteUpgradeHeroAI()
     {
-        DoubleItemList choices = new();
+        DoubleItemList choices = [];
         while (true)
         {
             choices.Clear();

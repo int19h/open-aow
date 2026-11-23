@@ -514,7 +514,7 @@ public class AIGroupControl : EngineObject
     // AIGroup.pas:1323
     public Troop? FindAvailableTransporter()
     {
-        DoubleItemList<Troop> list = new();
+        DoubleItemList<Troop> list = [];
         Player? player = StrategicMap.Current.Players.GetPlayers(Group.Player);
         for (int i = 0, last = player.Armies.Count - 1; i <= last; i++)
         {

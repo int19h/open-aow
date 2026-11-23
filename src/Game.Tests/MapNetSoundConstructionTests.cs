@@ -264,11 +264,11 @@ public sealed class MapNetSoundConstructionTests
                 case MapCoordinateList list:
                     Assert.Equal(MapCoordinate.None, list.Default);
                     Assert.Equal(new MapCoordinate(X: -1, Y: -1, MapLevel: -1), list.Default);
-                    Assert.Equal(0, list.Count);
+                    Assert.Empty(list);
                     break;
                 case PathStepList steps:
                     Assert.Equal(new PathStep(Location: new MapCoordinate(X: -1, Y: -1, MapLevel: -1), MoveCost: 0), steps.Default);
-                    Assert.Equal(0, steps.Count);
+                    Assert.Empty(steps);
                     break;
                 case TokenControl control:
                     Assert.Equal(7, control.Player);

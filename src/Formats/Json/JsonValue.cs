@@ -27,18 +27,7 @@ public sealed class JsonObject : JsonValue
 
     public JsonValue? this[string name] => Find(name)?.Value;
 
-    public JsonMember? Find(string name)
-    {
-        foreach (JsonMember member in Members)
-        {
-            if (member.Name == name)
-            {
-                return member;
-            }
-        }
-
-        return null;
-    }
+    public JsonMember? Find(string name) => Members.FirstOrDefault(item => item.Name == name);
 
     public JsonObject Add(string name, JsonValue value)
     {

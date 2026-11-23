@@ -430,7 +430,7 @@ public sealed class CampaignTransferSettings : EngineObject
     public void AutoSelect()
     {
         ClearSelection();
-        QuadItemList candidates = new();
+        QuadItemList candidates = [];
         bool done = false;
         while (!done)
         {

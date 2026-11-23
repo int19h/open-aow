@@ -163,7 +163,7 @@ public sealed class EngineLeafConstructionTests
                     Assert.Empty(list); Assert.Equal(0, list.Capacity); Assert.True(Field<Memory<byte>>(list, name: "List").IsEmpty);
                     break;
                 case DoubleItemList list:
-                    Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
+                    Assert.Empty(list); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
                 case BufferStream stream:
                     Assert.Equal(0L, stream.Length); Assert.Equal(0L, stream.Position);
@@ -177,7 +177,7 @@ public sealed class EngineLeafConstructionTests
                     Assert.Equal(0, Field<int>(table, name: "First"));
                     break;
                 case QuadItemList list:
-                    Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
+                    Assert.Empty(list); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
                 case SByteList list:
                     Assert.Empty(list); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);

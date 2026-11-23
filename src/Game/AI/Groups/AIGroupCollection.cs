@@ -2,6 +2,7 @@
 using System.Collections;
 
 using Aow.Engine.Nodes;
+using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -42,20 +43,7 @@ public readonly struct AIGroupCollection : IReadOnlyList<AIGroup>
     public AIGroup? GetGroups(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // AIGroup.pas:533
-    public int IndexOfId(int id)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (id == this[result].GroupId)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfId(int id) => this.FindLastIndex(item => id == item.GroupId);
 
     // AIGroup.pas:544
     public AIGroup? FindId(int id)

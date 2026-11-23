@@ -5,6 +5,7 @@ using Aow.Formats;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Units;
@@ -153,20 +154,7 @@ public sealed class ItemLibrary(CustomNode? owner) : ObservableNode(owner), IChi
     }
 
     // Army.PAS:4917
-    public Item? FindLibraryId(int libraryId)
-    {
-        int i = Items.Count;
-        while (i != 0)
-        {
-            i -= 1;
-            if (Items[i].LibraryId == libraryId)
-            {
-                return Items[i];
-            }
-        }
-
-        return null;
-    }
+    public Item? FindLibraryId(int libraryId) => Items.FindLast(item => item.LibraryId == libraryId);
 
     // Army.PAS:4946
     public Item CreateItem()
@@ -189,4 +177,6 @@ public sealed class ItemLibrary(CustomNode? owner) : ObservableNode(owner), IChi
     public void SaveToFile(string fileName) => GetEngine().WriteToFile(fileName, this, progress: null, profile: GameProfile.ItemList);
 
     private static readonly string s_systemItemLibraryText = "System";
+
+    Item IReadOnlyList<Item>.this[int index] => Items[index];
 }

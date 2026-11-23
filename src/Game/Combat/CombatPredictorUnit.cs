@@ -15,7 +15,7 @@ namespace Aow.Game.Combat;
 public sealed partial class CombatPredictorUnit : IDisposable
 {
     // CombatPredictor.pas:1
-    public CombatPredictorUnit() => RoundTargets = new QuadItemList<CombatPredictorUnit>();
+    public CombatPredictorUnit() => RoundTargets = [];
 
     public Troop? Troop { get; private set; }
     public int CpuId { get; set; }
@@ -90,7 +90,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
     // CombatPredictor.pas:45
     public void UpdateTargets()
     {
-        Targets ??= new QuadItemList<CombatPredictorUnit>();
+        Targets ??= [];
 
         int j;
         for (int i = Targets.Count - 1; i >= 0; i--)
@@ -151,7 +151,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
     public void UpdateWallTargets()
     {
         bool passing = Troop.GetWallCombatFeatures().Contains(WallCombatFeatures.WallPassing);
-        WallTargets ??= new QuadItemList<CombatPredictorUnit>();
+        WallTargets ??= [];
 
         int j;
         for (int i = WallTargets.Count - 1; i >= 0; i--)

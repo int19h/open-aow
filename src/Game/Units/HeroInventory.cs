@@ -165,14 +165,7 @@ public sealed partial class HeroInventory : ObservableNode, IChildList<Item>, II
     public bool GetAbilityEnabled(int abilityId)
     {
         bool result = false;
-        int i = 0;
-        while (!result && i < Items.Count)
-        {
-            Item item = Items[i];
-            result = item is not null && item.ItemType == ItemType.Use && item.GetOwnAbilityEnabled(abilityId);
-            i += 1;
-        }
-
+        result = Items.Any(item => item is not null && item.ItemType == ItemType.Use && item.GetOwnAbilityEnabled(abilityId));
         return result;
     }
 
@@ -180,14 +173,7 @@ public sealed partial class HeroInventory : ObservableNode, IChildList<Item>, II
     public bool GetAbilitySet(int abilityId)
     {
         bool result = false;
-        int i = 0;
-        while (!result && i < Items.Count)
-        {
-            Item item = Items[i];
-            result = item is not null && item.ItemType == ItemType.Use && item.GetAbilitySetAt(abilityId);
-            i += 1;
-        }
-
+        result = Items.Any(item => item is not null && item.ItemType == ItemType.Use && item.GetAbilitySetAt(abilityId));
         return result;
     }
 
@@ -237,4 +223,6 @@ public sealed partial class HeroInventory : ObservableNode, IChildList<Item>, II
                 return null;
         }
     }
+
+    Item IReadOnlyList<Item>.this[int index] => Items[index];
 }

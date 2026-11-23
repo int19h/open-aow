@@ -58,7 +58,7 @@ public sealed partial class PersistEquivalenceTests
             0xFE, 0x01, 0x01, 0xFF,
             0x7F, 0x7F, 0x02, 0x7F,
         ];
-        MovePath path = new();
+        MovePath path = [];
         using (MemoryStream input = new(payload))
         {
             path.LoadFromStream(input);

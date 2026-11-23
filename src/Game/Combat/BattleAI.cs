@@ -801,9 +801,9 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
     public void CheckUnit(int x2, int y2, int hits, int hitPoints, CombatMoveControlSettings settings, TacticalBattleUnit unit, CombatObject? target, DelphiList<CombatAbilityRef> abilities, object? wall)
     {
         AbilityDamageValues values = default;
-        MovePath pathStepList = new();
-        MovePath basePath = new();
-        MovePath detourPathPathStepList = new();
+        MovePath pathStepList = [];
+        MovePath basePath = [];
+        MovePath detourPathPathStepList = [];
         int terrainValue = 0;
         int originalX = x2;
         int originalY = y2;

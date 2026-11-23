@@ -50,23 +50,7 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
     public Item? GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Army.PAS:4570
-    public Item? FindItem(int itemId)
-    {
-        Item? result = null;
-        int i = 0;
-        while (i != Count && result is null)
-        {
-            Item item = this[i];
-            if (item is not null && itemId == item.ItemId)
-            {
-                result = item;
-            }
-
-            i += 1;
-        }
-
-        return result;
-    }
+    public Item? FindItem(int itemId) => this.FirstOrDefault(item => item is not null && itemId == item.ItemId);
 
     // Army.PAS:4593
     public void Update() => SortOnType();

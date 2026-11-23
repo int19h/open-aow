@@ -228,7 +228,7 @@ public sealed partial class AIPlayerControl : EngineObject
 
         if (skirmishCount < wantedCount)
         {
-            DoubleItemList<Troop> units = new();
+            DoubleItemList<Troop> units = [];
             AIGroup? group;
             for (int i = Player.AIGroups.Count - 1; i >= 0; i--)
             {
@@ -338,7 +338,7 @@ public sealed partial class AIPlayerControl : EngineObject
     {
         peace.Clear();
         war.Clear();
-        DoubleItemList doubleItemList = new();
+        DoubleItemList doubleItemList = [];
         _ = doubleItemList.AddAbility(Player.PlayerIndex, 999);
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {

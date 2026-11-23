@@ -80,13 +80,7 @@ public static class DocumentValidation
                 // The copy drops $class, which is not a member of the class. The member objects
                 // stay, so a refusal of a root member still names the line and column.
                 body = new JsonObject { Span = root.Span };
-                foreach (JsonMember member in root.Members)
-                {
-                    if (member.Name != "$class")
-                    {
-                        body.Members.Add(member);
-                    }
-                }
+                body.Members.AddRange(root.Members.Where(item => item.Name != "$class"));
             }
             _ = DocumentBackend.Read(body, classValue: classValue, schema: schema, engine: profile.Engine, file: file);
         }

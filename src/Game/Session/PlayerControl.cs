@@ -31,7 +31,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
     private ExitGameCallBack? _exitCallback;
     private ExitGameMode _exitMode;
     private string _password = "";
-    private readonly DoubleItemList _disconnectedPlayers = new();
+    private readonly DoubleItemList _disconnectedPlayers = [];
     private bool _outOfSyncShown;
 
     // PlayerC.PAS:7

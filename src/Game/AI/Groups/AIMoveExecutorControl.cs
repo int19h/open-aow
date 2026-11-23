@@ -47,7 +47,7 @@ public partial class AIMoveExecutorControl : EngineObject
             settings.SetupArmy(armyHexSprite, selection: armySelection);
             StrategicMap.Current.MoveControl.ProcessMove(settings);
             MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(mapLevel);
-            RecordList<SurroundCandidate> candidates = new();
+            RecordList<SurroundCandidate> candidates = [];
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 1);
             while (walk.Radius <= 1)
             {

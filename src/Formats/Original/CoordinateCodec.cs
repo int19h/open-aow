@@ -1,6 +1,7 @@
 using System.Globalization;
 using Aow.Formats.Json;
 using Aow.Formats.Tree;
+using Aow.Rtl;
 
 namespace Aow.Formats.Original;
 
@@ -250,31 +251,8 @@ internal sealed class CoordinateCodec : PropertyCodec
         return node;
     }
 
-    private int IndexOf(int id)
-    {
-        for (int i = 0; i < _parts.Length; i++)
-        {
-            if (_parts[i].Id == id)
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    private int IndexOf(string name)
-    {
-        for (int i = 0; i < _parts.Length; i++)
-        {
-            if (_parts[i].Name == name)
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
+    private int IndexOf(int id) => _parts.FindIndex(item => item.Id == id);
+    private int IndexOf(string name) => _parts.FindIndex(item => item.Name == name);
 
     private long ReadInteger(DecodeContext context, int start, int end, string name, ValueSite site)
     {

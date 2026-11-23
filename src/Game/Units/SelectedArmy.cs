@@ -865,7 +865,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
         bool flag;
         if (flag2)
         {
-            MovePath movePath = new();
+            MovePath movePath = [];
             MultiMoveTokenEvent multiMoveTokenEvent = new(null)
             {
                 Holder = moves,

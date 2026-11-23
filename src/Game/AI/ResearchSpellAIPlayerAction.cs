@@ -22,7 +22,7 @@ public class ResearchSpellAIPlayerAction(CustomNode owner) : AIPlayerAction(owne
         if (Control.Player.PlayerIndex != 0 && Control.Player.MagicControl.ResearchSpellId == 0)
         {
             SpellList spells = new();
-            DoubleItemList choices = new();
+            DoubleItemList choices = [];
             Control.Player.MagicControl.ListResearchSpells(spells, spellTypes: SpellTypes.Combat | SpellTypes.Unit | SpellTypes.Global);
             for (int i = 0, last = spells.GetCount() - 1; i <= last; i++)
             {

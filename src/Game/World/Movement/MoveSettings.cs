@@ -10,7 +10,7 @@ namespace Aow.Game.World.Movement;
 public sealed class MoveSettings(CustomNode? owner) : EngineObject(owner)
 {
 
-    public MovePath Path { get; } = new MovePath();
+    public MovePath Path { get; } = [];
     public int PathMovePoints { get; set; }
     public object? MoveObject { get; init; }
     public int MovePoints { get; set; }

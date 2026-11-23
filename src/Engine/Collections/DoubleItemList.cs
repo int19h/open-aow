@@ -9,7 +9,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Engine.Collections;
 
-public class DoubleItemList : Persistent
+public class DoubleItemList : Persistent, IReadOnlyList<DoubleItemList.DoubleItem>
 {
     private DoubleItem[] _list = [];
     private int _count;
@@ -450,4 +450,16 @@ public class DoubleItemList : Persistent
     // Delphi TDoubleItem, two integers. Equality compares both, as the Delphi Comp compare of the
     // eight bytes does.
     public readonly record struct DoubleItem(int First, int Second);
+
+    // The items from the first to the last in index order, read through the indexer. Each step
+    // reads the count again, as the index loop over a live count does.
+    public IEnumerator<DoubleItem> GetEnumerator()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            yield return this[i];
+        }
+    }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }

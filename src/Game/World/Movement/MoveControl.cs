@@ -51,10 +51,10 @@ public partial class MoveControl(GameMap owner) : IDisposable
     private readonly int[][] _fieldOffsets = [new int[8], new int[8]];
     private readonly int[][] _pointOffsets = [new int[8], new int[8]];
 
-    public MapCoordinateList GapStarts { get; init; } = new MapCoordinateList();
-    public MapCoordinateList GapEnds { get; init; } = new MapCoordinateList();
+    public MapCoordinateList GapStarts { get; init; } = [];
+    public MapCoordinateList GapEnds { get; init; } = [];
 
-    private readonly MapCoordinateList _directRoute = new();
+    private readonly MapCoordinateList _directRoute = [];
     private int _exploredMask;
 
     public MoveControlSettings? Settings { get; set; }

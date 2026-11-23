@@ -22,14 +22,7 @@ public sealed class FireControl : IDisposable
     public Fire.Resource? GetRandomFireResource(FireType fireType)
     {
         List<Fire.Resource> resources = [];
-        for (int i = 0, last = _resources.Count - 1; i <= last; i++)
-        {
-            if (_resources[i].FireType == fireType)
-            {
-                resources.Add(_resources[i]);
-            }
-        }
-
+        resources.AddRange(_resources.Where(item => item.FireType == fireType));
         Fire.Resource? result = resources.Count != 0 ? resources[Random(resources.Count)] : null;
 
         resources?.Clear();

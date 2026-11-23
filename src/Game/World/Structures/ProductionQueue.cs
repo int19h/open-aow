@@ -1,6 +1,7 @@
 #nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
@@ -21,35 +22,8 @@ public class ProductionQueue(CustomNode? owner) : OwningNode(owner), IChildList<
     public ProductionItem? GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Structur.PAS:89
-    public int IndexOfId(int id)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (id == this[result].Order.ToFields().Kind)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfId(int id) => this.FindLastIndex(item => id == item.Order.ToFields().Kind);
 
     // Structur.PAS:100
-    public int IndexOf(ProductionOrder order)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            ProductionItem item = this[result];
-            if (item.Order == order)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOf(ProductionOrder order) => this.FindLastIndex(item => item.Order == order);
 }

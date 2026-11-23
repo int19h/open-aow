@@ -1,6 +1,7 @@
 #nullable disable warnings
 using System.Collections;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Movement;
 
@@ -36,20 +37,7 @@ public readonly struct MoveTargetCollection : IReadOnlyList<MoveTarget>
     public MoveTarget GetTarget(int index) => this[index];
 
     // AIGroup.pas:4245
-    public int IndexOfMapCoordinate(MapCoordinate location)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].Location == location)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfMapCoordinate(MapCoordinate location) => this.FindLastIndex(item => item.Location == location);
 
     // AIGroup.pas:4275
     public void SortOnMovePoints() => Holder.SortChildren<MoveTarget>(CompareMoveTargets);

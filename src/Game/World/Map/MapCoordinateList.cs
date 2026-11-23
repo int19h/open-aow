@@ -113,7 +113,7 @@ public sealed class MapCoordinateList : DefaultItemList<MapCoordinate>
             }
         }
 
-        locations = new MapCoordinateList();
+        locations = [];
         for (int i = 0, last = list.Count - 1; i <= last; i++)
         {
             MapCoordinate mapCoordinate = list[i];

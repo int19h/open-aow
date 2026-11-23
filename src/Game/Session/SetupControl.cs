@@ -567,14 +567,12 @@ public sealed class SetupControl : Component
         }
         else
         {
-            i = 0;
-            int last = Settings.Count - 1;
-            for (; i <= last; i += 1)
+            foreach (PlayerSetupSettings? setupSettings in Settings)
             {
-                if (Settings.GetSettings(i).Behavior.PlayerType == 0)
+                if (setupSettings.Behavior.PlayerType == 0)
                 {
-                    PlayerSetupSettings? setting = Settings.GetSettings(i);
-                    Settings.GetSettings(i).Status = setting.Status | PlayerSetupStatuses.Loaded;
+                    PlayerSetupSettings? setting = setupSettings;
+                    setupSettings.Status = setting.Status | PlayerSetupStatuses.Loaded;
                 }
             }
 

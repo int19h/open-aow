@@ -5,6 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -45,53 +46,13 @@ public sealed class AIMoveExecutorArmyList(CustomNode? owner) : OwningNode(owner
     }
 
     // AIGroup.pas:4673
-    public int IndexOfMapCoordinate(int X, int Y, int L)
-    {
-        int i = Count;
-        while (i != 0)
-        {
-            i -= 1;
-            AIMoveExecutorArmy army = this[i];
-            if (X == army.Location.X && army.Location.Y == Y && army.Location.MapLevel == L)
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfMapCoordinate(int X, int Y, int L) => this.FindLastIndex(item => X == item.Location.X && item.Location.Y == Y && item.Location.MapLevel == L);
 
     // AIGroup.pas:4693
-    public int IndexOfLocation(MapCoordinate location)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].Location == location)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfLocation(MapCoordinate location) => this.FindLastIndex(item => item.Location == location);
 
     // AIGroup.pas:4704
-    public int IndexOfTransportStatus(AIMoveExecutorTransportStatus status)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].TransportStatus == status)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfTransportStatus(AIMoveExecutorTransportStatus status) => this.FindLastIndex(item => item.TransportStatus == status);
 
     // AIGroup.pas:4721
     public void SortOnMovePoints() => SortChildren<AIMoveExecutorArmy>(CompareExecutorArmies);

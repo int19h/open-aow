@@ -8,7 +8,7 @@ using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Engine.Collections;
 
-public class QuadItemList : Persistent
+public class QuadItemList : Persistent, IReadOnlyList<QuadItemList.QuadInteger>
 {
     private QuadInteger[] _list = [];
     private int _count;
@@ -406,4 +406,16 @@ public class QuadItemList : Persistent
 
     // Delphi TQuadInteger, four integers. Equality compares all four.
     public readonly record struct QuadInteger(int First, int Second, int Third, int Fourth);
+
+    // The items from the first to the last in index order, read through the indexer. Each step
+    // reads the count again, as the index loop over a live count does.
+    public IEnumerator<QuadInteger> GetEnumerator()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            yield return this[i];
+        }
+    }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }

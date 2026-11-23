@@ -97,12 +97,12 @@ public class Campaign : EngineObject
         DifficultyLevel = persister.Enum("DifficultyLevel", value: DifficultyLevel);
         if (persister.Loading)
         {
-            for (int i = 0, last = Scenarios.Count - 1; i <= last; i++)
+            foreach (CampaignScenario? scenario in Scenarios)
             {
-                if (Scenarios.GetScenario(i).Id == 0)
+                if (scenario.Id == 0)
                 {
                     int uniqueId = Scenarios.CreateUniqueId();
-                    Scenarios.GetScenario(i).Id = uniqueId;
+                    scenario.Id = uniqueId;
                 }
             }
         }

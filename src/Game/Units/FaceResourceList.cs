@@ -74,4 +74,6 @@ public sealed class FaceResourceList : ResourceCollection, IChildList<FaceResour
         while (!(GetChild(result) is not null && (developer || !this[result].DeveloperOnly)));
         return result;
     }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => ((IEnumerable<FaceResource>)this).GetEnumerator();
 }

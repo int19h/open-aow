@@ -220,7 +220,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
         DelphiList<MapField> fields = settings.ProcessedMapFields;
         for (int i = 0; i < HexDirectionSlotCount; i++)
         {
-            DoubleItemList<MapField> doubleItemList = new();
+            DoubleItemList<MapField> doubleItemList = [];
             lists[i] = doubleItemList;
         }
 
@@ -251,7 +251,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
         message.Param = param;
         for (int i = 1; i < HexDirectionSlotCount; i++)
         {
-            DoubleItemList<MapField> newList = new();
+            DoubleItemList<MapField> newList = [];
             int j = 0;
             while (newList.Count != 30 && j != lists[i].Count)
             {

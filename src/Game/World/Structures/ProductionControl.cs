@@ -740,7 +740,7 @@ public partial class ProductionControl : EngineObject
         sbyte player = GetPlayer();
         Player? playerPlayer = StrategicMap.Current.Players.GetPlayers(player);
         Unit unit = new(null) { Holder = CreationHolder() };
-        DoubleItemList productions = new();
+        DoubleItemList productions = [];
         for (int i = UnitProductions.Count - 1; i >= 0; i--)
         {
             if (!UnitProductions.GetItem(i).Researched)

@@ -640,11 +640,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     public int GetUnitCount()
     {
         int result = 0;
-        foreach (Army army in Armies.Reverse())
-        {
-            result += army.Units.Count;
-        }
-
+        result = Armies.Reverse().Sum(item => item.Units.Count);
         return result;
     }
 
@@ -1116,7 +1112,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     // Player.PAS:738
     public void MakeHeroEmerge(HeroEmergeMode mode)
     {
-        DoubleItemList<Hero> heroes = new();
+        DoubleItemList<Hero> heroes = [];
         int i;
         Hero hero;
         if (mode == HeroEmergeMode.Normal)
@@ -1158,7 +1154,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
 
         if (heroes.Count != 0)
         {
-            MapCoordinateList locations = new();
+            MapCoordinateList locations = [];
             i = Structures.Count - 1;
             Structure structure;
             for (; i >= 0; i -= 1)
@@ -1504,14 +1500,14 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     public int CaptureLocationsLeft()
     {
         int result = 0;
-        for (int i = 0, last = _victoryLocations.Count - 1; i <= last; i++)
+        foreach (PlayerStructure playerStructure in _victoryLocations)
         {
-            if (_victoryLocations.GetStructure(i).Player != PlayerIndex)
+            if (playerStructure.Player != PlayerIndex)
             {
-                bool condition = _victoryLocations.GetStructure(i).Player > 0;
+                bool condition = playerStructure.Player > 0;
                 if (condition)
                 {
-                    PlayerStructure structure = _victoryLocations.GetStructure(i);
+                    PlayerStructure structure = playerStructure;
                     condition = StrategicMap.Current.Players.GetDiplomaticRelation(structure.Player, otherPlayer: PlayerIndex) == DiplomaticRelation.Alliance;
                 }
 

@@ -91,18 +91,7 @@ public abstract class DelphiStringCollection : Persistent, IReadOnlyList<string>
     public abstract void Clear();
 
     // CLASSES.PAS TStrings.IndexOf, IndexOfName and IndexOfObject.
-    public virtual int IndexOf(string value)
-    {
-        for (int i = 0; i < Count; i++)
-        {
-            if (AnsiCompareText(this[i], value) == 0)
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
+    public virtual int IndexOf(string value) => this.FindIndex(item => AnsiCompareText(item, value) == 0);
 
     public int IndexOfName(string name)
     {

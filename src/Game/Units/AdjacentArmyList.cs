@@ -2,6 +2,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
@@ -20,43 +21,15 @@ public sealed class AdjacentArmyList(CustomNode owner) : OwningNode(owner), IChi
     public AdjacentArmy GetAdjacentArmies(int index) => this[index];
 
     // AIGroup.pas:5076
-    public int IndexOfLocation(MapCoordinate location)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].Location == location)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfLocation(MapCoordinate location) => this.FindLastIndex(item => item.Location == location);
 
     // AIGroup.pas:5088
-    public int GetSlowestArmy()
-    {
-        float maxDays = -1;
-        int result = -1;
-        for (int i = 0, last = Count - 1; i <= last; i++)
-        {
-            float days = GetAdjacentArmies(i).GetMovementDays();
-            if ((double)days > maxDays)
-            {
-                result = i;
-                maxDays = days;
-            }
-        }
-
-        return result;
-    }
+    public AdjacentArmy? GetSlowestArmy() => this.Where(army => army.GetMovementDays() > -1).MaxBy(army => army.GetMovementDays());
 
     // AIGroup.pas:5106
     public bool GetAdjacent()
     {
-        MapCoordinateList locations = new();
+        MapCoordinateList locations = [];
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             _ = locations.Add(GetAdjacentArmies(i).Location);

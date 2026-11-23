@@ -23,9 +23,9 @@ public sealed class AIMoveExecutorMoveQueue(CustomNode owner) : OwningNode(owner
     // AIGroup.pas:4513
     public void Reset()
     {
-        for (int i = Count - 1; i >= 0; i--)
+        foreach (AIMoveExecutorMove move in this.Reverse())
         {
-            this[i].SetStatus(255, status: AIMoveExecutorUnitStatus.Ready);
+            move.SetStatus(255, status: AIMoveExecutorUnitStatus.Ready);
         }
 
         Clear();

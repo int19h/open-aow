@@ -609,16 +609,13 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
                     _meetingPoint = settings.Path[^2];
                 }
 
-                i = 0;
-                int limit = aiMoveExecutorArmyList.Count - 1;
-                for (; i <= limit; i += 1)
+                foreach (AIMoveExecutorArmy armies in aiMoveExecutorArmyList)
                 {
-                    AIMoveExecutorArmy armies = aiMoveExecutorArmyList.GetArmies(i);
                     if (armies.TransportStatus is (>= AIMoveExecutorTransportStatus.Boarding and <= AIMoveExecutorTransportStatus.Arriving) or AIMoveExecutorTransportStatus.Done)
                     {
-                        for (int j = 0, last = aiMoveExecutorArmyList.GetArmies(i).Count - 1; j <= last; j++)
+                        foreach (AIMoveExecutorUnit unit in armies)
                         {
-                            aiMoveExecutorArmyList.GetArmies(i).GetUnits(j).ArrivalPoint = _meetingPoint;
+                            unit.ArrivalPoint = _meetingPoint;
                         }
                     }
                 }
@@ -688,10 +685,9 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
                 }
 
                 aiMoveControlSettings.ArrivalPoint = aiMoveControlSettings.TransportPath[index].Location;
-                for (int i = 0, last = army.Count - 1; i <= last; i++)
+                foreach (AIMoveExecutorUnit unitEntry in army)
                 {
-                    AIMoveExecutorUnit unitEntry = army.GetUnits(i);
-                    AIMoveExecutorUnit units = army.GetUnits(i);
+                    AIMoveExecutorUnit units = unitEntry;
                     unitEntry.TransportStatus = units.Location == Executor.Transporter.Location
                         ? AIMoveExecutorTransportStatus.Transporting
                         : AIMoveExecutorTransportStatus.Boarding;
@@ -704,9 +700,9 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
             }
             else
             {
-                for (int i = 0, last = army.Count - 1; i <= last; i++)
+                foreach (AIMoveExecutorUnit unit in army)
                 {
-                    army.GetUnits(i).TransportStatus = AIMoveExecutorTransportStatus.Arriving;
+                    unit.TransportStatus = AIMoveExecutorTransportStatus.Arriving;
                 }
             }
         }

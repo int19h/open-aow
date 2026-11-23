@@ -141,9 +141,9 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1526
     public void BeginUpdate()
     {
-        for (int i = 0, last = Count - 1; i <= last; i++)
+        foreach (Player player in this)
         {
-            this[i].BeginUpdate();
+            player.BeginUpdate();
         }
     }
 
@@ -376,27 +376,6 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         }
 
         return valid ? 0 : i;
-    }
-
-    // Player.PAS:1718
-    public sbyte GetSuperiorPlayer()
-    {
-        int maximum = 0;
-        int bestPlayer = -1;
-        for (int i = 1, last = Count - 1; i <= last; i++)
-        {
-            if (GetPlayers(i).Status == PlayerStatus.Playing)
-            {
-                int value = GetPlayers(i).Superiority;
-                if (value > maximum)
-                {
-                    maximum = value;
-                    bestPlayer = i;
-                }
-            }
-        }
-
-        return (sbyte)bestPlayer;
     }
 
     // Player.PAS:1737

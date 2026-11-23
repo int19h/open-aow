@@ -1,5 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -20,37 +21,10 @@ public sealed class CombatPlayerList(CustomNode owner) : OwningNode(owner), IChi
     public T GetPlayers<T>(sbyte index) where T : CombatPlayer => (T)this[index];
 
     // Combat2.pas:135
-    public int IndexOfPlayer(byte player)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (player == (byte)this[result].Player)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfPlayer(byte player) => this.FindLastIndex(item => player == (byte)item.Player);
 
     // Combat2.pas:146
-    public int IndexOf(byte player, int relation)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            CombatPlayer p = this[result];
-            if ((sbyte)player == p.Player && p.IndependentRelation == relation)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOf(byte player, int relation) => this.FindLastIndex(item => (sbyte)player == item.Player && item.IndependentRelation == relation);
 
     // Combat2.pas:159
     public void Delete(int index) => GetPlayers((sbyte)index)?.Dispose();

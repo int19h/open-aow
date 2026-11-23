@@ -150,11 +150,7 @@ public static class PersistSupport
     {
         bool present = persister.Has(name);
         List<int> items = [with(list.Count)];
-        for (int i = 0; i < list.Count; i++)
-        {
-            items.Add(list[i]);
-        }
-
+        items.AddRange(list);
         int stored = persister.Int32List(name, items, defaultValue: list.Default);
         if (!persister.Loading || !present)
         {
@@ -178,11 +174,7 @@ public static class PersistSupport
     {
         bool present = persister.Has(name);
         List<byte> items = [with(list.Count)];
-        for (int i = 0; i < list.Count; i++)
-        {
-            items.Add(list[i]);
-        }
-
+        items.AddRange(list);
         int stored = persister.ByteList(name, items, defaultValue: list.Default);
         if (!persister.Loading || !present)
         {
@@ -411,11 +403,7 @@ public static class PersistSupport
         }
 
         List<string> copy = [with(lines.Count)];
-        for (int i = 0; i < lines.Count; i++)
-        {
-            copy.Add(lines[i]);
-        }
-
+        copy.AddRange(lines);
         persister.Lines(name, lines: copy);
         if (!persister.Loading)
         {

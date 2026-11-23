@@ -2,11 +2,8 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -54,12 +51,7 @@ public class CombatWall : CombatObject
             }
 
             TargetPriority = 0;
-            for (int i = Combat.Sides[(int)CombatSideIndex.Defender].Count - 1; i >= 0; i--)
-            {
-                CombatObject objectValue = Combat.Sides[(int)CombatSideIndex.Defender].GetObjects(i);
-                TargetPriority += objectValue.IncomingCombatValue - objectValue.IncomingWallCombatValue;
-            }
-
+            TargetPriority = Combat.Sides[(int)CombatSideIndex.Defender].Reverse().Sum(item => item.IncomingCombatValue - item.IncomingWallCombatValue);
             TargetPriority = (count + 2) * TargetPriority;
             TargetPriorityInvalid = false;
         }
