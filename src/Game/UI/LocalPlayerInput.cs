@@ -2,14 +2,15 @@ using Aow.Game.Combat;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
 using Aow.Game.UI.Dialogs;
+using Aow.Rtl;
 
 namespace Aow.Game.UI;
 
 // The input of the player at this machine. It reads the dialog modules at call time, so the
 // host installs it on the engine before the dialogs load.
-public sealed class LocalPlayerInput(Func<UIContext> ui) : IPlayerInput
+public sealed class LocalPlayerInput(Func<UIContext?> ui) : IPlayerInput
 {
-    private UIContext UI => ui();
+    private UIContext UI => ui() ?? throw new InvalidOperationException("No UI context is loaded for a spell choice.");
 
     // The call hands the caster to this input. A dialog that keeps the caster takes its own
     // reference, and this input releases the handed reference when the dialog opens.
@@ -17,7 +18,15 @@ public sealed class LocalPlayerInput(Func<UIContext> ui) : IPlayerInput
     {
         try
         {
-            UI.MapEvents.OpenSpellDialog(caster);
+            UIContext context = UI;
+            try
+            {
+                context.MapEvents.OpenSpellDialog(caster);
+            }
+            catch
+            {
+                LegacyApplication.ShowMessage("Exception occurred during OnCastSpell event (TAoWMapControl)");
+            }
         }
         finally
         {
@@ -29,7 +38,15 @@ public sealed class LocalPlayerInput(Func<UIContext> ui) : IPlayerInput
     {
         try
         {
-            UI.CombatMapEvents.CombatMapCastSpell(caster);
+            UIContext context = UI;
+            try
+            {
+                context.CombatMapEvents.CombatMapCastSpell(caster);
+            }
+            catch
+            {
+                LegacyApplication.ShowMessage("Exception occurred during OnCastSpell event (TAoWCombatMapControl)");
+            }
         }
         finally
         {
