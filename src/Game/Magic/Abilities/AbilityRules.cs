@@ -530,7 +530,7 @@ public static class AbilityRules
 
     internal static ReadOnlySpan<int> CommandAbilityIds => [29, 28, 148];
 
-    internal static ReadOnlySpan<Color> RaceColors => (Color[])[new(48, 52, 224), new(255, 164, 102), new(44, 203, 175), new(135, 218, 254), new(65, 239, 96), new(253, 253, 21), new(228, 193, 165), new(253, 255, 247), new(188, 112, 179), new(233, 80, 80), new(187, 102, 66), new(152, 120, 121), new(168, 168, 168)];
+    internal static readonly Color[] RaceColors = [new(48, 52, 224), new(255, 164, 102), new(44, 203, 175), new(135, 218, 254), new(65, 239, 96), new(253, 253, 21), new(228, 193, 165), new(253, 255, 247), new(188, 112, 179), new(233, 80, 80), new(187, 102, 66), new(152, 120, 121), new(168, 168, 168)];
 
     private static readonly DamageTypes s_allDamageTypes = DamageTypes.Fire | DamageTypes.Cold | DamageTypes.Lightning | DamageTypes.Magic | DamageTypes.Poison | DamageTypes.Death | DamageTypes.Holy | DamageTypes.Physical | DamageTypes.Wall | DamageTypes.NonSpecific;
 
