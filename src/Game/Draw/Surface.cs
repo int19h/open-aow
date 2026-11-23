@@ -10,7 +10,7 @@ namespace Aow.Game.Draw;
 public partial class Surface : IDisposable
 {
     // GFXE.pas:11964
-    public virtual int GetColor(int X, int Y)
+    public virtual Color? GetColor(int X, int Y)
     {
         LockedSurface lockedSurface = default;
         if (Lock(ref lockedSurface).IsSuccess())
@@ -24,28 +24,28 @@ public partial class Surface : IDisposable
                 {
                     case PixelFormat.Rgb555:
                         w = lockedSurface.View().UInt16(X + X + (Y * lockedSurface.Pitch));
-                        return ((w & 0b0111_1100_0000_0000) >>> 7) + ((w & 0b0011_1110_0000) << 6) + ((w & 0b0001_1111) << 19);
+                        return Color.FromPacked(((w & 0b0111_1100_0000_0000) >>> 7) + ((w & 0b0011_1110_0000) << 6) + ((w & 0b0001_1111) << 19));
                     case PixelFormat.Rgb565:
                         w = lockedSurface.View().UInt16(X + X + (Y * lockedSurface.Pitch));
-                        return ((w & 0b1111_1000_0000_0000) >>> 8) + ((w & 0b0111_1110_0000) << 5) + ((w & 0b0001_1111) << 19);
+                        return Color.FromPacked(((w & 0b1111_1000_0000_0000) >>> 8) + ((w & 0b0111_1110_0000) << 5) + ((w & 0b0001_1111) << 19));
                     case PixelFormat.Pal8:
                         Assert(lockedSurface.Palette is not null, message: "Palette not found, cannot retrieve color (GetColor)", file: "GFXE.pas", line: 11986);
                         byte index = lockedSurface.View().Byte(X + (Y * lockedSurface.Pitch));
                         Palette.Entry e = lockedSurface.Palette[index];
-                        return e.Red + (e.Green << 8) + (e.Blue << 16);
+                        return Color.FromPacked(e.Red + (e.Green << 8) + (e.Blue << 16));
                     case PixelFormat.Rgb24:
                         SurfaceView p = lockedSurface.View(X + X + X + (Y * lockedSurface.Pitch));
-                        return p[2] + (p[1] << 8) + (p[0] << 16);
+                        return Color.FromPacked(p[2] + (p[1] << 8) + (p[0] << 16));
                     case PixelFormat.Rgb32:
                         int v = (int)lockedSurface.View().Dword((X << 2) + (Y * lockedSurface.Pitch));
-                        return ((v & 0xFF_00_00) >>> 16) + (v & 0xFF00) + ((v & 0xFF) << 16);
+                        return Color.FromPacked(((v & 0xFF_00_00) >>> 16) + (v & 0xFF00) + ((v & 0xFF) << 16));
                     case PixelFormat.None:
                     case PixelFormat.Argb1555:
                     case PixelFormat.Bgr24:
                     case PixelFormat.Xrgb32:
                     default:
                         Assert(false, message: "Pixel format not supported (GetColor)", file: "GFXE.pas", line: 11999);
-                        return 0;
+                        return null;
                 }
             }
             finally
@@ -56,7 +56,7 @@ public partial class Surface : IDisposable
         else
         {
             Assert(false, message: "Cannot Lock Surface", file: "GFXE.pas", line: 12004);
-            return -1;
+            return null;
         }
     }
 

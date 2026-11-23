@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -51,7 +52,7 @@ public sealed partial class CampaignSettingsDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -93,8 +94,8 @@ public sealed partial class CampaignSettingsDialog : ILayoutModule
         okBtn.ImageLibraryIndexLit = 25;
         okBtn.ImageLibraryIndexUp = 19;
         okBtn.Text = "OK";
-        okBtn.TextColor = 0;
-        okBtn.TextSelectedColor = 16777215;
+        okBtn.TextColor = Color.Black;
+        okBtn.TextSelectedColor = Color.White;
         okBtn.WinWidth = 120;
         okBtn.Clicked += (_, _) => OKBtnClick();
         session.EndRead(okBtn);
@@ -146,7 +147,7 @@ public sealed partial class CampaignSettingsDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Campaign Settings";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Button close = new(this);
         session.BeginRead(close);
@@ -177,8 +178,8 @@ public sealed partial class CampaignSettingsDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(close);
@@ -231,7 +232,7 @@ public sealed partial class CampaignSettingsDialog : ILayoutModule
         difficultyLevelLbl.Alignment.BottomOffset = 0;
         difficultyLevelLbl.Masked = true;
         difficultyLevelLbl.Text = "Difficulty Level:";
-        difficultyLevelLbl.TextColor = 16777215;
+        difficultyLevelLbl.TextColor = Color.White;
         session.EndRead(difficultyLevelLbl);
         DifficultyLevelComboBox = new ComboBox(this);
         session.BeginRead(DifficultyLevelComboBox);
@@ -262,8 +263,8 @@ public sealed partial class CampaignSettingsDialog : ILayoutModule
         DifficultyLevelComboBox.NumberVisible = 5;
         DifficultyLevelComboBox.Selected = -1;
         DifficultyLevelComboBox.PriorityOpened = 6170;
-        DifficultyLevelComboBox.TextColor = 11002593;
-        DifficultyLevelComboBox.TextSelectedColor = 16777215;
+        DifficultyLevelComboBox.TextColor = new Color(225, 226, 167);
+        DifficultyLevelComboBox.TextSelectedColor = Color.White;
         DifficultyLevelComboBox.ILEIndex = 27;
         DifficultyLevelComboBox.ILFIndex = 113;
         DifficultyLevelComboBox.ImageLibraryTnIndex = 21;
@@ -328,7 +329,7 @@ public sealed partial class CampaignSettingsDialog : ILayoutModule
         turnModeLbl.Alignment.BottomOffset = 0;
         turnModeLbl.Masked = true;
         turnModeLbl.Text = "Turn Mode:";
-        turnModeLbl.TextColor = 16777215;
+        turnModeLbl.TextColor = Color.White;
         session.EndRead(turnModeLbl);
         TurnModeComboBox = new ComboBox(this);
         session.BeginRead(TurnModeComboBox);
@@ -359,8 +360,8 @@ public sealed partial class CampaignSettingsDialog : ILayoutModule
         TurnModeComboBox.NumberVisible = 5;
         TurnModeComboBox.Selected = -1;
         TurnModeComboBox.PriorityOpened = 5170;
-        TurnModeComboBox.TextColor = 11002593;
-        TurnModeComboBox.TextSelectedColor = 16777215;
+        TurnModeComboBox.TextColor = new Color(225, 226, 167);
+        TurnModeComboBox.TextSelectedColor = Color.White;
         TurnModeComboBox.ILEIndex = 27;
         TurnModeComboBox.ILFIndex = 113;
         TurnModeComboBox.ImageLibraryTnIndex = 21;
@@ -457,8 +458,8 @@ public sealed partial class CampaignSettingsDialog : ILayoutModule
         cancelBtn.ImageLibraryIndexLit = 25;
         cancelBtn.ImageLibraryIndexUp = 19;
         cancelBtn.Text = "Cancel";
-        cancelBtn.TextColor = 0;
-        cancelBtn.TextSelectedColor = 16777215;
+        cancelBtn.TextColor = Color.Black;
+        cancelBtn.TextSelectedColor = Color.White;
         cancelBtn.WinWidth = 120;
         cancelBtn.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(cancelBtn);

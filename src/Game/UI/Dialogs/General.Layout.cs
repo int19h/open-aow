@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -63,11 +64,11 @@ public sealed partial class General : ILayoutModule
         ToolTip.OverlapTopCorners = false;
         ToolTip.Cursor = 0;
         ToolTip.DoubleBuffered = false;
-        ToolTip.MaskColor = 0;
+        ToolTip.MaskColor = Color.Black;
         ToolTip.FreeSurfaceOnHide = false;
         ToolTip.ImageLibraryIndexFrame = 24;
         ToolTip.ImageLibraryIndexTexture = 3;
-        ToolTip.TextColor = 0;
+        ToolTip.TextColor = Color.Black;
         ToolTip.ToolTipStatic = false;
         ToolTip.ToolTipDelay = 25;
         ToolTip.ShowDuration = 250;

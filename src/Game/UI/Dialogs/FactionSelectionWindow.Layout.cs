@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -67,7 +68,7 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         TopLabel.Alignment.BottomOffset = 0;
         TopLabel.Masked = false;
         TopLabel.Text = "Choose a Faction";
-        TopLabel.TextColor = 0;
+        TopLabel.TextColor = Color.Black;
         session.EndRead(TopLabel);
         LightPanel = new Panel(this);
         session.BeginRead(LightPanel);
@@ -134,7 +135,7 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         ];
         LightTextMemo.BorderWidth = 20;
         LightTextMemo.BorderHeight = 20;
-        LightTextMemo.TextColor = 16777215;
+        LightTextMemo.TextColor = Color.White;
         LightTextMemo.CursorChar = 124;
         LightTextMemo.BlinkDelay = 0;
         LightTextMemo.Editable = false;
@@ -171,8 +172,8 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         LightStartButton.ImageLibraryIndexLit = 0;
         LightStartButton.ImageLibraryIndexUp = 0;
         LightStartButton.Text = "Join!";
-        LightStartButton.TextColor = 0;
-        LightStartButton.TextSelectedColor = 0;
+        LightStartButton.TextColor = Color.Black;
+        LightStartButton.TextSelectedColor = Color.Black;
         LightStartButton.WinWidth = 109;
         LightStartButton.Clicked += (_, _) => LStartClick(0);
         session.EndRead(LightStartButton);
@@ -203,8 +204,8 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         LightBackButton.ImageLibraryIndexLit = 0;
         LightBackButton.ImageLibraryIndexUp = 0;
         LightBackButton.Text = "Back";
-        LightBackButton.TextColor = 0;
-        LightBackButton.TextSelectedColor = 0;
+        LightBackButton.TextColor = Color.Black;
+        LightBackButton.TextSelectedColor = Color.Black;
         LightBackButton.WinWidth = 109;
         LightBackButton.Clicked += (_, _) => LBackClick();
         session.EndRead(LightBackButton);
@@ -293,8 +294,8 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         DarkStartButton.ImageLibraryIndexLit = 0;
         DarkStartButton.ImageLibraryIndexUp = 0;
         DarkStartButton.Text = "Join!";
-        DarkStartButton.TextColor = 0;
-        DarkStartButton.TextSelectedColor = 0;
+        DarkStartButton.TextColor = Color.Black;
+        DarkStartButton.TextSelectedColor = Color.Black;
         DarkStartButton.WinWidth = 109;
         DarkStartButton.Clicked += (_, _) => LStartClick(1);
         session.EndRead(DarkStartButton);
@@ -325,8 +326,8 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         DarkBackButton.ImageLibraryIndexLit = 0;
         DarkBackButton.ImageLibraryIndexUp = 0;
         DarkBackButton.Text = "Back";
-        DarkBackButton.TextColor = 0;
-        DarkBackButton.TextSelectedColor = 0;
+        DarkBackButton.TextColor = Color.Black;
+        DarkBackButton.TextSelectedColor = Color.Black;
         DarkBackButton.WinWidth = 109;
         DarkBackButton.Clicked += (_, _) => DBackClick();
         session.EndRead(DarkBackButton);
@@ -352,7 +353,7 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         LightNameLabel.Alignment.BottomOffset = 0;
         LightNameLabel.Masked = false;
         LightNameLabel.Text = "The Keepers";
-        LightNameLabel.TextColor = 0;
+        LightNameLabel.TextColor = Color.Black;
         session.EndRead(LightNameLabel);
         DarkTextMemo = new Memo(this);
         session.BeginRead(DarkTextMemo);
@@ -391,7 +392,7 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         ];
         DarkTextMemo.BorderWidth = 20;
         DarkTextMemo.BorderHeight = 20;
-        DarkTextMemo.TextColor = 16777215;
+        DarkTextMemo.TextColor = Color.White;
         DarkTextMemo.CursorChar = 124;
         DarkTextMemo.BlinkDelay = 0;
         DarkTextMemo.Editable = false;
@@ -423,7 +424,7 @@ public sealed partial class FactionSelectionWindow : ILayoutModule
         DarkNameLabel.Alignment.BottomOffset = 0;
         DarkNameLabel.Masked = false;
         DarkNameLabel.Text = "The Cult of Storms";
-        DarkNameLabel.TextColor = 0;
+        DarkNameLabel.TextColor = Color.Black;
         session.EndRead(DarkNameLabel);
         DarkSphereImage = new Image(this);
         session.BeginRead(DarkSphereImage);

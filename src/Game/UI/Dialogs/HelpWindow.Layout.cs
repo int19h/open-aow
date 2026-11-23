@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -43,7 +44,7 @@ public sealed partial class HelpWindow : ILayoutModule
         MainWindow.OverlapTopCorners = false;
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
-        MainWindow.MaskColor = 0;
+        MainWindow.MaskColor = Color.Black;
         MainWindow.FreeSurfaceOnHide = false;
         MainWindow.ImageLibraryIndexFrame = 0;
         MainWindow.ImageLibraryIndexTexture = 2;
@@ -81,7 +82,7 @@ public sealed partial class HelpWindow : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Help";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Button closeBtn = new(this);
         session.BeginRead(closeBtn);
@@ -112,8 +113,8 @@ public sealed partial class HelpWindow : ILayoutModule
         closeBtn.ImageLibraryIndexDown = 1;
         closeBtn.ImageLibraryIndexLit = 2;
         closeBtn.ImageLibraryIndexUp = 0;
-        closeBtn.TextColor = 0;
-        closeBtn.TextSelectedColor = 0;
+        closeBtn.TextColor = Color.Black;
+        closeBtn.TextSelectedColor = Color.Black;
         closeBtn.WinWidth = 15;
         closeBtn.Clicked += (_, _) => CloseBtnClick();
         session.EndRead(closeBtn);
@@ -227,8 +228,8 @@ public sealed partial class HelpWindow : ILayoutModule
         bCloseBut.ImageLibraryIndexLit = 25;
         bCloseBut.ImageLibraryIndexUp = 19;
         bCloseBut.Text = "Close";
-        bCloseBut.TextColor = 0;
-        bCloseBut.TextSelectedColor = 16777215;
+        bCloseBut.TextColor = Color.Black;
+        bCloseBut.TextSelectedColor = Color.White;
         bCloseBut.WinWidth = 134;
         bCloseBut.Clicked += (_, _) => CloseBtnClick();
         session.EndRead(bCloseBut);
@@ -376,7 +377,7 @@ public sealed partial class HelpWindow : ILayoutModule
         HeaderMemo.WinHeight = 35;
         HeaderMemo.BorderWidth = 10;
         HeaderMemo.BorderHeight = 9;
-        HeaderMemo.TextColor = 0;
+        HeaderMemo.TextColor = Color.Black;
         HeaderMemo.CursorChar = 124;
         HeaderMemo.BlinkDelay = 0;
         HeaderMemo.Editable = false;
@@ -410,7 +411,7 @@ public sealed partial class HelpWindow : ILayoutModule
         HelpMemo.WinHeight = 318;
         HelpMemo.BorderWidth = 10;
         HelpMemo.BorderHeight = 9;
-        HelpMemo.TextColor = 2565942;
+        HelpMemo.TextColor = new Color(54, 39, 39);
         HelpMemo.CursorChar = 124;
         HelpMemo.BlinkDelay = 0;
         HelpMemo.Editable = false;

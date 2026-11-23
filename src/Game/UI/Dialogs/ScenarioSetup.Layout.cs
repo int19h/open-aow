@@ -4,6 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -40,7 +41,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         ChatMemo.WinHeight = 93;
         ChatMemo.BorderWidth = 6;
         ChatMemo.BorderHeight = 5;
-        ChatMemo.TextColor = 12632256;
+        ChatMemo.TextColor = Color.Silver;
         ChatMemo.CursorChar = 124;
         ChatMemo.BlinkDelay = 1;
         ChatMemo.Editable = false;
@@ -141,7 +142,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         ChatEdit.MaxChars = 0;
         ChatEdit.CursorChar = 95;
         ChatEdit.BlinkDelay = 1;
-        ChatEdit.TextColor = 15134446;
+        ChatEdit.TextColor = new Color(238, 238, 230);
         ChatEdit.Editable = true;
         ChatEdit.ImageLibraryIndex = 23;
         ChatEdit.ReturnPressed += (_, _) => ChatEditReturn();
@@ -237,8 +238,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
             LockedSurface surface = e.Surface;
             PlayerListDrawItem(e.Rectangle, drawItem: e.Item, lockedSurface: in surface);
         };
-        PlayerList.TextColor = 15134446;
-        PlayerList.TextSelectedColor = 0;
+        PlayerList.TextColor = new Color(238, 238, 230);
+        PlayerList.TextSelectedColor = Color.Black;
         PlayerList.ImageLibraryIndexFrame = 64;
         PlayerList.ImageLibraryIndexTNormal = 4;
         PlayerList.ImageLibraryIndexTSelected = 16;
@@ -275,8 +276,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         EjectButton.ImageLibraryIndexLit = 38;
         EjectButton.ImageLibraryIndexUp = 32;
         EjectButton.Text = "EJECT";
-        EjectButton.TextColor = 15134446;
-        EjectButton.TextSelectedColor = 16777215;
+        EjectButton.TextColor = new Color(238, 238, 230);
+        EjectButton.TextSelectedColor = Color.White;
         EjectButton.WinWidth = 70;
         EjectButton.Clicked += (_, _) => EjectBtnClick();
         session.EndRead(EjectButton);
@@ -657,8 +658,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         exitGame.ImageLibraryIndexLit = 38;
         exitGame.ImageLibraryIndexUp = 32;
         exitGame.Text = "Exit";
-        exitGame.TextColor = 15134446;
-        exitGame.TextSelectedColor = 16777215;
+        exitGame.TextColor = new Color(238, 238, 230);
+        exitGame.TextSelectedColor = Color.White;
         exitGame.WinWidth = 114;
         exitGame.Clicked += (_, _) => ExitGameClick();
         session.EndRead(exitGame);
@@ -692,8 +693,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         PickScenarioButton.ImageLibraryIndexLit = 38;
         PickScenarioButton.ImageLibraryIndexUp = 32;
         PickScenarioButton.Text = "Scenario";
-        PickScenarioButton.TextColor = 15134446;
-        PickScenarioButton.TextSelectedColor = 16777215;
+        PickScenarioButton.TextColor = new Color(238, 238, 230);
+        PickScenarioButton.TextSelectedColor = Color.White;
         PickScenarioButton.WinWidth = 114;
         PickScenarioButton.Clicked += (_, _) => PickScenarioBtnClick();
         session.EndRead(PickScenarioButton);
@@ -727,8 +728,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         StartButton.ImageLibraryIndexLit = 38;
         StartButton.ImageLibraryIndexUp = 32;
         StartButton.Text = "Start!";
-        StartButton.TextColor = 15134446;
-        StartButton.TextSelectedColor = 16777215;
+        StartButton.TextColor = new Color(238, 238, 230);
+        StartButton.TextSelectedColor = Color.White;
         StartButton.WinWidth = 114;
         StartButton.Clicked += (_, _) => StartBtnClick();
         session.EndRead(StartButton);
@@ -753,7 +754,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         miscLbl.Alignment.BottomOffset = 0;
         miscLbl.Masked = true;
         miscLbl.Text = "Miscellaneous";
-        miscLbl.TextColor = 12632256;
+        miscLbl.TextColor = Color.Silver;
         session.EndRead(miscLbl);
         ScenarioSetupPanel = new Panel(this);
         session.BeginRead(ScenarioSetupPanel);
@@ -833,7 +834,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         r1Lbl.Alignment.BottomOffset = 0;
         r1Lbl.Masked = true;
         r1Lbl.Text = "Humans";
-        r1Lbl.TextColor = 14316400;
+        r1Lbl.TextColor = new Color(112, 115, 218);
         session.EndRead(r1Lbl);
         ComboBox side1PlayerComboBox = new(this);
         Side1PlayerComboBox = side1PlayerComboBox;
@@ -865,8 +866,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side1PlayerComboBox.Changed += (_, _) => SidePlayerComboBoxChange(side1PlayerComboBox, slot: 0);
         Side1PlayerComboBox.Selected = -1;
         Side1PlayerComboBox.PriorityOpened = 170;
-        Side1PlayerComboBox.TextColor = 14316400;
-        Side1PlayerComboBox.TextSelectedColor = 16777215;
+        Side1PlayerComboBox.TextColor = new Color(112, 115, 218);
+        Side1PlayerComboBox.TextSelectedColor = Color.White;
         Side1PlayerComboBox.ILEIndex = 26;
         Side1PlayerComboBox.ILFIndex = 64;
         Side1PlayerComboBox.ImageLibraryTnIndex = 4;
@@ -921,7 +922,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         turnLbl.Alignment.BottomOffset = 0;
         turnLbl.Masked = true;
         turnLbl.Text = "Turns ";
-        turnLbl.TextColor = 12632256;
+        turnLbl.TextColor = Color.Silver;
         session.EndRead(turnLbl);
         Label durationLbl = new(this);
         session.BeginRead(durationLbl);
@@ -944,7 +945,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         durationLbl.Alignment.BottomOffset = 0;
         durationLbl.Masked = true;
         durationLbl.Text = "Duration";
-        durationLbl.TextColor = 12632256;
+        durationLbl.TextColor = Color.Silver;
         session.EndRead(durationLbl);
         Label turnsLbl = new(this);
         session.BeginRead(turnsLbl);
@@ -971,7 +972,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         turnsLbl.Alignment.BottomOffset = 0;
         turnsLbl.Masked = true;
         turnsLbl.Text = "Turns";
-        turnsLbl.TextColor = 8421504;
+        turnsLbl.TextColor = Color.Gray;
         session.EndRead(turnsLbl);
         Label turnTimeLbl = new(this);
         session.BeginRead(turnTimeLbl);
@@ -998,7 +999,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         turnTimeLbl.Alignment.BottomOffset = 0;
         turnTimeLbl.Masked = true;
         turnTimeLbl.Text = "Turn Time";
-        turnTimeLbl.TextColor = 8421504;
+        turnTimeLbl.TextColor = Color.Gray;
         session.EndRead(turnTimeLbl);
         TurnTimeSlider = new HorizontalScrollBar(this);
         session.BeginRead(TurnTimeSlider);
@@ -1066,7 +1067,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         TurnTimeValueLabel.Alignment.BottomOffset = 0;
         TurnTimeValueLabel.Masked = true;
         TurnTimeValueLabel.Text = "#######";
-        TurnTimeValueLabel.TextColor = 8421504;
+        TurnTimeValueLabel.TextColor = Color.Gray;
         session.EndRead(TurnTimeValueLabel);
         Frame durFr = new(this);
         session.BeginRead(durFr);
@@ -1161,7 +1162,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         TurnsValueLabel.Alignment.BottomOffset = 0;
         TurnsValueLabel.Masked = true;
         TurnsValueLabel.Text = "#######";
-        TurnsValueLabel.TextColor = 8421504;
+        TurnsValueLabel.TextColor = Color.Gray;
         session.EndRead(TurnsValueLabel);
         ComboBox side1BehaviorComboBox = new(this);
         Side1BehaviorComboBox = side1BehaviorComboBox;
@@ -1193,8 +1194,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side1BehaviorComboBox.Changed += (_, _) => SideBehaviorComboBoxChange(side1BehaviorComboBox, slot: 0);
         Side1BehaviorComboBox.Selected = -1;
         Side1BehaviorComboBox.PriorityOpened = 160;
-        Side1BehaviorComboBox.TextColor = 14316400;
-        Side1BehaviorComboBox.TextSelectedColor = 16777215;
+        Side1BehaviorComboBox.TextColor = new Color(112, 115, 218);
+        Side1BehaviorComboBox.TextSelectedColor = Color.White;
         Side1BehaviorComboBox.ILEIndex = 26;
         Side1BehaviorComboBox.ILFIndex = 64;
         Side1BehaviorComboBox.ImageLibraryTnIndex = 4;
@@ -1304,8 +1305,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         PlayModeComboBox.Changed += (_, _) => PlayModeCBChange();
         PlayModeComboBox.Selected = -1;
         PlayModeComboBox.PriorityOpened = 500;
-        PlayModeComboBox.TextColor = 15134446;
-        PlayModeComboBox.TextSelectedColor = 16777215;
+        PlayModeComboBox.TextColor = new Color(238, 238, 230);
+        PlayModeComboBox.TextSelectedColor = Color.White;
         PlayModeComboBox.ILEIndex = 26;
         PlayModeComboBox.ILFIndex = 64;
         PlayModeComboBox.ImageLibraryTnIndex = 4;
@@ -1369,7 +1370,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side1InfoLabel.Alignment.TopOffset = 0;
         Side1InfoLabel.Alignment.BottomOffset = 7;
         Side1InfoLabel.Masked = true;
-        Side1InfoLabel.TextColor = 14316400;
+        Side1InfoLabel.TextColor = new Color(112, 115, 218);
         session.EndRead(Side1InfoLabel);
         Panel r3CenterPnl = new(this);
         session.BeginRead(r3CenterPnl);
@@ -1419,7 +1420,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         r3Lbl.Alignment.BottomOffset = 0;
         r3Lbl.Masked = true;
         r3Lbl.Text = "Lizard Men";
-        r3Lbl.TextColor = 9347661;
+        r3Lbl.TextColor = new Color(77, 162, 142);
         session.EndRead(r3Lbl);
         ComboBox side3BehaviorComboBox = new(this);
         Side3BehaviorComboBox = side3BehaviorComboBox;
@@ -1452,8 +1453,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side3BehaviorComboBox.Changed += (_, _) => SideBehaviorComboBoxChange(side3BehaviorComboBox, slot: 2);
         Side3BehaviorComboBox.Selected = -1;
         Side3BehaviorComboBox.PriorityOpened = 120;
-        Side3BehaviorComboBox.TextColor = 9347661;
-        Side3BehaviorComboBox.TextSelectedColor = 16777215;
+        Side3BehaviorComboBox.TextColor = new Color(77, 162, 142);
+        Side3BehaviorComboBox.TextSelectedColor = Color.White;
         Side3BehaviorComboBox.ILEIndex = 26;
         Side3BehaviorComboBox.ILFIndex = 64;
         Side3BehaviorComboBox.ImageLibraryTnIndex = 4;
@@ -1545,7 +1546,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side3PlayerLabel.Alignment.TopOffset = 0;
         Side3PlayerLabel.Alignment.BottomOffset = 25;
         Side3PlayerLabel.Masked = true;
-        Side3PlayerLabel.TextColor = 9347661;
+        Side3PlayerLabel.TextColor = new Color(77, 162, 142);
         session.EndRead(Side3PlayerLabel);
         ComboBox side3PlayerComboBox = new(this);
         Side3PlayerComboBox = side3PlayerComboBox;
@@ -1578,8 +1579,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side3PlayerComboBox.Changed += (_, _) => SidePlayerComboBoxChange(side3PlayerComboBox, slot: 2);
         Side3PlayerComboBox.Selected = -1;
         Side3PlayerComboBox.PriorityOpened = 130;
-        Side3PlayerComboBox.TextColor = 9347661;
-        Side3PlayerComboBox.TextSelectedColor = 16777215;
+        Side3PlayerComboBox.TextColor = new Color(77, 162, 142);
+        Side3PlayerComboBox.TextSelectedColor = Color.White;
         Side3PlayerComboBox.ILEIndex = 26;
         Side3PlayerComboBox.ILFIndex = 64;
         Side3PlayerComboBox.ImageLibraryTnIndex = 4;
@@ -1643,7 +1644,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side3InfoLabel.Alignment.TopOffset = 0;
         Side3InfoLabel.Alignment.BottomOffset = 7;
         Side3InfoLabel.Masked = true;
-        Side3InfoLabel.TextColor = 9347661;
+        Side3InfoLabel.TextColor = new Color(77, 162, 142);
         session.EndRead(Side3InfoLabel);
         Panel r2CenterPnl = new(this);
         session.BeginRead(r2CenterPnl);
@@ -1693,7 +1694,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         r2Lbl.Alignment.BottomOffset = 0;
         r2Lbl.Masked = true;
         r2Lbl.Text = "Azracs";
-        r2Lbl.TextColor = 7845352;
+        r2Lbl.TextColor = new Color(232, 181, 119);
         session.EndRead(r2Lbl);
         ComboBox side2BehaviorComboBox = new(this);
         Side2BehaviorComboBox = side2BehaviorComboBox;
@@ -1726,8 +1727,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side2BehaviorComboBox.Changed += (_, _) => SideBehaviorComboBoxChange(side2BehaviorComboBox, slot: 1);
         Side2BehaviorComboBox.Selected = -1;
         Side2BehaviorComboBox.PriorityOpened = 140;
-        Side2BehaviorComboBox.TextColor = 7845352;
-        Side2BehaviorComboBox.TextSelectedColor = 16777215;
+        Side2BehaviorComboBox.TextColor = new Color(232, 181, 119);
+        Side2BehaviorComboBox.TextSelectedColor = Color.White;
         Side2BehaviorComboBox.ILEIndex = 26;
         Side2BehaviorComboBox.ILFIndex = 64;
         Side2BehaviorComboBox.ImageLibraryTnIndex = 4;
@@ -1819,7 +1820,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side2InfoLabel.Alignment.TopOffset = 0;
         Side2InfoLabel.Alignment.BottomOffset = 7;
         Side2InfoLabel.Masked = true;
-        Side2InfoLabel.TextColor = 7845352;
+        Side2InfoLabel.TextColor = new Color(232, 181, 119);
         session.EndRead(Side2InfoLabel);
         ComboBox side2PlayerComboBox = new(this);
         Side2PlayerComboBox = side2PlayerComboBox;
@@ -1852,8 +1853,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side2PlayerComboBox.Changed += (_, _) => SidePlayerComboBoxChange(side2PlayerComboBox, slot: 1);
         Side2PlayerComboBox.Selected = -1;
         Side2PlayerComboBox.PriorityOpened = 150;
-        Side2PlayerComboBox.TextColor = 7845352;
-        Side2PlayerComboBox.TextSelectedColor = 16777215;
+        Side2PlayerComboBox.TextColor = new Color(232, 181, 119);
+        Side2PlayerComboBox.TextSelectedColor = Color.White;
         Side2PlayerComboBox.ILEIndex = 26;
         Side2PlayerComboBox.ILFIndex = 64;
         Side2PlayerComboBox.ImageLibraryTnIndex = 4;
@@ -1917,7 +1918,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side2PlayerLabel.Alignment.TopOffset = 0;
         Side2PlayerLabel.Alignment.BottomOffset = 25;
         Side2PlayerLabel.Masked = true;
-        Side2PlayerLabel.TextColor = 7845352;
+        Side2PlayerLabel.TextColor = new Color(232, 181, 119);
         session.EndRead(Side2PlayerLabel);
         Side4InfoLabel = new Label(this);
         session.BeginRead(Side4InfoLabel);
@@ -1939,7 +1940,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side4InfoLabel.Alignment.TopOffset = 0;
         Side4InfoLabel.Alignment.BottomOffset = 7;
         Side4InfoLabel.Masked = true;
-        Side4InfoLabel.TextColor = 15188376;
+        Side4InfoLabel.TextColor = new Color(152, 193, 231);
         session.EndRead(Side4InfoLabel);
         Side4PlayerLabel = new Label(this);
         session.BeginRead(Side4PlayerLabel);
@@ -1961,7 +1962,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side4PlayerLabel.Alignment.TopOffset = 0;
         Side4PlayerLabel.Alignment.BottomOffset = 25;
         Side4PlayerLabel.Masked = true;
-        Side4PlayerLabel.TextColor = 15188376;
+        Side4PlayerLabel.TextColor = new Color(152, 193, 231);
         session.EndRead(Side4PlayerLabel);
         Panel r4CenterPnl = new(this);
         session.BeginRead(r4CenterPnl);
@@ -2011,7 +2012,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         r4Lbl.Alignment.BottomOffset = 0;
         r4Lbl.Masked = true;
         r4Lbl.Text = "Frostlings";
-        r4Lbl.TextColor = 15188376;
+        r4Lbl.TextColor = new Color(152, 193, 231);
         session.EndRead(r4Lbl);
         VerticalScrollBar r4BehaviorSB = new(this);
         session.BeginRead(r4BehaviorSB);
@@ -2081,8 +2082,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side4PlayerComboBox.Changed += (_, _) => SidePlayerComboBoxChange(side4PlayerComboBox, slot: 3);
         Side4PlayerComboBox.Selected = -1;
         Side4PlayerComboBox.PriorityOpened = 110;
-        Side4PlayerComboBox.TextColor = 15188376;
-        Side4PlayerComboBox.TextSelectedColor = 16777215;
+        Side4PlayerComboBox.TextColor = new Color(152, 193, 231);
+        Side4PlayerComboBox.TextSelectedColor = Color.White;
         Side4PlayerComboBox.ILEIndex = 26;
         Side4PlayerComboBox.ILFIndex = 64;
         Side4PlayerComboBox.ImageLibraryTnIndex = 4;
@@ -2203,7 +2204,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         r5Lbl.Alignment.BottomOffset = 0;
         r5Lbl.Masked = true;
         r5Lbl.Text = "Elves";
-        r5Lbl.TextColor = 4830826;
+        r5Lbl.TextColor = new Color(106, 182, 73);
         session.EndRead(r5Lbl);
         ComboBox side5PlayerComboBox = new(this);
         Side5PlayerComboBox = side5PlayerComboBox;
@@ -2236,8 +2237,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side5PlayerComboBox.Changed += (_, _) => SidePlayerComboBoxChange(side5PlayerComboBox, slot: 4);
         Side5PlayerComboBox.Selected = -1;
         Side5PlayerComboBox.PriorityOpened = 170;
-        Side5PlayerComboBox.TextColor = 4830826;
-        Side5PlayerComboBox.TextSelectedColor = 16777215;
+        Side5PlayerComboBox.TextColor = new Color(106, 182, 73);
+        Side5PlayerComboBox.TextSelectedColor = Color.White;
         Side5PlayerComboBox.ILEIndex = 26;
         Side5PlayerComboBox.ILFIndex = 64;
         Side5PlayerComboBox.ImageLibraryTnIndex = 4;
@@ -2302,8 +2303,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side5BehaviorComboBox.Changed += (_, _) => SideBehaviorComboBoxChange(side5BehaviorComboBox, slot: 4);
         Side5BehaviorComboBox.Selected = -1;
         Side5BehaviorComboBox.PriorityOpened = 160;
-        Side5BehaviorComboBox.TextColor = 4830826;
-        Side5BehaviorComboBox.TextSelectedColor = 16777215;
+        Side5BehaviorComboBox.TextColor = new Color(106, 182, 73);
+        Side5BehaviorComboBox.TextSelectedColor = Color.White;
         Side5BehaviorComboBox.ILEIndex = 26;
         Side5BehaviorComboBox.ILFIndex = 64;
         Side5BehaviorComboBox.ImageLibraryTnIndex = 4;
@@ -2404,7 +2405,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side5InfoLabel.Alignment.TopOffset = 0;
         Side5InfoLabel.Alignment.BottomOffset = 7;
         Side5InfoLabel.Masked = true;
-        Side5InfoLabel.TextColor = 4830826;
+        Side5InfoLabel.TextColor = new Color(106, 182, 73);
         session.EndRead(Side5InfoLabel);
         Side5PlayerLabel = new Label(this);
         session.BeginRead(Side5PlayerLabel);
@@ -2426,7 +2427,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side5PlayerLabel.Alignment.TopOffset = 0;
         Side5PlayerLabel.Alignment.BottomOffset = 25;
         Side5PlayerLabel.Masked = true;
-        Side5PlayerLabel.TextColor = 4830826;
+        Side5PlayerLabel.TextColor = new Color(106, 182, 73);
         session.EndRead(Side5PlayerLabel);
         Panel r6CenterPnl = new(this);
         session.BeginRead(r6CenterPnl);
@@ -2476,7 +2477,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         r6Lbl.Alignment.BottomOffset = 0;
         r6Lbl.Masked = true;
         r6Lbl.Text = "Halflings";
-        r6Lbl.TextColor = 7464174;
+        r6Lbl.TextColor = new Color(238, 228, 113);
         session.EndRead(r6Lbl);
         ComboBox side6BehaviorComboBox = new(this);
         Side6BehaviorComboBox = side6BehaviorComboBox;
@@ -2509,8 +2510,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side6BehaviorComboBox.Changed += (_, _) => SideBehaviorComboBoxChange(side6BehaviorComboBox, slot: 5);
         Side6BehaviorComboBox.Selected = -1;
         Side6BehaviorComboBox.PriorityOpened = 140;
-        Side6BehaviorComboBox.TextColor = 7464174;
-        Side6BehaviorComboBox.TextSelectedColor = 16777215;
+        Side6BehaviorComboBox.TextColor = new Color(238, 228, 113);
+        Side6BehaviorComboBox.TextSelectedColor = Color.White;
         Side6BehaviorComboBox.ILEIndex = 26;
         Side6BehaviorComboBox.ILFIndex = 64;
         Side6BehaviorComboBox.ImageLibraryTnIndex = 4;
@@ -2602,7 +2603,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side6PlayerLabel.Alignment.TopOffset = 0;
         Side6PlayerLabel.Alignment.BottomOffset = 25;
         Side6PlayerLabel.Masked = true;
-        Side6PlayerLabel.TextColor = 7464174;
+        Side6PlayerLabel.TextColor = new Color(238, 228, 113);
         session.EndRead(Side6PlayerLabel);
         ComboBox side6PlayerComboBox = new(this);
         Side6PlayerComboBox = side6PlayerComboBox;
@@ -2635,8 +2636,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side6PlayerComboBox.Changed += (_, _) => SidePlayerComboBoxChange(side6PlayerComboBox, slot: 5);
         Side6PlayerComboBox.Selected = -1;
         Side6PlayerComboBox.PriorityOpened = 150;
-        Side6PlayerComboBox.TextColor = 7464174;
-        Side6PlayerComboBox.TextSelectedColor = 16777215;
+        Side6PlayerComboBox.TextColor = new Color(238, 228, 113);
+        Side6PlayerComboBox.TextSelectedColor = Color.White;
         Side6PlayerComboBox.ILEIndex = 26;
         Side6PlayerComboBox.ILFIndex = 64;
         Side6PlayerComboBox.ImageLibraryTnIndex = 4;
@@ -2700,7 +2701,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side6InfoLabel.Alignment.TopOffset = 0;
         Side6InfoLabel.Alignment.BottomOffset = 7;
         Side6InfoLabel.Masked = true;
-        Side6InfoLabel.TextColor = 7464174;
+        Side6InfoLabel.TextColor = new Color(238, 228, 113);
         session.EndRead(Side6InfoLabel);
         Panel r7CenterPnl = new(this);
         session.BeginRead(r7CenterPnl);
@@ -2750,7 +2751,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         r7Lbl.Alignment.BottomOffset = 0;
         r7Lbl.Masked = true;
         r7Lbl.Text = "Dwarves";
-        r7Lbl.TextColor = 9351120;
+        r7Lbl.TextColor = new Color(208, 175, 142);
         session.EndRead(r7Lbl);
         ComboBox side7BehaviorComboBox = new(this);
         Side7BehaviorComboBox = side7BehaviorComboBox;
@@ -2783,8 +2784,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side7BehaviorComboBox.Changed += (_, _) => SideBehaviorComboBoxChange(side7BehaviorComboBox, slot: 6);
         Side7BehaviorComboBox.Selected = -1;
         Side7BehaviorComboBox.PriorityOpened = 120;
-        Side7BehaviorComboBox.TextColor = 9351120;
-        Side7BehaviorComboBox.TextSelectedColor = 16777215;
+        Side7BehaviorComboBox.TextColor = new Color(208, 175, 142);
+        Side7BehaviorComboBox.TextSelectedColor = Color.White;
         Side7BehaviorComboBox.ILEIndex = 26;
         Side7BehaviorComboBox.ILFIndex = 64;
         Side7BehaviorComboBox.ImageLibraryTnIndex = 4;
@@ -2876,7 +2877,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side7PlayerLabel.Alignment.TopOffset = 0;
         Side7PlayerLabel.Alignment.BottomOffset = 25;
         Side7PlayerLabel.Masked = true;
-        Side7PlayerLabel.TextColor = 9351120;
+        Side7PlayerLabel.TextColor = new Color(208, 175, 142);
         session.EndRead(Side7PlayerLabel);
         ComboBox side7PlayerComboBox = new(this);
         Side7PlayerComboBox = side7PlayerComboBox;
@@ -2909,8 +2910,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side7PlayerComboBox.Changed += (_, _) => SidePlayerComboBoxChange(side7PlayerComboBox, slot: 6);
         Side7PlayerComboBox.Selected = -1;
         Side7PlayerComboBox.PriorityOpened = 130;
-        Side7PlayerComboBox.TextColor = 9351120;
-        Side7PlayerComboBox.TextSelectedColor = 16777215;
+        Side7PlayerComboBox.TextColor = new Color(208, 175, 142);
+        Side7PlayerComboBox.TextSelectedColor = Color.White;
         Side7PlayerComboBox.ILEIndex = 26;
         Side7PlayerComboBox.ILFIndex = 64;
         Side7PlayerComboBox.ImageLibraryTnIndex = 4;
@@ -2974,7 +2975,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side7InfoLabel.Alignment.TopOffset = 0;
         Side7InfoLabel.Alignment.BottomOffset = 7;
         Side7InfoLabel.Masked = true;
-        Side7InfoLabel.TextColor = 9351120;
+        Side7InfoLabel.TextColor = new Color(208, 175, 142);
         session.EndRead(Side7InfoLabel);
         Side8InfoLabel = new Label(this);
         session.BeginRead(Side8InfoLabel);
@@ -2996,7 +2997,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side8InfoLabel.Alignment.TopOffset = 0;
         Side8InfoLabel.Alignment.BottomOffset = 7;
         Side8InfoLabel.Masked = true;
-        Side8InfoLabel.TextColor = 14346733;
+        Side8InfoLabel.TextColor = new Color(237, 233, 218);
         session.EndRead(Side8InfoLabel);
         Side8PlayerLabel = new Label(this);
         session.BeginRead(Side8PlayerLabel);
@@ -3018,7 +3019,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side8PlayerLabel.Alignment.TopOffset = 0;
         Side8PlayerLabel.Alignment.BottomOffset = 25;
         Side8PlayerLabel.Masked = true;
-        Side8PlayerLabel.TextColor = 14346733;
+        Side8PlayerLabel.TextColor = new Color(237, 233, 218);
         session.EndRead(Side8PlayerLabel);
         Panel r8CenterPnl = new(this);
         session.BeginRead(r8CenterPnl);
@@ -3068,7 +3069,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         r8Lbl.Alignment.BottomOffset = 0;
         r8Lbl.Masked = true;
         r8Lbl.Text = "High Men";
-        r8Lbl.TextColor = 14346733;
+        r8Lbl.TextColor = new Color(237, 233, 218);
         session.EndRead(r8Lbl);
         ComboBox side8BehaviorComboBox = new(this);
         Side8BehaviorComboBox = side8BehaviorComboBox;
@@ -3101,8 +3102,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side8BehaviorComboBox.Changed += (_, _) => SideBehaviorComboBoxChange(side8BehaviorComboBox, slot: 7);
         Side8BehaviorComboBox.Selected = -1;
         Side8BehaviorComboBox.PriorityOpened = 100;
-        Side8BehaviorComboBox.TextColor = 14346733;
-        Side8BehaviorComboBox.TextSelectedColor = 16777215;
+        Side8BehaviorComboBox.TextColor = new Color(237, 233, 218);
+        Side8BehaviorComboBox.TextSelectedColor = Color.White;
         Side8BehaviorComboBox.ILEIndex = 26;
         Side8BehaviorComboBox.ILFIndex = 64;
         Side8BehaviorComboBox.ImageLibraryTnIndex = 4;
@@ -3177,8 +3178,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side8PlayerComboBox.Changed += (_, _) => SidePlayerComboBoxChange(side8PlayerComboBox, slot: 7);
         Side8PlayerComboBox.Selected = -1;
         Side8PlayerComboBox.PriorityOpened = 110;
-        Side8PlayerComboBox.TextColor = 14346733;
-        Side8PlayerComboBox.TextSelectedColor = 16777215;
+        Side8PlayerComboBox.TextColor = new Color(237, 233, 218);
+        Side8PlayerComboBox.TextSelectedColor = Color.White;
         Side8PlayerComboBox.ILEIndex = 26;
         Side8PlayerComboBox.ILFIndex = 64;
         Side8PlayerComboBox.ImageLibraryTnIndex = 4;
@@ -3299,7 +3300,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         r9Lbl.Alignment.BottomOffset = 0;
         r9Lbl.Masked = true;
         r9Lbl.Text = "Dark Elves";
-        r9Lbl.TextColor = 12215222;
+        r9Lbl.TextColor = new Color(182, 99, 186);
         session.EndRead(r9Lbl);
         ComboBox side9PlayerComboBox = new(this);
         Side9PlayerComboBox = side9PlayerComboBox;
@@ -3332,8 +3333,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side9PlayerComboBox.Changed += (_, _) => SidePlayerComboBoxChange(side9PlayerComboBox, slot: 8);
         Side9PlayerComboBox.Selected = -1;
         Side9PlayerComboBox.PriorityOpened = 170;
-        Side9PlayerComboBox.TextColor = 12215222;
-        Side9PlayerComboBox.TextSelectedColor = 16777215;
+        Side9PlayerComboBox.TextColor = new Color(182, 99, 186);
+        Side9PlayerComboBox.TextSelectedColor = Color.White;
         Side9PlayerComboBox.ILEIndex = 26;
         Side9PlayerComboBox.ILFIndex = 64;
         Side9PlayerComboBox.ImageLibraryTnIndex = 4;
@@ -3398,8 +3399,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side9BehaviorComboBox.Changed += (_, _) => SideBehaviorComboBoxChange(side9BehaviorComboBox, slot: 8);
         Side9BehaviorComboBox.Selected = -1;
         Side9BehaviorComboBox.PriorityOpened = 160;
-        Side9BehaviorComboBox.TextColor = 12215222;
-        Side9BehaviorComboBox.TextSelectedColor = 16777215;
+        Side9BehaviorComboBox.TextColor = new Color(182, 99, 186);
+        Side9BehaviorComboBox.TextSelectedColor = Color.White;
         Side9BehaviorComboBox.ILEIndex = 26;
         Side9BehaviorComboBox.ILFIndex = 64;
         Side9BehaviorComboBox.ImageLibraryTnIndex = 4;
@@ -3500,7 +3501,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side9InfoLabel.Alignment.TopOffset = 0;
         Side9InfoLabel.Alignment.BottomOffset = 7;
         Side9InfoLabel.Masked = true;
-        Side9InfoLabel.TextColor = 12215222;
+        Side9InfoLabel.TextColor = new Color(182, 99, 186);
         session.EndRead(Side9InfoLabel);
         Side9PlayerLabel = new Label(this);
         session.BeginRead(Side9PlayerLabel);
@@ -3522,7 +3523,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side9PlayerLabel.Alignment.TopOffset = 0;
         Side9PlayerLabel.Alignment.BottomOffset = 25;
         Side9PlayerLabel.Masked = true;
-        Side9PlayerLabel.TextColor = 12215222;
+        Side9PlayerLabel.TextColor = new Color(182, 99, 186);
         session.EndRead(Side9PlayerLabel);
         Panel r10CenterPnl = new(this);
         session.BeginRead(r10CenterPnl);
@@ -3572,7 +3573,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         r10Lbl.Alignment.BottomOffset = 0;
         r10Lbl.Masked = true;
         r10Lbl.Text = "Orcs";
-        r10Lbl.TextColor = 4408305;
+        r10Lbl.TextColor = new Color(241, 67, 67);
         session.EndRead(r10Lbl);
         ComboBox side10BehaviorComboBox = new(this);
         Side10BehaviorComboBox = side10BehaviorComboBox;
@@ -3605,8 +3606,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side10BehaviorComboBox.Changed += (_, _) => SideBehaviorComboBoxChange(side10BehaviorComboBox, slot: 9);
         Side10BehaviorComboBox.Selected = -1;
         Side10BehaviorComboBox.PriorityOpened = 140;
-        Side10BehaviorComboBox.TextColor = 4408305;
-        Side10BehaviorComboBox.TextSelectedColor = 16777215;
+        Side10BehaviorComboBox.TextColor = new Color(241, 67, 67);
+        Side10BehaviorComboBox.TextSelectedColor = Color.White;
         Side10BehaviorComboBox.ILEIndex = 26;
         Side10BehaviorComboBox.ILFIndex = 64;
         Side10BehaviorComboBox.ImageLibraryTnIndex = 4;
@@ -3698,7 +3699,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side10PlayerLabel.Alignment.TopOffset = 0;
         Side10PlayerLabel.Alignment.BottomOffset = 25;
         Side10PlayerLabel.Masked = true;
-        Side10PlayerLabel.TextColor = 4408305;
+        Side10PlayerLabel.TextColor = new Color(241, 67, 67);
         session.EndRead(Side10PlayerLabel);
         ComboBox side10PlayerComboBox = new(this);
         Side10PlayerComboBox = side10PlayerComboBox;
@@ -3731,8 +3732,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side10PlayerComboBox.Changed += (_, _) => SidePlayerComboBoxChange(side10PlayerComboBox, slot: 9);
         Side10PlayerComboBox.Selected = -1;
         Side10PlayerComboBox.PriorityOpened = 150;
-        Side10PlayerComboBox.TextColor = 4408305;
-        Side10PlayerComboBox.TextSelectedColor = 16777215;
+        Side10PlayerComboBox.TextColor = new Color(241, 67, 67);
+        Side10PlayerComboBox.TextSelectedColor = Color.White;
         Side10PlayerComboBox.ILEIndex = 26;
         Side10PlayerComboBox.ILFIndex = 64;
         Side10PlayerComboBox.ImageLibraryTnIndex = 4;
@@ -3796,7 +3797,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side10InfoLabel.Alignment.TopOffset = 0;
         Side10InfoLabel.Alignment.BottomOffset = 7;
         Side10InfoLabel.Masked = true;
-        Side10InfoLabel.TextColor = 4408305;
+        Side10InfoLabel.TextColor = new Color(241, 67, 67);
         session.EndRead(Side10InfoLabel);
         Panel r11CenterPnl = new(this);
         session.BeginRead(r11CenterPnl);
@@ -3846,7 +3847,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         r11Lbl.Alignment.BottomOffset = 0;
         r11Lbl.Masked = true;
         r11Lbl.Text = "Goblins";
-        r11Lbl.TextColor = 5731259;
+        r11Lbl.TextColor = new Color(187, 115, 87);
         session.EndRead(r11Lbl);
         ComboBox side11BehaviorComboBox = new(this);
         Side11BehaviorComboBox = side11BehaviorComboBox;
@@ -3879,8 +3880,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side11BehaviorComboBox.Changed += (_, _) => SideBehaviorComboBoxChange(side11BehaviorComboBox, slot: 10);
         Side11BehaviorComboBox.Selected = -1;
         Side11BehaviorComboBox.PriorityOpened = 120;
-        Side11BehaviorComboBox.TextColor = 5731259;
-        Side11BehaviorComboBox.TextSelectedColor = 16777215;
+        Side11BehaviorComboBox.TextColor = new Color(187, 115, 87);
+        Side11BehaviorComboBox.TextSelectedColor = Color.White;
         Side11BehaviorComboBox.ILEIndex = 26;
         Side11BehaviorComboBox.ILFIndex = 64;
         Side11BehaviorComboBox.ImageLibraryTnIndex = 4;
@@ -3972,7 +3973,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side11PlayerLabel.Alignment.TopOffset = 0;
         Side11PlayerLabel.Alignment.BottomOffset = 25;
         Side11PlayerLabel.Masked = true;
-        Side11PlayerLabel.TextColor = 5731259;
+        Side11PlayerLabel.TextColor = new Color(187, 115, 87);
         session.EndRead(Side11PlayerLabel);
         ComboBox side11PlayerComboBox = new(this);
         Side11PlayerComboBox = side11PlayerComboBox;
@@ -4005,8 +4006,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side11PlayerComboBox.Changed += (_, _) => SidePlayerComboBoxChange(side11PlayerComboBox, slot: 10);
         Side11PlayerComboBox.Selected = -1;
         Side11PlayerComboBox.PriorityOpened = 130;
-        Side11PlayerComboBox.TextColor = 5731259;
-        Side11PlayerComboBox.TextSelectedColor = 16777215;
+        Side11PlayerComboBox.TextColor = new Color(187, 115, 87);
+        Side11PlayerComboBox.TextSelectedColor = Color.White;
         Side11PlayerComboBox.ILEIndex = 26;
         Side11PlayerComboBox.ILFIndex = 64;
         Side11PlayerComboBox.ImageLibraryTnIndex = 4;
@@ -4070,7 +4071,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side11InfoLabel.Alignment.TopOffset = 0;
         Side11InfoLabel.Alignment.BottomOffset = 7;
         Side11InfoLabel.Masked = true;
-        Side11InfoLabel.TextColor = 5731259;
+        Side11InfoLabel.TextColor = new Color(187, 115, 87);
         session.EndRead(Side11InfoLabel);
         Side12InfoLabel = new Label(this);
         session.BeginRead(Side12InfoLabel);
@@ -4092,7 +4093,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side12InfoLabel.Alignment.TopOffset = 0;
         Side12InfoLabel.Alignment.BottomOffset = 7;
         Side12InfoLabel.Masked = true;
-        Side12InfoLabel.TextColor = 7765394;
+        Side12InfoLabel.TextColor = new Color(146, 125, 118);
         session.EndRead(Side12InfoLabel);
         Side12PlayerLabel = new Label(this);
         session.BeginRead(Side12PlayerLabel);
@@ -4114,7 +4115,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side12PlayerLabel.Alignment.TopOffset = 0;
         Side12PlayerLabel.Alignment.BottomOffset = 25;
         Side12PlayerLabel.Masked = true;
-        Side12PlayerLabel.TextColor = 7765394;
+        Side12PlayerLabel.TextColor = new Color(146, 125, 118);
         session.EndRead(Side12PlayerLabel);
         Panel r12CenterPnl = new(this);
         session.BeginRead(r12CenterPnl);
@@ -4164,7 +4165,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         r12Lbl.Alignment.BottomOffset = 0;
         r12Lbl.Masked = true;
         r12Lbl.Text = "The Undead";
-        r12Lbl.TextColor = 7765394;
+        r12Lbl.TextColor = new Color(146, 125, 118);
         session.EndRead(r12Lbl);
         ComboBox side12BehaviorComboBox = new(this);
         Side12BehaviorComboBox = side12BehaviorComboBox;
@@ -4197,8 +4198,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side12BehaviorComboBox.Changed += (_, _) => SideBehaviorComboBoxChange(side12BehaviorComboBox, slot: 11);
         Side12BehaviorComboBox.Selected = -1;
         Side12BehaviorComboBox.PriorityOpened = 100;
-        Side12BehaviorComboBox.TextColor = 7765394;
-        Side12BehaviorComboBox.TextSelectedColor = 16777215;
+        Side12BehaviorComboBox.TextColor = new Color(146, 125, 118);
+        Side12BehaviorComboBox.TextSelectedColor = Color.White;
         Side12BehaviorComboBox.ILEIndex = 26;
         Side12BehaviorComboBox.ILFIndex = 64;
         Side12BehaviorComboBox.ImageLibraryTnIndex = 4;
@@ -4273,8 +4274,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side12PlayerComboBox.Changed += (_, _) => SidePlayerComboBoxChange(side12PlayerComboBox, slot: 11);
         Side12PlayerComboBox.Selected = -1;
         Side12PlayerComboBox.PriorityOpened = 110;
-        Side12PlayerComboBox.TextColor = 7765394;
-        Side12PlayerComboBox.TextSelectedColor = 16777215;
+        Side12PlayerComboBox.TextColor = new Color(146, 125, 118);
+        Side12PlayerComboBox.TextSelectedColor = Color.White;
         Side12PlayerComboBox.ILEIndex = 26;
         Side12PlayerComboBox.ILFIndex = 64;
         Side12PlayerComboBox.ImageLibraryTnIndex = 4;
@@ -4380,8 +4381,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         PreferredRaceComboBox.Changed += (_, _) => PreferredRaceCBChange();
         PreferredRaceComboBox.Selected = 0;
         PreferredRaceComboBox.PriorityOpened = 99990;
-        PreferredRaceComboBox.TextColor = 15134446;
-        PreferredRaceComboBox.TextSelectedColor = 16777215;
+        PreferredRaceComboBox.TextColor = new Color(238, 238, 230);
+        PreferredRaceComboBox.TextSelectedColor = Color.White;
         PreferredRaceComboBox.ILEIndex = 26;
         PreferredRaceComboBox.ILFIndex = 64;
         PreferredRaceComboBox.ImageLibraryTnIndex = 4;
@@ -4446,7 +4447,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         PreferredRaceLabel.Alignment.BottomOffset = 0;
         PreferredRaceLabel.Masked = true;
         PreferredRaceLabel.Text = "Preferred Side";
-        PreferredRaceLabel.TextColor = 8421504;
+        PreferredRaceLabel.TextColor = Color.Gray;
         session.EndRead(PreferredRaceLabel);
         Frame lFr = new(this);
         session.BeginRead(lFr);
@@ -4505,8 +4506,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         CustomizeLeadersCheckBox.ImageLibraryIndexDown = 48;
         CustomizeLeadersCheckBox.ImageLibraryIndexLit = 49;
         CustomizeLeadersCheckBox.ImageLibraryIndexUp = 47;
-        CustomizeLeadersCheckBox.TextColor = 0;
-        CustomizeLeadersCheckBox.TextSelectedColor = 0;
+        CustomizeLeadersCheckBox.TextColor = Color.Black;
+        CustomizeLeadersCheckBox.TextSelectedColor = Color.Black;
         CustomizeLeadersCheckBox.WinWidth = 12;
         CustomizeLeadersCheckBox.Checked = false;
         customizeLeadersCheckBox.Changed += (_, _) => CustomizeLeadersChange(customizeLeadersCheckBox);
@@ -4537,7 +4538,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         CustomizeLeadersLabel.Alignment.BottomOffset = 0;
         CustomizeLeadersLabel.Masked = true;
         CustomizeLeadersLabel.Text = "Customize leaders";
-        CustomizeLeadersLabel.TextColor = 8421504;
+        CustomizeLeadersLabel.TextColor = Color.Gray;
         session.EndRead(CustomizeLeadersLabel);
         ComboBox side4BehaviorComboBox = new(this);
         Side4BehaviorComboBox = side4BehaviorComboBox;
@@ -4570,8 +4571,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         side4BehaviorComboBox.Changed += (_, _) => SideBehaviorComboBoxChange(side4BehaviorComboBox, slot: 3);
         Side4BehaviorComboBox.Selected = -1;
         Side4BehaviorComboBox.PriorityOpened = 100;
-        Side4BehaviorComboBox.TextColor = 15188376;
-        Side4BehaviorComboBox.TextSelectedColor = 16777215;
+        Side4BehaviorComboBox.TextColor = new Color(152, 193, 231);
+        Side4BehaviorComboBox.TextSelectedColor = Color.White;
         Side4BehaviorComboBox.ILEIndex = 26;
         Side4BehaviorComboBox.ILFIndex = 64;
         Side4BehaviorComboBox.ImageLibraryTnIndex = 4;
@@ -4625,7 +4626,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         Side1PlayerLabel.Alignment.TopOffset = 0;
         Side1PlayerLabel.Alignment.BottomOffset = 25;
         Side1PlayerLabel.Masked = true;
-        Side1PlayerLabel.TextColor = 14316400;
+        Side1PlayerLabel.TextColor = new Color(112, 115, 218);
         session.EndRead(Side1PlayerLabel);
         Side2FogPanel = new Panel(this);
         session.BeginRead(Side2FogPanel);
@@ -4950,8 +4951,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         preferredRaceSort.ImageLibraryIndexLit = 49;
         preferredRaceSort.ImageLibraryIndexUp = 52;
         preferredRaceSort.Text = "Pref. Race";
-        preferredRaceSort.TextColor = 15134446;
-        preferredRaceSort.TextSelectedColor = 16777215;
+        preferredRaceSort.TextColor = new Color(238, 238, 230);
+        preferredRaceSort.TextSelectedColor = Color.White;
         preferredRaceSort.WinWidth = 61;
         session.EndRead(preferredRaceSort);
         Button playerListSort = new(this);
@@ -4980,8 +4981,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         playerListSort.ImageLibraryIndexLit = 49;
         playerListSort.ImageLibraryIndexUp = 52;
         playerListSort.Text = "Players";
-        playerListSort.TextColor = 15134446;
-        playerListSort.TextSelectedColor = 16777215;
+        playerListSort.TextColor = new Color(238, 238, 230);
+        playerListSort.TextSelectedColor = Color.White;
         playerListSort.WinWidth = 71;
         session.EndRead(playerListSort);
         Panel connectionPnl = new(this);
@@ -5042,8 +5043,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         PreferredRaceList.BorderHeight = 3;
         preferredRaceList.Changed += (_, _) => PlayerListChange(preferredRaceList);
         PreferredRaceList.Selected = -1;
-        PreferredRaceList.TextColor = 15134446;
-        PreferredRaceList.TextSelectedColor = 0;
+        PreferredRaceList.TextColor = new Color(238, 238, 230);
+        PreferredRaceList.TextSelectedColor = Color.Black;
         PreferredRaceList.ImageLibraryIndexFrame = 64;
         PreferredRaceList.ImageLibraryIndexTNormal = 4;
         PreferredRaceList.ImageLibraryIndexTSelected = 16;
@@ -5076,8 +5077,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         button1.ImageLibraryIndexLit = 49;
         button1.ImageLibraryIndexUp = 52;
         button1.Text = "Ping";
-        button1.TextColor = 15134446;
-        button1.TextSelectedColor = 16777215;
+        button1.TextColor = new Color(238, 238, 230);
+        button1.TextSelectedColor = Color.White;
         button1.WinWidth = 26;
         session.EndRead(button1);
         ListBox pingList = new(this);
@@ -5112,8 +5113,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
             LockedSurface surface = e.Surface;
             PingListDrawItem(e.Rectangle, drawItem: e.Item, in surface);
         };
-        PingList.TextColor = 15134446;
-        PingList.TextSelectedColor = 0;
+        PingList.TextColor = new Color(238, 238, 230);
+        PingList.TextSelectedColor = Color.Black;
         PingList.ImageLibraryIndexFrame = 64;
         PingList.ImageLibraryIndexTNormal = 4;
         PingList.ImageLibraryIndexTSelected = 16;
@@ -5210,7 +5211,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         explorationLbl.Alignment.BottomOffset = 0;
         explorationLbl.Masked = true;
         explorationLbl.Text = "Exploration";
-        explorationLbl.TextColor = 8421504;
+        explorationLbl.TextColor = Color.Gray;
         session.EndRead(explorationLbl);
         CheckBox explorationCheckBox = new(this);
         ExplorationCheckBox = explorationCheckBox;
@@ -5242,8 +5243,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         ExplorationCheckBox.ImageLibraryIndexDown = 48;
         ExplorationCheckBox.ImageLibraryIndexLit = 49;
         ExplorationCheckBox.ImageLibraryIndexUp = 47;
-        ExplorationCheckBox.TextColor = 0;
-        ExplorationCheckBox.TextSelectedColor = 0;
+        ExplorationCheckBox.TextColor = Color.Black;
+        ExplorationCheckBox.TextSelectedColor = Color.Black;
         ExplorationCheckBox.WinWidth = 12;
         ExplorationCheckBox.Checked = false;
         explorationCheckBox.Changed += (_, _) => ExplorationChange(explorationCheckBox);
@@ -5270,7 +5271,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         ScenarioLabel.Alignment.BottomOffset = 0;
         ScenarioLabel.Masked = true;
         ScenarioLabel.Text = "######################";
-        ScenarioLabel.TextColor = 16777215;
+        ScenarioLabel.TextColor = Color.White;
         session.EndRead(ScenarioLabel);
         HostNameLabel = new Label(this);
         session.BeginRead(HostNameLabel);
@@ -5293,7 +5294,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         HostNameLabel.Alignment.BottomOffset = 0;
         HostNameLabel.Masked = true;
         HostNameLabel.Text = "##############";
-        HostNameLabel.TextColor = 10329501;
+        HostNameLabel.TextColor = new Color(157, 157, 157);
         session.EndRead(HostNameLabel);
         PlayerNameLabel = new Label(this);
         session.BeginRead(PlayerNameLabel);
@@ -5316,7 +5317,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         PlayerNameLabel.Alignment.BottomOffset = 0;
         PlayerNameLabel.Masked = true;
         PlayerNameLabel.Text = "###############";
-        PlayerNameLabel.TextColor = 10329501;
+        PlayerNameLabel.TextColor = new Color(157, 157, 157);
         session.EndRead(PlayerNameLabel);
         FileNameLabel = new Label(this);
         session.BeginRead(FileNameLabel);
@@ -5339,7 +5340,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         FileNameLabel.Alignment.BottomOffset = 0;
         FileNameLabel.Masked = true;
         FileNameLabel.Text = "###################";
-        FileNameLabel.TextColor = 10329501;
+        FileNameLabel.TextColor = new Color(157, 157, 157);
         session.EndRead(FileNameLabel);
         MakeHostButton = new Button(this);
         session.BeginRead(MakeHostButton);
@@ -5367,8 +5368,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         MakeHostButton.ImageLibraryIndexLit = 38;
         MakeHostButton.ImageLibraryIndexUp = 32;
         MakeHostButton.Text = "MAKE HOST";
-        MakeHostButton.TextColor = 15134446;
-        MakeHostButton.TextSelectedColor = 16777215;
+        MakeHostButton.TextColor = new Color(238, 238, 230);
+        MakeHostButton.TextSelectedColor = Color.White;
         MakeHostButton.WinWidth = 70;
         MakeHostButton.Clicked += (_, _) => MakeHostBtnClick();
         session.EndRead(MakeHostButton);
@@ -5458,8 +5459,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         LeadersOnMapCheckBox.ImageLibraryIndexDown = 48;
         LeadersOnMapCheckBox.ImageLibraryIndexLit = 49;
         LeadersOnMapCheckBox.ImageLibraryIndexUp = 47;
-        LeadersOnMapCheckBox.TextColor = 0;
-        LeadersOnMapCheckBox.TextSelectedColor = 0;
+        LeadersOnMapCheckBox.TextColor = Color.Black;
+        LeadersOnMapCheckBox.TextSelectedColor = Color.Black;
         LeadersOnMapCheckBox.WinWidth = 12;
         LeadersOnMapCheckBox.Checked = false;
         leadersOnMapCheckBox.Changed += (_, _) => LeadersOnMapCBChange(leadersOnMapCheckBox);
@@ -5490,7 +5491,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         label1.Alignment.BottomOffset = 0;
         label1.Masked = true;
         label1.Text = "Leaders on map";
-        label1.TextColor = 8421504;
+        label1.TextColor = Color.Gray;
         session.EndRead(label1);
         CheckBox alliedVictoryCheckBox = new(this);
         AlliedVictoryCheckBox = alliedVictoryCheckBox;
@@ -5522,8 +5523,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         AlliedVictoryCheckBox.ImageLibraryIndexDown = 48;
         AlliedVictoryCheckBox.ImageLibraryIndexLit = 49;
         AlliedVictoryCheckBox.ImageLibraryIndexUp = 47;
-        AlliedVictoryCheckBox.TextColor = 0;
-        AlliedVictoryCheckBox.TextSelectedColor = 0;
+        AlliedVictoryCheckBox.TextColor = Color.Black;
+        AlliedVictoryCheckBox.TextSelectedColor = Color.Black;
         AlliedVictoryCheckBox.WinWidth = 12;
         AlliedVictoryCheckBox.Checked = false;
         alliedVictoryCheckBox.Changed += (_, _) => AlliedVictoryCBChange(alliedVictoryCheckBox);
@@ -5554,7 +5555,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         AlliedVictoryLabel.Alignment.BottomOffset = 0;
         AlliedVictoryLabel.Masked = true;
         AlliedVictoryLabel.Text = "Allied victory";
-        AlliedVictoryLabel.TextColor = 8421504;
+        AlliedVictoryLabel.TextColor = Color.Gray;
         session.EndRead(AlliedVictoryLabel);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
@@ -5630,8 +5631,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         TacticalCombatComboBox.Changed += (_, _) => TacticalCombatCBChange();
         TacticalCombatComboBox.Selected = -1;
         TacticalCombatComboBox.PriorityOpened = 199999;
-        TacticalCombatComboBox.TextColor = 15134446;
-        TacticalCombatComboBox.TextSelectedColor = 16777215;
+        TacticalCombatComboBox.TextColor = new Color(238, 238, 230);
+        TacticalCombatComboBox.TextSelectedColor = Color.White;
         TacticalCombatComboBox.ILEIndex = 26;
         TacticalCombatComboBox.ILFIndex = 64;
         TacticalCombatComboBox.ImageLibraryTnIndex = 4;
@@ -5659,7 +5660,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         TacticalCombatLabel.Alignment.BottomOffset = 0;
         TacticalCombatLabel.Masked = true;
         TacticalCombatLabel.Text = "Allow Tactical Combat";
-        TacticalCombatLabel.TextColor = 12632256;
+        TacticalCombatLabel.TextColor = Color.Silver;
         session.EndRead(TacticalCombatLabel);
         AlwaysViewTacticalCombatCheckBox = new CheckBox(this);
         session.BeginRead(AlwaysViewTacticalCombatCheckBox);
@@ -5690,8 +5691,8 @@ public sealed partial class ScenarioSetup : ILayoutModule
         AlwaysViewTacticalCombatCheckBox.ImageLibraryIndexDown = 48;
         AlwaysViewTacticalCombatCheckBox.ImageLibraryIndexLit = 49;
         AlwaysViewTacticalCombatCheckBox.ImageLibraryIndexUp = 47;
-        AlwaysViewTacticalCombatCheckBox.TextColor = 0;
-        AlwaysViewTacticalCombatCheckBox.TextSelectedColor = 0;
+        AlwaysViewTacticalCombatCheckBox.TextColor = Color.Black;
+        AlwaysViewTacticalCombatCheckBox.TextSelectedColor = Color.Black;
         AlwaysViewTacticalCombatCheckBox.WinWidth = 12;
         AlwaysViewTacticalCombatCheckBox.Checked = false;
         AlwaysViewTacticalCombatCheckBox.Changed += (_, _) => AlwaysViewTCCBChange();
@@ -5722,7 +5723,7 @@ public sealed partial class ScenarioSetup : ILayoutModule
         AlwaysViewTacticalCombatLabel.Alignment.BottomOffset = 0;
         AlwaysViewTacticalCombatLabel.Masked = true;
         AlwaysViewTacticalCombatLabel.Text = "Always View TC";
-        AlwaysViewTacticalCombatLabel.TextColor = 8421504;
+        AlwaysViewTacticalCombatLabel.TextColor = Color.Gray;
         session.EndRead(AlwaysViewTacticalCombatLabel);
         session.EndRead(this);
         ChatMemo.Window = chatPnl;

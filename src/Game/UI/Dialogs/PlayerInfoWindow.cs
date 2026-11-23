@@ -9,6 +9,7 @@ using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.IntegerObjects;
 
@@ -85,7 +86,7 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
         if (drawItem != EventList.Selected)
         {
             object? objectValue = EventList.Items.Objects[drawItem];
-            int textColor = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].GetTextColor();
+            Color textColor = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].GetTextColor();
             EventList.TextColor = textColor;
         }
     }

@@ -10,6 +10,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiStrings;
@@ -205,7 +206,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
             enabled = test;
         }
 
-        sender.TextColor = enabled ? 14_679_807 : 9_415_072;
+        sender.TextColor = enabled ? new Color(255, 254, 223) : new Color(160, 169, 143);
     }
 
     // AoWUnitWindow.pas:502

@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -43,7 +44,7 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = false;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -80,7 +81,7 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         titleLbl.Alignment.BottomOffset = 0;
         titleLbl.Masked = true;
         titleLbl.Text = "Email settings";
-        titleLbl.TextColor = 0;
+        titleLbl.TextColor = Color.Black;
         session.EndRead(titleLbl);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -273,8 +274,8 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         okBtn.ImageLibraryIndexLit = 25;
         okBtn.ImageLibraryIndexUp = 19;
         okBtn.Text = "OK";
-        okBtn.TextColor = 0;
-        okBtn.TextSelectedColor = 16777215;
+        okBtn.TextColor = Color.Black;
+        okBtn.TextSelectedColor = Color.White;
         okBtn.WinWidth = 105;
         okBtn.Clicked += (_, _) => OKBtnClick();
         session.EndRead(okBtn);
@@ -304,8 +305,8 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         cancelBtn.ImageLibraryIndexLit = 25;
         cancelBtn.ImageLibraryIndexUp = 19;
         cancelBtn.Text = "Cancel";
-        cancelBtn.TextColor = 0;
-        cancelBtn.TextSelectedColor = 16777215;
+        cancelBtn.TextColor = Color.Black;
+        cancelBtn.TextSelectedColor = Color.White;
         cancelBtn.WinWidth = 105;
         cancelBtn.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(cancelBtn);
@@ -330,7 +331,7 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         localEmailAddressLbl.Alignment.BottomOffset = 0;
         localEmailAddressLbl.Masked = true;
         localEmailAddressLbl.Text = "Local email address:";
-        localEmailAddressLbl.TextColor = 16777215;
+        localEmailAddressLbl.TextColor = Color.White;
         session.EndRead(localEmailAddressLbl);
         LocalEmailAddressEdit = new Edit(this);
         session.BeginRead(LocalEmailAddressEdit);
@@ -358,7 +359,7 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         LocalEmailAddressEdit.MaxChars = 0;
         LocalEmailAddressEdit.CursorChar = 95;
         LocalEmailAddressEdit.BlinkDelay = 1;
-        LocalEmailAddressEdit.TextColor = 11002593;
+        LocalEmailAddressEdit.TextColor = new Color(225, 226, 167);
         LocalEmailAddressEdit.Editable = true;
         LocalEmailAddressEdit.ImageLibraryIndex = 15;
         LocalEmailAddressEdit.PassWordChar = 0;
@@ -384,7 +385,7 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         smtpServerLbl.Alignment.BottomOffset = 0;
         smtpServerLbl.Masked = true;
         smtpServerLbl.Text = "SMTP Server:";
-        smtpServerLbl.TextColor = 16777215;
+        smtpServerLbl.TextColor = Color.White;
         session.EndRead(smtpServerLbl);
         SmtpServerEdit = new Edit(this);
         session.BeginRead(SmtpServerEdit);
@@ -412,7 +413,7 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         SmtpServerEdit.MaxChars = 0;
         SmtpServerEdit.CursorChar = 95;
         SmtpServerEdit.BlinkDelay = 1;
-        SmtpServerEdit.TextColor = 11002593;
+        SmtpServerEdit.TextColor = new Color(225, 226, 167);
         SmtpServerEdit.Editable = true;
         SmtpServerEdit.ImageLibraryIndex = 15;
         SmtpServerEdit.PassWordChar = 0;
@@ -438,7 +439,7 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         attachmentDirectoryLbl.Alignment.BottomOffset = 0;
         attachmentDirectoryLbl.Masked = true;
         attachmentDirectoryLbl.Text = "Attachment Directory:";
-        attachmentDirectoryLbl.TextColor = 16777215;
+        attachmentDirectoryLbl.TextColor = Color.White;
         session.EndRead(attachmentDirectoryLbl);
         AttachmentDirectoryEdit = new Edit(this);
         session.BeginRead(AttachmentDirectoryEdit);
@@ -466,7 +467,7 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         AttachmentDirectoryEdit.MaxChars = 0;
         AttachmentDirectoryEdit.CursorChar = 95;
         AttachmentDirectoryEdit.BlinkDelay = 1;
-        AttachmentDirectoryEdit.TextColor = 11002593;
+        AttachmentDirectoryEdit.TextColor = new Color(225, 226, 167);
         AttachmentDirectoryEdit.Editable = true;
         AttachmentDirectoryEdit.ImageLibraryIndex = 15;
         AttachmentDirectoryEdit.PassWordChar = 0;
@@ -500,8 +501,8 @@ public sealed partial class EmailSettingsDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(close);

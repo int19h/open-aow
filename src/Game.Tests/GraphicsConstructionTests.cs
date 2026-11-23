@@ -2,6 +2,7 @@
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Layout;
+using Aow.Graphics;
 using LibraryImage = Aow.Game.Draw.Images.LibraryImage;
 
 namespace Aow.Game.Tests;
@@ -89,7 +90,7 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(1, owner.ComponentCount);
         if (value is CustomDisplay display)
         {
-            Assert.Equal(0, display.Color);
+            Assert.Equal(0, display.Color.ToPacked());
             Assert.Equal(640, Field(display, name: "_backSurfaceWidth"));
             Assert.Equal(480, Field(display, name: "_backSurfaceHeight"));
             Assert.Equal(30, Field(display, name: "_frameRate"));
@@ -281,7 +282,7 @@ public sealed class GraphicsConstructionTests
     public void SurfaceCaptureKeepsCopiedPixelsAndPalette()
     {
         using Dib16Surface source = new(7, 4, pixelFormatId: PixelFormat.Rgb555);
-        _ = source.Clear(255);
+        _ = source.Clear(Color.Red);
         using DataSurface copy = new(source, R: default);
         LockedSurface lockedSurface = default;
         _ = copy.Lock(ref lockedSurface);

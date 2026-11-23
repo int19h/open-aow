@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -42,7 +43,7 @@ public sealed partial class PopupWindows : ILayoutModule
         startMenu.OverlapTopCorners = false;
         startMenu.Cursor = 0;
         startMenu.DoubleBuffered = true;
-        startMenu.MaskColor = 0;
+        startMenu.MaskColor = Color.Black;
         startMenu.FreeSurfaceOnHide = true;
         startMenu.ImageLibraryIndexFrame = 7;
         startMenu.ImageLibraryIndexTNormal = 2;
@@ -55,8 +56,8 @@ public sealed partial class PopupWindows : ILayoutModule
             "Disk",
             "Help"
         ];
-        startMenu.TextColor = 6291456;
-        startMenu.TextSelectedColor = 16728128;
+        startMenu.TextColor = new Color(0, 0, 96);
+        startMenu.TextSelectedColor = new Color(64, 64, 255);
         startMenu.ItemHeight = 39;
         startMenu.OwnerItem = 0;
         startMenu.SubMenuShowDelay = 5;
@@ -90,7 +91,7 @@ public sealed partial class PopupWindows : ILayoutModule
         OverviewsMenu.OverlapTopCorners = false;
         OverviewsMenu.Cursor = 0;
         OverviewsMenu.DoubleBuffered = true;
-        OverviewsMenu.MaskColor = 128;
+        OverviewsMenu.MaskColor = Color.Maroon;
         OverviewsMenu.FreeSurfaceOnHide = true;
         OverviewsMenu.ImageLibraryIndexFrame = 0;
         OverviewsMenu.ImageLibraryIndexTNormal = 2;
@@ -99,8 +100,8 @@ public sealed partial class PopupWindows : ILayoutModule
         [
             "Background"
         ];
-        OverviewsMenu.TextColor = 0;
-        OverviewsMenu.TextSelectedColor = 0;
+        OverviewsMenu.TextColor = Color.Black;
+        OverviewsMenu.TextSelectedColor = Color.Black;
         OverviewsMenu.ItemHeight = 20;
         OverviewsMenu.OwnerItem = 0;
         OverviewsMenu.SubMenuShowDelay = 0;
@@ -134,7 +135,7 @@ public sealed partial class PopupWindows : ILayoutModule
         settingsMenu.OverlapTopCorners = false;
         settingsMenu.Cursor = 0;
         settingsMenu.DoubleBuffered = true;
-        settingsMenu.MaskColor = 128;
+        settingsMenu.MaskColor = Color.Maroon;
         settingsMenu.FreeSurfaceOnHide = true;
         settingsMenu.ImageLibraryIndexFrame = 0;
         settingsMenu.ImageLibraryIndexTNormal = 2;
@@ -147,8 +148,8 @@ public sealed partial class PopupWindows : ILayoutModule
             "Reset Layout",
             "Email"
         ];
-        settingsMenu.TextColor = 0;
-        settingsMenu.TextSelectedColor = 0;
+        settingsMenu.TextColor = Color.Black;
+        settingsMenu.TextSelectedColor = Color.Black;
         settingsMenu.ItemHeight = 20;
         settingsMenu.OwnerItem = 1;
         settingsMenu.SubMenuShowDelay = 0;
@@ -182,7 +183,7 @@ public sealed partial class PopupWindows : ILayoutModule
         endMenu.OverlapTopCorners = false;
         endMenu.Cursor = 0;
         endMenu.DoubleBuffered = true;
-        endMenu.MaskColor = 128;
+        endMenu.MaskColor = Color.Maroon;
         endMenu.FreeSurfaceOnHide = true;
         endMenu.ImageLibraryIndexFrame = 0;
         endMenu.ImageLibraryIndexTNormal = 2;
@@ -193,8 +194,8 @@ public sealed partial class PopupWindows : ILayoutModule
             "Exit to Title",
             "Exit to Windows"
         ];
-        endMenu.TextColor = 0;
-        endMenu.TextSelectedColor = 0;
+        endMenu.TextColor = Color.Black;
+        endMenu.TextSelectedColor = Color.Black;
         endMenu.ItemHeight = 20;
         endMenu.OwnerItem = 2;
         endMenu.SubMenuShowDelay = 0;
@@ -228,7 +229,7 @@ public sealed partial class PopupWindows : ILayoutModule
         diskMenu.OverlapTopCorners = false;
         diskMenu.Cursor = 0;
         diskMenu.DoubleBuffered = true;
-        diskMenu.MaskColor = 128;
+        diskMenu.MaskColor = Color.Maroon;
         diskMenu.FreeSurfaceOnHide = true;
         diskMenu.ImageLibraryIndexFrame = 0;
         diskMenu.ImageLibraryIndexTNormal = 2;
@@ -238,8 +239,8 @@ public sealed partial class PopupWindows : ILayoutModule
             "Load Game",
             "Save Game"
         ];
-        diskMenu.TextColor = 0;
-        diskMenu.TextSelectedColor = 0;
+        diskMenu.TextColor = Color.Black;
+        diskMenu.TextSelectedColor = Color.Black;
         diskMenu.ItemHeight = 20;
         diskMenu.OwnerItem = 3;
         diskMenu.SubMenuShowDelay = 0;
@@ -273,7 +274,7 @@ public sealed partial class PopupWindows : ILayoutModule
         tcStartMenu.OverlapTopCorners = false;
         tcStartMenu.Cursor = 0;
         tcStartMenu.DoubleBuffered = true;
-        tcStartMenu.MaskColor = 0;
+        tcStartMenu.MaskColor = Color.Black;
         tcStartMenu.FreeSurfaceOnHide = true;
         tcStartMenu.ImageLibraryIndexFrame = 7;
         tcStartMenu.ImageLibraryIndexTNormal = 2;
@@ -286,8 +287,8 @@ public sealed partial class PopupWindows : ILayoutModule
             "Disk",
             "Help"
         ];
-        tcStartMenu.TextColor = 6291456;
-        tcStartMenu.TextSelectedColor = 16728128;
+        tcStartMenu.TextColor = new Color(0, 0, 96);
+        tcStartMenu.TextSelectedColor = new Color(64, 64, 255);
         tcStartMenu.ItemHeight = 39;
         tcStartMenu.OwnerItem = 0;
         tcStartMenu.SubMenuShowDelay = 5;
@@ -328,7 +329,7 @@ public sealed partial class PopupWindows : ILayoutModule
         helpMenu.OverlapTopCorners = false;
         helpMenu.Cursor = 0;
         helpMenu.DoubleBuffered = true;
-        helpMenu.MaskColor = 128;
+        helpMenu.MaskColor = Color.Maroon;
         helpMenu.FreeSurfaceOnHide = true;
         helpMenu.ImageLibraryIndexFrame = 0;
         helpMenu.ImageLibraryIndexTNormal = 2;
@@ -339,8 +340,8 @@ public sealed partial class PopupWindows : ILayoutModule
             "Map Interface",
             "www.ageofwonders.com"
         ];
-        helpMenu.TextColor = 0;
-        helpMenu.TextSelectedColor = 0;
+        helpMenu.TextColor = Color.Black;
+        helpMenu.TextSelectedColor = Color.Black;
         helpMenu.ItemHeight = 20;
         helpMenu.OwnerItem = 4;
         helpMenu.SubMenuShowDelay = 0;
@@ -374,7 +375,7 @@ public sealed partial class PopupWindows : ILayoutModule
         tcovMenu.OverlapTopCorners = false;
         tcovMenu.Cursor = 0;
         tcovMenu.DoubleBuffered = true;
-        tcovMenu.MaskColor = 128;
+        tcovMenu.MaskColor = Color.Maroon;
         tcovMenu.FreeSurfaceOnHide = true;
         tcovMenu.ImageLibraryIndexFrame = 0;
         tcovMenu.ImageLibraryIndexTNormal = 2;
@@ -383,8 +384,8 @@ public sealed partial class PopupWindows : ILayoutModule
         [
             "Background"
         ];
-        tcovMenu.TextColor = 0;
-        tcovMenu.TextSelectedColor = 0;
+        tcovMenu.TextColor = Color.Black;
+        tcovMenu.TextSelectedColor = Color.Black;
         tcovMenu.ItemHeight = 20;
         tcovMenu.OwnerItem = 0;
         tcovMenu.SubMenuShowDelay = 0;
@@ -418,7 +419,7 @@ public sealed partial class PopupWindows : ILayoutModule
         tcDiskMenu.OverlapTopCorners = false;
         tcDiskMenu.Cursor = 0;
         tcDiskMenu.DoubleBuffered = true;
-        tcDiskMenu.MaskColor = 128;
+        tcDiskMenu.MaskColor = Color.Maroon;
         tcDiskMenu.FreeSurfaceOnHide = true;
         tcDiskMenu.ImageLibraryIndexFrame = 0;
         tcDiskMenu.ImageLibraryIndexTNormal = 2;
@@ -427,8 +428,8 @@ public sealed partial class PopupWindows : ILayoutModule
         [
             "Load Game"
         ];
-        tcDiskMenu.TextColor = 0;
-        tcDiskMenu.TextSelectedColor = 0;
+        tcDiskMenu.TextColor = Color.Black;
+        tcDiskMenu.TextSelectedColor = Color.Black;
         tcDiskMenu.ItemHeight = 20;
         tcDiskMenu.OwnerItem = 3;
         tcDiskMenu.SubMenuShowDelay = 0;
@@ -462,7 +463,7 @@ public sealed partial class PopupWindows : ILayoutModule
         tcHelpMenu.OverlapTopCorners = false;
         tcHelpMenu.Cursor = 0;
         tcHelpMenu.DoubleBuffered = true;
-        tcHelpMenu.MaskColor = 128;
+        tcHelpMenu.MaskColor = Color.Maroon;
         tcHelpMenu.FreeSurfaceOnHide = true;
         tcHelpMenu.ImageLibraryIndexFrame = 0;
         tcHelpMenu.ImageLibraryIndexTNormal = 2;
@@ -473,8 +474,8 @@ public sealed partial class PopupWindows : ILayoutModule
             "Map Interface",
             "www.ageofwonders.com"
         ];
-        tcHelpMenu.TextColor = 0;
-        tcHelpMenu.TextSelectedColor = 0;
+        tcHelpMenu.TextColor = Color.Black;
+        tcHelpMenu.TextSelectedColor = Color.Black;
         tcHelpMenu.ItemHeight = 20;
         tcHelpMenu.OwnerItem = 4;
         tcHelpMenu.SubMenuShowDelay = 0;
@@ -508,7 +509,7 @@ public sealed partial class PopupWindows : ILayoutModule
         tcSettingsMenu.OverlapTopCorners = false;
         tcSettingsMenu.Cursor = 0;
         tcSettingsMenu.DoubleBuffered = true;
-        tcSettingsMenu.MaskColor = 128;
+        tcSettingsMenu.MaskColor = Color.Maroon;
         tcSettingsMenu.FreeSurfaceOnHide = true;
         tcSettingsMenu.ImageLibraryIndexFrame = 0;
         tcSettingsMenu.ImageLibraryIndexTNormal = 2;
@@ -521,8 +522,8 @@ public sealed partial class PopupWindows : ILayoutModule
             "Reset Layout",
             "Email"
         ];
-        tcSettingsMenu.TextColor = 0;
-        tcSettingsMenu.TextSelectedColor = 0;
+        tcSettingsMenu.TextColor = Color.Black;
+        tcSettingsMenu.TextSelectedColor = Color.Black;
         tcSettingsMenu.ItemHeight = 20;
         tcSettingsMenu.OwnerItem = 1;
         tcSettingsMenu.SubMenuShowDelay = 0;
@@ -556,7 +557,7 @@ public sealed partial class PopupWindows : ILayoutModule
         tcEndMenu.OverlapTopCorners = false;
         tcEndMenu.Cursor = 0;
         tcEndMenu.DoubleBuffered = true;
-        tcEndMenu.MaskColor = 128;
+        tcEndMenu.MaskColor = Color.Maroon;
         tcEndMenu.FreeSurfaceOnHide = true;
         tcEndMenu.ImageLibraryIndexFrame = 0;
         tcEndMenu.ImageLibraryIndexTNormal = 2;
@@ -565,8 +566,8 @@ public sealed partial class PopupWindows : ILayoutModule
         [
             "Surrender"
         ];
-        tcEndMenu.TextColor = 0;
-        tcEndMenu.TextSelectedColor = 0;
+        tcEndMenu.TextColor = Color.Black;
+        tcEndMenu.TextSelectedColor = Color.Black;
         tcEndMenu.ItemHeight = 20;
         tcEndMenu.OwnerItem = 2;
         tcEndMenu.SubMenuShowDelay = 0;

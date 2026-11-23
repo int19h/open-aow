@@ -4,6 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Layout;
 using Aow.Game.UI.Dialogs;
+using Aow.Graphics;
 using Aow.Rtl;
 using Aow.Rtl.Localize;
 
@@ -134,8 +135,8 @@ internal static class LocalizationFrameChecks
             Dib16Surface right = new(120, 40, pixelFormatId: PixelFormat.Rgb555);
             try
             {
-                _ = left.Clear(0);
-                _ = right.Clear(0);
+                _ = left.Clear(Color.Black);
+                _ = right.Clear(Color.Black);
                 LockedSurface l = default, r = default;
                 _ = left.Lock(ref l);
                 _ = right.Lock(ref r);

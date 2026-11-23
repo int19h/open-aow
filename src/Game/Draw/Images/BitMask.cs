@@ -224,7 +224,7 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
 
     // ImageLib.pas:4827
     // { ShowDC clears the surface to gray, not to BkColor. }
-    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
+    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, Color bkColor)
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         => throw new NotImplementedException();
 

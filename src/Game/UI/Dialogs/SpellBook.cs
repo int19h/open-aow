@@ -15,6 +15,7 @@ using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
@@ -578,19 +579,19 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
             string reason = "";
             if ((Mode == 0 && (!spell.SpellControlTypes.Contains(SpellControlTypes.Global) || _hero.Casting())) || (Mode == 1 && (!spell.SpellControlTypes.Contains(SpellControlTypes.Combat) || _hero.Casting() || !_hero.CanCastSpellInstantly(spell.SpellId, mana: spell.BaseManaCost, ref reason))) || (Mode == 2 && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId != 0))
             {
-                memo.TextColor = 0x4C_4C_4C;
-                name.TextColor = 0x4C_4C_4C;
-                spellClass.TextColor = 0x4C_4C_4C;
-                cost.TextColor = 0x4C_4C_4C;
+                memo.TextColor = new Color(76, 76, 76);
+                name.TextColor = new Color(76, 76, 76);
+                spellClass.TextColor = new Color(76, 76, 76);
+                cost.TextColor = new Color(76, 76, 76);
                 button.Visible = false;
                 icon.Tag |= 0b0001_0000;
             }
             else
             {
-                memo.TextColor = 0x13_24_3C;
-                name.TextColor = 0x13_24_3C;
-                spellClass.TextColor = 0x5A_27_34;
-                cost.TextColor = 0x5A_27_34;
+                memo.TextColor = new Color(60, 36, 19);
+                name.TextColor = new Color(60, 36, 19);
+                spellClass.TextColor = new Color(52, 39, 90);
+                cost.TextColor = new Color(52, 39, 90);
                 button.Visible = true;
                 icon.Tag &= 0xF;
             }

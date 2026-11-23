@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -43,7 +44,7 @@ public sealed partial class TutorialWindow : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 80;
         Window.ImageLibraryIndexTexture = 34;
@@ -83,7 +84,7 @@ public sealed partial class TutorialWindow : ILayoutModule
         MessageMemo.WinHeight = 122;
         MessageMemo.BorderWidth = 15;
         MessageMemo.BorderHeight = 5;
-        MessageMemo.TextColor = 1052711;
+        MessageMemo.TextColor = new Color(39, 16, 16);
         MessageMemo.CursorChar = 124;
         MessageMemo.BlinkDelay = 0;
         MessageMemo.Editable = false;
@@ -123,8 +124,8 @@ public sealed partial class TutorialWindow : ILayoutModule
         close.ImageLibraryIndexLit = 3;
         close.ImageLibraryIndexUp = 0;
         close.Text = "OK";
-        close.TextColor = 855324;
-        close.TextSelectedColor = 16777215;
+        close.TextColor = new Color(28, 13, 13);
+        close.TextSelectedColor = Color.White;
         close.WinWidth = 140;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
@@ -152,7 +153,7 @@ public sealed partial class TutorialWindow : ILayoutModule
         HeaderMemo.WinHeight = 44;
         HeaderMemo.BorderWidth = 10;
         HeaderMemo.BorderHeight = 5;
-        HeaderMemo.TextColor = 0;
+        HeaderMemo.TextColor = Color.Black;
         HeaderMemo.CursorChar = 124;
         HeaderMemo.BlinkDelay = 0;
         HeaderMemo.Editable = false;

@@ -5,6 +5,7 @@ using Aow.Game.Magic;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Structures;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -46,7 +47,7 @@ public sealed partial class MagicWindow : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 0;
+        Window.MaskColor = Color.Black;
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 0;
         Window.ImageLibraryIndexTexture = 2;
@@ -84,7 +85,7 @@ public sealed partial class MagicWindow : ILayoutModule
         owTitle.Alignment.BottomOffset = 0;
         owTitle.Masked = true;
         owTitle.Text = "Magic Management";
-        owTitle.TextColor = 0;
+        owTitle.TextColor = Color.Black;
         session.EndRead(owTitle);
         Image owTitleIc = new(this);
         session.BeginRead(owTitleIc);
@@ -145,8 +146,8 @@ public sealed partial class MagicWindow : ILayoutModule
         headerTab.Changed += (_, _) => HeaderTabChange();
         headerTab.Selected = 0;
         headerTab.WinWidth = 433;
-        headerTab.TextColor = 0;
-        headerTab.TextSelectedColor = 9415072;
+        headerTab.TextColor = Color.Black;
+        headerTab.TextSelectedColor = new Color(160, 169, 143);
         headerTab.ImageLibraryIndexDown = 67;
         headerTab.ImageLibraryIndexUp = 70;
         headerTab.BorderHeightSelected = 7;
@@ -255,7 +256,7 @@ public sealed partial class MagicWindow : ILayoutModule
         ResearchPointsLabel.Alignment.BottomOffset = 0;
         ResearchPointsLabel.Masked = true;
         ResearchPointsLabel.Text = "30";
-        ResearchPointsLabel.TextColor = 12632256;
+        ResearchPointsLabel.TextColor = Color.Silver;
         session.EndRead(ResearchPointsLabel);
         Label resLbl = new(this);
         session.BeginRead(resLbl);
@@ -278,7 +279,7 @@ public sealed partial class MagicWindow : ILayoutModule
         resLbl.Alignment.BottomOffset = 0;
         resLbl.Masked = true;
         resLbl.Text = "Research Points";
-        resLbl.TextColor = 9415072;
+        resLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(resLbl);
         Panel t2Pnl = new(this);
         session.BeginRead(t2Pnl);
@@ -363,8 +364,8 @@ public sealed partial class MagicWindow : ILayoutModule
         EnchantmentList.Changed += (_, _) => EnchantmentListChange();
         EnchantmentList.DoubleClicked += (_, _) => EnchantmentListDoubleClick();
         EnchantmentList.Selected = -1;
-        EnchantmentList.TextColor = 9415072;
-        EnchantmentList.TextSelectedColor = 0;
+        EnchantmentList.TextColor = new Color(160, 169, 143);
+        EnchantmentList.TextSelectedColor = Color.Black;
         EnchantmentList.ImageLibraryIndexFrame = 113;
         EnchantmentList.ImageLibraryIndexTNormal = 21;
         EnchantmentList.ImageLibraryIndexTSelected = 8;
@@ -397,8 +398,8 @@ public sealed partial class MagicWindow : ILayoutModule
         enchantmentSortBtn.ImageLibraryIndexLit = 91;
         enchantmentSortBtn.ImageLibraryIndexUp = 85;
         enchantmentSortBtn.Text = "Enchantment";
-        enchantmentSortBtn.TextColor = 0;
-        enchantmentSortBtn.TextSelectedColor = 16777215;
+        enchantmentSortBtn.TextColor = Color.Black;
+        enchantmentSortBtn.TextSelectedColor = Color.White;
         enchantmentSortBtn.WinWidth = 160;
         enchantmentSortBtn.Clicked += (_, _) => EnchantmentSortBtnClick();
         session.EndRead(enchantmentSortBtn);
@@ -430,8 +431,8 @@ public sealed partial class MagicWindow : ILayoutModule
         UpkeepList.Changed += (_, _) => UpkeepListChange();
         UpkeepList.DoubleClicked += (_, _) => EnchantmentListDoubleClick();
         UpkeepList.Selected = -1;
-        UpkeepList.TextColor = 9415072;
-        UpkeepList.TextSelectedColor = 0;
+        UpkeepList.TextColor = new Color(160, 169, 143);
+        UpkeepList.TextSelectedColor = Color.Black;
         UpkeepList.ImageLibraryIndexFrame = 113;
         UpkeepList.ImageLibraryIndexTNormal = 21;
         UpkeepList.ImageLibraryIndexTSelected = 8;
@@ -464,8 +465,8 @@ public sealed partial class MagicWindow : ILayoutModule
         upkeepSortBtn.ImageLibraryIndexLit = 91;
         upkeepSortBtn.ImageLibraryIndexUp = 85;
         upkeepSortBtn.Text = "Mana Upkeep";
-        upkeepSortBtn.TextColor = 0;
-        upkeepSortBtn.TextSelectedColor = 16777215;
+        upkeepSortBtn.TextColor = Color.Black;
+        upkeepSortBtn.TextSelectedColor = Color.White;
         upkeepSortBtn.WinWidth = 77;
         upkeepSortBtn.Clicked += (_, _) => UpkeepSortBtnClick();
         session.EndRead(upkeepSortBtn);
@@ -497,8 +498,8 @@ public sealed partial class MagicWindow : ILayoutModule
         BindingList.Changed += (_, _) => BindingListChange();
         BindingList.DoubleClicked += (_, _) => EnchantmentListDoubleClick();
         BindingList.Selected = -1;
-        BindingList.TextColor = 9415072;
-        BindingList.TextSelectedColor = 0;
+        BindingList.TextColor = new Color(160, 169, 143);
+        BindingList.TextSelectedColor = Color.Black;
         BindingList.ImageLibraryIndexFrame = 113;
         BindingList.ImageLibraryIndexTNormal = 21;
         BindingList.ImageLibraryIndexTSelected = 8;
@@ -531,8 +532,8 @@ public sealed partial class MagicWindow : ILayoutModule
         bindingSortBtn.ImageLibraryIndexLit = 91;
         bindingSortBtn.ImageLibraryIndexUp = 85;
         bindingSortBtn.Text = "Binding";
-        bindingSortBtn.TextColor = 0;
-        bindingSortBtn.TextSelectedColor = 16777215;
+        bindingSortBtn.TextColor = Color.Black;
+        bindingSortBtn.TextSelectedColor = Color.White;
         bindingSortBtn.WinWidth = 186;
         bindingSortBtn.Clicked += (_, _) => BindingSortBtnClick();
         session.EndRead(bindingSortBtn);
@@ -584,7 +585,7 @@ public sealed partial class MagicWindow : ILayoutModule
         NetManaLabel.Alignment.BottomOffset = 0;
         NetManaLabel.Masked = true;
         NetManaLabel.Text = "20-18=2";
-        NetManaLabel.TextColor = 12632256;
+        NetManaLabel.TextColor = Color.Silver;
         session.EndRead(NetManaLabel);
         Label netMamaLbl = new(this);
         session.BeginRead(netMamaLbl);
@@ -607,7 +608,7 @@ public sealed partial class MagicWindow : ILayoutModule
         netMamaLbl.Alignment.BottomOffset = 0;
         netMamaLbl.Masked = true;
         netMamaLbl.Text = "Net Mana Income";
-        netMamaLbl.TextColor = 9415072;
+        netMamaLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(netMamaLbl);
         Panel netManaPnl = new(this);
         session.BeginRead(netManaPnl);
@@ -718,8 +719,8 @@ public sealed partial class MagicWindow : ILayoutModule
         GlobalEnchantmentList.BorderHeight = 3;
         GlobalEnchantmentList.Changed += (_, _) => GlobalEnchantmentListChange();
         GlobalEnchantmentList.Selected = -1;
-        GlobalEnchantmentList.TextColor = 9415072;
-        GlobalEnchantmentList.TextSelectedColor = 0;
+        GlobalEnchantmentList.TextColor = new Color(160, 169, 143);
+        GlobalEnchantmentList.TextSelectedColor = Color.Black;
         GlobalEnchantmentList.ImageLibraryIndexFrame = 113;
         GlobalEnchantmentList.ImageLibraryIndexTNormal = 21;
         GlobalEnchantmentList.ImageLibraryIndexTSelected = 8;
@@ -752,8 +753,8 @@ public sealed partial class MagicWindow : ILayoutModule
         globalEnchantmentSortBtn.ImageLibraryIndexLit = 91;
         globalEnchantmentSortBtn.ImageLibraryIndexUp = 85;
         globalEnchantmentSortBtn.Text = "Global Enchantment";
-        globalEnchantmentSortBtn.TextColor = 0;
-        globalEnchantmentSortBtn.TextSelectedColor = 16777215;
+        globalEnchantmentSortBtn.TextColor = Color.Black;
+        globalEnchantmentSortBtn.TextSelectedColor = Color.White;
         globalEnchantmentSortBtn.WinWidth = 160;
         globalEnchantmentSortBtn.Clicked += (_, _) => GlobalEnchantmentSortBtnClick();
         session.EndRead(globalEnchantmentSortBtn);
@@ -784,8 +785,8 @@ public sealed partial class MagicWindow : ILayoutModule
         GlobalUpkeepList.BorderHeight = 3;
         GlobalUpkeepList.Changed += (_, _) => GlobalUpkeepListChange();
         GlobalUpkeepList.Selected = -1;
-        GlobalUpkeepList.TextColor = 9415072;
-        GlobalUpkeepList.TextSelectedColor = 0;
+        GlobalUpkeepList.TextColor = new Color(160, 169, 143);
+        GlobalUpkeepList.TextSelectedColor = Color.Black;
         GlobalUpkeepList.ImageLibraryIndexFrame = 113;
         GlobalUpkeepList.ImageLibraryIndexTNormal = 21;
         GlobalUpkeepList.ImageLibraryIndexTSelected = 8;
@@ -818,8 +819,8 @@ public sealed partial class MagicWindow : ILayoutModule
         globalUpkeepSortBtn.ImageLibraryIndexLit = 91;
         globalUpkeepSortBtn.ImageLibraryIndexUp = 85;
         globalUpkeepSortBtn.Text = "Mana Upkeep";
-        globalUpkeepSortBtn.TextColor = 0;
-        globalUpkeepSortBtn.TextSelectedColor = 16777215;
+        globalUpkeepSortBtn.TextColor = Color.Black;
+        globalUpkeepSortBtn.TextSelectedColor = Color.White;
         globalUpkeepSortBtn.WinWidth = 77;
         globalUpkeepSortBtn.Clicked += (_, _) => GlobalUpkeepSortBtnClick();
         session.EndRead(globalUpkeepSortBtn);
@@ -850,8 +851,8 @@ public sealed partial class MagicWindow : ILayoutModule
         GlobalNameList.BorderHeight = 3;
         GlobalNameList.Changed += (_, _) => GlobalNameListChange();
         GlobalNameList.Selected = -1;
-        GlobalNameList.TextColor = 9415072;
-        GlobalNameList.TextSelectedColor = 0;
+        GlobalNameList.TextColor = new Color(160, 169, 143);
+        GlobalNameList.TextSelectedColor = Color.Black;
         GlobalNameList.ImageLibraryIndexFrame = 113;
         GlobalNameList.ImageLibraryIndexTNormal = 21;
         GlobalNameList.ImageLibraryIndexTSelected = 8;
@@ -884,8 +885,8 @@ public sealed partial class MagicWindow : ILayoutModule
         globalNameSortBtn.ImageLibraryIndexLit = 91;
         globalNameSortBtn.ImageLibraryIndexUp = 85;
         globalNameSortBtn.Text = "Owner";
-        globalNameSortBtn.TextColor = 0;
-        globalNameSortBtn.TextSelectedColor = 16777215;
+        globalNameSortBtn.TextColor = Color.Black;
+        globalNameSortBtn.TextSelectedColor = Color.White;
         globalNameSortBtn.WinWidth = 186;
         globalNameSortBtn.Clicked += (_, _) => GlobalNameSortBtnClick();
         session.EndRead(globalNameSortBtn);
@@ -937,7 +938,7 @@ public sealed partial class MagicWindow : ILayoutModule
         SpellNameLabel.Alignment.BottomOffset = 0;
         SpellNameLabel.Masked = true;
         SpellNameLabel.Text = "#########";
-        SpellNameLabel.TextColor = 12632256;
+        SpellNameLabel.TextColor = Color.Silver;
         session.EndRead(SpellNameLabel);
         GlobalDispelButton = new Button(this);
         session.BeginRead(GlobalDispelButton);
@@ -966,8 +967,8 @@ public sealed partial class MagicWindow : ILayoutModule
         GlobalDispelButton.ImageLibraryIndexLit = 100;
         GlobalDispelButton.ImageLibraryIndexUp = 94;
         GlobalDispelButton.Text = "Remove";
-        GlobalDispelButton.TextColor = 0;
-        GlobalDispelButton.TextSelectedColor = 16777215;
+        GlobalDispelButton.TextColor = Color.Black;
+        GlobalDispelButton.TextSelectedColor = Color.White;
         GlobalDispelButton.WinWidth = 160;
         GlobalDispelButton.Clicked += (_, _) => GlobalDispelBtnClick();
         session.EndRead(GlobalDispelButton);
@@ -998,8 +999,8 @@ public sealed partial class MagicWindow : ILayoutModule
         DispelButton.ImageLibraryIndexLit = 100;
         DispelButton.ImageLibraryIndexUp = 94;
         DispelButton.Text = "Remove";
-        DispelButton.TextColor = 0;
-        DispelButton.TextSelectedColor = 16777215;
+        DispelButton.TextColor = Color.Black;
+        DispelButton.TextSelectedColor = Color.White;
         DispelButton.WinWidth = 160;
         DispelButton.Clicked += (_, _) => DispelBtnClick();
         session.EndRead(DispelButton);
@@ -1033,8 +1034,8 @@ public sealed partial class MagicWindow : ILayoutModule
         researchBtn.ImageLibraryIndexLit = 49;
         researchBtn.ImageLibraryIndexUp = 43;
         researchBtn.Text = "Research";
-        researchBtn.TextColor = 0;
-        researchBtn.TextSelectedColor = 16777215;
+        researchBtn.TextColor = Color.Black;
+        researchBtn.TextSelectedColor = Color.White;
         researchBtn.WinWidth = 183;
         researchBtn.Clicked += (_, _) => ResearchBtnClick();
         session.EndRead(researchBtn);
@@ -1059,7 +1060,7 @@ public sealed partial class MagicWindow : ILayoutModule
         ResearchTurnsLeftLabel.Alignment.BottomOffset = 3;
         ResearchTurnsLeftLabel.Masked = true;
         ResearchTurnsLeftLabel.Text = "########";
-        ResearchTurnsLeftLabel.TextColor = 12632256;
+        ResearchTurnsLeftLabel.TextColor = Color.Silver;
         session.EndRead(ResearchTurnsLeftLabel);
         SpellClassLabel = new Label(this);
         session.BeginRead(SpellClassLabel);
@@ -1082,7 +1083,7 @@ public sealed partial class MagicWindow : ILayoutModule
         SpellClassLabel.Alignment.BottomOffset = 0;
         SpellClassLabel.Masked = true;
         SpellClassLabel.Text = "##########";
-        SpellClassLabel.TextColor = 9415072;
+        SpellClassLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(SpellClassLabel);
         SpellPanel = new Panel(this);
         session.BeginRead(SpellPanel);
@@ -1132,7 +1133,7 @@ public sealed partial class MagicWindow : ILayoutModule
         SpellCostLabel.Alignment.BottomOffset = 0;
         SpellCostLabel.Masked = true;
         SpellCostLabel.Text = "#########";
-        SpellCostLabel.TextColor = 9415072;
+        SpellCostLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(SpellCostLabel);
         Image spellIcn = new(this);
         session.BeginRead(spellIcn);
@@ -1192,8 +1193,8 @@ public sealed partial class MagicWindow : ILayoutModule
         minimize.ImageLibraryIndexDown = 4;
         minimize.ImageLibraryIndexLit = 5;
         minimize.ImageLibraryIndexUp = 3;
-        minimize.TextColor = 0;
-        minimize.TextSelectedColor = 0;
+        minimize.TextColor = Color.Black;
+        minimize.TextSelectedColor = Color.Black;
         minimize.WinWidth = 15;
         minimize.Clicked += (_, _) => MinimizeClick();
         session.EndRead(minimize);
@@ -1227,8 +1228,8 @@ public sealed partial class MagicWindow : ILayoutModule
         changePowerBut.ImageLibraryIndexLit = 49;
         changePowerBut.ImageLibraryIndexUp = 43;
         changePowerBut.Text = "Power Distribution";
-        changePowerBut.TextColor = 0;
-        changePowerBut.TextSelectedColor = 16777215;
+        changePowerBut.TextColor = Color.Black;
+        changePowerBut.TextSelectedColor = Color.White;
         changePowerBut.WinWidth = 183;
         changePowerBut.Clicked += (_, _) => ChangePowerButClick();
         session.EndRead(changePowerBut);
@@ -1253,7 +1254,7 @@ public sealed partial class MagicWindow : ILayoutModule
         PowerLabel.Alignment.BottomOffset = 0;
         PowerLabel.Masked = true;
         PowerLabel.Text = "50";
-        PowerLabel.TextColor = 12632256;
+        PowerLabel.TextColor = Color.Silver;
         session.EndRead(PowerLabel);
         Label powerLbl = new(this);
         session.BeginRead(powerLbl);
@@ -1276,7 +1277,7 @@ public sealed partial class MagicWindow : ILayoutModule
         powerLbl.Alignment.BottomOffset = 0;
         powerLbl.Masked = true;
         powerLbl.Text = "Power Base";
-        powerLbl.TextColor = 9415072;
+        powerLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(powerLbl);
         Panel powePnl = new(this);
         session.BeginRead(powePnl);
@@ -1380,7 +1381,7 @@ public sealed partial class MagicWindow : ILayoutModule
         noneMsg.Alignment.BottomOffset = 0;
         noneMsg.Masked = true;
         noneMsg.Text = "No spell is being researched";
-        noneMsg.TextColor = 9415072;
+        noneMsg.TextColor = new Color(160, 169, 143);
         session.EndRead(noneMsg);
         Panel t4Pnl = new(this);
         session.BeginRead(t4Pnl);
@@ -1465,8 +1466,8 @@ public sealed partial class MagicWindow : ILayoutModule
         PowerValueList.Changed += (_, _) => PowerValueListChange();
         PowerValueList.DoubleClicked += (_, _) => PowerSourceListDoubleClick();
         PowerValueList.Selected = -1;
-        PowerValueList.TextColor = 9415072;
-        PowerValueList.TextSelectedColor = 0;
+        PowerValueList.TextColor = new Color(160, 169, 143);
+        PowerValueList.TextSelectedColor = Color.Black;
         PowerValueList.ImageLibraryIndexFrame = 113;
         PowerValueList.ImageLibraryIndexTNormal = 21;
         PowerValueList.ImageLibraryIndexTSelected = 8;
@@ -1499,8 +1500,8 @@ public sealed partial class MagicWindow : ILayoutModule
         powerValueSortBtn.ImageLibraryIndexLit = 91;
         powerValueSortBtn.ImageLibraryIndexUp = 85;
         powerValueSortBtn.Text = "Amount";
-        powerValueSortBtn.TextColor = 0;
-        powerValueSortBtn.TextSelectedColor = 16777215;
+        powerValueSortBtn.TextColor = Color.Black;
+        powerValueSortBtn.TextSelectedColor = Color.White;
         powerValueSortBtn.WinWidth = 78;
         powerValueSortBtn.Clicked += (_, _) => PowerValueSortBtnClick();
         session.EndRead(powerValueSortBtn);
@@ -1532,8 +1533,8 @@ public sealed partial class MagicWindow : ILayoutModule
         PowerSourceList.Changed += (_, _) => PowerSourceListChange();
         PowerSourceList.DoubleClicked += (_, _) => PowerSourceListDoubleClick();
         PowerSourceList.Selected = -1;
-        PowerSourceList.TextColor = 9415072;
-        PowerSourceList.TextSelectedColor = 0;
+        PowerSourceList.TextColor = new Color(160, 169, 143);
+        PowerSourceList.TextSelectedColor = Color.Black;
         PowerSourceList.ImageLibraryIndexFrame = 113;
         PowerSourceList.ImageLibraryIndexTNormal = 21;
         PowerSourceList.ImageLibraryIndexTSelected = 8;
@@ -1566,8 +1567,8 @@ public sealed partial class MagicWindow : ILayoutModule
         powerSourceSortBtn.ImageLibraryIndexLit = 91;
         powerSourceSortBtn.ImageLibraryIndexUp = 85;
         powerSourceSortBtn.Text = "Source";
-        powerSourceSortBtn.TextColor = 0;
-        powerSourceSortBtn.TextSelectedColor = 16777215;
+        powerSourceSortBtn.TextColor = Color.Black;
+        powerSourceSortBtn.TextSelectedColor = Color.White;
         powerSourceSortBtn.WinWidth = 344;
         powerSourceSortBtn.Clicked += (_, _) => PowerSourceSortBtnClick();
         session.EndRead(powerSourceSortBtn);
@@ -1857,8 +1858,8 @@ public sealed partial class MagicWindow : ILayoutModule
         help.ImageLibraryIndexDown = 60;
         help.ImageLibraryIndexLit = 61;
         help.ImageLibraryIndexUp = 59;
-        help.TextColor = 0;
-        help.TextSelectedColor = 0;
+        help.TextColor = Color.Black;
+        help.TextSelectedColor = Color.Black;
         help.WinWidth = 15;
         help.Clicked += (_, _) => HelpClick();
         session.EndRead(help);

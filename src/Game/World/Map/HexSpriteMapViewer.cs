@@ -1,6 +1,7 @@
 #nullable disable warnings
 // Translated from HSEngine.pas.
 using Aow.Game.Draw;
+using Aow.Graphics;
 
 using Aow.Rtl;
 using static Aow.Rtl.LegacyApplication;
@@ -387,10 +388,10 @@ public sealed class HexSpriteMapViewer : Component
     // Port extension: fills every pixel of SD outside Inside black.
     public static void FillOutsideRectangle(Rect inside, in LockedSurface lockedSurface)
     {
-        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, inside.Top), color: 0, lockedSurface);
-        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Bottom, lockedSurface.Width, lockedSurface.Height), color: 0, lockedSurface);
-        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Top, inside.Left, inside.Bottom), color: 0, lockedSurface);
-        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(inside.Right, inside.Top, lockedSurface.Width, inside.Bottom), color: 0, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, inside.Top), color: Color.Black, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Bottom, lockedSurface.Width, lockedSurface.Height), color: Color.Black, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Top, inside.Left, inside.Bottom), color: Color.Black, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(inside.Right, inside.Top, lockedSurface.Width, inside.Bottom), color: Color.Black, lockedSurface);
     }
 
     public GameMap? HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }

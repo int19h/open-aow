@@ -4,6 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.UI.Controls;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.RtlHost;
 
@@ -92,7 +93,7 @@ public sealed class Scanner(Component owner) : Control(owner)
             if (_mapSurface is not null)
             {
                 _ = _objectSurface.Resize(WinWidth, WinHeight);
-                _ = _objectSurface.Clear(0x00_FF_00);
+                _ = _objectSurface.Clear(Color.Lime);
                 _ = _mapSurface.Resize(WinWidth, WinHeight);
                 LockedSurface lockedSurface = default;
                 _ = _mapSurface.Lock(ref lockedSurface);
@@ -168,7 +169,7 @@ public sealed class Scanner(Component owner) : Control(owner)
                 if (_mapSurface is null)
                 {
                     _objectSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, palette: null);
-                    _ = _objectSurface.Clear(0x00_FF_00);
+                    _ = _objectSurface.Clear(Color.Lime);
                     _mapSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, palette: null);
                     _ = _mapSurface.Lock(ref surfaceDescription);
                     for (int x = 0, last = WinWidth / _fogImageLibrary[0].Width; x <= last; x++)
@@ -206,7 +207,7 @@ public sealed class Scanner(Component owner) : Control(owner)
                 _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, sourceRectangle: r, destination: surfaceDescription, Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop);
                 _ = _mapSurface.Unlock();
                 _ = _objectSurface.Lock(ref lockedSurface);
-                _ = LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle: r, destination: surfaceDescription, Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, colorKey: 0x00_FF_00);
+                _ = LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle: r, destination: surfaceDescription, Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, colorKey: Color.Lime);
                 _ = _objectSurface.Unlock();
                 if (_mapWidth > 0 && _mapHeight > 0)
                 {
@@ -683,7 +684,7 @@ public sealed class Scanner(Component owner) : Control(owner)
     {
         if (_objectSurface is not null)
         {
-            _ = _objectSurface.Clear(0x00_FF_00);
+            _ = _objectSurface.Clear(Color.Lime);
             LockedSurface lockedSurface = default;
             if (_objectSurface.Lock(ref lockedSurface) >= 0)
             {

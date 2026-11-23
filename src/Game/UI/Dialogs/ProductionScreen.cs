@@ -13,6 +13,7 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiTextCompare;
 using static Aow.Rtl.IntegerObjects;
@@ -474,7 +475,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 string formatTurnsLeftString = DurationText.FormatTurnsLeftString(UI.Engine, turns: _place.ProductionControl.Settings.TurnsLeft);
                 ActiveActionTurnsLabel.Text = formatTurnsLeftString;
                 ActiveActionTurnsLabel.Visible = true;
-                ActiveActionTurnsLabel.TextColor = 0x67_83_76;
+                ActiveActionTurnsLabel.TextColor = new Color(118, 131, 103);
                 ActiveActionTurnsBar.Min = 0;
                 ActiveActionTurnsBar.Max = _place.ProductionControl.Settings.TurnsTotal;
                 ActiveActionTurnsBar.Position = _place.ProductionControl.Settings.TurnsTotal - _place.ProductionControl.Settings.TurnsLeft;
@@ -498,7 +499,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 ActiveActionLabel.Text = currentActivityText;
                 string defaultText = UI.Engine.TranslateResourceString(GameText.DefaultText);
                 ActiveActionTurnsLabel.Text = $"({LowerCase(defaultText)})";
-                ActiveActionTurnsLabel.TextColor = 0x67_83_76;
+                ActiveActionTurnsLabel.TextColor = new Color(118, 131, 103);
                 if (CompareText(b: UI.Engine.TranslateResourceString(GameTables.NoneText), a: ActiveActionLabel.Text) != 0)
                 {
                     ActiveActionTurnsLabel.Visible = true;
@@ -523,7 +524,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     ProductionItem? queue = _place.ProductionControl.Queue.GetItem(0);
                     _ = _place.ProductionControl.CanExecuteProduction(queue, ref reason);
                     ActiveActionTurnsLabel.Text = reason;
-                    ActiveActionTurnsLabel.TextColor = 0x00_00_FF;
+                    ActiveActionTurnsLabel.TextColor = Color.Red;
                     ActiveActionTurnsLabel.Visible = true;
                     ActiveActionTurnsBar.Visible = false;
                     int activityImage = _place.ProductionControl.Queue.GetItem(0).Order.ActivityImage(_place);

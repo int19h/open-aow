@@ -126,7 +126,7 @@ public sealed class StringBufferTests
         Assert.Equal("\u00FF\u00FF\u00FF", memo.Lines[2]);
         ColorChange color = Assert.IsType<ColorChange>(memo.ColorList[0]);
         Assert.True(color.HasColor);
-        Assert.Equal(0x80FF00, color.Color);
+        Assert.Equal(0x80FF00, color.Color.ToPacked());
     }
 
     [Fact]

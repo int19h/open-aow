@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -37,7 +38,7 @@ public sealed partial class SpellBook : ILayoutModule
         LeftHeaderLabel.Alignment.BottomOffset = 0;
         LeftHeaderLabel.Masked = true;
         LeftHeaderLabel.Text = "Global Spells";
-        LeftHeaderLabel.TextColor = 5908276;
+        LeftHeaderLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(LeftHeaderLabel);
         LeftSpellPage = new Panel(this);
         session.BeginRead(LeftSpellPage);
@@ -115,7 +116,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell1SpellLabel.Alignment.BottomOffset = 0;
         Spell1SpellLabel.Masked = true;
         Spell1SpellLabel.Text = "####";
-        Spell1SpellLabel.TextColor = 1254460;
+        Spell1SpellLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(Spell1SpellLabel);
         Spell1ClassLabel = new Label(this);
         session.BeginRead(Spell1ClassLabel);
@@ -138,7 +139,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell1ClassLabel.Alignment.BottomOffset = 0;
         Spell1ClassLabel.Masked = true;
         Spell1ClassLabel.Text = "####";
-        Spell1ClassLabel.TextColor = 5908276;
+        Spell1ClassLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell1ClassLabel);
         Spell1Memo = new Memo(this);
         session.BeginRead(Spell1Memo);
@@ -164,7 +165,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell1Memo.WinHeight = 35;
         Spell1Memo.BorderWidth = 10;
         Spell1Memo.BorderHeight = 0;
-        Spell1Memo.TextColor = 1254460;
+        Spell1Memo.TextColor = new Color(60, 36, 19);
         Spell1Memo.CursorChar = 124;
         Spell1Memo.BlinkDelay = 0;
         Spell1Memo.Editable = false;
@@ -195,7 +196,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell1CostLabel.Alignment.BottomOffset = 0;
         Spell1CostLabel.Masked = true;
         Spell1CostLabel.Text = "####";
-        Spell1CostLabel.TextColor = 5908276;
+        Spell1CostLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell1CostLabel);
         Image spell1Icon = new(this);
         Spell1Icon = spell1Icon;
@@ -277,7 +278,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell2SpellLabel.Alignment.BottomOffset = 0;
         Spell2SpellLabel.Masked = true;
         Spell2SpellLabel.Text = "####";
-        Spell2SpellLabel.TextColor = 1254460;
+        Spell2SpellLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(Spell2SpellLabel);
         Spell2ClassLabel = new Label(this);
         session.BeginRead(Spell2ClassLabel);
@@ -301,7 +302,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell2ClassLabel.Alignment.BottomOffset = 0;
         Spell2ClassLabel.Masked = true;
         Spell2ClassLabel.Text = "####";
-        Spell2ClassLabel.TextColor = 5908276;
+        Spell2ClassLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell2ClassLabel);
         Spell2Memo = new Memo(this);
         session.BeginRead(Spell2Memo);
@@ -328,7 +329,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell2Memo.WinHeight = 35;
         Spell2Memo.BorderWidth = 10;
         Spell2Memo.BorderHeight = 0;
-        Spell2Memo.TextColor = 1254460;
+        Spell2Memo.TextColor = new Color(60, 36, 19);
         Spell2Memo.CursorChar = 124;
         Spell2Memo.BlinkDelay = 0;
         Spell2Memo.Editable = false;
@@ -360,7 +361,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell2CostLabel.Alignment.BottomOffset = 0;
         Spell2CostLabel.Masked = true;
         Spell2CostLabel.Text = "####";
-        Spell2CostLabel.TextColor = 5908276;
+        Spell2CostLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell2CostLabel);
         Image spell2Icon = new(this);
         Spell2Icon = spell2Icon;
@@ -443,7 +444,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell3SpellLabel.Alignment.BottomOffset = 0;
         Spell3SpellLabel.Masked = true;
         Spell3SpellLabel.Text = "####";
-        Spell3SpellLabel.TextColor = 1254460;
+        Spell3SpellLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(Spell3SpellLabel);
         Spell3ClassLabel = new Label(this);
         session.BeginRead(Spell3ClassLabel);
@@ -467,7 +468,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell3ClassLabel.Alignment.BottomOffset = 0;
         Spell3ClassLabel.Masked = true;
         Spell3ClassLabel.Text = "####";
-        Spell3ClassLabel.TextColor = 5908276;
+        Spell3ClassLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell3ClassLabel);
         Spell3Memo = new Memo(this);
         session.BeginRead(Spell3Memo);
@@ -494,7 +495,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell3Memo.WinHeight = 35;
         Spell3Memo.BorderWidth = 10;
         Spell3Memo.BorderHeight = 0;
-        Spell3Memo.TextColor = 1254460;
+        Spell3Memo.TextColor = new Color(60, 36, 19);
         Spell3Memo.CursorChar = 124;
         Spell3Memo.BlinkDelay = 0;
         Spell3Memo.Editable = false;
@@ -526,7 +527,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell3CostLabel.Alignment.BottomOffset = 0;
         Spell3CostLabel.Masked = true;
         Spell3CostLabel.Text = "####";
-        Spell3CostLabel.TextColor = 5908276;
+        Spell3CostLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell3CostLabel);
         Image spell3Icon = new(this);
         Spell3Icon = spell3Icon;
@@ -609,7 +610,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell4SpellLabel.Alignment.BottomOffset = 0;
         Spell4SpellLabel.Masked = true;
         Spell4SpellLabel.Text = "####";
-        Spell4SpellLabel.TextColor = 1254460;
+        Spell4SpellLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(Spell4SpellLabel);
         Spell4ClassLabel = new Label(this);
         session.BeginRead(Spell4ClassLabel);
@@ -633,7 +634,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell4ClassLabel.Alignment.BottomOffset = 0;
         Spell4ClassLabel.Masked = true;
         Spell4ClassLabel.Text = "####";
-        Spell4ClassLabel.TextColor = 5908276;
+        Spell4ClassLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell4ClassLabel);
         Spell4Memo = new Memo(this);
         session.BeginRead(Spell4Memo);
@@ -660,7 +661,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell4Memo.WinHeight = 35;
         Spell4Memo.BorderWidth = 10;
         Spell4Memo.BorderHeight = 0;
-        Spell4Memo.TextColor = 1254460;
+        Spell4Memo.TextColor = new Color(60, 36, 19);
         Spell4Memo.CursorChar = 124;
         Spell4Memo.BlinkDelay = 0;
         Spell4Memo.Editable = false;
@@ -692,7 +693,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell4CostLabel.Alignment.BottomOffset = 0;
         Spell4CostLabel.Masked = true;
         Spell4CostLabel.Text = "####";
-        Spell4CostLabel.TextColor = 5908276;
+        Spell4CostLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell4CostLabel);
         Image spell4Icon = new(this);
         Spell4Icon = spell4Icon;
@@ -746,7 +747,7 @@ public sealed partial class SpellBook : ILayoutModule
         RightHeaderLabel.Alignment.BottomOffset = 0;
         RightHeaderLabel.Masked = true;
         RightHeaderLabel.Text = "Global Spells";
-        RightHeaderLabel.TextColor = 1254460;
+        RightHeaderLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(RightHeaderLabel);
         RightSpellPage = new Panel(this);
         session.BeginRead(RightSpellPage);
@@ -826,7 +827,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell5SpellLabel.Alignment.BottomOffset = 0;
         Spell5SpellLabel.Masked = true;
         Spell5SpellLabel.Text = "####";
-        Spell5SpellLabel.TextColor = 1254460;
+        Spell5SpellLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(Spell5SpellLabel);
         Spell5ClassLabel = new Label(this);
         session.BeginRead(Spell5ClassLabel);
@@ -850,7 +851,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell5ClassLabel.Alignment.BottomOffset = 0;
         Spell5ClassLabel.Masked = true;
         Spell5ClassLabel.Text = "####";
-        Spell5ClassLabel.TextColor = 5908276;
+        Spell5ClassLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell5ClassLabel);
         Spell5Memo = new Memo(this);
         session.BeginRead(Spell5Memo);
@@ -877,7 +878,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell5Memo.WinHeight = 35;
         Spell5Memo.BorderWidth = 10;
         Spell5Memo.BorderHeight = 0;
-        Spell5Memo.TextColor = 1254460;
+        Spell5Memo.TextColor = new Color(60, 36, 19);
         Spell5Memo.CursorChar = 124;
         Spell5Memo.BlinkDelay = 0;
         Spell5Memo.Editable = false;
@@ -909,7 +910,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell5CostLabel.Alignment.BottomOffset = 0;
         Spell5CostLabel.Masked = true;
         Spell5CostLabel.Text = "####";
-        Spell5CostLabel.TextColor = 5908276;
+        Spell5CostLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell5CostLabel);
         Image spell5Icon = new(this);
         Spell5Icon = spell5Icon;
@@ -992,7 +993,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell6SpellLabel.Alignment.BottomOffset = 0;
         Spell6SpellLabel.Masked = true;
         Spell6SpellLabel.Text = "####";
-        Spell6SpellLabel.TextColor = 1254460;
+        Spell6SpellLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(Spell6SpellLabel);
         Spell6ClassLabel = new Label(this);
         session.BeginRead(Spell6ClassLabel);
@@ -1016,7 +1017,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell6ClassLabel.Alignment.BottomOffset = 0;
         Spell6ClassLabel.Masked = true;
         Spell6ClassLabel.Text = "####";
-        Spell6ClassLabel.TextColor = 5908276;
+        Spell6ClassLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell6ClassLabel);
         Spell6Memo = new Memo(this);
         session.BeginRead(Spell6Memo);
@@ -1043,7 +1044,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell6Memo.WinHeight = 35;
         Spell6Memo.BorderWidth = 10;
         Spell6Memo.BorderHeight = 0;
-        Spell6Memo.TextColor = 1254460;
+        Spell6Memo.TextColor = new Color(60, 36, 19);
         Spell6Memo.CursorChar = 124;
         Spell6Memo.BlinkDelay = 0;
         Spell6Memo.Editable = false;
@@ -1075,7 +1076,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell6CostLabel.Alignment.BottomOffset = 0;
         Spell6CostLabel.Masked = true;
         Spell6CostLabel.Text = "####";
-        Spell6CostLabel.TextColor = 5908276;
+        Spell6CostLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell6CostLabel);
         Image spell6Icon = new(this);
         Spell6Icon = spell6Icon;
@@ -1158,7 +1159,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell7SpellLabel.Alignment.BottomOffset = 0;
         Spell7SpellLabel.Masked = true;
         Spell7SpellLabel.Text = "####";
-        Spell7SpellLabel.TextColor = 1254460;
+        Spell7SpellLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(Spell7SpellLabel);
         Spell7ClassLabel = new Label(this);
         session.BeginRead(Spell7ClassLabel);
@@ -1182,7 +1183,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell7ClassLabel.Alignment.BottomOffset = 0;
         Spell7ClassLabel.Masked = true;
         Spell7ClassLabel.Text = "####";
-        Spell7ClassLabel.TextColor = 5908276;
+        Spell7ClassLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell7ClassLabel);
         Spell7Memo = new Memo(this);
         session.BeginRead(Spell7Memo);
@@ -1209,7 +1210,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell7Memo.WinHeight = 35;
         Spell7Memo.BorderWidth = 10;
         Spell7Memo.BorderHeight = 0;
-        Spell7Memo.TextColor = 1254460;
+        Spell7Memo.TextColor = new Color(60, 36, 19);
         Spell7Memo.CursorChar = 124;
         Spell7Memo.BlinkDelay = 0;
         Spell7Memo.Editable = false;
@@ -1241,7 +1242,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell7CostLabel.Alignment.BottomOffset = 0;
         Spell7CostLabel.Masked = true;
         Spell7CostLabel.Text = "####";
-        Spell7CostLabel.TextColor = 5908276;
+        Spell7CostLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell7CostLabel);
         Image spell7Icon = new(this);
         Spell7Icon = spell7Icon;
@@ -1324,7 +1325,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell8SpellLabel.Alignment.BottomOffset = 0;
         Spell8SpellLabel.Masked = true;
         Spell8SpellLabel.Text = "####";
-        Spell8SpellLabel.TextColor = 1254460;
+        Spell8SpellLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(Spell8SpellLabel);
         Spell8ClassLabel = new Label(this);
         session.BeginRead(Spell8ClassLabel);
@@ -1348,7 +1349,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell8ClassLabel.Alignment.BottomOffset = 0;
         Spell8ClassLabel.Masked = true;
         Spell8ClassLabel.Text = "####";
-        Spell8ClassLabel.TextColor = 5908276;
+        Spell8ClassLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell8ClassLabel);
         Spell8Memo = new Memo(this);
         session.BeginRead(Spell8Memo);
@@ -1375,7 +1376,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell8Memo.WinHeight = 35;
         Spell8Memo.BorderWidth = 10;
         Spell8Memo.BorderHeight = 0;
-        Spell8Memo.TextColor = 1254460;
+        Spell8Memo.TextColor = new Color(60, 36, 19);
         Spell8Memo.CursorChar = 124;
         Spell8Memo.BlinkDelay = 0;
         Spell8Memo.Editable = false;
@@ -1407,7 +1408,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell8CostLabel.Alignment.BottomOffset = 0;
         Spell8CostLabel.Masked = true;
         Spell8CostLabel.Text = "####";
-        Spell8CostLabel.TextColor = 5908276;
+        Spell8CostLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(Spell8CostLabel);
         Image spell8Icon = new(this);
         Spell8Icon = spell8Icon;
@@ -1465,8 +1466,8 @@ public sealed partial class SpellBook : ILayoutModule
         Spell1Button.ImageLibraryIndexDown = 26;
         Spell1Button.ImageLibraryIndexLit = 26;
         Spell1Button.ImageLibraryIndexUp = 25;
-        Spell1Button.TextColor = 0;
-        Spell1Button.TextSelectedColor = 0;
+        Spell1Button.TextColor = Color.Black;
+        Spell1Button.TextSelectedColor = Color.Black;
         Spell1Button.WinWidth = 254;
         Spell1Button.Clicked += (_, _) => SpellButtonClick(0);
         session.EndRead(Spell1Button);
@@ -1491,7 +1492,7 @@ public sealed partial class SpellBook : ILayoutModule
         CurrentPointsLabel.Alignment.BottomOffset = 0;
         CurrentPointsLabel.Masked = true;
         CurrentPointsLabel.Text = "20";
-        CurrentPointsLabel.TextColor = 13948116;
+        CurrentPointsLabel.TextColor = new Color(212, 212, 212);
         session.EndRead(CurrentPointsLabel);
         SlashLabel = new Label(this);
         session.BeginRead(SlashLabel);
@@ -1514,7 +1515,7 @@ public sealed partial class SpellBook : ILayoutModule
         SlashLabel.Alignment.BottomOffset = 0;
         SlashLabel.Masked = true;
         SlashLabel.Text = "-";
-        SlashLabel.TextColor = 12632256;
+        SlashLabel.TextColor = Color.Silver;
         session.EndRead(SlashLabel);
         CastingPointsMaxLabel = new Label(this);
         session.BeginRead(CastingPointsMaxLabel);
@@ -1537,7 +1538,7 @@ public sealed partial class SpellBook : ILayoutModule
         CastingPointsMaxLabel.Alignment.BottomOffset = 0;
         CastingPointsMaxLabel.Masked = true;
         CastingPointsMaxLabel.Text = "20";
-        CastingPointsMaxLabel.TextColor = 11447982;
+        CastingPointsMaxLabel.TextColor = new Color(174, 174, 174);
         session.EndRead(CastingPointsMaxLabel);
         GlobalButton = new Button(this);
         session.BeginRead(GlobalButton);
@@ -1564,8 +1565,8 @@ public sealed partial class SpellBook : ILayoutModule
         GlobalButton.ImageLibraryIndexDown = 17;
         GlobalButton.ImageLibraryIndexLit = 18;
         GlobalButton.ImageLibraryIndexUp = 16;
-        GlobalButton.TextColor = 16777215;
-        GlobalButton.TextSelectedColor = 0;
+        GlobalButton.TextColor = Color.White;
+        GlobalButton.TextSelectedColor = Color.Black;
         GlobalButton.WinWidth = 39;
         GlobalButton.Clicked += (_, _) => GlobalBtnClick();
         session.EndRead(GlobalButton);
@@ -1594,8 +1595,8 @@ public sealed partial class SpellBook : ILayoutModule
         UnitButton.ImageLibraryIndexDown = 23;
         UnitButton.ImageLibraryIndexLit = 24;
         UnitButton.ImageLibraryIndexUp = 22;
-        UnitButton.TextColor = 16777215;
-        UnitButton.TextSelectedColor = 0;
+        UnitButton.TextColor = Color.White;
+        UnitButton.TextSelectedColor = Color.Black;
         UnitButton.WinWidth = 39;
         UnitButton.Clicked += (_, _) => UnitBtnClick();
         session.EndRead(UnitButton);
@@ -1624,8 +1625,8 @@ public sealed partial class SpellBook : ILayoutModule
         CombatButton.ImageLibraryIndexDown = 20;
         CombatButton.ImageLibraryIndexLit = 21;
         CombatButton.ImageLibraryIndexUp = 19;
-        CombatButton.TextColor = 16777215;
-        CombatButton.TextSelectedColor = 0;
+        CombatButton.TextColor = Color.White;
+        CombatButton.TextSelectedColor = Color.Black;
         CombatButton.WinWidth = 39;
         CombatButton.Clicked += (_, _) => CombatBtnClick();
         session.EndRead(CombatButton);
@@ -1654,8 +1655,8 @@ public sealed partial class SpellBook : ILayoutModule
         InfoButton.ImageLibraryIndexDown = 14;
         InfoButton.ImageLibraryIndexLit = 15;
         InfoButton.ImageLibraryIndexUp = 13;
-        InfoButton.TextColor = 16777215;
-        InfoButton.TextSelectedColor = 0;
+        InfoButton.TextColor = Color.White;
+        InfoButton.TextSelectedColor = Color.Black;
         InfoButton.WinWidth = 39;
         InfoButton.Clicked += (_, _) => InfoBtnClick();
         session.EndRead(InfoButton);
@@ -1684,8 +1685,8 @@ public sealed partial class SpellBook : ILayoutModule
         PreviousButton.ImageLibraryIndexDown = 2;
         PreviousButton.ImageLibraryIndexLit = 3;
         PreviousButton.ImageLibraryIndexUp = 1;
-        PreviousButton.TextColor = 0;
-        PreviousButton.TextSelectedColor = 0;
+        PreviousButton.TextColor = Color.Black;
+        PreviousButton.TextSelectedColor = Color.Black;
         PreviousButton.WinWidth = 55;
         PreviousButton.Clicked += (_, _) => PrevBtnClick();
         session.EndRead(PreviousButton);
@@ -1714,8 +1715,8 @@ public sealed partial class SpellBook : ILayoutModule
         NextButton.ImageLibraryIndexDown = 5;
         NextButton.ImageLibraryIndexLit = 6;
         NextButton.ImageLibraryIndexUp = 4;
-        NextButton.TextColor = 0;
-        NextButton.TextSelectedColor = 0;
+        NextButton.TextColor = Color.Black;
+        NextButton.TextSelectedColor = Color.Black;
         NextButton.WinWidth = 55;
         NextButton.Clicked += (_, _) => NextBtnClick();
         session.EndRead(NextButton);
@@ -1744,8 +1745,8 @@ public sealed partial class SpellBook : ILayoutModule
         cancel.ImageLibraryIndexDown = 8;
         cancel.ImageLibraryIndexLit = 9;
         cancel.ImageLibraryIndexUp = 7;
-        cancel.TextColor = 0;
-        cancel.TextSelectedColor = 0;
+        cancel.TextColor = Color.Black;
+        cancel.TextSelectedColor = Color.Black;
         cancel.WinWidth = 39;
         cancel.Clicked += (_, _) => CancelClick();
         session.EndRead(cancel);
@@ -1775,8 +1776,8 @@ public sealed partial class SpellBook : ILayoutModule
         Spell2Button.ImageLibraryIndexDown = 26;
         Spell2Button.ImageLibraryIndexLit = 26;
         Spell2Button.ImageLibraryIndexUp = 25;
-        Spell2Button.TextColor = 0;
-        Spell2Button.TextSelectedColor = 0;
+        Spell2Button.TextColor = Color.Black;
+        Spell2Button.TextSelectedColor = Color.Black;
         Spell2Button.WinWidth = 254;
         Spell2Button.Clicked += (_, _) => SpellButtonClick(1);
         session.EndRead(Spell2Button);
@@ -1806,8 +1807,8 @@ public sealed partial class SpellBook : ILayoutModule
         Spell3Button.ImageLibraryIndexDown = 26;
         Spell3Button.ImageLibraryIndexLit = 26;
         Spell3Button.ImageLibraryIndexUp = 25;
-        Spell3Button.TextColor = 0;
-        Spell3Button.TextSelectedColor = 0;
+        Spell3Button.TextColor = Color.Black;
+        Spell3Button.TextSelectedColor = Color.Black;
         Spell3Button.WinWidth = 254;
         Spell3Button.Clicked += (_, _) => SpellButtonClick(2);
         session.EndRead(Spell3Button);
@@ -1837,8 +1838,8 @@ public sealed partial class SpellBook : ILayoutModule
         Spell4Button.ImageLibraryIndexDown = 26;
         Spell4Button.ImageLibraryIndexLit = 26;
         Spell4Button.ImageLibraryIndexUp = 25;
-        Spell4Button.TextColor = 0;
-        Spell4Button.TextSelectedColor = 0;
+        Spell4Button.TextColor = Color.Black;
+        Spell4Button.TextSelectedColor = Color.Black;
         Spell4Button.WinWidth = 254;
         Spell4Button.Clicked += (_, _) => SpellButtonClick(3);
         session.EndRead(Spell4Button);
@@ -1868,8 +1869,8 @@ public sealed partial class SpellBook : ILayoutModule
         Spell5Button.ImageLibraryIndexDown = 26;
         Spell5Button.ImageLibraryIndexLit = 26;
         Spell5Button.ImageLibraryIndexUp = 25;
-        Spell5Button.TextColor = 0;
-        Spell5Button.TextSelectedColor = 0;
+        Spell5Button.TextColor = Color.Black;
+        Spell5Button.TextSelectedColor = Color.Black;
         Spell5Button.WinWidth = 254;
         Spell5Button.Clicked += (_, _) => SpellButtonClick(4);
         session.EndRead(Spell5Button);
@@ -1899,8 +1900,8 @@ public sealed partial class SpellBook : ILayoutModule
         Spell6Button.ImageLibraryIndexDown = 26;
         Spell6Button.ImageLibraryIndexLit = 26;
         Spell6Button.ImageLibraryIndexUp = 25;
-        Spell6Button.TextColor = 0;
-        Spell6Button.TextSelectedColor = 0;
+        Spell6Button.TextColor = Color.Black;
+        Spell6Button.TextSelectedColor = Color.Black;
         Spell6Button.WinWidth = 254;
         Spell6Button.Clicked += (_, _) => SpellButtonClick(5);
         session.EndRead(Spell6Button);
@@ -1930,8 +1931,8 @@ public sealed partial class SpellBook : ILayoutModule
         Spell7Button.ImageLibraryIndexDown = 26;
         Spell7Button.ImageLibraryIndexLit = 26;
         Spell7Button.ImageLibraryIndexUp = 25;
-        Spell7Button.TextColor = 0;
-        Spell7Button.TextSelectedColor = 0;
+        Spell7Button.TextColor = Color.Black;
+        Spell7Button.TextSelectedColor = Color.Black;
         Spell7Button.WinWidth = 254;
         Spell7Button.Clicked += (_, _) => SpellButtonClick(6);
         session.EndRead(Spell7Button);
@@ -1961,8 +1962,8 @@ public sealed partial class SpellBook : ILayoutModule
         Spell8Button.ImageLibraryIndexDown = 26;
         Spell8Button.ImageLibraryIndexLit = 26;
         Spell8Button.ImageLibraryIndexUp = 25;
-        Spell8Button.TextColor = 0;
-        Spell8Button.TextSelectedColor = 0;
+        Spell8Button.TextColor = Color.Black;
+        Spell8Button.TextSelectedColor = Color.Black;
         Spell8Button.WinWidth = 254;
         Spell8Button.Clicked += (_, _) => SpellButtonClick(7);
         session.EndRead(Spell8Button);
@@ -2043,7 +2044,7 @@ public sealed partial class SpellBook : ILayoutModule
         CastingSpellLabel.Alignment.BottomOffset = 0;
         CastingSpellLabel.Masked = true;
         CastingSpellLabel.Text = "#########";
-        CastingSpellLabel.TextColor = 1254460;
+        CastingSpellLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(CastingSpellLabel);
         CastingClassLabel = new Label(this);
         session.BeginRead(CastingClassLabel);
@@ -2066,7 +2067,7 @@ public sealed partial class SpellBook : ILayoutModule
         CastingClassLabel.Alignment.BottomOffset = 0;
         CastingClassLabel.Masked = true;
         CastingClassLabel.Text = "###########";
-        CastingClassLabel.TextColor = 5908276;
+        CastingClassLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(CastingClassLabel);
         CastingMemo = new Memo(this);
         session.BeginRead(CastingMemo);
@@ -2092,7 +2093,7 @@ public sealed partial class SpellBook : ILayoutModule
         CastingMemo.WinHeight = 35;
         CastingMemo.BorderWidth = 10;
         CastingMemo.BorderHeight = 0;
-        CastingMemo.TextColor = 1254460;
+        CastingMemo.TextColor = new Color(60, 36, 19);
         CastingMemo.CursorChar = 124;
         CastingMemo.BlinkDelay = 0;
         CastingMemo.Editable = false;
@@ -2123,7 +2124,7 @@ public sealed partial class SpellBook : ILayoutModule
         CastingCostLabel.Alignment.BottomOffset = 0;
         CastingCostLabel.Masked = true;
         CastingCostLabel.Text = "###########";
-        CastingCostLabel.TextColor = 5908276;
+        CastingCostLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(CastingCostLabel);
         Image castingIcn = new(this);
         session.BeginRead(castingIcn);
@@ -2202,7 +2203,7 @@ public sealed partial class SpellBook : ILayoutModule
         CastingStatusLabel.Alignment.BottomOffset = 0;
         CastingStatusLabel.Masked = true;
         CastingStatusLabel.Text = "##########";
-        CastingStatusLabel.TextColor = 5908276;
+        CastingStatusLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(CastingStatusLabel);
         CastingPointsLabel = new Label(this);
         session.BeginRead(CastingPointsLabel);
@@ -2225,7 +2226,7 @@ public sealed partial class SpellBook : ILayoutModule
         CastingPointsLabel.Alignment.BottomOffset = 0;
         CastingPointsLabel.Masked = true;
         CastingPointsLabel.Text = "#############";
-        CastingPointsLabel.TextColor = 5908276;
+        CastingPointsLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(CastingPointsLabel);
         CastingButton = new Button(this);
         session.BeginRead(CastingButton);
@@ -2252,8 +2253,8 @@ public sealed partial class SpellBook : ILayoutModule
         CastingButton.ImageLibraryIndexDown = 26;
         CastingButton.ImageLibraryIndexLit = 26;
         CastingButton.ImageLibraryIndexUp = 25;
-        CastingButton.TextColor = 1254460;
-        CastingButton.TextSelectedColor = 0;
+        CastingButton.TextColor = new Color(60, 36, 19);
+        CastingButton.TextSelectedColor = Color.Black;
         CastingButton.WinWidth = 254;
         CastingButton.Clicked += (_, _) => CastingBtnClick();
         session.EndRead(CastingButton);
@@ -2282,8 +2283,8 @@ public sealed partial class SpellBook : ILayoutModule
         Sphere4Button.ImageLibraryIndexDown = 28;
         Sphere4Button.ImageLibraryIndexLit = 29;
         Sphere4Button.ImageLibraryIndexUp = 27;
-        Sphere4Button.TextColor = 0;
-        Sphere4Button.TextSelectedColor = 0;
+        Sphere4Button.TextColor = Color.Black;
+        Sphere4Button.TextSelectedColor = Color.Black;
         Sphere4Button.WinWidth = 52;
         Sphere4Button.Clicked += (_, _) => Sel1Click();
         session.EndRead(Sphere4Button);
@@ -2339,8 +2340,8 @@ public sealed partial class SpellBook : ILayoutModule
         Sphere3Button.ImageLibraryIndexDown = 28;
         Sphere3Button.ImageLibraryIndexLit = 29;
         Sphere3Button.ImageLibraryIndexUp = 27;
-        Sphere3Button.TextColor = 0;
-        Sphere3Button.TextSelectedColor = 0;
+        Sphere3Button.TextColor = Color.Black;
+        Sphere3Button.TextSelectedColor = Color.Black;
         Sphere3Button.WinWidth = 52;
         Sphere3Button.Clicked += (_, _) => Sel1Click();
         session.EndRead(Sphere3Button);
@@ -2369,8 +2370,8 @@ public sealed partial class SpellBook : ILayoutModule
         Sphere2Button.ImageLibraryIndexDown = 28;
         Sphere2Button.ImageLibraryIndexLit = 29;
         Sphere2Button.ImageLibraryIndexUp = 27;
-        Sphere2Button.TextColor = 0;
-        Sphere2Button.TextSelectedColor = 0;
+        Sphere2Button.TextColor = Color.Black;
+        Sphere2Button.TextSelectedColor = Color.Black;
         Sphere2Button.WinWidth = 52;
         Sphere2Button.Clicked += (_, _) => Sel1Click();
         session.EndRead(Sphere2Button);
@@ -2399,8 +2400,8 @@ public sealed partial class SpellBook : ILayoutModule
         Sphere1Button.ImageLibraryIndexDown = 28;
         Sphere1Button.ImageLibraryIndexLit = 29;
         Sphere1Button.ImageLibraryIndexUp = 27;
-        Sphere1Button.TextColor = 0;
-        Sphere1Button.TextSelectedColor = 0;
+        Sphere1Button.TextColor = Color.Black;
+        Sphere1Button.TextSelectedColor = Color.Black;
         Sphere1Button.WinWidth = 52;
         Sphere1Button.Clicked += (_, _) => Sel1Click();
         session.EndRead(Sphere1Button);
@@ -2429,8 +2430,8 @@ public sealed partial class SpellBook : ILayoutModule
         Sphere5Button.ImageLibraryIndexDown = 28;
         Sphere5Button.ImageLibraryIndexLit = 29;
         Sphere5Button.ImageLibraryIndexUp = 27;
-        Sphere5Button.TextColor = 0;
-        Sphere5Button.TextSelectedColor = 0;
+        Sphere5Button.TextColor = Color.Black;
+        Sphere5Button.TextSelectedColor = Color.Black;
         Sphere5Button.WinWidth = 52;
         Sphere5Button.Clicked += (_, _) => Sel1Click();
         session.EndRead(Sphere5Button);
@@ -2459,8 +2460,8 @@ public sealed partial class SpellBook : ILayoutModule
         Sphere6Button.ImageLibraryIndexDown = 28;
         Sphere6Button.ImageLibraryIndexLit = 29;
         Sphere6Button.ImageLibraryIndexUp = 27;
-        Sphere6Button.TextColor = 0;
-        Sphere6Button.TextSelectedColor = 0;
+        Sphere6Button.TextColor = Color.Black;
+        Sphere6Button.TextSelectedColor = Color.Black;
         Sphere6Button.WinWidth = 52;
         Sphere6Button.Clicked += (_, _) => Sel1Click();
         session.EndRead(Sphere6Button);
@@ -2489,8 +2490,8 @@ public sealed partial class SpellBook : ILayoutModule
         Sphere7Button.ImageLibraryIndexDown = 28;
         Sphere7Button.ImageLibraryIndexLit = 29;
         Sphere7Button.ImageLibraryIndexUp = 27;
-        Sphere7Button.TextColor = 0;
-        Sphere7Button.TextSelectedColor = 0;
+        Sphere7Button.TextColor = Color.Black;
+        Sphere7Button.TextSelectedColor = Color.Black;
         Sphere7Button.WinWidth = 52;
         Sphere7Button.Clicked += (_, _) => Sel1Click();
         session.EndRead(Sphere7Button);
@@ -2515,7 +2516,7 @@ public sealed partial class SpellBook : ILayoutModule
         selLbl.Alignment.BottomOffset = 0;
         selLbl.Masked = true;
         selLbl.Text = "Spheres of Magic";
-        selLbl.TextColor = 1254460;
+        selLbl.TextColor = new Color(60, 36, 19);
         session.EndRead(selLbl);
         SpellBookLabel = new Label(this);
         session.BeginRead(SpellBookLabel);
@@ -2538,7 +2539,7 @@ public sealed partial class SpellBook : ILayoutModule
         SpellBookLabel.Alignment.BottomOffset = 0;
         SpellBookLabel.Masked = true;
         SpellBookLabel.Text = "Spell Book";
-        SpellBookLabel.TextColor = 1254460;
+        SpellBookLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(SpellBookLabel);
         NameLabel = new Label(this);
         session.BeginRead(NameLabel);
@@ -2561,7 +2562,7 @@ public sealed partial class SpellBook : ILayoutModule
         NameLabel.Alignment.BottomOffset = 0;
         NameLabel.Masked = true;
         NameLabel.Text = "########";
-        NameLabel.TextColor = 1254460;
+        NameLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(NameLabel);
         ManaPoolLabel = new Label(this);
         session.BeginRead(ManaPoolLabel);
@@ -2584,7 +2585,7 @@ public sealed partial class SpellBook : ILayoutModule
         ManaPoolLabel.Alignment.BottomOffset = 0;
         ManaPoolLabel.Masked = true;
         ManaPoolLabel.Text = "########";
-        ManaPoolLabel.TextColor = 5908276;
+        ManaPoolLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(ManaPoolLabel);
         Label castingLbl = new(this);
         session.BeginRead(castingLbl);
@@ -2607,7 +2608,7 @@ public sealed partial class SpellBook : ILayoutModule
         castingLbl.Alignment.BottomOffset = 0;
         castingLbl.Masked = true;
         castingLbl.Text = "Currently Casting";
-        castingLbl.TextColor = 1254460;
+        castingLbl.TextColor = new Color(60, 36, 19);
         session.EndRead(castingLbl);
         Image faceFrame = new(this);
         session.BeginRead(faceFrame);
@@ -2696,7 +2697,7 @@ public sealed partial class SpellBook : ILayoutModule
         Book.OverlapTopCorners = false;
         Book.Cursor = 0;
         Book.DoubleBuffered = true;
-        Book.MaskColor = 5808200;
+        Book.MaskColor = new Color(72, 160, 88);
         Book.FreeSurfaceOnHide = true;
         Book.ImageLibraryIndexFrame = 28;
         Book.ImageLibraryIndexTexture = 0;
@@ -2733,7 +2734,7 @@ public sealed partial class SpellBook : ILayoutModule
         NoneCastingLabel.Alignment.BottomOffset = 0;
         NoneCastingLabel.Masked = true;
         NoneCastingLabel.Text = "None";
-        NoneCastingLabel.TextColor = 5908276;
+        NoneCastingLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(NoneCastingLabel);
         ResearchPage = new Panel(this);
         session.BeginRead(ResearchPage);
@@ -2783,7 +2784,7 @@ public sealed partial class SpellBook : ILayoutModule
         ResearchNameLabel.Alignment.BottomOffset = 0;
         ResearchNameLabel.Masked = true;
         ResearchNameLabel.Text = "##########";
-        ResearchNameLabel.TextColor = 1254460;
+        ResearchNameLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(ResearchNameLabel);
         ResearchClassLabel = new Label(this);
         session.BeginRead(ResearchClassLabel);
@@ -2806,7 +2807,7 @@ public sealed partial class SpellBook : ILayoutModule
         ResearchClassLabel.Alignment.BottomOffset = 0;
         ResearchClassLabel.Masked = true;
         ResearchClassLabel.Text = "#########";
-        ResearchClassLabel.TextColor = 5908276;
+        ResearchClassLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(ResearchClassLabel);
         ResearchMemo = new Memo(this);
         session.BeginRead(ResearchMemo);
@@ -2832,7 +2833,7 @@ public sealed partial class SpellBook : ILayoutModule
         ResearchMemo.WinHeight = 35;
         ResearchMemo.BorderWidth = 10;
         ResearchMemo.BorderHeight = 0;
-        ResearchMemo.TextColor = 1254460;
+        ResearchMemo.TextColor = new Color(60, 36, 19);
         ResearchMemo.CursorChar = 124;
         ResearchMemo.BlinkDelay = 0;
         ResearchMemo.Editable = false;
@@ -2863,7 +2864,7 @@ public sealed partial class SpellBook : ILayoutModule
         ResearchCostLabel.Alignment.BottomOffset = 0;
         ResearchCostLabel.Masked = true;
         ResearchCostLabel.Text = "##########";
-        ResearchCostLabel.TextColor = 5908276;
+        ResearchCostLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(ResearchCostLabel);
         Image researchIcn = new(this);
         session.BeginRead(researchIcn);
@@ -2915,7 +2916,7 @@ public sealed partial class SpellBook : ILayoutModule
         ResearchStatusLabel.Alignment.BottomOffset = 0;
         ResearchStatusLabel.Masked = true;
         ResearchStatusLabel.Text = "#########";
-        ResearchStatusLabel.TextColor = 5908276;
+        ResearchStatusLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(ResearchStatusLabel);
         ResearchNoneLabel = new Label(this);
         session.BeginRead(ResearchNoneLabel);
@@ -2938,7 +2939,7 @@ public sealed partial class SpellBook : ILayoutModule
         ResearchNoneLabel.Alignment.BottomOffset = 0;
         ResearchNoneLabel.Masked = true;
         ResearchNoneLabel.Text = "None";
-        ResearchNoneLabel.TextColor = 5908276;
+        ResearchNoneLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(ResearchNoneLabel);
         ResearchPanel = new Panel(this);
         session.BeginRead(ResearchPanel);
@@ -2988,7 +2989,7 @@ public sealed partial class SpellBook : ILayoutModule
         ResearchLabel.Alignment.BottomOffset = 0;
         ResearchLabel.Masked = true;
         ResearchLabel.Text = "Currently Researching:";
-        ResearchLabel.TextColor = 1254460;
+        ResearchLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(ResearchLabel);
         RightInfoPage = new Panel(this);
         session.BeginRead(RightInfoPage);
@@ -3038,7 +3039,7 @@ public sealed partial class SpellBook : ILayoutModule
         manaInfo.Alignment.BottomOffset = 0;
         manaInfo.Masked = true;
         manaInfo.Text = "Mana";
-        manaInfo.TextColor = 1254460;
+        manaInfo.TextColor = new Color(60, 36, 19);
         session.EndRead(manaInfo);
         Image sep = new(this);
         session.BeginRead(sep);
@@ -3089,7 +3090,7 @@ public sealed partial class SpellBook : ILayoutModule
         ResearchPointsLabel.Alignment.BottomOffset = 0;
         ResearchPointsLabel.Masked = true;
         ResearchPointsLabel.Text = "############";
-        ResearchPointsLabel.TextColor = 5908276;
+        ResearchPointsLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(ResearchPointsLabel);
         ResearchManaPoolLabel = new Label(this);
         session.BeginRead(ResearchManaPoolLabel);
@@ -3112,7 +3113,7 @@ public sealed partial class SpellBook : ILayoutModule
         ResearchManaPoolLabel.Alignment.BottomOffset = 0;
         ResearchManaPoolLabel.Masked = true;
         ResearchManaPoolLabel.Text = "###########";
-        ResearchManaPoolLabel.TextColor = 5908276;
+        ResearchManaPoolLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(ResearchManaPoolLabel);
         Label rManaInfo = new(this);
         session.BeginRead(rManaInfo);
@@ -3135,7 +3136,7 @@ public sealed partial class SpellBook : ILayoutModule
         rManaInfo.Alignment.BottomOffset = 0;
         rManaInfo.Masked = true;
         rManaInfo.Text = "Research";
-        rManaInfo.TextColor = 1254460;
+        rManaInfo.TextColor = new Color(60, 36, 19);
         session.EndRead(rManaInfo);
         Image image1 = new(this);
         session.BeginRead(image1);
@@ -3187,7 +3188,7 @@ public sealed partial class SpellBook : ILayoutModule
         ResearchBookLabel.Alignment.BottomOffset = 0;
         ResearchBookLabel.Masked = true;
         ResearchBookLabel.Text = "Research Book";
-        ResearchBookLabel.TextColor = 1254460;
+        ResearchBookLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(ResearchBookLabel);
         CancelResearchButton = new Button(this);
         session.BeginRead(CancelResearchButton);
@@ -3219,8 +3220,8 @@ public sealed partial class SpellBook : ILayoutModule
         CancelResearchButton.ImageLibraryIndexLit = 3;
         CancelResearchButton.ImageLibraryIndexUp = 0;
         CancelResearchButton.Text = "Cancel";
-        CancelResearchButton.TextColor = 1254460;
-        CancelResearchButton.TextSelectedColor = 16777215;
+        CancelResearchButton.TextColor = new Color(60, 36, 19);
+        CancelResearchButton.TextSelectedColor = Color.White;
         CancelResearchButton.WinWidth = 140;
         CancelResearchButton.Clicked += (_, _) => CancelResearchBtnClick();
         session.EndRead(CancelResearchButton);
@@ -3254,8 +3255,8 @@ public sealed partial class SpellBook : ILayoutModule
         cancelCastingBtn.ImageLibraryIndexLit = 3;
         cancelCastingBtn.ImageLibraryIndexUp = 0;
         cancelCastingBtn.Text = "Cancel";
-        cancelCastingBtn.TextColor = 1254460;
-        cancelCastingBtn.TextSelectedColor = 16777215;
+        cancelCastingBtn.TextColor = new Color(60, 36, 19);
+        cancelCastingBtn.TextSelectedColor = Color.White;
         cancelCastingBtn.WinWidth = 140;
         cancelCastingBtn.Clicked += (_, _) => CancelCastingBtnClick();
         session.EndRead(cancelCastingBtn);

@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -44,7 +45,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = false;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -81,7 +82,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         TitleLabel.Alignment.BottomOffset = 0;
         TitleLabel.Masked = true;
         TitleLabel.Text = "########";
-        TitleLabel.TextColor = 0;
+        TitleLabel.TextColor = Color.Black;
         session.EndRead(TitleLabel);
         PickupPanel = new Panel(this);
         session.BeginRead(PickupPanel);
@@ -136,8 +137,8 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         pickupBtn.ImageLibraryIndexLit = 25;
         pickupBtn.ImageLibraryIndexUp = 19;
         pickupBtn.Text = "Pickup";
-        pickupBtn.TextColor = 0;
-        pickupBtn.TextSelectedColor = 16777215;
+        pickupBtn.TextColor = Color.Black;
+        pickupBtn.TextSelectedColor = Color.White;
         pickupBtn.WinWidth = 105;
         pickupBtn.Clicked += (_, _) => PickupBtnClick();
         session.EndRead(pickupBtn);
@@ -167,8 +168,8 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         closeBtn.ImageLibraryIndexLit = 25;
         closeBtn.ImageLibraryIndexUp = 19;
         closeBtn.Text = "Close";
-        closeBtn.TextColor = 0;
-        closeBtn.TextSelectedColor = 16777215;
+        closeBtn.TextColor = Color.Black;
+        closeBtn.TextSelectedColor = Color.White;
         closeBtn.WinWidth = 105;
         closeBtn.Clicked += (_, _) => CloseBtn2Click();
         session.EndRead(closeBtn);
@@ -336,8 +337,8 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         closeBtn2.ImageLibraryIndexLit = 25;
         closeBtn2.ImageLibraryIndexUp = 19;
         closeBtn2.Text = "Close";
-        closeBtn2.TextColor = 0;
-        closeBtn2.TextSelectedColor = 16777215;
+        closeBtn2.TextColor = Color.Black;
+        closeBtn2.TextSelectedColor = Color.White;
         closeBtn2.WinWidth = 130;
         closeBtn2.Clicked += (_, _) => CloseBtn2Click();
         session.EndRead(closeBtn2);
@@ -399,7 +400,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         ];
         MessageMemo.BorderWidth = 0;
         MessageMemo.BorderHeight = 0;
-        MessageMemo.TextColor = 0;
+        MessageMemo.TextColor = Color.Black;
         MessageMemo.CursorChar = 0;
         MessageMemo.BlinkDelay = 0;
         MessageMemo.Editable = true;
@@ -509,8 +510,8 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         gnd3.ImageLibraryIndexDown = 32;
         gnd3.ImageLibraryIndexLit = 32;
         gnd3.ImageLibraryIndexUp = 32;
-        gnd3.TextColor = 0;
-        gnd3.TextSelectedColor = 0;
+        gnd3.TextColor = Color.Black;
+        gnd3.TextSelectedColor = Color.Black;
         gnd3.WinWidth = 41;
         gnd3.Checked = false;
         gnd3.RadioIndex = 1;
@@ -543,8 +544,8 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         gnd2.ImageLibraryIndexDown = 32;
         gnd2.ImageLibraryIndexLit = 32;
         gnd2.ImageLibraryIndexUp = 32;
-        gnd2.TextColor = 0;
-        gnd2.TextSelectedColor = 0;
+        gnd2.TextColor = Color.Black;
+        gnd2.TextSelectedColor = Color.Black;
         gnd2.WinWidth = 41;
         gnd2.Checked = false;
         gnd2.RadioIndex = 1;
@@ -576,8 +577,8 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         gnd1.ImageLibraryIndexDown = 32;
         gnd1.ImageLibraryIndexLit = 32;
         gnd1.ImageLibraryIndexUp = 32;
-        gnd1.TextColor = 0;
-        gnd1.TextSelectedColor = 0;
+        gnd1.TextColor = Color.Black;
+        gnd1.TextSelectedColor = Color.Black;
         gnd1.WinWidth = 41;
         gnd1.Checked = false;
         gnd1.RadioIndex = 1;
@@ -610,8 +611,8 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         gnd4.ImageLibraryIndexDown = 32;
         gnd4.ImageLibraryIndexLit = 32;
         gnd4.ImageLibraryIndexUp = 32;
-        gnd4.TextColor = 0;
-        gnd4.TextSelectedColor = 0;
+        gnd4.TextColor = Color.Black;
+        gnd4.TextSelectedColor = Color.Black;
         gnd4.WinWidth = 41;
         gnd4.Checked = false;
         gnd4.RadioIndex = 1;
@@ -644,8 +645,8 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         gnd5.ImageLibraryIndexDown = 32;
         gnd5.ImageLibraryIndexLit = 32;
         gnd5.ImageLibraryIndexUp = 32;
-        gnd5.TextColor = 0;
-        gnd5.TextSelectedColor = 0;
+        gnd5.TextColor = Color.Black;
+        gnd5.TextSelectedColor = Color.Black;
         gnd5.WinWidth = 41;
         gnd5.Checked = false;
         gnd5.RadioIndex = 1;
@@ -675,8 +676,8 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         LeftButton.ImageLibraryIndexDown = 33;
         LeftButton.ImageLibraryIndexLit = 32;
         LeftButton.ImageLibraryIndexUp = 32;
-        LeftButton.TextColor = 0;
-        LeftButton.TextSelectedColor = 0;
+        LeftButton.TextColor = Color.Black;
+        LeftButton.TextSelectedColor = Color.Black;
         LeftButton.WinWidth = 13;
         LeftButton.Clicked += (_, _) => LeftBtnClick();
         session.EndRead(LeftButton);
@@ -705,8 +706,8 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         RightButton.ImageLibraryIndexDown = 35;
         RightButton.ImageLibraryIndexLit = 34;
         RightButton.ImageLibraryIndexUp = 34;
-        RightButton.TextColor = 0;
-        RightButton.TextSelectedColor = 0;
+        RightButton.TextColor = Color.Black;
+        RightButton.TextSelectedColor = Color.Black;
         RightButton.WinWidth = 13;
         RightButton.Clicked += (_, _) => RightBtnClick();
         session.EndRead(RightButton);

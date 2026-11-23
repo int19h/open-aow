@@ -1,6 +1,7 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 using Aow.Game.Draw;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 
 namespace Aow.Game.Tests;
 
@@ -29,9 +30,9 @@ public sealed class MapViewerCenteringTests
 
         public override void DrawStaticScene(ref readonly LockedSurface lockedSurface)
         {
-            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), color: 0xFFFFFF, lockedSurface);
-            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(16 - ViewPixelX, 0, 17 - ViewPixelX, lockedSurface.Height), color: 0x0000FF, lockedSurface);
-            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 16 - ViewPixelY, lockedSurface.Width, 17 - ViewPixelY), color: 0x0000FF, lockedSurface);
+            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), color: Color.White, lockedSurface);
+            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(16 - ViewPixelX, 0, 17 - ViewPixelX, lockedSurface.Height), color: Color.Red, lockedSurface);
+            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 16 - ViewPixelY, lockedSurface.Width, 17 - ViewPixelY), color: Color.Red, lockedSurface);
         }
     }
 
@@ -51,7 +52,7 @@ public sealed class MapViewerCenteringTests
             Viewer.ChangeScene(100, 30, lHitPoints: 0);
             LockedSurface lockedSurface = default;
             Assert.Equal(GraphicsResult.Ok, _target.Lock(ref lockedSurface));
-            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), color: 0x00FF00, lockedSurface);
+            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), color: Color.Lime, lockedSurface);
             _ = _target.Unlock();
             Viewer.ShowScene(SceneLeft, SceneTop, surface: _target);
         }

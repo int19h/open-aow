@@ -4,6 +4,7 @@ using Aow.Game.Layout;
 using Aow.Game.Net;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -45,7 +46,7 @@ public sealed partial class SmtpDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = false;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -226,8 +227,8 @@ public sealed partial class SmtpDialog : ILayoutModule
         ExitButton.ImageLibraryIndexLit = 25;
         ExitButton.ImageLibraryIndexUp = 19;
         ExitButton.Text = "Exit";
-        ExitButton.TextColor = 0;
-        ExitButton.TextSelectedColor = 16777215;
+        ExitButton.TextColor = Color.Black;
+        ExitButton.TextSelectedColor = Color.White;
         ExitButton.WinWidth = 130;
         ExitButton.Clicked += (_, _) => ExitBtnClick();
         session.EndRead(ExitButton);
@@ -252,7 +253,7 @@ public sealed partial class SmtpDialog : ILayoutModule
         SendingGameLabel.Alignment.BottomOffset = 0;
         SendingGameLabel.Masked = true;
         SendingGameLabel.Text = "Sending email game...";
-        SendingGameLabel.TextColor = 0;
+        SendingGameLabel.TextColor = Color.Black;
         session.EndRead(SendingGameLabel);
         ProgressBar = new Gauge(this);
         session.BeginRead(ProgressBar);
@@ -305,7 +306,7 @@ public sealed partial class SmtpDialog : ILayoutModule
         RecipientLabel.Alignment.BottomOffset = 0;
         RecipientLabel.Masked = true;
         RecipientLabel.Text = "Recipient:";
-        RecipientLabel.TextColor = 0;
+        RecipientLabel.TextColor = Color.Black;
         session.EndRead(RecipientLabel);
         SendPanel = new Panel(this);
         session.BeginRead(SendPanel);
@@ -391,7 +392,7 @@ public sealed partial class SmtpDialog : ILayoutModule
         ];
         failedMemo.BorderWidth = 0;
         failedMemo.BorderHeight = 0;
-        failedMemo.TextColor = 0;
+        failedMemo.TextColor = Color.Black;
         failedMemo.CursorChar = 124;
         failedMemo.BlinkDelay = 0;
         failedMemo.Editable = false;
@@ -427,8 +428,8 @@ public sealed partial class SmtpDialog : ILayoutModule
         settingsBtn.ImageLibraryIndexLit = 49;
         settingsBtn.ImageLibraryIndexUp = 43;
         settingsBtn.Text = "Settings";
-        settingsBtn.TextColor = 0;
-        settingsBtn.TextSelectedColor = 16777215;
+        settingsBtn.TextColor = Color.Black;
+        settingsBtn.TextSelectedColor = Color.White;
         settingsBtn.WinWidth = 110;
         settingsBtn.Clicked += (_, _) => SettingsBtnClick();
         session.EndRead(settingsBtn);
@@ -458,8 +459,8 @@ public sealed partial class SmtpDialog : ILayoutModule
         retryBtn.ImageLibraryIndexLit = 25;
         retryBtn.ImageLibraryIndexUp = 19;
         retryBtn.Text = "Retry";
-        retryBtn.TextColor = 0;
-        retryBtn.TextSelectedColor = 16777215;
+        retryBtn.TextColor = Color.Black;
+        retryBtn.TextSelectedColor = Color.White;
         retryBtn.WinWidth = 110;
         retryBtn.Clicked += (_, _) => RetryBtnClick();
         session.EndRead(retryBtn);
@@ -489,8 +490,8 @@ public sealed partial class SmtpDialog : ILayoutModule
         exitBtn2.ImageLibraryIndexLit = 25;
         exitBtn2.ImageLibraryIndexUp = 19;
         exitBtn2.Text = "Abort";
-        exitBtn2.TextColor = 0;
-        exitBtn2.TextSelectedColor = 16777215;
+        exitBtn2.TextColor = Color.Black;
+        exitBtn2.TextSelectedColor = Color.White;
         exitBtn2.WinWidth = 110;
         exitBtn2.Clicked += (_, _) => ExitBtnClick();
         session.EndRead(exitBtn2);
@@ -515,7 +516,7 @@ public sealed partial class SmtpDialog : ILayoutModule
         titleLbl.Alignment.BottomOffset = 0;
         titleLbl.Masked = true;
         titleLbl.Text = "Sending Email";
-        titleLbl.TextColor = 0;
+        titleLbl.TextColor = Color.Black;
         session.EndRead(titleLbl);
         Button close = new(this);
         session.BeginRead(close);
@@ -546,8 +547,8 @@ public sealed partial class SmtpDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         session.EndRead(close);
         Image titleIcon = new(this);

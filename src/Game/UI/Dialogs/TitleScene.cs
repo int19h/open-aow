@@ -16,6 +16,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 
 using Aow.Rtl;
 using static Aow.Rtl.DelphiPaths;
@@ -255,7 +256,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
             r = _sceneRectangle;
             LibraryImage? titleSceneImageLibrary = TitleSceneImages[0];
             r.Top += titleSceneImageLibrary.Height;
-            _ = PixelFormats.ColorFillSurfaceDescription(r, color: 0, lockedSurface: surface);
+            _ = PixelFormats.ColorFillSurfaceDescription(r, color: Color.Black, lockedSurface: surface);
         }
 
         int y = _sceneRectangle.Top;
@@ -296,7 +297,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
             TitleSceneImages[(i * 3) + 10 + image].Show(x + (spacing * i), y + 355, lockedSurface: surface);
             if (i == HitTest())
             {
-                _font.Color = 0xFF_FF_FF;
+                _font.Color = Color.White;
                 string translatedText = UI.Engine.TranslateResourceString(TitleCaptions.TitleButtons[i]);
                 LibraryImage? titleSceneImageLibrary = TitleSceneImages[10];
                 _font.SetTextCentered(x + (spacing * i) + (titleSceneImageLibrary.Width / 2), y + 445, text: translatedText, lockedSurface: surface);
@@ -798,7 +799,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
         }
 
         controller.UI.TaskBar.WorldClockDelay = 0;
-        controller.UI.TaskBar.ChatButton.TextColor = 0x00_00_0E;
+        controller.UI.TaskBar.ChatButton.TextColor = new Color(14, 0, 0);
         controller.UI.TaskBar.ChatFlash = 0;
         controller.UI.VideoDialog.ChangeResolution(controller.UI.VideoDialog.DisplayWidth, controller.UI.VideoDialog.DisplayHeight);
     }

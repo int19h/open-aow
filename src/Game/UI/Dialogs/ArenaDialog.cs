@@ -9,6 +9,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
 
@@ -64,7 +65,7 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
             lockedSurface.ClipRectangle = saveRectangle;
             if (((_event.Trainable >>> index) & 1) != 0)
             {
-                UI.Fonts.Age8.Color = 0;
+                UI.Fonts.Age8.Color = Color.Black;
                 int unitTrainCost = _event.Arena.UnitTrainCost(u);
                 UI.Fonts.Age8.SetTextCentered(X + 25, Y + 62, text: unitTrainCost.ToString(CultureInfo.InvariantCulture), lockedSurface);
             }
@@ -140,7 +141,7 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
         if (_event.Selection != 0)
         {
             string reason = "";
-            SelectionInfoLabel.TextColor = _event.CanTrain(ref reason) ? 0 : 149;
+            SelectionInfoLabel.TextColor = _event.CanTrain(ref reason) ? Color.Black : new Color(149, 0, 0);
 
             string selectionInfo = _event.GetSelectionInfo();
             SelectionInfoLabel.Text = selectionInfo;

@@ -307,7 +307,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             for (int x = 0; x < w; x++)
                             {
                                 hash.Add(Read(() => surface.GetPixelInfo(x, y)));
-                                hash.Add(Read(() => surface.GetColor(x, y)));
+                                hash.Add(Read(() => surface.GetColor(x, y)?.ToPacked() ?? -1));
                                 hash.Add(Read(() => BitMask.GetPixelInfo(lockedSurface, x, y)));
                             }
                         }

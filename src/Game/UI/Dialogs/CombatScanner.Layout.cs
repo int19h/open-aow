@@ -4,6 +4,7 @@ using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -43,7 +44,7 @@ public sealed partial class CombatScanner : ILayoutModule
         CombatScannerWindow.OverlapTopCorners = false;
         CombatScannerWindow.Cursor = 0;
         CombatScannerWindow.DoubleBuffered = true;
-        CombatScannerWindow.MaskColor = 0;
+        CombatScannerWindow.MaskColor = Color.Black;
         CombatScannerWindow.FreeSurfaceOnHide = false;
         CombatScannerWindow.ImageLibraryIndexFrame = 0;
         CombatScannerWindow.ImageLibraryIndexTexture = 2;
@@ -171,7 +172,7 @@ public sealed partial class CombatScanner : ILayoutModule
         sTitleLabel.Alignment.BottomOffset = 0;
         sTitleLabel.Masked = true;
         sTitleLabel.Text = "Battle Map";
-        sTitleLabel.TextColor = 0;
+        sTitleLabel.TextColor = Color.Black;
         session.EndRead(sTitleLabel);
         Button sMinIcon = new(this);
         session.BeginRead(sMinIcon);
@@ -202,8 +203,8 @@ public sealed partial class CombatScanner : ILayoutModule
         sMinIcon.ImageLibraryIndexDown = 4;
         sMinIcon.ImageLibraryIndexLit = 5;
         sMinIcon.ImageLibraryIndexUp = 3;
-        sMinIcon.TextColor = 0;
-        sMinIcon.TextSelectedColor = 0;
+        sMinIcon.TextColor = Color.Black;
+        sMinIcon.TextSelectedColor = Color.Black;
         sMinIcon.WinWidth = 15;
         sMinIcon.Clicked += (_, _) => SMinIconClick();
         session.EndRead(sMinIcon);

@@ -164,7 +164,7 @@ internal static class PixelRemap
         return destinationPixelFormatId switch
         {
             PixelFormat.Pal8 => destinationPalette is not null
-                                ? destinationPalette.GetNearestColor(r + (g << 8) + (b << 16))
+                                ? destinationPalette.GetNearestColor(Color.FromPacked(r + (g << 8) + (b << 16)))
                                 : throw new InvalidOperationException("Destination Palette needed"),
             PixelFormat.Rgb565 => ((r & 0b1111_1000) << 8) + ((g & 0b1111_1100) << 3) + ((b & 0b1111_1000) >>> 3),
             PixelFormat.Rgb555 => ((r & 0b1111_1000) << 7) + ((g & 0b1111_1000) << 2) + ((b & 0b1111_1000) >>> 3),

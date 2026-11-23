@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -44,7 +45,7 @@ public sealed partial class SendEmailGameDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = false;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -81,7 +82,7 @@ public sealed partial class SendEmailGameDialog : ILayoutModule
         titleLbl.Alignment.BottomOffset = 0;
         titleLbl.Masked = true;
         titleLbl.Text = "Send Email Game";
-        titleLbl.TextColor = 0;
+        titleLbl.TextColor = Color.Black;
         session.EndRead(titleLbl);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -274,8 +275,8 @@ public sealed partial class SendEmailGameDialog : ILayoutModule
         okBtn.ImageLibraryIndexLit = 25;
         okBtn.ImageLibraryIndexUp = 19;
         okBtn.Text = "OK";
-        okBtn.TextColor = 0;
-        okBtn.TextSelectedColor = 16777215;
+        okBtn.TextColor = Color.Black;
+        okBtn.TextSelectedColor = Color.White;
         okBtn.WinWidth = 120;
         okBtn.Clicked += (_, _) => OKBtnClick();
         session.EndRead(okBtn);
@@ -309,8 +310,8 @@ public sealed partial class SendEmailGameDialog : ILayoutModule
         exitBtn.ImageLibraryIndexLit = 25;
         exitBtn.ImageLibraryIndexUp = 19;
         exitBtn.Text = "Exit";
-        exitBtn.TextColor = 0;
-        exitBtn.TextSelectedColor = 16777215;
+        exitBtn.TextColor = Color.Black;
+        exitBtn.TextSelectedColor = Color.White;
         exitBtn.WinWidth = 120;
         exitBtn.Clicked += (_, _) => ExitBtnClick();
         session.EndRead(exitBtn);
@@ -346,7 +347,7 @@ public sealed partial class SendEmailGameDialog : ILayoutModule
         EmailAddressEdit.MaxChars = 0;
         EmailAddressEdit.CursorChar = 95;
         EmailAddressEdit.BlinkDelay = 1;
-        EmailAddressEdit.TextColor = 11002593;
+        EmailAddressEdit.TextColor = new Color(225, 226, 167);
         EmailAddressEdit.Editable = true;
         EmailAddressEdit.ImageLibraryIndex = 15;
         EmailAddressEdit.PassWordChar = 0;
@@ -372,7 +373,7 @@ public sealed partial class SendEmailGameDialog : ILayoutModule
         seletModeInfoLbl.Alignment.BottomOffset = 0;
         seletModeInfoLbl.Masked = true;
         seletModeInfoLbl.Text = "Send mode:";
-        seletModeInfoLbl.TextColor = 16777215;
+        seletModeInfoLbl.TextColor = Color.White;
         session.EndRead(seletModeInfoLbl);
         ManualCheckBox = new CheckBox(this);
         session.BeginRead(ManualCheckBox);
@@ -403,8 +404,8 @@ public sealed partial class SendEmailGameDialog : ILayoutModule
         ManualCheckBox.ImageLibraryIndexDown = 46;
         ManualCheckBox.ImageLibraryIndexLit = 45;
         ManualCheckBox.ImageLibraryIndexUp = 45;
-        ManualCheckBox.TextColor = 0;
-        ManualCheckBox.TextSelectedColor = 0;
+        ManualCheckBox.TextColor = Color.Black;
+        ManualCheckBox.TextSelectedColor = Color.Black;
         ManualCheckBox.WinWidth = 12;
         ManualCheckBox.Checked = false;
         ManualCheckBox.RadioIndex = 1;
@@ -438,8 +439,8 @@ public sealed partial class SendEmailGameDialog : ILayoutModule
         AutomatedCheckBox.ImageLibraryIndexDown = 46;
         AutomatedCheckBox.ImageLibraryIndexLit = 45;
         AutomatedCheckBox.ImageLibraryIndexUp = 45;
-        AutomatedCheckBox.TextColor = 0;
-        AutomatedCheckBox.TextSelectedColor = 0;
+        AutomatedCheckBox.TextColor = Color.Black;
+        AutomatedCheckBox.TextSelectedColor = Color.Black;
         AutomatedCheckBox.WinWidth = 12;
         AutomatedCheckBox.Checked = false;
         AutomatedCheckBox.RadioIndex = 1;
@@ -465,7 +466,7 @@ public sealed partial class SendEmailGameDialog : ILayoutModule
         manualLbl.Alignment.BottomOffset = 0;
         manualLbl.Masked = true;
         manualLbl.Text = "Manual (use Email program)";
-        manualLbl.TextColor = 9415072;
+        manualLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(manualLbl);
         Label automatedLbl = new(this);
         session.BeginRead(automatedLbl);
@@ -488,7 +489,7 @@ public sealed partial class SendEmailGameDialog : ILayoutModule
         automatedLbl.Alignment.BottomOffset = 0;
         automatedLbl.Masked = true;
         automatedLbl.Text = "Automated";
-        automatedLbl.TextColor = 9415072;
+        automatedLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(automatedLbl);
         RecipientNameLabel = new Label(this);
         session.BeginRead(RecipientNameLabel);
@@ -511,7 +512,7 @@ public sealed partial class SendEmailGameDialog : ILayoutModule
         RecipientNameLabel.Alignment.BottomOffset = 0;
         RecipientNameLabel.Masked = true;
         RecipientNameLabel.Text = "##########";
-        RecipientNameLabel.TextColor = 16777215;
+        RecipientNameLabel.TextColor = Color.White;
         session.EndRead(RecipientNameLabel);
         Image titleIcon = new(this);
         session.BeginRead(titleIcon);
@@ -651,8 +652,8 @@ public sealed partial class SendEmailGameDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => ExitBtnClick();
         session.EndRead(close);

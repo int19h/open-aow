@@ -1,3 +1,4 @@
+using Aow.Graphics;
 // Translated from AoWMemo.pas.
 
 namespace Aow.Game.UI.Controls;
@@ -6,5 +7,5 @@ namespace Aow.Game.UI.Controls;
 public sealed class ColorChange
 {
     public bool HasColor { get; set; }
-    public int Color { get; set; }
+    public Color Color { get; set; }
 }

@@ -1,5 +1,6 @@
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
+using Aow.Graphics;
 
 namespace Aow.Game.Tests;
 
@@ -97,7 +98,7 @@ public sealed class GlyphIndexTests
     private static byte[] Draw(int width, int height, Action<LockedSurface> draw)
     {
         using Dib16Surface surface = new(width, height, pixelFormatId: PixelFormat.Rgb555);
-        _ = surface.Clear(0);
+        _ = surface.Clear(Color.Black);
         LockedSurface lockedSurface = default;
         _ = surface.Lock(ref lockedSurface);
         try

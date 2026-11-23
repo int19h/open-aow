@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -308,8 +309,8 @@ public sealed partial class PartyJoinDialog : ILayoutModule
         MiddleButton.ImageLibraryIndexLit = 25;
         MiddleButton.ImageLibraryIndexUp = 19;
         MiddleButton.Text = "Attack";
-        MiddleButton.TextColor = 328543;
-        MiddleButton.TextSelectedColor = 16777215;
+        MiddleButton.TextColor = new Color(95, 3, 5);
+        MiddleButton.TextSelectedColor = Color.White;
         MiddleButton.WinWidth = 120;
         MiddleButton.Clicked += (_, _) => MiddleBtnClick();
         session.EndRead(MiddleButton);
@@ -362,7 +363,7 @@ public sealed partial class PartyJoinDialog : ILayoutModule
         TitleLabel.Alignment.BottomOffset = 0;
         TitleLabel.Masked = true;
         TitleLabel.Text = "Party Join";
-        TitleLabel.TextColor = 0;
+        TitleLabel.TextColor = Color.Black;
         session.EndRead(TitleLabel);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -417,8 +418,8 @@ public sealed partial class PartyJoinDialog : ILayoutModule
         RightButton.ImageLibraryIndexLit = 25;
         RightButton.ImageLibraryIndexUp = 19;
         RightButton.Text = "Cancel";
-        RightButton.TextColor = 0;
-        RightButton.TextSelectedColor = 16777215;
+        RightButton.TextColor = Color.Black;
+        RightButton.TextSelectedColor = Color.White;
         RightButton.WinWidth = 120;
         RightButton.Clicked += (_, _) => RightBtnClick();
         session.EndRead(RightButton);
@@ -448,8 +449,8 @@ public sealed partial class PartyJoinDialog : ILayoutModule
         LeftButton.ImageLibraryIndexLit = 25;
         LeftButton.ImageLibraryIndexUp = 19;
         LeftButton.Text = "Accept";
-        LeftButton.TextColor = 0;
-        LeftButton.TextSelectedColor = 16777215;
+        LeftButton.TextColor = Color.Black;
+        LeftButton.TextSelectedColor = Color.White;
         LeftButton.WinWidth = 120;
         LeftButton.Clicked += (_, _) => LeftBtnClick();
         session.EndRead(LeftButton);
@@ -482,7 +483,7 @@ public sealed partial class PartyJoinDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 6268490;
+        Window.MaskColor = new Color(74, 166, 95);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -576,7 +577,7 @@ public sealed partial class PartyJoinDialog : ILayoutModule
         JoinMemo.WinHeight = 87;
         JoinMemo.BorderWidth = 0;
         JoinMemo.BorderHeight = 8;
-        JoinMemo.TextColor = 13827061;
+        JoinMemo.TextColor = new Color(245, 251, 210);
         JoinMemo.CursorChar = 95;
         JoinMemo.BlinkDelay = 2;
         JoinMemo.Editable = true;
@@ -607,7 +608,7 @@ public sealed partial class PartyJoinDialog : ILayoutModule
         header.Alignment.BottomOffset = 0;
         header.Masked = true;
         header.Text = "The leader of the party steps forward:";
-        header.TextColor = 13165253;
+        header.TextColor = new Color(197, 226, 200);
         session.EndRead(header);
         FaceFrame = new Image(this);
         session.BeginRead(FaceFrame);
@@ -659,7 +660,7 @@ public sealed partial class PartyJoinDialog : ILayoutModule
         detailsLbl.Alignment.BottomOffset = 0;
         detailsLbl.Masked = true;
         detailsLbl.Text = "Click on the unit(s) for details";
-        detailsLbl.TextColor = 13165253;
+        detailsLbl.TextColor = new Color(197, 226, 200);
         session.EndRead(detailsLbl);
         Button close = new(this);
         session.BeginRead(close);
@@ -690,8 +691,8 @@ public sealed partial class PartyJoinDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);

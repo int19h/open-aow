@@ -5,6 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw.Images;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Game.Draw;
@@ -241,7 +242,7 @@ public sealed class RangedPathHexSprite(CustomNode? owner) : FixedVisibleHexSpri
                     HexGeometry.PixelToHex(Selection.RangedPath[obstacle2.PathIndex].X, vertical: rangedPath.Y, out hexX, out hexY);
                     HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                     _miscellaneousImages[1].Show(pixelX + 5 - pixelXSurface, pixelY + 5 - pixelYSurface, lockedSurface);
-                    GetEngine().CombatFont.Color = 0;
+                    GetEngine().CombatFont.Color = Color.Black;
                     RangedObstacle? obstacle3 = Selection.Obstacles[i];
                     GetEngine().CombatFont.SetTextCentered(pixelX + 16 - pixelXSurface, pixelY + 12 - pixelYSurface, text: obstacle3.Chance.ToString(CultureInfo.InvariantCulture), lockedSurface);
                 }

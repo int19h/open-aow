@@ -4,6 +4,7 @@ using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -60,7 +61,7 @@ public sealed partial class MapWindow : ILayoutModule
         MainWindow.OverlapTopCorners = false;
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = false;
-        MainWindow.MaskColor = 0;
+        MainWindow.MaskColor = Color.Black;
         MainWindow.Blitting += (_, e) => MapWindowPreDrawSurface(e.Surface, e.Left, e.Top);
         MainWindow.FreeSurfaceOnHide = false;
         MainWindow.ImageLibraryIndexFrame = 8;

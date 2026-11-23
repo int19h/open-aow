@@ -1,3 +1,4 @@
+using Aow.Graphics;
 // Translated from AoWE.pas.
 
 namespace Aow.Game.Events;
@@ -6,5 +7,5 @@ public struct ShowMessageInfo
 {
     public string Text { readonly get => field ?? ""; set; }
 
-    public int Color { get; set; }
+    public Color Color { get; set; }
 }

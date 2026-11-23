@@ -4,6 +4,7 @@ using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Structures;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -73,8 +74,8 @@ public sealed partial class ConstructDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(close);
@@ -99,7 +100,7 @@ public sealed partial class ConstructDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Construct";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -154,8 +155,8 @@ public sealed partial class ConstructDialog : ILayoutModule
         cancelBtn.ImageLibraryIndexLit = 25;
         cancelBtn.ImageLibraryIndexUp = 19;
         cancelBtn.Text = "Cancel";
-        cancelBtn.TextColor = 0;
-        cancelBtn.TextSelectedColor = 16777215;
+        cancelBtn.TextColor = Color.Black;
+        cancelBtn.TextSelectedColor = Color.White;
         cancelBtn.WinWidth = 130;
         cancelBtn.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(cancelBtn);
@@ -185,8 +186,8 @@ public sealed partial class ConstructDialog : ILayoutModule
         constructBtn.ImageLibraryIndexLit = 25;
         constructBtn.ImageLibraryIndexUp = 19;
         constructBtn.Text = "Construct";
-        constructBtn.TextColor = 0;
-        constructBtn.TextSelectedColor = 16777215;
+        constructBtn.TextColor = Color.Black;
+        constructBtn.TextSelectedColor = Color.White;
         constructBtn.WinWidth = 130;
         constructBtn.Clicked += (_, _) => ConstructBtnClick();
         session.EndRead(constructBtn);
@@ -219,7 +220,7 @@ public sealed partial class ConstructDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 6268490;
+        Window.MaskColor = new Color(74, 166, 95);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -289,8 +290,8 @@ public sealed partial class ConstructDialog : ILayoutModule
         ConstructionList.Changed += (_, _) => ConstructionListChange();
         ConstructionList.DoubleClicked += (_, _) => ConstructBtnClick();
         ConstructionList.Selected = -1;
-        ConstructionList.TextColor = 9402970;
-        ConstructionList.TextSelectedColor = 0;
+        ConstructionList.TextColor = new Color(90, 122, 143);
+        ConstructionList.TextSelectedColor = Color.Black;
         ConstructionList.ImageLibraryIndexFrame = 113;
         ConstructionList.ImageLibraryIndexTNormal = 19;
         ConstructionList.ImageLibraryIndexTSelected = 16;
@@ -323,8 +324,8 @@ public sealed partial class ConstructDialog : ILayoutModule
         sortConstructionsBtn.ImageLibraryIndexLit = 91;
         sortConstructionsBtn.ImageLibraryIndexUp = 85;
         sortConstructionsBtn.Text = "Source";
-        sortConstructionsBtn.TextColor = 0;
-        sortConstructionsBtn.TextSelectedColor = 16777215;
+        sortConstructionsBtn.TextColor = Color.Black;
+        sortConstructionsBtn.TextSelectedColor = Color.White;
         sortConstructionsBtn.WinWidth = 210;
         sortConstructionsBtn.Clicked += (_, _) => SortConstructionsBtnClick();
         session.EndRead(sortConstructionsBtn);
@@ -354,8 +355,8 @@ public sealed partial class ConstructDialog : ILayoutModule
         sortConstructionCostBtn.ImageLibraryIndexLit = 91;
         sortConstructionCostBtn.ImageLibraryIndexUp = 85;
         sortConstructionCostBtn.Text = "Cost";
-        sortConstructionCostBtn.TextColor = 0;
-        sortConstructionCostBtn.TextSelectedColor = 16777215;
+        sortConstructionCostBtn.TextColor = Color.Black;
+        sortConstructionCostBtn.TextSelectedColor = Color.White;
         sortConstructionCostBtn.WinWidth = 48;
         sortConstructionCostBtn.Clicked += (_, _) => SortConstructionCostBtnClick();
         session.EndRead(sortConstructionCostBtn);
@@ -386,8 +387,8 @@ public sealed partial class ConstructDialog : ILayoutModule
         ConstructionCostList.Changed += (_, _) => ConstructionCostListChange();
         ConstructionCostList.DoubleClicked += (_, _) => ConstructBtnClick();
         ConstructionCostList.Selected = -1;
-        ConstructionCostList.TextColor = 9402970;
-        ConstructionCostList.TextSelectedColor = 0;
+        ConstructionCostList.TextColor = new Color(90, 122, 143);
+        ConstructionCostList.TextSelectedColor = Color.Black;
         ConstructionCostList.ImageLibraryIndexFrame = 113;
         ConstructionCostList.ImageLibraryIndexTNormal = 19;
         ConstructionCostList.ImageLibraryIndexTSelected = 16;
@@ -421,8 +422,8 @@ public sealed partial class ConstructDialog : ILayoutModule
         ConstructionTurnsList.Changed += (_, _) => ConstructionTurnsListChange();
         ConstructionTurnsList.DoubleClicked += (_, _) => ConstructBtnClick();
         ConstructionTurnsList.Selected = -1;
-        ConstructionTurnsList.TextColor = 9402970;
-        ConstructionTurnsList.TextSelectedColor = 0;
+        ConstructionTurnsList.TextColor = new Color(90, 122, 143);
+        ConstructionTurnsList.TextSelectedColor = Color.Black;
         ConstructionTurnsList.ImageLibraryIndexFrame = 113;
         ConstructionTurnsList.ImageLibraryIndexTNormal = 19;
         ConstructionTurnsList.ImageLibraryIndexTSelected = 16;
@@ -455,8 +456,8 @@ public sealed partial class ConstructDialog : ILayoutModule
         sortConstructionTurnsBtn.ImageLibraryIndexLit = 91;
         sortConstructionTurnsBtn.ImageLibraryIndexUp = 85;
         sortConstructionTurnsBtn.Text = "Turns";
-        sortConstructionTurnsBtn.TextColor = 0;
-        sortConstructionTurnsBtn.TextSelectedColor = 16777215;
+        sortConstructionTurnsBtn.TextColor = Color.Black;
+        sortConstructionTurnsBtn.TextSelectedColor = Color.White;
         sortConstructionTurnsBtn.WinWidth = 43;
         sortConstructionTurnsBtn.Clicked += (_, _) => SortConstructionTurnsBtnClick();
         session.EndRead(sortConstructionTurnsBtn);
@@ -481,7 +482,7 @@ public sealed partial class ConstructDialog : ILayoutModule
         label1.Alignment.BottomOffset = 0;
         label1.Masked = true;
         label1.Text = "Select object to construct";
-        label1.TextColor = 0;
+        label1.TextColor = Color.Black;
         session.EndRead(label1);
         VerticalScrollBar conSB = new(this);
         session.BeginRead(conSB);
@@ -574,8 +575,8 @@ public sealed partial class ConstructDialog : ILayoutModule
         button2.ImageLibraryIndexLit = 91;
         button2.ImageLibraryIndexUp = 85;
         button2.Text = "Amount";
-        button2.TextColor = 0;
-        button2.TextSelectedColor = 16777215;
+        button2.TextColor = Color.Black;
+        button2.TextSelectedColor = Color.White;
         button2.WinWidth = 78;
         session.EndRead(button2);
         VerticalScrollBar t4VSB = new(this);

@@ -1,5 +1,6 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 // Translated from ImageLib.pas.
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiTextCompare;
 
@@ -12,7 +13,7 @@ namespace Aow.Game.Draw.Images;
 public sealed partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owner)
 {
 
-    private int _color;
+    private Color _color;
     private int _fontColorPaletteIndex = -1;
 
     // ImageLib.pas:6266
@@ -167,7 +168,7 @@ public sealed partial class ImageLibraryFont(Component owner) : CustomImageLibra
     public EditCharCase CharCase { get; set; } = EditCharCase.Normal;
 
     [Published]
-    public int Color { get => _color; set => SetColor(value); }
+    public Color Color { get => _color; set => SetColor(value); }
 
     [Published]
     public int FontColorPaletteIndex { get => _fontColorPaletteIndex; set => SetFontColorPaletteIndex(value); }

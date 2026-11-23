@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -307,8 +308,8 @@ public sealed partial class HeroInfoDialog : ILayoutModule
         closeBtn.ImageLibraryIndexLit = 25;
         closeBtn.ImageLibraryIndexUp = 19;
         closeBtn.Text = "Close";
-        closeBtn.TextColor = 328543;
-        closeBtn.TextSelectedColor = 16777215;
+        closeBtn.TextColor = new Color(95, 3, 5);
+        closeBtn.TextSelectedColor = Color.White;
         closeBtn.WinWidth = 112;
         closeBtn.Clicked += (_, _) => CloseBtnClick();
         session.EndRead(closeBtn);
@@ -368,7 +369,7 @@ public sealed partial class HeroInfoDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 6268490;
+        Window.MaskColor = new Color(74, 166, 95);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 16;
         Window.ImageLibraryIndexTexture = 2;
@@ -405,7 +406,7 @@ public sealed partial class HeroInfoDialog : ILayoutModule
         HeroNameLabel.Alignment.BottomOffset = 0;
         HeroNameLabel.Masked = true;
         HeroNameLabel.Text = "#######";
-        HeroNameLabel.TextColor = 13827061;
+        HeroNameLabel.TextColor = new Color(245, 251, 210);
         session.EndRead(HeroNameLabel);
         HeroLevelLabel = new Label(this);
         session.BeginRead(HeroLevelLabel);
@@ -428,7 +429,7 @@ public sealed partial class HeroInfoDialog : ILayoutModule
         HeroLevelLabel.Alignment.BottomOffset = 0;
         HeroLevelLabel.Masked = true;
         HeroLevelLabel.Text = "#######";
-        HeroLevelLabel.TextColor = 13827061;
+        HeroLevelLabel.TextColor = new Color(245, 251, 210);
         session.EndRead(HeroLevelLabel);
         FaceFrame = new Image(this);
         session.BeginRead(FaceFrame);
@@ -480,7 +481,7 @@ public sealed partial class HeroInfoDialog : ILayoutModule
         detailsLbl.Alignment.BottomOffset = 74;
         detailsLbl.Masked = true;
         detailsLbl.Text = "Click on the unit(s) for details";
-        detailsLbl.TextColor = 2831663;
+        detailsLbl.TextColor = new Color(47, 53, 43);
         session.EndRead(detailsLbl);
         MessageMemo = new Memo(this);
         session.BeginRead(MessageMemo);
@@ -510,7 +511,7 @@ public sealed partial class HeroInfoDialog : ILayoutModule
         ];
         MessageMemo.BorderWidth = 0;
         MessageMemo.BorderHeight = 8;
-        MessageMemo.TextColor = 13827061;
+        MessageMemo.TextColor = new Color(245, 251, 210);
         MessageMemo.CursorChar = 95;
         MessageMemo.BlinkDelay = 2;
         MessageMemo.Editable = true;

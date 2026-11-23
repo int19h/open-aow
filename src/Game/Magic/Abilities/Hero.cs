@@ -24,6 +24,7 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Graphics;
 
 using Aow.Rtl;
 
@@ -833,7 +834,7 @@ public partial class Hero : Troop
         int result = base.Show(X, Y, lockedSurface, info);
         if (info.Overlays.Contains(UnitOverlayModes.Rank))
         {
-            GetEngine().CombatFont.Color = 0xFF_FF_FF;
+            GetEngine().CombatFont.Color = Color.White;
             int level = GetLevel();
             GetEngine().CombatFont.SetTextCentered(X + 43, Y + 12, text: level.ToString(CultureInfo.InvariantCulture), lockedSurface);
         }

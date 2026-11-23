@@ -4,6 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -45,7 +46,7 @@ public sealed partial class SoundDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -87,8 +88,8 @@ public sealed partial class SoundDialog : ILayoutModule
         closeBut.ImageLibraryIndexLit = 25;
         closeBut.ImageLibraryIndexUp = 19;
         closeBut.Text = "Close";
-        closeBut.TextColor = 0;
-        closeBut.TextSelectedColor = 16777215;
+        closeBut.TextColor = Color.Black;
+        closeBut.TextSelectedColor = Color.White;
         closeBut.WinWidth = 136;
         closeBut.Clicked += (_, _) => CloseClick();
         session.EndRead(closeBut);
@@ -168,7 +169,7 @@ public sealed partial class SoundDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Audio Settings";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         SongList = new ListBox(this);
         session.BeginRead(SongList);
@@ -197,8 +198,8 @@ public sealed partial class SoundDialog : ILayoutModule
         SongList.Changed += (_, _) => SongLBChange();
         SongList.DoubleClicked += (_, _) => AddBtnClick();
         SongList.Selected = -1;
-        SongList.TextColor = 9415072;
-        SongList.TextSelectedColor = 0;
+        SongList.TextColor = new Color(160, 169, 143);
+        SongList.TextSelectedColor = Color.Black;
         SongList.ImageLibraryIndexFrame = 113;
         SongList.ImageLibraryIndexTNormal = 21;
         SongList.ImageLibraryIndexTSelected = 8;
@@ -226,7 +227,7 @@ public sealed partial class SoundDialog : ILayoutModule
         songLbl.Alignment.BottomOffset = 0;
         songLbl.Masked = true;
         songLbl.Text = "Songs Folder:";
-        songLbl.TextColor = 0;
+        songLbl.TextColor = Color.Black;
         session.EndRead(songLbl);
         Button close = new(this);
         session.BeginRead(close);
@@ -257,8 +258,8 @@ public sealed partial class SoundDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
@@ -318,8 +319,8 @@ public sealed partial class SoundDialog : ILayoutModule
         soundTab.Changed += (_, _) => SoundTabChange();
         soundTab.Selected = 0;
         soundTab.WinWidth = 380;
-        soundTab.TextColor = 0;
-        soundTab.TextSelectedColor = 9415072;
+        soundTab.TextColor = Color.Black;
+        soundTab.TextSelectedColor = new Color(160, 169, 143);
         soundTab.ImageLibraryIndexDown = 67;
         soundTab.ImageLibraryIndexUp = 70;
         soundTab.BorderHeightSelected = 7;
@@ -356,8 +357,8 @@ public sealed partial class SoundDialog : ILayoutModule
             LockedSurface surface = e.Surface;
             PlayLBDrawItem(e.Rectangle, index: e.Item, lockedSurface: in surface);
         };
-        PlayList.TextColor = 9415072;
-        PlayList.TextSelectedColor = 0;
+        PlayList.TextColor = new Color(160, 169, 143);
+        PlayList.TextSelectedColor = Color.Black;
         PlayList.ImageLibraryIndexFrame = 113;
         PlayList.ImageLibraryIndexTNormal = 21;
         PlayList.ImageLibraryIndexTSelected = 8;
@@ -394,8 +395,8 @@ public sealed partial class SoundDialog : ILayoutModule
         AddButton.ImageLibraryIndexLit = 49;
         AddButton.ImageLibraryIndexUp = 43;
         AddButton.Text = "Add to List";
-        AddButton.TextColor = 0;
-        AddButton.TextSelectedColor = 16777215;
+        AddButton.TextColor = Color.Black;
+        AddButton.TextSelectedColor = Color.White;
         AddButton.WinWidth = 173;
         AddButton.Clicked += (_, _) => AddBtnClick();
         session.EndRead(AddButton);
@@ -429,8 +430,8 @@ public sealed partial class SoundDialog : ILayoutModule
         RemoveButton.ImageLibraryIndexLit = 49;
         RemoveButton.ImageLibraryIndexUp = 43;
         RemoveButton.Text = "Remove";
-        RemoveButton.TextColor = 0;
-        RemoveButton.TextSelectedColor = 16777215;
+        RemoveButton.TextColor = Color.Black;
+        RemoveButton.TextSelectedColor = Color.White;
         RemoveButton.WinWidth = 80;
         RemoveButton.Clicked += (_, _) => RemoveBtnClick();
         session.EndRead(RemoveButton);
@@ -464,8 +465,8 @@ public sealed partial class SoundDialog : ILayoutModule
         PlayButton.ImageLibraryIndexLit = 49;
         PlayButton.ImageLibraryIndexUp = 43;
         PlayButton.Text = "Play";
-        PlayButton.TextColor = 0;
-        PlayButton.TextSelectedColor = 16777215;
+        PlayButton.TextColor = Color.Black;
+        PlayButton.TextSelectedColor = Color.White;
         PlayButton.WinWidth = 87;
         PlayButton.Clicked += (_, _) => PlayBtnClick();
         session.EndRead(PlayButton);
@@ -490,7 +491,7 @@ public sealed partial class SoundDialog : ILayoutModule
         playLbl.Alignment.BottomOffset = 0;
         playLbl.Masked = true;
         playLbl.Text = "Play List:";
-        playLbl.TextColor = 0;
+        playLbl.TextColor = Color.Black;
         session.EndRead(playLbl);
         CurrentSongLabel = new Label(this);
         session.BeginRead(CurrentSongLabel);
@@ -513,7 +514,7 @@ public sealed partial class SoundDialog : ILayoutModule
         CurrentSongLabel.Alignment.BottomOffset = 62;
         CurrentSongLabel.Masked = true;
         CurrentSongLabel.Text = "#########";
-        CurrentSongLabel.TextColor = 0;
+        CurrentSongLabel.TextColor = Color.Black;
         session.EndRead(CurrentSongLabel);
         Image tCeltLR = new(this);
         session.BeginRead(tCeltLR);
@@ -568,7 +569,7 @@ public sealed partial class SoundDialog : ILayoutModule
         musicVolLbl.Alignment.BottomOffset = 38;
         musicVolLbl.Masked = true;
         musicVolLbl.Text = "Music Volume:";
-        musicVolLbl.TextColor = 0;
+        musicVolLbl.TextColor = Color.Black;
         session.EndRead(musicVolLbl);
         Label sfxVolLbl = new(this);
         session.BeginRead(sfxVolLbl);
@@ -595,7 +596,7 @@ public sealed partial class SoundDialog : ILayoutModule
         sfxVolLbl.Alignment.BottomOffset = 7;
         sfxVolLbl.Masked = true;
         sfxVolLbl.Text = "SFX Volume:";
-        sfxVolLbl.TextColor = 0;
+        sfxVolLbl.TextColor = Color.Black;
         session.EndRead(sfxVolLbl);
         MainPanel = new Panel(this);
         session.BeginRead(MainPanel);
@@ -645,7 +646,7 @@ public sealed partial class SoundDialog : ILayoutModule
         soundLbl.Alignment.BottomOffset = 0;
         soundLbl.Masked = true;
         soundLbl.Text = "Sound Quality:";
-        soundLbl.TextColor = 0;
+        soundLbl.TextColor = Color.Black;
         session.EndRead(soundLbl);
         Panel settingsPnl = new(this);
         session.BeginRead(settingsPnl);
@@ -696,7 +697,7 @@ public sealed partial class SoundDialog : ILayoutModule
         sfxLbl.Alignment.BottomOffset = 0;
         sfxLbl.Masked = true;
         sfxLbl.Text = "Active Sounds:";
-        sfxLbl.TextColor = 0;
+        sfxLbl.TextColor = Color.Black;
         session.EndRead(sfxLbl);
         Panel sqPnl = new(this);
         session.BeginRead(sqPnl);
@@ -755,8 +756,8 @@ public sealed partial class SoundDialog : ILayoutModule
         SoundQualityNoneCheckBox.ImageLibraryIndexDown = 51;
         SoundQualityNoneCheckBox.ImageLibraryIndexLit = 52;
         SoundQualityNoneCheckBox.ImageLibraryIndexUp = 50;
-        SoundQualityNoneCheckBox.TextColor = 0;
-        SoundQualityNoneCheckBox.TextSelectedColor = 0;
+        SoundQualityNoneCheckBox.TextColor = Color.Black;
+        SoundQualityNoneCheckBox.TextSelectedColor = Color.Black;
         SoundQualityNoneCheckBox.WinWidth = 12;
         SoundQualityNoneCheckBox.Checked = false;
         soundQualityNoneCheckBox.Changed += (_, _) => SQCB1Change(soundQualityNoneCheckBox);
@@ -787,7 +788,7 @@ public sealed partial class SoundDialog : ILayoutModule
         sqlbL1.Alignment.BottomOffset = 0;
         sqlbL1.Masked = true;
         sqlbL1.Text = "No Sound";
-        sqlbL1.TextColor = 9415072;
+        sqlbL1.TextColor = new Color(160, 169, 143);
         session.EndRead(sqlbL1);
         CheckBox soundQualityLowCheckBox = new(this);
         SoundQualityLowCheckBox = soundQualityLowCheckBox;
@@ -819,8 +820,8 @@ public sealed partial class SoundDialog : ILayoutModule
         SoundQualityLowCheckBox.ImageLibraryIndexDown = 51;
         SoundQualityLowCheckBox.ImageLibraryIndexLit = 52;
         SoundQualityLowCheckBox.ImageLibraryIndexUp = 50;
-        SoundQualityLowCheckBox.TextColor = 0;
-        SoundQualityLowCheckBox.TextSelectedColor = 0;
+        SoundQualityLowCheckBox.TextColor = Color.Black;
+        SoundQualityLowCheckBox.TextSelectedColor = Color.Black;
         SoundQualityLowCheckBox.WinWidth = 12;
         SoundQualityLowCheckBox.Checked = false;
         soundQualityLowCheckBox.Changed += (_, _) => SQCB2Change(soundQualityLowCheckBox);
@@ -851,7 +852,7 @@ public sealed partial class SoundDialog : ILayoutModule
         sqlbL2.Alignment.BottomOffset = 0;
         sqlbL2.Masked = true;
         sqlbL2.Text = "Low";
-        sqlbL2.TextColor = 9415072;
+        sqlbL2.TextColor = new Color(160, 169, 143);
         session.EndRead(sqlbL2);
         CheckBox soundQualityMediumCheckBox = new(this);
         SoundQualityMediumCheckBox = soundQualityMediumCheckBox;
@@ -883,8 +884,8 @@ public sealed partial class SoundDialog : ILayoutModule
         SoundQualityMediumCheckBox.ImageLibraryIndexDown = 51;
         SoundQualityMediumCheckBox.ImageLibraryIndexLit = 52;
         SoundQualityMediumCheckBox.ImageLibraryIndexUp = 50;
-        SoundQualityMediumCheckBox.TextColor = 0;
-        SoundQualityMediumCheckBox.TextSelectedColor = 0;
+        SoundQualityMediumCheckBox.TextColor = Color.Black;
+        SoundQualityMediumCheckBox.TextSelectedColor = Color.Black;
         SoundQualityMediumCheckBox.WinWidth = 12;
         SoundQualityMediumCheckBox.Checked = false;
         soundQualityMediumCheckBox.Changed += (_, _) => SQCB3Change(soundQualityMediumCheckBox);
@@ -915,7 +916,7 @@ public sealed partial class SoundDialog : ILayoutModule
         sqlbL3.Alignment.BottomOffset = 0;
         sqlbL3.Masked = true;
         sqlbL3.Text = "Normal";
-        sqlbL3.TextColor = 9415072;
+        sqlbL3.TextColor = new Color(160, 169, 143);
         session.EndRead(sqlbL3);
         CheckBox soundQualityHighCheckBox = new(this);
         SoundQualityHighCheckBox = soundQualityHighCheckBox;
@@ -947,8 +948,8 @@ public sealed partial class SoundDialog : ILayoutModule
         SoundQualityHighCheckBox.ImageLibraryIndexDown = 51;
         SoundQualityHighCheckBox.ImageLibraryIndexLit = 52;
         SoundQualityHighCheckBox.ImageLibraryIndexUp = 50;
-        SoundQualityHighCheckBox.TextColor = 0;
-        SoundQualityHighCheckBox.TextSelectedColor = 0;
+        SoundQualityHighCheckBox.TextColor = Color.Black;
+        SoundQualityHighCheckBox.TextSelectedColor = Color.Black;
         SoundQualityHighCheckBox.WinWidth = 12;
         SoundQualityHighCheckBox.Checked = false;
         soundQualityHighCheckBox.Changed += (_, _) => SQCB4Change(soundQualityHighCheckBox);
@@ -979,7 +980,7 @@ public sealed partial class SoundDialog : ILayoutModule
         sqlbL4.Alignment.BottomOffset = 0;
         sqlbL4.Masked = true;
         sqlbL4.Text = "High";
-        sqlbL4.TextColor = 9415072;
+        sqlbL4.TextColor = new Color(160, 169, 143);
         session.EndRead(sqlbL4);
         Panel sfxPnl = new(this);
         session.BeginRead(sfxPnl);
@@ -1038,8 +1039,8 @@ public sealed partial class SoundDialog : ILayoutModule
         MusicEnabledCheckBox.ImageLibraryIndexDown = 48;
         MusicEnabledCheckBox.ImageLibraryIndexLit = 49;
         MusicEnabledCheckBox.ImageLibraryIndexUp = 47;
-        MusicEnabledCheckBox.TextColor = 0;
-        MusicEnabledCheckBox.TextSelectedColor = 0;
+        MusicEnabledCheckBox.TextColor = Color.Black;
+        MusicEnabledCheckBox.TextSelectedColor = Color.Black;
         MusicEnabledCheckBox.WinWidth = 12;
         MusicEnabledCheckBox.Checked = false;
         musicEnabledCheckBox.Changed += (_, _) => MusicEnabledChkChange(musicEnabledCheckBox);
@@ -1070,7 +1071,7 @@ public sealed partial class SoundDialog : ILayoutModule
         sfxlbL2.Alignment.BottomOffset = 0;
         sfxlbL2.Masked = true;
         sfxlbL2.Text = "Music";
-        sfxlbL2.TextColor = 9415072;
+        sfxlbL2.TextColor = new Color(160, 169, 143);
         session.EndRead(sfxlbL2);
         CheckBox effectsEnabledCheckBox = new(this);
         EffectsEnabledCheckBox = effectsEnabledCheckBox;
@@ -1102,8 +1103,8 @@ public sealed partial class SoundDialog : ILayoutModule
         EffectsEnabledCheckBox.ImageLibraryIndexDown = 48;
         EffectsEnabledCheckBox.ImageLibraryIndexLit = 49;
         EffectsEnabledCheckBox.ImageLibraryIndexUp = 47;
-        EffectsEnabledCheckBox.TextColor = 0;
-        EffectsEnabledCheckBox.TextSelectedColor = 0;
+        EffectsEnabledCheckBox.TextColor = Color.Black;
+        EffectsEnabledCheckBox.TextSelectedColor = Color.Black;
         EffectsEnabledCheckBox.WinWidth = 12;
         EffectsEnabledCheckBox.Checked = false;
         effectsEnabledCheckBox.Changed += (_, _) => SFXEnabledChkChange(effectsEnabledCheckBox);
@@ -1134,7 +1135,7 @@ public sealed partial class SoundDialog : ILayoutModule
         sfxlbL3.Alignment.BottomOffset = 0;
         sfxlbL3.Masked = true;
         sfxlbL3.Text = "Sound Effects";
-        sfxlbL3.TextColor = 9415072;
+        sfxlbL3.TextColor = new Color(160, 169, 143);
         session.EndRead(sfxlbL3);
         Frame topLine = new(this);
         session.BeginRead(topLine);
@@ -1461,8 +1462,8 @@ public sealed partial class SoundDialog : ILayoutModule
         DirectSoundEnabledCheckBox.ImageLibraryIndexDown = 48;
         DirectSoundEnabledCheckBox.ImageLibraryIndexLit = 49;
         DirectSoundEnabledCheckBox.ImageLibraryIndexUp = 47;
-        DirectSoundEnabledCheckBox.TextColor = 0;
-        DirectSoundEnabledCheckBox.TextSelectedColor = 0;
+        DirectSoundEnabledCheckBox.TextColor = Color.Black;
+        DirectSoundEnabledCheckBox.TextSelectedColor = Color.Black;
         DirectSoundEnabledCheckBox.WinWidth = 12;
         DirectSoundEnabledCheckBox.Checked = false;
         directSoundEnabledCheckBox.Changed += (_, _) => DirectSoundEnabledChkChange(directSoundEnabledCheckBox);
@@ -1493,7 +1494,7 @@ public sealed partial class SoundDialog : ILayoutModule
         useDirectSoundLbl.Alignment.BottomOffset = 0;
         useDirectSoundLbl.Masked = true;
         useDirectSoundLbl.Text = "Use Direct Sound";
-        useDirectSoundLbl.TextColor = 9415072;
+        useDirectSoundLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(useDirectSoundLbl);
         Panel folderPnl = new(this);
         session.BeginRead(folderPnl);

@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -307,8 +308,8 @@ public sealed partial class ArmyInfoDialog : ILayoutModule
         closeBtn.ImageLibraryIndexLit = 25;
         closeBtn.ImageLibraryIndexUp = 19;
         closeBtn.Text = "Close";
-        closeBtn.TextColor = 0;
-        closeBtn.TextSelectedColor = 16777215;
+        closeBtn.TextColor = Color.Black;
+        closeBtn.TextSelectedColor = Color.White;
         closeBtn.WinWidth = 120;
         closeBtn.Clicked += (_, _) => CloseBtnClick();
         session.EndRead(closeBtn);
@@ -369,8 +370,8 @@ public sealed partial class ArmyInfoDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
@@ -395,7 +396,7 @@ public sealed partial class ArmyInfoDialog : ILayoutModule
         TitleLabel.Alignment.BottomOffset = 0;
         TitleLabel.Masked = true;
         TitleLabel.Text = "######";
-        TitleLabel.TextColor = 0;
+        TitleLabel.TextColor = Color.Black;
         session.EndRead(TitleLabel);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -453,7 +454,7 @@ public sealed partial class ArmyInfoDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 6268490;
+        Window.MaskColor = new Color(74, 166, 95);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -552,7 +553,7 @@ public sealed partial class ArmyInfoDialog : ILayoutModule
         ];
         MessageMemo.BorderWidth = 0;
         MessageMemo.BorderHeight = 8;
-        MessageMemo.TextColor = 13827061;
+        MessageMemo.TextColor = new Color(245, 251, 210);
         MessageMemo.CursorChar = 95;
         MessageMemo.BlinkDelay = 2;
         MessageMemo.Editable = true;
@@ -612,7 +613,7 @@ public sealed partial class ArmyInfoDialog : ILayoutModule
         detailsLbl.Alignment.BottomOffset = 0;
         detailsLbl.Masked = true;
         detailsLbl.Text = "Click on the unit(s) for details";
-        detailsLbl.TextColor = 13165253;
+        detailsLbl.TextColor = new Color(197, 226, 200);
         session.EndRead(detailsLbl);
         HeaderLabel = new Label(this);
         session.BeginRead(HeaderLabel);
@@ -635,7 +636,7 @@ public sealed partial class ArmyInfoDialog : ILayoutModule
         HeaderLabel.Alignment.BottomOffset = 0;
         HeaderLabel.Masked = true;
         HeaderLabel.Text = "##########";
-        HeaderLabel.TextColor = 13165253;
+        HeaderLabel.TextColor = new Color(197, 226, 200);
         session.EndRead(HeaderLabel);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);

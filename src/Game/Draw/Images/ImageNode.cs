@@ -1,5 +1,6 @@
 #nullable disable warnings
 // Translated from ImageLib.pas.
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiMemory;
 
@@ -300,7 +301,7 @@ public sealed class ImageNode : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1514
-    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
+    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, Color bkColor)
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         => throw new NotImplementedException();
 

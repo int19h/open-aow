@@ -4,6 +4,7 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -42,7 +43,7 @@ public sealed partial class TitleWindow : ILayoutModule
         MainWindow.OverlapTopCorners = false;
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
-        MainWindow.MaskColor = 0;
+        MainWindow.MaskColor = Color.Black;
         MainWindow.Blitted += (_, e) => TitleWinDrawSurface(e.Surface, e.Left, e.Top);
         MainWindow.FreeSurfaceOnHide = true;
         MainWindow.ImageLibraryIndexFrame = 0;

@@ -8,6 +8,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
@@ -184,7 +185,7 @@ public sealed partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
         if (Event.Selection != 0)
         {
             string reason = "";
-            SelectionInfoLabel.TextColor = Event.CanSelect(ref reason) ? 0 : 149;
+            SelectionInfoLabel.TextColor = Event.CanSelect(ref reason) ? Color.Black : new Color(149, 0, 0);
         }
         else
         {

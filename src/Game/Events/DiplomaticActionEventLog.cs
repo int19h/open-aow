@@ -10,6 +10,7 @@ using Aow.Game.Audio;
 using Aow.Game.Session;
 
 using Aow.Game.World.Map;
+using Aow.Graphics;
 
 namespace Aow.Game.Events;
 
@@ -53,7 +54,7 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
     public override string GetText() => Action.Proposal.LogText(Action);
 
     // Diplomacy.pas:1228
-    public override int GetTextColor()
+    public override Color GetTextColor()
     {
         int race;
         if (Action.Proposal.SignedAsOtherPlayer)
@@ -215,7 +216,7 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
 
     public override int MiddleIcon => Action.Proposal.MiddleIcon(Action);
 
-    private static ReadOnlySpan<int> RaceColors => [14_693_424, 6_726_911, 11_520_812, 16_702_087, 6_352_705, 1_441_277, 10_863_076, 16_252_925, 11_759_804, 5_263_593, 4_351_675, 7_960_728, 11_053_224];
+    private static readonly Color[] RaceColors = [new(48, 52, 224), new(255, 164, 102), new(44, 203, 175), new(135, 218, 254), new(65, 239, 96), new(253, 253, 21), new(228, 193, 165), new(253, 255, 247), new(188, 112, 179), new(233, 80, 80), new(187, 102, 66), new(152, 120, 121), new(168, 168, 168)];
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi P5DiplomaticExecute signature keeps data.")]
     internal static bool DiplomaticExecute(DiplomaticActionEventLog log, bool immediate, ExecuteTrigger trigger, object data, ExecuteDoneEvent done)

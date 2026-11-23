@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -39,7 +40,7 @@ public sealed partial class WorldMap : ILayoutModule
         LeftPageMemo.WinHeight = 288;
         LeftPageMemo.BorderWidth = 10;
         LeftPageMemo.BorderHeight = 0;
-        LeftPageMemo.TextColor = 1251110;
+        LeftPageMemo.TextColor = new Color(38, 23, 19);
         LeftPageMemo.CursorChar = 95;
         LeftPageMemo.BlinkDelay = 0;
         LeftPageMemo.Editable = false;
@@ -284,7 +285,7 @@ public sealed partial class WorldMap : ILayoutModule
         DescriptionLabel.Alignment.TopOffset = 0;
         DescriptionLabel.Alignment.BottomOffset = 20;
         DescriptionLabel.Masked = true;
-        DescriptionLabel.TextColor = 0;
+        DescriptionLabel.TextColor = Color.Black;
         session.EndRead(DescriptionLabel);
         BackButton = new Button(this);
         session.BeginRead(BackButton);
@@ -315,8 +316,8 @@ public sealed partial class WorldMap : ILayoutModule
         BackButton.ImageLibraryIndexDown = 2;
         BackButton.ImageLibraryIndexLit = 3;
         BackButton.ImageLibraryIndexUp = 1;
-        BackButton.TextColor = 0;
-        BackButton.TextSelectedColor = 0;
+        BackButton.TextColor = Color.Black;
+        BackButton.TextSelectedColor = Color.Black;
         BackButton.WinWidth = 55;
         BackButton.Clicked += (_, _) => BackClick();
         session.EndRead(BackButton);
@@ -349,8 +350,8 @@ public sealed partial class WorldMap : ILayoutModule
         NextButton.ImageLibraryIndexDown = 5;
         NextButton.ImageLibraryIndexLit = 6;
         NextButton.ImageLibraryIndexUp = 4;
-        NextButton.TextColor = 0;
-        NextButton.TextSelectedColor = 0;
+        NextButton.TextColor = Color.Black;
+        NextButton.TextSelectedColor = Color.Black;
         NextButton.WinWidth = 55;
         NextButton.Clicked += (_, _) => NextStartClick();
         session.EndRead(NextButton);
@@ -383,8 +384,8 @@ public sealed partial class WorldMap : ILayoutModule
         CancelButton.ImageLibraryIndexDown = 8;
         CancelButton.ImageLibraryIndexLit = 9;
         CancelButton.ImageLibraryIndexUp = 7;
-        CancelButton.TextColor = 0;
-        CancelButton.TextSelectedColor = 0;
+        CancelButton.TextColor = Color.Black;
+        CancelButton.TextSelectedColor = Color.Black;
         CancelButton.WinWidth = 39;
         CancelButton.Clicked += (_, _) => CancelClick();
         session.EndRead(CancelButton);
@@ -417,8 +418,8 @@ public sealed partial class WorldMap : ILayoutModule
         BookStartButton.ImageLibraryIndexDown = 11;
         BookStartButton.ImageLibraryIndexLit = 12;
         BookStartButton.ImageLibraryIndexUp = 10;
-        BookStartButton.TextColor = 0;
-        BookStartButton.TextSelectedColor = 0;
+        BookStartButton.TextColor = Color.Black;
+        BookStartButton.TextSelectedColor = Color.Black;
         BookStartButton.WinWidth = 39;
         BookStartButton.Clicked += (_, _) => BookStartClick();
         session.EndRead(BookStartButton);
@@ -442,7 +443,7 @@ public sealed partial class WorldMap : ILayoutModule
         LeftPageLabel.Alignment.TopOffset = 35;
         LeftPageLabel.Alignment.BottomOffset = 0;
         LeftPageLabel.Masked = true;
-        LeftPageLabel.TextColor = 0;
+        LeftPageLabel.TextColor = Color.Black;
         session.EndRead(LeftPageLabel);
         RightPageMemo = new Memo(this);
         session.BeginRead(RightPageMemo);
@@ -468,7 +469,7 @@ public sealed partial class WorldMap : ILayoutModule
         RightPageMemo.WinHeight = 288;
         RightPageMemo.BorderWidth = 10;
         RightPageMemo.BorderHeight = 0;
-        RightPageMemo.TextColor = 1251110;
+        RightPageMemo.TextColor = new Color(38, 23, 19);
         RightPageMemo.CursorChar = 95;
         RightPageMemo.BlinkDelay = 0;
         RightPageMemo.Editable = false;
@@ -498,7 +499,7 @@ public sealed partial class WorldMap : ILayoutModule
         RightPageLabel.Alignment.TopOffset = 35;
         RightPageLabel.Alignment.BottomOffset = 0;
         RightPageLabel.Masked = true;
-        RightPageLabel.TextColor = 0;
+        RightPageLabel.TextColor = Color.Black;
         session.EndRead(RightPageLabel);
         LeftPagePicture = new Image(this);
         session.BeginRead(LeftPagePicture);
@@ -558,7 +559,7 @@ public sealed partial class WorldMap : ILayoutModule
         Book.OverlapTopCorners = false;
         Book.Cursor = 0;
         Book.DoubleBuffered = true;
-        Book.MaskColor = 5808200;
+        Book.MaskColor = new Color(72, 160, 88);
         Book.FreeSurfaceOnHide = true;
         Book.ImageLibraryIndexFrame = 28;
         Book.ImageLibraryIndexTexture = 0;
@@ -624,7 +625,7 @@ public sealed partial class WorldMap : ILayoutModule
         elves.Alignment.BottomOffset = 0;
         elves.Masked = true;
         elves.Text = "Elves";
-        elves.TextColor = 0;
+        elves.TextColor = Color.Black;
         session.EndRead(elves);
         Label halflings = new(this);
         session.BeginRead(halflings);
@@ -647,7 +648,7 @@ public sealed partial class WorldMap : ILayoutModule
         halflings.Alignment.BottomOffset = 0;
         halflings.Masked = true;
         halflings.Text = "Halflings";
-        halflings.TextColor = 0;
+        halflings.TextColor = Color.Black;
         session.EndRead(halflings);
         Label goblins = new(this);
         session.BeginRead(goblins);
@@ -670,7 +671,7 @@ public sealed partial class WorldMap : ILayoutModule
         goblins.Alignment.BottomOffset = 0;
         goblins.Masked = true;
         goblins.Text = "Goblins";
-        goblins.TextColor = 0;
+        goblins.TextColor = Color.Black;
         session.EndRead(goblins);
         Label orcs = new(this);
         session.BeginRead(orcs);
@@ -693,7 +694,7 @@ public sealed partial class WorldMap : ILayoutModule
         orcs.Alignment.BottomOffset = 0;
         orcs.Masked = true;
         orcs.Text = "Orcs";
-        orcs.TextColor = 0;
+        orcs.TextColor = Color.Black;
         session.EndRead(orcs);
         Label dwarves = new(this);
         session.BeginRead(dwarves);
@@ -716,7 +717,7 @@ public sealed partial class WorldMap : ILayoutModule
         dwarves.Alignment.BottomOffset = 0;
         dwarves.Masked = true;
         dwarves.Text = "Dwarves";
-        dwarves.TextColor = 0;
+        dwarves.TextColor = Color.Black;
         session.EndRead(dwarves);
         Label undead = new(this);
         session.BeginRead(undead);
@@ -739,7 +740,7 @@ public sealed partial class WorldMap : ILayoutModule
         undead.Alignment.BottomOffset = 0;
         undead.Masked = true;
         undead.Text = "Undead";
-        undead.TextColor = 0;
+        undead.TextColor = Color.Black;
         session.EndRead(undead);
         Label highmen = new(this);
         session.BeginRead(highmen);
@@ -762,7 +763,7 @@ public sealed partial class WorldMap : ILayoutModule
         highmen.Alignment.BottomOffset = 0;
         highmen.Masked = true;
         highmen.Text = "High Men";
-        highmen.TextColor = 0;
+        highmen.TextColor = Color.Black;
         session.EndRead(highmen);
         Label lizardmen = new(this);
         session.BeginRead(lizardmen);
@@ -785,7 +786,7 @@ public sealed partial class WorldMap : ILayoutModule
         lizardmen.Alignment.BottomOffset = 0;
         lizardmen.Masked = true;
         lizardmen.Text = "Lizard Men";
-        lizardmen.TextColor = 0;
+        lizardmen.TextColor = Color.Black;
         session.EndRead(lizardmen);
         Label darkElves = new(this);
         session.BeginRead(darkElves);
@@ -808,7 +809,7 @@ public sealed partial class WorldMap : ILayoutModule
         darkElves.Alignment.BottomOffset = 0;
         darkElves.Masked = true;
         darkElves.Text = "Dark Elves";
-        darkElves.TextColor = 0;
+        darkElves.TextColor = Color.Black;
         session.EndRead(darkElves);
         Label voW = new(this);
         session.BeginRead(voW);
@@ -831,7 +832,7 @@ public sealed partial class WorldMap : ILayoutModule
         voW.Alignment.BottomOffset = 0;
         voW.Masked = true;
         voW.Text = "Valley of Wonders";
-        voW.TextColor = 0;
+        voW.TextColor = Color.Black;
         session.EndRead(voW);
         Label elvenC = new(this);
         session.BeginRead(elvenC);
@@ -854,7 +855,7 @@ public sealed partial class WorldMap : ILayoutModule
         elvenC.Alignment.BottomOffset = 0;
         elvenC.Masked = true;
         elvenC.Text = "The Elven Court";
-        elvenC.TextColor = 11642509;
+        elvenC.TextColor = new Color(141, 166, 177);
         session.EndRead(elvenC);
         Label ioLG = new(this);
         session.BeginRead(ioLG);
@@ -877,7 +878,7 @@ public sealed partial class WorldMap : ILayoutModule
         ioLG.Alignment.BottomOffset = 0;
         ioLG.Masked = true;
         ioLG.Text = "Isle of Last Goodbyes";
-        ioLG.TextColor = 11642509;
+        ioLG.TextColor = new Color(141, 166, 177);
         session.EndRead(ioLG);
         Label deepmir = new(this);
         session.BeginRead(deepmir);
@@ -900,7 +901,7 @@ public sealed partial class WorldMap : ILayoutModule
         deepmir.Alignment.BottomOffset = 0;
         deepmir.Masked = true;
         deepmir.Text = "Deepmir";
-        deepmir.TextColor = 11642509;
+        deepmir.TextColor = new Color(141, 166, 177);
         session.EndRead(deepmir);
         Label aldor = new(this);
         session.BeginRead(aldor);
@@ -923,7 +924,7 @@ public sealed partial class WorldMap : ILayoutModule
         aldor.Alignment.BottomOffset = 0;
         aldor.Masked = true;
         aldor.Text = "Aldor Isle";
-        aldor.TextColor = 11642509;
+        aldor.TextColor = new Color(141, 166, 177);
         session.EndRead(aldor);
         Label serpent = new(this);
         session.BeginRead(serpent);
@@ -946,7 +947,7 @@ public sealed partial class WorldMap : ILayoutModule
         serpent.Alignment.BottomOffset = 0;
         serpent.Masked = true;
         serpent.Text = "Serpent River";
-        serpent.TextColor = 11642509;
+        serpent.TextColor = new Color(141, 166, 177);
         session.EndRead(serpent);
         Label blackwater = new(this);
         session.BeginRead(blackwater);
@@ -969,7 +970,7 @@ public sealed partial class WorldMap : ILayoutModule
         blackwater.Alignment.BottomOffset = 0;
         blackwater.Masked = true;
         blackwater.Text = "Blackwater Lake";
-        blackwater.TextColor = 11642509;
+        blackwater.TextColor = new Color(141, 166, 177);
         session.EndRead(blackwater);
         Label skull = new(this);
         session.BeginRead(skull);
@@ -992,7 +993,7 @@ public sealed partial class WorldMap : ILayoutModule
         skull.Alignment.BottomOffset = 0;
         skull.Masked = true;
         skull.Text = "The Skull";
-        skull.TextColor = 11642509;
+        skull.TextColor = new Color(141, 166, 177);
         session.EndRead(skull);
         Label sylvanus = new(this);
         session.BeginRead(sylvanus);
@@ -1015,7 +1016,7 @@ public sealed partial class WorldMap : ILayoutModule
         sylvanus.Alignment.BottomOffset = 0;
         sylvanus.Masked = true;
         sylvanus.Text = "Sylvanus";
-        sylvanus.TextColor = 11642509;
+        sylvanus.TextColor = new Color(141, 166, 177);
         session.EndRead(sylvanus);
         Label pass = new(this);
         session.BeginRead(pass);
@@ -1038,7 +1039,7 @@ public sealed partial class WorldMap : ILayoutModule
         pass.Alignment.BottomOffset = 0;
         pass.Masked = true;
         pass.Text = "Pass of Grief";
-        pass.TextColor = 11642509;
+        pass.TextColor = new Color(141, 166, 177);
         session.EndRead(pass);
         Label arcalot = new(this);
         session.BeginRead(arcalot);
@@ -1061,7 +1062,7 @@ public sealed partial class WorldMap : ILayoutModule
         arcalot.Alignment.BottomOffset = 0;
         arcalot.Masked = true;
         arcalot.Text = "Arcalot";
-        arcalot.TextColor = 11642509;
+        arcalot.TextColor = new Color(141, 166, 177);
         session.EndRead(arcalot);
         Label flowershire = new(this);
         session.BeginRead(flowershire);
@@ -1084,7 +1085,7 @@ public sealed partial class WorldMap : ILayoutModule
         flowershire.Alignment.BottomOffset = 0;
         flowershire.Masked = true;
         flowershire.Text = "Flowershire";
-        flowershire.TextColor = 11642509;
+        flowershire.TextColor = new Color(141, 166, 177);
         session.EndRead(flowershire);
         Label sobek = new(this);
         session.BeginRead(sobek);
@@ -1107,7 +1108,7 @@ public sealed partial class WorldMap : ILayoutModule
         sobek.Alignment.BottomOffset = 0;
         sobek.Masked = true;
         sobek.Text = "Peninsula of Sobek";
-        sobek.TextColor = 11642509;
+        sobek.TextColor = new Color(141, 166, 177);
         session.EndRead(sobek);
         Label steppe = new(this);
         session.BeginRead(steppe);
@@ -1130,7 +1131,7 @@ public sealed partial class WorldMap : ILayoutModule
         steppe.Alignment.BottomOffset = 0;
         steppe.Masked = true;
         steppe.Text = "Ashen Steppe";
-        steppe.TextColor = 11642509;
+        steppe.TextColor = new Color(141, 166, 177);
         session.EndRead(steppe);
         Label bronnam = new(this);
         session.BeginRead(bronnam);
@@ -1153,7 +1154,7 @@ public sealed partial class WorldMap : ILayoutModule
         bronnam.Alignment.BottomOffset = 0;
         bronnam.Masked = true;
         bronnam.Text = "Bronnam Outpost";
-        bronnam.TextColor = 11642509;
+        bronnam.TextColor = new Color(141, 166, 177);
         session.EndRead(bronnam);
         Label uc = new(this);
         session.BeginRead(uc);
@@ -1176,7 +1177,7 @@ public sealed partial class WorldMap : ILayoutModule
         uc.Alignment.BottomOffset = 0;
         uc.Masked = true;
         uc.Text = "United Cities";
-        uc.TextColor = 11642509;
+        uc.TextColor = new Color(141, 166, 177);
         session.EndRead(uc);
         Label woods = new(this);
         session.BeginRead(woods);
@@ -1199,7 +1200,7 @@ public sealed partial class WorldMap : ILayoutModule
         woods.Alignment.BottomOffset = 0;
         woods.Masked = true;
         woods.Text = "Tollrock Woods";
-        woods.TextColor = 11642509;
+        woods.TextColor = new Color(141, 166, 177);
         session.EndRead(woods);
         Label burbatak = new(this);
         session.BeginRead(burbatak);
@@ -1222,7 +1223,7 @@ public sealed partial class WorldMap : ILayoutModule
         burbatak.Alignment.BottomOffset = 0;
         burbatak.Masked = true;
         burbatak.Text = "Isle of Burbatak";
-        burbatak.TextColor = 11642509;
+        burbatak.TextColor = new Color(141, 166, 177);
         session.EndRead(burbatak);
         QuitButton = new Button(this);
         session.BeginRead(QuitButton);
@@ -1254,8 +1255,8 @@ public sealed partial class WorldMap : ILayoutModule
         QuitButton.ImageLibraryIndexLit = 49;
         QuitButton.ImageLibraryIndexUp = 43;
         QuitButton.Text = "Quit";
-        QuitButton.TextColor = 0;
-        QuitButton.TextSelectedColor = 16777215;
+        QuitButton.TextColor = Color.Black;
+        QuitButton.TextSelectedColor = Color.White;
         QuitButton.WinWidth = 130;
         QuitButton.Clicked += (_, _) => QuitBtnClick();
         session.EndRead(QuitButton);
@@ -1289,8 +1290,8 @@ public sealed partial class WorldMap : ILayoutModule
         ShowButton.ImageLibraryIndexLit = 49;
         ShowButton.ImageLibraryIndexUp = 43;
         ShowButton.Text = "Show Info";
-        ShowButton.TextColor = 0;
-        ShowButton.TextSelectedColor = 16777215;
+        ShowButton.TextColor = Color.Black;
+        ShowButton.TextSelectedColor = Color.White;
         ShowButton.WinWidth = 130;
         ShowButton.Clicked += (_, _) => ShowBtnClick();
         session.EndRead(ShowButton);
@@ -1315,7 +1316,7 @@ public sealed partial class WorldMap : ILayoutModule
         SelectLabel.Alignment.BottomOffset = 0;
         SelectLabel.Masked = true;
         SelectLabel.Text = "Select a Destination";
-        SelectLabel.TextColor = 0;
+        SelectLabel.TextColor = Color.Black;
         session.EndRead(SelectLabel);
         Label alliesLnl = new(this);
         session.BeginRead(alliesLnl);
@@ -1338,7 +1339,7 @@ public sealed partial class WorldMap : ILayoutModule
         alliesLnl.Alignment.BottomOffset = 0;
         alliesLnl.Masked = true;
         alliesLnl.Text = "-Allies-";
-        alliesLnl.TextColor = 14211288;
+        alliesLnl.TextColor = new Color(216, 216, 216);
         session.EndRead(alliesLnl);
         Panel frame = new(this);
         session.BeginRead(frame);
@@ -1388,7 +1389,7 @@ public sealed partial class WorldMap : ILayoutModule
         azrac.Alignment.BottomOffset = 105;
         azrac.Masked = true;
         azrac.Text = "Azrac Empire";
-        azrac.TextColor = 11642509;
+        azrac.TextColor = new Color(141, 166, 177);
         session.EndRead(azrac);
         StarImage = new Image(this);
         session.BeginRead(StarImage);
@@ -1441,7 +1442,7 @@ public sealed partial class WorldMap : ILayoutModule
         terstar.Alignment.BottomOffset = 0;
         terstar.Masked = true;
         terstar.Text = "Terstar";
-        terstar.TextColor = 11642509;
+        terstar.TextColor = new Color(141, 166, 177);
         session.EndRead(terstar);
         HeroFrame = new Frame(this);
         session.BeginRead(HeroFrame);
@@ -1585,8 +1586,8 @@ public sealed partial class WorldMap : ILayoutModule
         SetButton.ImageLibraryIndexLit = 49;
         SetButton.ImageLibraryIndexUp = 43;
         SetButton.Text = "Settings";
-        SetButton.TextColor = 0;
-        SetButton.TextSelectedColor = 16777215;
+        SetButton.TextColor = Color.Black;
+        SetButton.TextSelectedColor = Color.White;
         SetButton.WinWidth = 130;
         SetButton.Clicked += (_, _) => SetBtnClick();
         session.EndRead(SetButton);

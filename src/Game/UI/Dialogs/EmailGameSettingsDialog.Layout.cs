@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -42,8 +43,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         okBtn.ImageLibraryIndexLit = 25;
         okBtn.ImageLibraryIndexUp = 19;
         okBtn.Text = "OK";
-        okBtn.TextColor = 0;
-        okBtn.TextSelectedColor = 16777215;
+        okBtn.TextColor = Color.Black;
+        okBtn.TextSelectedColor = Color.White;
         okBtn.WinWidth = 110;
         okBtn.Clicked += (_, _) => OKBtnClick();
         session.EndRead(okBtn);
@@ -96,7 +97,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Email Game Settings";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Button cancelBut = new(this);
         session.BeginRead(cancelBut);
@@ -124,8 +125,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         cancelBut.ImageLibraryIndexLit = 25;
         cancelBut.ImageLibraryIndexUp = 19;
         cancelBut.Text = "Cancel";
-        cancelBut.TextColor = 0;
-        cancelBut.TextSelectedColor = 16777215;
+        cancelBut.TextColor = Color.Black;
+        cancelBut.TextSelectedColor = Color.White;
         cancelBut.WinWidth = 110;
         cancelBut.Clicked += (_, _) => CancelButClick();
         session.EndRead(cancelBut);
@@ -157,7 +158,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 6268490;
+        Window.MaskColor = new Color(74, 166, 95);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -194,7 +195,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         localEmailAdressLbl.Alignment.BottomOffset = 0;
         localEmailAdressLbl.Masked = true;
         localEmailAdressLbl.Text = "Local Email Address";
-        localEmailAdressLbl.TextColor = 16777215;
+        localEmailAdressLbl.TextColor = Color.White;
         session.EndRead(localEmailAdressLbl);
         Image decoL = new(this);
         session.BeginRead(decoL);
@@ -306,7 +307,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         LocalEmailAddressEdit.MaxChars = 0;
         LocalEmailAddressEdit.CursorChar = 95;
         LocalEmailAddressEdit.BlinkDelay = 1;
-        LocalEmailAddressEdit.TextColor = 11002593;
+        LocalEmailAddressEdit.TextColor = new Color(225, 226, 167);
         LocalEmailAddressEdit.Editable = false;
         LocalEmailAddressEdit.ImageLibraryIndex = 15;
         LocalEmailAddressEdit.PassWordChar = 0;
@@ -332,7 +333,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         playerEMailAddressesLbl.Alignment.BottomOffset = 185;
         playerEMailAddressesLbl.Masked = true;
         playerEMailAddressesLbl.Text = "Player Email Addresses";
-        playerEMailAddressesLbl.TextColor = 16777215;
+        playerEMailAddressesLbl.TextColor = Color.White;
         session.EndRead(playerEMailAddressesLbl);
         Edit emailAddressEdit1 = new(this);
         EmailAddressEdit1 = emailAddressEdit1;
@@ -362,7 +363,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit1.MaxChars = 0;
         EmailAddressEdit1.CursorChar = 95;
         EmailAddressEdit1.BlinkDelay = 1;
-        EmailAddressEdit1.TextColor = 11002593;
+        EmailAddressEdit1.TextColor = new Color(225, 226, 167);
         EmailAddressEdit1.Editable = true;
         EmailAddressEdit1.ImageLibraryIndex = 15;
         EmailAddressEdit1.PassWordChar = 0;
@@ -414,7 +415,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerLabel1.Alignment.TopOffset = 5;
         PlayerLabel1.Alignment.BottomOffset = 0;
         PlayerLabel1.Masked = true;
-        PlayerLabel1.TextColor = 9415072;
+        PlayerLabel1.TextColor = new Color(160, 169, 143);
         session.EndRead(PlayerLabel1);
         PlayerScrollBar = new VerticalScrollBar(this);
         session.BeginRead(PlayerScrollBar);
@@ -473,7 +474,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerLabel2.Alignment.TopOffset = 5;
         PlayerLabel2.Alignment.BottomOffset = 0;
         PlayerLabel2.Masked = true;
-        PlayerLabel2.TextColor = 9415072;
+        PlayerLabel2.TextColor = new Color(160, 169, 143);
         session.EndRead(PlayerLabel2);
         PlayerLabel3 = new Label(this);
         session.BeginRead(PlayerLabel3);
@@ -495,7 +496,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerLabel3.Alignment.TopOffset = 5;
         PlayerLabel3.Alignment.BottomOffset = 0;
         PlayerLabel3.Masked = true;
-        PlayerLabel3.TextColor = 9415072;
+        PlayerLabel3.TextColor = new Color(160, 169, 143);
         session.EndRead(PlayerLabel3);
         Edit emailAddressEdit2 = new(this);
         EmailAddressEdit2 = emailAddressEdit2;
@@ -526,7 +527,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit2.MaxChars = 0;
         EmailAddressEdit2.CursorChar = 95;
         EmailAddressEdit2.BlinkDelay = 1;
-        EmailAddressEdit2.TextColor = 11002593;
+        EmailAddressEdit2.TextColor = new Color(225, 226, 167);
         EmailAddressEdit2.Editable = true;
         EmailAddressEdit2.ImageLibraryIndex = 15;
         EmailAddressEdit2.PassWordChar = 0;
@@ -560,7 +561,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit3.MaxChars = 0;
         EmailAddressEdit3.CursorChar = 95;
         EmailAddressEdit3.BlinkDelay = 1;
-        EmailAddressEdit3.TextColor = 11002593;
+        EmailAddressEdit3.TextColor = new Color(225, 226, 167);
         EmailAddressEdit3.Editable = true;
         EmailAddressEdit3.ImageLibraryIndex = 15;
         EmailAddressEdit3.PassWordChar = 0;
@@ -585,7 +586,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerLabel4.Alignment.TopOffset = 5;
         PlayerLabel4.Alignment.BottomOffset = 0;
         PlayerLabel4.Masked = true;
-        PlayerLabel4.TextColor = 9415072;
+        PlayerLabel4.TextColor = new Color(160, 169, 143);
         session.EndRead(PlayerLabel4);
         Edit emailAddressEdit4 = new(this);
         EmailAddressEdit4 = emailAddressEdit4;
@@ -616,7 +617,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit4.MaxChars = 0;
         EmailAddressEdit4.CursorChar = 95;
         EmailAddressEdit4.BlinkDelay = 1;
-        EmailAddressEdit4.TextColor = 11002593;
+        EmailAddressEdit4.TextColor = new Color(225, 226, 167);
         EmailAddressEdit4.Editable = true;
         EmailAddressEdit4.ImageLibraryIndex = 15;
         EmailAddressEdit4.PassWordChar = 0;
@@ -642,7 +643,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         emailGameNameLbl.Alignment.BottomOffset = 0;
         emailGameNameLbl.Masked = true;
         emailGameNameLbl.Text = "Email Game Name";
-        emailGameNameLbl.TextColor = 16777215;
+        emailGameNameLbl.TextColor = Color.White;
         session.EndRead(emailGameNameLbl);
         EmailGameNameEdit = new Edit(this);
         session.BeginRead(EmailGameNameEdit);
@@ -670,7 +671,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailGameNameEdit.MaxChars = 0;
         EmailGameNameEdit.CursorChar = 95;
         EmailGameNameEdit.BlinkDelay = 1;
-        EmailGameNameEdit.TextColor = 11002593;
+        EmailGameNameEdit.TextColor = new Color(225, 226, 167);
         EmailGameNameEdit.Editable = true;
         EmailGameNameEdit.ImageLibraryIndex = 15;
         EmailGameNameEdit.PassWordChar = 0;
@@ -701,8 +702,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         settingsBtn.ImageLibraryIndexLit = 40;
         settingsBtn.ImageLibraryIndexUp = 34;
         settingsBtn.Text = "Settings";
-        settingsBtn.TextColor = 0;
-        settingsBtn.TextSelectedColor = 16777215;
+        settingsBtn.TextColor = Color.Black;
+        settingsBtn.TextSelectedColor = Color.White;
         settingsBtn.WinWidth = 135;
         settingsBtn.Clicked += (_, _) => SettingsBtnClick();
         session.EndRead(settingsBtn);
@@ -868,7 +869,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerLabel5.Alignment.TopOffset = 5;
         PlayerLabel5.Alignment.BottomOffset = 0;
         PlayerLabel5.Masked = true;
-        PlayerLabel5.TextColor = 9415072;
+        PlayerLabel5.TextColor = new Color(160, 169, 143);
         session.EndRead(PlayerLabel5);
         Edit emailAddressEdit5 = new(this);
         EmailAddressEdit5 = emailAddressEdit5;
@@ -899,7 +900,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit5.MaxChars = 0;
         EmailAddressEdit5.CursorChar = 95;
         EmailAddressEdit5.BlinkDelay = 1;
-        EmailAddressEdit5.TextColor = 11002593;
+        EmailAddressEdit5.TextColor = new Color(225, 226, 167);
         EmailAddressEdit5.Editable = true;
         EmailAddressEdit5.ImageLibraryIndex = 15;
         EmailAddressEdit5.PassWordChar = 0;
@@ -924,7 +925,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         PlayerLabel6.Alignment.TopOffset = 5;
         PlayerLabel6.Alignment.BottomOffset = 0;
         PlayerLabel6.Masked = true;
-        PlayerLabel6.TextColor = 9415072;
+        PlayerLabel6.TextColor = new Color(160, 169, 143);
         session.EndRead(PlayerLabel6);
         Edit emailAddressEdit6 = new(this);
         EmailAddressEdit6 = emailAddressEdit6;
@@ -955,7 +956,7 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit6.MaxChars = 0;
         EmailAddressEdit6.CursorChar = 95;
         EmailAddressEdit6.BlinkDelay = 1;
-        EmailAddressEdit6.TextColor = 11002593;
+        EmailAddressEdit6.TextColor = new Color(225, 226, 167);
         EmailAddressEdit6.Editable = true;
         EmailAddressEdit6.ImageLibraryIndex = 15;
         EmailAddressEdit6.PassWordChar = 0;
@@ -1101,8 +1102,8 @@ public sealed partial class EmailGameSettingsDialog : ILayoutModule
         closeBtn.ImageLibraryIndexDown = 1;
         closeBtn.ImageLibraryIndexLit = 2;
         closeBtn.ImageLibraryIndexUp = 0;
-        closeBtn.TextColor = 0;
-        closeBtn.TextSelectedColor = 0;
+        closeBtn.TextColor = Color.Black;
+        closeBtn.TextSelectedColor = Color.Black;
         closeBtn.WinWidth = 15;
         closeBtn.Clicked += (_, _) => CancelButClick();
         session.EndRead(closeBtn);

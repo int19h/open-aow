@@ -2,6 +2,7 @@
 // Translated from AoWWinControl.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
+using Aow.Graphics;
 
 using Aow.Rtl;
 
@@ -101,7 +102,7 @@ public class WindowControl(Component? owner) : UIComponent(owner)
     public int FrameBottom { get; protected set; }
 
     [Published]
-    public int MaskColor { get; set; }
+    public Color MaskColor { get; set; }
 
     [Published]
     public bool UseVideoMemory { get; set; }

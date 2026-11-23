@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -99,8 +100,8 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
         customBtn.ImageLibraryIndexLit = 49;
         customBtn.ImageLibraryIndexUp = 43;
         customBtn.Text = "Custom";
-        customBtn.TextColor = 0;
-        customBtn.TextSelectedColor = 16777215;
+        customBtn.TextColor = Color.Black;
+        customBtn.TextSelectedColor = Color.White;
         customBtn.WinWidth = 150;
         customBtn.Clicked += (_, _) => CustomBtnClick();
         session.EndRead(customBtn);
@@ -130,8 +131,8 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
         defaultBtn.ImageLibraryIndexLit = 49;
         defaultBtn.ImageLibraryIndexUp = 43;
         defaultBtn.Text = "Default";
-        defaultBtn.TextColor = 0;
-        defaultBtn.TextSelectedColor = 16777215;
+        defaultBtn.TextColor = Color.Black;
+        defaultBtn.TextSelectedColor = Color.White;
         defaultBtn.WinWidth = 150;
         defaultBtn.Clicked += (_, _) => DefaultBtnClick();
         session.EndRead(defaultBtn);
@@ -163,7 +164,7 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
         ];
         leaderTypeMsg.BorderWidth = 20;
         leaderTypeMsg.BorderHeight = 0;
-        leaderTypeMsg.TextColor = 16777215;
+        leaderTypeMsg.TextColor = Color.White;
         leaderTypeMsg.CursorChar = 124;
         leaderTypeMsg.BlinkDelay = 0;
         leaderTypeMsg.Editable = false;

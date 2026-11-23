@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -70,8 +71,8 @@ public sealed partial class MultiWindow : ILayoutModule
         GamesList.Changed += (_, _) => GamesLBChange();
         GamesList.DoubleClicked += (_, _) => JoinBtnClick();
         GamesList.Selected = -1;
-        GamesList.TextColor = 12632256;
-        GamesList.TextSelectedColor = 16777215;
+        GamesList.TextColor = Color.Silver;
+        GamesList.TextSelectedColor = Color.White;
         GamesList.ImageLibraryIndexFrame = 40;
         GamesList.ImageLibraryIndexTNormal = 4;
         GamesList.ImageLibraryIndexTSelected = 16;
@@ -145,8 +146,8 @@ public sealed partial class MultiWindow : ILayoutModule
         JoinButton.ImageLibraryIndexLit = 22;
         JoinButton.ImageLibraryIndexUp = 20;
         JoinButton.Text = "Join Game";
-        JoinButton.TextColor = 5046289;
-        JoinButton.TextSelectedColor = 9505286;
+        JoinButton.TextColor = new Color(17, 0, 77);
+        JoinButton.TextSelectedColor = new Color(6, 10, 145);
         JoinButton.WinWidth = 158;
         JoinButton.Clicked += (_, _) => JoinBtnClick();
         session.EndRead(JoinButton);
@@ -205,8 +206,8 @@ public sealed partial class MultiWindow : ILayoutModule
         backBtn.ImageLibraryIndexLit = 22;
         backBtn.ImageLibraryIndexUp = 20;
         backBtn.Text = "Cancel";
-        backBtn.TextColor = 5046289;
-        backBtn.TextSelectedColor = 9505286;
+        backBtn.TextColor = new Color(17, 0, 77);
+        backBtn.TextSelectedColor = new Color(6, 10, 145);
         backBtn.WinWidth = 158;
         backBtn.Clicked += (_, _) => BackBtnClick();
         session.EndRead(backBtn);
@@ -267,8 +268,8 @@ public sealed partial class MultiWindow : ILayoutModule
         TcpButton.ImageLibraryIndexLit = 22;
         TcpButton.ImageLibraryIndexUp = 20;
         TcpButton.Text = "TCP Internet";
-        TcpButton.TextColor = 5046289;
-        TcpButton.TextSelectedColor = 9505286;
+        TcpButton.TextColor = new Color(17, 0, 77);
+        TcpButton.TextSelectedColor = new Color(6, 10, 145);
         TcpButton.WinWidth = 158;
         TcpButton.Clicked += (_, _) => TCPBtnClick();
         session.EndRead(TcpButton);
@@ -302,8 +303,8 @@ public sealed partial class MultiWindow : ILayoutModule
         IpxButton.ImageLibraryIndexLit = 22;
         IpxButton.ImageLibraryIndexUp = 20;
         IpxButton.Text = "IPX LAN";
-        IpxButton.TextColor = 5046289;
-        IpxButton.TextSelectedColor = 9505286;
+        IpxButton.TextColor = new Color(17, 0, 77);
+        IpxButton.TextSelectedColor = new Color(6, 10, 145);
         IpxButton.WinWidth = 158;
         IpxButton.Clicked += (_, _) => IPXBtnClick();
         session.EndRead(IpxButton);
@@ -337,8 +338,8 @@ public sealed partial class MultiWindow : ILayoutModule
         singleBtn.ImageLibraryIndexLit = 22;
         singleBtn.ImageLibraryIndexUp = 20;
         singleBtn.Text = "Single Computer";
-        singleBtn.TextColor = 5046289;
-        singleBtn.TextSelectedColor = 9505286;
+        singleBtn.TextColor = new Color(17, 0, 77);
+        singleBtn.TextSelectedColor = new Color(6, 10, 145);
         singleBtn.WinWidth = 158;
         singleBtn.Clicked += (_, _) => SingleBtnClick();
         session.EndRead(singleBtn);
@@ -372,8 +373,8 @@ public sealed partial class MultiWindow : ILayoutModule
         emailBtn.ImageLibraryIndexLit = 22;
         emailBtn.ImageLibraryIndexUp = 20;
         emailBtn.Text = "Play by Email";
-        emailBtn.TextColor = 5046289;
-        emailBtn.TextSelectedColor = 9505286;
+        emailBtn.TextColor = new Color(17, 0, 77);
+        emailBtn.TextSelectedColor = new Color(6, 10, 145);
         emailBtn.WinWidth = 158;
         emailBtn.Clicked += (_, _) => EmailBtnClick();
         session.EndRead(emailBtn);
@@ -426,7 +427,7 @@ public sealed partial class MultiWindow : ILayoutModule
         tcpNameLbl.Alignment.BottomOffset = 0;
         tcpNameLbl.Masked = true;
         tcpNameLbl.Text = "Player Name";
-        tcpNameLbl.TextColor = 8472387;
+        tcpNameLbl.TextColor = new Color(67, 71, 129);
         session.EndRead(tcpNameLbl);
         Label single = new(this);
         session.BeginRead(single);
@@ -449,7 +450,7 @@ public sealed partial class MultiWindow : ILayoutModule
         single.Alignment.BottomOffset = 0;
         single.Masked = true;
         single.Text = "TCP Internet Game";
-        single.TextColor = 8472387;
+        single.TextColor = new Color(67, 71, 129);
         session.EndRead(single);
         Label address = new(this);
         session.BeginRead(address);
@@ -476,7 +477,7 @@ public sealed partial class MultiWindow : ILayoutModule
         address.Alignment.BottomOffset = 0;
         address.Masked = true;
         address.Text = "IP Address";
-        address.TextColor = 8472387;
+        address.TextColor = new Color(67, 71, 129);
         session.EndRead(address);
         Button cancelTCP = new(this);
         session.BeginRead(cancelTCP);
@@ -504,8 +505,8 @@ public sealed partial class MultiWindow : ILayoutModule
         cancelTCP.ImageLibraryIndexLit = 22;
         cancelTCP.ImageLibraryIndexUp = 20;
         cancelTCP.Text = "Cancel";
-        cancelTCP.TextColor = 5046289;
-        cancelTCP.TextSelectedColor = 9505286;
+        cancelTCP.TextColor = new Color(17, 0, 77);
+        cancelTCP.TextSelectedColor = new Color(6, 10, 145);
         cancelTCP.WinWidth = 158;
         cancelTCP.Clicked += (_, _) => CancelTCPClick();
         session.EndRead(cancelTCP);
@@ -539,8 +540,8 @@ public sealed partial class MultiWindow : ILayoutModule
         host.ImageLibraryIndexLit = 22;
         host.ImageLibraryIndexUp = 20;
         host.Text = "Host New";
-        host.TextColor = 5046289;
-        host.TextSelectedColor = 9505286;
+        host.TextColor = new Color(17, 0, 77);
+        host.TextSelectedColor = new Color(6, 10, 145);
         host.WinWidth = 158;
         host.Clicked += (_, _) => HostClick();
         session.EndRead(host);
@@ -574,8 +575,8 @@ public sealed partial class MultiWindow : ILayoutModule
         find.ImageLibraryIndexLit = 22;
         find.ImageLibraryIndexUp = 20;
         find.Text = "Find Games";
-        find.TextColor = 5046289;
-        find.TextSelectedColor = 9505286;
+        find.TextColor = new Color(17, 0, 77);
+        find.TextSelectedColor = new Color(6, 10, 145);
         find.WinWidth = 158;
         find.Clicked += (_, _) => FindClick();
         session.EndRead(find);
@@ -600,7 +601,7 @@ public sealed partial class MultiWindow : ILayoutModule
         gameLbl.Alignment.BottomOffset = 0;
         gameLbl.Masked = true;
         gameLbl.Text = "Game Type";
-        gameLbl.TextColor = 8472387;
+        gameLbl.TextColor = new Color(67, 71, 129);
         session.EndRead(gameLbl);
         TcpNameEdit = new Edit(this);
         session.BeginRead(TcpNameEdit);
@@ -630,7 +631,7 @@ public sealed partial class MultiWindow : ILayoutModule
         TcpNameEdit.MaxChars = 15;
         TcpNameEdit.CursorChar = 95;
         TcpNameEdit.BlinkDelay = 0;
-        TcpNameEdit.TextColor = 16777215;
+        TcpNameEdit.TextColor = Color.White;
         TcpNameEdit.Editable = true;
         TcpNameEdit.ImageLibraryIndex = 29;
         TcpNameEdit.PassWordChar = 0;
@@ -665,7 +666,7 @@ public sealed partial class MultiWindow : ILayoutModule
         IPAddressEdit.MaxChars = 0;
         IPAddressEdit.CursorChar = 95;
         IPAddressEdit.BlinkDelay = 0;
-        IPAddressEdit.TextColor = 16777215;
+        IPAddressEdit.TextColor = Color.White;
         IPAddressEdit.Editable = true;
         IPAddressEdit.ImageLibraryIndex = 29;
         IPAddressEdit.PassWordChar = 0;
@@ -728,8 +729,8 @@ public sealed partial class MultiWindow : ILayoutModule
         lanFind.ImageLibraryIndexLit = 22;
         lanFind.ImageLibraryIndexUp = 20;
         lanFind.Text = "Find Games";
-        lanFind.TextColor = 5046289;
-        lanFind.TextSelectedColor = 9505286;
+        lanFind.TextColor = new Color(17, 0, 77);
+        lanFind.TextSelectedColor = new Color(6, 10, 145);
         lanFind.WinWidth = 158;
         lanFind.Clicked += (_, _) => LANFindClick();
         session.EndRead(lanFind);
@@ -754,7 +755,7 @@ public sealed partial class MultiWindow : ILayoutModule
         joinLbl.Alignment.BottomOffset = 0;
         joinLbl.Masked = true;
         joinLbl.Text = "Available Games";
-        joinLbl.TextColor = 8472387;
+        joinLbl.TextColor = new Color(67, 71, 129);
         session.EndRead(joinLbl);
         BottomPanel = new Panel(this);
         session.BeginRead(BottomPanel);
@@ -809,8 +810,8 @@ public sealed partial class MultiWindow : ILayoutModule
         backButn.ImageLibraryIndexLit = 22;
         backButn.ImageLibraryIndexUp = 20;
         backButn.Text = "Back to Title";
-        backButn.TextColor = 5046289;
-        backButn.TextSelectedColor = 9505286;
+        backButn.TextColor = new Color(17, 0, 77);
+        backButn.TextSelectedColor = new Color(6, 10, 145);
         backButn.WinWidth = 158;
         backButn.Clicked += (_, _) => BackButtonClick();
         session.EndRead(backButn);
@@ -868,8 +869,8 @@ public sealed partial class MultiWindow : ILayoutModule
         cancelOKBut.ImageLibraryIndexLit = 22;
         cancelOKBut.ImageLibraryIndexUp = 20;
         cancelOKBut.Text = "Cancel";
-        cancelOKBut.TextColor = 5046289;
-        cancelOKBut.TextSelectedColor = 9505286;
+        cancelOKBut.TextColor = new Color(17, 0, 77);
+        cancelOKBut.TextSelectedColor = new Color(6, 10, 145);
         cancelOKBut.WinWidth = 158;
         cancelOKBut.Clicked += (_, _) => CancelOKButClick();
         session.EndRead(cancelOKBut);
@@ -901,7 +902,7 @@ public sealed partial class MultiWindow : ILayoutModule
         ];
         messageMemo.BorderWidth = 0;
         messageMemo.BorderHeight = 0;
-        messageMemo.TextColor = 0;
+        messageMemo.TextColor = Color.Black;
         messageMemo.CursorChar = 124;
         messageMemo.BlinkDelay = 0;
         messageMemo.Editable = false;
@@ -937,8 +938,8 @@ public sealed partial class MultiWindow : ILayoutModule
         lanCancel.ImageLibraryIndexLit = 22;
         lanCancel.ImageLibraryIndexUp = 20;
         lanCancel.Text = "Cancel";
-        lanCancel.TextColor = 5046289;
-        lanCancel.TextSelectedColor = 9505286;
+        lanCancel.TextColor = new Color(17, 0, 77);
+        lanCancel.TextSelectedColor = new Color(6, 10, 145);
         lanCancel.WinWidth = 158;
         lanCancel.Clicked += (_, _) => CancelTCPClick();
         session.EndRead(lanCancel);
@@ -963,7 +964,7 @@ public sealed partial class MultiWindow : ILayoutModule
         label1.Alignment.BottomOffset = 0;
         label1.Masked = true;
         label1.Text = "Player Name";
-        label1.TextColor = 8472387;
+        label1.TextColor = new Color(67, 71, 129);
         session.EndRead(label1);
         Label lanLbl = new(this);
         session.BeginRead(lanLbl);
@@ -986,7 +987,7 @@ public sealed partial class MultiWindow : ILayoutModule
         lanLbl.Alignment.BottomOffset = 0;
         lanLbl.Masked = true;
         lanLbl.Text = "IPX LAN Game";
-        lanLbl.TextColor = 8472387;
+        lanLbl.TextColor = new Color(67, 71, 129);
         session.EndRead(lanLbl);
         IpxNameEdit = new Edit(this);
         session.BeginRead(IpxNameEdit);
@@ -1016,7 +1017,7 @@ public sealed partial class MultiWindow : ILayoutModule
         IpxNameEdit.MaxChars = 15;
         IpxNameEdit.CursorChar = 95;
         IpxNameEdit.BlinkDelay = 0;
-        IpxNameEdit.TextColor = 16777215;
+        IpxNameEdit.TextColor = Color.White;
         IpxNameEdit.Editable = true;
         IpxNameEdit.ImageLibraryIndex = 29;
         IpxNameEdit.PassWordChar = 0;
@@ -1051,8 +1052,8 @@ public sealed partial class MultiWindow : ILayoutModule
         lanHost.ImageLibraryIndexLit = 22;
         lanHost.ImageLibraryIndexUp = 20;
         lanHost.Text = "Host New";
-        lanHost.TextColor = 5046289;
-        lanHost.TextSelectedColor = 9505286;
+        lanHost.TextColor = new Color(17, 0, 77);
+        lanHost.TextSelectedColor = new Color(6, 10, 145);
         lanHost.WinWidth = 158;
         lanHost.Clicked += (_, _) => LANHostClick();
         session.EndRead(lanHost);
@@ -1110,8 +1111,8 @@ public sealed partial class MultiWindow : ILayoutModule
         cancelPBEMBtn.ImageLibraryIndexLit = 22;
         cancelPBEMBtn.ImageLibraryIndexUp = 20;
         cancelPBEMBtn.Text = "Cancel";
-        cancelPBEMBtn.TextColor = 5046289;
-        cancelPBEMBtn.TextSelectedColor = 9505286;
+        cancelPBEMBtn.TextColor = new Color(17, 0, 77);
+        cancelPBEMBtn.TextSelectedColor = new Color(6, 10, 145);
         cancelPBEMBtn.WinWidth = 158;
         cancelPBEMBtn.Clicked += (_, _) => CancelPBEMBtnClick();
         session.EndRead(cancelPBEMBtn);
@@ -1141,8 +1142,8 @@ public sealed partial class MultiWindow : ILayoutModule
         checkEmailBtn.ImageLibraryIndexLit = 22;
         checkEmailBtn.ImageLibraryIndexUp = 20;
         checkEmailBtn.Text = "Check Email";
-        checkEmailBtn.TextColor = 5046289;
-        checkEmailBtn.TextSelectedColor = 9505286;
+        checkEmailBtn.TextColor = new Color(17, 0, 77);
+        checkEmailBtn.TextSelectedColor = new Color(6, 10, 145);
         checkEmailBtn.WinWidth = 158;
         checkEmailBtn.Clicked += (_, _) => CheckEmailBtnClick();
         session.EndRead(checkEmailBtn);
@@ -1172,8 +1173,8 @@ public sealed partial class MultiWindow : ILayoutModule
         newPBEMGameBtn.ImageLibraryIndexLit = 22;
         newPBEMGameBtn.ImageLibraryIndexUp = 20;
         newPBEMGameBtn.Text = "New Game";
-        newPBEMGameBtn.TextColor = 5046289;
-        newPBEMGameBtn.TextSelectedColor = 9505286;
+        newPBEMGameBtn.TextColor = new Color(17, 0, 77);
+        newPBEMGameBtn.TextSelectedColor = new Color(6, 10, 145);
         newPBEMGameBtn.WinWidth = 158;
         newPBEMGameBtn.Clicked += (_, _) => NewPBEMGameBtnClick();
         session.EndRead(newPBEMGameBtn);
@@ -1203,8 +1204,8 @@ public sealed partial class MultiWindow : ILayoutModule
         loadPBEMGameBtn.ImageLibraryIndexLit = 22;
         loadPBEMGameBtn.ImageLibraryIndexUp = 20;
         loadPBEMGameBtn.Text = "Load Game";
-        loadPBEMGameBtn.TextColor = 5046289;
-        loadPBEMGameBtn.TextSelectedColor = 9505286;
+        loadPBEMGameBtn.TextColor = new Color(17, 0, 77);
+        loadPBEMGameBtn.TextSelectedColor = new Color(6, 10, 145);
         loadPBEMGameBtn.WinWidth = 158;
         loadPBEMGameBtn.Clicked += (_, _) => LoadPBEMGameBtnClick();
         session.EndRead(loadPBEMGameBtn);
@@ -1234,8 +1235,8 @@ public sealed partial class MultiWindow : ILayoutModule
         emailSettingsBtn.ImageLibraryIndexLit = 22;
         emailSettingsBtn.ImageLibraryIndexUp = 20;
         emailSettingsBtn.Text = "Settings";
-        emailSettingsBtn.TextColor = 5046289;
-        emailSettingsBtn.TextSelectedColor = 9505286;
+        emailSettingsBtn.TextColor = new Color(17, 0, 77);
+        emailSettingsBtn.TextSelectedColor = new Color(6, 10, 145);
         emailSettingsBtn.WinWidth = 158;
         emailSettingsBtn.Clicked += (_, _) => EmailSettingsBtnClick();
         session.EndRead(emailSettingsBtn);
@@ -1268,8 +1269,8 @@ public sealed partial class MultiWindow : ILayoutModule
         heatNetBtn.ImageLibraryIndexDown = 72;
         heatNetBtn.ImageLibraryIndexLit = 71;
         heatNetBtn.ImageLibraryIndexUp = 70;
-        heatNetBtn.TextColor = 5046289;
-        heatNetBtn.TextSelectedColor = 9505286;
+        heatNetBtn.TextColor = new Color(17, 0, 77);
+        heatNetBtn.TextSelectedColor = new Color(6, 10, 145);
         heatNetBtn.WinWidth = 66;
         heatNetBtn.Clicked += (_, _) => HeatNetBtnClick();
         session.EndRead(heatNetBtn);

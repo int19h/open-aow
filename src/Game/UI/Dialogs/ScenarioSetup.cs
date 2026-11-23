@@ -9,6 +9,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.DelphiTextCompare;
@@ -170,7 +171,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
 
         if (SetupControl.Settings.ConnectionType == 2)
         {
-            CustomizeLeadersLabel.TextColor = 0x80_80_80;
+            CustomizeLeadersLabel.TextColor = Color.Gray;
             CustomizeLeadersCheckBox.CaptureInput = false;
             PlayModeComboBox.Items.Clear();
             string classic = UI.Engine.TranslateResourceString(s_classicText);
@@ -279,14 +280,14 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             {
                 if (SetupControl.Settings.RemotePlayers.GetPlayers(i).MapValidation == MapValidationInfo.Invalid)
                 {
-                    UI.Fonts.Age8Shadow.Color = 0x00_00_FF;
+                    UI.Fonts.Age8Shadow.Color = Color.Red;
                     UI.Fonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, text: "X", lockedSurface);
                 }
                 else
                 {
                     if (SetupControl.Settings.RemotePlayers.GetPlayers(i).MapValidation == MapValidationInfo.InvalidMap)
                     {
-                        UI.Fonts.Age8Shadow.Color = 0x00_80_00;
+                        UI.Fonts.Age8Shadow.Color = Color.Green;
                         UI.Fonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, text: "X", lockedSurface);
                     }
                 }
@@ -615,7 +616,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
 
         if (setup.SetupControl.Settings.ConnectionType == 2)
         {
-            setup.CustomizeLeadersLabel.TextColor = 0x80_80_80;
+            setup.CustomizeLeadersLabel.TextColor = Color.Gray;
             setup.CustomizeLeadersCheckBox.CaptureInput = false;
             setup.PlayModeComboBox.Items.Clear();
             string classic = setup.UI.Engine.TranslateResourceString(s_classicText);
@@ -775,7 +776,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                 setup.PlayerNameLabel.Text = formattedText;
                 string format2 = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.FileNameFormat), arguments: [setup.SetupControl.Settings.MapName]);
                 setup.FileNameLabel.Text = format2;
-                setup.FileNameLabel.TextColor = setup.SetupControl.RemotePlayer.MapValidation == MapValidationInfo.Invalid ? 255 : 10_329_501;
+                setup.FileNameLabel.TextColor = setup.SetupControl.RemotePlayer.MapValidation == MapValidationInfo.Invalid ? Color.Red : new Color(157, 157, 157);
             }
             else
             {

@@ -2,6 +2,7 @@
 #nullable disable warnings
 using Aow.Game.Draw.Images;
 using Aow.Game.Layout;
+using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
@@ -19,7 +20,7 @@ public sealed partial class UIFonts : ILayoutModule
         Age8.Name = "Age8";
         Age8.CharacterDistance = 0;
         Age8.CharCase = EditCharCase.Normal;
-        Age8.Color = 7864183;
+        Age8.Color = new Color(119, 255, 119);
         Age8.FontColorPaletteIndex = 1;
         Age8.LoadOnDemand = true;
         Age8.FileName = "Int\\Fonts\\Age8.ILB";
@@ -29,7 +30,7 @@ public sealed partial class UIFonts : ILayoutModule
         Age10.Name = "Age10";
         Age10.CharacterDistance = 1;
         Age10.CharCase = EditCharCase.Normal;
-        Age10.Color = 12632256;
+        Age10.Color = Color.Silver;
         Age10.FontColorPaletteIndex = 1;
         Age10.LoadOnDemand = true;
         Age10.FileName = "Int\\Fonts\\Age10.ILB";
@@ -39,7 +40,7 @@ public sealed partial class UIFonts : ILayoutModule
         Age16Shadow.Name = "Age16s";
         Age16Shadow.CharacterDistance = 0;
         Age16Shadow.CharCase = EditCharCase.Normal;
-        Age16Shadow.Color = 16777215;
+        Age16Shadow.Color = Color.White;
         Age16Shadow.FontColorPaletteIndex = 176;
         Age16Shadow.LoadOnDemand = true;
         Age16Shadow.FileName = "Int\\Fonts\\Age16s.ILB";
@@ -49,7 +50,7 @@ public sealed partial class UIFonts : ILayoutModule
         Age10Shadow.Name = "Age10s";
         Age10Shadow.CharacterDistance = 1;
         Age10Shadow.CharCase = EditCharCase.Normal;
-        Age10Shadow.Color = 9236989;
+        Age10Shadow.Color = new Color(253, 241, 140);
         Age10Shadow.FontColorPaletteIndex = 2;
         Age10Shadow.LoadOnDemand = true;
         Age10Shadow.FileName = "Int\\Fonts\\Age10s.ILB";
@@ -59,7 +60,7 @@ public sealed partial class UIFonts : ILayoutModule
         Age8Shadow.Name = "Age8s";
         Age8Shadow.CharacterDistance = 0;
         Age8Shadow.CharCase = EditCharCase.Normal;
-        Age8Shadow.Color = 9688812;
+        Age8Shadow.Color = new Color(236, 214, 147);
         Age8Shadow.FontColorPaletteIndex = 1;
         Age8Shadow.LoadOnDemand = true;
         Age8Shadow.FileName = "Int\\Fonts\\Age8s.ILB";
@@ -69,7 +70,7 @@ public sealed partial class UIFonts : ILayoutModule
         Age14Gold.Name = "Sessis14G";
         Age14Gold.CharacterDistance = -2;
         Age14Gold.CharCase = EditCharCase.Normal;
-        Age14Gold.Color = 16777215;
+        Age14Gold.Color = Color.White;
         Age14Gold.FontColorPaletteIndex = -1;
         Age14Gold.LoadOnDemand = true;
         Age14Gold.FileName = "Int\\Fonts\\Age14G.ILB";
@@ -79,7 +80,7 @@ public sealed partial class UIFonts : ILayoutModule
         Age15WhiteOnGrey.Name = "AoW15WhiteGrey";
         Age15WhiteOnGrey.CharacterDistance = 0;
         Age15WhiteOnGrey.CharCase = EditCharCase.Normal;
-        Age15WhiteOnGrey.Color = 16777215;
+        Age15WhiteOnGrey.Color = Color.White;
         Age15WhiteOnGrey.FontColorPaletteIndex = -1;
         Age15WhiteOnGrey.LoadOnDemand = true;
         Age15WhiteOnGrey.FileName = "Int\\Fonts\\Age15WhGr.ILB";
@@ -89,7 +90,7 @@ public sealed partial class UIFonts : ILayoutModule
         Age15BlackOnBrown.Name = "AoW15BlackBrown";
         Age15BlackOnBrown.CharacterDistance = 0;
         Age15BlackOnBrown.CharCase = EditCharCase.Normal;
-        Age15BlackOnBrown.Color = 1254460;
+        Age15BlackOnBrown.Color = new Color(60, 36, 19);
         Age15BlackOnBrown.FontColorPaletteIndex = -1;
         Age15BlackOnBrown.LoadOnDemand = true;
         Age15BlackOnBrown.FileName = "Int\\Fonts\\Age15BlBr.ILB";
@@ -99,7 +100,7 @@ public sealed partial class UIFonts : ILayoutModule
         Age10List.Name = "Age10LB";
         Age10List.CharacterDistance = 0;
         Age10List.CharCase = EditCharCase.Normal;
-        Age10List.Color = 0;
+        Age10List.Color = Color.Black;
         Age10List.FontColorPaletteIndex = 1;
         Age10List.LoadOnDemand = true;
         Age10List.FileName = "Int\\Fonts\\Age10LB.ILB";
@@ -109,7 +110,7 @@ public sealed partial class UIFonts : ILayoutModule
         Age10Bold.Name = "Age10b";
         Age10Bold.CharacterDistance = 1;
         Age10Bold.CharCase = EditCharCase.Normal;
-        Age10Bold.Color = 1254460;
+        Age10Bold.Color = new Color(60, 36, 19);
         Age10Bold.FontColorPaletteIndex = 1;
         Age10Bold.LoadOnDemand = true;
         Age10Bold.FileName = "INT\\Fonts\\Age10b.ILB";
@@ -119,7 +120,7 @@ public sealed partial class UIFonts : ILayoutModule
         Age10BoldShadow.Name = "Age10bs";
         Age10BoldShadow.CharacterDistance = 1;
         Age10BoldShadow.CharCase = EditCharCase.Normal;
-        Age10BoldShadow.Color = 8454143;
+        Age10BoldShadow.Color = new Color(255, 255, 128);
         Age10BoldShadow.FontColorPaletteIndex = 2;
         Age10BoldShadow.LoadOnDemand = true;
         Age10BoldShadow.FileName = "INT\\Fonts\\Age10bs.ILB";
@@ -129,7 +130,7 @@ public sealed partial class UIFonts : ILayoutModule
         TaskbarDigits.Name = "TBarNumber";
         TaskbarDigits.CharacterDistance = 0;
         TaskbarDigits.CharCase = EditCharCase.Normal;
-        TaskbarDigits.Color = 0;
+        TaskbarDigits.Color = Color.Black;
         TaskbarDigits.FontColorPaletteIndex = 1;
         TaskbarDigits.LoadOnDemand = true;
         TaskbarDigits.FileName = "INT\\Fonts\\Age10tb.ILB";
