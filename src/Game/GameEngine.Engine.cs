@@ -65,8 +65,6 @@ public partial class GameEngine : OwningNode
 
     public GameEngine(CustomNode? owner) : this(null, owner: owner, playerInput: PlayerInput.Unattended) { }
 
-    public GameEngine(CustomNode? owner, IPlayerInput playerInput) : this(null, owner: owner, playerInput: playerInput) { }
-
     private protected GameEngine(ConstructionContext? context, CustomNode? owner) : this(context, owner: owner, playerInput: PlayerInput.Unattended) { }
 
     private protected GameEngine(ConstructionContext? context, CustomNode? owner, IPlayerInput playerInput) : base(context, owner)
