@@ -13,6 +13,7 @@ using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 
 using Aow.Rtl;
 
@@ -709,7 +710,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 int modifier = action.GetRelationModifier(StrategicMap.Current.SeatedPlayer, race);
                 if (modifier != 0)
                 {
-                    UI.Fonts.Age10.Color = 0xFF_FF_FF;
+                    UI.Fonts.Age10.Color = Color.White;
                     UI.Fonts.Age10.SetTextCentered(r.Left + ((r.Right - r.Left) / 2), r.Top + 50, text: modifier.ToString(CultureInfo.InvariantCulture), lockedSurface: surface);
                 }
             }

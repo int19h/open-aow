@@ -12,6 +12,7 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
@@ -219,8 +220,8 @@ public static class AbilityRules
         {
             GamePack.Current.CombatImages[(int)damageType + 10].Show(x + 15, y + 10, lockedSurface: surface);
             engine.CombatFont.Color = damageType is (>= DamageType.Cold and <= DamageType.Magic) or DamageType.Holy
-                ? 0
-                : 16_777_215;
+                ? Color.Black
+                : Color.White;
 
             engine.CombatFont.SetTextCentered(x + 34, y + 36, text: damage.ToString(CultureInfo.InvariantCulture), lockedSurface: surface);
         }
@@ -529,7 +530,7 @@ public static class AbilityRules
 
     internal static ReadOnlySpan<int> CommandAbilityIds => [29, 28, 148];
 
-    internal static ReadOnlySpan<int> RaceColors => [14_693_424, 6_726_911, 11_520_812, 16_702_087, 6_352_705, 1_441_277, 10_863_076, 16_252_925, 11_759_804, 5_263_593, 4_351_675, 7_960_728, 11_053_224];
+    internal static ReadOnlySpan<Color> RaceColors => (Color[])[new(48, 52, 224), new(255, 164, 102), new(44, 203, 175), new(135, 218, 254), new(65, 239, 96), new(253, 253, 21), new(228, 193, 165), new(253, 255, 247), new(188, 112, 179), new(233, 80, 80), new(187, 102, 66), new(152, 120, 121), new(168, 168, 168)];
 
     private static readonly DamageTypes s_allDamageTypes = DamageTypes.Fire | DamageTypes.Cold | DamageTypes.Lightning | DamageTypes.Magic | DamageTypes.Poison | DamageTypes.Death | DamageTypes.Holy | DamageTypes.Physical | DamageTypes.Wall | DamageTypes.NonSpecific;
 

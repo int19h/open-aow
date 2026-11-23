@@ -2,6 +2,7 @@
 // Translated from AoWMemo.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
+using Aow.Graphics;
 
 using Aow.Rtl;
 using static Aow.Rtl.DelphiConversions;
@@ -174,7 +175,7 @@ public sealed partial class Memo : Control
                 cc.HasColor = true;
                 try
                 {
-                    cc.Color = StrToInt($"${Copy(_items[i], index: 2, count: 6)}");
+                    cc.Color = Color.FromPacked(StrToInt($"${Copy(_items[i], index: 2, count: 6)}"));
                 }
                 catch
                 {

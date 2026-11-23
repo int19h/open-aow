@@ -4,6 +4,7 @@ using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -46,7 +47,7 @@ public sealed partial class CityScreen : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 7346272;
+        Window.MaskColor = new Color(96, 24, 112);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 8;
         Window.ImageLibraryIndexTexture = 0;
@@ -120,8 +121,8 @@ public sealed partial class CityScreen : ILayoutModule
         UnitAbilitiesList.BorderWidth = 10;
         UnitAbilitiesList.BorderHeight = 4;
         UnitAbilitiesList.Selected = -1;
-        UnitAbilitiesList.TextColor = 9415072;
-        UnitAbilitiesList.TextSelectedColor = 0;
+        UnitAbilitiesList.TextColor = new Color(160, 169, 143);
+        UnitAbilitiesList.TextSelectedColor = Color.Black;
         UnitAbilitiesList.ImageLibraryIndexFrame = 113;
         UnitAbilitiesList.ImageLibraryIndexTNormal = 17;
         UnitAbilitiesList.ImageLibraryIndexTSelected = 8;
@@ -317,7 +318,7 @@ public sealed partial class CityScreen : ILayoutModule
         UnitAttackLabel.Alignment.BottomOffset = 0;
         UnitAttackLabel.Masked = true;
         UnitAttackLabel.Text = "5";
-        UnitAttackLabel.TextColor = 9415072;
+        UnitAttackLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitAttackLabel);
         UnitDefenseLabel = new Label(this);
         session.BeginRead(UnitDefenseLabel);
@@ -340,7 +341,7 @@ public sealed partial class CityScreen : ILayoutModule
         UnitDefenseLabel.Alignment.BottomOffset = 0;
         UnitDefenseLabel.Masked = true;
         UnitDefenseLabel.Text = "5+1";
-        UnitDefenseLabel.TextColor = 9415072;
+        UnitDefenseLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitDefenseLabel);
         UnitMovesLabel = new Label(this);
         session.BeginRead(UnitMovesLabel);
@@ -363,7 +364,7 @@ public sealed partial class CityScreen : ILayoutModule
         UnitMovesLabel.Alignment.BottomOffset = 0;
         UnitMovesLabel.Masked = true;
         UnitMovesLabel.Text = "50/50";
-        UnitMovesLabel.TextColor = 9415072;
+        UnitMovesLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitMovesLabel);
         UnitDamageLabel = new Label(this);
         session.BeginRead(UnitDamageLabel);
@@ -386,7 +387,7 @@ public sealed partial class CityScreen : ILayoutModule
         UnitDamageLabel.Alignment.BottomOffset = 0;
         UnitDamageLabel.Masked = true;
         UnitDamageLabel.Text = "5";
-        UnitDamageLabel.TextColor = 9415072;
+        UnitDamageLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitDamageLabel);
         UnitResistanceLabel = new Label(this);
         session.BeginRead(UnitResistanceLabel);
@@ -409,7 +410,7 @@ public sealed partial class CityScreen : ILayoutModule
         UnitResistanceLabel.Alignment.BottomOffset = 0;
         UnitResistanceLabel.Masked = true;
         UnitResistanceLabel.Text = "5";
-        UnitResistanceLabel.TextColor = 9415072;
+        UnitResistanceLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitResistanceLabel);
         UnitHitsLabel = new Label(this);
         session.BeginRead(UnitHitsLabel);
@@ -432,7 +433,7 @@ public sealed partial class CityScreen : ILayoutModule
         UnitHitsLabel.Alignment.BottomOffset = 0;
         UnitHitsLabel.Masked = true;
         UnitHitsLabel.Text = "50/50";
-        UnitHitsLabel.TextColor = 9415072;
+        UnitHitsLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitHitsLabel);
         Panel uStatPnl = new(this);
         session.BeginRead(uStatPnl);
@@ -536,7 +537,7 @@ public sealed partial class CityScreen : ILayoutModule
         UnitAlignmentLabel.Alignment.BottomOffset = 0;
         UnitAlignmentLabel.Masked = true;
         UnitAlignmentLabel.Text = "#####";
-        UnitAlignmentLabel.TextColor = 9415072;
+        UnitAlignmentLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitAlignmentLabel);
         UnitLevelLabel = new Label(this);
         session.BeginRead(UnitLevelLabel);
@@ -559,7 +560,7 @@ public sealed partial class CityScreen : ILayoutModule
         UnitLevelLabel.Alignment.BottomOffset = 0;
         UnitLevelLabel.Masked = true;
         UnitLevelLabel.Text = "#####";
-        UnitLevelLabel.TextColor = 9415072;
+        UnitLevelLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitLevelLabel);
         Panel uPicturePnl = new(this);
         session.BeginRead(uPicturePnl);
@@ -636,7 +637,7 @@ public sealed partial class CityScreen : ILayoutModule
         StructureNameLabel.Alignment.BottomOffset = 0;
         StructureNameLabel.Masked = true;
         StructureNameLabel.Text = "#####";
-        StructureNameLabel.TextColor = 0;
+        StructureNameLabel.TextColor = Color.Black;
         session.EndRead(StructureNameLabel);
         Label costLbl = new(this);
         session.BeginRead(costLbl);
@@ -659,7 +660,7 @@ public sealed partial class CityScreen : ILayoutModule
         costLbl.Alignment.BottomOffset = 0;
         costLbl.Masked = true;
         costLbl.Text = "Cost";
-        costLbl.TextColor = 9415072;
+        costLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(costLbl);
         UnitCostLabel = new Label(this);
         session.BeginRead(UnitCostLabel);
@@ -682,7 +683,7 @@ public sealed partial class CityScreen : ILayoutModule
         UnitCostLabel.Alignment.BottomOffset = 0;
         UnitCostLabel.Masked = true;
         UnitCostLabel.Text = "999";
-        UnitCostLabel.TextColor = 9415072;
+        UnitCostLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitCostLabel);
         UnitLabel = new Label(this);
         session.BeginRead(UnitLabel);
@@ -705,7 +706,7 @@ public sealed partial class CityScreen : ILayoutModule
         UnitLabel.Alignment.BottomOffset = 0;
         UnitLabel.Masked = true;
         UnitLabel.Text = "######";
-        UnitLabel.TextColor = 0;
+        UnitLabel.TextColor = Color.Black;
         session.EndRead(UnitLabel);
         Label turnsLbl = new(this);
         session.BeginRead(turnsLbl);
@@ -728,7 +729,7 @@ public sealed partial class CityScreen : ILayoutModule
         turnsLbl.Alignment.BottomOffset = 0;
         turnsLbl.Masked = true;
         turnsLbl.Text = "Turns";
-        turnsLbl.TextColor = 9415072;
+        turnsLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(turnsLbl);
         UnitTurnsLabel = new Label(this);
         session.BeginRead(UnitTurnsLabel);
@@ -751,7 +752,7 @@ public sealed partial class CityScreen : ILayoutModule
         UnitTurnsLabel.Alignment.BottomOffset = 0;
         UnitTurnsLabel.Masked = true;
         UnitTurnsLabel.Text = "999";
-        UnitTurnsLabel.TextColor = 9415072;
+        UnitTurnsLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitTurnsLabel);
         CheckBox production1CheckBox = new(this);
         Production1CheckBox = production1CheckBox;
@@ -785,8 +786,8 @@ public sealed partial class CityScreen : ILayoutModule
         Production1CheckBox.ImageLibraryIndexDown = 43;
         Production1CheckBox.ImageLibraryIndexLit = 43;
         Production1CheckBox.ImageLibraryIndexUp = 42;
-        Production1CheckBox.TextColor = 0;
-        Production1CheckBox.TextSelectedColor = 0;
+        Production1CheckBox.TextColor = Color.Black;
+        Production1CheckBox.TextSelectedColor = Color.Black;
         Production1CheckBox.WinWidth = 52;
         Production1CheckBox.Checked = false;
         production1CheckBox.Changed += (_, _) => ProductionChange(production1CheckBox, slot: 0);
@@ -826,8 +827,8 @@ public sealed partial class CityScreen : ILayoutModule
         Production2CheckBox.ImageLibraryIndexDown = 43;
         Production2CheckBox.ImageLibraryIndexLit = 43;
         Production2CheckBox.ImageLibraryIndexUp = 42;
-        Production2CheckBox.TextColor = 0;
-        Production2CheckBox.TextSelectedColor = 0;
+        Production2CheckBox.TextColor = Color.Black;
+        Production2CheckBox.TextSelectedColor = Color.Black;
         Production2CheckBox.WinWidth = 52;
         Production2CheckBox.Checked = false;
         production2CheckBox.Changed += (_, _) => ProductionChange(production2CheckBox, slot: 1);
@@ -867,8 +868,8 @@ public sealed partial class CityScreen : ILayoutModule
         Production3CheckBox.ImageLibraryIndexDown = 43;
         Production3CheckBox.ImageLibraryIndexLit = 43;
         Production3CheckBox.ImageLibraryIndexUp = 42;
-        Production3CheckBox.TextColor = 0;
-        Production3CheckBox.TextSelectedColor = 0;
+        Production3CheckBox.TextColor = Color.Black;
+        Production3CheckBox.TextSelectedColor = Color.Black;
         Production3CheckBox.WinWidth = 52;
         Production3CheckBox.Checked = false;
         production3CheckBox.Changed += (_, _) => ProductionChange(production3CheckBox, slot: 2);
@@ -908,8 +909,8 @@ public sealed partial class CityScreen : ILayoutModule
         Production4CheckBox.ImageLibraryIndexDown = 43;
         Production4CheckBox.ImageLibraryIndexLit = 43;
         Production4CheckBox.ImageLibraryIndexUp = 42;
-        Production4CheckBox.TextColor = 0;
-        Production4CheckBox.TextSelectedColor = 0;
+        Production4CheckBox.TextColor = Color.Black;
+        Production4CheckBox.TextSelectedColor = Color.Black;
         Production4CheckBox.WinWidth = 52;
         Production4CheckBox.Checked = false;
         production4CheckBox.Changed += (_, _) => ProductionChange(production4CheckBox, slot: 3);
@@ -949,8 +950,8 @@ public sealed partial class CityScreen : ILayoutModule
         Production5CheckBox.ImageLibraryIndexDown = 43;
         Production5CheckBox.ImageLibraryIndexLit = 43;
         Production5CheckBox.ImageLibraryIndexUp = 42;
-        Production5CheckBox.TextColor = 0;
-        Production5CheckBox.TextSelectedColor = 0;
+        Production5CheckBox.TextColor = Color.Black;
+        Production5CheckBox.TextSelectedColor = Color.Black;
         Production5CheckBox.WinWidth = 52;
         Production5CheckBox.Checked = false;
         production5CheckBox.Changed += (_, _) => ProductionChange(production5CheckBox, slot: 4);
@@ -990,8 +991,8 @@ public sealed partial class CityScreen : ILayoutModule
         Production6CheckBox.ImageLibraryIndexDown = 43;
         Production6CheckBox.ImageLibraryIndexLit = 43;
         Production6CheckBox.ImageLibraryIndexUp = 42;
-        Production6CheckBox.TextColor = 0;
-        Production6CheckBox.TextSelectedColor = 0;
+        Production6CheckBox.TextColor = Color.Black;
+        Production6CheckBox.TextSelectedColor = Color.Black;
         Production6CheckBox.WinWidth = 52;
         Production6CheckBox.Checked = false;
         production6CheckBox.Changed += (_, _) => ProductionChange(production6CheckBox, slot: 5);
@@ -1031,8 +1032,8 @@ public sealed partial class CityScreen : ILayoutModule
         Production7CheckBox.ImageLibraryIndexDown = 43;
         Production7CheckBox.ImageLibraryIndexLit = 43;
         Production7CheckBox.ImageLibraryIndexUp = 42;
-        Production7CheckBox.TextColor = 0;
-        Production7CheckBox.TextSelectedColor = 0;
+        Production7CheckBox.TextColor = Color.Black;
+        Production7CheckBox.TextSelectedColor = Color.Black;
         Production7CheckBox.WinWidth = 52;
         Production7CheckBox.Checked = false;
         production7CheckBox.Changed += (_, _) => ProductionChange(production7CheckBox, slot: 6);
@@ -1072,8 +1073,8 @@ public sealed partial class CityScreen : ILayoutModule
         Production8CheckBox.ImageLibraryIndexDown = 43;
         Production8CheckBox.ImageLibraryIndexLit = 43;
         Production8CheckBox.ImageLibraryIndexUp = 42;
-        Production8CheckBox.TextColor = 0;
-        Production8CheckBox.TextSelectedColor = 0;
+        Production8CheckBox.TextColor = Color.Black;
+        Production8CheckBox.TextSelectedColor = Color.Black;
         Production8CheckBox.WinWidth = 52;
         Production8CheckBox.Checked = false;
         production8CheckBox.Changed += (_, _) => ProductionChange(production8CheckBox, slot: 7);
@@ -1113,8 +1114,8 @@ public sealed partial class CityScreen : ILayoutModule
         Production9CheckBox.ImageLibraryIndexDown = 43;
         Production9CheckBox.ImageLibraryIndexLit = 43;
         Production9CheckBox.ImageLibraryIndexUp = 42;
-        Production9CheckBox.TextColor = 0;
-        Production9CheckBox.TextSelectedColor = 0;
+        Production9CheckBox.TextColor = Color.Black;
+        Production9CheckBox.TextSelectedColor = Color.Black;
         Production9CheckBox.WinWidth = 52;
         Production9CheckBox.Checked = false;
         production9CheckBox.Changed += (_, _) => ProductionChange(production9CheckBox, slot: 8);
@@ -1154,8 +1155,8 @@ public sealed partial class CityScreen : ILayoutModule
         Production10CheckBox.ImageLibraryIndexDown = 43;
         Production10CheckBox.ImageLibraryIndexLit = 43;
         Production10CheckBox.ImageLibraryIndexUp = 42;
-        Production10CheckBox.TextColor = 0;
-        Production10CheckBox.TextSelectedColor = 0;
+        Production10CheckBox.TextColor = Color.Black;
+        Production10CheckBox.TextSelectedColor = Color.Black;
         Production10CheckBox.WinWidth = 52;
         Production10CheckBox.Checked = false;
         production10CheckBox.Changed += (_, _) => ProductionChange(production10CheckBox, slot: 9);
@@ -1195,8 +1196,8 @@ public sealed partial class CityScreen : ILayoutModule
         Production11CheckBox.ImageLibraryIndexDown = 43;
         Production11CheckBox.ImageLibraryIndexLit = 43;
         Production11CheckBox.ImageLibraryIndexUp = 42;
-        Production11CheckBox.TextColor = 0;
-        Production11CheckBox.TextSelectedColor = 0;
+        Production11CheckBox.TextColor = Color.Black;
+        Production11CheckBox.TextSelectedColor = Color.Black;
         Production11CheckBox.WinWidth = 52;
         Production11CheckBox.Checked = false;
         production11CheckBox.Changed += (_, _) => ProductionChange(production11CheckBox, slot: 10);
@@ -1236,8 +1237,8 @@ public sealed partial class CityScreen : ILayoutModule
         Production12CheckBox.ImageLibraryIndexDown = 43;
         Production12CheckBox.ImageLibraryIndexLit = 43;
         Production12CheckBox.ImageLibraryIndexUp = 42;
-        Production12CheckBox.TextColor = 0;
-        Production12CheckBox.TextSelectedColor = 0;
+        Production12CheckBox.TextColor = Color.Black;
+        Production12CheckBox.TextSelectedColor = Color.Black;
         Production12CheckBox.WinWidth = 52;
         Production12CheckBox.Checked = false;
         production12CheckBox.Changed += (_, _) => ProductionChange(production12CheckBox, slot: 11);
@@ -1276,8 +1277,8 @@ public sealed partial class CityScreen : ILayoutModule
         Action4CheckBox.ImageLibraryIndexDown = 43;
         Action4CheckBox.ImageLibraryIndexLit = 43;
         Action4CheckBox.ImageLibraryIndexUp = 42;
-        Action4CheckBox.TextColor = 0;
-        Action4CheckBox.TextSelectedColor = 0;
+        Action4CheckBox.TextColor = Color.Black;
+        Action4CheckBox.TextSelectedColor = Color.Black;
         Action4CheckBox.WinWidth = 52;
         Action4CheckBox.Checked = false;
         action4CheckBox.Changed += (_, _) => ActivityChange(action4CheckBox, slot: 3);
@@ -1316,8 +1317,8 @@ public sealed partial class CityScreen : ILayoutModule
         Action5CheckBox.ImageLibraryIndexDown = 43;
         Action5CheckBox.ImageLibraryIndexLit = 43;
         Action5CheckBox.ImageLibraryIndexUp = 42;
-        Action5CheckBox.TextColor = 0;
-        Action5CheckBox.TextSelectedColor = 0;
+        Action5CheckBox.TextColor = Color.Black;
+        Action5CheckBox.TextSelectedColor = Color.Black;
         Action5CheckBox.WinWidth = 52;
         Action5CheckBox.Checked = false;
         action5CheckBox.Changed += (_, _) => ActivityChange(action5CheckBox, slot: 4);
@@ -1356,8 +1357,8 @@ public sealed partial class CityScreen : ILayoutModule
         Action6CheckBox.ImageLibraryIndexDown = 43;
         Action6CheckBox.ImageLibraryIndexLit = 43;
         Action6CheckBox.ImageLibraryIndexUp = 42;
-        Action6CheckBox.TextColor = 0;
-        Action6CheckBox.TextSelectedColor = 0;
+        Action6CheckBox.TextColor = Color.Black;
+        Action6CheckBox.TextSelectedColor = Color.Black;
         Action6CheckBox.WinWidth = 52;
         Action6CheckBox.Checked = false;
         action6CheckBox.Changed += (_, _) => ActivityChange(action6CheckBox, slot: 5);
@@ -1395,8 +1396,8 @@ public sealed partial class CityScreen : ILayoutModule
         Action1CheckBox.ImageLibraryIndexDown = 43;
         Action1CheckBox.ImageLibraryIndexLit = 43;
         Action1CheckBox.ImageLibraryIndexUp = 42;
-        Action1CheckBox.TextColor = 0;
-        Action1CheckBox.TextSelectedColor = 0;
+        Action1CheckBox.TextColor = Color.Black;
+        Action1CheckBox.TextSelectedColor = Color.Black;
         Action1CheckBox.WinWidth = 52;
         Action1CheckBox.Checked = false;
         action1CheckBox.Changed += (_, _) => ActivityChange(action1CheckBox, slot: 0);
@@ -1435,8 +1436,8 @@ public sealed partial class CityScreen : ILayoutModule
         Action2CheckBox.ImageLibraryIndexDown = 43;
         Action2CheckBox.ImageLibraryIndexLit = 43;
         Action2CheckBox.ImageLibraryIndexUp = 42;
-        Action2CheckBox.TextColor = 0;
-        Action2CheckBox.TextSelectedColor = 0;
+        Action2CheckBox.TextColor = Color.Black;
+        Action2CheckBox.TextSelectedColor = Color.Black;
         Action2CheckBox.WinWidth = 52;
         Action2CheckBox.Checked = false;
         action2CheckBox.Changed += (_, _) => ActivityChange(action2CheckBox, slot: 1);
@@ -1475,8 +1476,8 @@ public sealed partial class CityScreen : ILayoutModule
         Action3CheckBox.ImageLibraryIndexDown = 43;
         Action3CheckBox.ImageLibraryIndexLit = 43;
         Action3CheckBox.ImageLibraryIndexUp = 42;
-        Action3CheckBox.TextColor = 0;
-        Action3CheckBox.TextSelectedColor = 0;
+        Action3CheckBox.TextColor = Color.Black;
+        Action3CheckBox.TextSelectedColor = Color.Black;
         Action3CheckBox.WinWidth = 52;
         Action3CheckBox.Checked = false;
         action3CheckBox.Changed += (_, _) => ActivityChange(action3CheckBox, slot: 2);
@@ -1595,7 +1596,7 @@ public sealed partial class CityScreen : ILayoutModule
         UpgradeLabel.Alignment.BottomOffset = 0;
         UpgradeLabel.Masked = true;
         UpgradeLabel.Text = "Produce Merchandise";
-        UpgradeLabel.TextColor = 9415072;
+        UpgradeLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UpgradeLabel);
         Panel upgradeMemoFr = new(this);
         session.BeginRead(upgradeMemoFr);
@@ -1648,7 +1649,7 @@ public sealed partial class CityScreen : ILayoutModule
         UpgradeMemo.WinHeight = 67;
         UpgradeMemo.BorderWidth = 8;
         UpgradeMemo.BorderHeight = 3;
-        UpgradeMemo.TextColor = 9415072;
+        UpgradeMemo.TextColor = new Color(160, 169, 143);
         UpgradeMemo.CursorChar = 124;
         UpgradeMemo.BlinkDelay = 0;
         UpgradeMemo.Editable = false;
@@ -1822,8 +1823,8 @@ public sealed partial class CityScreen : ILayoutModule
         CityButton3.ImageLibraryIndexLit = 82;
         CityButton3.ImageLibraryIndexUp = 76;
         CityButton3.Text = "#####";
-        CityButton3.TextColor = 0;
-        CityButton3.TextSelectedColor = 0;
+        CityButton3.TextColor = Color.Black;
+        CityButton3.TextSelectedColor = Color.Black;
         CityButton3.WinWidth = 153;
         CityButton3.Clicked += (_, _) => CityBtn3Click();
         session.EndRead(CityButton3);
@@ -1853,8 +1854,8 @@ public sealed partial class CityScreen : ILayoutModule
         CityButton1.ImageLibraryIndexLit = 82;
         CityButton1.ImageLibraryIndexUp = 76;
         CityButton1.Text = "####";
-        CityButton1.TextColor = 0;
-        CityButton1.TextSelectedColor = 0;
+        CityButton1.TextColor = Color.Black;
+        CityButton1.TextSelectedColor = Color.Black;
         CityButton1.WinWidth = 153;
         CityButton1.Clicked += (_, _) => CityBtn1Click();
         session.EndRead(CityButton1);
@@ -1889,8 +1890,8 @@ public sealed partial class CityScreen : ILayoutModule
         QueueList.BorderHeight = 1;
         queueList.Changed += (_, _) => QueueLBChange(queueList);
         QueueList.Selected = -1;
-        QueueList.TextColor = 6783862;
-        QueueList.TextSelectedColor = 0;
+        QueueList.TextColor = new Color(118, 131, 103);
+        QueueList.TextSelectedColor = Color.Black;
         QueueList.ImageLibraryIndexFrame = 113;
         QueueList.ImageLibraryIndexTNormal = 18;
         QueueList.ImageLibraryIndexTSelected = 8;
@@ -1972,7 +1973,7 @@ public sealed partial class CityScreen : ILayoutModule
         ActiveActionLabel.Alignment.BottomOffset = 0;
         ActiveActionLabel.Masked = true;
         ActiveActionLabel.Text = "######";
-        ActiveActionLabel.TextColor = 6783862;
+        ActiveActionLabel.TextColor = new Color(118, 131, 103);
         session.EndRead(ActiveActionLabel);
         ActiveActionTurnsLabel = new Label(this);
         session.BeginRead(ActiveActionTurnsLabel);
@@ -1995,7 +1996,7 @@ public sealed partial class CityScreen : ILayoutModule
         ActiveActionTurnsLabel.Alignment.BottomOffset = 0;
         ActiveActionTurnsLabel.Masked = true;
         ActiveActionTurnsLabel.Text = "####";
-        ActiveActionTurnsLabel.TextColor = 6783862;
+        ActiveActionTurnsLabel.TextColor = new Color(118, 131, 103);
         session.EndRead(ActiveActionTurnsLabel);
         Image sepBar = new(this);
         session.BeginRead(sepBar);
@@ -2109,8 +2110,8 @@ public sealed partial class CityScreen : ILayoutModule
         CityButton2.ImageLibraryIndexLit = 82;
         CityButton2.ImageLibraryIndexUp = 76;
         CityButton2.Text = "####";
-        CityButton2.TextColor = 0;
-        CityButton2.TextSelectedColor = 0;
+        CityButton2.TextColor = Color.Black;
+        CityButton2.TextSelectedColor = Color.Black;
         CityButton2.WinWidth = 153;
         CityButton2.Clicked += (_, _) => CityBtn2Click();
         session.EndRead(CityButton2);
@@ -2227,7 +2228,7 @@ public sealed partial class CityScreen : ILayoutModule
         ];
         PopulationMemo.BorderWidth = 5;
         PopulationMemo.BorderHeight = 1;
-        PopulationMemo.TextColor = 9415072;
+        PopulationMemo.TextColor = new Color(160, 169, 143);
         PopulationMemo.CursorChar = 124;
         PopulationMemo.BlinkDelay = 0;
         PopulationMemo.Editable = false;
@@ -2261,7 +2262,7 @@ public sealed partial class CityScreen : ILayoutModule
         PopulationHeader.WinHeight = 66;
         PopulationHeader.BorderWidth = 5;
         PopulationHeader.BorderHeight = 2;
-        PopulationHeader.TextColor = 9415072;
+        PopulationHeader.TextColor = new Color(160, 169, 143);
         PopulationHeader.CursorChar = 124;
         PopulationHeader.BlinkDelay = 0;
         PopulationHeader.Editable = false;
@@ -2349,7 +2350,7 @@ public sealed partial class CityScreen : ILayoutModule
         IncomeMemo.WinHeight = 46;
         IncomeMemo.BorderWidth = 5;
         IncomeMemo.BorderHeight = 1;
-        IncomeMemo.TextColor = 9415072;
+        IncomeMemo.TextColor = new Color(160, 169, 143);
         IncomeMemo.CursorChar = 124;
         IncomeMemo.BlinkDelay = 0;
         IncomeMemo.Editable = false;
@@ -2383,7 +2384,7 @@ public sealed partial class CityScreen : ILayoutModule
         IncomeHeader.WinHeight = 66;
         IncomeHeader.BorderWidth = 5;
         IncomeHeader.BorderHeight = 2;
-        IncomeHeader.TextColor = 9415072;
+        IncomeHeader.TextColor = new Color(160, 169, 143);
         IncomeHeader.CursorChar = 124;
         IncomeHeader.BlinkDelay = 0;
         IncomeHeader.Editable = false;
@@ -2471,7 +2472,7 @@ public sealed partial class CityScreen : ILayoutModule
         EnhancementsMemo.WinHeight = 46;
         EnhancementsMemo.BorderWidth = 5;
         EnhancementsMemo.BorderHeight = 1;
-        EnhancementsMemo.TextColor = 9415072;
+        EnhancementsMemo.TextColor = new Color(160, 169, 143);
         EnhancementsMemo.CursorChar = 124;
         EnhancementsMemo.BlinkDelay = 0;
         EnhancementsMemo.Editable = false;
@@ -2505,7 +2506,7 @@ public sealed partial class CityScreen : ILayoutModule
         EnhancementsHeader.WinHeight = 66;
         EnhancementsHeader.BorderWidth = 5;
         EnhancementsHeader.BorderHeight = 2;
-        EnhancementsHeader.TextColor = 9415072;
+        EnhancementsHeader.TextColor = new Color(160, 169, 143);
         EnhancementsHeader.CursorChar = 124;
         EnhancementsHeader.BlinkDelay = 0;
         EnhancementsHeader.Editable = false;
@@ -2644,7 +2645,7 @@ public sealed partial class CityScreen : ILayoutModule
         QueueLabel.Alignment.BottomOffset = 0;
         QueueLabel.Masked = true;
         QueueLabel.Text = "Queue";
-        QueueLabel.TextColor = 6783862;
+        QueueLabel.TextColor = new Color(118, 131, 103);
         session.EndRead(QueueLabel);
         LoopQueueCheckBox = new CheckBox(this);
         session.BeginRead(LoopQueueCheckBox);
@@ -2671,8 +2672,8 @@ public sealed partial class CityScreen : ILayoutModule
         LoopQueueCheckBox.ImageLibraryIndexDown = 48;
         LoopQueueCheckBox.ImageLibraryIndexLit = 49;
         LoopQueueCheckBox.ImageLibraryIndexUp = 47;
-        LoopQueueCheckBox.TextColor = 0;
-        LoopQueueCheckBox.TextSelectedColor = 0;
+        LoopQueueCheckBox.TextColor = Color.Black;
+        LoopQueueCheckBox.TextSelectedColor = Color.Black;
         LoopQueueCheckBox.WinWidth = 12;
         LoopQueueCheckBox.Checked = false;
         LoopQueueCheckBox.Changed += (_, _) => LoopQueueBoxChange();
@@ -2699,7 +2700,7 @@ public sealed partial class CityScreen : ILayoutModule
         RepeatLabel.Alignment.BottomOffset = 5;
         RepeatLabel.Masked = true;
         RepeatLabel.Text = "Repeat";
-        RepeatLabel.TextColor = 6783862;
+        RepeatLabel.TextColor = new Color(118, 131, 103);
         session.EndRead(RepeatLabel);
         ActiveActionPanel = new Panel(this);
         session.BeginRead(ActiveActionPanel);
@@ -3162,7 +3163,7 @@ public sealed partial class CityScreen : ILayoutModule
         upgCostLbl.Alignment.BottomOffset = 0;
         upgCostLbl.Masked = true;
         upgCostLbl.Text = "Cost";
-        upgCostLbl.TextColor = 9415072;
+        upgCostLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(upgCostLbl);
         UpgradeCostLabel = new Label(this);
         session.BeginRead(UpgradeCostLabel);
@@ -3185,7 +3186,7 @@ public sealed partial class CityScreen : ILayoutModule
         UpgradeCostLabel.Alignment.BottomOffset = 0;
         UpgradeCostLabel.Masked = true;
         UpgradeCostLabel.Text = "###";
-        UpgradeCostLabel.TextColor = 9415072;
+        UpgradeCostLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UpgradeCostLabel);
         Label upgTurnsLbl = new(this);
         session.BeginRead(upgTurnsLbl);
@@ -3208,7 +3209,7 @@ public sealed partial class CityScreen : ILayoutModule
         upgTurnsLbl.Alignment.BottomOffset = 0;
         upgTurnsLbl.Masked = true;
         upgTurnsLbl.Text = "Turns";
-        upgTurnsLbl.TextColor = 9415072;
+        upgTurnsLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(upgTurnsLbl);
         UpgradeTurnsLabel = new Label(this);
         session.BeginRead(UpgradeTurnsLabel);
@@ -3231,7 +3232,7 @@ public sealed partial class CityScreen : ILayoutModule
         UpgradeTurnsLabel.Alignment.BottomOffset = 0;
         UpgradeTurnsLabel.Masked = true;
         UpgradeTurnsLabel.Text = "###";
-        UpgradeTurnsLabel.TextColor = 9415072;
+        UpgradeTurnsLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UpgradeTurnsLabel);
         Panel upgCostFr = new(this);
         session.BeginRead(upgCostFr);
@@ -3337,7 +3338,7 @@ public sealed partial class CityScreen : ILayoutModule
         newRaceLbl.Alignment.BottomOffset = 0;
         newRaceLbl.Masked = true;
         newRaceLbl.Text = "Select new race";
-        newRaceLbl.TextColor = 0;
+        newRaceLbl.TextColor = Color.Black;
         session.EndRead(newRaceLbl);
         Panel migrateMainFr = new(this);
         session.BeginRead(migrateMainFr);
@@ -3496,7 +3497,7 @@ public sealed partial class CityScreen : ILayoutModule
         migCostLbl.Alignment.BottomOffset = 0;
         migCostLbl.Masked = true;
         migCostLbl.Text = "Cost";
-        migCostLbl.TextColor = 9415072;
+        migCostLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(migCostLbl);
         Label migrateCost = new(this);
         session.BeginRead(migrateCost);
@@ -3519,7 +3520,7 @@ public sealed partial class CityScreen : ILayoutModule
         migrateCost.Alignment.BottomOffset = 0;
         migrateCost.Masked = true;
         migrateCost.Text = "-";
-        migrateCost.TextColor = 9415072;
+        migrateCost.TextColor = new Color(160, 169, 143);
         session.EndRead(migrateCost);
         Label migTurnsLbl = new(this);
         session.BeginRead(migTurnsLbl);
@@ -3542,7 +3543,7 @@ public sealed partial class CityScreen : ILayoutModule
         migTurnsLbl.Alignment.BottomOffset = 0;
         migTurnsLbl.Masked = true;
         migTurnsLbl.Text = "Turns";
-        migTurnsLbl.TextColor = 9415072;
+        migTurnsLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(migTurnsLbl);
         MigrateTurnsLabel = new Label(this);
         session.BeginRead(MigrateTurnsLabel);
@@ -3565,7 +3566,7 @@ public sealed partial class CityScreen : ILayoutModule
         MigrateTurnsLabel.Alignment.BottomOffset = 0;
         MigrateTurnsLabel.Masked = true;
         MigrateTurnsLabel.Text = "###";
-        MigrateTurnsLabel.TextColor = 9415072;
+        MigrateTurnsLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(MigrateTurnsLabel);
         Panel migCostFr = new(this);
         session.BeginRead(migCostFr);
@@ -3648,8 +3649,8 @@ public sealed partial class CityScreen : ILayoutModule
         MigrationRaceList.BorderHeight = 5;
         migrationRaceList.Changed += (_, _) => MigrationChange(migrationRaceList);
         MigrationRaceList.Selected = -1;
-        MigrationRaceList.TextColor = 9415072;
-        MigrationRaceList.TextSelectedColor = 16777215;
+        MigrationRaceList.TextColor = new Color(160, 169, 143);
+        MigrationRaceList.TextSelectedColor = Color.White;
         MigrationRaceList.ImageLibraryIndexFrame = 113;
         MigrationRaceList.ImageLibraryIndexTNormal = 17;
         MigrationRaceList.ImageLibraryIndexTSelected = 8;
@@ -3683,8 +3684,8 @@ public sealed partial class CityScreen : ILayoutModule
         MigrationRelationList.BorderHeight = 5;
         migrationRelationList.Changed += (_, _) => MigrationChange(migrationRelationList);
         MigrationRelationList.Selected = -1;
-        MigrationRelationList.TextColor = 9415072;
-        MigrationRelationList.TextSelectedColor = 16777215;
+        MigrationRelationList.TextColor = new Color(160, 169, 143);
+        MigrationRelationList.TextSelectedColor = Color.White;
         MigrationRelationList.ImageLibraryIndexFrame = 113;
         MigrationRelationList.ImageLibraryIndexTNormal = 17;
         MigrationRelationList.ImageLibraryIndexTSelected = 8;
@@ -3718,8 +3719,8 @@ public sealed partial class CityScreen : ILayoutModule
         MigrationTurnsList.BorderHeight = 5;
         migrationTurnsList.Changed += (_, _) => MigrationChange(migrationTurnsList);
         MigrationTurnsList.Selected = -1;
-        MigrationTurnsList.TextColor = 9415072;
-        MigrationTurnsList.TextSelectedColor = 16777215;
+        MigrationTurnsList.TextColor = new Color(160, 169, 143);
+        MigrationTurnsList.TextSelectedColor = Color.White;
         MigrationTurnsList.ImageLibraryIndexFrame = 113;
         MigrationTurnsList.ImageLibraryIndexTNormal = 17;
         MigrationTurnsList.ImageLibraryIndexTSelected = 8;
@@ -3752,8 +3753,8 @@ public sealed partial class CityScreen : ILayoutModule
         sortMigrationRaces.ImageLibraryIndexLit = 67;
         sortMigrationRaces.ImageLibraryIndexUp = 67;
         sortMigrationRaces.Text = "Race";
-        sortMigrationRaces.TextColor = 0;
-        sortMigrationRaces.TextSelectedColor = 16777215;
+        sortMigrationRaces.TextColor = Color.Black;
+        sortMigrationRaces.TextSelectedColor = Color.White;
         sortMigrationRaces.WinWidth = 119;
         sortMigrationRaces.Clicked += (_, _) => SortMigrationRacesClick();
         session.EndRead(sortMigrationRaces);
@@ -3783,8 +3784,8 @@ public sealed partial class CityScreen : ILayoutModule
         sortMigrationTurns.ImageLibraryIndexLit = 67;
         sortMigrationTurns.ImageLibraryIndexUp = 67;
         sortMigrationTurns.Text = "Turns";
-        sortMigrationTurns.TextColor = 0;
-        sortMigrationTurns.TextSelectedColor = 16777215;
+        sortMigrationTurns.TextColor = Color.Black;
+        sortMigrationTurns.TextSelectedColor = Color.White;
         sortMigrationTurns.WinWidth = 43;
         sortMigrationTurns.Clicked += (_, _) => SortMigrationTurnsClick();
         session.EndRead(sortMigrationTurns);
@@ -3814,8 +3815,8 @@ public sealed partial class CityScreen : ILayoutModule
         sortMigrationRelation.ImageLibraryIndexLit = 67;
         sortMigrationRelation.ImageLibraryIndexUp = 67;
         sortMigrationRelation.Text = "Relation";
-        sortMigrationRelation.TextColor = 0;
-        sortMigrationRelation.TextSelectedColor = 16777215;
+        sortMigrationRelation.TextColor = Color.Black;
+        sortMigrationRelation.TextSelectedColor = Color.White;
         sortMigrationRelation.WinWidth = 103;
         sortMigrationRelation.Clicked += (_, _) => SortMigrationRelationClick();
         session.EndRead(sortMigrationRelation);
@@ -3906,7 +3907,7 @@ public sealed partial class CityScreen : ILayoutModule
         t3RaceLbl.Alignment.BottomOffset = 0;
         t3RaceLbl.Masked = true;
         t3RaceLbl.Text = "Race:";
-        t3RaceLbl.TextColor = 9415072;
+        t3RaceLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(t3RaceLbl);
         CurrentRaceLabel = new Label(this);
         session.BeginRead(CurrentRaceLabel);
@@ -3929,7 +3930,7 @@ public sealed partial class CityScreen : ILayoutModule
         CurrentRaceLabel.Alignment.BottomOffset = 0;
         CurrentRaceLabel.Masked = true;
         CurrentRaceLabel.Text = "#######";
-        CurrentRaceLabel.TextColor = 11783630;
+        CurrentRaceLabel.TextColor = new Color(206, 205, 179);
         session.EndRead(CurrentRaceLabel);
         Label t3RelLbl = new(this);
         session.BeginRead(t3RelLbl);
@@ -3952,7 +3953,7 @@ public sealed partial class CityScreen : ILayoutModule
         t3RelLbl.Alignment.BottomOffset = 0;
         t3RelLbl.Masked = true;
         t3RelLbl.Text = "Relation:";
-        t3RelLbl.TextColor = 9415072;
+        t3RelLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(t3RelLbl);
         CurrentRelationLabel = new Label(this);
         session.BeginRead(CurrentRelationLabel);
@@ -3975,7 +3976,7 @@ public sealed partial class CityScreen : ILayoutModule
         CurrentRelationLabel.Alignment.BottomOffset = 0;
         CurrentRelationLabel.Masked = true;
         CurrentRelationLabel.Text = "#####";
-        CurrentRelationLabel.TextColor = 11783630;
+        CurrentRelationLabel.TextColor = new Color(206, 205, 179);
         session.EndRead(CurrentRelationLabel);
         Panel currentRacePnl = new(this);
         session.BeginRead(currentRacePnl);
@@ -4053,7 +4054,7 @@ public sealed partial class CityScreen : ILayoutModule
         currentRaceLbl.Alignment.BottomOffset = 0;
         currentRaceLbl.Masked = true;
         currentRaceLbl.Text = "Current";
-        currentRaceLbl.TextColor = 0;
+        currentRaceLbl.TextColor = Color.Black;
         session.EndRead(currentRaceLbl);
         Panel upgBtm = new(this);
         session.BeginRead(upgBtm);
@@ -4103,7 +4104,7 @@ public sealed partial class CityScreen : ILayoutModule
         UpgradeInfoLabel.Alignment.BottomOffset = 0;
         UpgradeInfoLabel.Masked = true;
         UpgradeInfoLabel.Text = "#######";
-        UpgradeInfoLabel.TextColor = 9415072;
+        UpgradeInfoLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UpgradeInfoLabel);
         Image relIcn = new(this);
         session.BeginRead(relIcn);
@@ -4307,7 +4308,7 @@ public sealed partial class CityScreen : ILayoutModule
         IncomeGoldMemo.WinHeight = 46;
         IncomeGoldMemo.BorderWidth = 5;
         IncomeGoldMemo.BorderHeight = 4;
-        IncomeGoldMemo.TextColor = 9415072;
+        IncomeGoldMemo.TextColor = new Color(160, 169, 143);
         IncomeGoldMemo.CursorChar = 124;
         IncomeGoldMemo.BlinkDelay = 0;
         IncomeGoldMemo.Editable = false;
@@ -4338,7 +4339,7 @@ public sealed partial class CityScreen : ILayoutModule
         migrate.Alignment.BottomOffset = 0;
         migrate.Masked = true;
         migrate.Text = "Migrate";
-        migrate.TextColor = 9415072;
+        migrate.TextColor = new Color(160, 169, 143);
         session.EndRead(migrate);
         UserDrawBox uFace = new(this);
         session.BeginRead(uFace);
@@ -4412,7 +4413,7 @@ public sealed partial class CityScreen : ILayoutModule
         MigrateInfoLabel.Alignment.BottomOffset = 0;
         MigrateInfoLabel.Masked = true;
         MigrateInfoLabel.Text = "#######";
-        MigrateInfoLabel.TextColor = 9415072;
+        MigrateInfoLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(MigrateInfoLabel);
         UserDrawBox mapView = new(this);
         MapView = mapView;
@@ -4498,8 +4499,8 @@ public sealed partial class CityScreen : ILayoutModule
         NextCityButton.ImageLibraryIndexLit = 82;
         NextCityButton.ImageLibraryIndexUp = 76;
         NextCityButton.Text = ">";
-        NextCityButton.TextColor = 0;
-        NextCityButton.TextSelectedColor = 16777215;
+        NextCityButton.TextColor = Color.Black;
+        NextCityButton.TextSelectedColor = Color.White;
         NextCityButton.WinWidth = 77;
         NextCityButton.Clicked += (_, _) => PNextClick();
         session.EndRead(NextCityButton);
@@ -4533,8 +4534,8 @@ public sealed partial class CityScreen : ILayoutModule
         PreviousCityButton.ImageLibraryIndexLit = 82;
         PreviousCityButton.ImageLibraryIndexUp = 76;
         PreviousCityButton.Text = "<";
-        PreviousCityButton.TextColor = 0;
-        PreviousCityButton.TextSelectedColor = 16777215;
+        PreviousCityButton.TextColor = Color.Black;
+        PreviousCityButton.TextSelectedColor = Color.White;
         PreviousCityButton.WinWidth = 77;
         PreviousCityButton.Clicked += (_, _) => PPrevClick();
         session.EndRead(PreviousCityButton);

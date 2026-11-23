@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -41,8 +42,8 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         selectBtn.ImageLibraryIndexLit = 25;
         selectBtn.ImageLibraryIndexUp = 19;
         selectBtn.Text = "Select";
-        selectBtn.TextColor = 0;
-        selectBtn.TextSelectedColor = 16777215;
+        selectBtn.TextColor = Color.Black;
+        selectBtn.TextSelectedColor = Color.White;
         selectBtn.WinWidth = 128;
         selectBtn.Clicked += (_, _) => SelectBtnClick();
         session.EndRead(selectBtn);
@@ -103,8 +104,8 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
@@ -129,7 +130,7 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Unit Selection";
-        title.TextColor = 2502709;
+        title.TextColor = new Color(53, 48, 38);
         session.EndRead(title);
         Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
@@ -157,8 +158,8 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         cancelBtn.ImageLibraryIndexLit = 25;
         cancelBtn.ImageLibraryIndexUp = 19;
         cancelBtn.Text = "Cancel";
-        cancelBtn.TextColor = 0;
-        cancelBtn.TextSelectedColor = 16777215;
+        cancelBtn.TextColor = Color.Black;
+        cancelBtn.TextSelectedColor = Color.White;
         cancelBtn.WinWidth = 128;
         cancelBtn.Clicked += (_, _) => CloseClick();
         session.EndRead(cancelBtn);
@@ -190,7 +191,7 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 6268490;
+        Window.MaskColor = new Color(74, 166, 95);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -281,7 +282,7 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         SourceNameLabel.Alignment.BottomOffset = 0;
         SourceNameLabel.Masked = true;
         SourceNameLabel.Text = "#########";
-        SourceNameLabel.TextColor = 13165253;
+        SourceNameLabel.TextColor = new Color(197, 226, 200);
         session.EndRead(SourceNameLabel);
         CheckBox unit1CheckBox = new(this);
         Unit1CheckBox = unit1CheckBox;
@@ -310,8 +311,8 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         Unit1CheckBox.ImageLibraryIndexDown = 26;
         Unit1CheckBox.ImageLibraryIndexLit = 25;
         Unit1CheckBox.ImageLibraryIndexUp = 25;
-        Unit1CheckBox.TextColor = 0;
-        Unit1CheckBox.TextSelectedColor = 0;
+        Unit1CheckBox.TextColor = Color.Black;
+        Unit1CheckBox.TextSelectedColor = Color.Black;
         Unit1CheckBox.WinWidth = 50;
         Unit1CheckBox.Checked = false;
         unit1CheckBox.Changed += (_, _) => U1Change(unit1CheckBox, slot: 0);
@@ -345,8 +346,8 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         Unit2CheckBox.ImageLibraryIndexDown = 26;
         Unit2CheckBox.ImageLibraryIndexLit = 25;
         Unit2CheckBox.ImageLibraryIndexUp = 25;
-        Unit2CheckBox.TextColor = 0;
-        Unit2CheckBox.TextSelectedColor = 0;
+        Unit2CheckBox.TextColor = Color.Black;
+        Unit2CheckBox.TextSelectedColor = Color.Black;
         Unit2CheckBox.WinWidth = 50;
         Unit2CheckBox.Checked = false;
         unit2CheckBox.Changed += (_, _) => U1Change(unit2CheckBox, slot: 1);
@@ -380,8 +381,8 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         Unit3CheckBox.ImageLibraryIndexDown = 26;
         Unit3CheckBox.ImageLibraryIndexLit = 25;
         Unit3CheckBox.ImageLibraryIndexUp = 25;
-        Unit3CheckBox.TextColor = 0;
-        Unit3CheckBox.TextSelectedColor = 0;
+        Unit3CheckBox.TextColor = Color.Black;
+        Unit3CheckBox.TextSelectedColor = Color.Black;
         Unit3CheckBox.WinWidth = 50;
         Unit3CheckBox.Checked = false;
         unit3CheckBox.Changed += (_, _) => U1Change(unit3CheckBox, slot: 2);
@@ -415,8 +416,8 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         Unit4CheckBox.ImageLibraryIndexDown = 26;
         Unit4CheckBox.ImageLibraryIndexLit = 25;
         Unit4CheckBox.ImageLibraryIndexUp = 25;
-        Unit4CheckBox.TextColor = 0;
-        Unit4CheckBox.TextSelectedColor = 0;
+        Unit4CheckBox.TextColor = Color.Black;
+        Unit4CheckBox.TextSelectedColor = Color.Black;
         Unit4CheckBox.WinWidth = 50;
         Unit4CheckBox.Checked = false;
         unit4CheckBox.Changed += (_, _) => U1Change(unit4CheckBox, slot: 3);
@@ -450,8 +451,8 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         Unit5CheckBox.ImageLibraryIndexDown = 26;
         Unit5CheckBox.ImageLibraryIndexLit = 25;
         Unit5CheckBox.ImageLibraryIndexUp = 25;
-        Unit5CheckBox.TextColor = 0;
-        Unit5CheckBox.TextSelectedColor = 0;
+        Unit5CheckBox.TextColor = Color.Black;
+        Unit5CheckBox.TextSelectedColor = Color.Black;
         Unit5CheckBox.WinWidth = 50;
         Unit5CheckBox.Checked = false;
         unit5CheckBox.Changed += (_, _) => U1Change(unit5CheckBox, slot: 4);
@@ -485,8 +486,8 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         Unit6CheckBox.ImageLibraryIndexDown = 26;
         Unit6CheckBox.ImageLibraryIndexLit = 25;
         Unit6CheckBox.ImageLibraryIndexUp = 25;
-        Unit6CheckBox.TextColor = 0;
-        Unit6CheckBox.TextSelectedColor = 0;
+        Unit6CheckBox.TextColor = Color.Black;
+        Unit6CheckBox.TextSelectedColor = Color.Black;
         Unit6CheckBox.WinWidth = 50;
         Unit6CheckBox.Checked = false;
         unit6CheckBox.Changed += (_, _) => U1Change(unit6CheckBox, slot: 5);
@@ -520,8 +521,8 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         Unit7CheckBox.ImageLibraryIndexDown = 26;
         Unit7CheckBox.ImageLibraryIndexLit = 25;
         Unit7CheckBox.ImageLibraryIndexUp = 25;
-        Unit7CheckBox.TextColor = 0;
-        Unit7CheckBox.TextSelectedColor = 0;
+        Unit7CheckBox.TextColor = Color.Black;
+        Unit7CheckBox.TextSelectedColor = Color.Black;
         Unit7CheckBox.WinWidth = 50;
         Unit7CheckBox.Checked = false;
         unit7CheckBox.Changed += (_, _) => U1Change(unit7CheckBox, slot: 6);
@@ -555,8 +556,8 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         Unit8CheckBox.ImageLibraryIndexDown = 26;
         Unit8CheckBox.ImageLibraryIndexLit = 25;
         Unit8CheckBox.ImageLibraryIndexUp = 25;
-        Unit8CheckBox.TextColor = 0;
-        Unit8CheckBox.TextSelectedColor = 0;
+        Unit8CheckBox.TextColor = Color.Black;
+        Unit8CheckBox.TextSelectedColor = Color.Black;
         Unit8CheckBox.WinWidth = 50;
         Unit8CheckBox.Checked = false;
         unit8CheckBox.Changed += (_, _) => U1Change(unit8CheckBox, slot: 7);
@@ -722,7 +723,7 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         SelectionInfoLabel.Alignment.BottomOffset = 0;
         SelectionInfoLabel.Masked = true;
         SelectionInfoLabel.Text = "#######";
-        SelectionInfoLabel.TextColor = 0;
+        SelectionInfoLabel.TextColor = Color.Black;
         session.EndRead(SelectionInfoLabel);
         SelectionLabel = new Label(this);
         session.BeginRead(SelectionLabel);
@@ -745,7 +746,7 @@ public sealed partial class UnitSelectionDialog : ILayoutModule
         SelectionLabel.Alignment.BottomOffset = 0;
         SelectionLabel.Masked = true;
         SelectionLabel.Text = "##########";
-        SelectionLabel.TextColor = 16777215;
+        SelectionLabel.TextColor = Color.White;
         session.EndRead(SelectionLabel);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);

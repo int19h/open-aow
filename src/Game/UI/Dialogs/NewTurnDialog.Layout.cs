@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -44,7 +45,7 @@ public sealed partial class NewTurnDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 16;
         Window.ImageLibraryIndexTexture = 2;
@@ -108,7 +109,7 @@ public sealed partial class NewTurnDialog : ILayoutModule
         ClickMessageLabel.Alignment.BottomOffset = 51;
         ClickMessageLabel.Masked = true;
         ClickMessageLabel.Text = "#####";
-        ClickMessageLabel.TextColor = 9236989;
+        ClickMessageLabel.TextColor = new Color(253, 241, 140);
         session.EndRead(ClickMessageLabel);
         LeftShield = new Image(this);
         session.BeginRead(LeftShield);
@@ -159,7 +160,7 @@ public sealed partial class NewTurnDialog : ILayoutModule
         PlayerNameLabel.Alignment.BottomOffset = 50;
         PlayerNameLabel.Masked = true;
         PlayerNameLabel.Text = "######";
-        PlayerNameLabel.TextColor = 9757931;
+        PlayerNameLabel.TextColor = new Color(235, 228, 148);
         session.EndRead(PlayerNameLabel);
         TurnMessageLabel = new Label(this);
         session.BeginRead(TurnMessageLabel);
@@ -182,7 +183,7 @@ public sealed partial class NewTurnDialog : ILayoutModule
         TurnMessageLabel.Alignment.BottomOffset = 0;
         TurnMessageLabel.Masked = true;
         TurnMessageLabel.Text = "########";
-        TurnMessageLabel.TextColor = 16777215;
+        TurnMessageLabel.TextColor = Color.White;
         session.EndRead(TurnMessageLabel);
         PlayerRaceLabel = new Label(this);
         session.BeginRead(PlayerRaceLabel);
@@ -205,7 +206,7 @@ public sealed partial class NewTurnDialog : ILayoutModule
         PlayerRaceLabel.Alignment.BottomOffset = 0;
         PlayerRaceLabel.Masked = true;
         PlayerRaceLabel.Text = "#######";
-        PlayerRaceLabel.TextColor = 9236989;
+        PlayerRaceLabel.TextColor = new Color(253, 241, 140);
         session.EndRead(PlayerRaceLabel);
         TurnLabel = new Label(this);
         session.BeginRead(TurnLabel);
@@ -228,7 +229,7 @@ public sealed partial class NewTurnDialog : ILayoutModule
         TurnLabel.Alignment.BottomOffset = 0;
         TurnLabel.Masked = true;
         TurnLabel.Text = "#######";
-        TurnLabel.TextColor = 9236989;
+        TurnLabel.TextColor = new Color(253, 241, 140);
         session.EndRead(TurnLabel);
         RightShield = new Image(this);
         session.BeginRead(RightShield);

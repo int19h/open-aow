@@ -9,6 +9,7 @@ using Aow.Game.Audio;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 
 namespace Aow.Game.Events;
 
@@ -81,7 +82,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     public virtual string GetText() => "Default TEventLog";
 
     // EventLog.pas:376
-    public virtual int GetTextColor()
+    public virtual Color GetTextColor()
     {
         bool condition = Player > 0;
         if (condition)

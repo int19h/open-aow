@@ -4,6 +4,7 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -47,7 +48,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         MainWindow.OverlapTopCorners = false;
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
-        MainWindow.MaskColor = 7346272;
+        MainWindow.MaskColor = new Color(96, 24, 112);
         MainWindow.Blitted += (_, e) => FCWinDrawSurface(e.Surface, e.Left, e.Top);
         MainWindow.FreeSurfaceOnHide = true;
         MainWindow.ImageLibraryIndexFrame = 0;
@@ -112,7 +113,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         LeftSideLabel.Alignment.BottomOffset = 0;
         LeftSideLabel.Masked = true;
         LeftSideLabel.Text = "######";
-        LeftSideLabel.TextColor = 16777215;
+        LeftSideLabel.TextColor = Color.White;
         session.EndRead(LeftSideLabel);
         Panel rNamePnl = new(this);
         session.BeginRead(rNamePnl);
@@ -162,7 +163,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         RightSideLabel.Alignment.BottomOffset = 0;
         RightSideLabel.Masked = true;
         RightSideLabel.Text = "#####";
-        RightSideLabel.TextColor = 16777215;
+        RightSideLabel.TextColor = Color.White;
         session.EndRead(RightSideLabel);
         Panel lCtrlPnl = new(this);
         session.BeginRead(lCtrlPnl);
@@ -247,8 +248,8 @@ public sealed partial class FastBattleWindow : ILayoutModule
         playBtn2.ImageLibraryIndexDown = 20;
         playBtn2.ImageLibraryIndexLit = 0;
         playBtn2.ImageLibraryIndexUp = 19;
-        playBtn2.TextColor = 0;
-        playBtn2.TextSelectedColor = 0;
+        playBtn2.TextColor = Color.Black;
+        playBtn2.TextSelectedColor = Color.Black;
         playBtn2.WinWidth = 0;
         playBtn2.Checked = false;
         playBtn2.RadioIndex = 0;
@@ -282,8 +283,8 @@ public sealed partial class FastBattleWindow : ILayoutModule
         pauseBtn2.ImageLibraryIndexDown = 18;
         pauseBtn2.ImageLibraryIndexLit = 0;
         pauseBtn2.ImageLibraryIndexUp = 17;
-        pauseBtn2.TextColor = 0;
-        pauseBtn2.TextSelectedColor = 0;
+        pauseBtn2.TextColor = Color.Black;
+        pauseBtn2.TextSelectedColor = Color.Black;
         pauseBtn2.WinWidth = 24;
         pauseBtn2.Checked = false;
         pauseBtn2.RadioIndex = 0;
@@ -317,8 +318,8 @@ public sealed partial class FastBattleWindow : ILayoutModule
         startBtn.ImageLibraryIndexDown = 16;
         startBtn.ImageLibraryIndexLit = 0;
         startBtn.ImageLibraryIndexUp = 15;
-        startBtn.TextColor = 0;
-        startBtn.TextSelectedColor = 0;
+        startBtn.TextColor = Color.Black;
+        startBtn.TextSelectedColor = Color.Black;
         startBtn.WinWidth = 0;
         startBtn.Checked = false;
         startBtn.RadioIndex = 0;
@@ -352,8 +353,8 @@ public sealed partial class FastBattleWindow : ILayoutModule
         endBtn.ImageLibraryIndexDown = 10;
         endBtn.ImageLibraryIndexLit = 0;
         endBtn.ImageLibraryIndexUp = 9;
-        endBtn.TextColor = 0;
-        endBtn.TextSelectedColor = 0;
+        endBtn.TextColor = Color.Black;
+        endBtn.TextSelectedColor = Color.Black;
         endBtn.WinWidth = 0;
         endBtn.Checked = false;
         endBtn.RadioIndex = 0;
@@ -388,8 +389,8 @@ public sealed partial class FastBattleWindow : ILayoutModule
         closeBut.ImageLibraryIndexLit = 28;
         closeBut.ImageLibraryIndexUp = 28;
         closeBut.Text = "Close";
-        closeBut.TextColor = 9236989;
-        closeBut.TextSelectedColor = 16777215;
+        closeBut.TextColor = new Color(253, 241, 140);
+        closeBut.TextSelectedColor = Color.White;
         closeBut.WinWidth = 73;
         closeBut.Clicked += (_, _) => CloseButClick();
         session.EndRead(closeBut);
@@ -1149,8 +1150,8 @@ public sealed partial class FastBattleWindow : ILayoutModule
         initialView.ImageLibraryIndexDown = 16;
         initialView.ImageLibraryIndexLit = 15;
         initialView.ImageLibraryIndexUp = 15;
-        initialView.TextColor = 0;
-        initialView.TextSelectedColor = 0;
+        initialView.TextColor = Color.Black;
+        initialView.TextSelectedColor = Color.Black;
         initialView.WinWidth = 24;
         initialView.Clicked += (_, _) => InitialViewClick();
         session.EndRead(initialView);
@@ -1183,8 +1184,8 @@ public sealed partial class FastBattleWindow : ILayoutModule
         finalView.ImageLibraryIndexDown = 10;
         finalView.ImageLibraryIndexLit = 9;
         finalView.ImageLibraryIndexUp = 9;
-        finalView.TextColor = 0;
-        finalView.TextSelectedColor = 0;
+        finalView.TextColor = Color.Black;
+        finalView.TextSelectedColor = Color.Black;
         finalView.WinWidth = 24;
         finalView.Clicked += (_, _) => FinalViewClick();
         session.EndRead(finalView);
@@ -1217,8 +1218,8 @@ public sealed partial class FastBattleWindow : ILayoutModule
         playBtn.ImageLibraryIndexDown = 20;
         playBtn.ImageLibraryIndexLit = 19;
         playBtn.ImageLibraryIndexUp = 19;
-        playBtn.TextColor = 0;
-        playBtn.TextSelectedColor = 0;
+        playBtn.TextColor = Color.Black;
+        playBtn.TextSelectedColor = Color.Black;
         playBtn.WinWidth = 48;
         playBtn.Clicked += (_, _) => PlayBtnClick();
         session.EndRead(playBtn);
@@ -1251,8 +1252,8 @@ public sealed partial class FastBattleWindow : ILayoutModule
         pauseBtn.ImageLibraryIndexDown = 18;
         pauseBtn.ImageLibraryIndexLit = 17;
         pauseBtn.ImageLibraryIndexUp = 17;
-        pauseBtn.TextColor = 0;
-        pauseBtn.TextSelectedColor = 0;
+        pauseBtn.TextColor = Color.Black;
+        pauseBtn.TextSelectedColor = Color.Black;
         pauseBtn.WinWidth = 24;
         pauseBtn.Clicked += (_, _) => PauseBtnClick();
         session.EndRead(pauseBtn);
@@ -1394,8 +1395,8 @@ public sealed partial class FastBattleWindow : ILayoutModule
         prevSeqBtn.ImageLibraryIndexDown = 12;
         prevSeqBtn.ImageLibraryIndexLit = 0;
         prevSeqBtn.ImageLibraryIndexUp = 11;
-        prevSeqBtn.TextColor = 0;
-        prevSeqBtn.TextSelectedColor = 0;
+        prevSeqBtn.TextColor = Color.Black;
+        prevSeqBtn.TextSelectedColor = Color.Black;
         prevSeqBtn.WinWidth = 24;
         session.EndRead(prevSeqBtn);
         Button nextSeqBtn = new(this);
@@ -1428,8 +1429,8 @@ public sealed partial class FastBattleWindow : ILayoutModule
         nextSeqBtn.ImageLibraryIndexDown = 14;
         nextSeqBtn.ImageLibraryIndexLit = 0;
         nextSeqBtn.ImageLibraryIndexUp = 13;
-        nextSeqBtn.TextColor = 0;
-        nextSeqBtn.TextSelectedColor = 0;
+        nextSeqBtn.TextColor = Color.Black;
+        nextSeqBtn.TextSelectedColor = Color.Black;
         nextSeqBtn.WinWidth = 24;
         session.EndRead(nextSeqBtn);
         Label startLBl = new(this);
@@ -1453,7 +1454,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         startLBl.Alignment.BottomOffset = 2;
         startLBl.Masked = true;
         startLBl.Text = "start";
-        startLBl.TextColor = 9872276;
+        startLBl.TextColor = new Color(148, 163, 150);
         session.EndRead(startLBl);
         Label endLbl = new(this);
         session.BeginRead(endLbl);
@@ -1476,7 +1477,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         endLbl.Alignment.BottomOffset = 2;
         endLbl.Masked = true;
         endLbl.Text = "end";
-        endLbl.TextColor = 9872276;
+        endLbl.TextColor = new Color(148, 163, 150);
         session.EndRead(endLbl);
         Label slowLbl = new(this);
         session.BeginRead(slowLbl);
@@ -1499,7 +1500,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         slowLbl.Alignment.BottomOffset = 2;
         slowLbl.Masked = true;
         slowLbl.Text = "slow";
-        slowLbl.TextColor = 9872276;
+        slowLbl.TextColor = new Color(148, 163, 150);
         session.EndRead(slowLbl);
         Label fastLbl = new(this);
         session.BeginRead(fastLbl);
@@ -1522,7 +1523,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         fastLbl.Alignment.BottomOffset = 2;
         fastLbl.Masked = true;
         fastLbl.Text = "fast";
-        fastLbl.TextColor = 9872276;
+        fastLbl.TextColor = new Color(148, 163, 150);
         session.EndRead(fastLbl);
         ModeLabel = new Label(this);
         session.BeginRead(ModeLabel);
@@ -1545,7 +1546,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         ModeLabel.Alignment.BottomOffset = 0;
         ModeLabel.Masked = true;
         ModeLabel.Text = "#####";
-        ModeLabel.TextColor = 16777215;
+        ModeLabel.TextColor = Color.White;
         session.EndRead(ModeLabel);
         UserDrawBox leftShieldView = new(this);
         LeftShieldView = leftShieldView;

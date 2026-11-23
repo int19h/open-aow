@@ -9,6 +9,7 @@ using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
+using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
@@ -366,7 +367,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             }
 
             UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
-            UI.Fonts.Age8.Color = 0xFF_FF_FF;
+            UI.Fonts.Age8.Color = Color.White;
             int campaignTransferPoints = objectValue.GetCampaignTransferPoints();
             UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: campaignTransferPoints.ToString(CultureInfo.InvariantCulture), lockedSurface);
         }
@@ -395,7 +396,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
                 }
 
                 UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
-                UI.Fonts.Age8.Color = 0xFF_FF_FF;
+                UI.Fonts.Age8.Color = Color.White;
                 int campaignTransferPoints = objectValue.GetCampaignTransferPoints();
                 UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: campaignTransferPoints.ToString(CultureInfo.InvariantCulture), lockedSurface);
             }
@@ -434,7 +435,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
                 }
 
                 UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
-                UI.Fonts.Age8.Color = 0xFF_FF_FF;
+                UI.Fonts.Age8.Color = Color.White;
                 int campaignTransferPoints = objectValue.GetCampaignTransferPoints();
                 UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: campaignTransferPoints.ToString(CultureInfo.InvariantCulture), lockedSurface);
             }
@@ -468,7 +469,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
                 }
 
                 UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
-                UI.Fonts.Age8.Color = 0xFF_FF_FF;
+                UI.Fonts.Age8.Color = Color.White;
                 int campaignTransferPoints = objectValue.GetCampaignTransferPoints();
                 UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: campaignTransferPoints.ToString(CultureInfo.InvariantCulture), lockedSurface);
             }
@@ -498,7 +499,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             }
 
             UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
-            UI.Fonts.Age8.Color = 0xFF_FF_FF;
+            UI.Fonts.Age8.Color = Color.White;
             int campaignTransferPoints = objectValue.CampaignTransferPoints;
             UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: campaignTransferPoints.ToString(CultureInfo.InvariantCulture), lockedSurface);
         }
@@ -525,7 +526,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
                 }
 
                 UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
-                UI.Fonts.Age8.Color = 0xFF_FF_FF;
+                UI.Fonts.Age8.Color = Color.White;
                 int campaignTransferPoints = objectValue.CampaignTransferPoints;
                 UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: campaignTransferPoints.ToString(CultureInfo.InvariantCulture), lockedSurface);
             }

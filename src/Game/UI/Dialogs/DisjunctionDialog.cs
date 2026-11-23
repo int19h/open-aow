@@ -9,6 +9,7 @@ using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.IntegerObjects;
 
@@ -95,7 +96,7 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
     // AoWDisjunctionDlg.pas:222
     public void UpdateChance()
     {
-        DisjunctionManaLabel.TextColor = _caster.GetEnoughMana() ? 12_632_256 : 255;
+        DisjunctionManaLabel.TextColor = _caster.GetEnoughMana() ? Color.Silver : Color.Red;
 
         Spell? spell = GamePack.Current.SpellControl[51];
         int mana = _caster.GetMana();

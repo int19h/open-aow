@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -44,7 +45,7 @@ public sealed partial class CityRebelDialog : ILayoutModule
         RebelWindow.OverlapTopCorners = false;
         RebelWindow.Cursor = 0;
         RebelWindow.DoubleBuffered = true;
-        RebelWindow.MaskColor = 5808200;
+        RebelWindow.MaskColor = new Color(72, 160, 88);
         RebelWindow.FreeSurfaceOnHide = true;
         RebelWindow.ImageLibraryIndexFrame = 32;
         RebelWindow.ImageLibraryIndexTexture = 2;
@@ -81,7 +82,7 @@ public sealed partial class CityRebelDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Rebellion";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Button close = new(this);
         session.BeginRead(close);
@@ -112,8 +113,8 @@ public sealed partial class CityRebelDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
@@ -198,8 +199,8 @@ public sealed partial class CityRebelDialog : ILayoutModule
         centerBut.ImageLibraryIndexLit = 25;
         centerBut.ImageLibraryIndexUp = 19;
         centerBut.Text = "Center";
-        centerBut.TextColor = 0;
-        centerBut.TextSelectedColor = 16777215;
+        centerBut.TextColor = Color.Black;
+        centerBut.TextSelectedColor = Color.White;
         centerBut.WinWidth = 161;
         centerBut.Clicked += (_, _) => CenterButClick();
         session.EndRead(centerBut);
@@ -229,8 +230,8 @@ public sealed partial class CityRebelDialog : ILayoutModule
         closeBut.ImageLibraryIndexLit = 25;
         closeBut.ImageLibraryIndexUp = 19;
         closeBut.Text = "Close";
-        closeBut.TextColor = 0;
-        closeBut.TextSelectedColor = 16777215;
+        closeBut.TextColor = Color.Black;
+        closeBut.TextSelectedColor = Color.White;
         closeBut.WinWidth = 98;
         closeBut.Clicked += (_, _) => CloseClick();
         session.EndRead(closeBut);
@@ -283,7 +284,7 @@ public sealed partial class CityRebelDialog : ILayoutModule
         CityNameLabel.Alignment.BottomOffset = 0;
         CityNameLabel.Masked = true;
         CityNameLabel.Text = "####";
-        CityNameLabel.TextColor = 13827061;
+        CityNameLabel.TextColor = new Color(245, 251, 210);
         session.EndRead(CityNameLabel);
         Label label2 = new(this);
         session.BeginRead(label2);
@@ -306,7 +307,7 @@ public sealed partial class CityRebelDialog : ILayoutModule
         label2.Alignment.BottomOffset = 0;
         label2.Masked = true;
         label2.Text = "was seized by rebels!";
-        label2.TextColor = 13827061;
+        label2.TextColor = new Color(245, 251, 210);
         session.EndRead(label2);
         Label label3 = new(this);
         session.BeginRead(label3);
@@ -329,7 +330,7 @@ public sealed partial class CityRebelDialog : ILayoutModule
         label3.Alignment.BottomOffset = 0;
         label3.Masked = true;
         label3.Text = "Occupy hostile cities with enough troops!";
-        label3.TextColor = 13827061;
+        label3.TextColor = new Color(245, 251, 210);
         session.EndRead(label3);
         Frame frame1 = new(this);
         session.BeginRead(frame1);

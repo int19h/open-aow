@@ -4,6 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -50,7 +51,7 @@ public sealed partial class UnitWindow : ILayoutModule
         MainWindow.OverlapTopCorners = false;
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
-        MainWindow.MaskColor = 5808200;
+        MainWindow.MaskColor = new Color(72, 160, 88);
         MainWindow.FreeSurfaceOnHide = false;
         MainWindow.ImageLibraryIndexFrame = 32;
         MainWindow.ImageLibraryIndexTexture = 2;
@@ -120,8 +121,8 @@ public sealed partial class UnitWindow : ILayoutModule
         UnitTabs.Changed += (_, _) => UnitTabChange();
         UnitTabs.Selected = -1;
         UnitTabs.WinWidth = 379;
-        UnitTabs.TextColor = 0;
-        UnitTabs.TextSelectedColor = 9415072;
+        UnitTabs.TextColor = Color.Black;
+        UnitTabs.TextSelectedColor = new Color(160, 169, 143);
         UnitTabs.ImageLibraryIndexDown = 67;
         UnitTabs.ImageLibraryIndexUp = 70;
         UnitTabs.BorderHeightSelected = 7;
@@ -155,8 +156,8 @@ public sealed partial class UnitWindow : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
@@ -181,7 +182,7 @@ public sealed partial class UnitWindow : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Unit ";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Button help = new(this);
         session.BeginRead(help);
@@ -213,8 +214,8 @@ public sealed partial class UnitWindow : ILayoutModule
         help.ImageLibraryIndexDown = 60;
         help.ImageLibraryIndexLit = 61;
         help.ImageLibraryIndexUp = 59;
-        help.TextColor = 0;
-        help.TextSelectedColor = 0;
+        help.TextColor = Color.Black;
+        help.TextSelectedColor = Color.Black;
         help.WinWidth = 15;
         help.Clicked += (_, _) => HelpClick();
         session.EndRead(help);
@@ -272,8 +273,8 @@ public sealed partial class UnitWindow : ILayoutModule
         BottomCloseButton.ImageLibraryIndexLit = 25;
         BottomCloseButton.ImageLibraryIndexUp = 19;
         BottomCloseButton.Text = "Close";
-        BottomCloseButton.TextColor = 0;
-        BottomCloseButton.TextSelectedColor = 16777215;
+        BottomCloseButton.TextColor = Color.Black;
+        BottomCloseButton.TextSelectedColor = Color.White;
         BottomCloseButton.WinWidth = 119;
         BottomCloseButton.Clicked += (_, _) => CloseClick();
         session.EndRead(BottomCloseButton);
@@ -329,7 +330,7 @@ public sealed partial class UnitWindow : ILayoutModule
         InfoMemo.WinHeight = 86;
         InfoMemo.BorderWidth = 5;
         InfoMemo.BorderHeight = 3;
-        InfoMemo.TextColor = 9415072;
+        InfoMemo.TextColor = new Color(160, 169, 143);
         InfoMemo.CursorChar = 124;
         InfoMemo.BlinkDelay = 0;
         InfoMemo.Editable = false;
@@ -395,7 +396,7 @@ public sealed partial class UnitWindow : ILayoutModule
         ManaLabel.Alignment.TopOffset = 68;
         ManaLabel.Alignment.BottomOffset = 0;
         ManaLabel.Masked = true;
-        ManaLabel.TextColor = 16777215;
+        ManaLabel.TextColor = Color.White;
         session.EndRead(ManaLabel);
         ListBox abilityAbilityList = new(this);
         AbilityAbilityList = abilityAbilityList;
@@ -438,8 +439,8 @@ public sealed partial class UnitWindow : ILayoutModule
                 e.Surface = surface;
             }
         };
-        AbilityAbilityList.TextColor = 14679807;
-        AbilityAbilityList.TextSelectedColor = 0;
+        AbilityAbilityList.TextColor = new Color(255, 254, 223);
+        AbilityAbilityList.TextSelectedColor = Color.Black;
         AbilityAbilityList.ImageLibraryIndexFrame = 113;
         AbilityAbilityList.ImageLibraryIndexTNormal = 21;
         AbilityAbilityList.ImageLibraryIndexTSelected = 8;
@@ -472,8 +473,8 @@ public sealed partial class UnitWindow : ILayoutModule
         AbilityUseButton.ImageLibraryIndexLit = 49;
         AbilityUseButton.ImageLibraryIndexUp = 43;
         AbilityUseButton.Text = "####";
-        AbilityUseButton.TextColor = 0;
-        AbilityUseButton.TextSelectedColor = 16777215;
+        AbilityUseButton.TextColor = Color.Black;
+        AbilityUseButton.TextSelectedColor = Color.White;
         AbilityUseButton.WinWidth = 250;
         AbilityUseButton.Clicked += (_, _) => UseAbility();
         session.EndRead(AbilityUseButton);
@@ -503,8 +504,8 @@ public sealed partial class UnitWindow : ILayoutModule
         t1SortName.ImageLibraryIndexLit = 91;
         t1SortName.ImageLibraryIndexUp = 85;
         t1SortName.Text = "Ability Name";
-        t1SortName.TextColor = 0;
-        t1SortName.TextSelectedColor = 16777215;
+        t1SortName.TextColor = Color.Black;
+        t1SortName.TextSelectedColor = Color.White;
         t1SortName.WinWidth = 168;
         t1SortName.Clicked += (_, _) => T1SortNameClick(default);
         session.EndRead(t1SortName);
@@ -534,8 +535,8 @@ public sealed partial class UnitWindow : ILayoutModule
         t1SortType.ImageLibraryIndexLit = 91;
         t1SortType.ImageLibraryIndexUp = 85;
         t1SortType.Text = "Type";
-        t1SortType.TextColor = 0;
-        t1SortType.TextSelectedColor = 16777215;
+        t1SortType.TextColor = Color.Black;
+        t1SortType.TextSelectedColor = Color.White;
         t1SortType.WinWidth = 85;
         t1SortType.Clicked += (_, _) => T1SortTypeClick(default);
         session.EndRead(t1SortType);
@@ -565,8 +566,8 @@ public sealed partial class UnitWindow : ILayoutModule
         t1SortSource.ImageLibraryIndexLit = 91;
         t1SortSource.ImageLibraryIndexUp = 85;
         t1SortSource.Text = "Source";
-        t1SortSource.TextColor = 0;
-        t1SortSource.TextSelectedColor = 16777215;
+        t1SortSource.TextColor = Color.Black;
+        t1SortSource.TextSelectedColor = Color.White;
         t1SortSource.WinWidth = 118;
         t1SortSource.Clicked += (_, _) => T1SortSourceClick(default);
         session.EndRead(t1SortSource);
@@ -592,7 +593,7 @@ public sealed partial class UnitWindow : ILayoutModule
         t1UseMsg.Alignment.BottomOffset = 14;
         t1UseMsg.Masked = true;
         t1UseMsg.Text = "Can only be used in Combat!";
-        t1UseMsg.TextColor = 13165253;
+        t1UseMsg.TextColor = new Color(197, 226, 200);
         session.EndRead(t1UseMsg);
         Panel t1Panel = new(this);
         session.BeginRead(t1Panel);
@@ -690,8 +691,8 @@ public sealed partial class UnitWindow : ILayoutModule
                 e.Surface = surface;
             }
         };
-        AbilityTypeList.TextColor = 9415072;
-        AbilityTypeList.TextSelectedColor = 0;
+        AbilityTypeList.TextColor = new Color(160, 169, 143);
+        AbilityTypeList.TextSelectedColor = Color.Black;
         AbilityTypeList.ImageLibraryIndexFrame = 113;
         AbilityTypeList.ImageLibraryIndexTNormal = 21;
         AbilityTypeList.ImageLibraryIndexTSelected = 8;
@@ -739,8 +740,8 @@ public sealed partial class UnitWindow : ILayoutModule
                 e.Surface = surface;
             }
         };
-        AbilitySourceList.TextColor = 9415072;
-        AbilitySourceList.TextSelectedColor = 0;
+        AbilitySourceList.TextColor = new Color(160, 169, 143);
+        AbilitySourceList.TextSelectedColor = Color.Black;
         AbilitySourceList.ImageLibraryIndexFrame = 113;
         AbilitySourceList.ImageLibraryIndexTNormal = 21;
         AbilitySourceList.ImageLibraryIndexTSelected = 8;
@@ -928,8 +929,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Sphere4Button.ImageLibraryIndexDown = 28;
         Sphere4Button.ImageLibraryIndexLit = 29;
         Sphere4Button.ImageLibraryIndexUp = 27;
-        Sphere4Button.TextColor = 0;
-        Sphere4Button.TextSelectedColor = 0;
+        Sphere4Button.TextColor = Color.Black;
+        Sphere4Button.TextSelectedColor = Color.Black;
         Sphere4Button.WinWidth = 52;
         session.EndRead(Sphere4Button);
         SpherePanel = new Panel(this);
@@ -984,8 +985,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Sphere3Button.ImageLibraryIndexDown = 28;
         Sphere3Button.ImageLibraryIndexLit = 29;
         Sphere3Button.ImageLibraryIndexUp = 27;
-        Sphere3Button.TextColor = 0;
-        Sphere3Button.TextSelectedColor = 0;
+        Sphere3Button.TextColor = Color.Black;
+        Sphere3Button.TextSelectedColor = Color.Black;
         Sphere3Button.WinWidth = 52;
         session.EndRead(Sphere3Button);
         Sphere2Button = new Button(this);
@@ -1013,8 +1014,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Sphere2Button.ImageLibraryIndexDown = 28;
         Sphere2Button.ImageLibraryIndexLit = 29;
         Sphere2Button.ImageLibraryIndexUp = 27;
-        Sphere2Button.TextColor = 0;
-        Sphere2Button.TextSelectedColor = 0;
+        Sphere2Button.TextColor = Color.Black;
+        Sphere2Button.TextSelectedColor = Color.Black;
         Sphere2Button.WinWidth = 52;
         session.EndRead(Sphere2Button);
         Sphere1Button = new Button(this);
@@ -1042,8 +1043,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Sphere1Button.ImageLibraryIndexDown = 28;
         Sphere1Button.ImageLibraryIndexLit = 29;
         Sphere1Button.ImageLibraryIndexUp = 27;
-        Sphere1Button.TextColor = 0;
-        Sphere1Button.TextSelectedColor = 0;
+        Sphere1Button.TextColor = Color.Black;
+        Sphere1Button.TextSelectedColor = Color.Black;
         Sphere1Button.WinWidth = 52;
         session.EndRead(Sphere1Button);
         Sphere5Button = new Button(this);
@@ -1071,8 +1072,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Sphere5Button.ImageLibraryIndexDown = 28;
         Sphere5Button.ImageLibraryIndexLit = 29;
         Sphere5Button.ImageLibraryIndexUp = 27;
-        Sphere5Button.TextColor = 0;
-        Sphere5Button.TextSelectedColor = 0;
+        Sphere5Button.TextColor = Color.Black;
+        Sphere5Button.TextSelectedColor = Color.Black;
         Sphere5Button.WinWidth = 52;
         session.EndRead(Sphere5Button);
         Sphere6Button = new Button(this);
@@ -1100,8 +1101,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Sphere6Button.ImageLibraryIndexDown = 28;
         Sphere6Button.ImageLibraryIndexLit = 29;
         Sphere6Button.ImageLibraryIndexUp = 27;
-        Sphere6Button.TextColor = 0;
-        Sphere6Button.TextSelectedColor = 0;
+        Sphere6Button.TextColor = Color.Black;
+        Sphere6Button.TextSelectedColor = Color.Black;
         Sphere6Button.WinWidth = 52;
         session.EndRead(Sphere6Button);
         Sphere7Button = new Button(this);
@@ -1129,8 +1130,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Sphere7Button.ImageLibraryIndexDown = 28;
         Sphere7Button.ImageLibraryIndexLit = 29;
         Sphere7Button.ImageLibraryIndexUp = 27;
-        Sphere7Button.TextColor = 0;
-        Sphere7Button.TextSelectedColor = 0;
+        Sphere7Button.TextColor = Color.Black;
+        Sphere7Button.TextSelectedColor = Color.Black;
         Sphere7Button.WinWidth = 52;
         session.EndRead(Sphere7Button);
         AlignmentImage = new Image(this);
@@ -1181,7 +1182,7 @@ public sealed partial class UnitWindow : ILayoutModule
         AlignmentLabel.Alignment.TopOffset = 45;
         AlignmentLabel.Alignment.BottomOffset = 7;
         AlignmentLabel.Masked = true;
-        AlignmentLabel.TextColor = 9415072;
+        AlignmentLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(AlignmentLabel);
         Panel t2Alignnl = new(this);
         session.BeginRead(t2Alignnl);
@@ -1285,7 +1286,7 @@ public sealed partial class UnitWindow : ILayoutModule
         TypeValueLabel.Alignment.TopOffset = 45;
         TypeValueLabel.Alignment.BottomOffset = 7;
         TypeValueLabel.Masked = true;
-        TypeValueLabel.TextColor = 9415072;
+        TypeValueLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(TypeValueLabel);
         Panel t2TypePnl = new(this);
         session.BeginRead(t2TypePnl);
@@ -1389,7 +1390,7 @@ public sealed partial class UnitWindow : ILayoutModule
         SphereLabel.Alignment.BottomOffset = 10;
         SphereLabel.Masked = true;
         SphereLabel.Text = "Leader's magic spheres";
-        SphereLabel.TextColor = 9415072;
+        SphereLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(SphereLabel);
         InventoryPanel = new Panel(this);
         session.BeginRead(InventoryPanel);
@@ -1451,8 +1452,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack1CheckBox.ImageLibraryIndexDown = 31;
         Backpack1CheckBox.ImageLibraryIndexLit = 30;
         Backpack1CheckBox.ImageLibraryIndexUp = 30;
-        Backpack1CheckBox.TextColor = 0;
-        Backpack1CheckBox.TextSelectedColor = 0;
+        Backpack1CheckBox.TextColor = Color.Black;
+        Backpack1CheckBox.TextSelectedColor = Color.Black;
         Backpack1CheckBox.WinWidth = 41;
         Backpack1CheckBox.Checked = false;
         backpack1CheckBox.Changed += (_, _) => Gnd1Change(backpack1CheckBox);
@@ -1480,7 +1481,7 @@ public sealed partial class UnitWindow : ILayoutModule
         bpLbl1.Alignment.BottomOffset = 0;
         bpLbl1.Masked = true;
         bpLbl1.Text = "Backpack";
-        bpLbl1.TextColor = 2370853;
+        bpLbl1.TextColor = new Color(37, 45, 36);
         session.EndRead(bpLbl1);
         CheckBox backpack2CheckBox = new(this);
         Backpack2CheckBox = backpack2CheckBox;
@@ -1514,8 +1515,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack2CheckBox.ImageLibraryIndexDown = 31;
         Backpack2CheckBox.ImageLibraryIndexLit = 30;
         Backpack2CheckBox.ImageLibraryIndexUp = 30;
-        Backpack2CheckBox.TextColor = 0;
-        Backpack2CheckBox.TextSelectedColor = 0;
+        Backpack2CheckBox.TextColor = Color.Black;
+        Backpack2CheckBox.TextSelectedColor = Color.Black;
         Backpack2CheckBox.WinWidth = 41;
         Backpack2CheckBox.Checked = false;
         backpack2CheckBox.Changed += (_, _) => Gnd1Change(backpack2CheckBox);
@@ -1553,8 +1554,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack3CheckBox.ImageLibraryIndexDown = 31;
         Backpack3CheckBox.ImageLibraryIndexLit = 30;
         Backpack3CheckBox.ImageLibraryIndexUp = 30;
-        Backpack3CheckBox.TextColor = 0;
-        Backpack3CheckBox.TextSelectedColor = 0;
+        Backpack3CheckBox.TextColor = Color.Black;
+        Backpack3CheckBox.TextSelectedColor = Color.Black;
         Backpack3CheckBox.WinWidth = 41;
         Backpack3CheckBox.Checked = false;
         backpack3CheckBox.Changed += (_, _) => Gnd1Change(backpack3CheckBox);
@@ -1592,8 +1593,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack4CheckBox.ImageLibraryIndexDown = 31;
         Backpack4CheckBox.ImageLibraryIndexLit = 30;
         Backpack4CheckBox.ImageLibraryIndexUp = 30;
-        Backpack4CheckBox.TextColor = 0;
-        Backpack4CheckBox.TextSelectedColor = 0;
+        Backpack4CheckBox.TextColor = Color.Black;
+        Backpack4CheckBox.TextSelectedColor = Color.Black;
         Backpack4CheckBox.WinWidth = 41;
         Backpack4CheckBox.Checked = false;
         backpack4CheckBox.Changed += (_, _) => Gnd1Change(backpack4CheckBox);
@@ -1631,8 +1632,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack5CheckBox.ImageLibraryIndexDown = 31;
         Backpack5CheckBox.ImageLibraryIndexLit = 30;
         Backpack5CheckBox.ImageLibraryIndexUp = 30;
-        Backpack5CheckBox.TextColor = 0;
-        Backpack5CheckBox.TextSelectedColor = 0;
+        Backpack5CheckBox.TextColor = Color.Black;
+        Backpack5CheckBox.TextSelectedColor = Color.Black;
         Backpack5CheckBox.WinWidth = 41;
         Backpack5CheckBox.Checked = false;
         backpack5CheckBox.Changed += (_, _) => Gnd1Change(backpack5CheckBox);
@@ -1670,8 +1671,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack6CheckBox.ImageLibraryIndexDown = 31;
         Backpack6CheckBox.ImageLibraryIndexLit = 30;
         Backpack6CheckBox.ImageLibraryIndexUp = 30;
-        Backpack6CheckBox.TextColor = 0;
-        Backpack6CheckBox.TextSelectedColor = 0;
+        Backpack6CheckBox.TextColor = Color.Black;
+        Backpack6CheckBox.TextSelectedColor = Color.Black;
         Backpack6CheckBox.WinWidth = 41;
         Backpack6CheckBox.Checked = false;
         backpack6CheckBox.Changed += (_, _) => Gnd1Change(backpack6CheckBox);
@@ -1709,8 +1710,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack7CheckBox.ImageLibraryIndexDown = 31;
         Backpack7CheckBox.ImageLibraryIndexLit = 30;
         Backpack7CheckBox.ImageLibraryIndexUp = 30;
-        Backpack7CheckBox.TextColor = 0;
-        Backpack7CheckBox.TextSelectedColor = 0;
+        Backpack7CheckBox.TextColor = Color.Black;
+        Backpack7CheckBox.TextSelectedColor = Color.Black;
         Backpack7CheckBox.WinWidth = 41;
         Backpack7CheckBox.Checked = false;
         backpack7CheckBox.Changed += (_, _) => Gnd1Change(backpack7CheckBox);
@@ -1748,8 +1749,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Backpack8CheckBox.ImageLibraryIndexDown = 31;
         Backpack8CheckBox.ImageLibraryIndexLit = 30;
         Backpack8CheckBox.ImageLibraryIndexUp = 30;
-        Backpack8CheckBox.TextColor = 0;
-        Backpack8CheckBox.TextSelectedColor = 0;
+        Backpack8CheckBox.TextColor = Color.Black;
+        Backpack8CheckBox.TextSelectedColor = Color.Black;
         Backpack8CheckBox.WinWidth = 41;
         Backpack8CheckBox.Checked = false;
         backpack8CheckBox.Changed += (_, _) => Gnd1Change(backpack8CheckBox);
@@ -1777,7 +1778,7 @@ public sealed partial class UnitWindow : ILayoutModule
         bpLbl2.Alignment.BottomOffset = 0;
         bpLbl2.Masked = true;
         bpLbl2.Text = "Backpack";
-        bpLbl2.TextColor = 2370853;
+        bpLbl2.TextColor = new Color(37, 45, 36);
         session.EndRead(bpLbl2);
         Label bodyLbl = new(this);
         session.BeginRead(bodyLbl);
@@ -1800,7 +1801,7 @@ public sealed partial class UnitWindow : ILayoutModule
         bodyLbl.Alignment.BottomOffset = 0;
         bodyLbl.Masked = true;
         bodyLbl.Text = "Body Slots";
-        bodyLbl.TextColor = 2370853;
+        bodyLbl.TextColor = new Color(37, 45, 36);
         session.EndRead(bodyLbl);
         CheckBox headSlotCheckBox = new(this);
         HeadSlotCheckBox = headSlotCheckBox;
@@ -1835,8 +1836,8 @@ public sealed partial class UnitWindow : ILayoutModule
         HeadSlotCheckBox.ImageLibraryIndexDown = 35;
         HeadSlotCheckBox.ImageLibraryIndexLit = 34;
         HeadSlotCheckBox.ImageLibraryIndexUp = 34;
-        HeadSlotCheckBox.TextColor = 0;
-        HeadSlotCheckBox.TextSelectedColor = 0;
+        HeadSlotCheckBox.TextColor = Color.Black;
+        HeadSlotCheckBox.TextSelectedColor = Color.Black;
         HeadSlotCheckBox.WinWidth = 41;
         HeadSlotCheckBox.Checked = false;
         headSlotCheckBox.Changed += (_, _) => Gnd1Change(headSlotCheckBox);
@@ -1874,8 +1875,8 @@ public sealed partial class UnitWindow : ILayoutModule
         TorsoSlotCheckBox.ImageLibraryIndexDown = 35;
         TorsoSlotCheckBox.ImageLibraryIndexLit = 34;
         TorsoSlotCheckBox.ImageLibraryIndexUp = 34;
-        TorsoSlotCheckBox.TextColor = 0;
-        TorsoSlotCheckBox.TextSelectedColor = 0;
+        TorsoSlotCheckBox.TextColor = Color.Black;
+        TorsoSlotCheckBox.TextSelectedColor = Color.Black;
         TorsoSlotCheckBox.WinWidth = 41;
         TorsoSlotCheckBox.Checked = false;
         torsoSlotCheckBox.Changed += (_, _) => Gnd1Change(torsoSlotCheckBox);
@@ -1913,8 +1914,8 @@ public sealed partial class UnitWindow : ILayoutModule
         AttackSlotCheckBox.ImageLibraryIndexDown = 35;
         AttackSlotCheckBox.ImageLibraryIndexLit = 34;
         AttackSlotCheckBox.ImageLibraryIndexUp = 34;
-        AttackSlotCheckBox.TextColor = 0;
-        AttackSlotCheckBox.TextSelectedColor = 0;
+        AttackSlotCheckBox.TextColor = Color.Black;
+        AttackSlotCheckBox.TextSelectedColor = Color.Black;
         AttackSlotCheckBox.WinWidth = 41;
         AttackSlotCheckBox.Checked = false;
         attackSlotCheckBox.Changed += (_, _) => Gnd1Change(attackSlotCheckBox);
@@ -1952,8 +1953,8 @@ public sealed partial class UnitWindow : ILayoutModule
         DefendSlotCheckBox.ImageLibraryIndexDown = 35;
         DefendSlotCheckBox.ImageLibraryIndexLit = 34;
         DefendSlotCheckBox.ImageLibraryIndexUp = 34;
-        DefendSlotCheckBox.TextColor = 0;
-        DefendSlotCheckBox.TextSelectedColor = 0;
+        DefendSlotCheckBox.TextColor = Color.Black;
+        DefendSlotCheckBox.TextSelectedColor = Color.Black;
         DefendSlotCheckBox.WinWidth = 41;
         DefendSlotCheckBox.Checked = false;
         defendSlotCheckBox.Changed += (_, _) => Gnd1Change(defendSlotCheckBox);
@@ -1991,8 +1992,8 @@ public sealed partial class UnitWindow : ILayoutModule
         LeftRingCheckBox.ImageLibraryIndexDown = 37;
         LeftRingCheckBox.ImageLibraryIndexLit = 36;
         LeftRingCheckBox.ImageLibraryIndexUp = 36;
-        LeftRingCheckBox.TextColor = 0;
-        LeftRingCheckBox.TextSelectedColor = 0;
+        LeftRingCheckBox.TextColor = Color.Black;
+        LeftRingCheckBox.TextSelectedColor = Color.Black;
         LeftRingCheckBox.WinWidth = 41;
         LeftRingCheckBox.Checked = false;
         leftRingCheckBox.Changed += (_, _) => Gnd1Change(leftRingCheckBox);
@@ -2031,8 +2032,8 @@ public sealed partial class UnitWindow : ILayoutModule
         RightRingCheckBox.ImageLibraryIndexDown = 37;
         RightRingCheckBox.ImageLibraryIndexLit = 36;
         RightRingCheckBox.ImageLibraryIndexUp = 36;
-        RightRingCheckBox.TextColor = 0;
-        RightRingCheckBox.TextSelectedColor = 0;
+        RightRingCheckBox.TextColor = Color.Black;
+        RightRingCheckBox.TextSelectedColor = Color.Black;
         RightRingCheckBox.WinWidth = 41;
         RightRingCheckBox.Checked = false;
         rightRingCheckBox.Changed += (_, _) => Gnd1Change(rightRingCheckBox);
@@ -2070,8 +2071,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Ground3CheckBox.ImageLibraryIndexDown = 33;
         Ground3CheckBox.ImageLibraryIndexLit = 32;
         Ground3CheckBox.ImageLibraryIndexUp = 32;
-        Ground3CheckBox.TextColor = 0;
-        Ground3CheckBox.TextSelectedColor = 0;
+        Ground3CheckBox.TextColor = Color.Black;
+        Ground3CheckBox.TextSelectedColor = Color.Black;
         Ground3CheckBox.WinWidth = 41;
         Ground3CheckBox.Checked = false;
         ground3CheckBox.Changed += (_, _) => Gnd1Change(ground3CheckBox);
@@ -2109,8 +2110,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Ground2CheckBox.ImageLibraryIndexDown = 33;
         Ground2CheckBox.ImageLibraryIndexLit = 32;
         Ground2CheckBox.ImageLibraryIndexUp = 32;
-        Ground2CheckBox.TextColor = 0;
-        Ground2CheckBox.TextSelectedColor = 0;
+        Ground2CheckBox.TextColor = Color.Black;
+        Ground2CheckBox.TextSelectedColor = Color.Black;
         Ground2CheckBox.WinWidth = 41;
         Ground2CheckBox.Checked = false;
         ground2CheckBox.Changed += (_, _) => Gnd1Change(ground2CheckBox);
@@ -2148,8 +2149,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Ground1CheckBox.ImageLibraryIndexDown = 33;
         Ground1CheckBox.ImageLibraryIndexLit = 32;
         Ground1CheckBox.ImageLibraryIndexUp = 32;
-        Ground1CheckBox.TextColor = 0;
-        Ground1CheckBox.TextSelectedColor = 0;
+        Ground1CheckBox.TextColor = Color.Black;
+        Ground1CheckBox.TextSelectedColor = Color.Black;
         Ground1CheckBox.WinWidth = 41;
         Ground1CheckBox.Checked = false;
         ground1CheckBox.Changed += (_, _) => Gnd1Change(ground1CheckBox);
@@ -2187,8 +2188,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Ground4CheckBox.ImageLibraryIndexDown = 33;
         Ground4CheckBox.ImageLibraryIndexLit = 32;
         Ground4CheckBox.ImageLibraryIndexUp = 32;
-        Ground4CheckBox.TextColor = 0;
-        Ground4CheckBox.TextSelectedColor = 0;
+        Ground4CheckBox.TextColor = Color.Black;
+        Ground4CheckBox.TextSelectedColor = Color.Black;
         Ground4CheckBox.WinWidth = 41;
         Ground4CheckBox.Checked = false;
         ground4CheckBox.Changed += (_, _) => Gnd1Change(ground4CheckBox);
@@ -2226,8 +2227,8 @@ public sealed partial class UnitWindow : ILayoutModule
         Ground5CheckBox.ImageLibraryIndexDown = 33;
         Ground5CheckBox.ImageLibraryIndexLit = 32;
         Ground5CheckBox.ImageLibraryIndexUp = 32;
-        Ground5CheckBox.TextColor = 0;
-        Ground5CheckBox.TextSelectedColor = 0;
+        Ground5CheckBox.TextColor = Color.Black;
+        Ground5CheckBox.TextSelectedColor = Color.Black;
         Ground5CheckBox.WinWidth = 41;
         Ground5CheckBox.Checked = false;
         ground5CheckBox.Changed += (_, _) => Gnd1Change(ground5CheckBox);
@@ -2254,7 +2255,7 @@ public sealed partial class UnitWindow : ILayoutModule
         gndLbl.Alignment.BottomOffset = 0;
         gndLbl.Masked = true;
         gndLbl.Text = "Items on the Ground";
-        gndLbl.TextColor = 2370853;
+        gndLbl.TextColor = new Color(37, 45, 36);
         session.EndRead(gndLbl);
         Image slotBack = new(this);
         session.BeginRead(slotBack);
@@ -2310,8 +2311,8 @@ public sealed partial class UnitWindow : ILayoutModule
         DisbandButton.ImageLibraryIndexLit = 25;
         DisbandButton.ImageLibraryIndexUp = 19;
         DisbandButton.Text = "Disband";
-        DisbandButton.TextColor = 89;
-        DisbandButton.TextSelectedColor = 16777215;
+        DisbandButton.TextColor = new Color(89, 0, 0);
+        DisbandButton.TextSelectedColor = Color.White;
         DisbandButton.WinWidth = 119;
         DisbandButton.Clicked += (_, _) => DisbandBtnClick();
         session.EndRead(DisbandButton);
@@ -2372,8 +2373,8 @@ public sealed partial class UnitWindow : ILayoutModule
         ItemUseButton.ImageLibraryIndexDown = 46;
         ItemUseButton.ImageLibraryIndexLit = 49;
         ItemUseButton.ImageLibraryIndexUp = 43;
-        ItemUseButton.TextColor = 0;
-        ItemUseButton.TextSelectedColor = 16777215;
+        ItemUseButton.TextColor = Color.Black;
+        ItemUseButton.TextSelectedColor = Color.White;
         ItemUseButton.WinWidth = 210;
         ItemUseButton.Clicked += (_, _) => UseItemClick();
         session.EndRead(ItemUseButton);
@@ -2452,7 +2453,7 @@ public sealed partial class UnitWindow : ILayoutModule
         UnitNameLabel.Alignment.TopOffset = 8;
         UnitNameLabel.Alignment.BottomOffset = 0;
         UnitNameLabel.Masked = true;
-        UnitNameLabel.TextColor = 13299411;
+        UnitNameLabel.TextColor = new Color(211, 238, 202);
         session.EndRead(UnitNameLabel);
         Image unitFrRight = new(this);
         session.BeginRead(unitFrRight);
@@ -2698,7 +2699,7 @@ public sealed partial class UnitWindow : ILayoutModule
         UnitAttackLabel.Alignment.TopOffset = 3;
         UnitAttackLabel.Alignment.BottomOffset = 0;
         UnitAttackLabel.Masked = true;
-        UnitAttackLabel.TextColor = 16777215;
+        UnitAttackLabel.TextColor = Color.White;
         session.EndRead(UnitAttackLabel);
         UnitDefenseLabel = new Label(this);
         session.BeginRead(UnitDefenseLabel);
@@ -2724,7 +2725,7 @@ public sealed partial class UnitWindow : ILayoutModule
         UnitDefenseLabel.Alignment.TopOffset = 25;
         UnitDefenseLabel.Alignment.BottomOffset = 0;
         UnitDefenseLabel.Masked = true;
-        UnitDefenseLabel.TextColor = 16777215;
+        UnitDefenseLabel.TextColor = Color.White;
         session.EndRead(UnitDefenseLabel);
         UnitMovesLabel = new Label(this);
         session.BeginRead(UnitMovesLabel);
@@ -2750,7 +2751,7 @@ public sealed partial class UnitWindow : ILayoutModule
         UnitMovesLabel.Alignment.TopOffset = 47;
         UnitMovesLabel.Alignment.BottomOffset = 0;
         UnitMovesLabel.Masked = true;
-        UnitMovesLabel.TextColor = 16777215;
+        UnitMovesLabel.TextColor = Color.White;
         session.EndRead(UnitMovesLabel);
         UnitDamageLabel = new Label(this);
         session.BeginRead(UnitDamageLabel);
@@ -2776,7 +2777,7 @@ public sealed partial class UnitWindow : ILayoutModule
         UnitDamageLabel.Alignment.TopOffset = 3;
         UnitDamageLabel.Alignment.BottomOffset = 0;
         UnitDamageLabel.Masked = true;
-        UnitDamageLabel.TextColor = 16777215;
+        UnitDamageLabel.TextColor = Color.White;
         session.EndRead(UnitDamageLabel);
         UnitResistanceLabel = new Label(this);
         session.BeginRead(UnitResistanceLabel);
@@ -2802,7 +2803,7 @@ public sealed partial class UnitWindow : ILayoutModule
         UnitResistanceLabel.Alignment.TopOffset = 25;
         UnitResistanceLabel.Alignment.BottomOffset = 0;
         UnitResistanceLabel.Masked = true;
-        UnitResistanceLabel.TextColor = 16777215;
+        UnitResistanceLabel.TextColor = Color.White;
         session.EndRead(UnitResistanceLabel);
         UnitHitsLabel = new Label(this);
         session.BeginRead(UnitHitsLabel);
@@ -2828,7 +2829,7 @@ public sealed partial class UnitWindow : ILayoutModule
         UnitHitsLabel.Alignment.TopOffset = 47;
         UnitHitsLabel.Alignment.BottomOffset = 0;
         UnitHitsLabel.Masked = true;
-        UnitHitsLabel.TextColor = 16777215;
+        UnitHitsLabel.TextColor = Color.White;
         session.EndRead(UnitHitsLabel);
         Panel uStatPnl = new(this);
         session.BeginRead(uStatPnl);
@@ -2958,7 +2959,7 @@ public sealed partial class UnitWindow : ILayoutModule
         LevelLabel.Alignment.TopOffset = 18;
         LevelLabel.Alignment.BottomOffset = 0;
         LevelLabel.Masked = true;
-        LevelLabel.TextColor = 1514524;
+        LevelLabel.TextColor = new Color(28, 28, 23);
         session.EndRead(LevelLabel);
         Image unitLine1 = new(this);
         session.BeginRead(unitLine1);
@@ -3125,7 +3126,7 @@ public sealed partial class UnitWindow : ILayoutModule
         MoraleLabel.Alignment.TopOffset = 8;
         MoraleLabel.Alignment.BottomOffset = 7;
         MoraleLabel.Masked = true;
-        MoraleLabel.TextColor = 13299411;
+        MoraleLabel.TextColor = new Color(211, 238, 202);
         session.EndRead(MoraleLabel);
         UpkeepIcon = new Image(this);
         session.BeginRead(UpkeepIcon);
@@ -3183,7 +3184,7 @@ public sealed partial class UnitWindow : ILayoutModule
         UpkeepLabel.Alignment.TopOffset = 68;
         UpkeepLabel.Alignment.BottomOffset = 0;
         UpkeepLabel.Masked = true;
-        UpkeepLabel.TextColor = 16777215;
+        UpkeepLabel.TextColor = Color.White;
         session.EndRead(UpkeepLabel);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -3270,8 +3271,8 @@ public sealed partial class UnitWindow : ILayoutModule
         GroundPreviousButton.ImageLibraryIndexDown = 33;
         GroundPreviousButton.ImageLibraryIndexLit = 32;
         GroundPreviousButton.ImageLibraryIndexUp = 32;
-        GroundPreviousButton.TextColor = 0;
-        GroundPreviousButton.TextSelectedColor = 0;
+        GroundPreviousButton.TextColor = Color.Black;
+        GroundPreviousButton.TextSelectedColor = Color.Black;
         GroundPreviousButton.WinWidth = 13;
         GroundPreviousButton.Clicked += (_, _) => GroundLClick();
         session.EndRead(GroundPreviousButton);
@@ -3305,8 +3306,8 @@ public sealed partial class UnitWindow : ILayoutModule
         GroundNextButton.ImageLibraryIndexDown = 35;
         GroundNextButton.ImageLibraryIndexLit = 34;
         GroundNextButton.ImageLibraryIndexUp = 34;
-        GroundNextButton.TextColor = 0;
-        GroundNextButton.TextSelectedColor = 0;
+        GroundNextButton.TextColor = Color.Black;
+        GroundNextButton.TextSelectedColor = Color.Black;
         GroundNextButton.WinWidth = 13;
         GroundNextButton.Clicked += (_, _) => GroundRClick();
         session.EndRead(GroundNextButton);
@@ -3358,7 +3359,7 @@ public sealed partial class UnitWindow : ILayoutModule
         RelationValueLabel.Alignment.TopOffset = 45;
         RelationValueLabel.Alignment.BottomOffset = 7;
         RelationValueLabel.Masked = true;
-        RelationValueLabel.TextColor = 9415072;
+        RelationValueLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(RelationValueLabel);
         Panel t2RelPnl = new(this);
         session.BeginRead(t2RelPnl);
@@ -3463,7 +3464,7 @@ public sealed partial class UnitWindow : ILayoutModule
         relationLbl.Alignment.BottomOffset = 20;
         relationLbl.Masked = true;
         relationLbl.Text = "Race Relation";
-        relationLbl.TextColor = 9415072;
+        relationLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(relationLbl);
         Label alignLbl = new(this);
         session.BeginRead(alignLbl);
@@ -3486,7 +3487,7 @@ public sealed partial class UnitWindow : ILayoutModule
         alignLbl.Alignment.BottomOffset = 20;
         alignLbl.Masked = true;
         alignLbl.Text = "Alignment";
-        alignLbl.TextColor = 9415072;
+        alignLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(alignLbl);
         Label typeLbl = new(this);
         session.BeginRead(typeLbl);
@@ -3509,7 +3510,7 @@ public sealed partial class UnitWindow : ILayoutModule
         typeLbl.Alignment.BottomOffset = 20;
         typeLbl.Masked = true;
         typeLbl.Text = "Type";
-        typeLbl.TextColor = 9415072;
+        typeLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(typeLbl);
         ExperienceLabel = new Label(this);
         session.BeginRead(ExperienceLabel);
@@ -3535,7 +3536,7 @@ public sealed partial class UnitWindow : ILayoutModule
         ExperienceLabel.Alignment.TopOffset = 30;
         ExperienceLabel.Alignment.BottomOffset = 0;
         ExperienceLabel.Masked = true;
-        ExperienceLabel.TextColor = 1514524;
+        ExperienceLabel.TextColor = new Color(28, 28, 23);
         session.EndRead(ExperienceLabel);
         NextUnitButton = new Button(this);
         session.BeginRead(NextUnitButton);
@@ -3566,8 +3567,8 @@ public sealed partial class UnitWindow : ILayoutModule
         NextUnitButton.ImageLibraryIndexDown = 26;
         NextUnitButton.ImageLibraryIndexLit = 25;
         NextUnitButton.ImageLibraryIndexUp = 25;
-        NextUnitButton.TextColor = 0;
-        NextUnitButton.TextSelectedColor = 16777215;
+        NextUnitButton.TextColor = Color.Black;
+        NextUnitButton.TextSelectedColor = Color.White;
         NextUnitButton.WinWidth = 12;
         NextUnitButton.Clicked += (_, _) => PNextClick();
         session.EndRead(NextUnitButton);
@@ -3600,8 +3601,8 @@ public sealed partial class UnitWindow : ILayoutModule
         PreviousUnitButton.ImageLibraryIndexDown = 24;
         PreviousUnitButton.ImageLibraryIndexLit = 23;
         PreviousUnitButton.ImageLibraryIndexUp = 23;
-        PreviousUnitButton.TextColor = 0;
-        PreviousUnitButton.TextSelectedColor = 16777215;
+        PreviousUnitButton.TextColor = Color.Black;
+        PreviousUnitButton.TextSelectedColor = Color.White;
         PreviousUnitButton.WinWidth = 12;
         PreviousUnitButton.Clicked += (_, _) => PPrevClick();
         session.EndRead(PreviousUnitButton);

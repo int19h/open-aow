@@ -16,6 +16,7 @@ using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiTextCompare;
 using static Aow.Rtl.IntegerObjects;
@@ -686,7 +687,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
                 string formatTurnsLeftString = DurationText.FormatTurnsLeftString(UI.Engine, turns: _city.Production.Settings.TurnsLeft);
                 ActiveActionTurnsLabel.Text = formatTurnsLeftString;
                 ActiveActionTurnsLabel.Visible = true;
-                ActiveActionTurnsLabel.TextColor = 0x67_83_76;
+                ActiveActionTurnsLabel.TextColor = new Color(118, 131, 103);
                 ActiveActionTurnsBar.Min = 0;
                 ActiveActionTurnsBar.Max = _city.Production.Settings.TurnsTotal;
                 ActiveActionTurnsBar.Position = _city.Production.Settings.TurnsTotal - _city.Production.Settings.TurnsLeft;
@@ -710,7 +711,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
                 ActiveActionLabel.Text = producingMerchandise;
                 string defaultText = UI.Engine.TranslateResourceString(GameText.DefaultText);
                 ActiveActionTurnsLabel.Text = $"({LowerCase(defaultText)})";
-                ActiveActionTurnsLabel.TextColor = 0x67_83_76;
+                ActiveActionTurnsLabel.TextColor = new Color(118, 131, 103);
                 ActiveActionTurnsBar.Visible = false;
                 int activityImage = ActivityImage(CityAction.None);
                 CurrentActionImage.CurrentImage = activityImage;
@@ -723,7 +724,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
                 ProductionItem? queue = _city.Production.Queue.GetItem(0);
                 _ = _city.Production.CanExecuteProduction(queue, ref reason);
                 ActiveActionTurnsLabel.Text = reason;
-                ActiveActionTurnsLabel.TextColor = 0x00_00_FF;
+                ActiveActionTurnsLabel.TextColor = Color.Red;
                 ActiveActionTurnsBar.Visible = false;
                 int activityImage = _city.Production.Queue.GetItem(0).Order.ActivityImage(_city);
                 CurrentActionImage.CurrentImage = activityImage;

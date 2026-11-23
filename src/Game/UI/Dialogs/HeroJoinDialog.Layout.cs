@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -308,8 +309,8 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         MiddleButton.ImageLibraryIndexLit = 25;
         MiddleButton.ImageLibraryIndexUp = 19;
         MiddleButton.Text = "Attack";
-        MiddleButton.TextColor = 328543;
-        MiddleButton.TextSelectedColor = 16777215;
+        MiddleButton.TextColor = new Color(95, 3, 5);
+        MiddleButton.TextSelectedColor = Color.White;
         MiddleButton.WinWidth = 112;
         MiddleButton.Clicked += (_, _) => MiddleBtnClick();
         session.EndRead(MiddleButton);
@@ -366,8 +367,8 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         RightButton.ImageLibraryIndexLit = 25;
         RightButton.ImageLibraryIndexUp = 19;
         RightButton.Text = "Cancel";
-        RightButton.TextColor = 0;
-        RightButton.TextSelectedColor = 16777215;
+        RightButton.TextColor = Color.Black;
+        RightButton.TextSelectedColor = Color.White;
         RightButton.WinWidth = 112;
         RightButton.Clicked += (_, _) => RightBtnClick();
         session.EndRead(RightButton);
@@ -397,8 +398,8 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         LeftButton.ImageLibraryIndexLit = 25;
         LeftButton.ImageLibraryIndexUp = 19;
         LeftButton.Text = "Accept";
-        LeftButton.TextColor = 0;
-        LeftButton.TextSelectedColor = 16777215;
+        LeftButton.TextColor = Color.Black;
+        LeftButton.TextSelectedColor = Color.White;
         LeftButton.WinWidth = 112;
         LeftButton.Clicked += (_, _) => LeftBtnClick();
         session.EndRead(LeftButton);
@@ -431,7 +432,7 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 6268490;
+        Window.MaskColor = new Color(74, 166, 95);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 16;
         Window.ImageLibraryIndexTexture = 2;
@@ -468,7 +469,7 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         HeroNameLabel.Alignment.BottomOffset = 0;
         HeroNameLabel.Masked = true;
         HeroNameLabel.Text = "#######";
-        HeroNameLabel.TextColor = 13827061;
+        HeroNameLabel.TextColor = new Color(245, 251, 210);
         session.EndRead(HeroNameLabel);
         HeroLevelLabel = new Label(this);
         session.BeginRead(HeroLevelLabel);
@@ -491,7 +492,7 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         HeroLevelLabel.Alignment.BottomOffset = 0;
         HeroLevelLabel.Masked = true;
         HeroLevelLabel.Text = "#########";
-        HeroLevelLabel.TextColor = 13827061;
+        HeroLevelLabel.TextColor = new Color(245, 251, 210);
         session.EndRead(HeroLevelLabel);
         FaceFrame = new Image(this);
         session.BeginRead(FaceFrame);
@@ -543,7 +544,7 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         detailsLbl.Alignment.BottomOffset = 74;
         detailsLbl.Masked = true;
         detailsLbl.Text = "Click on the unit(s) for details";
-        detailsLbl.TextColor = 2831663;
+        detailsLbl.TextColor = new Color(47, 53, 43);
         session.EndRead(detailsLbl);
         JoinMemo = new Memo(this);
         session.BeginRead(JoinMemo);
@@ -573,7 +574,7 @@ public sealed partial class HeroJoinDialog : ILayoutModule
         ];
         JoinMemo.BorderWidth = 0;
         JoinMemo.BorderHeight = 8;
-        JoinMemo.TextColor = 13827061;
+        JoinMemo.TextColor = new Color(245, 251, 210);
         JoinMemo.CursorChar = 95;
         JoinMemo.BlinkDelay = 2;
         JoinMemo.Editable = true;

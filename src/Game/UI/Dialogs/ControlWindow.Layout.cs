@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -42,7 +43,7 @@ public sealed partial class ControlWindow : ILayoutModule
         MainWindow.OverlapTopCorners = false;
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
-        MainWindow.MaskColor = 0;
+        MainWindow.MaskColor = Color.Black;
         MainWindow.FreeSurfaceOnHide = false;
         MainWindow.ImageLibraryIndexFrame = 0;
         MainWindow.ImageLibraryIndexTexture = 2;
@@ -81,7 +82,7 @@ public sealed partial class ControlWindow : ILayoutModule
         cwTitle.Alignment.BottomOffset = 0;
         cwTitle.Masked = true;
         cwTitle.Text = "Party";
-        cwTitle.TextColor = 0;
+        cwTitle.TextColor = Color.Black;
         session.EndRead(cwTitle);
         Button cwMinIcon = new(this);
         session.BeginRead(cwMinIcon);
@@ -112,8 +113,8 @@ public sealed partial class ControlWindow : ILayoutModule
         cwMinIcon.ImageLibraryIndexDown = 4;
         cwMinIcon.ImageLibraryIndexLit = 5;
         cwMinIcon.ImageLibraryIndexUp = 3;
-        cwMinIcon.TextColor = 0;
-        cwMinIcon.TextSelectedColor = 0;
+        cwMinIcon.TextColor = Color.Black;
+        cwMinIcon.TextSelectedColor = Color.Black;
         cwMinIcon.WinWidth = 15;
         cwMinIcon.Clicked += (_, _) => CWMinIconClick();
         session.EndRead(cwMinIcon);
@@ -416,7 +417,7 @@ public sealed partial class ControlWindow : ILayoutModule
         MovesLabel.Alignment.TopOffset = 4;
         MovesLabel.Alignment.BottomOffset = 0;
         MovesLabel.Masked = true;
-        MovesLabel.TextColor = 16777215;
+        MovesLabel.TextColor = Color.White;
         session.EndRead(MovesLabel);
         PartyStatusLabel = new Label(this);
         session.BeginRead(PartyStatusLabel);
@@ -442,7 +443,7 @@ public sealed partial class ControlWindow : ILayoutModule
         PartyStatusLabel.Alignment.TopOffset = 4;
         PartyStatusLabel.Alignment.BottomOffset = 0;
         PartyStatusLabel.Masked = true;
-        PartyStatusLabel.TextColor = 16777215;
+        PartyStatusLabel.TextColor = Color.White;
         session.EndRead(PartyStatusLabel);
         Button close = new(this);
         session.BeginRead(close);
@@ -473,8 +474,8 @@ public sealed partial class ControlWindow : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
@@ -1161,8 +1162,8 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit1CheckBox.ImageLibraryIndexDown = 23;
         Unit1CheckBox.ImageLibraryIndexLit = 20;
         Unit1CheckBox.ImageLibraryIndexUp = 20;
-        Unit1CheckBox.TextColor = 0;
-        Unit1CheckBox.TextSelectedColor = 0;
+        Unit1CheckBox.TextColor = Color.Black;
+        Unit1CheckBox.TextSelectedColor = Color.Black;
         Unit1CheckBox.WinWidth = 46;
         Unit1CheckBox.Checked = false;
         unit1CheckBox.Changed += (_, _) => Unit1ChkChange(unit1CheckBox);
@@ -1199,8 +1200,8 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit2CheckBox.ImageLibraryIndexDown = 23;
         Unit2CheckBox.ImageLibraryIndexLit = 20;
         Unit2CheckBox.ImageLibraryIndexUp = 20;
-        Unit2CheckBox.TextColor = 0;
-        Unit2CheckBox.TextSelectedColor = 0;
+        Unit2CheckBox.TextColor = Color.Black;
+        Unit2CheckBox.TextSelectedColor = Color.Black;
         Unit2CheckBox.WinWidth = 46;
         Unit2CheckBox.Checked = false;
         unit2CheckBox.Changed += (_, _) => Unit1ChkChange(unit2CheckBox);
@@ -1237,8 +1238,8 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit3CheckBox.ImageLibraryIndexDown = 23;
         Unit3CheckBox.ImageLibraryIndexLit = 20;
         Unit3CheckBox.ImageLibraryIndexUp = 20;
-        Unit3CheckBox.TextColor = 0;
-        Unit3CheckBox.TextSelectedColor = 0;
+        Unit3CheckBox.TextColor = Color.Black;
+        Unit3CheckBox.TextSelectedColor = Color.Black;
         Unit3CheckBox.WinWidth = 46;
         Unit3CheckBox.Checked = false;
         unit3CheckBox.Changed += (_, _) => Unit1ChkChange(unit3CheckBox);
@@ -1275,8 +1276,8 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit5CheckBox.ImageLibraryIndexDown = 23;
         Unit5CheckBox.ImageLibraryIndexLit = 20;
         Unit5CheckBox.ImageLibraryIndexUp = 20;
-        Unit5CheckBox.TextColor = 0;
-        Unit5CheckBox.TextSelectedColor = 0;
+        Unit5CheckBox.TextColor = Color.Black;
+        Unit5CheckBox.TextSelectedColor = Color.Black;
         Unit5CheckBox.WinWidth = 46;
         Unit5CheckBox.Checked = false;
         unit5CheckBox.Changed += (_, _) => Unit1ChkChange(unit5CheckBox);
@@ -1313,8 +1314,8 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit6CheckBox.ImageLibraryIndexDown = 23;
         Unit6CheckBox.ImageLibraryIndexLit = 20;
         Unit6CheckBox.ImageLibraryIndexUp = 20;
-        Unit6CheckBox.TextColor = 0;
-        Unit6CheckBox.TextSelectedColor = 0;
+        Unit6CheckBox.TextColor = Color.Black;
+        Unit6CheckBox.TextSelectedColor = Color.Black;
         Unit6CheckBox.WinWidth = 46;
         Unit6CheckBox.Checked = false;
         unit6CheckBox.Changed += (_, _) => Unit1ChkChange(unit6CheckBox);
@@ -1351,8 +1352,8 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit7CheckBox.ImageLibraryIndexDown = 23;
         Unit7CheckBox.ImageLibraryIndexLit = 20;
         Unit7CheckBox.ImageLibraryIndexUp = 20;
-        Unit7CheckBox.TextColor = 0;
-        Unit7CheckBox.TextSelectedColor = 0;
+        Unit7CheckBox.TextColor = Color.Black;
+        Unit7CheckBox.TextSelectedColor = Color.Black;
         Unit7CheckBox.WinWidth = 46;
         Unit7CheckBox.Checked = false;
         unit7CheckBox.Changed += (_, _) => Unit1ChkChange(unit7CheckBox);
@@ -1389,8 +1390,8 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit4CheckBox.ImageLibraryIndexDown = 23;
         Unit4CheckBox.ImageLibraryIndexLit = 20;
         Unit4CheckBox.ImageLibraryIndexUp = 20;
-        Unit4CheckBox.TextColor = 0;
-        Unit4CheckBox.TextSelectedColor = 0;
+        Unit4CheckBox.TextColor = Color.Black;
+        Unit4CheckBox.TextSelectedColor = Color.Black;
         Unit4CheckBox.WinWidth = 46;
         Unit4CheckBox.Checked = false;
         unit4CheckBox.Changed += (_, _) => Unit1ChkChange(unit4CheckBox);
@@ -1427,8 +1428,8 @@ public sealed partial class ControlWindow : ILayoutModule
         Unit8CheckBox.ImageLibraryIndexDown = 23;
         Unit8CheckBox.ImageLibraryIndexLit = 20;
         Unit8CheckBox.ImageLibraryIndexUp = 20;
-        Unit8CheckBox.TextColor = 0;
-        Unit8CheckBox.TextSelectedColor = 0;
+        Unit8CheckBox.TextColor = Color.Black;
+        Unit8CheckBox.TextSelectedColor = Color.Black;
         Unit8CheckBox.WinWidth = 46;
         Unit8CheckBox.Checked = false;
         unit8CheckBox.Changed += (_, _) => Unit1ChkChange(unit8CheckBox);
@@ -1913,7 +1914,7 @@ public sealed partial class ControlWindow : ILayoutModule
         PartyInfoLabel.Alignment.TopOffset = 0;
         PartyInfoLabel.Alignment.BottomOffset = 0;
         PartyInfoLabel.Masked = true;
-        PartyInfoLabel.TextColor = 9236989;
+        PartyInfoLabel.TextColor = new Color(253, 241, 140);
         session.EndRead(PartyInfoLabel);
         Button center = new(this);
         session.BeginRead(center);
@@ -1944,8 +1945,8 @@ public sealed partial class ControlWindow : ILayoutModule
         center.ImageLibraryIndexDown = 7;
         center.ImageLibraryIndexLit = 8;
         center.ImageLibraryIndexUp = 6;
-        center.TextColor = 0;
-        center.TextSelectedColor = 0;
+        center.TextColor = Color.Black;
+        center.TextSelectedColor = Color.Black;
         center.WinWidth = 15;
         center.Clicked += (_, _) => CenterClick();
         session.EndRead(center);
@@ -1978,8 +1979,8 @@ public sealed partial class ControlWindow : ILayoutModule
         help.ImageLibraryIndexDown = 60;
         help.ImageLibraryIndexLit = 61;
         help.ImageLibraryIndexUp = 59;
-        help.TextColor = 0;
-        help.TextSelectedColor = 0;
+        help.TextColor = Color.Black;
+        help.TextSelectedColor = Color.Black;
         help.WinWidth = 15;
         help.Clicked += (_, _) => HelpClick();
         session.EndRead(help);
@@ -2013,8 +2014,8 @@ public sealed partial class ControlWindow : ILayoutModule
         pPrev.ImageLibraryIndexLit = 82;
         pPrev.ImageLibraryIndexUp = 76;
         pPrev.Text = "<";
-        pPrev.TextColor = 0;
-        pPrev.TextSelectedColor = 16777215;
+        pPrev.TextColor = Color.Black;
+        pPrev.TextSelectedColor = Color.White;
         pPrev.WinWidth = 29;
         pPrev.Clicked += (_, _) => PPrevClick();
         session.EndRead(pPrev);
@@ -2048,8 +2049,8 @@ public sealed partial class ControlWindow : ILayoutModule
         pMove.ImageLibraryIndexLit = 82;
         pMove.ImageLibraryIndexUp = 76;
         pMove.Text = "Move";
-        pMove.TextColor = 0;
-        pMove.TextSelectedColor = 16777215;
+        pMove.TextColor = Color.Black;
+        pMove.TextSelectedColor = Color.White;
         pMove.WinWidth = 69;
         pMove.Clicked += (_, _) => PMoveClick();
         session.EndRead(pMove);
@@ -2083,8 +2084,8 @@ public sealed partial class ControlWindow : ILayoutModule
         pNext.ImageLibraryIndexLit = 82;
         pNext.ImageLibraryIndexUp = 76;
         pNext.Text = ">";
-        pNext.TextColor = 0;
-        pNext.TextSelectedColor = 16777215;
+        pNext.TextColor = Color.Black;
+        pNext.TextSelectedColor = Color.White;
         pNext.WinWidth = 29;
         pNext.Clicked += (_, _) => PNextClick();
         session.EndRead(pNext);
@@ -2145,8 +2146,8 @@ public sealed partial class ControlWindow : ILayoutModule
         PartyGuardCheckBox.ImageLibraryIndexLit = 82;
         PartyGuardCheckBox.ImageLibraryIndexUp = 76;
         PartyGuardCheckBox.Text = "Guard";
-        PartyGuardCheckBox.TextColor = 0;
-        PartyGuardCheckBox.TextSelectedColor = 16777215;
+        PartyGuardCheckBox.TextColor = Color.Black;
+        PartyGuardCheckBox.TextSelectedColor = Color.White;
         PartyGuardCheckBox.WinWidth = 68;
         PartyGuardCheckBox.Checked = false;
         PartyGuardCheckBox.Changed += (_, _) => PGuardChange();
@@ -2262,7 +2263,7 @@ public sealed partial class ControlWindow : ILayoutModule
         PartyActionLabel1.Alignment.BottomOffset = 0;
         PartyActionLabel1.Masked = true;
         PartyActionLabel1.Text = "Party Action:";
-        PartyActionLabel1.TextColor = 9236989;
+        PartyActionLabel1.TextColor = new Color(253, 241, 140);
         session.EndRead(PartyActionLabel1);
         PartyActionLabel2 = new Label(this);
         session.BeginRead(PartyActionLabel2);
@@ -2285,7 +2286,7 @@ public sealed partial class ControlWindow : ILayoutModule
         PartyActionLabel2.Alignment.BottomOffset = 0;
         PartyActionLabel2.Masked = true;
         PartyActionLabel2.Text = "Party Action:";
-        PartyActionLabel2.TextColor = 16777215;
+        PartyActionLabel2.TextColor = Color.White;
         session.EndRead(PartyActionLabel2);
         session.EndRead(this);
         cwTitle.Window = MainWindow;

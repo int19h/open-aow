@@ -4,6 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -43,7 +44,7 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         MainWindow.OverlapTopCorners = false;
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
-        MainWindow.MaskColor = 0;
+        MainWindow.MaskColor = Color.Black;
         MainWindow.FreeSurfaceOnHide = false;
         MainWindow.ImageLibraryIndexFrame = 0;
         MainWindow.ImageLibraryIndexTexture = 2;
@@ -90,8 +91,8 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         min.ImageLibraryIndexDown = 4;
         min.ImageLibraryIndexLit = 5;
         min.ImageLibraryIndexUp = 3;
-        min.TextColor = 0;
-        min.TextSelectedColor = 0;
+        min.TextColor = Color.Black;
+        min.TextSelectedColor = Color.Black;
         min.WinWidth = 15;
         min.Clicked += (_, _) => MinClick();
         session.EndRead(min);
@@ -116,7 +117,7 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         iwTitle.Alignment.BottomOffset = 0;
         iwTitle.Masked = true;
         iwTitle.Text = "Events";
-        iwTitle.TextColor = 0;
+        iwTitle.TextColor = Color.Black;
         session.EndRead(iwTitle);
         Image sIcon = new(this);
         session.BeginRead(sIcon);
@@ -183,8 +184,8 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
             LockedSurface surface = e.Surface;
             EventListPreDrawItem(e.Rectangle, drawItem: e.Item, lockedSurface: in surface);
         };
-        EventList.TextColor = 9415072;
-        EventList.TextSelectedColor = 0;
+        EventList.TextColor = new Color(160, 169, 143);
+        EventList.TextSelectedColor = Color.Black;
         EventList.ImageLibraryIndexFrame = 113;
         EventList.ImageLibraryIndexTNormal = 21;
         EventList.ImageLibraryIndexTSelected = 8;
@@ -212,7 +213,7 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         OfTheLabel.Alignment.BottomOffset = 0;
         OfTheLabel.Masked = true;
         OfTheLabel.Text = "of the";
-        OfTheLabel.TextColor = 9415072;
+        OfTheLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(OfTheLabel);
         TurnLabel = new Label(this);
         session.BeginRead(TurnLabel);
@@ -238,7 +239,7 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         TurnLabel.Alignment.TopOffset = 20;
         TurnLabel.Alignment.BottomOffset = 5;
         TurnLabel.Masked = true;
-        TurnLabel.TextColor = 9415072;
+        TurnLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(TurnLabel);
         RaceShield = new Image(this);
         session.BeginRead(RaceShield);
@@ -390,8 +391,8 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         leaderCB.ImageLibraryIndexDown = 42;
         leaderCB.ImageLibraryIndexLit = 43;
         leaderCB.ImageLibraryIndexUp = 43;
-        leaderCB.TextColor = 0;
-        leaderCB.TextSelectedColor = 0;
+        leaderCB.TextColor = Color.Black;
+        leaderCB.TextSelectedColor = Color.Black;
         leaderCB.WinWidth = 52;
         leaderCB.Checked = false;
         leaderCB.RadioIndex = 1;
@@ -446,7 +447,7 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         eventLbl.Alignment.BottomOffset = 0;
         eventLbl.Masked = true;
         eventLbl.Text = "Event History";
-        eventLbl.TextColor = 0;
+        eventLbl.TextColor = Color.Black;
         session.EndRead(eventLbl);
         Panel shieldFr = new(this);
         session.BeginRead(shieldFr);
@@ -553,7 +554,7 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         PlayerLabel.Alignment.TopOffset = 6;
         PlayerLabel.Alignment.BottomOffset = 0;
         PlayerLabel.Masked = true;
-        PlayerLabel.TextColor = 9415072;
+        PlayerLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(PlayerLabel);
         RaceLabel = new Label(this);
         session.BeginRead(RaceLabel);
@@ -579,7 +580,7 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         RaceLabel.Alignment.TopOffset = 31;
         RaceLabel.Alignment.BottomOffset = 0;
         RaceLabel.Masked = true;
-        RaceLabel.TextColor = 9415072;
+        RaceLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(RaceLabel);
         CheckBox raceCB = new(this);
         session.BeginRead(raceCB);
@@ -612,8 +613,8 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         raceCB.ImageLibraryIndexDown = 42;
         raceCB.ImageLibraryIndexLit = 43;
         raceCB.ImageLibraryIndexUp = 43;
-        raceCB.TextColor = 0;
-        raceCB.TextSelectedColor = 0;
+        raceCB.TextColor = Color.Black;
+        raceCB.TextSelectedColor = Color.Black;
         raceCB.WinWidth = 52;
         raceCB.Checked = false;
         raceCB.RadioIndex = 1;
@@ -647,8 +648,8 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         center.ImageLibraryIndexDown = 7;
         center.ImageLibraryIndexLit = 8;
         center.ImageLibraryIndexUp = 6;
-        center.TextColor = 0;
-        center.TextSelectedColor = 0;
+        center.TextColor = Color.Black;
+        center.TextSelectedColor = Color.Black;
         center.WinWidth = 15;
         center.Clicked += (_, _) => CenterButtonClick();
         session.EndRead(center);
@@ -681,8 +682,8 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         help.ImageLibraryIndexDown = 60;
         help.ImageLibraryIndexLit = 61;
         help.ImageLibraryIndexUp = 59;
-        help.TextColor = 0;
-        help.TextSelectedColor = 0;
+        help.TextColor = Color.Black;
+        help.TextSelectedColor = Color.Black;
         help.WinWidth = 15;
         help.Clicked += (_, _) => HelpClick();
         session.EndRead(help);

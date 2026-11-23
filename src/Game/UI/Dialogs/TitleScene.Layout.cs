@@ -4,6 +4,7 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -54,7 +55,7 @@ public sealed partial class TitleScene : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = false;
-        Window.MaskColor = 0;
+        Window.MaskColor = Color.Black;
         Window.FreeSurfaceOnHide = false;
         Window.ImageLibraryIndexFrame = 0;
         Window.ImageLibraryIndexTexture = 0;
@@ -114,7 +115,7 @@ public sealed partial class TitleScene : ILayoutModule
         ];
         LegalNoticeMemo.BorderWidth = 0;
         LegalNoticeMemo.BorderHeight = 0;
-        LegalNoticeMemo.TextColor = 255;
+        LegalNoticeMemo.TextColor = Color.Red;
         LegalNoticeMemo.CursorChar = 124;
         LegalNoticeMemo.BlinkDelay = 0;
         LegalNoticeMemo.Editable = false;
@@ -145,7 +146,7 @@ public sealed partial class TitleScene : ILayoutModule
         DemoNoticeLabel.Alignment.BottomOffset = 0;
         DemoNoticeLabel.Masked = true;
         DemoNoticeLabel.Text = "This special demo version of Age of Wonders has been internally marked for:";
-        DemoNoticeLabel.TextColor = 255;
+        DemoNoticeLabel.TextColor = Color.Red;
         session.EndRead(DemoNoticeLabel);
         NameLabel = new Label(this);
         session.BeginRead(NameLabel);
@@ -168,7 +169,7 @@ public sealed partial class TitleScene : ILayoutModule
         NameLabel.Alignment.BottomOffset = 0;
         NameLabel.Masked = true;
         NameLabel.Text = "######";
-        NameLabel.TextColor = 255;
+        NameLabel.TextColor = Color.Red;
         session.EndRead(NameLabel);
         Label copyright = new(this);
         session.BeginRead(copyright);
@@ -191,7 +192,7 @@ public sealed partial class TitleScene : ILayoutModule
         copyright.Alignment.BottomOffset = 10;
         copyright.Masked = true;
         copyright.Text = "Copyright (C) 1999 Epic MegaGames and Kolbitar Development";
-        copyright.TextColor = 16777215;
+        copyright.TextColor = Color.White;
         session.EndRead(copyright);
         VersionLabel = new Label(this);
         session.BeginRead(VersionLabel);
@@ -214,7 +215,7 @@ public sealed partial class TitleScene : ILayoutModule
         VersionLabel.Alignment.BottomOffset = 3;
         VersionLabel.Masked = true;
         VersionLabel.Text = "########";
-        VersionLabel.TextColor = 8421504;
+        VersionLabel.TextColor = Color.Gray;
         session.EndRead(VersionLabel);
         session.EndRead(this);
         LegalNoticeMemo.Window = Window;

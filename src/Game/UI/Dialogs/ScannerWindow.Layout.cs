@@ -4,6 +4,7 @@ using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -43,7 +44,7 @@ public sealed partial class ScannerWindow : ILayoutModule
         MainWindow.OverlapTopCorners = false;
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
-        MainWindow.MaskColor = 0;
+        MainWindow.MaskColor = Color.Black;
         MainWindow.FreeSurfaceOnHide = false;
         MainWindow.ImageLibraryIndexFrame = 0;
         MainWindow.ImageLibraryIndexTexture = 2;
@@ -117,8 +118,8 @@ public sealed partial class ScannerWindow : ILayoutModule
         ScannerTabs.Changed += (_, _) => ScannerTabChange();
         ScannerTabs.Selected = 1;
         ScannerTabs.WinWidth = 145;
-        ScannerTabs.TextColor = 1777703;
-        ScannerTabs.TextSelectedColor = 0;
+        ScannerTabs.TextColor = new Color(39, 32, 27);
+        ScannerTabs.TextSelectedColor = Color.Black;
         ScannerTabs.ImageLibraryIndexDown = 17;
         ScannerTabs.ImageLibraryIndexUp = 14;
         ScannerTabs.BorderHeightSelected = 3;
@@ -153,8 +154,8 @@ public sealed partial class ScannerWindow : ILayoutModule
         BuildingCheckBox.ImageLibraryIndexDown = 9;
         BuildingCheckBox.ImageLibraryIndexLit = 0;
         BuildingCheckBox.ImageLibraryIndexUp = 8;
-        BuildingCheckBox.TextColor = 0;
-        BuildingCheckBox.TextSelectedColor = 0;
+        BuildingCheckBox.TextColor = Color.Black;
+        BuildingCheckBox.TextSelectedColor = Color.Black;
         BuildingCheckBox.WinWidth = 15;
         BuildingCheckBox.Checked = true;
         buildingCheckBox.Changed += (_, _) => BuildingCheckChange(buildingCheckBox);
@@ -190,8 +191,8 @@ public sealed partial class ScannerWindow : ILayoutModule
         ArmyCheckBox.ImageLibraryIndexDown = 11;
         ArmyCheckBox.ImageLibraryIndexLit = 0;
         ArmyCheckBox.ImageLibraryIndexUp = 10;
-        ArmyCheckBox.TextColor = 0;
-        ArmyCheckBox.TextSelectedColor = 0;
+        ArmyCheckBox.TextColor = Color.Black;
+        ArmyCheckBox.TextSelectedColor = Color.Black;
         ArmyCheckBox.WinWidth = 15;
         ArmyCheckBox.Checked = true;
         armyCheckBox.Changed += (_, _) => ArmyCheckChange(armyCheckBox);
@@ -227,8 +228,8 @@ public sealed partial class ScannerWindow : ILayoutModule
         NaturalCheckBox.ImageLibraryIndexDown = 13;
         NaturalCheckBox.ImageLibraryIndexLit = 0;
         NaturalCheckBox.ImageLibraryIndexUp = 12;
-        NaturalCheckBox.TextColor = 0;
-        NaturalCheckBox.TextSelectedColor = 0;
+        NaturalCheckBox.TextColor = Color.Black;
+        NaturalCheckBox.TextSelectedColor = Color.Black;
         NaturalCheckBox.WinWidth = 15;
         NaturalCheckBox.Checked = true;
         naturalCheckBox.Changed += (_, _) => NaturalCheckChange(naturalCheckBox);
@@ -317,7 +318,7 @@ public sealed partial class ScannerWindow : ILayoutModule
         TitleLabel.Alignment.BottomOffset = 0;
         TitleLabel.Masked = true;
         TitleLabel.Text = "World Map";
-        TitleLabel.TextColor = 0;
+        TitleLabel.TextColor = Color.Black;
         session.EndRead(TitleLabel);
         Button sMinIcon = new(this);
         session.BeginRead(sMinIcon);
@@ -348,8 +349,8 @@ public sealed partial class ScannerWindow : ILayoutModule
         sMinIcon.ImageLibraryIndexDown = 4;
         sMinIcon.ImageLibraryIndexLit = 5;
         sMinIcon.ImageLibraryIndexUp = 3;
-        sMinIcon.TextColor = 0;
-        sMinIcon.TextSelectedColor = 0;
+        sMinIcon.TextColor = Color.Black;
+        sMinIcon.TextSelectedColor = Color.Black;
         sMinIcon.WinWidth = 15;
         sMinIcon.Clicked += (_, _) => SMinIconClick();
         session.EndRead(sMinIcon);
@@ -382,8 +383,8 @@ public sealed partial class ScannerWindow : ILayoutModule
         help.ImageLibraryIndexDown = 60;
         help.ImageLibraryIndexLit = 61;
         help.ImageLibraryIndexUp = 59;
-        help.TextColor = 0;
-        help.TextSelectedColor = 0;
+        help.TextColor = Color.Black;
+        help.TextSelectedColor = Color.Black;
         help.WinWidth = 15;
         help.Clicked += (_, _) => HelpClick();
         session.EndRead(help);

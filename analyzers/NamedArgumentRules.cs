@@ -71,6 +71,7 @@ public static class NamedArgumentRules
     [
         ["year", "month", "day", "hour", "minute", "second"],
         ["x", "y", "z"],
+        ["r", "g", "b"],
         ["x", "y", "level"],
         ["year", "month", "day"],
         ["hour", "minute", "second"],

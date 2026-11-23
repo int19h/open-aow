@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -45,7 +46,7 @@ public sealed partial class ArmyEventDialog : ILayoutModule
         ArmyEventWindow.OverlapTopCorners = false;
         ArmyEventWindow.Cursor = 0;
         ArmyEventWindow.DoubleBuffered = true;
-        ArmyEventWindow.MaskColor = 5808200;
+        ArmyEventWindow.MaskColor = new Color(72, 160, 88);
         ArmyEventWindow.FreeSurfaceOnHide = true;
         ArmyEventWindow.ImageLibraryIndexFrame = 32;
         ArmyEventWindow.ImageLibraryIndexTexture = 2;
@@ -138,7 +139,7 @@ public sealed partial class ArmyEventDialog : ILayoutModule
         EventTextLabel.Alignment.BottomOffset = 0;
         EventTextLabel.Masked = true;
         EventTextLabel.Text = "#########";
-        EventTextLabel.TextColor = 0;
+        EventTextLabel.TextColor = Color.Black;
         session.EndRead(EventTextLabel);
         DamagePicture = new Image(this);
         session.BeginRead(DamagePicture);
@@ -198,8 +199,8 @@ public sealed partial class ArmyEventDialog : ILayoutModule
         closeBut.ImageLibraryIndexLit = 25;
         closeBut.ImageLibraryIndexUp = 19;
         closeBut.Text = "Close";
-        closeBut.TextColor = 0;
-        closeBut.TextSelectedColor = 16777215;
+        closeBut.TextColor = Color.Black;
+        closeBut.TextSelectedColor = Color.White;
         closeBut.WinWidth = 120;
         closeBut.Clicked += (_, _) => CloseClick();
         session.EndRead(closeBut);
@@ -260,8 +261,8 @@ public sealed partial class ArmyEventDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
@@ -286,7 +287,7 @@ public sealed partial class ArmyEventDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Party Damage";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);

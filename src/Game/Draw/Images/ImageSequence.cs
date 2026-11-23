@@ -1,6 +1,7 @@
 #nullable disable warnings
 // Translated from ImageLib.pas.
 using Aow.Formats.Tree;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiStrings;
@@ -494,7 +495,7 @@ public sealed class ImageSequence(ImageSequenceList? owner) : IDisposable
     public int OffsetX { get => _offsetX; set => _offsetX = value; }
     public int OffsetY { get => _offsetY; set => _offsetY = value; }
 
-    internal static void BlitImageSequence(ImageSequence? sequence, int X, int Y, in Rect R, int frame, int bkColor)
+    internal static void BlitImageSequence(ImageSequence? sequence, int X, int Y, in Rect R, int frame, Color bkColor)
     {
         LockedSurface lockedSurface = default;
         Dib16Surface surface = new(R.Right - R.Left, R.Bottom - R.Top, pixelFormatId: PixelFormat.Rgb565);

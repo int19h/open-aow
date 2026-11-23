@@ -1,5 +1,6 @@
 #nullable disable warnings
 
+using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Game.Draw.Images;
@@ -40,7 +41,7 @@ public sealed partial class ImageLibraryFont
         }
     }
 
-    internal void SetColor(int value)
+    internal void SetColor(Color value)
     {
         if (_fontColorPaletteIndex >= 0 && PaletteManager.Palettes.Count != 0)
         {

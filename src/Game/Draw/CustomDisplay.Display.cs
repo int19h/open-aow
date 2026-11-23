@@ -1,5 +1,6 @@
 #nullable disable warnings
 using Aow.Game.Host;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Game.Draw.CustomDisplay.DisplayOptions;
 using static Aow.Game.Draw.DisplayStatuses;
@@ -16,7 +17,7 @@ public partial class CustomDisplay
     public Action<long> FramePresented { get; set; }
 
     // The color that clears new back surfaces. Create sets it to black (clBlack).
-    public int Color { get; init; }
+    public Color Color { get; init; }
 
     public void PresentInitialFrame()
     {

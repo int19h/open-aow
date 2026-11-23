@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -42,7 +43,7 @@ public sealed partial class TargetSelectionDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 0;
+        Window.MaskColor = Color.Black;
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 0;
         Window.ImageLibraryIndexTexture = 2;
@@ -114,8 +115,8 @@ public sealed partial class TargetSelectionDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
@@ -140,7 +141,7 @@ public sealed partial class TargetSelectionDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Target Selector";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Image sIcon = new(this);
         session.BeginRead(sIcon);
@@ -196,8 +197,8 @@ public sealed partial class TargetSelectionDialog : ILayoutModule
         MainButton.ImageLibraryIndexLit = 25;
         MainButton.ImageLibraryIndexUp = 19;
         MainButton.Text = "Cancel";
-        MainButton.TextColor = 0;
-        MainButton.TextSelectedColor = 16777215;
+        MainButton.TextColor = Color.Black;
+        MainButton.TextSelectedColor = Color.White;
         MainButton.WinWidth = 110;
         MainButton.Clicked += (_, _) => MainBtnClick();
         session.EndRead(MainButton);
@@ -229,7 +230,7 @@ public sealed partial class TargetSelectionDialog : ILayoutModule
         ];
         DefaultMemo.BorderWidth = 3;
         DefaultMemo.BorderHeight = 0;
-        DefaultMemo.TextColor = 9236989;
+        DefaultMemo.TextColor = new Color(253, 241, 140);
         DefaultMemo.CursorChar = 124;
         DefaultMemo.BlinkDelay = 0;
         DefaultMemo.Editable = false;
@@ -287,7 +288,7 @@ public sealed partial class TargetSelectionDialog : ILayoutModule
         HeaderLabel.Alignment.BottomOffset = 0;
         HeaderLabel.Masked = true;
         HeaderLabel.Text = "########";
-        HeaderLabel.TextColor = 16777215;
+        HeaderLabel.TextColor = Color.White;
         session.EndRead(HeaderLabel);
         Panel headerPnl = new(this);
         session.BeginRead(headerPnl);
@@ -390,7 +391,7 @@ public sealed partial class TargetSelectionDialog : ILayoutModule
         spellMemo.WinHeight = 127;
         spellMemo.BorderWidth = 3;
         spellMemo.BorderHeight = 0;
-        spellMemo.TextColor = 9236989;
+        spellMemo.TextColor = new Color(253, 241, 140);
         spellMemo.CursorChar = 124;
         spellMemo.BlinkDelay = 0;
         spellMemo.Editable = false;
@@ -421,7 +422,7 @@ public sealed partial class TargetSelectionDialog : ILayoutModule
         targetRangeLabel.Alignment.BottomOffset = 0;
         targetRangeLabel.Masked = true;
         targetRangeLabel.Text = "Target Range";
-        targetRangeLabel.TextColor = 9236989;
+        targetRangeLabel.TextColor = new Color(253, 241, 140);
         session.EndRead(targetRangeLabel);
         TargetLabel = new Label(this);
         session.BeginRead(TargetLabel);
@@ -444,7 +445,7 @@ public sealed partial class TargetSelectionDialog : ILayoutModule
         TargetLabel.Alignment.BottomOffset = 0;
         TargetLabel.Masked = true;
         TargetLabel.Text = "######";
-        TargetLabel.TextColor = 16777215;
+        TargetLabel.TextColor = Color.White;
         session.EndRead(TargetLabel);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);

@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -42,7 +43,7 @@ public sealed partial class InfoWindow : ILayoutModule
         MainWindow.OverlapTopCorners = false;
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
-        MainWindow.MaskColor = 0;
+        MainWindow.MaskColor = Color.Black;
         MainWindow.FreeSurfaceOnHide = false;
         MainWindow.ImageLibraryIndexFrame = 0;
         MainWindow.ImageLibraryIndexTexture = 2;
@@ -89,8 +90,8 @@ public sealed partial class InfoWindow : ILayoutModule
         min.ImageLibraryIndexDown = 4;
         min.ImageLibraryIndexLit = 5;
         min.ImageLibraryIndexUp = 3;
-        min.TextColor = 0;
-        min.TextSelectedColor = 0;
+        min.TextColor = Color.Black;
+        min.TextSelectedColor = Color.Black;
         min.WinWidth = 15;
         min.Clicked += (_, _) => MinClick();
         session.EndRead(min);
@@ -123,8 +124,8 @@ public sealed partial class InfoWindow : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
@@ -149,7 +150,7 @@ public sealed partial class InfoWindow : ILayoutModule
         TitleLabel.Alignment.BottomOffset = 0;
         TitleLabel.Masked = true;
         TitleLabel.Text = "Structure";
-        TitleLabel.TextColor = 0;
+        TitleLabel.TextColor = Color.Black;
         session.EndRead(TitleLabel);
         Image sIcon = new(this);
         session.BeginRead(sIcon);
@@ -205,8 +206,8 @@ public sealed partial class InfoWindow : ILayoutModule
         MainButton.ImageLibraryIndexLit = 25;
         MainButton.ImageLibraryIndexUp = 19;
         MainButton.Text = "Enter";
-        MainButton.TextColor = 0;
-        MainButton.TextSelectedColor = 16777215;
+        MainButton.TextColor = Color.Black;
+        MainButton.TextSelectedColor = Color.White;
         MainButton.WinWidth = 108;
         MainButton.Clicked += (_, _) => MainBtnClick();
         session.EndRead(MainButton);
@@ -280,7 +281,7 @@ public sealed partial class InfoWindow : ILayoutModule
         StructureNameLabel.Alignment.BottomOffset = 0;
         StructureNameLabel.Masked = true;
         StructureNameLabel.Text = "#####";
-        StructureNameLabel.TextColor = 16777215;
+        StructureNameLabel.TextColor = Color.White;
         session.EndRead(StructureNameLabel);
         ProductionPlacePanel = new Panel(this);
         session.BeginRead(ProductionPlacePanel);
@@ -361,7 +362,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ActiveActionMemo.WinHeight = 101;
         ActiveActionMemo.BorderWidth = 3;
         ActiveActionMemo.BorderHeight = 0;
-        ActiveActionMemo.TextColor = 0;
+        ActiveActionMemo.TextColor = Color.Black;
         ActiveActionMemo.CursorChar = 124;
         ActiveActionMemo.BlinkDelay = 0;
         ActiveActionMemo.Editable = false;
@@ -423,7 +424,7 @@ public sealed partial class InfoWindow : ILayoutModule
         SignTextMemo.WinHeight = 139;
         SignTextMemo.BorderWidth = 12;
         SignTextMemo.BorderHeight = 20;
-        SignTextMemo.TextColor = 9688812;
+        SignTextMemo.TextColor = new Color(236, 214, 147);
         SignTextMemo.CursorChar = 95;
         SignTextMemo.BlinkDelay = 2;
         SignTextMemo.Editable = true;
@@ -454,7 +455,7 @@ public sealed partial class InfoWindow : ILayoutModule
         signLbl.Alignment.BottomOffset = 0;
         signLbl.Masked = true;
         signLbl.Text = "The sign reads:";
-        signLbl.TextColor = 16777215;
+        signLbl.TextColor = Color.White;
         session.EndRead(signLbl);
         Frame signTLine = new(this);
         session.BeginRead(signTLine);
@@ -707,7 +708,7 @@ public sealed partial class InfoWindow : ILayoutModule
         CityRaceLabel.Alignment.BottomOffset = 0;
         CityRaceLabel.Masked = true;
         CityRaceLabel.Text = "######";
-        CityRaceLabel.TextColor = 0;
+        CityRaceLabel.TextColor = Color.Black;
         session.EndRead(CityRaceLabel);
         CityBorderPanel = new Panel(this);
         session.BeginRead(CityBorderPanel);
@@ -818,7 +819,7 @@ public sealed partial class InfoWindow : ILayoutModule
         SingleButtonMemo.WinHeight = 127;
         SingleButtonMemo.BorderWidth = 4;
         SingleButtonMemo.BorderHeight = 0;
-        SingleButtonMemo.TextColor = 9236989;
+        SingleButtonMemo.TextColor = new Color(253, 241, 140);
         SingleButtonMemo.CursorChar = 124;
         SingleButtonMemo.BlinkDelay = 0;
         SingleButtonMemo.Editable = false;
@@ -906,7 +907,7 @@ public sealed partial class InfoWindow : ILayoutModule
         chargeLbl.Alignment.BottomOffset = 0;
         chargeLbl.Masked = true;
         chargeLbl.Text = "Charge:";
-        chargeLbl.TextColor = 7921903;
+        chargeLbl.TextColor = new Color(239, 224, 120);
         session.EndRead(chargeLbl);
         GemLabel = new Label(this);
         session.BeginRead(GemLabel);
@@ -929,7 +930,7 @@ public sealed partial class InfoWindow : ILayoutModule
         GemLabel.Alignment.BottomOffset = 0;
         GemLabel.Masked = true;
         GemLabel.Text = "###";
-        GemLabel.TextColor = 16777215;
+        GemLabel.TextColor = Color.White;
         session.EndRead(GemLabel);
         ChargePercentLabel = new Label(this);
         session.BeginRead(ChargePercentLabel);
@@ -952,7 +953,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ChargePercentLabel.Alignment.BottomOffset = 0;
         ChargePercentLabel.Masked = true;
         ChargePercentLabel.Text = "##";
-        ChargePercentLabel.TextColor = 0;
+        ChargePercentLabel.TextColor = Color.Black;
         session.EndRead(ChargePercentLabel);
         Image t2GemI = new(this);
         session.BeginRead(t2GemI);
@@ -1031,7 +1032,7 @@ public sealed partial class InfoWindow : ILayoutModule
         DayLabel.Alignment.BottomOffset = 0;
         DayLabel.Masked = true;
         DayLabel.Text = "10";
-        DayLabel.TextColor = 16777215;
+        DayLabel.TextColor = Color.White;
         session.EndRead(DayLabel);
         OwnerShield = new Image(this);
         session.BeginRead(OwnerShield);
@@ -1112,7 +1113,7 @@ public sealed partial class InfoWindow : ILayoutModule
         NotYoursMemo.WinHeight = 94;
         NotYoursMemo.BorderWidth = 3;
         NotYoursMemo.BorderHeight = 0;
-        NotYoursMemo.TextColor = 9236989;
+        NotYoursMemo.TextColor = new Color(253, 241, 140);
         NotYoursMemo.CursorChar = 124;
         NotYoursMemo.BlinkDelay = 0;
         NotYoursMemo.Editable = false;
@@ -1143,7 +1144,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ownerlbl.Alignment.BottomOffset = 20;
         ownerlbl.Masked = true;
         ownerlbl.Text = "Owned by:";
-        ownerlbl.TextColor = 9236989;
+        ownerlbl.TextColor = new Color(253, 241, 140);
         session.EndRead(ownerlbl);
         OwnerRaceLabel = new Label(this);
         session.BeginRead(OwnerRaceLabel);
@@ -1166,7 +1167,7 @@ public sealed partial class InfoWindow : ILayoutModule
         OwnerRaceLabel.Alignment.BottomOffset = 5;
         OwnerRaceLabel.Masked = true;
         OwnerRaceLabel.Text = "#####";
-        OwnerRaceLabel.TextColor = 16777215;
+        OwnerRaceLabel.TextColor = Color.White;
         session.EndRead(OwnerRaceLabel);
         ProductionOrbTurnsLabel = new Label(this);
         session.BeginRead(ProductionOrbTurnsLabel);
@@ -1189,7 +1190,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ProductionOrbTurnsLabel.Alignment.BottomOffset = 38;
         ProductionOrbTurnsLabel.Masked = true;
         ProductionOrbTurnsLabel.Text = "##";
-        ProductionOrbTurnsLabel.TextColor = 2829099;
+        ProductionOrbTurnsLabel.TextColor = new Color(43, 43, 43);
         session.EndRead(ProductionOrbTurnsLabel);
         Label orLbl = new(this);
         session.BeginRead(orLbl);
@@ -1212,7 +1213,7 @@ public sealed partial class InfoWindow : ILayoutModule
         orLbl.Alignment.BottomOffset = 0;
         orLbl.Masked = true;
         orLbl.Text = "or";
-        orLbl.TextColor = 7921903;
+        orLbl.TextColor = new Color(239, 224, 120);
         session.EndRead(orLbl);
         Panel altarInfoPnl = new(this);
         session.BeginRead(altarInfoPnl);
@@ -1298,8 +1299,8 @@ public sealed partial class InfoWindow : ILayoutModule
         center.ImageLibraryIndexDown = 7;
         center.ImageLibraryIndexLit = 8;
         center.ImageLibraryIndexUp = 6;
-        center.TextColor = 0;
-        center.TextSelectedColor = 0;
+        center.TextColor = Color.Black;
+        center.TextSelectedColor = Color.Black;
         center.WinWidth = 15;
         center.Clicked += (_, _) => CenterClick();
         session.EndRead(center);
@@ -1355,7 +1356,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ConstructionMemo.WinHeight = 125;
         ConstructionMemo.BorderWidth = 3;
         ConstructionMemo.BorderHeight = 0;
-        ConstructionMemo.TextColor = 9236989;
+        ConstructionMemo.TextColor = new Color(253, 241, 140);
         ConstructionMemo.CursorChar = 124;
         ConstructionMemo.BlinkDelay = 0;
         ConstructionMemo.Editable = false;
@@ -1386,7 +1387,7 @@ public sealed partial class InfoWindow : ILayoutModule
         underConstructionLbl.Alignment.BottomOffset = 0;
         underConstructionLbl.Masked = true;
         underConstructionLbl.Text = "Under Construction";
-        underConstructionLbl.TextColor = 9236989;
+        underConstructionLbl.TextColor = new Color(253, 241, 140);
         session.EndRead(underConstructionLbl);
         ConstructionDaysLeftLabel = new Label(this);
         session.BeginRead(ConstructionDaysLeftLabel);
@@ -1409,7 +1410,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ConstructionDaysLeftLabel.Alignment.BottomOffset = 0;
         ConstructionDaysLeftLabel.Masked = true;
         ConstructionDaysLeftLabel.Text = "######";
-        ConstructionDaysLeftLabel.TextColor = 16777215;
+        ConstructionDaysLeftLabel.TextColor = Color.White;
         session.EndRead(ConstructionDaysLeftLabel);
         RazePanel = new Panel(this);
         session.BeginRead(RazePanel);
@@ -1495,8 +1496,8 @@ public sealed partial class InfoWindow : ILayoutModule
         RazeButton.ImageLibraryIndexDown = 54;
         RazeButton.ImageLibraryIndexLit = 55;
         RazeButton.ImageLibraryIndexUp = 53;
-        RazeButton.TextColor = 0;
-        RazeButton.TextSelectedColor = 0;
+        RazeButton.TextColor = Color.Black;
+        RazeButton.TextSelectedColor = Color.Black;
         RazeButton.WinWidth = 43;
         RazeButton.Clicked += (_, _) => RazeBtnClick();
         session.EndRead(RazeButton);
@@ -1521,7 +1522,7 @@ public sealed partial class InfoWindow : ILayoutModule
         CivilStatusLabel.Alignment.BottomOffset = 0;
         CivilStatusLabel.Masked = true;
         CivilStatusLabel.Text = "#####";
-        CivilStatusLabel.TextColor = 0;
+        CivilStatusLabel.TextColor = Color.Black;
         session.EndRead(CivilStatusLabel);
         RaceRelationIcon = new Image(this);
         session.BeginRead(RaceRelationIcon);
@@ -1577,7 +1578,7 @@ public sealed partial class InfoWindow : ILayoutModule
         CityIncomeLabel.Alignment.BottomOffset = 0;
         CityIncomeLabel.Masked = true;
         CityIncomeLabel.Text = "##";
-        CityIncomeLabel.TextColor = 16777215;
+        CityIncomeLabel.TextColor = Color.White;
         session.EndRead(CityIncomeLabel);
         Image goldIcn = new(this);
         session.BeginRead(goldIcn);
@@ -1665,7 +1666,7 @@ public sealed partial class InfoWindow : ILayoutModule
         CityLevelLabel.Alignment.BottomOffset = 0;
         CityLevelLabel.Masked = true;
         CityLevelLabel.Text = "##";
-        CityLevelLabel.TextColor = 16777215;
+        CityLevelLabel.TextColor = Color.White;
         session.EndRead(CityLevelLabel);
         Panel infoPnl = new(this);
         session.BeginRead(infoPnl);
@@ -1778,7 +1779,7 @@ public sealed partial class InfoWindow : ILayoutModule
         IncomeValueLabel.Alignment.BottomOffset = 0;
         IncomeValueLabel.Masked = true;
         IncomeValueLabel.Text = "20";
-        IncomeValueLabel.TextColor = 16777215;
+        IncomeValueLabel.TextColor = Color.White;
         session.EndRead(IncomeValueLabel);
         ActiveCityActionMemo = new Memo(this);
         session.BeginRead(ActiveCityActionMemo);
@@ -1804,7 +1805,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ActiveCityActionMemo.WinHeight = 127;
         ActiveCityActionMemo.BorderWidth = 3;
         ActiveCityActionMemo.BorderHeight = 0;
-        ActiveCityActionMemo.TextColor = 0;
+        ActiveCityActionMemo.TextColor = Color.Black;
         ActiveCityActionMemo.CursorChar = 124;
         ActiveCityActionMemo.BlinkDelay = 0;
         ActiveCityActionMemo.Editable = false;
@@ -1835,7 +1836,7 @@ public sealed partial class InfoWindow : ILayoutModule
         costToFireLbl.Alignment.BottomOffset = 0;
         costToFireLbl.Masked = true;
         costToFireLbl.Text = "Cost to Fire:";
-        costToFireLbl.TextColor = 7921903;
+        costToFireLbl.TextColor = new Color(239, 224, 120);
         session.EndRead(costToFireLbl);
         Label currentActivityLbl = new(this);
         session.BeginRead(currentActivityLbl);
@@ -1862,7 +1863,7 @@ public sealed partial class InfoWindow : ILayoutModule
         currentActivityLbl.Alignment.BottomOffset = 0;
         currentActivityLbl.Masked = true;
         currentActivityLbl.Text = "Current Activity:";
-        currentActivityLbl.TextColor = 7921903;
+        currentActivityLbl.TextColor = new Color(239, 224, 120);
         session.EndRead(currentActivityLbl);
         IncomeLabel = new Label(this);
         session.BeginRead(IncomeLabel);
@@ -1889,7 +1890,7 @@ public sealed partial class InfoWindow : ILayoutModule
         IncomeLabel.Alignment.BottomOffset = 0;
         IncomeLabel.Masked = true;
         IncomeLabel.Text = "Income:";
-        IncomeLabel.TextColor = 7921903;
+        IncomeLabel.TextColor = new Color(239, 224, 120);
         session.EndRead(IncomeLabel);
         ProductionWarningLabel = new Label(this);
         session.BeginRead(ProductionWarningLabel);
@@ -1912,7 +1913,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ProductionWarningLabel.Alignment.BottomOffset = 0;
         ProductionWarningLabel.Masked = true;
         ProductionWarningLabel.Text = "not enough gold";
-        ProductionWarningLabel.TextColor = 128;
+        ProductionWarningLabel.TextColor = Color.Maroon;
         session.EndRead(ProductionWarningLabel);
         CurrentActivityWarningLabel = new Label(this);
         session.BeginRead(CurrentActivityWarningLabel);
@@ -1936,7 +1937,7 @@ public sealed partial class InfoWindow : ILayoutModule
         CurrentActivityWarningLabel.Alignment.BottomOffset = 0;
         CurrentActivityWarningLabel.Masked = true;
         CurrentActivityWarningLabel.Text = "not enough gold";
-        CurrentActivityWarningLabel.TextColor = 128;
+        CurrentActivityWarningLabel.TextColor = Color.Maroon;
         session.EndRead(CurrentActivityWarningLabel);
         IncomePanel = new Panel(this);
         session.BeginRead(IncomePanel);
@@ -2050,7 +2051,7 @@ public sealed partial class InfoWindow : ILayoutModule
         IncomeAmountLabel.Alignment.BottomOffset = 0;
         IncomeAmountLabel.Masked = true;
         IncomeAmountLabel.Text = "20";
-        IncomeAmountLabel.TextColor = 16777215;
+        IncomeAmountLabel.TextColor = Color.White;
         session.EndRead(IncomeAmountLabel);
         Label incomeTextLbl = new(this);
         session.BeginRead(incomeTextLbl);
@@ -2077,7 +2078,7 @@ public sealed partial class InfoWindow : ILayoutModule
         incomeTextLbl.Alignment.BottomOffset = 0;
         incomeTextLbl.Masked = true;
         incomeTextLbl.Text = "Income:";
-        incomeTextLbl.TextColor = 7921903;
+        incomeTextLbl.TextColor = new Color(239, 224, 120);
         session.EndRead(incomeTextLbl);
         IncomeMemo = new Memo(this);
         session.BeginRead(IncomeMemo);
@@ -2103,7 +2104,7 @@ public sealed partial class InfoWindow : ILayoutModule
         IncomeMemo.WinHeight = 125;
         IncomeMemo.BorderWidth = 3;
         IncomeMemo.BorderHeight = 0;
-        IncomeMemo.TextColor = 9236989;
+        IncomeMemo.TextColor = new Color(253, 241, 140);
         IncomeMemo.CursorChar = 124;
         IncomeMemo.BlinkDelay = 0;
         IncomeMemo.Editable = false;
@@ -2166,7 +2167,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ItemsInBagLabel.Alignment.BottomOffset = 0;
         ItemsInBagLabel.Masked = true;
         ItemsInBagLabel.Text = "Items in bag:";
-        ItemsInBagLabel.TextColor = 7921903;
+        ItemsInBagLabel.TextColor = new Color(239, 224, 120);
         session.EndRead(ItemsInBagLabel);
         ItemBagList = new ListBox(this);
         session.BeginRead(ItemBagList);
@@ -2206,8 +2207,8 @@ public sealed partial class InfoWindow : ILayoutModule
         ItemBagList.BorderHeight = 3;
         ItemBagList.Selected = -1;
         ItemBagList.ItemDrawn += (_, e) => ItembagLBDrawItem(e.Rectangle, drawItem: default, e.Surface);
-        ItemBagList.TextColor = 9415072;
-        ItemBagList.TextSelectedColor = 0;
+        ItemBagList.TextColor = new Color(160, 169, 143);
+        ItemBagList.TextSelectedColor = Color.Black;
         ItemBagList.ImageLibraryIndexFrame = 40;
         ItemBagList.ImageLibraryIndexTNormal = 14;
         ItemBagList.ImageLibraryIndexTSelected = 14;
@@ -2278,7 +2279,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ];
         ItemBagMemo.BorderWidth = 3;
         ItemBagMemo.BorderHeight = 0;
-        ItemBagMemo.TextColor = 9236989;
+        ItemBagMemo.TextColor = new Color(253, 241, 140);
         ItemBagMemo.CursorChar = 124;
         ItemBagMemo.BlinkDelay = 0;
         ItemBagMemo.Editable = false;
@@ -2413,7 +2414,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ExplorationSiteMemo.WinHeight = 92;
         ExplorationSiteMemo.BorderWidth = 4;
         ExplorationSiteMemo.BorderHeight = 0;
-        ExplorationSiteMemo.TextColor = 9236989;
+        ExplorationSiteMemo.TextColor = new Color(253, 241, 140);
         ExplorationSiteMemo.CursorChar = 124;
         ExplorationSiteMemo.BlinkDelay = 0;
         ExplorationSiteMemo.Editable = false;
@@ -2482,7 +2483,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ExplorationSiteLabel.Alignment.BottomOffset = 17;
         ExplorationSiteLabel.Masked = true;
         ExplorationSiteLabel.Text = "####";
-        ExplorationSiteLabel.TextColor = 9236989;
+        ExplorationSiteLabel.TextColor = new Color(253, 241, 140);
         session.EndRead(ExplorationSiteLabel);
         ExplorationSiteStatusLabel = new Label(this);
         session.BeginRead(ExplorationSiteStatusLabel);
@@ -2505,7 +2506,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ExplorationSiteStatusLabel.Alignment.BottomOffset = 2;
         ExplorationSiteStatusLabel.Masked = true;
         ExplorationSiteStatusLabel.Text = "#####";
-        ExplorationSiteStatusLabel.TextColor = 16777215;
+        ExplorationSiteStatusLabel.TextColor = Color.White;
         session.EndRead(ExplorationSiteStatusLabel);
         Button help = new(this);
         session.BeginRead(help);
@@ -2536,8 +2537,8 @@ public sealed partial class InfoWindow : ILayoutModule
         help.ImageLibraryIndexDown = 60;
         help.ImageLibraryIndexLit = 61;
         help.ImageLibraryIndexUp = 59;
-        help.TextColor = 0;
-        help.TextSelectedColor = 0;
+        help.TextColor = Color.Black;
+        help.TextSelectedColor = Color.Black;
         help.WinWidth = 15;
         help.Clicked += (_, _) => HelpClick();
         session.EndRead(help);
@@ -2562,7 +2563,7 @@ public sealed partial class InfoWindow : ILayoutModule
         PopulationRaceLabel.Alignment.BottomOffset = 80;
         PopulationRaceLabel.Masked = true;
         PopulationRaceLabel.Text = "#######";
-        PopulationRaceLabel.TextColor = 16777215;
+        PopulationRaceLabel.TextColor = Color.White;
         session.EndRead(PopulationRaceLabel);
         PopulationLabel = new Label(this);
         session.BeginRead(PopulationLabel);
@@ -2585,7 +2586,7 @@ public sealed partial class InfoWindow : ILayoutModule
         PopulationLabel.Alignment.BottomOffset = 95;
         PopulationLabel.Masked = true;
         PopulationLabel.Text = "Population:";
-        PopulationLabel.TextColor = 9236989;
+        PopulationLabel.TextColor = new Color(253, 241, 140);
         session.EndRead(PopulationLabel);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);

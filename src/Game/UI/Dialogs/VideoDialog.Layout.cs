@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -45,7 +46,7 @@ public sealed partial class VideoDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -87,8 +88,8 @@ public sealed partial class VideoDialog : ILayoutModule
         closeBut.ImageLibraryIndexLit = 25;
         closeBut.ImageLibraryIndexUp = 19;
         closeBut.Text = "Close";
-        closeBut.TextColor = 0;
-        closeBut.TextSelectedColor = 16777215;
+        closeBut.TextColor = Color.Black;
+        closeBut.TextSelectedColor = Color.White;
         closeBut.WinWidth = 136;
         closeBut.Clicked += (_, _) => CloseButClick();
         session.EndRead(closeBut);
@@ -140,7 +141,7 @@ public sealed partial class VideoDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Video Settings";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Button close = new(this);
         session.BeginRead(close);
@@ -171,8 +172,8 @@ public sealed partial class VideoDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseButClick();
         session.EndRead(close);
@@ -252,7 +253,7 @@ public sealed partial class VideoDialog : ILayoutModule
         videoLbl.Alignment.BottomOffset = 0;
         videoLbl.Masked = true;
         videoLbl.Text = "Available Display Modes";
-        videoLbl.TextColor = 16777215;
+        videoLbl.TextColor = Color.White;
         session.EndRead(videoLbl);
         Image tCeltPattern = new(this);
         session.BeginRead(tCeltPattern);
@@ -368,8 +369,8 @@ public sealed partial class VideoDialog : ILayoutModule
         DisplayModesList.BorderHeight = 4;
         DisplayModesList.DoubleClicked += (_, _) => ApplyBtnClick();
         DisplayModesList.Selected = 0;
-        DisplayModesList.TextColor = 9415072;
-        DisplayModesList.TextSelectedColor = 0;
+        DisplayModesList.TextColor = new Color(160, 169, 143);
+        DisplayModesList.TextSelectedColor = Color.Black;
         DisplayModesList.ImageLibraryIndexFrame = 113;
         DisplayModesList.ImageLibraryIndexTNormal = 21;
         DisplayModesList.ImageLibraryIndexTSelected = 8;
@@ -406,8 +407,8 @@ public sealed partial class VideoDialog : ILayoutModule
         ResolutionCheckBox.ImageLibraryIndexDown = 46;
         ResolutionCheckBox.ImageLibraryIndexLit = 45;
         ResolutionCheckBox.ImageLibraryIndexUp = 45;
-        ResolutionCheckBox.TextColor = 0;
-        ResolutionCheckBox.TextSelectedColor = 0;
+        ResolutionCheckBox.TextColor = Color.Black;
+        ResolutionCheckBox.TextSelectedColor = Color.Black;
         ResolutionCheckBox.WinWidth = 12;
         ResolutionCheckBox.Checked = false;
         resolutionCheckBox.Changed += (_, _) => ResCBChange(resolutionCheckBox);
@@ -434,7 +435,7 @@ public sealed partial class VideoDialog : ILayoutModule
         resSwLbl.Alignment.BottomOffset = 54;
         resSwLbl.Masked = true;
         resSwLbl.Text = "Allow Resolution Switches";
-        resSwLbl.TextColor = 16777215;
+        resSwLbl.TextColor = Color.White;
         session.EndRead(resSwLbl);
         Button applyBtn = new(this);
         session.BeginRead(applyBtn);
@@ -462,8 +463,8 @@ public sealed partial class VideoDialog : ILayoutModule
         applyBtn.ImageLibraryIndexLit = 25;
         applyBtn.ImageLibraryIndexUp = 19;
         applyBtn.Text = "Apply";
-        applyBtn.TextColor = 0;
-        applyBtn.TextSelectedColor = 16777215;
+        applyBtn.TextColor = Color.Black;
+        applyBtn.TextSelectedColor = Color.White;
         applyBtn.WinWidth = 136;
         applyBtn.Clicked += (_, _) => ApplyBtnClick();
         session.EndRead(applyBtn);

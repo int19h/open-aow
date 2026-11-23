@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -43,7 +44,7 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = false;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -79,7 +80,7 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         TitleLabel.Alignment.TopOffset = 0;
         TitleLabel.Alignment.BottomOffset = 0;
         TitleLabel.Masked = true;
-        TitleLabel.TextColor = 0;
+        TitleLabel.TextColor = Color.Black;
         session.EndRead(TitleLabel);
         MessageLabel = new Label(this);
         session.BeginRead(MessageLabel);
@@ -101,7 +102,7 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         MessageLabel.Alignment.TopOffset = 60;
         MessageLabel.Alignment.BottomOffset = 0;
         MessageLabel.Masked = true;
-        MessageLabel.TextColor = 13165253;
+        MessageLabel.TextColor = new Color(197, 226, 200);
         session.EndRead(MessageLabel);
         Button dButton = new(this);
         session.BeginRead(dButton);
@@ -129,8 +130,8 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         dButton.ImageLibraryIndexLit = 25;
         dButton.ImageLibraryIndexUp = 19;
         dButton.Text = "Ok";
-        dButton.TextColor = 7921903;
-        dButton.TextSelectedColor = 16777215;
+        dButton.TextColor = new Color(239, 224, 120);
+        dButton.TextSelectedColor = Color.White;
         dButton.WinWidth = 140;
         dButton.Clicked += (_, _) => DButtonClick();
         session.EndRead(dButton);
@@ -161,7 +162,7 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         debugWin.OverlapTopCorners = false;
         debugWin.Cursor = 0;
         debugWin.DoubleBuffered = true;
-        debugWin.MaskColor = 0;
+        debugWin.MaskColor = Color.Black;
         debugWin.FreeSurfaceOnHide = false;
         debugWin.ImageLibraryIndexFrame = 0;
         debugWin.ImageLibraryIndexTexture = 2;
@@ -198,7 +199,7 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         debugDTitle.Alignment.BottomOffset = 0;
         debugDTitle.Masked = true;
         debugDTitle.Text = "Debug";
-        debugDTitle.TextColor = 0;
+        debugDTitle.TextColor = Color.Black;
         session.EndRead(debugDTitle);
         Button debugDOkBtn = new(this);
         session.BeginRead(debugDOkBtn);
@@ -226,8 +227,8 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         debugDOkBtn.ImageLibraryIndexLit = 25;
         debugDOkBtn.ImageLibraryIndexUp = 19;
         debugDOkBtn.Text = "Close";
-        debugDOkBtn.TextColor = 0;
-        debugDOkBtn.TextSelectedColor = 0;
+        debugDOkBtn.TextColor = Color.Black;
+        debugDOkBtn.TextSelectedColor = Color.Black;
         debugDOkBtn.WinWidth = 160;
         debugDOkBtn.Clicked += (_, _) => DebugDOkBtnClick();
         session.EndRead(debugDOkBtn);
@@ -251,7 +252,7 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         frameLbl.Alignment.TopOffset = 25;
         frameLbl.Alignment.BottomOffset = 0;
         frameLbl.Masked = true;
-        frameLbl.TextColor = 16777215;
+        frameLbl.TextColor = Color.White;
         session.EndRead(frameLbl);
         Label debugDfrTitle = new(this);
         session.BeginRead(debugDfrTitle);
@@ -274,7 +275,7 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         debugDfrTitle.Alignment.BottomOffset = 0;
         debugDfrTitle.Masked = true;
         debugDfrTitle.Text = "Framerate:";
-        debugDfrTitle.TextColor = 16777215;
+        debugDfrTitle.TextColor = Color.White;
         session.EndRead(debugDfrTitle);
         Memo debugMemo = new(this);
         session.BeginRead(debugMemo);
@@ -300,7 +301,7 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         debugMemo.WinHeight = 134;
         debugMemo.BorderWidth = 4;
         debugMemo.BorderHeight = 4;
-        debugMemo.TextColor = 16777215;
+        debugMemo.TextColor = Color.White;
         debugMemo.CursorChar = 95;
         debugMemo.BlinkDelay = 0;
         debugMemo.Editable = false;
@@ -427,8 +428,8 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         yesBtn.ImageLibraryIndexLit = 25;
         yesBtn.ImageLibraryIndexUp = 19;
         yesBtn.Text = "Yes";
-        yesBtn.TextColor = 0;
-        yesBtn.TextSelectedColor = 16777215;
+        yesBtn.TextColor = Color.Black;
+        yesBtn.TextSelectedColor = Color.White;
         yesBtn.WinWidth = 105;
         yesBtn.Clicked += (_, _) => yesBtnClick();
         session.EndRead(yesBtn);
@@ -458,8 +459,8 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         noBtn.ImageLibraryIndexLit = 25;
         noBtn.ImageLibraryIndexUp = 19;
         noBtn.Text = "No";
-        noBtn.TextColor = 0;
-        noBtn.TextSelectedColor = 16777215;
+        noBtn.TextColor = Color.Black;
+        noBtn.TextSelectedColor = Color.White;
         noBtn.WinWidth = 105;
         noBtn.Clicked += (_, _) => DButtonClick();
         session.EndRead(noBtn);

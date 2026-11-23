@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -45,7 +46,7 @@ public sealed partial class IntroScene : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = -1;
         Window.DoubleBuffered = false;
-        Window.MaskColor = 0;
+        Window.MaskColor = Color.Black;
         Window.FreeSurfaceOnHide = false;
         Window.ImageLibraryIndexFrame = 0;
         Window.ImageLibraryIndexTexture = 0;

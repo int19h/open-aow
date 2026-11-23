@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -72,8 +73,8 @@ public sealed partial class PowerDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(close);
@@ -98,7 +99,7 @@ public sealed partial class PowerDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Power Distribution";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -153,8 +154,8 @@ public sealed partial class PowerDialog : ILayoutModule
         cancelBtn.ImageLibraryIndexLit = 25;
         cancelBtn.ImageLibraryIndexUp = 19;
         cancelBtn.Text = "Cancel";
-        cancelBtn.TextColor = 0;
-        cancelBtn.TextSelectedColor = 16777215;
+        cancelBtn.TextColor = Color.Black;
+        cancelBtn.TextSelectedColor = Color.White;
         cancelBtn.WinWidth = 120;
         cancelBtn.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(cancelBtn);
@@ -184,8 +185,8 @@ public sealed partial class PowerDialog : ILayoutModule
         setBtn.ImageLibraryIndexLit = 25;
         setBtn.ImageLibraryIndexUp = 19;
         setBtn.Text = "Set";
-        setBtn.TextColor = 0;
-        setBtn.TextSelectedColor = 16777215;
+        setBtn.TextColor = Color.Black;
+        setBtn.TextSelectedColor = Color.White;
         setBtn.WinWidth = 120;
         setBtn.Clicked += (_, _) => SetBtnClick();
         session.EndRead(setBtn);
@@ -217,7 +218,7 @@ public sealed partial class PowerDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 6268490;
+        Window.MaskColor = new Color(74, 166, 95);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -254,7 +255,7 @@ public sealed partial class PowerDialog : ILayoutModule
         NetManaLabel.Alignment.BottomOffset = 0;
         NetManaLabel.Masked = true;
         NetManaLabel.Text = "20-18=2";
-        NetManaLabel.TextColor = 16777215;
+        NetManaLabel.TextColor = Color.White;
         session.EndRead(NetManaLabel);
         Label netMamaLbl = new(this);
         session.BeginRead(netMamaLbl);
@@ -277,7 +278,7 @@ public sealed partial class PowerDialog : ILayoutModule
         netMamaLbl.Alignment.BottomOffset = 0;
         netMamaLbl.Masked = true;
         netMamaLbl.Text = "Net Mana Income";
-        netMamaLbl.TextColor = 9402970;
+        netMamaLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(netMamaLbl);
         Panel upkeePnl = new(this);
         session.BeginRead(upkeePnl);
@@ -327,7 +328,7 @@ public sealed partial class PowerDialog : ILayoutModule
         ResearchLeftLabel.Alignment.BottomOffset = 0;
         ResearchLeftLabel.Masked = true;
         ResearchLeftLabel.Text = "########";
-        ResearchLeftLabel.TextColor = 16777215;
+        ResearchLeftLabel.TextColor = Color.White;
         session.EndRead(ResearchLeftLabel);
         SpellNameLabel = new Label(this);
         session.BeginRead(SpellNameLabel);
@@ -350,7 +351,7 @@ public sealed partial class PowerDialog : ILayoutModule
         SpellNameLabel.Alignment.BottomOffset = 0;
         SpellNameLabel.Masked = true;
         SpellNameLabel.Text = "Lightning Storm";
-        SpellNameLabel.TextColor = 9402970;
+        SpellNameLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(SpellNameLabel);
         Panel researchPnl = new(this);
         session.BeginRead(researchPnl);
@@ -427,7 +428,7 @@ public sealed partial class PowerDialog : ILayoutModule
         powerLbl.Alignment.BottomOffset = 0;
         powerLbl.Masked = true;
         powerLbl.Text = "Power";
-        powerLbl.TextColor = 9402970;
+        powerLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(powerLbl);
         PowerLabel = new Label(this);
         session.BeginRead(PowerLabel);
@@ -450,7 +451,7 @@ public sealed partial class PowerDialog : ILayoutModule
         PowerLabel.Alignment.BottomOffset = 0;
         PowerLabel.Masked = true;
         PowerLabel.Text = "40";
-        PowerLabel.TextColor = 16777215;
+        PowerLabel.TextColor = Color.White;
         session.EndRead(PowerLabel);
         ManaLabel = new Label(this);
         session.BeginRead(ManaLabel);
@@ -473,7 +474,7 @@ public sealed partial class PowerDialog : ILayoutModule
         ManaLabel.Alignment.BottomOffset = 0;
         ManaLabel.Masked = true;
         ManaLabel.Text = "20";
-        ManaLabel.TextColor = 16777215;
+        ManaLabel.TextColor = Color.White;
         session.EndRead(ManaLabel);
         ResearchLabel = new Label(this);
         session.BeginRead(ResearchLabel);
@@ -496,7 +497,7 @@ public sealed partial class PowerDialog : ILayoutModule
         ResearchLabel.Alignment.BottomOffset = 0;
         ResearchLabel.Masked = true;
         ResearchLabel.Text = "20";
-        ResearchLabel.TextColor = 16777215;
+        ResearchLabel.TextColor = Color.White;
         session.EndRead(ResearchLabel);
         Panel manaPnl = new(this);
         session.BeginRead(manaPnl);
@@ -573,7 +574,7 @@ public sealed partial class PowerDialog : ILayoutModule
         manaLbl.Alignment.BottomOffset = 0;
         manaLbl.Masked = true;
         manaLbl.Text = "Mana";
-        manaLbl.TextColor = 9402970;
+        manaLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(manaLbl);
         Label researchLbl = new(this);
         session.BeginRead(researchLbl);
@@ -596,7 +597,7 @@ public sealed partial class PowerDialog : ILayoutModule
         researchLbl.Alignment.BottomOffset = 0;
         researchLbl.Masked = true;
         researchLbl.Text = "Research";
-        researchLbl.TextColor = 9402970;
+        researchLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(researchLbl);
         PowerSlider = new HorizontalScrollBar(this);
         session.BeginRead(PowerSlider);

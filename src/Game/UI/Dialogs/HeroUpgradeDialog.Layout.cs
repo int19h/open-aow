@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -44,7 +45,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -90,8 +91,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         cancelBtn.ImageLibraryIndexLit = 25;
         cancelBtn.ImageLibraryIndexUp = 19;
         cancelBtn.Text = "Cancel";
-        cancelBtn.TextColor = 0;
-        cancelBtn.TextSelectedColor = 16777215;
+        cancelBtn.TextColor = Color.Black;
+        cancelBtn.TextSelectedColor = Color.White;
         cancelBtn.WinWidth = 135;
         cancelBtn.Clicked += (_, _) => CloseClick();
         session.EndRead(cancelBtn);
@@ -152,8 +153,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         done.ImageLibraryIndexLit = 25;
         done.ImageLibraryIndexUp = 19;
         done.Text = "Done";
-        done.TextColor = 0;
-        done.TextSelectedColor = 16777215;
+        done.TextColor = Color.Black;
+        done.TextSelectedColor = Color.White;
         done.WinWidth = 135;
         done.Clicked += (_, _) => DoneClick();
         session.EndRead(done);
@@ -178,7 +179,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Upgrade Hero";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Button close = new(this);
         session.BeginRead(close);
@@ -209,8 +210,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
@@ -429,7 +430,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         HeaderLabel.Alignment.BottomOffset = 0;
         HeaderLabel.Masked = true;
         HeaderLabel.Text = "#######";
-        HeaderLabel.TextColor = 0;
+        HeaderLabel.TextColor = Color.Black;
         session.EndRead(HeaderLabel);
         Label skillPointsLbl = new(this);
         session.BeginRead(skillPointsLbl);
@@ -452,7 +453,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         skillPointsLbl.Alignment.BottomOffset = 0;
         skillPointsLbl.Masked = true;
         skillPointsLbl.Text = "Skill Points left to spend";
-        skillPointsLbl.TextColor = 13165253;
+        skillPointsLbl.TextColor = new Color(197, 226, 200);
         session.EndRead(skillPointsLbl);
         AvailableAbilitiesList = new ListBox(this);
         session.BeginRead(AvailableAbilitiesList);
@@ -481,8 +482,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         AvailableAbilitiesList.BorderHeight = 4;
         AvailableAbilitiesList.Changed += (_, _) => AvailableAbilitiesChange();
         AvailableAbilitiesList.Selected = -1;
-        AvailableAbilitiesList.TextColor = 9402970;
-        AvailableAbilitiesList.TextSelectedColor = 0;
+        AvailableAbilitiesList.TextColor = new Color(90, 122, 143);
+        AvailableAbilitiesList.TextSelectedColor = Color.Black;
         AvailableAbilitiesList.ImageLibraryIndexFrame = 40;
         AvailableAbilitiesList.ImageLibraryIndexTNormal = 19;
         AvailableAbilitiesList.ImageLibraryIndexTSelected = 16;
@@ -554,8 +555,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         SelectedAbilitiesList.BorderHeight = 4;
         SelectedAbilitiesList.Changed += (_, _) => SelectedAbilitiesChange();
         SelectedAbilitiesList.Selected = -1;
-        SelectedAbilitiesList.TextColor = 9402970;
-        SelectedAbilitiesList.TextSelectedColor = 0;
+        SelectedAbilitiesList.TextColor = new Color(90, 122, 143);
+        SelectedAbilitiesList.TextSelectedColor = Color.Black;
         SelectedAbilitiesList.ImageLibraryIndexFrame = 40;
         SelectedAbilitiesList.ImageLibraryIndexTNormal = 19;
         SelectedAbilitiesList.ImageLibraryIndexTSelected = 16;
@@ -626,8 +627,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         selectedAbilitiesSort.ImageLibraryIndexLit = 6;
         selectedAbilitiesSort.ImageLibraryIndexUp = 6;
         selectedAbilitiesSort.Text = "Current Abilities";
-        selectedAbilitiesSort.TextColor = 0;
-        selectedAbilitiesSort.TextSelectedColor = 16777215;
+        selectedAbilitiesSort.TextColor = Color.Black;
+        selectedAbilitiesSort.TextSelectedColor = Color.White;
         selectedAbilitiesSort.WinWidth = 123;
         selectedAbilitiesSort.Clicked += (_, _) => SelectedAbilitiesSortClick();
         session.EndRead(selectedAbilitiesSort);
@@ -657,8 +658,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         availableAbilityCostSort.ImageLibraryIndexLit = 6;
         availableAbilityCostSort.ImageLibraryIndexUp = 6;
         availableAbilityCostSort.Text = "Cost";
-        availableAbilityCostSort.TextColor = 0;
-        availableAbilityCostSort.TextSelectedColor = 16777215;
+        availableAbilityCostSort.TextColor = Color.Black;
+        availableAbilityCostSort.TextSelectedColor = Color.White;
         availableAbilityCostSort.WinWidth = 44;
         availableAbilityCostSort.Clicked += (_, _) => AvailableAbilityCostSortClick();
         session.EndRead(availableAbilityCostSort);
@@ -689,8 +690,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         AvailableAbilitiesCostList.BorderHeight = 4;
         AvailableAbilitiesCostList.Changed += (_, _) => AvailableAbilitiesCostChange();
         AvailableAbilitiesCostList.Selected = -1;
-        AvailableAbilitiesCostList.TextColor = 9402970;
-        AvailableAbilitiesCostList.TextSelectedColor = 0;
+        AvailableAbilitiesCostList.TextColor = new Color(90, 122, 143);
+        AvailableAbilitiesCostList.TextSelectedColor = Color.Black;
         AvailableAbilitiesCostList.ImageLibraryIndexFrame = 40;
         AvailableAbilitiesCostList.ImageLibraryIndexTNormal = 19;
         AvailableAbilitiesCostList.ImageLibraryIndexTSelected = 16;
@@ -723,8 +724,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         availableAbilitiesSort.ImageLibraryIndexLit = 6;
         availableAbilitiesSort.ImageLibraryIndexUp = 6;
         availableAbilitiesSort.Text = "Upgrades";
-        availableAbilitiesSort.TextColor = 0;
-        availableAbilitiesSort.TextSelectedColor = 16777215;
+        availableAbilitiesSort.TextColor = Color.Black;
+        availableAbilitiesSort.TextSelectedColor = Color.White;
         availableAbilitiesSort.WinWidth = 125;
         availableAbilitiesSort.Clicked += (_, _) => AvailableAbilitiesSortClick();
         session.EndRead(availableAbilitiesSort);
@@ -758,8 +759,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         addAbilityBtn.ImageLibraryIndexLit = 49;
         addAbilityBtn.ImageLibraryIndexUp = 43;
         addAbilityBtn.Text = "Add";
-        addAbilityBtn.TextColor = 0;
-        addAbilityBtn.TextSelectedColor = 16777215;
+        addAbilityBtn.TextColor = Color.Black;
+        addAbilityBtn.TextSelectedColor = Color.White;
         addAbilityBtn.WinWidth = 140;
         addAbilityBtn.Clicked += (_, _) => AddAbilityBtnClick();
         session.EndRead(addAbilityBtn);
@@ -793,8 +794,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         removeBtn.ImageLibraryIndexLit = 49;
         removeBtn.ImageLibraryIndexUp = 43;
         removeBtn.Text = "Remove";
-        removeBtn.TextColor = 0;
-        removeBtn.TextSelectedColor = 16777215;
+        removeBtn.TextColor = Color.Black;
+        removeBtn.TextSelectedColor = Color.White;
         removeBtn.WinWidth = 140;
         removeBtn.Clicked += (_, _) => RemoveBtnClick();
         session.EndRead(removeBtn);
@@ -854,7 +855,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         UnitNameEdit.MaxChars = 0;
         UnitNameEdit.CursorChar = 124;
         UnitNameEdit.BlinkDelay = 0;
-        UnitNameEdit.TextColor = 13165253;
+        UnitNameEdit.TextColor = new Color(197, 226, 200);
         UnitNameEdit.Editable = false;
         UnitNameEdit.ImageLibraryIndex = 12;
         UnitNameEdit.PassWordChar = 0;
@@ -886,7 +887,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         alignment.MaxChars = 0;
         alignment.CursorChar = 124;
         alignment.BlinkDelay = 0;
-        alignment.TextColor = 13165253;
+        alignment.TextColor = new Color(197, 226, 200);
         alignment.Editable = false;
         alignment.ImageLibraryIndex = 12;
         alignment.PassWordChar = 0;
@@ -966,7 +967,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         AttackValueLabel.Alignment.BottomOffset = 0;
         AttackValueLabel.Masked = true;
         AttackValueLabel.Text = "10";
-        AttackValueLabel.TextColor = 9402970;
+        AttackValueLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(AttackValueLabel);
         Label attLbl = new(this);
         session.BeginRead(attLbl);
@@ -989,7 +990,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         attLbl.Alignment.BottomOffset = 0;
         attLbl.Masked = true;
         attLbl.Text = "Attack";
-        attLbl.TextColor = 9402970;
+        attLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(attLbl);
         Panel attPnl = new(this);
         session.BeginRead(attPnl);
@@ -1039,7 +1040,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         DamageValueLabel.Alignment.BottomOffset = 0;
         DamageValueLabel.Masked = true;
         DamageValueLabel.Text = "10";
-        DamageValueLabel.TextColor = 9402970;
+        DamageValueLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(DamageValueLabel);
         Label damLbl = new(this);
         session.BeginRead(damLbl);
@@ -1062,7 +1063,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         damLbl.Alignment.BottomOffset = 0;
         damLbl.Masked = true;
         damLbl.Text = "Damage";
-        damLbl.TextColor = 9402970;
+        damLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(damLbl);
         Panel damPnl = new(this);
         session.BeginRead(damPnl);
@@ -1112,7 +1113,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         DefenseValueLabel.Alignment.BottomOffset = 0;
         DefenseValueLabel.Masked = true;
         DefenseValueLabel.Text = "10";
-        DefenseValueLabel.TextColor = 9402970;
+        DefenseValueLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(DefenseValueLabel);
         Label defLbl = new(this);
         session.BeginRead(defLbl);
@@ -1135,7 +1136,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         defLbl.Alignment.BottomOffset = 0;
         defLbl.Masked = true;
         defLbl.Text = "Defense";
-        defLbl.TextColor = 9402970;
+        defLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(defLbl);
         Panel defPnl = new(this);
         session.BeginRead(defPnl);
@@ -1185,7 +1186,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         ResistanceValueLabel.Alignment.BottomOffset = 0;
         ResistanceValueLabel.Masked = true;
         ResistanceValueLabel.Text = "10";
-        ResistanceValueLabel.TextColor = 9402970;
+        ResistanceValueLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(ResistanceValueLabel);
         Label resLbl = new(this);
         session.BeginRead(resLbl);
@@ -1208,7 +1209,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         resLbl.Alignment.BottomOffset = 0;
         resLbl.Masked = true;
         resLbl.Text = "Resistance";
-        resLbl.TextColor = 9402970;
+        resLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(resLbl);
         Panel resPnl = new(this);
         session.BeginRead(resPnl);
@@ -1258,7 +1259,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         HitsValueLabel.Alignment.BottomOffset = 0;
         HitsValueLabel.Masked = true;
         HitsValueLabel.Text = "10";
-        HitsValueLabel.TextColor = 9402970;
+        HitsValueLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(HitsValueLabel);
         Label hitLbl = new(this);
         session.BeginRead(hitLbl);
@@ -1281,7 +1282,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         hitLbl.Alignment.BottomOffset = 0;
         hitLbl.Masked = true;
         hitLbl.Text = "Hits";
-        hitLbl.TextColor = 9402970;
+        hitLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(hitLbl);
         Panel hitPnl = new(this);
         session.BeginRead(hitPnl);
@@ -1331,7 +1332,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         MovesValueLabel.Alignment.BottomOffset = 0;
         MovesValueLabel.Masked = true;
         MovesValueLabel.Text = "10";
-        MovesValueLabel.TextColor = 9402970;
+        MovesValueLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(MovesValueLabel);
         Label movLbl = new(this);
         session.BeginRead(movLbl);
@@ -1354,7 +1355,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         movLbl.Alignment.BottomOffset = 0;
         movLbl.Masked = true;
         movLbl.Text = "Moves";
-        movLbl.TextColor = 9402970;
+        movLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(movLbl);
         Panel movPnl = new(this);
         session.BeginRead(movPnl);
@@ -1404,7 +1405,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         attI.Alignment.BottomOffset = 0;
         attI.Masked = true;
         attI.Text = "=";
-        attI.TextColor = 9402970;
+        attI.TextColor = new Color(90, 122, 143);
         session.EndRead(attI);
         Label damI = new(this);
         session.BeginRead(damI);
@@ -1427,7 +1428,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         damI.Alignment.BottomOffset = 0;
         damI.Masked = true;
         damI.Text = "=";
-        damI.TextColor = 9402970;
+        damI.TextColor = new Color(90, 122, 143);
         session.EndRead(damI);
         Label defI = new(this);
         session.BeginRead(defI);
@@ -1450,7 +1451,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         defI.Alignment.BottomOffset = 0;
         defI.Masked = true;
         defI.Text = "=";
-        defI.TextColor = 9402970;
+        defI.TextColor = new Color(90, 122, 143);
         session.EndRead(defI);
         Label resI = new(this);
         session.BeginRead(resI);
@@ -1473,7 +1474,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         resI.Alignment.BottomOffset = 0;
         resI.Masked = true;
         resI.Text = "=";
-        resI.TextColor = 9402970;
+        resI.TextColor = new Color(90, 122, 143);
         session.EndRead(resI);
         Label hitI = new(this);
         session.BeginRead(hitI);
@@ -1496,7 +1497,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         hitI.Alignment.BottomOffset = 0;
         hitI.Masked = true;
         hitI.Text = "=";
-        hitI.TextColor = 9402970;
+        hitI.TextColor = new Color(90, 122, 143);
         session.EndRead(hitI);
         Label movI = new(this);
         session.BeginRead(movI);
@@ -1519,7 +1520,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         movI.Alignment.BottomOffset = 0;
         movI.Masked = true;
         movI.Text = "=";
-        movI.TextColor = 9402970;
+        movI.TextColor = new Color(90, 122, 143);
         session.EndRead(movI);
         AttackAddedLabel = new Label(this);
         session.BeginRead(AttackAddedLabel);
@@ -1542,7 +1543,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         AttackAddedLabel.Alignment.BottomOffset = 0;
         AttackAddedLabel.Masked = true;
         AttackAddedLabel.Text = "3";
-        AttackAddedLabel.TextColor = 12632256;
+        AttackAddedLabel.TextColor = Color.Silver;
         session.EndRead(AttackAddedLabel);
         DamageAddedLabel = new Label(this);
         session.BeginRead(DamageAddedLabel);
@@ -1565,7 +1566,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         DamageAddedLabel.Alignment.BottomOffset = 0;
         DamageAddedLabel.Masked = true;
         DamageAddedLabel.Text = "3";
-        DamageAddedLabel.TextColor = 12632256;
+        DamageAddedLabel.TextColor = Color.Silver;
         session.EndRead(DamageAddedLabel);
         DefenseAddedLabel = new Label(this);
         session.BeginRead(DefenseAddedLabel);
@@ -1588,7 +1589,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         DefenseAddedLabel.Alignment.BottomOffset = 0;
         DefenseAddedLabel.Masked = true;
         DefenseAddedLabel.Text = "3";
-        DefenseAddedLabel.TextColor = 12632256;
+        DefenseAddedLabel.TextColor = Color.Silver;
         session.EndRead(DefenseAddedLabel);
         ResistanceAddedLabel = new Label(this);
         session.BeginRead(ResistanceAddedLabel);
@@ -1611,7 +1612,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         ResistanceAddedLabel.Alignment.BottomOffset = 0;
         ResistanceAddedLabel.Masked = true;
         ResistanceAddedLabel.Text = "3";
-        ResistanceAddedLabel.TextColor = 12632256;
+        ResistanceAddedLabel.TextColor = Color.Silver;
         session.EndRead(ResistanceAddedLabel);
         HitsAddedLabel = new Label(this);
         session.BeginRead(HitsAddedLabel);
@@ -1634,7 +1635,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         HitsAddedLabel.Alignment.BottomOffset = 0;
         HitsAddedLabel.Masked = true;
         HitsAddedLabel.Text = "3";
-        HitsAddedLabel.TextColor = 12632256;
+        HitsAddedLabel.TextColor = Color.Silver;
         session.EndRead(HitsAddedLabel);
         MovesAddedLabel = new Label(this);
         session.BeginRead(MovesAddedLabel);
@@ -1657,7 +1658,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         MovesAddedLabel.Alignment.BottomOffset = 0;
         MovesAddedLabel.Masked = true;
         MovesAddedLabel.Text = "3";
-        MovesAddedLabel.TextColor = 12632256;
+        MovesAddedLabel.TextColor = Color.Silver;
         session.EndRead(MovesAddedLabel);
         Label attP = new(this);
         session.BeginRead(attP);
@@ -1680,7 +1681,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         attP.Alignment.BottomOffset = 0;
         attP.Masked = true;
         attP.Text = "+";
-        attP.TextColor = 9402970;
+        attP.TextColor = new Color(90, 122, 143);
         session.EndRead(attP);
         Label damP = new(this);
         session.BeginRead(damP);
@@ -1703,7 +1704,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         damP.Alignment.BottomOffset = 0;
         damP.Masked = true;
         damP.Text = "+";
-        damP.TextColor = 9402970;
+        damP.TextColor = new Color(90, 122, 143);
         session.EndRead(damP);
         Label defP = new(this);
         session.BeginRead(defP);
@@ -1726,7 +1727,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         defP.Alignment.BottomOffset = 0;
         defP.Masked = true;
         defP.Text = "+";
-        defP.TextColor = 9402970;
+        defP.TextColor = new Color(90, 122, 143);
         session.EndRead(defP);
         Label resP = new(this);
         session.BeginRead(resP);
@@ -1749,7 +1750,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         resP.Alignment.BottomOffset = 0;
         resP.Masked = true;
         resP.Text = "+";
-        resP.TextColor = 9402970;
+        resP.TextColor = new Color(90, 122, 143);
         session.EndRead(resP);
         Label hitP = new(this);
         session.BeginRead(hitP);
@@ -1772,7 +1773,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         hitP.Alignment.BottomOffset = 0;
         hitP.Masked = true;
         hitP.Text = "+";
-        hitP.TextColor = 9402970;
+        hitP.TextColor = new Color(90, 122, 143);
         session.EndRead(hitP);
         Label movP = new(this);
         session.BeginRead(movP);
@@ -1795,7 +1796,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         movP.Alignment.BottomOffset = 0;
         movP.Masked = true;
         movP.Text = "+";
-        movP.TextColor = 9402970;
+        movP.TextColor = new Color(90, 122, 143);
         session.EndRead(movP);
         AttackBaseLabel = new Label(this);
         session.BeginRead(AttackBaseLabel);
@@ -1818,7 +1819,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         AttackBaseLabel.Alignment.BottomOffset = 0;
         AttackBaseLabel.Masked = true;
         AttackBaseLabel.Text = "9";
-        AttackBaseLabel.TextColor = 9402970;
+        AttackBaseLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(AttackBaseLabel);
         DamageBaseLabel = new Label(this);
         session.BeginRead(DamageBaseLabel);
@@ -1841,7 +1842,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         DamageBaseLabel.Alignment.BottomOffset = 0;
         DamageBaseLabel.Masked = true;
         DamageBaseLabel.Text = "9";
-        DamageBaseLabel.TextColor = 9402970;
+        DamageBaseLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(DamageBaseLabel);
         DefenseBaseLabel = new Label(this);
         session.BeginRead(DefenseBaseLabel);
@@ -1864,7 +1865,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         DefenseBaseLabel.Alignment.BottomOffset = 0;
         DefenseBaseLabel.Masked = true;
         DefenseBaseLabel.Text = "9";
-        DefenseBaseLabel.TextColor = 9402970;
+        DefenseBaseLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(DefenseBaseLabel);
         ResistanceBaseLabel = new Label(this);
         session.BeginRead(ResistanceBaseLabel);
@@ -1887,7 +1888,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         ResistanceBaseLabel.Alignment.BottomOffset = 0;
         ResistanceBaseLabel.Masked = true;
         ResistanceBaseLabel.Text = "9";
-        ResistanceBaseLabel.TextColor = 9402970;
+        ResistanceBaseLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(ResistanceBaseLabel);
         HitsBaseLabel = new Label(this);
         session.BeginRead(HitsBaseLabel);
@@ -1910,7 +1911,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         HitsBaseLabel.Alignment.BottomOffset = 0;
         HitsBaseLabel.Masked = true;
         HitsBaseLabel.Text = "9";
-        HitsBaseLabel.TextColor = 9402970;
+        HitsBaseLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(HitsBaseLabel);
         MovesBaseLabel = new Label(this);
         session.BeginRead(MovesBaseLabel);
@@ -1933,7 +1934,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         MovesBaseLabel.Alignment.BottomOffset = 0;
         MovesBaseLabel.Masked = true;
         MovesBaseLabel.Text = "9";
-        MovesBaseLabel.TextColor = 9402970;
+        MovesBaseLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(MovesBaseLabel);
         Button attUp = new(this);
         session.BeginRead(attUp);
@@ -1960,8 +1961,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         attUp.ImageLibraryIndexDown = 44;
         attUp.ImageLibraryIndexLit = 45;
         attUp.ImageLibraryIndexUp = 43;
-        attUp.TextColor = 0;
-        attUp.TextSelectedColor = 0;
+        attUp.TextColor = Color.Black;
+        attUp.TextSelectedColor = Color.Black;
         attUp.WinWidth = 9;
         attUp.Clicked += (_, _) => AttUpClick();
         session.EndRead(attUp);
@@ -1990,8 +1991,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         attDn.ImageLibraryIndexDown = 47;
         attDn.ImageLibraryIndexLit = 48;
         attDn.ImageLibraryIndexUp = 46;
-        attDn.TextColor = 0;
-        attDn.TextSelectedColor = 0;
+        attDn.TextColor = Color.Black;
+        attDn.TextSelectedColor = Color.Black;
         attDn.WinWidth = 9;
         attDn.Clicked += (_, _) => AttDnClick();
         session.EndRead(attDn);
@@ -2020,8 +2021,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         damUp.ImageLibraryIndexDown = 44;
         damUp.ImageLibraryIndexLit = 45;
         damUp.ImageLibraryIndexUp = 43;
-        damUp.TextColor = 0;
-        damUp.TextSelectedColor = 0;
+        damUp.TextColor = Color.Black;
+        damUp.TextSelectedColor = Color.Black;
         damUp.WinWidth = 9;
         damUp.Clicked += (_, _) => DamUpClick();
         session.EndRead(damUp);
@@ -2050,8 +2051,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         damDn.ImageLibraryIndexDown = 47;
         damDn.ImageLibraryIndexLit = 48;
         damDn.ImageLibraryIndexUp = 46;
-        damDn.TextColor = 0;
-        damDn.TextSelectedColor = 0;
+        damDn.TextColor = Color.Black;
+        damDn.TextSelectedColor = Color.Black;
         damDn.WinWidth = 9;
         damDn.Clicked += (_, _) => DamDnClick();
         session.EndRead(damDn);
@@ -2080,8 +2081,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         defUp.ImageLibraryIndexDown = 44;
         defUp.ImageLibraryIndexLit = 45;
         defUp.ImageLibraryIndexUp = 43;
-        defUp.TextColor = 0;
-        defUp.TextSelectedColor = 0;
+        defUp.TextColor = Color.Black;
+        defUp.TextSelectedColor = Color.Black;
         defUp.WinWidth = 9;
         defUp.Clicked += (_, _) => DefUpClick();
         session.EndRead(defUp);
@@ -2110,8 +2111,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         defDn.ImageLibraryIndexDown = 47;
         defDn.ImageLibraryIndexLit = 48;
         defDn.ImageLibraryIndexUp = 46;
-        defDn.TextColor = 0;
-        defDn.TextSelectedColor = 0;
+        defDn.TextColor = Color.Black;
+        defDn.TextSelectedColor = Color.Black;
         defDn.WinWidth = 9;
         defDn.Clicked += (_, _) => DefDnClick();
         session.EndRead(defDn);
@@ -2140,8 +2141,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         resUp.ImageLibraryIndexDown = 44;
         resUp.ImageLibraryIndexLit = 45;
         resUp.ImageLibraryIndexUp = 43;
-        resUp.TextColor = 0;
-        resUp.TextSelectedColor = 0;
+        resUp.TextColor = Color.Black;
+        resUp.TextSelectedColor = Color.Black;
         resUp.WinWidth = 9;
         resUp.Clicked += (_, _) => ResUpClick();
         session.EndRead(resUp);
@@ -2170,8 +2171,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         resDn.ImageLibraryIndexDown = 47;
         resDn.ImageLibraryIndexLit = 48;
         resDn.ImageLibraryIndexUp = 46;
-        resDn.TextColor = 0;
-        resDn.TextSelectedColor = 0;
+        resDn.TextColor = Color.Black;
+        resDn.TextSelectedColor = Color.Black;
         resDn.WinWidth = 9;
         resDn.Clicked += (_, _) => ResDnClick();
         session.EndRead(resDn);
@@ -2200,8 +2201,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         hitUp.ImageLibraryIndexDown = 44;
         hitUp.ImageLibraryIndexLit = 45;
         hitUp.ImageLibraryIndexUp = 43;
-        hitUp.TextColor = 0;
-        hitUp.TextSelectedColor = 0;
+        hitUp.TextColor = Color.Black;
+        hitUp.TextSelectedColor = Color.Black;
         hitUp.WinWidth = 9;
         hitUp.Clicked += (_, _) => HitUpClick();
         session.EndRead(hitUp);
@@ -2230,8 +2231,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         hitDn.ImageLibraryIndexDown = 47;
         hitDn.ImageLibraryIndexLit = 48;
         hitDn.ImageLibraryIndexUp = 46;
-        hitDn.TextColor = 0;
-        hitDn.TextSelectedColor = 0;
+        hitDn.TextColor = Color.Black;
+        hitDn.TextSelectedColor = Color.Black;
         hitDn.WinWidth = 9;
         hitDn.Clicked += (_, _) => HitDnClick();
         session.EndRead(hitDn);
@@ -2260,8 +2261,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         movUp.ImageLibraryIndexDown = 44;
         movUp.ImageLibraryIndexLit = 45;
         movUp.ImageLibraryIndexUp = 43;
-        movUp.TextColor = 0;
-        movUp.TextSelectedColor = 0;
+        movUp.TextColor = Color.Black;
+        movUp.TextSelectedColor = Color.Black;
         movUp.WinWidth = 9;
         movUp.Clicked += (_, _) => MovUpClick();
         session.EndRead(movUp);
@@ -2290,8 +2291,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         movDn.ImageLibraryIndexDown = 47;
         movDn.ImageLibraryIndexLit = 48;
         movDn.ImageLibraryIndexUp = 46;
-        movDn.TextColor = 0;
-        movDn.TextSelectedColor = 0;
+        movDn.TextColor = Color.Black;
+        movDn.TextSelectedColor = Color.Black;
         movDn.WinWidth = 9;
         movDn.Clicked += (_, _) => MovDnClick();
         session.EndRead(movDn);
@@ -2489,8 +2490,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         selectedAbilitiesCostSort.ImageLibraryIndexLit = 6;
         selectedAbilitiesCostSort.ImageLibraryIndexUp = 6;
         selectedAbilitiesCostSort.Text = "Cost";
-        selectedAbilitiesCostSort.TextColor = 0;
-        selectedAbilitiesCostSort.TextSelectedColor = 16777215;
+        selectedAbilitiesCostSort.TextColor = Color.Black;
+        selectedAbilitiesCostSort.TextSelectedColor = Color.White;
         selectedAbilitiesCostSort.WinWidth = 47;
         selectedAbilitiesCostSort.Clicked += (_, _) => SelectedAbilitiesCostSortClick();
         session.EndRead(selectedAbilitiesCostSort);
@@ -2521,8 +2522,8 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         SelectedAbilitiesCostList.BorderHeight = 4;
         SelectedAbilitiesCostList.Changed += (_, _) => SelectedAbilitiesCostChange();
         SelectedAbilitiesCostList.Selected = -1;
-        SelectedAbilitiesCostList.TextColor = 9402970;
-        SelectedAbilitiesCostList.TextSelectedColor = 0;
+        SelectedAbilitiesCostList.TextColor = new Color(90, 122, 143);
+        SelectedAbilitiesCostList.TextSelectedColor = Color.Black;
         SelectedAbilitiesCostList.ImageLibraryIndexFrame = 40;
         SelectedAbilitiesCostList.ImageLibraryIndexTNormal = 19;
         SelectedAbilitiesCostList.ImageLibraryIndexTSelected = 16;
@@ -2577,7 +2578,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         LevelLabel.Alignment.BottomOffset = 0;
         LevelLabel.Masked = true;
         LevelLabel.Text = "#####";
-        LevelLabel.TextColor = 13165253;
+        LevelLabel.TextColor = new Color(197, 226, 200);
         session.EndRead(LevelLabel);
         SkillPointsLabel = new Label(this);
         session.BeginRead(SkillPointsLabel);
@@ -2600,7 +2601,7 @@ public sealed partial class HeroUpgradeDialog : ILayoutModule
         SkillPointsLabel.Alignment.BottomOffset = 0;
         SkillPointsLabel.Masked = true;
         SkillPointsLabel.Text = "10/10";
-        SkillPointsLabel.TextColor = 16777215;
+        SkillPointsLabel.TextColor = Color.White;
         session.EndRead(SkillPointsLabel);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);

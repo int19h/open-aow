@@ -3,6 +3,7 @@
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.UI.Controls;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiPaths;
@@ -659,7 +660,7 @@ public sealed partial class HtmlMemo : BaseWindow
                 {
                     if (_images.Count <= ImageLibraryIndexTexture)
                     {
-                        _ = Masked ? BackSurface.Clear(MaskColor) : BackSurface.Clear(0);
+                        _ = Masked ? BackSurface.Clear(MaskColor) : BackSurface.Clear(Color.Black);
 
                         _ = BackSurface.Lock(ref backSurfaceDescription);
                     }
@@ -733,7 +734,7 @@ public sealed partial class HtmlMemo : BaseWindow
                             }
 
                             Font.FontColorPaletteIndex = 1;
-                            Font.Color = ci.Color;
+                            Font.Color = Color.FromPacked(ci.Color);
                             Font.CharacterDistance = ci.Spacing;
                             fontName = ci.Font;
                             lh = ci.Height;

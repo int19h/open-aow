@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -35,7 +36,7 @@ public sealed partial class ProgressDialog : ILayoutModule
         TitleLabel.Alignment.TopOffset = 7;
         TitleLabel.Alignment.BottomOffset = 0;
         TitleLabel.Masked = false;
-        TitleLabel.TextColor = 0;
+        TitleLabel.TextColor = Color.Black;
         session.EndRead(TitleLabel);
         Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
@@ -112,7 +113,7 @@ public sealed partial class ProgressDialog : ILayoutModule
         StatusLabel.Alignment.TopOffset = 30;
         StatusLabel.Alignment.BottomOffset = 0;
         StatusLabel.Masked = false;
-        StatusLabel.TextColor = 16777215;
+        StatusLabel.TextColor = Color.White;
         session.EndRead(StatusLabel);
         Window = new Window(this);
         session.BeginRead(Window);
@@ -141,7 +142,7 @@ public sealed partial class ProgressDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;

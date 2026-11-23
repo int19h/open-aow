@@ -1,5 +1,6 @@
 #nullable disable warnings
 // Translated from ImageLib.pas.
+using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Game.Draw.Images;
@@ -33,7 +34,7 @@ public sealed class LibraryImagePalette : Persistent
         }
         else
         {
-            _ = PixelFormats.Color2PixelInfo(0, pixelFormatId, Palette);
+            _ = PixelFormats.Color2PixelInfo(Color.Black, pixelFormatId, Palette);
             if (RemapPaletteValue is null || pixelFormatId != RemapPaletteValue.PixelFormatId)
             {
                 RemapPaletteValue ??= new Palette();

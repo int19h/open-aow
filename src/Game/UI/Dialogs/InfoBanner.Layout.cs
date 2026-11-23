@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -35,7 +36,7 @@ public sealed partial class InfoBanner : ILayoutModule
         HeaderLabel.Alignment.BottomOffset = 0;
         HeaderLabel.Masked = true;
         HeaderLabel.Text = "######";
-        HeaderLabel.TextColor = 1321830;
+        HeaderLabel.TextColor = new Color(102, 43, 20);
         session.EndRead(HeaderLabel);
         InfoMemo = new Memo(this);
         session.BeginRead(InfoMemo);
@@ -65,7 +66,7 @@ public sealed partial class InfoBanner : ILayoutModule
         ];
         InfoMemo.BorderWidth = 0;
         InfoMemo.BorderHeight = 0;
-        InfoMemo.TextColor = 0;
+        InfoMemo.TextColor = Color.Black;
         InfoMemo.CursorChar = 124;
         InfoMemo.BlinkDelay = 0;
         InfoMemo.Editable = false;
@@ -103,13 +104,13 @@ public sealed partial class InfoBanner : ILayoutModule
         BannerMenu.OverlapTopCorners = false;
         BannerMenu.Cursor = 0;
         BannerMenu.DoubleBuffered = true;
-        BannerMenu.MaskColor = 8388736;
+        BannerMenu.MaskColor = Color.Purple;
         BannerMenu.FreeSurfaceOnHide = true;
         BannerMenu.ImageLibraryIndexFrame = 19;
         BannerMenu.ImageLibraryIndexTNormal = 27;
         BannerMenu.ImageLibraryIndexTSelected = 27;
-        BannerMenu.TextColor = 8734252;
-        BannerMenu.TextSelectedColor = 16777215;
+        BannerMenu.TextColor = new Color(44, 70, 133);
+        BannerMenu.TextSelectedColor = Color.White;
         BannerMenu.ItemHeight = 13;
         BannerMenu.OwnerItem = 0;
         BannerMenu.SubMenuShowDelay = 0;

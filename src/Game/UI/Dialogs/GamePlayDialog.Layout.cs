@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -44,7 +45,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -86,8 +87,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         cancelBtn.ImageLibraryIndexLit = 25;
         cancelBtn.ImageLibraryIndexUp = 19;
         cancelBtn.Text = "Cancel";
-        cancelBtn.TextColor = 0;
-        cancelBtn.TextSelectedColor = 16777215;
+        cancelBtn.TextColor = Color.Black;
+        cancelBtn.TextSelectedColor = Color.White;
         cancelBtn.WinWidth = 110;
         cancelBtn.Clicked += (_, _) => CancelClick();
         session.EndRead(cancelBtn);
@@ -139,7 +140,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "GamePlay Settings";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Button close = new(this);
         session.BeginRead(close);
@@ -170,8 +171,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CancelClick();
         session.EndRead(close);
@@ -288,8 +289,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         AutoSaveCheckBox.ImageLibraryIndexDown = 48;
         AutoSaveCheckBox.ImageLibraryIndexLit = 49;
         AutoSaveCheckBox.ImageLibraryIndexUp = 47;
-        AutoSaveCheckBox.TextColor = 0;
-        AutoSaveCheckBox.TextSelectedColor = 0;
+        AutoSaveCheckBox.TextColor = Color.Black;
+        AutoSaveCheckBox.TextSelectedColor = Color.Black;
         AutoSaveCheckBox.WinWidth = 12;
         AutoSaveCheckBox.Checked = false;
         AutoSaveCheckBox.RadioIndex = 0;
@@ -315,7 +316,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         asLbl.Alignment.BottomOffset = 0;
         asLbl.Masked = true;
         asLbl.Text = "Auto-Save";
-        asLbl.TextColor = 9415072;
+        asLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(asLbl);
         SkipIntroCheckBox = new CheckBox(this);
         session.BeginRead(SkipIntroCheckBox);
@@ -346,8 +347,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         SkipIntroCheckBox.ImageLibraryIndexDown = 48;
         SkipIntroCheckBox.ImageLibraryIndexLit = 49;
         SkipIntroCheckBox.ImageLibraryIndexUp = 47;
-        SkipIntroCheckBox.TextColor = 0;
-        SkipIntroCheckBox.TextSelectedColor = 0;
+        SkipIntroCheckBox.TextColor = Color.Black;
+        SkipIntroCheckBox.TextSelectedColor = Color.Black;
         SkipIntroCheckBox.WinWidth = 12;
         SkipIntroCheckBox.Checked = false;
         SkipIntroCheckBox.RadioIndex = 0;
@@ -373,7 +374,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         siLbl.Alignment.BottomOffset = 0;
         siLbl.Masked = true;
         siLbl.Text = "Skip Intro";
-        siLbl.TextColor = 9415072;
+        siLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(siLbl);
         TabPanel tab1 = new(this);
         session.BeginRead(tab1);
@@ -403,8 +404,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         tab1.BorderHeight = 6;
         tab1.Selected = 0;
         tab1.WinWidth = 300;
-        tab1.TextColor = 0;
-        tab1.TextSelectedColor = 9415072;
+        tab1.TextColor = Color.Black;
+        tab1.TextSelectedColor = new Color(160, 169, 143);
         tab1.ImageLibraryIndexDown = 67;
         tab1.ImageLibraryIndexUp = 70;
         tab1.BorderHeightSelected = 7;
@@ -485,7 +486,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         gamePasswordLbl.Alignment.BottomOffset = 0;
         gamePasswordLbl.Masked = true;
         gamePasswordLbl.Text = "Game password:";
-        gamePasswordLbl.TextColor = 0;
+        gamePasswordLbl.TextColor = Color.Black;
         session.EndRead(gamePasswordLbl);
         PasswordEdit = new Edit(this);
         session.BeginRead(PasswordEdit);
@@ -513,7 +514,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         PasswordEdit.MaxChars = 0;
         PasswordEdit.CursorChar = 95;
         PasswordEdit.BlinkDelay = 1;
-        PasswordEdit.TextColor = 11002593;
+        PasswordEdit.TextColor = new Color(225, 226, 167);
         PasswordEdit.Editable = false;
         PasswordEdit.ImageLibraryIndex = 15;
         PasswordEdit.PassWordChar = 42;
@@ -547,8 +548,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         CombatResolveModeComboBox.NumberVisible = 5;
         CombatResolveModeComboBox.Selected = -1;
         CombatResolveModeComboBox.PriorityOpened = 5000;
-        CombatResolveModeComboBox.TextColor = 11002593;
-        CombatResolveModeComboBox.TextSelectedColor = 0;
+        CombatResolveModeComboBox.TextColor = new Color(225, 226, 167);
+        CombatResolveModeComboBox.TextSelectedColor = Color.Black;
         CombatResolveModeComboBox.ILEIndex = 27;
         CombatResolveModeComboBox.ILFIndex = 113;
         CombatResolveModeComboBox.ImageLibraryTnIndex = 17;
@@ -617,8 +618,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Classic1CheckBox.ImageLibraryIndexDown = 48;
         Classic1CheckBox.ImageLibraryIndexLit = 49;
         Classic1CheckBox.ImageLibraryIndexUp = 47;
-        Classic1CheckBox.TextColor = 0;
-        Classic1CheckBox.TextSelectedColor = 0;
+        Classic1CheckBox.TextColor = Color.Black;
+        Classic1CheckBox.TextSelectedColor = Color.Black;
         Classic1CheckBox.WinWidth = 12;
         Classic1CheckBox.Checked = false;
         Classic1CheckBox.RadioIndex = 0;
@@ -644,7 +645,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         popupLbl1.Alignment.BottomOffset = 0;
         popupLbl1.Masked = true;
         popupLbl1.Text = "Combat";
-        popupLbl1.TextColor = 0;
+        popupLbl1.TextColor = Color.Black;
         session.EndRead(popupLbl1);
         Classic2CheckBox = new CheckBox(this);
         session.BeginRead(Classic2CheckBox);
@@ -672,8 +673,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Classic2CheckBox.ImageLibraryIndexDown = 48;
         Classic2CheckBox.ImageLibraryIndexLit = 49;
         Classic2CheckBox.ImageLibraryIndexUp = 47;
-        Classic2CheckBox.TextColor = 0;
-        Classic2CheckBox.TextSelectedColor = 0;
+        Classic2CheckBox.TextColor = Color.Black;
+        Classic2CheckBox.TextSelectedColor = Color.Black;
         Classic2CheckBox.WinWidth = 12;
         Classic2CheckBox.Checked = false;
         Classic2CheckBox.RadioIndex = 0;
@@ -699,7 +700,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         popupLbl2.Alignment.BottomOffset = 0;
         popupLbl2.Masked = true;
         popupLbl2.Text = "Diplomacy";
-        popupLbl2.TextColor = 0;
+        popupLbl2.TextColor = Color.Black;
         session.EndRead(popupLbl2);
         Classic3CheckBox = new CheckBox(this);
         session.BeginRead(Classic3CheckBox);
@@ -727,8 +728,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Classic3CheckBox.ImageLibraryIndexDown = 48;
         Classic3CheckBox.ImageLibraryIndexLit = 49;
         Classic3CheckBox.ImageLibraryIndexUp = 47;
-        Classic3CheckBox.TextColor = 0;
-        Classic3CheckBox.TextSelectedColor = 0;
+        Classic3CheckBox.TextColor = Color.Black;
+        Classic3CheckBox.TextSelectedColor = Color.Black;
         Classic3CheckBox.WinWidth = 12;
         Classic3CheckBox.Checked = false;
         Classic3CheckBox.RadioIndex = 0;
@@ -754,7 +755,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         popupLbl3.Alignment.BottomOffset = 0;
         popupLbl3.Masked = true;
         popupLbl3.Text = "Spell researched";
-        popupLbl3.TextColor = 0;
+        popupLbl3.TextColor = Color.Black;
         session.EndRead(popupLbl3);
         Classic4CheckBox = new CheckBox(this);
         session.BeginRead(Classic4CheckBox);
@@ -782,8 +783,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Classic4CheckBox.ImageLibraryIndexDown = 48;
         Classic4CheckBox.ImageLibraryIndexLit = 49;
         Classic4CheckBox.ImageLibraryIndexUp = 47;
-        Classic4CheckBox.TextColor = 0;
-        Classic4CheckBox.TextSelectedColor = 0;
+        Classic4CheckBox.TextColor = Color.Black;
+        Classic4CheckBox.TextSelectedColor = Color.Black;
         Classic4CheckBox.WinWidth = 12;
         Classic4CheckBox.Checked = false;
         Classic4CheckBox.RadioIndex = 0;
@@ -814,8 +815,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Classic5CheckBox.ImageLibraryIndexDown = 48;
         Classic5CheckBox.ImageLibraryIndexLit = 49;
         Classic5CheckBox.ImageLibraryIndexUp = 47;
-        Classic5CheckBox.TextColor = 0;
-        Classic5CheckBox.TextSelectedColor = 0;
+        Classic5CheckBox.TextColor = Color.Black;
+        Classic5CheckBox.TextSelectedColor = Color.Black;
         Classic5CheckBox.WinWidth = 12;
         Classic5CheckBox.Checked = false;
         Classic5CheckBox.RadioIndex = 0;
@@ -846,8 +847,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Classic6CheckBox.ImageLibraryIndexDown = 48;
         Classic6CheckBox.ImageLibraryIndexLit = 49;
         Classic6CheckBox.ImageLibraryIndexUp = 47;
-        Classic6CheckBox.TextColor = 0;
-        Classic6CheckBox.TextSelectedColor = 0;
+        Classic6CheckBox.TextColor = Color.Black;
+        Classic6CheckBox.TextSelectedColor = Color.Black;
         Classic6CheckBox.WinWidth = 12;
         Classic6CheckBox.Checked = false;
         Classic6CheckBox.RadioIndex = 0;
@@ -873,7 +874,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         windowPopupLbl.Alignment.BottomOffset = 0;
         windowPopupLbl.Masked = true;
         windowPopupLbl.Text = "Window Popup";
-        windowPopupLbl.TextColor = 16777215;
+        windowPopupLbl.TextColor = Color.White;
         session.EndRead(windowPopupLbl);
         Label classicLbl = new(this);
         session.BeginRead(classicLbl);
@@ -896,7 +897,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         classicLbl.Alignment.BottomOffset = 0;
         classicLbl.Masked = true;
         classicLbl.Text = "Classic";
-        classicLbl.TextColor = 16777215;
+        classicLbl.TextColor = Color.White;
         session.EndRead(classicLbl);
         Label simultaneousLbl = new(this);
         session.BeginRead(simultaneousLbl);
@@ -919,7 +920,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         simultaneousLbl.Alignment.BottomOffset = 0;
         simultaneousLbl.Masked = true;
         simultaneousLbl.Text = "Simult.";
-        simultaneousLbl.TextColor = 16777215;
+        simultaneousLbl.TextColor = Color.White;
         session.EndRead(simultaneousLbl);
         Simultaneous1CheckBox = new CheckBox(this);
         session.BeginRead(Simultaneous1CheckBox);
@@ -946,8 +947,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Simultaneous1CheckBox.ImageLibraryIndexDown = 48;
         Simultaneous1CheckBox.ImageLibraryIndexLit = 49;
         Simultaneous1CheckBox.ImageLibraryIndexUp = 47;
-        Simultaneous1CheckBox.TextColor = 0;
-        Simultaneous1CheckBox.TextSelectedColor = 0;
+        Simultaneous1CheckBox.TextColor = Color.Black;
+        Simultaneous1CheckBox.TextSelectedColor = Color.Black;
         Simultaneous1CheckBox.WinWidth = 12;
         Simultaneous1CheckBox.Checked = false;
         Simultaneous1CheckBox.RadioIndex = 0;
@@ -978,8 +979,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Simultaneous2CheckBox.ImageLibraryIndexDown = 48;
         Simultaneous2CheckBox.ImageLibraryIndexLit = 49;
         Simultaneous2CheckBox.ImageLibraryIndexUp = 47;
-        Simultaneous2CheckBox.TextColor = 0;
-        Simultaneous2CheckBox.TextSelectedColor = 0;
+        Simultaneous2CheckBox.TextColor = Color.Black;
+        Simultaneous2CheckBox.TextSelectedColor = Color.Black;
         Simultaneous2CheckBox.WinWidth = 12;
         Simultaneous2CheckBox.Checked = false;
         Simultaneous2CheckBox.RadioIndex = 0;
@@ -1010,8 +1011,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Simultaneous3CheckBox.ImageLibraryIndexDown = 48;
         Simultaneous3CheckBox.ImageLibraryIndexLit = 49;
         Simultaneous3CheckBox.ImageLibraryIndexUp = 47;
-        Simultaneous3CheckBox.TextColor = 0;
-        Simultaneous3CheckBox.TextSelectedColor = 0;
+        Simultaneous3CheckBox.TextColor = Color.Black;
+        Simultaneous3CheckBox.TextSelectedColor = Color.Black;
         Simultaneous3CheckBox.WinWidth = 12;
         Simultaneous3CheckBox.Checked = false;
         Simultaneous3CheckBox.RadioIndex = 0;
@@ -1042,8 +1043,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Simultaneous4CheckBox.ImageLibraryIndexDown = 48;
         Simultaneous4CheckBox.ImageLibraryIndexLit = 49;
         Simultaneous4CheckBox.ImageLibraryIndexUp = 47;
-        Simultaneous4CheckBox.TextColor = 0;
-        Simultaneous4CheckBox.TextSelectedColor = 0;
+        Simultaneous4CheckBox.TextColor = Color.Black;
+        Simultaneous4CheckBox.TextSelectedColor = Color.Black;
         Simultaneous4CheckBox.WinWidth = 12;
         Simultaneous4CheckBox.Checked = false;
         Simultaneous4CheckBox.RadioIndex = 0;
@@ -1074,8 +1075,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Simultaneous5CheckBox.ImageLibraryIndexDown = 48;
         Simultaneous5CheckBox.ImageLibraryIndexLit = 49;
         Simultaneous5CheckBox.ImageLibraryIndexUp = 47;
-        Simultaneous5CheckBox.TextColor = 0;
-        Simultaneous5CheckBox.TextSelectedColor = 0;
+        Simultaneous5CheckBox.TextColor = Color.Black;
+        Simultaneous5CheckBox.TextSelectedColor = Color.Black;
         Simultaneous5CheckBox.WinWidth = 12;
         Simultaneous5CheckBox.Checked = false;
         Simultaneous5CheckBox.RadioIndex = 0;
@@ -1106,8 +1107,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Simultaneous6CheckBox.ImageLibraryIndexDown = 48;
         Simultaneous6CheckBox.ImageLibraryIndexLit = 49;
         Simultaneous6CheckBox.ImageLibraryIndexUp = 47;
-        Simultaneous6CheckBox.TextColor = 0;
-        Simultaneous6CheckBox.TextSelectedColor = 0;
+        Simultaneous6CheckBox.TextColor = Color.Black;
+        Simultaneous6CheckBox.TextSelectedColor = Color.Black;
         Simultaneous6CheckBox.WinWidth = 12;
         Simultaneous6CheckBox.Checked = false;
         Simultaneous6CheckBox.RadioIndex = 0;
@@ -1133,7 +1134,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         popupLbl4.Alignment.BottomOffset = 0;
         popupLbl4.Masked = true;
         popupLbl4.Text = "Spell ready";
-        popupLbl4.TextColor = 0;
+        popupLbl4.TextColor = Color.Black;
         session.EndRead(popupLbl4);
         Label popupLbl5 = new(this);
         session.BeginRead(popupLbl5);
@@ -1156,7 +1157,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         popupLbl5.Alignment.BottomOffset = 0;
         popupLbl5.Masked = true;
         popupLbl5.Text = "Rebellion/desertion";
-        popupLbl5.TextColor = 0;
+        popupLbl5.TextColor = Color.Black;
         session.EndRead(popupLbl5);
         Label popupLbl6 = new(this);
         session.BeginRead(popupLbl6);
@@ -1179,7 +1180,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         popupLbl6.Alignment.BottomOffset = 0;
         popupLbl6.Masked = true;
         popupLbl6.Text = "Party damage";
-        popupLbl6.TextColor = 0;
+        popupLbl6.TextColor = Color.Black;
         session.EndRead(popupLbl6);
         Classic7CheckBox = new CheckBox(this);
         session.BeginRead(Classic7CheckBox);
@@ -1207,8 +1208,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Classic7CheckBox.ImageLibraryIndexDown = 48;
         Classic7CheckBox.ImageLibraryIndexLit = 49;
         Classic7CheckBox.ImageLibraryIndexUp = 47;
-        Classic7CheckBox.TextColor = 0;
-        Classic7CheckBox.TextSelectedColor = 0;
+        Classic7CheckBox.TextColor = Color.Black;
+        Classic7CheckBox.TextSelectedColor = Color.Black;
         Classic7CheckBox.WinWidth = 12;
         Classic7CheckBox.Checked = false;
         Classic7CheckBox.RadioIndex = 0;
@@ -1239,8 +1240,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Simultaneous7CheckBox.ImageLibraryIndexDown = 48;
         Simultaneous7CheckBox.ImageLibraryIndexLit = 49;
         Simultaneous7CheckBox.ImageLibraryIndexUp = 47;
-        Simultaneous7CheckBox.TextColor = 0;
-        Simultaneous7CheckBox.TextSelectedColor = 0;
+        Simultaneous7CheckBox.TextColor = Color.Black;
+        Simultaneous7CheckBox.TextSelectedColor = Color.Black;
         Simultaneous7CheckBox.WinWidth = 12;
         Simultaneous7CheckBox.Checked = false;
         Simultaneous7CheckBox.RadioIndex = 0;
@@ -1266,7 +1267,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         popupLbl7.Alignment.BottomOffset = 0;
         popupLbl7.Masked = true;
         popupLbl7.Text = "Hero upgrade";
-        popupLbl7.TextColor = 0;
+        popupLbl7.TextColor = Color.Black;
         session.EndRead(popupLbl7);
         Button changePasswordBtn = new(this);
         session.BeginRead(changePasswordBtn);
@@ -1294,8 +1295,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         changePasswordBtn.ImageLibraryIndexLit = 40;
         changePasswordBtn.ImageLibraryIndexUp = 34;
         changePasswordBtn.Text = "Change";
-        changePasswordBtn.TextColor = 0;
-        changePasswordBtn.TextSelectedColor = 16777215;
+        changePasswordBtn.TextColor = Color.Black;
+        changePasswordBtn.TextSelectedColor = Color.White;
         changePasswordBtn.WinWidth = 90;
         changePasswordBtn.Clicked += (_, _) => ChangePasswordBtnClick();
         session.EndRead(changePasswordBtn);
@@ -1334,8 +1335,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         MovementSpeedComboBox.NumberVisible = 5;
         MovementSpeedComboBox.Selected = -1;
         MovementSpeedComboBox.PriorityOpened = 170;
-        MovementSpeedComboBox.TextColor = 11002593;
-        MovementSpeedComboBox.TextSelectedColor = 0;
+        MovementSpeedComboBox.TextColor = new Color(225, 226, 167);
+        MovementSpeedComboBox.TextSelectedColor = Color.Black;
         MovementSpeedComboBox.ILEIndex = 27;
         MovementSpeedComboBox.ILFIndex = 113;
         MovementSpeedComboBox.ImageLibraryTnIndex = 17;
@@ -1368,8 +1369,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         okBtn.ImageLibraryIndexLit = 25;
         okBtn.ImageLibraryIndexUp = 19;
         okBtn.Text = "OK";
-        okBtn.TextColor = 0;
-        okBtn.TextSelectedColor = 16777215;
+        okBtn.TextColor = Color.Black;
+        okBtn.TextSelectedColor = Color.White;
         okBtn.WinWidth = 110;
         okBtn.Clicked += (_, _) => OKBtnClick();
         session.EndRead(okBtn);
@@ -1399,8 +1400,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Classic8CheckBox.ImageLibraryIndexDown = 48;
         Classic8CheckBox.ImageLibraryIndexLit = 49;
         Classic8CheckBox.ImageLibraryIndexUp = 47;
-        Classic8CheckBox.TextColor = 0;
-        Classic8CheckBox.TextSelectedColor = 0;
+        Classic8CheckBox.TextColor = Color.Black;
+        Classic8CheckBox.TextSelectedColor = Color.Black;
         Classic8CheckBox.WinWidth = 12;
         Classic8CheckBox.Checked = false;
         Classic8CheckBox.RadioIndex = 0;
@@ -1431,8 +1432,8 @@ public sealed partial class GamePlayDialog : ILayoutModule
         Simultaneous8CheckBox.ImageLibraryIndexDown = 48;
         Simultaneous8CheckBox.ImageLibraryIndexLit = 49;
         Simultaneous8CheckBox.ImageLibraryIndexUp = 47;
-        Simultaneous8CheckBox.TextColor = 0;
-        Simultaneous8CheckBox.TextSelectedColor = 0;
+        Simultaneous8CheckBox.TextColor = Color.Black;
+        Simultaneous8CheckBox.TextSelectedColor = Color.Black;
         Simultaneous8CheckBox.WinWidth = 12;
         Simultaneous8CheckBox.Checked = false;
         Simultaneous8CheckBox.RadioIndex = 0;
@@ -1458,7 +1459,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         popupLbl8.Alignment.BottomOffset = 0;
         popupLbl8.Masked = true;
         popupLbl8.Text = "Hero join";
-        popupLbl8.TextColor = 0;
+        popupLbl8.TextColor = Color.Black;
         session.EndRead(popupLbl8);
         Label combLbl = new(this);
         session.BeginRead(combLbl);
@@ -1481,7 +1482,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         combLbl.Alignment.BottomOffset = 0;
         combLbl.Masked = true;
         combLbl.Text = "Combat";
-        combLbl.TextColor = 9415072;
+        combLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(combLbl);
         Panel combFr = new(this);
         session.BeginRead(combFr);
@@ -1558,7 +1559,7 @@ public sealed partial class GamePlayDialog : ILayoutModule
         movelbl.Alignment.BottomOffset = 0;
         movelbl.Masked = true;
         movelbl.Text = "Movement";
-        movelbl.TextColor = 9415072;
+        movelbl.TextColor = new Color(160, 169, 143);
         session.EndRead(movelbl);
         Panel movFr = new(this);
         session.BeginRead(movFr);

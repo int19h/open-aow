@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -43,7 +44,7 @@ public sealed partial class SynchronizeDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 0;
         Window.ImageLibraryIndexTexture = 0;
@@ -106,7 +107,7 @@ public sealed partial class SynchronizeDialog : ILayoutModule
         bottomMsg.Alignment.TopOffset = 0;
         bottomMsg.Alignment.BottomOffset = 51;
         bottomMsg.Masked = true;
-        bottomMsg.TextColor = 9236989;
+        bottomMsg.TextColor = new Color(253, 241, 140);
         session.EndRead(bottomMsg);
         LeftShield = new Image(this);
         session.BeginRead(LeftShield);
@@ -157,7 +158,7 @@ public sealed partial class SynchronizeDialog : ILayoutModule
         PlayerNameLabel.Alignment.BottomOffset = 50;
         PlayerNameLabel.Masked = true;
         PlayerNameLabel.Text = "######";
-        PlayerNameLabel.TextColor = 9757931;
+        PlayerNameLabel.TextColor = new Color(235, 228, 148);
         session.EndRead(PlayerNameLabel);
         Label infoMsg = new(this);
         session.BeginRead(infoMsg);
@@ -180,7 +181,7 @@ public sealed partial class SynchronizeDialog : ILayoutModule
         infoMsg.Alignment.BottomOffset = 0;
         infoMsg.Masked = true;
         infoMsg.Text = "Waiting for other players";
-        infoMsg.TextColor = 16777215;
+        infoMsg.TextColor = Color.White;
         session.EndRead(infoMsg);
         PlayerRaceLabel = new Label(this);
         session.BeginRead(PlayerRaceLabel);
@@ -203,7 +204,7 @@ public sealed partial class SynchronizeDialog : ILayoutModule
         PlayerRaceLabel.Alignment.BottomOffset = 0;
         PlayerRaceLabel.Masked = true;
         PlayerRaceLabel.Text = "######";
-        PlayerRaceLabel.TextColor = 9236989;
+        PlayerRaceLabel.TextColor = new Color(253, 241, 140);
         session.EndRead(PlayerRaceLabel);
         TurnLabel = new Label(this);
         session.BeginRead(TurnLabel);
@@ -226,7 +227,7 @@ public sealed partial class SynchronizeDialog : ILayoutModule
         TurnLabel.Alignment.BottomOffset = 0;
         TurnLabel.Masked = true;
         TurnLabel.Text = "######";
-        TurnLabel.TextColor = 9236989;
+        TurnLabel.TextColor = new Color(253, 241, 140);
         session.EndRead(TurnLabel);
         RightShield = new Image(this);
         session.BeginRead(RightShield);

@@ -4,6 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -43,7 +44,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         MainWindow.OverlapTopCorners = false;
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
-        MainWindow.MaskColor = 0;
+        MainWindow.MaskColor = Color.Black;
         MainWindow.FreeSurfaceOnHide = false;
         MainWindow.ImageLibraryIndexFrame = 0;
         MainWindow.ImageLibraryIndexTexture = 2;
@@ -118,8 +119,8 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         min.ImageLibraryIndexDown = 4;
         min.ImageLibraryIndexLit = 5;
         min.ImageLibraryIndexUp = 3;
-        min.TextColor = 0;
-        min.TextSelectedColor = 0;
+        min.TextColor = Color.Black;
+        min.TextSelectedColor = Color.Black;
         min.WinWidth = 15;
         min.Clicked += (_, _) => MinClick();
         session.EndRead(min);
@@ -152,8 +153,8 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
@@ -178,7 +179,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         iwTitle.Alignment.BottomOffset = 0;
         iwTitle.Masked = true;
         iwTitle.Text = "Unit";
-        iwTitle.TextColor = 0;
+        iwTitle.TextColor = Color.Black;
         session.EndRead(iwTitle);
         Image uAttackIcon = new(this);
         session.BeginRead(uAttackIcon);
@@ -396,7 +397,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         UnitAttackLabel.Alignment.TopOffset = 6;
         UnitAttackLabel.Alignment.BottomOffset = 0;
         UnitAttackLabel.Masked = true;
-        UnitAttackLabel.TextColor = 9415072;
+        UnitAttackLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitAttackLabel);
         UnitDefenseLabel = new Label(this);
         session.BeginRead(UnitDefenseLabel);
@@ -422,7 +423,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         UnitDefenseLabel.Alignment.TopOffset = 23;
         UnitDefenseLabel.Alignment.BottomOffset = 0;
         UnitDefenseLabel.Masked = true;
-        UnitDefenseLabel.TextColor = 9415072;
+        UnitDefenseLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitDefenseLabel);
         UnitMovesLabel = new Label(this);
         session.BeginRead(UnitMovesLabel);
@@ -448,7 +449,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         UnitMovesLabel.Alignment.TopOffset = 40;
         UnitMovesLabel.Alignment.BottomOffset = 0;
         UnitMovesLabel.Masked = true;
-        UnitMovesLabel.TextColor = 9415072;
+        UnitMovesLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitMovesLabel);
         UnitDamageLabel = new Label(this);
         session.BeginRead(UnitDamageLabel);
@@ -474,7 +475,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         UnitDamageLabel.Alignment.TopOffset = 6;
         UnitDamageLabel.Alignment.BottomOffset = 0;
         UnitDamageLabel.Masked = true;
-        UnitDamageLabel.TextColor = 9415072;
+        UnitDamageLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitDamageLabel);
         UnitResistanceLabel = new Label(this);
         session.BeginRead(UnitResistanceLabel);
@@ -500,7 +501,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         UnitResistanceLabel.Alignment.TopOffset = 23;
         UnitResistanceLabel.Alignment.BottomOffset = 0;
         UnitResistanceLabel.Masked = true;
-        UnitResistanceLabel.TextColor = 9415072;
+        UnitResistanceLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitResistanceLabel);
         UnitHitsLabel = new Label(this);
         session.BeginRead(UnitHitsLabel);
@@ -526,7 +527,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         UnitHitsLabel.Alignment.TopOffset = 40;
         UnitHitsLabel.Alignment.BottomOffset = 0;
         UnitHitsLabel.Masked = true;
-        UnitHitsLabel.TextColor = 9415072;
+        UnitHitsLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(UnitHitsLabel);
         UnitNameMemo = new Memo(this);
         session.BeginRead(UnitNameMemo);
@@ -552,7 +553,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         UnitNameMemo.WinHeight = 61;
         UnitNameMemo.BorderWidth = 5;
         UnitNameMemo.BorderHeight = 3;
-        UnitNameMemo.TextColor = 9415072;
+        UnitNameMemo.TextColor = new Color(160, 169, 143);
         UnitNameMemo.CursorChar = 95;
         UnitNameMemo.BlinkDelay = 0;
         UnitNameMemo.Editable = true;
@@ -622,8 +623,8 @@ public sealed partial class CombatUnitInfo : ILayoutModule
             LockedSurface surface = e.Surface;
             UAbilLBPreDrawItem(e.Rectangle, drawItem: e.Item, lockedSurface: in surface);
         };
-        UnitAbilityList.TextColor = 9415072;
-        UnitAbilityList.TextSelectedColor = 0;
+        UnitAbilityList.TextColor = new Color(160, 169, 143);
+        UnitAbilityList.TextSelectedColor = Color.Black;
         UnitAbilityList.ImageLibraryIndexFrame = 113;
         UnitAbilityList.ImageLibraryIndexTNormal = 21;
         UnitAbilityList.ImageLibraryIndexTSelected = 8;
@@ -650,7 +651,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         AbilityNameLabel.Alignment.TopOffset = 5;
         AbilityNameLabel.Alignment.BottomOffset = 0;
         AbilityNameLabel.Masked = true;
-        AbilityNameLabel.TextColor = 9415072;
+        AbilityNameLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(AbilityNameLabel);
         CombatUnitPanel = new Panel(this);
         session.BeginRead(CombatUnitPanel);
@@ -733,7 +734,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         aUnitName.WinHeight = 60;
         aUnitName.BorderWidth = 5;
         aUnitName.BorderHeight = 2;
-        aUnitName.TextColor = 9415072;
+        aUnitName.TextColor = new Color(160, 169, 143);
         aUnitName.CursorChar = 95;
         aUnitName.BlinkDelay = 0;
         aUnitName.Editable = false;
@@ -768,8 +769,8 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         TargetAbilityList.BorderWidth = 20;
         TargetAbilityList.BorderHeight = 3;
         TargetAbilityList.Selected = -1;
-        TargetAbilityList.TextColor = 9415072;
-        TargetAbilityList.TextSelectedColor = 0;
+        TargetAbilityList.TextColor = new Color(160, 169, 143);
+        TargetAbilityList.TextSelectedColor = Color.Black;
         TargetAbilityList.ImageLibraryIndexFrame = 113;
         TargetAbilityList.ImageLibraryIndexTNormal = 21;
         TargetAbilityList.ImageLibraryIndexTSelected = 8;
@@ -852,7 +853,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         AbilityAttackLabel.Alignment.TopOffset = 6;
         AbilityAttackLabel.Alignment.BottomOffset = 0;
         AbilityAttackLabel.Masked = true;
-        AbilityAttackLabel.TextColor = 9415072;
+        AbilityAttackLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(AbilityAttackLabel);
         Panel abilStatBox = new(this);
         session.BeginRead(abilStatBox);
@@ -906,8 +907,8 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         AbilityStatisticsList.BorderWidth = 4;
         AbilityStatisticsList.BorderHeight = 3;
         AbilityStatisticsList.Selected = -1;
-        AbilityStatisticsList.TextColor = 9415072;
-        AbilityStatisticsList.TextSelectedColor = 0;
+        AbilityStatisticsList.TextColor = new Color(160, 169, 143);
+        AbilityStatisticsList.TextSelectedColor = Color.Black;
         AbilityStatisticsList.ImageLibraryIndexFrame = 40;
         AbilityStatisticsList.ImageLibraryIndexTNormal = 17;
         AbilityStatisticsList.ImageLibraryIndexTSelected = 16;
@@ -962,7 +963,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         AbilityDamageLabel.Alignment.TopOffset = 23;
         AbilityDamageLabel.Alignment.BottomOffset = 0;
         AbilityDamageLabel.Masked = true;
-        AbilityDamageLabel.TextColor = 9415072;
+        AbilityDamageLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(AbilityDamageLabel);
         Label targetLbl = new(this);
         session.BeginRead(targetLbl);
@@ -985,7 +986,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         targetLbl.Alignment.BottomOffset = 0;
         targetLbl.Masked = true;
         targetLbl.Text = "Target";
-        targetLbl.TextColor = 0;
+        targetLbl.TextColor = Color.Black;
         session.EndRead(targetLbl);
         TargetUnitLabel = new Label(this);
         session.BeginRead(TargetUnitLabel);
@@ -1007,7 +1008,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         TargetUnitLabel.Alignment.TopOffset = 5;
         TargetUnitLabel.Alignment.BottomOffset = 0;
         TargetUnitLabel.Masked = true;
-        TargetUnitLabel.TextColor = 9415072;
+        TargetUnitLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(TargetUnitLabel);
         TargetSelectPanel = new Panel(this);
         session.BeginRead(TargetSelectPanel);
@@ -1092,7 +1093,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         ];
         targetMessage.BorderWidth = 5;
         targetMessage.BorderHeight = 2;
-        targetMessage.TextColor = 9415072;
+        targetMessage.TextColor = new Color(160, 169, 143);
         targetMessage.CursorChar = 95;
         targetMessage.BlinkDelay = 0;
         targetMessage.Editable = true;
@@ -1438,7 +1439,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         TargetAttackLabel.Alignment.TopOffset = 6;
         TargetAttackLabel.Alignment.BottomOffset = 0;
         TargetAttackLabel.Masked = true;
-        TargetAttackLabel.TextColor = 9415072;
+        TargetAttackLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(TargetAttackLabel);
         TargetDefenseLabel = new Label(this);
         session.BeginRead(TargetDefenseLabel);
@@ -1460,7 +1461,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         TargetDefenseLabel.Alignment.TopOffset = 23;
         TargetDefenseLabel.Alignment.BottomOffset = 0;
         TargetDefenseLabel.Masked = true;
-        TargetDefenseLabel.TextColor = 9415072;
+        TargetDefenseLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(TargetDefenseLabel);
         TargetMovesLabel = new Label(this);
         session.BeginRead(TargetMovesLabel);
@@ -1482,7 +1483,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         TargetMovesLabel.Alignment.TopOffset = 40;
         TargetMovesLabel.Alignment.BottomOffset = 0;
         TargetMovesLabel.Masked = true;
-        TargetMovesLabel.TextColor = 9415072;
+        TargetMovesLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(TargetMovesLabel);
         TargetDamageLabel = new Label(this);
         session.BeginRead(TargetDamageLabel);
@@ -1504,7 +1505,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         TargetDamageLabel.Alignment.TopOffset = 6;
         TargetDamageLabel.Alignment.BottomOffset = 0;
         TargetDamageLabel.Masked = true;
-        TargetDamageLabel.TextColor = 9415072;
+        TargetDamageLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(TargetDamageLabel);
         TargetResistanceLabel = new Label(this);
         session.BeginRead(TargetResistanceLabel);
@@ -1526,7 +1527,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         TargetResistanceLabel.Alignment.TopOffset = 23;
         TargetResistanceLabel.Alignment.BottomOffset = 0;
         TargetResistanceLabel.Masked = true;
-        TargetResistanceLabel.TextColor = 9415072;
+        TargetResistanceLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(TargetResistanceLabel);
         TargetHitsLabel = new Label(this);
         session.BeginRead(TargetHitsLabel);
@@ -1548,7 +1549,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         TargetHitsLabel.Alignment.TopOffset = 40;
         TargetHitsLabel.Alignment.BottomOffset = 0;
         TargetHitsLabel.Masked = true;
-        TargetHitsLabel.TextColor = 9415072;
+        TargetHitsLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(TargetHitsLabel);
         Panel aStatPnl = new(this);
         session.BeginRead(aStatPnl);
@@ -1660,8 +1661,8 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         center.ImageLibraryIndexDown = 7;
         center.ImageLibraryIndexLit = 8;
         center.ImageLibraryIndexUp = 6;
-        center.TextColor = 0;
-        center.TextSelectedColor = 0;
+        center.TextColor = Color.Black;
+        center.TextSelectedColor = Color.Black;
         center.WinWidth = 15;
         center.Clicked += (_, _) => CenterClick();
         session.EndRead(center);

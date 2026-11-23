@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -72,8 +73,8 @@ public sealed partial class WizardsTowerDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(close);
@@ -98,7 +99,7 @@ public sealed partial class WizardsTowerDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Wizards Tower";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -153,8 +154,8 @@ public sealed partial class WizardsTowerDialog : ILayoutModule
         cancelBtn.ImageLibraryIndexLit = 25;
         cancelBtn.ImageLibraryIndexUp = 19;
         cancelBtn.Text = "Cancel";
-        cancelBtn.TextColor = 0;
-        cancelBtn.TextSelectedColor = 16777215;
+        cancelBtn.TextColor = Color.Black;
+        cancelBtn.TextSelectedColor = Color.White;
         cancelBtn.WinWidth = 120;
         cancelBtn.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(cancelBtn);
@@ -184,8 +185,8 @@ public sealed partial class WizardsTowerDialog : ILayoutModule
         buyBtn.ImageLibraryIndexLit = 25;
         buyBtn.ImageLibraryIndexUp = 19;
         buyBtn.Text = "Buy";
-        buyBtn.TextColor = 0;
-        buyBtn.TextSelectedColor = 16777215;
+        buyBtn.TextColor = Color.Black;
+        buyBtn.TextSelectedColor = Color.White;
         buyBtn.WinWidth = 120;
         buyBtn.Clicked += (_, _) => BuyBtnClick();
         session.EndRead(buyBtn);
@@ -218,7 +219,7 @@ public sealed partial class WizardsTowerDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 6268490;
+        Window.MaskColor = new Color(74, 166, 95);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -282,7 +283,7 @@ public sealed partial class WizardsTowerDialog : ILayoutModule
         SpellNameLabel.Alignment.BottomOffset = 0;
         SpellNameLabel.Masked = true;
         SpellNameLabel.Text = "###########";
-        SpellNameLabel.TextColor = 1254460;
+        SpellNameLabel.TextColor = new Color(60, 36, 19);
         session.EndRead(SpellNameLabel);
         Image spellIcn = new(this);
         session.BeginRead(spellIcn);
@@ -334,7 +335,7 @@ public sealed partial class WizardsTowerDialog : ILayoutModule
         SpellClassLabel.Alignment.BottomOffset = 0;
         SpellClassLabel.Masked = true;
         SpellClassLabel.Text = "############";
-        SpellClassLabel.TextColor = 12632256;
+        SpellClassLabel.TextColor = Color.Silver;
         session.EndRead(SpellClassLabel);
         SpellCostLabel = new Label(this);
         session.BeginRead(SpellCostLabel);
@@ -357,7 +358,7 @@ public sealed partial class WizardsTowerDialog : ILayoutModule
         SpellCostLabel.Alignment.BottomOffset = 0;
         SpellCostLabel.Masked = true;
         SpellCostLabel.Text = "############";
-        SpellCostLabel.TextColor = 12632256;
+        SpellCostLabel.TextColor = Color.Silver;
         session.EndRead(SpellCostLabel);
         ResearchMemo = new Memo(this);
         session.BeginRead(ResearchMemo);
@@ -383,7 +384,7 @@ public sealed partial class WizardsTowerDialog : ILayoutModule
         ResearchMemo.WinHeight = 35;
         ResearchMemo.BorderWidth = 10;
         ResearchMemo.BorderHeight = 0;
-        ResearchMemo.TextColor = 12632256;
+        ResearchMemo.TextColor = Color.Silver;
         ResearchMemo.CursorChar = 124;
         ResearchMemo.BlinkDelay = 0;
         ResearchMemo.Editable = false;
@@ -414,7 +415,7 @@ public sealed partial class WizardsTowerDialog : ILayoutModule
         PriceLabel.Alignment.BottomOffset = 0;
         PriceLabel.Masked = true;
         PriceLabel.Text = "########";
-        PriceLabel.TextColor = 5908276;
+        PriceLabel.TextColor = new Color(52, 39, 90);
         session.EndRead(PriceLabel);
         Label offerText = new(this);
         session.BeginRead(offerText);
@@ -437,7 +438,7 @@ public sealed partial class WizardsTowerDialog : ILayoutModule
         offerText.Alignment.BottomOffset = 0;
         offerText.Masked = true;
         offerText.Text = "the wizards offer:";
-        offerText.TextColor = 5908276;
+        offerText.TextColor = new Color(52, 39, 90);
         session.EndRead(offerText);
         Panel picPnl = new(this);
         session.BeginRead(picPnl);

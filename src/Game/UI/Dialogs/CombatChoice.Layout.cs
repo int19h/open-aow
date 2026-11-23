@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -43,7 +44,7 @@ public sealed partial class CombatChoice : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -80,7 +81,7 @@ public sealed partial class CombatChoice : ILayoutModule
         dTitle.Alignment.BottomOffset = 0;
         dTitle.Masked = true;
         dTitle.Text = "Combat Selection";
-        dTitle.TextColor = 0;
+        dTitle.TextColor = Color.Black;
         session.EndRead(dTitle);
         Label dMessage = new(this);
         session.BeginRead(dMessage);
@@ -103,7 +104,7 @@ public sealed partial class CombatChoice : ILayoutModule
         dMessage.Alignment.BottomOffset = 0;
         dMessage.Masked = true;
         dMessage.Text = "How do you want to fight this battle?";
-        dMessage.TextColor = 13165253;
+        dMessage.TextColor = new Color(197, 226, 200);
         session.EndRead(dMessage);
         FightButton = new Button(this);
         session.BeginRead(FightButton);
@@ -135,8 +136,8 @@ public sealed partial class CombatChoice : ILayoutModule
         FightButton.ImageLibraryIndexLit = 25;
         FightButton.ImageLibraryIndexUp = 19;
         FightButton.Text = "Fight!";
-        FightButton.TextColor = 0;
-        FightButton.TextSelectedColor = 16777215;
+        FightButton.TextColor = Color.Black;
+        FightButton.TextSelectedColor = Color.White;
         FightButton.WinWidth = 130;
         FightButton.Clicked += (_, _) => FightBtnClick();
         session.EndRead(FightButton);
@@ -170,8 +171,8 @@ public sealed partial class CombatChoice : ILayoutModule
         CancelButton.ImageLibraryIndexLit = 25;
         CancelButton.ImageLibraryIndexUp = 19;
         CancelButton.Text = "Cancel";
-        CancelButton.TextColor = 0;
-        CancelButton.TextSelectedColor = 16777215;
+        CancelButton.TextColor = Color.Black;
+        CancelButton.TextSelectedColor = Color.White;
         CancelButton.WinWidth = 130;
         CancelButton.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(CancelButton);
@@ -334,7 +335,7 @@ public sealed partial class CombatChoice : ILayoutModule
         tactical.Alignment.BottomOffset = 68;
         tactical.Masked = true;
         tactical.Text = "Tactical";
-        tactical.TextColor = 13165253;
+        tactical.TextColor = new Color(197, 226, 200);
         session.EndRead(tactical);
         Label automatic = new(this);
         session.BeginRead(automatic);
@@ -357,7 +358,7 @@ public sealed partial class CombatChoice : ILayoutModule
         automatic.Alignment.BottomOffset = 68;
         automatic.Masked = true;
         automatic.Text = "Automatic";
-        automatic.TextColor = 13165253;
+        automatic.TextColor = new Color(197, 226, 200);
         session.EndRead(automatic);
         CheckBox tacticalCombatCheckBox = new(this);
         TacticalCombatCheckBox = tacticalCombatCheckBox;
@@ -389,8 +390,8 @@ public sealed partial class CombatChoice : ILayoutModule
         TacticalCombatCheckBox.ImageLibraryIndexDown = 22;
         TacticalCombatCheckBox.ImageLibraryIndexLit = 21;
         TacticalCombatCheckBox.ImageLibraryIndexUp = 21;
-        TacticalCombatCheckBox.TextColor = 13165253;
-        TacticalCombatCheckBox.TextSelectedColor = 255;
+        TacticalCombatCheckBox.TextColor = new Color(197, 226, 200);
+        TacticalCombatCheckBox.TextSelectedColor = Color.Red;
         TacticalCombatCheckBox.WinWidth = 93;
         TacticalCombatCheckBox.Checked = false;
         tacticalCombatCheckBox.Changed += (_, _) => TCchkChange(tacticalCombatCheckBox);
@@ -426,8 +427,8 @@ public sealed partial class CombatChoice : ILayoutModule
         fCchk.ImageLibraryIndexDown = 24;
         fCchk.ImageLibraryIndexLit = 23;
         fCchk.ImageLibraryIndexUp = 23;
-        fCchk.TextColor = 13165253;
-        fCchk.TextSelectedColor = 255;
+        fCchk.TextColor = new Color(197, 226, 200);
+        fCchk.TextSelectedColor = Color.Red;
         fCchk.WinWidth = 93;
         fCchk.Checked = true;
         fCchk.Changed += (_, _) => FCchkChange(fCchk);

@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -47,8 +48,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedAbilitiesList.BorderHeight = 4;
         SelectedAbilitiesList.Changed += (_, _) => SelectedAbilitiesChange();
         SelectedAbilitiesList.Selected = -1;
-        SelectedAbilitiesList.TextColor = 8421504;
-        SelectedAbilitiesList.TextSelectedColor = 0;
+        SelectedAbilitiesList.TextColor = Color.Gray;
+        SelectedAbilitiesList.TextSelectedColor = Color.Black;
         SelectedAbilitiesList.ImageLibraryIndexFrame = 64;
         SelectedAbilitiesList.ImageLibraryIndexTNormal = 19;
         SelectedAbilitiesList.ImageLibraryIndexTSelected = 16;
@@ -76,7 +77,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         Phase1Header.Alignment.BottomOffset = 0;
         Phase1Header.Masked = true;
         Phase1Header.Text = "##########";
-        Phase1Header.TextColor = 16777215;
+        Phase1Header.TextColor = Color.White;
         session.EndRead(Phase1Header);
         Phase2Panel = new Panel(this);
         session.BeginRead(Phase2Panel);
@@ -137,8 +138,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         AvailableAbilitiesList.BorderHeight = 4;
         AvailableAbilitiesList.Changed += (_, _) => AvailableAbilitiesChange();
         AvailableAbilitiesList.Selected = -1;
-        AvailableAbilitiesList.TextColor = 8421504;
-        AvailableAbilitiesList.TextSelectedColor = 0;
+        AvailableAbilitiesList.TextColor = Color.Gray;
+        AvailableAbilitiesList.TextSelectedColor = Color.Black;
         AvailableAbilitiesList.ImageLibraryIndexFrame = 64;
         AvailableAbilitiesList.ImageLibraryIndexTNormal = 19;
         AvailableAbilitiesList.ImageLibraryIndexTSelected = 16;
@@ -171,8 +172,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         NextButton.ImageLibraryIndexLit = 38;
         NextButton.ImageLibraryIndexUp = 32;
         NextButton.Text = "Next";
-        NextButton.TextColor = 15134446;
-        NextButton.TextSelectedColor = 0;
+        NextButton.TextColor = new Color(238, 238, 230);
+        NextButton.TextSelectedColor = Color.Black;
         NextButton.WinWidth = 135;
         NextButton.Clicked += (_, _) => NextBtnClick();
         session.EndRead(NextButton);
@@ -202,8 +203,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         PreviousButton.ImageLibraryIndexLit = 38;
         PreviousButton.ImageLibraryIndexUp = 32;
         PreviousButton.Text = "Back";
-        PreviousButton.TextColor = 15134446;
-        PreviousButton.TextSelectedColor = 0;
+        PreviousButton.TextColor = new Color(238, 238, 230);
+        PreviousButton.TextSelectedColor = Color.Black;
         PreviousButton.WinWidth = 125;
         PreviousButton.Clicked += (_, _) => PrevBtnClick();
         session.EndRead(PreviousButton);
@@ -237,8 +238,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         ClearButton.ImageLibraryIndexLit = 38;
         ClearButton.ImageLibraryIndexUp = 32;
         ClearButton.Text = "Clear";
-        ClearButton.TextColor = 15134446;
-        ClearButton.TextSelectedColor = 0;
+        ClearButton.TextColor = new Color(238, 238, 230);
+        ClearButton.TextSelectedColor = Color.Black;
         ClearButton.WinWidth = 135;
         ClearButton.Clicked += (_, _) => ClearBtnClick();
         session.EndRead(ClearButton);
@@ -272,8 +273,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         DefaultButton.ImageLibraryIndexLit = 38;
         DefaultButton.ImageLibraryIndexUp = 32;
         DefaultButton.Text = "Default";
-        DefaultButton.TextColor = 15134446;
-        DefaultButton.TextSelectedColor = 0;
+        DefaultButton.TextColor = new Color(238, 238, 230);
+        DefaultButton.TextSelectedColor = Color.Black;
         DefaultButton.WinWidth = 135;
         DefaultButton.Clicked += (_, _) => DefaultBtnClick();
         session.EndRead(DefaultButton);
@@ -352,7 +353,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         AttackValueLabel.Alignment.BottomOffset = 0;
         AttackValueLabel.Masked = true;
         AttackValueLabel.Text = "10";
-        AttackValueLabel.TextColor = 12632256;
+        AttackValueLabel.TextColor = Color.Silver;
         session.EndRead(AttackValueLabel);
         Label attLbl = new(this);
         session.BeginRead(attLbl);
@@ -375,7 +376,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         attLbl.Alignment.BottomOffset = 0;
         attLbl.Masked = true;
         attLbl.Text = "Attack";
-        attLbl.TextColor = 8421504;
+        attLbl.TextColor = Color.Gray;
         session.EndRead(attLbl);
         Panel attPnl = new(this);
         session.BeginRead(attPnl);
@@ -425,7 +426,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         DamageValueLabel.Alignment.BottomOffset = 0;
         DamageValueLabel.Masked = true;
         DamageValueLabel.Text = "10";
-        DamageValueLabel.TextColor = 12632256;
+        DamageValueLabel.TextColor = Color.Silver;
         session.EndRead(DamageValueLabel);
         Label damLbl = new(this);
         session.BeginRead(damLbl);
@@ -448,7 +449,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         damLbl.Alignment.BottomOffset = 0;
         damLbl.Masked = true;
         damLbl.Text = "Damage";
-        damLbl.TextColor = 8421504;
+        damLbl.TextColor = Color.Gray;
         session.EndRead(damLbl);
         Panel damPnl = new(this);
         session.BeginRead(damPnl);
@@ -498,7 +499,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         DefenseValueLabel.Alignment.BottomOffset = 0;
         DefenseValueLabel.Masked = true;
         DefenseValueLabel.Text = "10";
-        DefenseValueLabel.TextColor = 12632256;
+        DefenseValueLabel.TextColor = Color.Silver;
         session.EndRead(DefenseValueLabel);
         Label defLbl = new(this);
         session.BeginRead(defLbl);
@@ -521,7 +522,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         defLbl.Alignment.BottomOffset = 0;
         defLbl.Masked = true;
         defLbl.Text = "Defense";
-        defLbl.TextColor = 8421504;
+        defLbl.TextColor = Color.Gray;
         session.EndRead(defLbl);
         Panel defPnl = new(this);
         session.BeginRead(defPnl);
@@ -571,7 +572,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         ResistanceValueLabel.Alignment.BottomOffset = 0;
         ResistanceValueLabel.Masked = true;
         ResistanceValueLabel.Text = "10";
-        ResistanceValueLabel.TextColor = 12632256;
+        ResistanceValueLabel.TextColor = Color.Silver;
         session.EndRead(ResistanceValueLabel);
         Label resLbl = new(this);
         session.BeginRead(resLbl);
@@ -594,7 +595,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         resLbl.Alignment.BottomOffset = 0;
         resLbl.Masked = true;
         resLbl.Text = "Resistance";
-        resLbl.TextColor = 8421504;
+        resLbl.TextColor = Color.Gray;
         session.EndRead(resLbl);
         Panel resPnl = new(this);
         session.BeginRead(resPnl);
@@ -644,7 +645,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         HitsValueLabel.Alignment.BottomOffset = 0;
         HitsValueLabel.Masked = true;
         HitsValueLabel.Text = "10";
-        HitsValueLabel.TextColor = 12632256;
+        HitsValueLabel.TextColor = Color.Silver;
         session.EndRead(HitsValueLabel);
         Label hitLbl = new(this);
         session.BeginRead(hitLbl);
@@ -667,7 +668,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         hitLbl.Alignment.BottomOffset = 0;
         hitLbl.Masked = true;
         hitLbl.Text = "Hits";
-        hitLbl.TextColor = 8421504;
+        hitLbl.TextColor = Color.Gray;
         session.EndRead(hitLbl);
         Panel hitPnl = new(this);
         session.BeginRead(hitPnl);
@@ -717,7 +718,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         MovesValueLabel.Alignment.BottomOffset = 0;
         MovesValueLabel.Masked = true;
         MovesValueLabel.Text = "10";
-        MovesValueLabel.TextColor = 12632256;
+        MovesValueLabel.TextColor = Color.Silver;
         session.EndRead(MovesValueLabel);
         Label movLbl = new(this);
         session.BeginRead(movLbl);
@@ -740,7 +741,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         movLbl.Alignment.BottomOffset = 0;
         movLbl.Masked = true;
         movLbl.Text = "Moves";
-        movLbl.TextColor = 8421504;
+        movLbl.TextColor = Color.Gray;
         session.EndRead(movLbl);
         Panel movPnl = new(this);
         session.BeginRead(movPnl);
@@ -790,7 +791,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         attI.Alignment.BottomOffset = 0;
         attI.Masked = true;
         attI.Text = "=";
-        attI.TextColor = 8421504;
+        attI.TextColor = Color.Gray;
         session.EndRead(attI);
         Label damI = new(this);
         session.BeginRead(damI);
@@ -813,7 +814,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         damI.Alignment.BottomOffset = 0;
         damI.Masked = true;
         damI.Text = "=";
-        damI.TextColor = 8421504;
+        damI.TextColor = Color.Gray;
         session.EndRead(damI);
         Label defI = new(this);
         session.BeginRead(defI);
@@ -836,7 +837,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         defI.Alignment.BottomOffset = 0;
         defI.Masked = true;
         defI.Text = "=";
-        defI.TextColor = 8421504;
+        defI.TextColor = Color.Gray;
         session.EndRead(defI);
         Label resI = new(this);
         session.BeginRead(resI);
@@ -859,7 +860,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         resI.Alignment.BottomOffset = 0;
         resI.Masked = true;
         resI.Text = "=";
-        resI.TextColor = 8421504;
+        resI.TextColor = Color.Gray;
         session.EndRead(resI);
         Label hitI = new(this);
         session.BeginRead(hitI);
@@ -882,7 +883,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         hitI.Alignment.BottomOffset = 0;
         hitI.Masked = true;
         hitI.Text = "=";
-        hitI.TextColor = 8421504;
+        hitI.TextColor = Color.Gray;
         session.EndRead(hitI);
         Label movI = new(this);
         session.BeginRead(movI);
@@ -905,7 +906,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         movI.Alignment.BottomOffset = 0;
         movI.Masked = true;
         movI.Text = "=";
-        movI.TextColor = 8421504;
+        movI.TextColor = Color.Gray;
         session.EndRead(movI);
         AttackAddedLabel = new Label(this);
         session.BeginRead(AttackAddedLabel);
@@ -928,7 +929,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         AttackAddedLabel.Alignment.BottomOffset = 0;
         AttackAddedLabel.Masked = true;
         AttackAddedLabel.Text = "10";
-        AttackAddedLabel.TextColor = 8421504;
+        AttackAddedLabel.TextColor = Color.Gray;
         session.EndRead(AttackAddedLabel);
         DamageAddedLabel = new Label(this);
         session.BeginRead(DamageAddedLabel);
@@ -951,7 +952,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         DamageAddedLabel.Alignment.BottomOffset = 0;
         DamageAddedLabel.Masked = true;
         DamageAddedLabel.Text = "10";
-        DamageAddedLabel.TextColor = 8421504;
+        DamageAddedLabel.TextColor = Color.Gray;
         session.EndRead(DamageAddedLabel);
         DefenseAddedLabel = new Label(this);
         session.BeginRead(DefenseAddedLabel);
@@ -974,7 +975,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         DefenseAddedLabel.Alignment.BottomOffset = 0;
         DefenseAddedLabel.Masked = true;
         DefenseAddedLabel.Text = "10";
-        DefenseAddedLabel.TextColor = 8421504;
+        DefenseAddedLabel.TextColor = Color.Gray;
         session.EndRead(DefenseAddedLabel);
         ResistanceAddedLabel = new Label(this);
         session.BeginRead(ResistanceAddedLabel);
@@ -997,7 +998,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         ResistanceAddedLabel.Alignment.BottomOffset = 0;
         ResistanceAddedLabel.Masked = true;
         ResistanceAddedLabel.Text = "10";
-        ResistanceAddedLabel.TextColor = 8421504;
+        ResistanceAddedLabel.TextColor = Color.Gray;
         session.EndRead(ResistanceAddedLabel);
         HitsAddedLabel = new Label(this);
         session.BeginRead(HitsAddedLabel);
@@ -1020,7 +1021,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         HitsAddedLabel.Alignment.BottomOffset = 0;
         HitsAddedLabel.Masked = true;
         HitsAddedLabel.Text = "10";
-        HitsAddedLabel.TextColor = 8421504;
+        HitsAddedLabel.TextColor = Color.Gray;
         session.EndRead(HitsAddedLabel);
         MovesAddedLabel = new Label(this);
         session.BeginRead(MovesAddedLabel);
@@ -1043,7 +1044,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         MovesAddedLabel.Alignment.BottomOffset = 0;
         MovesAddedLabel.Masked = true;
         MovesAddedLabel.Text = "10";
-        MovesAddedLabel.TextColor = 8421504;
+        MovesAddedLabel.TextColor = Color.Gray;
         session.EndRead(MovesAddedLabel);
         Label attP = new(this);
         session.BeginRead(attP);
@@ -1066,7 +1067,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         attP.Alignment.BottomOffset = 0;
         attP.Masked = true;
         attP.Text = "+";
-        attP.TextColor = 8421504;
+        attP.TextColor = Color.Gray;
         session.EndRead(attP);
         Label damP = new(this);
         session.BeginRead(damP);
@@ -1089,7 +1090,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         damP.Alignment.BottomOffset = 0;
         damP.Masked = true;
         damP.Text = "+";
-        damP.TextColor = 8421504;
+        damP.TextColor = Color.Gray;
         session.EndRead(damP);
         Label defP = new(this);
         session.BeginRead(defP);
@@ -1112,7 +1113,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         defP.Alignment.BottomOffset = 0;
         defP.Masked = true;
         defP.Text = "+";
-        defP.TextColor = 8421504;
+        defP.TextColor = Color.Gray;
         session.EndRead(defP);
         Label resP = new(this);
         session.BeginRead(resP);
@@ -1135,7 +1136,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         resP.Alignment.BottomOffset = 0;
         resP.Masked = true;
         resP.Text = "+";
-        resP.TextColor = 8421504;
+        resP.TextColor = Color.Gray;
         session.EndRead(resP);
         Label hitP = new(this);
         session.BeginRead(hitP);
@@ -1158,7 +1159,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         hitP.Alignment.BottomOffset = 0;
         hitP.Masked = true;
         hitP.Text = "+";
-        hitP.TextColor = 8421504;
+        hitP.TextColor = Color.Gray;
         session.EndRead(hitP);
         Label movP = new(this);
         session.BeginRead(movP);
@@ -1181,7 +1182,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         movP.Alignment.BottomOffset = 0;
         movP.Masked = true;
         movP.Text = "+";
-        movP.TextColor = 8421504;
+        movP.TextColor = Color.Gray;
         session.EndRead(movP);
         AttackBaseLabel = new Label(this);
         session.BeginRead(AttackBaseLabel);
@@ -1204,7 +1205,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         AttackBaseLabel.Alignment.BottomOffset = 0;
         AttackBaseLabel.Masked = true;
         AttackBaseLabel.Text = "10";
-        AttackBaseLabel.TextColor = 8421504;
+        AttackBaseLabel.TextColor = Color.Gray;
         session.EndRead(AttackBaseLabel);
         DamageBaseLabel = new Label(this);
         session.BeginRead(DamageBaseLabel);
@@ -1227,7 +1228,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         DamageBaseLabel.Alignment.BottomOffset = 0;
         DamageBaseLabel.Masked = true;
         DamageBaseLabel.Text = "10";
-        DamageBaseLabel.TextColor = 8421504;
+        DamageBaseLabel.TextColor = Color.Gray;
         session.EndRead(DamageBaseLabel);
         DefenseBaseLabel = new Label(this);
         session.BeginRead(DefenseBaseLabel);
@@ -1250,7 +1251,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         DefenseBaseLabel.Alignment.BottomOffset = 0;
         DefenseBaseLabel.Masked = true;
         DefenseBaseLabel.Text = "10";
-        DefenseBaseLabel.TextColor = 8421504;
+        DefenseBaseLabel.TextColor = Color.Gray;
         session.EndRead(DefenseBaseLabel);
         ResistanceBaseLabel = new Label(this);
         session.BeginRead(ResistanceBaseLabel);
@@ -1273,7 +1274,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         ResistanceBaseLabel.Alignment.BottomOffset = 0;
         ResistanceBaseLabel.Masked = true;
         ResistanceBaseLabel.Text = "10";
-        ResistanceBaseLabel.TextColor = 8421504;
+        ResistanceBaseLabel.TextColor = Color.Gray;
         session.EndRead(ResistanceBaseLabel);
         HitsBaseLabel = new Label(this);
         session.BeginRead(HitsBaseLabel);
@@ -1296,7 +1297,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         HitsBaseLabel.Alignment.BottomOffset = 0;
         HitsBaseLabel.Masked = true;
         HitsBaseLabel.Text = "10";
-        HitsBaseLabel.TextColor = 8421504;
+        HitsBaseLabel.TextColor = Color.Gray;
         session.EndRead(HitsBaseLabel);
         MovesBaseLabel = new Label(this);
         session.BeginRead(MovesBaseLabel);
@@ -1319,7 +1320,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         MovesBaseLabel.Alignment.BottomOffset = 0;
         MovesBaseLabel.Masked = true;
         MovesBaseLabel.Text = "10";
-        MovesBaseLabel.TextColor = 8421504;
+        MovesBaseLabel.TextColor = Color.Gray;
         session.EndRead(MovesBaseLabel);
         SkillPointsLabel = new Label(this);
         session.BeginRead(SkillPointsLabel);
@@ -1342,7 +1343,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SkillPointsLabel.Alignment.BottomOffset = 0;
         SkillPointsLabel.Masked = true;
         SkillPointsLabel.Text = "#########";
-        SkillPointsLabel.TextColor = 12632256;
+        SkillPointsLabel.TextColor = Color.Silver;
         session.EndRead(SkillPointsLabel);
         Image uAttIcn = new(this);
         session.BeginRead(uAttIcn);
@@ -1533,7 +1534,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         UnitAttackLabel.Alignment.BottomOffset = 0;
         UnitAttackLabel.Masked = true;
         UnitAttackLabel.Text = "5";
-        UnitAttackLabel.TextColor = 8421504;
+        UnitAttackLabel.TextColor = Color.Gray;
         session.EndRead(UnitAttackLabel);
         UnitDefenseLabel = new Label(this);
         session.BeginRead(UnitDefenseLabel);
@@ -1556,7 +1557,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         UnitDefenseLabel.Alignment.BottomOffset = 0;
         UnitDefenseLabel.Masked = true;
         UnitDefenseLabel.Text = "5+1";
-        UnitDefenseLabel.TextColor = 8421504;
+        UnitDefenseLabel.TextColor = Color.Gray;
         session.EndRead(UnitDefenseLabel);
         UnitMovesLabel = new Label(this);
         session.BeginRead(UnitMovesLabel);
@@ -1579,7 +1580,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         UnitMovesLabel.Alignment.BottomOffset = 0;
         UnitMovesLabel.Masked = true;
         UnitMovesLabel.Text = "50/50";
-        UnitMovesLabel.TextColor = 8421504;
+        UnitMovesLabel.TextColor = Color.Gray;
         session.EndRead(UnitMovesLabel);
         UnitDamageLabel = new Label(this);
         session.BeginRead(UnitDamageLabel);
@@ -1602,7 +1603,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         UnitDamageLabel.Alignment.BottomOffset = 0;
         UnitDamageLabel.Masked = true;
         UnitDamageLabel.Text = "5";
-        UnitDamageLabel.TextColor = 8421504;
+        UnitDamageLabel.TextColor = Color.Gray;
         session.EndRead(UnitDamageLabel);
         UnitResistanceLabel = new Label(this);
         session.BeginRead(UnitResistanceLabel);
@@ -1625,7 +1626,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         UnitResistanceLabel.Alignment.BottomOffset = 0;
         UnitResistanceLabel.Masked = true;
         UnitResistanceLabel.Text = "5";
-        UnitResistanceLabel.TextColor = 8421504;
+        UnitResistanceLabel.TextColor = Color.Gray;
         session.EndRead(UnitResistanceLabel);
         UnitHitsLabel = new Label(this);
         session.BeginRead(UnitHitsLabel);
@@ -1648,7 +1649,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         UnitHitsLabel.Alignment.BottomOffset = 0;
         UnitHitsLabel.Masked = true;
         UnitHitsLabel.Text = "50/50";
-        UnitHitsLabel.TextColor = 8421504;
+        UnitHitsLabel.TextColor = Color.Gray;
         session.EndRead(UnitHitsLabel);
         StatisticsPanel = new Panel(this);
         session.BeginRead(StatisticsPanel);
@@ -1706,8 +1707,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         UnitAbilitiesList.BorderWidth = 6;
         UnitAbilitiesList.BorderHeight = 3;
         UnitAbilitiesList.Selected = -1;
-        UnitAbilitiesList.TextColor = 8421504;
-        UnitAbilitiesList.TextSelectedColor = 0;
+        UnitAbilitiesList.TextColor = Color.Gray;
+        UnitAbilitiesList.TextSelectedColor = Color.Black;
         UnitAbilitiesList.ImageLibraryIndexFrame = 64;
         UnitAbilitiesList.ImageLibraryIndexTNormal = 19;
         UnitAbilitiesList.ImageLibraryIndexTSelected = 16;
@@ -1816,7 +1817,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         LeaderNameLabel.Alignment.BottomOffset = 0;
         LeaderNameLabel.Masked = true;
         LeaderNameLabel.Text = "######";
-        LeaderNameLabel.TextColor = 12632256;
+        LeaderNameLabel.TextColor = Color.Silver;
         session.EndRead(LeaderNameLabel);
         LeftShield = new Image(this);
         session.BeginRead(LeftShield);
@@ -1976,7 +1977,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         leaderStatsLbl.Alignment.BottomOffset = 0;
         leaderStatsLbl.Masked = true;
         leaderStatsLbl.Text = "Leader Statistics";
-        leaderStatsLbl.TextColor = 12632256;
+        leaderStatsLbl.TextColor = Color.Silver;
         session.EndRead(leaderStatsLbl);
         Label leaderAbilLbl = new(this);
         session.BeginRead(leaderAbilLbl);
@@ -1999,7 +2000,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         leaderAbilLbl.Alignment.BottomOffset = 0;
         leaderAbilLbl.Masked = true;
         leaderAbilLbl.Text = "Leader Abilities";
-        leaderAbilLbl.TextColor = 12632256;
+        leaderAbilLbl.TextColor = Color.Silver;
         session.EndRead(leaderAbilLbl);
         Label fullAbilLbl = new(this);
         session.BeginRead(fullAbilLbl);
@@ -2022,7 +2023,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         fullAbilLbl.Alignment.BottomOffset = 0;
         fullAbilLbl.Masked = true;
         fullAbilLbl.Text = "Available List";
-        fullAbilLbl.TextColor = 12632256;
+        fullAbilLbl.TextColor = Color.Silver;
         session.EndRead(fullAbilLbl);
         Button removeAbility = new(this);
         session.BeginRead(removeAbility);
@@ -2054,8 +2055,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         removeAbility.ImageLibraryIndexLit = 38;
         removeAbility.ImageLibraryIndexUp = 32;
         removeAbility.Text = "Remove";
-        removeAbility.TextColor = 15134446;
-        removeAbility.TextSelectedColor = 0;
+        removeAbility.TextColor = new Color(238, 238, 230);
+        removeAbility.TextSelectedColor = Color.Black;
         removeAbility.WinWidth = 215;
         removeAbility.Clicked += (_, _) => RemoveAbilityClick();
         session.EndRead(removeAbility);
@@ -2089,8 +2090,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         addAbility.ImageLibraryIndexLit = 38;
         addAbility.ImageLibraryIndexUp = 32;
         addAbility.Text = "Add";
-        addAbility.TextColor = 15134446;
-        addAbility.TextSelectedColor = 0;
+        addAbility.TextColor = new Color(238, 238, 230);
+        addAbility.TextSelectedColor = Color.Black;
         addAbility.WinWidth = 215;
         addAbility.Clicked += (_, _) => AddAbilityClick();
         session.EndRead(addAbility);
@@ -2373,7 +2374,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         NameEdit.MaxChars = 0;
         NameEdit.CursorChar = 95;
         NameEdit.BlinkDelay = 2;
-        NameEdit.TextColor = 16777215;
+        NameEdit.TextColor = Color.White;
         NameEdit.Editable = true;
         NameEdit.ImageLibraryIndex = 23;
         NameEdit.PassWordChar = 0;
@@ -2399,7 +2400,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         nameLbl.Alignment.BottomOffset = 0;
         nameLbl.Masked = true;
         nameLbl.Text = "Name";
-        nameLbl.TextColor = 9402970;
+        nameLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(nameLbl);
         Label faceLbl = new(this);
         session.BeginRead(faceLbl);
@@ -2422,7 +2423,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         faceLbl.Alignment.BottomOffset = 0;
         faceLbl.Masked = true;
         faceLbl.Text = "Portrait";
-        faceLbl.TextColor = 9402970;
+        faceLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(faceLbl);
         RaceLabel = new Label(this);
         session.BeginRead(RaceLabel);
@@ -2445,7 +2446,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         RaceLabel.Alignment.BottomOffset = 0;
         RaceLabel.Masked = true;
         RaceLabel.Text = "Race";
-        RaceLabel.TextColor = 9402970;
+        RaceLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(RaceLabel);
         VerticalScrollBar uAbilSB = new(this);
         session.BeginRead(uAbilSB);
@@ -2609,7 +2610,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         spheresLbl.Alignment.BottomOffset = 0;
         spheresLbl.Masked = true;
         spheresLbl.Text = "The Spheres of Magic";
-        spheresLbl.TextColor = 9402970;
+        spheresLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(spheresLbl);
         SelectDeathButton = new Button(this);
         session.BeginRead(SelectDeathButton);
@@ -2640,8 +2641,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectDeathButton.ImageLibraryIndexDown = 31;
         SelectDeathButton.ImageLibraryIndexLit = 32;
         SelectDeathButton.ImageLibraryIndexUp = 30;
-        SelectDeathButton.TextColor = 0;
-        SelectDeathButton.TextSelectedColor = 0;
+        SelectDeathButton.TextColor = Color.Black;
+        SelectDeathButton.TextSelectedColor = Color.Black;
         SelectDeathButton.WinWidth = 52;
         SelectDeathButton.Clicked += (_, _) => SelDeathClick();
         session.EndRead(SelectDeathButton);
@@ -2701,8 +2702,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectLifeButton.ImageLibraryIndexDown = 28;
         SelectLifeButton.ImageLibraryIndexLit = 29;
         SelectLifeButton.ImageLibraryIndexUp = 27;
-        SelectLifeButton.TextColor = 0;
-        SelectLifeButton.TextSelectedColor = 0;
+        SelectLifeButton.TextColor = Color.Black;
+        SelectLifeButton.TextSelectedColor = Color.Black;
         SelectLifeButton.WinWidth = 52;
         SelectLifeButton.Clicked += (_, _) => SelLifeClick();
         session.EndRead(SelectLifeButton);
@@ -2735,8 +2736,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectFireButton.ImageLibraryIndexDown = 43;
         SelectFireButton.ImageLibraryIndexLit = 44;
         SelectFireButton.ImageLibraryIndexUp = 42;
-        SelectFireButton.TextColor = 0;
-        SelectFireButton.TextSelectedColor = 0;
+        SelectFireButton.TextColor = Color.Black;
+        SelectFireButton.TextSelectedColor = Color.Black;
         SelectFireButton.WinWidth = 52;
         SelectFireButton.Clicked += (_, _) => SelFireClick();
         session.EndRead(SelectFireButton);
@@ -2769,8 +2770,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectEarthButton.ImageLibraryIndexDown = 34;
         SelectEarthButton.ImageLibraryIndexLit = 35;
         SelectEarthButton.ImageLibraryIndexUp = 33;
-        SelectEarthButton.TextColor = 0;
-        SelectEarthButton.TextSelectedColor = 0;
+        SelectEarthButton.TextColor = Color.Black;
+        SelectEarthButton.TextSelectedColor = Color.Black;
         SelectEarthButton.WinWidth = 52;
         SelectEarthButton.Clicked += (_, _) => SelEarthClick();
         session.EndRead(SelectEarthButton);
@@ -2803,8 +2804,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectAirButton.ImageLibraryIndexDown = 37;
         SelectAirButton.ImageLibraryIndexLit = 38;
         SelectAirButton.ImageLibraryIndexUp = 36;
-        SelectAirButton.TextColor = 0;
-        SelectAirButton.TextSelectedColor = 0;
+        SelectAirButton.TextColor = Color.Black;
+        SelectAirButton.TextSelectedColor = Color.Black;
         SelectAirButton.WinWidth = 52;
         SelectAirButton.Clicked += (_, _) => SelAirClick();
         session.EndRead(SelectAirButton);
@@ -2837,8 +2838,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectWaterButton.ImageLibraryIndexDown = 40;
         SelectWaterButton.ImageLibraryIndexLit = 41;
         SelectWaterButton.ImageLibraryIndexUp = 39;
-        SelectWaterButton.TextColor = 0;
-        SelectWaterButton.TextSelectedColor = 0;
+        SelectWaterButton.TextColor = Color.Black;
+        SelectWaterButton.TextSelectedColor = Color.Black;
         SelectWaterButton.WinWidth = 52;
         SelectWaterButton.Clicked += (_, _) => SelWaterClick();
         session.EndRead(SelectWaterButton);
@@ -2863,7 +2864,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         lifeLbl.Alignment.BottomOffset = 5;
         lifeLbl.Masked = true;
         lifeLbl.Text = "Life";
-        lifeLbl.TextColor = 8421504;
+        lifeLbl.TextColor = Color.Gray;
         session.EndRead(lifeLbl);
         SelectedSphere4Button = new Button(this);
         session.BeginRead(SelectedSphere4Button);
@@ -2895,8 +2896,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere4Button.ImageLibraryIndexDown = 28;
         SelectedSphere4Button.ImageLibraryIndexLit = 29;
         SelectedSphere4Button.ImageLibraryIndexUp = 27;
-        SelectedSphere4Button.TextColor = 0;
-        SelectedSphere4Button.TextSelectedColor = 0;
+        SelectedSphere4Button.TextColor = Color.Black;
+        SelectedSphere4Button.TextSelectedColor = Color.Black;
         SelectedSphere4Button.WinWidth = 52;
         SelectedSphere4Button.Clicked += (_, _) => DeleteSphereClick(3);
         session.EndRead(SelectedSphere4Button);
@@ -2957,8 +2958,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere3Button.ImageLibraryIndexDown = 28;
         SelectedSphere3Button.ImageLibraryIndexLit = 29;
         SelectedSphere3Button.ImageLibraryIndexUp = 27;
-        SelectedSphere3Button.TextColor = 0;
-        SelectedSphere3Button.TextSelectedColor = 0;
+        SelectedSphere3Button.TextColor = Color.Black;
+        SelectedSphere3Button.TextSelectedColor = Color.Black;
         SelectedSphere3Button.WinWidth = 52;
         SelectedSphere3Button.Clicked += (_, _) => DeleteSphereClick(2);
         session.EndRead(SelectedSphere3Button);
@@ -2992,8 +2993,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere2Button.ImageLibraryIndexDown = 28;
         SelectedSphere2Button.ImageLibraryIndexLit = 29;
         SelectedSphere2Button.ImageLibraryIndexUp = 27;
-        SelectedSphere2Button.TextColor = 0;
-        SelectedSphere2Button.TextSelectedColor = 0;
+        SelectedSphere2Button.TextColor = Color.Black;
+        SelectedSphere2Button.TextSelectedColor = Color.Black;
         SelectedSphere2Button.WinWidth = 52;
         SelectedSphere2Button.Clicked += (_, _) => DeleteSphereClick(1);
         session.EndRead(SelectedSphere2Button);
@@ -3026,8 +3027,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere1Button.ImageLibraryIndexDown = 28;
         SelectedSphere1Button.ImageLibraryIndexLit = 29;
         SelectedSphere1Button.ImageLibraryIndexUp = 27;
-        SelectedSphere1Button.TextColor = 0;
-        SelectedSphere1Button.TextSelectedColor = 0;
+        SelectedSphere1Button.TextColor = Color.Black;
+        SelectedSphere1Button.TextSelectedColor = Color.Black;
         SelectedSphere1Button.WinWidth = 52;
         SelectedSphere1Button.Clicked += (_, _) => DeleteSphereClick(0);
         session.EndRead(SelectedSphere1Button);
@@ -3061,8 +3062,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere5Button.ImageLibraryIndexDown = 28;
         SelectedSphere5Button.ImageLibraryIndexLit = 29;
         SelectedSphere5Button.ImageLibraryIndexUp = 27;
-        SelectedSphere5Button.TextColor = 0;
-        SelectedSphere5Button.TextSelectedColor = 0;
+        SelectedSphere5Button.TextColor = Color.Black;
+        SelectedSphere5Button.TextSelectedColor = Color.Black;
         SelectedSphere5Button.WinWidth = 52;
         SelectedSphere5Button.Clicked += (_, _) => DeleteSphereClick(4);
         session.EndRead(SelectedSphere5Button);
@@ -3096,8 +3097,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere6Button.ImageLibraryIndexDown = 28;
         SelectedSphere6Button.ImageLibraryIndexLit = 29;
         SelectedSphere6Button.ImageLibraryIndexUp = 27;
-        SelectedSphere6Button.TextColor = 0;
-        SelectedSphere6Button.TextSelectedColor = 0;
+        SelectedSphere6Button.TextColor = Color.Black;
+        SelectedSphere6Button.TextSelectedColor = Color.Black;
         SelectedSphere6Button.WinWidth = 52;
         SelectedSphere6Button.Clicked += (_, _) => DeleteSphereClick(5);
         session.EndRead(SelectedSphere6Button);
@@ -3131,8 +3132,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSphere7Button.ImageLibraryIndexDown = 28;
         SelectedSphere7Button.ImageLibraryIndexLit = 29;
         SelectedSphere7Button.ImageLibraryIndexUp = 27;
-        SelectedSphere7Button.TextColor = 0;
-        SelectedSphere7Button.TextSelectedColor = 0;
+        SelectedSphere7Button.TextColor = Color.Black;
+        SelectedSphere7Button.TextSelectedColor = Color.Black;
         SelectedSphere7Button.WinWidth = 52;
         SelectedSphere7Button.Clicked += (_, _) => DeleteSphereClick(6);
         session.EndRead(SelectedSphere7Button);
@@ -3157,7 +3158,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         deathLbl.Alignment.BottomOffset = 5;
         deathLbl.Masked = true;
         deathLbl.Text = "Death";
-        deathLbl.TextColor = 8421504;
+        deathLbl.TextColor = Color.Gray;
         session.EndRead(deathLbl);
         Label earthLbl = new(this);
         session.BeginRead(earthLbl);
@@ -3180,7 +3181,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         earthLbl.Alignment.BottomOffset = 45;
         earthLbl.Masked = true;
         earthLbl.Text = "Earth";
-        earthLbl.TextColor = 8421504;
+        earthLbl.TextColor = Color.Gray;
         session.EndRead(earthLbl);
         Label waterLbl = new(this);
         session.BeginRead(waterLbl);
@@ -3203,7 +3204,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         waterLbl.Alignment.BottomOffset = 45;
         waterLbl.Masked = true;
         waterLbl.Text = "Water";
-        waterLbl.TextColor = 8421504;
+        waterLbl.TextColor = Color.Gray;
         session.EndRead(waterLbl);
         Label fireLbl = new(this);
         session.BeginRead(fireLbl);
@@ -3226,7 +3227,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         fireLbl.Alignment.BottomOffset = 45;
         fireLbl.Masked = true;
         fireLbl.Text = "Fire";
-        fireLbl.TextColor = 8421504;
+        fireLbl.TextColor = Color.Gray;
         session.EndRead(fireLbl);
         Label airLbl = new(this);
         session.BeginRead(airLbl);
@@ -3249,7 +3250,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         airLbl.Alignment.BottomOffset = 45;
         airLbl.Masked = true;
         airLbl.Text = "Air";
-        airLbl.TextColor = 8421504;
+        airLbl.TextColor = Color.Gray;
         session.EndRead(airLbl);
         SelectedSpheresLabel = new Label(this);
         session.BeginRead(SelectedSpheresLabel);
@@ -3272,7 +3273,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedSpheresLabel.Alignment.BottomOffset = 0;
         SelectedSpheresLabel.Masked = true;
         SelectedSpheresLabel.Text = "Selected Spheres";
-        SelectedSpheresLabel.TextColor = 9402970;
+        SelectedSpheresLabel.TextColor = new Color(90, 122, 143);
         session.EndRead(SelectedSpheresLabel);
         Button faceNextBtn = new(this);
         session.BeginRead(faceNextBtn);
@@ -3304,8 +3305,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         faceNextBtn.ImageLibraryIndexLit = 38;
         faceNextBtn.ImageLibraryIndexUp = 32;
         faceNextBtn.Text = ">";
-        faceNextBtn.TextColor = 15134446;
-        faceNextBtn.TextSelectedColor = 0;
+        faceNextBtn.TextColor = new Color(238, 238, 230);
+        faceNextBtn.TextSelectedColor = Color.Black;
         faceNextBtn.WinWidth = 60;
         faceNextBtn.Clicked += (_, _) => FaceNextBtnClick();
         session.EndRead(faceNextBtn);
@@ -3339,8 +3340,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         facePrevBtn.ImageLibraryIndexLit = 38;
         facePrevBtn.ImageLibraryIndexUp = 32;
         facePrevBtn.Text = "<";
-        facePrevBtn.TextColor = 15134446;
-        facePrevBtn.TextSelectedColor = 0;
+        facePrevBtn.TextColor = new Color(238, 238, 230);
+        facePrevBtn.TextSelectedColor = Color.Black;
         facePrevBtn.WinWidth = 60;
         facePrevBtn.Clicked += (_, _) => FacePrevBtnClick();
         session.EndRead(facePrevBtn);
@@ -3365,7 +3366,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         LeaderLabel.Alignment.BottomOffset = 0;
         LeaderLabel.Masked = true;
         LeaderLabel.Text = "Leader of the";
-        LeaderLabel.TextColor = 12632256;
+        LeaderLabel.TextColor = Color.Silver;
         session.EndRead(LeaderLabel);
         SideNameLabel = new Label(this);
         session.BeginRead(SideNameLabel);
@@ -3388,7 +3389,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SideNameLabel.Alignment.BottomOffset = 0;
         SideNameLabel.Masked = true;
         SideNameLabel.Text = "#######";
-        SideNameLabel.TextColor = 12632256;
+        SideNameLabel.TextColor = Color.Silver;
         session.EndRead(SideNameLabel);
         SelectedAbilitiesCostList = new ListBox(this);
         session.BeginRead(SelectedAbilitiesCostList);
@@ -3421,8 +3422,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         SelectedAbilitiesCostList.BorderHeight = 4;
         SelectedAbilitiesCostList.Changed += (_, _) => SelectedAbilitiesCostChange();
         SelectedAbilitiesCostList.Selected = -1;
-        SelectedAbilitiesCostList.TextColor = 8421504;
-        SelectedAbilitiesCostList.TextSelectedColor = 0;
+        SelectedAbilitiesCostList.TextColor = Color.Gray;
+        SelectedAbilitiesCostList.TextSelectedColor = Color.Black;
         SelectedAbilitiesCostList.ImageLibraryIndexFrame = 64;
         SelectedAbilitiesCostList.ImageLibraryIndexTNormal = 19;
         SelectedAbilitiesCostList.ImageLibraryIndexTSelected = 16;
@@ -3460,8 +3461,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         AvailableAbilitiesCostList.BorderHeight = 4;
         AvailableAbilitiesCostList.Changed += (_, _) => AvailableAbilitiesCostChange();
         AvailableAbilitiesCostList.Selected = -1;
-        AvailableAbilitiesCostList.TextColor = 8421504;
-        AvailableAbilitiesCostList.TextSelectedColor = 0;
+        AvailableAbilitiesCostList.TextColor = Color.Gray;
+        AvailableAbilitiesCostList.TextSelectedColor = Color.Black;
         AvailableAbilitiesCostList.ImageLibraryIndexFrame = 64;
         AvailableAbilitiesCostList.ImageLibraryIndexTNormal = 19;
         AvailableAbilitiesCostList.ImageLibraryIndexTSelected = 16;
@@ -3493,8 +3494,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         attUp.ImageLibraryIndexDown = 44;
         attUp.ImageLibraryIndexLit = 45;
         attUp.ImageLibraryIndexUp = 43;
-        attUp.TextColor = 0;
-        attUp.TextSelectedColor = 0;
+        attUp.TextColor = Color.Black;
+        attUp.TextSelectedColor = Color.Black;
         attUp.WinWidth = 9;
         attUp.Clicked += (_, _) => AttUpClick();
         session.EndRead(attUp);
@@ -3523,8 +3524,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         attDn.ImageLibraryIndexDown = 47;
         attDn.ImageLibraryIndexLit = 48;
         attDn.ImageLibraryIndexUp = 46;
-        attDn.TextColor = 0;
-        attDn.TextSelectedColor = 0;
+        attDn.TextColor = Color.Black;
+        attDn.TextSelectedColor = Color.Black;
         attDn.WinWidth = 9;
         attDn.Clicked += (_, _) => AttDnClick();
         session.EndRead(attDn);
@@ -3553,8 +3554,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         damUp.ImageLibraryIndexDown = 44;
         damUp.ImageLibraryIndexLit = 45;
         damUp.ImageLibraryIndexUp = 43;
-        damUp.TextColor = 0;
-        damUp.TextSelectedColor = 0;
+        damUp.TextColor = Color.Black;
+        damUp.TextSelectedColor = Color.Black;
         damUp.WinWidth = 9;
         damUp.Clicked += (_, _) => DamUpClick();
         session.EndRead(damUp);
@@ -3583,8 +3584,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         damDn.ImageLibraryIndexDown = 47;
         damDn.ImageLibraryIndexLit = 48;
         damDn.ImageLibraryIndexUp = 46;
-        damDn.TextColor = 0;
-        damDn.TextSelectedColor = 0;
+        damDn.TextColor = Color.Black;
+        damDn.TextSelectedColor = Color.Black;
         damDn.WinWidth = 9;
         damDn.Clicked += (_, _) => DamDnClick();
         session.EndRead(damDn);
@@ -3613,8 +3614,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         defUp.ImageLibraryIndexDown = 44;
         defUp.ImageLibraryIndexLit = 45;
         defUp.ImageLibraryIndexUp = 43;
-        defUp.TextColor = 0;
-        defUp.TextSelectedColor = 0;
+        defUp.TextColor = Color.Black;
+        defUp.TextSelectedColor = Color.Black;
         defUp.WinWidth = 9;
         defUp.Clicked += (_, _) => DefUpClick();
         session.EndRead(defUp);
@@ -3643,8 +3644,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         defDn.ImageLibraryIndexDown = 47;
         defDn.ImageLibraryIndexLit = 48;
         defDn.ImageLibraryIndexUp = 46;
-        defDn.TextColor = 0;
-        defDn.TextSelectedColor = 0;
+        defDn.TextColor = Color.Black;
+        defDn.TextSelectedColor = Color.Black;
         defDn.WinWidth = 9;
         defDn.Clicked += (_, _) => DefDnClick();
         session.EndRead(defDn);
@@ -3673,8 +3674,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         resUp.ImageLibraryIndexDown = 44;
         resUp.ImageLibraryIndexLit = 45;
         resUp.ImageLibraryIndexUp = 43;
-        resUp.TextColor = 0;
-        resUp.TextSelectedColor = 0;
+        resUp.TextColor = Color.Black;
+        resUp.TextSelectedColor = Color.Black;
         resUp.WinWidth = 9;
         resUp.Clicked += (_, _) => ResUpClick();
         session.EndRead(resUp);
@@ -3703,8 +3704,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         resDn.ImageLibraryIndexDown = 47;
         resDn.ImageLibraryIndexLit = 48;
         resDn.ImageLibraryIndexUp = 46;
-        resDn.TextColor = 0;
-        resDn.TextSelectedColor = 0;
+        resDn.TextColor = Color.Black;
+        resDn.TextSelectedColor = Color.Black;
         resDn.WinWidth = 9;
         resDn.Clicked += (_, _) => ResDnClick();
         session.EndRead(resDn);
@@ -3733,8 +3734,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         hitUp.ImageLibraryIndexDown = 44;
         hitUp.ImageLibraryIndexLit = 45;
         hitUp.ImageLibraryIndexUp = 43;
-        hitUp.TextColor = 0;
-        hitUp.TextSelectedColor = 0;
+        hitUp.TextColor = Color.Black;
+        hitUp.TextSelectedColor = Color.Black;
         hitUp.WinWidth = 9;
         hitUp.Clicked += (_, _) => HitUpClick();
         session.EndRead(hitUp);
@@ -3763,8 +3764,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         hitDn.ImageLibraryIndexDown = 47;
         hitDn.ImageLibraryIndexLit = 48;
         hitDn.ImageLibraryIndexUp = 46;
-        hitDn.TextColor = 0;
-        hitDn.TextSelectedColor = 0;
+        hitDn.TextColor = Color.Black;
+        hitDn.TextSelectedColor = Color.Black;
         hitDn.WinWidth = 9;
         hitDn.Clicked += (_, _) => HitDnClick();
         session.EndRead(hitDn);
@@ -3793,8 +3794,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         movUp.ImageLibraryIndexDown = 44;
         movUp.ImageLibraryIndexLit = 45;
         movUp.ImageLibraryIndexUp = 43;
-        movUp.TextColor = 0;
-        movUp.TextSelectedColor = 0;
+        movUp.TextColor = Color.Black;
+        movUp.TextSelectedColor = Color.Black;
         movUp.WinWidth = 9;
         movUp.Clicked += (_, _) => MovUpClick();
         session.EndRead(movUp);
@@ -3823,8 +3824,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         movDn.ImageLibraryIndexDown = 47;
         movDn.ImageLibraryIndexLit = 48;
         movDn.ImageLibraryIndexUp = 46;
-        movDn.TextColor = 0;
-        movDn.TextSelectedColor = 0;
+        movDn.TextColor = Color.Black;
+        movDn.TextSelectedColor = Color.Black;
         movDn.WinWidth = 9;
         movDn.Clicked += (_, _) => MovDnClick();
         session.EndRead(movDn);
@@ -4022,8 +4023,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         sBase.ImageLibraryIndexLit = 49;
         sBase.ImageLibraryIndexUp = 49;
         sBase.Text = "Base Value";
-        sBase.TextColor = 0;
-        sBase.TextSelectedColor = 16777215;
+        sBase.TextColor = Color.Black;
+        sBase.TextSelectedColor = Color.White;
         sBase.WinWidth = 115;
         sBase.Clicked += (_, _) => SBaseClick();
         session.EndRead(sBase);
@@ -4053,8 +4054,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         sExtra.ImageLibraryIndexLit = 49;
         sExtra.ImageLibraryIndexUp = 49;
         sExtra.Text = "Extra";
-        sExtra.TextColor = 0;
-        sExtra.TextSelectedColor = 16777215;
+        sExtra.TextColor = Color.Black;
+        sExtra.TextSelectedColor = Color.White;
         sExtra.WinWidth = 50;
         sExtra.Clicked += (_, _) => SExtraClick();
         session.EndRead(sExtra);
@@ -4084,8 +4085,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         sFinal.ImageLibraryIndexLit = 49;
         sFinal.ImageLibraryIndexUp = 49;
         sFinal.Text = "Final";
-        sFinal.TextColor = 0;
-        sFinal.TextSelectedColor = 16777215;
+        sFinal.TextColor = Color.Black;
+        sFinal.TextSelectedColor = Color.White;
         sFinal.WinWidth = 50;
         sFinal.Clicked += (_, _) => SFinalClick();
         session.EndRead(sFinal);
@@ -4115,8 +4116,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         selectedAbilitiesSort.ImageLibraryIndexLit = 49;
         selectedAbilitiesSort.ImageLibraryIndexUp = 49;
         selectedAbilitiesSort.Text = "Ability";
-        selectedAbilitiesSort.TextColor = 0;
-        selectedAbilitiesSort.TextSelectedColor = 16777215;
+        selectedAbilitiesSort.TextColor = Color.Black;
+        selectedAbilitiesSort.TextSelectedColor = Color.White;
         selectedAbilitiesSort.WinWidth = 170;
         selectedAbilitiesSort.Clicked += (_, _) => SelectedAbilitiesSortClick();
         session.EndRead(selectedAbilitiesSort);
@@ -4146,8 +4147,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         selectedAbilitiesCostSort.ImageLibraryIndexLit = 49;
         selectedAbilitiesCostSort.ImageLibraryIndexUp = 49;
         selectedAbilitiesCostSort.Text = "Cost";
-        selectedAbilitiesCostSort.TextColor = 0;
-        selectedAbilitiesCostSort.TextSelectedColor = 16777215;
+        selectedAbilitiesCostSort.TextColor = Color.Black;
+        selectedAbilitiesCostSort.TextSelectedColor = Color.White;
         selectedAbilitiesCostSort.WinWidth = 45;
         selectedAbilitiesCostSort.Clicked += (_, _) => SelectedAbilitiesCostSortClick();
         session.EndRead(selectedAbilitiesCostSort);
@@ -4177,8 +4178,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         availableAbilitiesSort.ImageLibraryIndexLit = 49;
         availableAbilitiesSort.ImageLibraryIndexUp = 49;
         availableAbilitiesSort.Text = "Ability";
-        availableAbilitiesSort.TextColor = 0;
-        availableAbilitiesSort.TextSelectedColor = 16777215;
+        availableAbilitiesSort.TextColor = Color.Black;
+        availableAbilitiesSort.TextSelectedColor = Color.White;
         availableAbilitiesSort.WinWidth = 170;
         availableAbilitiesSort.Clicked += (_, _) => AvailableAbilitiesSortClick();
         session.EndRead(availableAbilitiesSort);
@@ -4208,8 +4209,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         availableAbilitiesCostSort.ImageLibraryIndexLit = 49;
         availableAbilitiesCostSort.ImageLibraryIndexUp = 49;
         availableAbilitiesCostSort.Text = "Cost";
-        availableAbilitiesCostSort.TextColor = 0;
-        availableAbilitiesCostSort.TextSelectedColor = 16777215;
+        availableAbilitiesCostSort.TextColor = Color.Black;
+        availableAbilitiesCostSort.TextSelectedColor = Color.White;
         availableAbilitiesCostSort.WinWidth = 45;
         availableAbilitiesCostSort.Clicked += (_, _) => AvailableAbilitiesCostSortClick();
         session.EndRead(availableAbilitiesCostSort);
@@ -4466,7 +4467,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         Phase2Header.Alignment.BottomOffset = 0;
         Phase2Header.Masked = true;
         Phase2Header.Text = "##########";
-        Phase2Header.TextColor = 16777215;
+        Phase2Header.TextColor = Color.White;
         session.EndRead(Phase2Header);
         Phase3Header = new Label(this);
         session.BeginRead(Phase3Header);
@@ -4490,7 +4491,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         Phase3Header.Alignment.BottomOffset = 0;
         Phase3Header.Masked = true;
         Phase3Header.Text = "##########";
-        Phase3Header.TextColor = 16777215;
+        Phase3Header.TextColor = Color.White;
         session.EndRead(Phase3Header);
         LeaderPanel = new Panel(this);
         session.BeginRead(LeaderPanel);
@@ -4550,8 +4551,8 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         RaceComboBox.Changed += (_, _) => RaceCBChange();
         RaceComboBox.Selected = -1;
         RaceComboBox.PriorityOpened = 150;
-        RaceComboBox.TextColor = 15134446;
-        RaceComboBox.TextSelectedColor = 16777215;
+        RaceComboBox.TextColor = new Color(238, 238, 230);
+        RaceComboBox.TextSelectedColor = Color.White;
         RaceComboBox.ILEIndex = 26;
         RaceComboBox.ILFIndex = 64;
         RaceComboBox.ImageLibraryTnIndex = 4;

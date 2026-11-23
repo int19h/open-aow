@@ -5,6 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
+using Aow.Graphics;
 
 using Aow.Rtl;
 
@@ -249,7 +250,7 @@ public class MoveSelector : IDisposable
                             imageIndex = 48;
                             GamePack.Current.CursorImages[imageIndex].Show(pixelX, pixelY, lockedSurface: surface);
                             // { Original sets the font color before checking the font for nil. }
-                            Creator.GetEngine().CombatFont.Color = 0;
+                            Creator.GetEngine().CombatFont.Color = Color.Black;
                             Creator.GetEngine().CombatFont?.SetTextCentered(pixelX + 25, pixelY + 9, text: (((settings.PathMovePoints - settings.MovePoints - 1) / settings.Moves) + 1).ToString(CultureInfo.InvariantCulture), lockedSurface: surface);
                         }
                         else

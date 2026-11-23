@@ -6,6 +6,7 @@ using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 using Aow.Rtl;
 
 using static Aow.Rtl.IntegerObjects;
@@ -83,7 +84,7 @@ public sealed partial class ChatWindow(UIContext ui) : UIModule(ui)
         }
         else
         {
-            PlayerList.TextColor = 0x8F_A9_A0;
+            PlayerList.TextColor = new Color(160, 169, 143);
         }
     }
 }

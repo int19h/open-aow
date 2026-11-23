@@ -34,7 +34,7 @@ public struct LockedSurface
     // the descriptor's clip rectangle.
     public readonly SurfaceView View(int offset = 0) => new(Data, start: DataIndex + offset, Pitch, clip: ClipRectangle);
 
-    internal static GraphicsResult BlitSprite16(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y, int colorKey)
+    internal static GraphicsResult BlitSprite16(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y, Color colorKey)
     {
         if (source.BitCount == 16 && destination.PixelFormatId == source.PixelFormatId)
         {
@@ -115,7 +115,7 @@ public struct LockedSurface
         }
     }
 
-    internal static GraphicsResult BlitSpriteClipped16(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y, int colorKey)
+    internal static GraphicsResult BlitSpriteClipped16(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y, Color colorKey)
     {
         if (source.BitCount == 16 && destination.BitCount == 16)
         {

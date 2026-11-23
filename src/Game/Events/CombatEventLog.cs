@@ -11,6 +11,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 
 using Aow.Game.World.Map;
+using Aow.Graphics;
 
 namespace Aow.Game.Events;
 
@@ -47,7 +48,7 @@ public partial class CombatEventLog(CustomNode? owner) : EventLog(owner)
     public override string GetText() => Logbook.FinalData.Header;
 
     // Combat2.pas:431
-    public override int GetTextColor()
+    public override Color GetTextColor()
     {
         CombatData data = Logbook.FinalData;
         if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)

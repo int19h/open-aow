@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -64,7 +65,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Disjunction";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -123,8 +124,8 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         cancelBtn.ImageLibraryIndexLit = 25;
         cancelBtn.ImageLibraryIndexUp = 19;
         cancelBtn.Text = "Cancel";
-        cancelBtn.TextColor = 0;
-        cancelBtn.TextSelectedColor = 16777215;
+        cancelBtn.TextColor = Color.Black;
+        cancelBtn.TextSelectedColor = Color.White;
         cancelBtn.WinWidth = 120;
         cancelBtn.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(cancelBtn);
@@ -158,8 +159,8 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         castBtn.ImageLibraryIndexLit = 25;
         castBtn.ImageLibraryIndexUp = 19;
         castBtn.Text = "Cast";
-        castBtn.TextColor = 0;
-        castBtn.TextSelectedColor = 16777215;
+        castBtn.TextColor = Color.Black;
+        castBtn.TextSelectedColor = Color.White;
         castBtn.WinWidth = 120;
         castBtn.Clicked += (_, _) => CastBtnClick();
         session.EndRead(castBtn);
@@ -192,7 +193,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 6268490;
+        Window.MaskColor = new Color(74, 166, 95);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -229,7 +230,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         DisjunctionChanceLabel.Alignment.BottomOffset = 0;
         DisjunctionChanceLabel.Masked = true;
         DisjunctionChanceLabel.Text = "40%";
-        DisjunctionChanceLabel.TextColor = 12632256;
+        DisjunctionChanceLabel.TextColor = Color.Silver;
         session.EndRead(DisjunctionChanceLabel);
         Label disjunctionChanceLbl = new(this);
         session.BeginRead(disjunctionChanceLbl);
@@ -252,7 +253,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         disjunctionChanceLbl.Alignment.BottomOffset = 0;
         disjunctionChanceLbl.Masked = true;
         disjunctionChanceLbl.Text = "Disjunction Chance";
-        disjunctionChanceLbl.TextColor = 9402970;
+        disjunctionChanceLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(disjunctionChanceLbl);
         Panel disjunctionChancePnl = new(this);
         session.BeginRead(disjunctionChancePnl);
@@ -302,7 +303,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         DisjunctionManaLabel.Alignment.BottomOffset = 0;
         DisjunctionManaLabel.Masked = true;
         DisjunctionManaLabel.Text = "25";
-        DisjunctionManaLabel.TextColor = 12632256;
+        DisjunctionManaLabel.TextColor = Color.Silver;
         session.EndRead(DisjunctionManaLabel);
         Label disjunctionManaLbl = new(this);
         session.BeginRead(disjunctionManaLbl);
@@ -325,7 +326,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         disjunctionManaLbl.Alignment.BottomOffset = 0;
         disjunctionManaLbl.Masked = true;
         disjunctionManaLbl.Text = "Disjunction Mana";
-        disjunctionManaLbl.TextColor = 9402970;
+        disjunctionManaLbl.TextColor = new Color(90, 122, 143);
         session.EndRead(disjunctionManaLbl);
         Panel disjunctionManaPnl = new(this);
         session.BeginRead(disjunctionManaPnl);
@@ -407,8 +408,8 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         OwnerList.BorderHeight = 4;
         OwnerList.Changed += (_, _) => OwnerListChange();
         OwnerList.Selected = -1;
-        OwnerList.TextColor = 9402970;
-        OwnerList.TextSelectedColor = 0;
+        OwnerList.TextColor = new Color(90, 122, 143);
+        OwnerList.TextSelectedColor = Color.Black;
         OwnerList.ImageLibraryIndexFrame = 40;
         OwnerList.ImageLibraryIndexTNormal = 19;
         OwnerList.ImageLibraryIndexTSelected = 16;
@@ -441,8 +442,8 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         EnchantmentList.BorderHeight = 4;
         EnchantmentList.Changed += (_, _) => EnchantmentListChange();
         EnchantmentList.Selected = -1;
-        EnchantmentList.TextColor = 9402970;
-        EnchantmentList.TextSelectedColor = 0;
+        EnchantmentList.TextColor = new Color(90, 122, 143);
+        EnchantmentList.TextSelectedColor = Color.Black;
         EnchantmentList.ImageLibraryIndexFrame = 40;
         EnchantmentList.ImageLibraryIndexTNormal = 19;
         EnchantmentList.ImageLibraryIndexTSelected = 16;
@@ -475,8 +476,8 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         sort.ImageLibraryIndexLit = 6;
         sort.ImageLibraryIndexUp = 6;
         sort.Text = "Source";
-        sort.TextColor = 0;
-        sort.TextSelectedColor = 16777215;
+        sort.TextColor = Color.Black;
+        sort.TextSelectedColor = Color.White;
         sort.WinWidth = 170;
         sort.Clicked += (_, _) => SortClick();
         session.EndRead(sort);
@@ -506,8 +507,8 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         sortEnchantment.ImageLibraryIndexLit = 6;
         sortEnchantment.ImageLibraryIndexUp = 6;
         sortEnchantment.Text = "Enchantment";
-        sortEnchantment.TextColor = 0;
-        sortEnchantment.TextSelectedColor = 16777215;
+        sortEnchantment.TextColor = Color.Black;
+        sortEnchantment.TextSelectedColor = Color.White;
         sortEnchantment.WinWidth = 169;
         sortEnchantment.Clicked += (_, _) => SortEnchantmentClick();
         session.EndRead(sortEnchantment);
@@ -571,7 +572,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         spell.Alignment.BottomOffset = 0;
         spell.Masked = true;
         spell.Text = "Select a spell";
-        spell.TextColor = 0;
+        spell.TextColor = Color.Black;
         session.EndRead(spell);
         ChanceSlider = new HorizontalScrollBar(this);
         session.BeginRead(ChanceSlider);
@@ -639,8 +640,8 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(close);

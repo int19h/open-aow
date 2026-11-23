@@ -4,6 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -47,7 +48,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -89,8 +90,8 @@ public sealed partial class FileDialogWindow : ILayoutModule
         cancelBut.ImageLibraryIndexLit = 25;
         cancelBut.ImageLibraryIndexUp = 19;
         cancelBut.Text = "Cancel";
-        cancelBut.TextColor = 0;
-        cancelBut.TextSelectedColor = 16777215;
+        cancelBut.TextColor = Color.Black;
+        cancelBut.TextSelectedColor = Color.White;
         cancelBut.WinWidth = 122;
         cancelBut.Clicked += (_, _) => CloseClick();
         session.EndRead(cancelBut);
@@ -147,8 +148,8 @@ public sealed partial class FileDialogWindow : ILayoutModule
         OpenButton.ImageLibraryIndexLit = 25;
         OpenButton.ImageLibraryIndexUp = 19;
         OpenButton.Text = "Open";
-        OpenButton.TextColor = 0;
-        OpenButton.TextSelectedColor = 16777215;
+        OpenButton.TextColor = Color.Black;
+        OpenButton.TextSelectedColor = Color.White;
         OpenButton.WinWidth = 122;
         OpenButton.Clicked += (_, _) => OpenbutClick();
         session.EndRead(OpenButton);
@@ -173,7 +174,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         TitleLabel.Alignment.BottomOffset = 0;
         TitleLabel.Masked = true;
         TitleLabel.Text = "Open";
-        TitleLabel.TextColor = 0;
+        TitleLabel.TextColor = Color.Black;
         session.EndRead(TitleLabel);
         ListBox<FileTime> fileList = new(this);
         FileList = fileList;
@@ -208,8 +209,8 @@ public sealed partial class FileDialogWindow : ILayoutModule
             LockedSurface surface = e.Surface;
             FileLBDrawItem(e.Rectangle, drawItem: e.Item, lockedSurface: in surface);
         };
-        FileList.TextColor = 9415072;
-        FileList.TextSelectedColor = 0;
+        FileList.TextColor = new Color(160, 169, 143);
+        FileList.TextSelectedColor = Color.Black;
         FileList.ImageLibraryIndexFrame = 113;
         FileList.ImageLibraryIndexTNormal = 21;
         FileList.ImageLibraryIndexTSelected = 8;
@@ -242,7 +243,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         FileNameEdit.MaxChars = 0;
         FileNameEdit.CursorChar = 95;
         FileNameEdit.BlinkDelay = 2;
-        FileNameEdit.TextColor = 11002593;
+        FileNameEdit.TextColor = new Color(225, 226, 167);
         FileNameEdit.Editable = false;
         FileNameEdit.ImageLibraryIndex = 15;
         FileNameEdit.PassWordChar = 0;
@@ -269,7 +270,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         scenLbl.Alignment.BottomOffset = 62;
         scenLbl.Masked = true;
         scenLbl.Text = "Scenario Info";
-        scenLbl.TextColor = 0;
+        scenLbl.TextColor = Color.Black;
         session.EndRead(scenLbl);
         DriveComboBox = new ComboBox(this);
         session.BeginRead(DriveComboBox);
@@ -300,8 +301,8 @@ public sealed partial class FileDialogWindow : ILayoutModule
         DriveComboBox.Changed += (_, _) => DriveCmbChange();
         DriveComboBox.Selected = -1;
         DriveComboBox.PriorityOpened = 2000;
-        DriveComboBox.TextColor = 11002593;
-        DriveComboBox.TextSelectedColor = 0;
+        DriveComboBox.TextColor = new Color(225, 226, 167);
+        DriveComboBox.TextSelectedColor = Color.Black;
         DriveComboBox.ILEIndex = 27;
         DriveComboBox.ILFIndex = 113;
         DriveComboBox.ImageLibraryTnIndex = 21;
@@ -329,7 +330,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         driveL.Alignment.BottomOffset = 0;
         driveL.Masked = true;
         driveL.Text = "Drive";
-        driveL.TextColor = 9415072;
+        driveL.TextColor = new Color(160, 169, 143);
         session.EndRead(driveL);
         Button close = new(this);
         session.BeginRead(close);
@@ -360,8 +361,8 @@ public sealed partial class FileDialogWindow : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
@@ -394,8 +395,8 @@ public sealed partial class FileDialogWindow : ILayoutModule
         upDirBtn.ImageLibraryIndexDown = 57;
         upDirBtn.ImageLibraryIndexLit = 58;
         upDirBtn.ImageLibraryIndexUp = 56;
-        upDirBtn.TextColor = 9402970;
-        upDirBtn.TextSelectedColor = 12632256;
+        upDirBtn.TextColor = new Color(90, 122, 143);
+        upDirBtn.TextSelectedColor = Color.Silver;
         upDirBtn.WinWidth = 32;
         upDirBtn.Clicked += (_, _) => UpDirBtnClick();
         session.EndRead(upDirBtn);
@@ -420,7 +421,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         pathL.Alignment.BottomOffset = 0;
         pathL.Masked = true;
         pathL.Text = "Path";
-        pathL.TextColor = 9415072;
+        pathL.TextColor = new Color(160, 169, 143);
         session.EndRead(pathL);
         Image titleIcon = new(this);
         session.BeginRead(titleIcon);
@@ -695,7 +696,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         SavedPlayersLabel.Alignment.BottomOffset = 0;
         SavedPlayersLabel.Masked = true;
         SavedPlayersLabel.Text = "##";
-        SavedPlayersLabel.TextColor = 9415072;
+        SavedPlayersLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(SavedPlayersLabel);
         SavedSizeLabel = new Label(this);
         session.BeginRead(SavedSizeLabel);
@@ -722,7 +723,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         SavedSizeLabel.Alignment.BottomOffset = 0;
         SavedSizeLabel.Masked = true;
         SavedSizeLabel.Text = "##";
-        SavedSizeLabel.TextColor = 9415072;
+        SavedSizeLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(SavedSizeLabel);
         SavedTownsLabel = new Label(this);
         session.BeginRead(SavedTownsLabel);
@@ -749,7 +750,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         SavedTownsLabel.Alignment.BottomOffset = 0;
         SavedTownsLabel.Masked = true;
         SavedTownsLabel.Text = "##";
-        SavedTownsLabel.TextColor = 9415072;
+        SavedTownsLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(SavedTownsLabel);
         SavedTurnsLabel = new Label(this);
         session.BeginRead(SavedTurnsLabel);
@@ -776,7 +777,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         SavedTurnsLabel.Alignment.BottomOffset = 0;
         SavedTurnsLabel.Masked = true;
         SavedTurnsLabel.Text = "##";
-        SavedTurnsLabel.TextColor = 9415072;
+        SavedTurnsLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(SavedTurnsLabel);
         Image celtL = new(this);
         session.BeginRead(celtL);
@@ -1037,7 +1038,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         ScenarioPlayersLabel.Alignment.BottomOffset = 0;
         ScenarioPlayersLabel.Masked = true;
         ScenarioPlayersLabel.Text = "##";
-        ScenarioPlayersLabel.TextColor = 9415072;
+        ScenarioPlayersLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(ScenarioPlayersLabel);
         ScenarioSizeLabel = new Label(this);
         session.BeginRead(ScenarioSizeLabel);
@@ -1064,7 +1065,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         ScenarioSizeLabel.Alignment.BottomOffset = 0;
         ScenarioSizeLabel.Masked = true;
         ScenarioSizeLabel.Text = "##";
-        ScenarioSizeLabel.TextColor = 9415072;
+        ScenarioSizeLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(ScenarioSizeLabel);
         ScenarioTownsLabel = new Label(this);
         session.BeginRead(ScenarioTownsLabel);
@@ -1091,7 +1092,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         ScenarioTownsLabel.Alignment.BottomOffset = 0;
         ScenarioTownsLabel.Masked = true;
         ScenarioTownsLabel.Text = "##";
-        ScenarioTownsLabel.TextColor = 9415072;
+        ScenarioTownsLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(ScenarioTownsLabel);
         NewPanel = new Panel(this);
         session.BeginRead(NewPanel);
@@ -1153,8 +1154,8 @@ public sealed partial class FileDialogWindow : ILayoutModule
             LockedSurface surface = e.Surface;
             FileLBDrawItem(e.Rectangle, drawItem: e.Item, lockedSurface: in surface);
         };
-        SaveList.TextColor = 9415072;
-        SaveList.TextSelectedColor = 0;
+        SaveList.TextColor = new Color(160, 169, 143);
+        SaveList.TextSelectedColor = Color.Black;
         SaveList.ImageLibraryIndexFrame = 113;
         SaveList.ImageLibraryIndexTNormal = 21;
         SaveList.ImageLibraryIndexTSelected = 8;
@@ -1188,7 +1189,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         SaveFileNameEdit.MaxChars = 0;
         SaveFileNameEdit.CursorChar = 95;
         SaveFileNameEdit.BlinkDelay = 2;
-        SaveFileNameEdit.TextColor = 11002593;
+        SaveFileNameEdit.TextColor = new Color(225, 226, 167);
         SaveFileNameEdit.Editable = true;
         SaveFileNameEdit.ImageLibraryIndex = 15;
         SaveFileNameEdit.ReturnPressed += (_, _) => SFileNameReturn();
@@ -1216,7 +1217,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         savedInfo.Alignment.BottomOffset = 62;
         savedInfo.Masked = true;
         savedInfo.Text = "Saved Game Info";
-        savedInfo.TextColor = 0;
+        savedInfo.TextColor = Color.Black;
         session.EndRead(savedInfo);
         SavePanel = new Panel(this);
         session.BeginRead(SavePanel);
@@ -1273,8 +1274,8 @@ public sealed partial class FileDialogWindow : ILayoutModule
         dateList.Changed += (_, _) => FileLBChange(dateList);
         DateList.DoubleClicked += (_, _) => OpenbutClick();
         DateList.Selected = -1;
-        DateList.TextColor = 9415072;
-        DateList.TextSelectedColor = 0;
+        DateList.TextColor = new Color(160, 169, 143);
+        DateList.TextSelectedColor = Color.Black;
         DateList.ImageLibraryIndexFrame = 113;
         DateList.ImageLibraryIndexTNormal = 21;
         DateList.ImageLibraryIndexTSelected = 8;
@@ -1307,8 +1308,8 @@ public sealed partial class FileDialogWindow : ILayoutModule
         saveBtn.ImageLibraryIndexLit = 91;
         saveBtn.ImageLibraryIndexUp = 85;
         saveBtn.Text = "Saved Games";
-        saveBtn.TextColor = 0;
-        saveBtn.TextSelectedColor = 16777215;
+        saveBtn.TextColor = Color.Black;
+        saveBtn.TextSelectedColor = Color.White;
         saveBtn.WinWidth = 180;
         saveBtn.Clicked += (_, _) => SaveBtnClick();
         session.EndRead(saveBtn);
@@ -1338,8 +1339,8 @@ public sealed partial class FileDialogWindow : ILayoutModule
         dateBtn.ImageLibraryIndexLit = 91;
         dateBtn.ImageLibraryIndexUp = 85;
         dateBtn.Text = "Date";
-        dateBtn.TextColor = 0;
-        dateBtn.TextSelectedColor = 16777215;
+        dateBtn.TextColor = Color.Black;
+        dateBtn.TextSelectedColor = Color.White;
         dateBtn.WinWidth = 130;
         dateBtn.Clicked += (_, _) => DateBtnClick();
         session.EndRead(dateBtn);
@@ -1486,7 +1487,7 @@ public sealed partial class FileDialogWindow : ILayoutModule
         PathEdit.MaxChars = 0;
         PathEdit.CursorChar = 95;
         PathEdit.BlinkDelay = 2;
-        PathEdit.TextColor = 11002593;
+        PathEdit.TextColor = new Color(225, 226, 167);
         PathEdit.Editable = false;
         PathEdit.ImageLibraryIndex = 15;
         PathEdit.PassWordChar = 0;

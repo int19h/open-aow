@@ -16,6 +16,7 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiTextCompare;
 using static Aow.Rtl.LegacyApplication;
@@ -346,14 +347,14 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
                 if (netIncome >= 0)
                 {
                     UI.TaskBar.WorldGoldSignLabel.Text = "+";
-                    UI.TaskBar.WorldGoldSignLabel.TextColor = 0x77_FF_77;
-                    UI.TaskBar.WorldGoldIncomeLabel.TextColor = 0x77_FF_77;
+                    UI.TaskBar.WorldGoldSignLabel.TextColor = new Color(119, 255, 119);
+                    UI.TaskBar.WorldGoldIncomeLabel.TextColor = new Color(119, 255, 119);
                 }
                 else
                 {
                     UI.TaskBar.WorldGoldSignLabel.Text = "-";
-                    UI.TaskBar.WorldGoldSignLabel.TextColor = 0x00_00_77;
-                    UI.TaskBar.WorldGoldIncomeLabel.TextColor = 0x00_00_77;
+                    UI.TaskBar.WorldGoldSignLabel.TextColor = new Color(119, 0, 0);
+                    UI.TaskBar.WorldGoldIncomeLabel.TextColor = new Color(119, 0, 0);
                 }
 
                 UI.TaskBar.WorldGoldIncomeLabel.Text = Math.Abs(netIncome).ToString(CultureInfo.InvariantCulture);
@@ -436,14 +437,14 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
                 if (netIncome >= 0)
                 {
                     UI.TaskBar.WorldManaSignLabel.Text = "+";
-                    UI.TaskBar.WorldManaSignLabel.TextColor = 0x77_FF_77;
-                    UI.TaskBar.WorldManaIncomeLabel.TextColor = 0x77_FF_77;
+                    UI.TaskBar.WorldManaSignLabel.TextColor = new Color(119, 255, 119);
+                    UI.TaskBar.WorldManaIncomeLabel.TextColor = new Color(119, 255, 119);
                 }
                 else
                 {
                     UI.TaskBar.WorldManaSignLabel.Text = "-";
-                    UI.TaskBar.WorldManaSignLabel.TextColor = 0x00_00_77;
-                    UI.TaskBar.WorldManaIncomeLabel.TextColor = 0x00_00_77;
+                    UI.TaskBar.WorldManaSignLabel.TextColor = new Color(119, 0, 0);
+                    UI.TaskBar.WorldManaIncomeLabel.TextColor = new Color(119, 0, 0);
                 }
 
                 UI.TaskBar.WorldManaIncomeLabel.Text = Math.Abs(netIncome).ToString(CultureInfo.InvariantCulture);

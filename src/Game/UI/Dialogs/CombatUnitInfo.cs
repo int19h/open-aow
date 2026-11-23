@@ -6,6 +6,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 using Aow.Rtl;
 
 using static Aow.Rtl.IntegerObjects;
@@ -80,7 +81,7 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
                 condition = test;
             }
 
-            UnitAbilityList.TextColor = condition ? 16_777_215 : 12_632_256;
+            UnitAbilityList.TextColor = condition ? Color.White : Color.Silver;
         }
     }
 

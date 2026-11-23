@@ -4,6 +4,7 @@ using Aow.Game.Layout;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -46,7 +47,7 @@ public partial class RelationWindow : ILayoutModule
         MainWindow.OverlapTopCorners = false;
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
-        MainWindow.MaskColor = 7346272;
+        MainWindow.MaskColor = new Color(96, 24, 112);
         MainWindow.FreeSurfaceOnHide = true;
         MainWindow.ImageLibraryIndexFrame = 0;
         MainWindow.ImageLibraryIndexTexture = 41;
@@ -148,8 +149,8 @@ public partial class RelationWindow : ILayoutModule
         mExitBtn.ImageLibraryIndexLit = 40;
         mExitBtn.ImageLibraryIndexUp = 34;
         mExitBtn.Text = "Exit";
-        mExitBtn.TextColor = 0;
-        mExitBtn.TextSelectedColor = 16777215;
+        mExitBtn.TextColor = Color.Black;
+        mExitBtn.TextSelectedColor = Color.White;
         mExitBtn.WinWidth = 180;
         mExitBtn.Clicked += (_, _) => ExitClick();
         session.EndRead(mExitBtn);
@@ -238,8 +239,8 @@ public partial class RelationWindow : ILayoutModule
         mAcceptBtn.ImageLibraryIndexLit = 40;
         mAcceptBtn.ImageLibraryIndexUp = 34;
         mAcceptBtn.Text = "Accept";
-        mAcceptBtn.TextColor = 0;
-        mAcceptBtn.TextSelectedColor = 16777215;
+        mAcceptBtn.TextColor = Color.Black;
+        mAcceptBtn.TextSelectedColor = Color.White;
         mAcceptBtn.WinWidth = 86;
         mAcceptBtn.Clicked += (_, _) => MAcceptBtnClick();
         session.EndRead(mAcceptBtn);
@@ -273,8 +274,8 @@ public partial class RelationWindow : ILayoutModule
         mRejectBtn.ImageLibraryIndexLit = 40;
         mRejectBtn.ImageLibraryIndexUp = 34;
         mRejectBtn.Text = "Reject";
-        mRejectBtn.TextColor = 0;
-        mRejectBtn.TextSelectedColor = 16777215;
+        mRejectBtn.TextColor = Color.Black;
+        mRejectBtn.TextSelectedColor = Color.White;
         mRejectBtn.WinWidth = 86;
         mRejectBtn.Clicked += (_, _) => MRejectBtnClick();
         session.EndRead(mRejectBtn);
@@ -1111,7 +1112,7 @@ public partial class RelationWindow : ILayoutModule
         IncomingMemo.WinHeight = 63;
         IncomingMemo.BorderWidth = 4;
         IncomingMemo.BorderHeight = 2;
-        IncomingMemo.TextColor = 12632256;
+        IncomingMemo.TextColor = Color.Silver;
         IncomingMemo.CursorChar = 95;
         IncomingMemo.BlinkDelay = 2;
         IncomingMemo.Editable = false;
@@ -1146,7 +1147,7 @@ public partial class RelationWindow : ILayoutModule
         mbGoldLbl.Alignment.BottomOffset = 40;
         mbGoldLbl.Masked = true;
         mbGoldLbl.Text = "Gold Bribe";
-        mbGoldLbl.TextColor = 0;
+        mbGoldLbl.TextColor = Color.Black;
         session.EndRead(mbGoldLbl);
         IncomingIcon = new Image(this);
         session.BeginRead(IncomingIcon);
@@ -1302,7 +1303,7 @@ public partial class RelationWindow : ILayoutModule
         SendMessageMemo.BorderWidth = 4;
         SendMessageMemo.BorderHeight = 5;
         sendMessageMemo.Changed += (_, _) => ChangeActionMessage(sendMessageMemo);
-        SendMessageMemo.TextColor = 12632256;
+        SendMessageMemo.TextColor = Color.Silver;
         SendMessageMemo.CursorChar = 95;
         SendMessageMemo.BlinkDelay = 2;
         SendMessageMemo.Editable = true;
@@ -1465,8 +1466,8 @@ public partial class RelationWindow : ILayoutModule
         aExit.ImageLibraryIndexLit = 40;
         aExit.ImageLibraryIndexUp = 34;
         aExit.Text = "Exit";
-        aExit.TextColor = 0;
-        aExit.TextSelectedColor = 16777215;
+        aExit.TextColor = Color.Black;
+        aExit.TextSelectedColor = Color.White;
         aExit.WinWidth = 91;
         aExit.Clicked += (_, _) => ExitClick();
         session.EndRead(aExit);
@@ -1490,7 +1491,7 @@ public partial class RelationWindow : ILayoutModule
         PlayerNameLabel.Alignment.TopOffset = 5;
         PlayerNameLabel.Alignment.BottomOffset = 0;
         PlayerNameLabel.Masked = true;
-        PlayerNameLabel.TextColor = 2566452;
+        PlayerNameLabel.TextColor = new Color(52, 41, 39);
         session.EndRead(PlayerNameLabel);
         RaceInfoPanel = new Panel(this);
         session.BeginRead(RaceInfoPanel);
@@ -1541,7 +1542,7 @@ public partial class RelationWindow : ILayoutModule
         RaceNameLabel.Alignment.BottomOffset = 0;
         RaceNameLabel.Masked = true;
         RaceNameLabel.Text = "####";
-        RaceNameLabel.TextColor = 2566452;
+        RaceNameLabel.TextColor = new Color(52, 41, 39);
         session.EndRead(RaceNameLabel);
         AlignmentImage = new Image(this);
         session.BeginRead(AlignmentImage);
@@ -1592,7 +1593,7 @@ public partial class RelationWindow : ILayoutModule
         AlignmentLabel.Alignment.BottomOffset = 4;
         AlignmentLabel.Masked = true;
         AlignmentLabel.Text = "####";
-        AlignmentLabel.TextColor = 9415072;
+        AlignmentLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(AlignmentLabel);
         CheckBox player1CheckBox = new(this);
         Player1CheckBox = player1CheckBox;
@@ -1625,8 +1626,8 @@ public partial class RelationWindow : ILayoutModule
         Player1CheckBox.ImageLibraryIndexDown = 42;
         Player1CheckBox.ImageLibraryIndexLit = 43;
         Player1CheckBox.ImageLibraryIndexUp = 42;
-        Player1CheckBox.TextColor = 0;
-        Player1CheckBox.TextSelectedColor = 0;
+        Player1CheckBox.TextColor = Color.Black;
+        Player1CheckBox.TextSelectedColor = Color.Black;
         Player1CheckBox.WinWidth = 52;
         Player1CheckBox.Checked = false;
         player1CheckBox.Changed += (_, _) => P1CBChange(player1CheckBox, slot: 0);
@@ -1664,8 +1665,8 @@ public partial class RelationWindow : ILayoutModule
         Player2CheckBox.ImageLibraryIndexDown = 42;
         Player2CheckBox.ImageLibraryIndexLit = 43;
         Player2CheckBox.ImageLibraryIndexUp = 42;
-        Player2CheckBox.TextColor = 0;
-        Player2CheckBox.TextSelectedColor = 0;
+        Player2CheckBox.TextColor = Color.Black;
+        Player2CheckBox.TextSelectedColor = Color.Black;
         Player2CheckBox.WinWidth = 52;
         Player2CheckBox.Checked = false;
         player2CheckBox.Changed += (_, _) => P1CBChange(player2CheckBox, slot: 1);
@@ -1703,8 +1704,8 @@ public partial class RelationWindow : ILayoutModule
         Player3CheckBox.ImageLibraryIndexDown = 42;
         Player3CheckBox.ImageLibraryIndexLit = 43;
         Player3CheckBox.ImageLibraryIndexUp = 42;
-        Player3CheckBox.TextColor = 0;
-        Player3CheckBox.TextSelectedColor = 0;
+        Player3CheckBox.TextColor = Color.Black;
+        Player3CheckBox.TextSelectedColor = Color.Black;
         Player3CheckBox.WinWidth = 52;
         Player3CheckBox.Checked = false;
         player3CheckBox.Changed += (_, _) => P1CBChange(player3CheckBox, slot: 2);
@@ -1742,8 +1743,8 @@ public partial class RelationWindow : ILayoutModule
         Player4CheckBox.ImageLibraryIndexDown = 42;
         Player4CheckBox.ImageLibraryIndexLit = 43;
         Player4CheckBox.ImageLibraryIndexUp = 42;
-        Player4CheckBox.TextColor = 0;
-        Player4CheckBox.TextSelectedColor = 0;
+        Player4CheckBox.TextColor = Color.Black;
+        Player4CheckBox.TextSelectedColor = Color.Black;
         Player4CheckBox.WinWidth = 52;
         Player4CheckBox.Checked = false;
         player4CheckBox.Changed += (_, _) => P1CBChange(player4CheckBox, slot: 3);
@@ -1781,8 +1782,8 @@ public partial class RelationWindow : ILayoutModule
         Player5CheckBox.ImageLibraryIndexDown = 42;
         Player5CheckBox.ImageLibraryIndexLit = 43;
         Player5CheckBox.ImageLibraryIndexUp = 42;
-        Player5CheckBox.TextColor = 0;
-        Player5CheckBox.TextSelectedColor = 0;
+        Player5CheckBox.TextColor = Color.Black;
+        Player5CheckBox.TextSelectedColor = Color.Black;
         Player5CheckBox.WinWidth = 52;
         Player5CheckBox.Checked = false;
         player5CheckBox.Changed += (_, _) => P1CBChange(player5CheckBox, slot: 4);
@@ -1820,8 +1821,8 @@ public partial class RelationWindow : ILayoutModule
         Player6CheckBox.ImageLibraryIndexDown = 42;
         Player6CheckBox.ImageLibraryIndexLit = 43;
         Player6CheckBox.ImageLibraryIndexUp = 42;
-        Player6CheckBox.TextColor = 0;
-        Player6CheckBox.TextSelectedColor = 0;
+        Player6CheckBox.TextColor = Color.Black;
+        Player6CheckBox.TextSelectedColor = Color.Black;
         Player6CheckBox.WinWidth = 52;
         Player6CheckBox.Checked = false;
         player6CheckBox.Changed += (_, _) => P1CBChange(player6CheckBox, slot: 5);
@@ -1859,8 +1860,8 @@ public partial class RelationWindow : ILayoutModule
         Player7CheckBox.ImageLibraryIndexDown = 42;
         Player7CheckBox.ImageLibraryIndexLit = 43;
         Player7CheckBox.ImageLibraryIndexUp = 42;
-        Player7CheckBox.TextColor = 0;
-        Player7CheckBox.TextSelectedColor = 0;
+        Player7CheckBox.TextColor = Color.Black;
+        Player7CheckBox.TextSelectedColor = Color.Black;
         Player7CheckBox.WinWidth = 52;
         Player7CheckBox.Checked = false;
         player7CheckBox.Changed += (_, _) => P1CBChange(player7CheckBox, slot: 6);
@@ -1898,8 +1899,8 @@ public partial class RelationWindow : ILayoutModule
         Player8CheckBox.ImageLibraryIndexDown = 42;
         Player8CheckBox.ImageLibraryIndexLit = 43;
         Player8CheckBox.ImageLibraryIndexUp = 42;
-        Player8CheckBox.TextColor = 0;
-        Player8CheckBox.TextSelectedColor = 0;
+        Player8CheckBox.TextColor = Color.Black;
+        Player8CheckBox.TextSelectedColor = Color.Black;
         Player8CheckBox.WinWidth = 52;
         Player8CheckBox.Checked = false;
         player8CheckBox.Changed += (_, _) => P1CBChange(player8CheckBox, slot: 7);
@@ -1937,8 +1938,8 @@ public partial class RelationWindow : ILayoutModule
         Player9CheckBox.ImageLibraryIndexDown = 42;
         Player9CheckBox.ImageLibraryIndexLit = 43;
         Player9CheckBox.ImageLibraryIndexUp = 42;
-        Player9CheckBox.TextColor = 0;
-        Player9CheckBox.TextSelectedColor = 0;
+        Player9CheckBox.TextColor = Color.Black;
+        Player9CheckBox.TextSelectedColor = Color.Black;
         Player9CheckBox.WinWidth = 52;
         Player9CheckBox.Checked = false;
         player9CheckBox.Changed += (_, _) => P1CBChange(player9CheckBox, slot: 8);
@@ -1976,8 +1977,8 @@ public partial class RelationWindow : ILayoutModule
         Player10CheckBox.ImageLibraryIndexDown = 42;
         Player10CheckBox.ImageLibraryIndexLit = 43;
         Player10CheckBox.ImageLibraryIndexUp = 42;
-        Player10CheckBox.TextColor = 0;
-        Player10CheckBox.TextSelectedColor = 0;
+        Player10CheckBox.TextColor = Color.Black;
+        Player10CheckBox.TextSelectedColor = Color.Black;
         Player10CheckBox.WinWidth = 52;
         Player10CheckBox.Checked = false;
         player10CheckBox.Changed += (_, _) => P1CBChange(player10CheckBox, slot: 9);
@@ -2015,8 +2016,8 @@ public partial class RelationWindow : ILayoutModule
         Player11CheckBox.ImageLibraryIndexDown = 42;
         Player11CheckBox.ImageLibraryIndexLit = 43;
         Player11CheckBox.ImageLibraryIndexUp = 42;
-        Player11CheckBox.TextColor = 0;
-        Player11CheckBox.TextSelectedColor = 0;
+        Player11CheckBox.TextColor = Color.Black;
+        Player11CheckBox.TextSelectedColor = Color.Black;
         Player11CheckBox.WinWidth = 52;
         Player11CheckBox.Checked = false;
         player11CheckBox.Changed += (_, _) => P1CBChange(player11CheckBox, slot: 10);
@@ -2054,8 +2055,8 @@ public partial class RelationWindow : ILayoutModule
         Player12CheckBox.ImageLibraryIndexDown = 42;
         Player12CheckBox.ImageLibraryIndexLit = 43;
         Player12CheckBox.ImageLibraryIndexUp = 42;
-        Player12CheckBox.TextColor = 0;
-        Player12CheckBox.TextSelectedColor = 0;
+        Player12CheckBox.TextColor = Color.Black;
+        Player12CheckBox.TextSelectedColor = Color.Black;
         Player12CheckBox.WinWidth = 52;
         Player12CheckBox.Checked = false;
         player12CheckBox.Changed += (_, _) => P1CBChange(player12CheckBox, slot: 11);
@@ -2122,8 +2123,8 @@ public partial class RelationWindow : ILayoutModule
         Race1CheckBox.ImageLibraryIndexDown = 42;
         Race1CheckBox.ImageLibraryIndexLit = 43;
         Race1CheckBox.ImageLibraryIndexUp = 42;
-        Race1CheckBox.TextColor = 0;
-        Race1CheckBox.TextSelectedColor = 0;
+        Race1CheckBox.TextColor = Color.Black;
+        Race1CheckBox.TextSelectedColor = Color.Black;
         Race1CheckBox.WinWidth = 52;
         Race1CheckBox.Checked = false;
         race1CheckBox.Changed += (_, _) => R1CBChange(race1CheckBox, slot: 20);
@@ -2161,8 +2162,8 @@ public partial class RelationWindow : ILayoutModule
         Race2CheckBox.ImageLibraryIndexDown = 42;
         Race2CheckBox.ImageLibraryIndexLit = 43;
         Race2CheckBox.ImageLibraryIndexUp = 42;
-        Race2CheckBox.TextColor = 0;
-        Race2CheckBox.TextSelectedColor = 0;
+        Race2CheckBox.TextColor = Color.Black;
+        Race2CheckBox.TextSelectedColor = Color.Black;
         Race2CheckBox.WinWidth = 52;
         Race2CheckBox.Checked = false;
         race2CheckBox.Changed += (_, _) => R1CBChange(race2CheckBox, slot: 21);
@@ -2200,8 +2201,8 @@ public partial class RelationWindow : ILayoutModule
         Race3CheckBox.ImageLibraryIndexDown = 42;
         Race3CheckBox.ImageLibraryIndexLit = 43;
         Race3CheckBox.ImageLibraryIndexUp = 42;
-        Race3CheckBox.TextColor = 0;
-        Race3CheckBox.TextSelectedColor = 0;
+        Race3CheckBox.TextColor = Color.Black;
+        Race3CheckBox.TextSelectedColor = Color.Black;
         Race3CheckBox.WinWidth = 52;
         Race3CheckBox.Checked = false;
         race3CheckBox.Changed += (_, _) => R1CBChange(race3CheckBox, slot: 22);
@@ -2239,8 +2240,8 @@ public partial class RelationWindow : ILayoutModule
         Race4CheckBox.ImageLibraryIndexDown = 42;
         Race4CheckBox.ImageLibraryIndexLit = 43;
         Race4CheckBox.ImageLibraryIndexUp = 42;
-        Race4CheckBox.TextColor = 0;
-        Race4CheckBox.TextSelectedColor = 0;
+        Race4CheckBox.TextColor = Color.Black;
+        Race4CheckBox.TextSelectedColor = Color.Black;
         Race4CheckBox.WinWidth = 52;
         Race4CheckBox.Checked = false;
         race4CheckBox.Changed += (_, _) => R1CBChange(race4CheckBox, slot: 23);
@@ -2278,8 +2279,8 @@ public partial class RelationWindow : ILayoutModule
         Race5CheckBox.ImageLibraryIndexDown = 42;
         Race5CheckBox.ImageLibraryIndexLit = 43;
         Race5CheckBox.ImageLibraryIndexUp = 42;
-        Race5CheckBox.TextColor = 0;
-        Race5CheckBox.TextSelectedColor = 0;
+        Race5CheckBox.TextColor = Color.Black;
+        Race5CheckBox.TextSelectedColor = Color.Black;
         Race5CheckBox.WinWidth = 52;
         Race5CheckBox.Checked = false;
         race5CheckBox.Changed += (_, _) => R1CBChange(race5CheckBox, slot: 24);
@@ -2317,8 +2318,8 @@ public partial class RelationWindow : ILayoutModule
         Race6CheckBox.ImageLibraryIndexDown = 42;
         Race6CheckBox.ImageLibraryIndexLit = 43;
         Race6CheckBox.ImageLibraryIndexUp = 42;
-        Race6CheckBox.TextColor = 0;
-        Race6CheckBox.TextSelectedColor = 0;
+        Race6CheckBox.TextColor = Color.Black;
+        Race6CheckBox.TextSelectedColor = Color.Black;
         Race6CheckBox.WinWidth = 52;
         Race6CheckBox.Checked = false;
         race6CheckBox.Changed += (_, _) => R1CBChange(race6CheckBox, slot: 25);
@@ -2356,8 +2357,8 @@ public partial class RelationWindow : ILayoutModule
         Race7CheckBox.ImageLibraryIndexDown = 42;
         Race7CheckBox.ImageLibraryIndexLit = 43;
         Race7CheckBox.ImageLibraryIndexUp = 42;
-        Race7CheckBox.TextColor = 0;
-        Race7CheckBox.TextSelectedColor = 0;
+        Race7CheckBox.TextColor = Color.Black;
+        Race7CheckBox.TextSelectedColor = Color.Black;
         Race7CheckBox.WinWidth = 52;
         Race7CheckBox.Checked = false;
         race7CheckBox.Changed += (_, _) => R1CBChange(race7CheckBox, slot: 26);
@@ -2395,8 +2396,8 @@ public partial class RelationWindow : ILayoutModule
         Race8CheckBox.ImageLibraryIndexDown = 42;
         Race8CheckBox.ImageLibraryIndexLit = 43;
         Race8CheckBox.ImageLibraryIndexUp = 42;
-        Race8CheckBox.TextColor = 0;
-        Race8CheckBox.TextSelectedColor = 0;
+        Race8CheckBox.TextColor = Color.Black;
+        Race8CheckBox.TextSelectedColor = Color.Black;
         Race8CheckBox.WinWidth = 52;
         Race8CheckBox.Checked = false;
         race8CheckBox.Changed += (_, _) => R1CBChange(race8CheckBox, slot: 27);
@@ -2434,8 +2435,8 @@ public partial class RelationWindow : ILayoutModule
         Race9CheckBox.ImageLibraryIndexDown = 42;
         Race9CheckBox.ImageLibraryIndexLit = 43;
         Race9CheckBox.ImageLibraryIndexUp = 42;
-        Race9CheckBox.TextColor = 0;
-        Race9CheckBox.TextSelectedColor = 0;
+        Race9CheckBox.TextColor = Color.Black;
+        Race9CheckBox.TextSelectedColor = Color.Black;
         Race9CheckBox.WinWidth = 52;
         Race9CheckBox.Checked = false;
         race9CheckBox.Changed += (_, _) => R1CBChange(race9CheckBox, slot: 28);
@@ -2473,8 +2474,8 @@ public partial class RelationWindow : ILayoutModule
         Race10CheckBox.ImageLibraryIndexDown = 42;
         Race10CheckBox.ImageLibraryIndexLit = 43;
         Race10CheckBox.ImageLibraryIndexUp = 42;
-        Race10CheckBox.TextColor = 0;
-        Race10CheckBox.TextSelectedColor = 0;
+        Race10CheckBox.TextColor = Color.Black;
+        Race10CheckBox.TextSelectedColor = Color.Black;
         Race10CheckBox.WinWidth = 52;
         Race10CheckBox.Checked = false;
         race10CheckBox.Changed += (_, _) => R1CBChange(race10CheckBox, slot: 29);
@@ -2512,8 +2513,8 @@ public partial class RelationWindow : ILayoutModule
         Race11CheckBox.ImageLibraryIndexDown = 42;
         Race11CheckBox.ImageLibraryIndexLit = 43;
         Race11CheckBox.ImageLibraryIndexUp = 42;
-        Race11CheckBox.TextColor = 0;
-        Race11CheckBox.TextSelectedColor = 0;
+        Race11CheckBox.TextColor = Color.Black;
+        Race11CheckBox.TextSelectedColor = Color.Black;
         Race11CheckBox.WinWidth = 52;
         Race11CheckBox.Checked = false;
         race11CheckBox.Changed += (_, _) => R1CBChange(race11CheckBox, slot: 30);
@@ -2551,8 +2552,8 @@ public partial class RelationWindow : ILayoutModule
         Race12CheckBox.ImageLibraryIndexDown = 42;
         Race12CheckBox.ImageLibraryIndexLit = 43;
         Race12CheckBox.ImageLibraryIndexUp = 42;
-        Race12CheckBox.TextColor = 0;
-        Race12CheckBox.TextSelectedColor = 0;
+        Race12CheckBox.TextColor = Color.Black;
+        Race12CheckBox.TextSelectedColor = Color.Black;
         Race12CheckBox.WinWidth = 52;
         Race12CheckBox.Checked = false;
         race12CheckBox.Changed += (_, _) => R1CBChange(race12CheckBox, slot: 31);
@@ -2610,7 +2611,7 @@ public partial class RelationWindow : ILayoutModule
         NoContactLabel.Alignment.BottomOffset = 85;
         NoContactLabel.Masked = true;
         NoContactLabel.Text = "No Contact";
-        NoContactLabel.TextColor = 0;
+        NoContactLabel.TextColor = Color.Black;
         session.EndRead(NoContactLabel);
         SelectActionButton = new Button(this);
         session.BeginRead(SelectActionButton);
@@ -2642,8 +2643,8 @@ public partial class RelationWindow : ILayoutModule
         SelectActionButton.ImageLibraryIndexLit = 49;
         SelectActionButton.ImageLibraryIndexUp = 43;
         SelectActionButton.Text = "Select";
-        SelectActionButton.TextColor = 0;
-        SelectActionButton.TextSelectedColor = 16777215;
+        SelectActionButton.TextColor = Color.Black;
+        SelectActionButton.TextSelectedColor = Color.White;
         SelectActionButton.WinWidth = 91;
         SelectActionButton.Clicked += (_, _) => ASelectClick();
         session.EndRead(SelectActionButton);
@@ -2673,8 +2674,8 @@ public partial class RelationWindow : ILayoutModule
         ActionsList.BorderHeight = 3;
         ActionsList.Changed += (_, _) => ActionsLBChange();
         ActionsList.Selected = -1;
-        ActionsList.TextColor = 9415072;
-        ActionsList.TextSelectedColor = 0;
+        ActionsList.TextColor = new Color(160, 169, 143);
+        ActionsList.TextSelectedColor = Color.Black;
         ActionsList.ImageLibraryIndexFrame = 113;
         ActionsList.ImageLibraryIndexTNormal = 21;
         ActionsList.ImageLibraryIndexTSelected = 8;
@@ -2766,7 +2767,7 @@ public partial class RelationWindow : ILayoutModule
         actionLbl.Alignment.BottomOffset = 0;
         actionLbl.Masked = true;
         actionLbl.Text = "Actions";
-        actionLbl.TextColor = 2566452;
+        actionLbl.TextColor = new Color(52, 41, 39);
         session.EndRead(actionLbl);
         Image piRelIcn = new(this);
         session.BeginRead(piRelIcn);
@@ -2823,7 +2824,7 @@ public partial class RelationWindow : ILayoutModule
         piRelLbl.Alignment.BottomOffset = 0;
         piRelLbl.Masked = true;
         piRelLbl.Text = "Race Relation:";
-        piRelLbl.TextColor = 9415072;
+        piRelLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(piRelLbl);
         Panel piRelPnl = new(this);
         session.BeginRead(piRelPnl);
@@ -2875,7 +2876,7 @@ public partial class RelationWindow : ILayoutModule
         piRelV.Alignment.BottomOffset = 0;
         piRelV.Masked = true;
         piRelV.Text = "###";
-        piRelV.TextColor = 9415072;
+        piRelV.TextColor = new Color(160, 169, 143);
         session.EndRead(piRelV);
         PlayerTypeIcon = new Image(this);
         session.BeginRead(PlayerTypeIcon);
@@ -2930,7 +2931,7 @@ public partial class RelationWindow : ILayoutModule
         PlayerTypeLabel.Alignment.BottomOffset = 4;
         PlayerTypeLabel.Masked = true;
         PlayerTypeLabel.Text = "####";
-        PlayerTypeLabel.TextColor = 9415072;
+        PlayerTypeLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(PlayerTypeLabel);
         PlayerStatusIcon = new Image(this);
         session.BeginRead(PlayerStatusIcon);
@@ -2985,7 +2986,7 @@ public partial class RelationWindow : ILayoutModule
         PlayerStatusLabel.Alignment.BottomOffset = 0;
         PlayerStatusLabel.Masked = true;
         PlayerStatusLabel.Text = "Status:";
-        PlayerStatusLabel.TextColor = 9415072;
+        PlayerStatusLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(PlayerStatusLabel);
         Panel piStatPnl = new(this);
         session.BeginRead(piStatPnl);
@@ -3035,7 +3036,7 @@ public partial class RelationWindow : ILayoutModule
         PlayerStatusValueLabel.Alignment.BottomOffset = 0;
         PlayerStatusValueLabel.Masked = true;
         PlayerStatusValueLabel.Text = "####";
-        PlayerStatusValueLabel.TextColor = 9415072;
+        PlayerStatusValueLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(PlayerStatusValueLabel);
         Panel pTypePnl = new(this);
         session.BeginRead(pTypePnl);
@@ -3225,7 +3226,7 @@ public partial class RelationWindow : ILayoutModule
         riRelLbl.Alignment.BottomOffset = 0;
         riRelLbl.Masked = true;
         riRelLbl.Text = "Race Relation:";
-        riRelLbl.TextColor = 9415072;
+        riRelLbl.TextColor = new Color(160, 169, 143);
         session.EndRead(riRelLbl);
         RaceRelationValueLabel = new Label(this);
         session.BeginRead(RaceRelationValueLabel);
@@ -3248,7 +3249,7 @@ public partial class RelationWindow : ILayoutModule
         RaceRelationValueLabel.Alignment.BottomOffset = 0;
         RaceRelationValueLabel.Masked = true;
         RaceRelationValueLabel.Text = "###";
-        RaceRelationValueLabel.TextColor = 9415072;
+        RaceRelationValueLabel.TextColor = new Color(160, 169, 143);
         session.EndRead(RaceRelationValueLabel);
         ReceivedGoldLabel = new Label(this);
         session.BeginRead(ReceivedGoldLabel);
@@ -3275,7 +3276,7 @@ public partial class RelationWindow : ILayoutModule
         ReceivedGoldLabel.Alignment.BottomOffset = 0;
         ReceivedGoldLabel.Masked = true;
         ReceivedGoldLabel.Text = "2000";
-        ReceivedGoldLabel.TextColor = 0;
+        ReceivedGoldLabel.TextColor = Color.Black;
         session.EndRead(ReceivedGoldLabel);
         Image mbGoldIcn = new(this);
         session.BeginRead(mbGoldIcn);
@@ -3388,7 +3389,7 @@ public partial class RelationWindow : ILayoutModule
         mbManaLbl.Alignment.BottomOffset = 40;
         mbManaLbl.Masked = true;
         mbManaLbl.Text = "Mana Bribe";
-        mbManaLbl.TextColor = 0;
+        mbManaLbl.TextColor = Color.Black;
         session.EndRead(mbManaLbl);
         ReceivedManaLabel = new Label(this);
         session.BeginRead(ReceivedManaLabel);
@@ -3415,7 +3416,7 @@ public partial class RelationWindow : ILayoutModule
         ReceivedManaLabel.Alignment.BottomOffset = 0;
         ReceivedManaLabel.Masked = true;
         ReceivedManaLabel.Text = "2000";
-        ReceivedManaLabel.TextColor = 0;
+        ReceivedManaLabel.TextColor = Color.Black;
         session.EndRead(ReceivedManaLabel);
         Image mbManaIcn = new(this);
         session.BeginRead(mbManaIcn);
@@ -3470,7 +3471,7 @@ public partial class RelationWindow : ILayoutModule
         msgLbl.Alignment.BottomOffset = 0;
         msgLbl.Masked = true;
         msgLbl.Text = "Edit a Message:";
-        msgLbl.TextColor = 2566452;
+        msgLbl.TextColor = new Color(52, 41, 39);
         session.EndRead(msgLbl);
         Button msgSendBtn = new(this);
         session.BeginRead(msgSendBtn);
@@ -3502,8 +3503,8 @@ public partial class RelationWindow : ILayoutModule
         msgSendBtn.ImageLibraryIndexLit = 40;
         msgSendBtn.ImageLibraryIndexUp = 34;
         msgSendBtn.Text = "Send";
-        msgSendBtn.TextColor = 0;
-        msgSendBtn.TextSelectedColor = 16777215;
+        msgSendBtn.TextColor = Color.Black;
+        msgSendBtn.TextSelectedColor = Color.White;
         msgSendBtn.WinWidth = 92;
         msgSendBtn.Clicked += (_, _) => SendActionButtonClick();
         session.EndRead(msgSendBtn);
@@ -3537,8 +3538,8 @@ public partial class RelationWindow : ILayoutModule
         msgCancelBtn.ImageLibraryIndexLit = 40;
         msgCancelBtn.ImageLibraryIndexUp = 34;
         msgCancelBtn.Text = "Cancel";
-        msgCancelBtn.TextColor = 0;
-        msgCancelBtn.TextSelectedColor = 16777215;
+        msgCancelBtn.TextColor = Color.Black;
+        msgCancelBtn.TextSelectedColor = Color.White;
         msgCancelBtn.WinWidth = 86;
         msgCancelBtn.Clicked += (_, _) => CancelSelectedAction();
         session.EndRead(msgCancelBtn);
@@ -3590,7 +3591,7 @@ public partial class RelationWindow : ILayoutModule
         BribeGoldValueLabel.Alignment.BottomOffset = 0;
         BribeGoldValueLabel.Masked = true;
         BribeGoldValueLabel.Text = "2000";
-        BribeGoldValueLabel.TextColor = 0;
+        BribeGoldValueLabel.TextColor = Color.Black;
         session.EndRead(BribeGoldValueLabel);
         Image sbGoldIcn = new(this);
         session.BeginRead(sbGoldIcn);
@@ -3699,7 +3700,7 @@ public partial class RelationWindow : ILayoutModule
         BribeManaValueLabel.Alignment.BottomOffset = 0;
         BribeManaValueLabel.Masked = true;
         BribeManaValueLabel.Text = "2000";
-        BribeManaValueLabel.TextColor = 0;
+        BribeManaValueLabel.TextColor = Color.Black;
         session.EndRead(BribeManaValueLabel);
         Image sbManaIcn = new(this);
         session.BeginRead(sbManaIcn);
@@ -3781,7 +3782,7 @@ public partial class RelationWindow : ILayoutModule
         sBribeBtn.Alignment.BottomOffset = 0;
         sBribeBtn.Masked = true;
         sBribeBtn.Text = "Optional bribes";
-        sBribeBtn.TextColor = 0;
+        sBribeBtn.TextColor = Color.Black;
         session.EndRead(sBribeBtn);
         BribeManaSlider = new HorizontalScrollBar(this);
         session.BeginRead(BribeManaSlider);
@@ -3886,8 +3887,8 @@ public partial class RelationWindow : ILayoutModule
         rsbSendBtn.ImageLibraryIndexLit = 40;
         rsbSendBtn.ImageLibraryIndexUp = 34;
         rsbSendBtn.Text = "Send";
-        rsbSendBtn.TextColor = 0;
-        rsbSendBtn.TextSelectedColor = 16777215;
+        rsbSendBtn.TextColor = Color.Black;
+        rsbSendBtn.TextSelectedColor = Color.White;
         rsbSendBtn.WinWidth = 86;
         rsbSendBtn.Clicked += (_, _) => SendActionButtonClick();
         session.EndRead(rsbSendBtn);
@@ -3921,8 +3922,8 @@ public partial class RelationWindow : ILayoutModule
         rbsCanlBtn.ImageLibraryIndexLit = 40;
         rbsCanlBtn.ImageLibraryIndexUp = 34;
         rbsCanlBtn.Text = "Cancel";
-        rbsCanlBtn.TextColor = 0;
-        rbsCanlBtn.TextSelectedColor = 16777215;
+        rbsCanlBtn.TextColor = Color.Black;
+        rbsCanlBtn.TextSelectedColor = Color.White;
         rbsCanlBtn.WinWidth = 86;
         rbsCanlBtn.Clicked += (_, _) => CancelSelectedAction();
         session.EndRead(rbsCanlBtn);
@@ -3977,7 +3978,7 @@ public partial class RelationWindow : ILayoutModule
         BribeHeaderLabel.Alignment.BottomOffset = 0;
         BribeHeaderLabel.Masked = true;
         BribeHeaderLabel.Text = "Offer Peace";
-        BribeHeaderLabel.TextColor = 0;
+        BribeHeaderLabel.TextColor = Color.Black;
         session.EndRead(BribeHeaderLabel);
         ReceivedMessagePanel = new Panel(this);
         session.BeginRead(ReceivedMessagePanel);
@@ -4031,7 +4032,7 @@ public partial class RelationWindow : ILayoutModule
         ReceivedMessageMemo.WinHeight = 80;
         ReceivedMessageMemo.BorderWidth = 4;
         ReceivedMessageMemo.BorderHeight = 5;
-        ReceivedMessageMemo.TextColor = 12632256;
+        ReceivedMessageMemo.TextColor = Color.Silver;
         ReceivedMessageMemo.CursorChar = 95;
         ReceivedMessageMemo.BlinkDelay = 2;
         ReceivedMessageMemo.Editable = false;
@@ -4062,7 +4063,7 @@ public partial class RelationWindow : ILayoutModule
         ReceivedMessageHeaderLabel.Alignment.BottomOffset = 0;
         ReceivedMessageHeaderLabel.Masked = true;
         ReceivedMessageHeaderLabel.Text = "######";
-        ReceivedMessageHeaderLabel.TextColor = 0;
+        ReceivedMessageHeaderLabel.TextColor = Color.Black;
         session.EndRead(ReceivedMessageHeaderLabel);
         Button rmReplyBtn = new(this);
         session.BeginRead(rmReplyBtn);
@@ -4094,8 +4095,8 @@ public partial class RelationWindow : ILayoutModule
         rmReplyBtn.ImageLibraryIndexLit = 40;
         rmReplyBtn.ImageLibraryIndexUp = 34;
         rmReplyBtn.Text = "Reply";
-        rmReplyBtn.TextColor = 0;
-        rmReplyBtn.TextSelectedColor = 16777215;
+        rmReplyBtn.TextColor = Color.Black;
+        rmReplyBtn.TextSelectedColor = Color.White;
         rmReplyBtn.WinWidth = 92;
         rmReplyBtn.Clicked += (_, _) => ReplyButtonClick();
         session.EndRead(rmReplyBtn);
@@ -4129,8 +4130,8 @@ public partial class RelationWindow : ILayoutModule
         rmCancelBtn.ImageLibraryIndexLit = 40;
         rmCancelBtn.ImageLibraryIndexUp = 34;
         rmCancelBtn.Text = "Cancel";
-        rmCancelBtn.TextColor = 0;
-        rmCancelBtn.TextSelectedColor = 16777215;
+        rmCancelBtn.TextColor = Color.Black;
+        rmCancelBtn.TextSelectedColor = Color.White;
         rmCancelBtn.WinWidth = 86;
         rmCancelBtn.Clicked += (_, _) => RMCancelBtnClick();
         session.EndRead(rmCancelBtn);
@@ -4164,8 +4165,8 @@ public partial class RelationWindow : ILayoutModule
         rmExitBtn.ImageLibraryIndexLit = 40;
         rmExitBtn.ImageLibraryIndexUp = 34;
         rmExitBtn.Text = "Exit";
-        rmExitBtn.TextColor = 0;
-        rmExitBtn.TextSelectedColor = 16777215;
+        rmExitBtn.TextColor = Color.Black;
+        rmExitBtn.TextSelectedColor = Color.White;
         rmExitBtn.WinWidth = 191;
         rmExitBtn.Clicked += (_, _) => ExitClick();
         session.EndRead(rmExitBtn);
@@ -4223,8 +4224,8 @@ public partial class RelationWindow : ILayoutModule
         iiOkBtn.ImageLibraryIndexLit = 40;
         iiOkBtn.ImageLibraryIndexUp = 34;
         iiOkBtn.Text = "Ok";
-        iiOkBtn.TextColor = 0;
-        iiOkBtn.TextSelectedColor = 16777215;
+        iiOkBtn.TextColor = Color.Black;
+        iiOkBtn.TextSelectedColor = Color.White;
         iiOkBtn.WinWidth = 86;
         iiOkBtn.Clicked += (_, _) => IIOkBtnClick();
         session.EndRead(iiOkBtn);
@@ -4258,8 +4259,8 @@ public partial class RelationWindow : ILayoutModule
         iiExitBtn.ImageLibraryIndexLit = 40;
         iiExitBtn.ImageLibraryIndexUp = 34;
         iiExitBtn.Text = "Exit";
-        iiExitBtn.TextColor = 0;
-        iiExitBtn.TextSelectedColor = 16777215;
+        iiExitBtn.TextColor = Color.Black;
+        iiExitBtn.TextSelectedColor = Color.White;
         iiExitBtn.WinWidth = 86;
         iiExitBtn.Clicked += (_, _) => ExitClick();
         session.EndRead(iiExitBtn);
@@ -4324,7 +4325,7 @@ public partial class RelationWindow : ILayoutModule
         IncomingInfoMemo.WinHeight = 83;
         IncomingInfoMemo.BorderWidth = 4;
         IncomingInfoMemo.BorderHeight = 2;
-        IncomingInfoMemo.TextColor = 12632256;
+        IncomingInfoMemo.TextColor = Color.Silver;
         IncomingInfoMemo.CursorChar = 95;
         IncomingInfoMemo.BlinkDelay = 2;
         IncomingInfoMemo.Editable = false;
@@ -4395,7 +4396,7 @@ public partial class RelationWindow : ILayoutModule
         OfTheLabel.Alignment.BottomOffset = 0;
         OfTheLabel.Masked = true;
         OfTheLabel.Text = "of the";
-        OfTheLabel.TextColor = 2566452;
+        OfTheLabel.TextColor = new Color(52, 41, 39);
         session.EndRead(OfTheLabel);
         PlayerRaceLabel = new Label(this);
         session.BeginRead(PlayerRaceLabel);
@@ -4417,7 +4418,7 @@ public partial class RelationWindow : ILayoutModule
         PlayerRaceLabel.Alignment.TopOffset = 45;
         PlayerRaceLabel.Alignment.BottomOffset = 0;
         PlayerRaceLabel.Masked = true;
-        PlayerRaceLabel.TextColor = 2566452;
+        PlayerRaceLabel.TextColor = new Color(52, 41, 39);
         session.EndRead(PlayerRaceLabel);
         session.EndRead(this);
         RightShield.Window = ActionPanel;

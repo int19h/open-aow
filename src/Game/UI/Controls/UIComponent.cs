@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.RtlHost;
 
@@ -21,8 +22,8 @@ namespace Aow.Game.UI.Controls;
 public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
 {
 
-    public int Color { get; private set; }
-    public int SelectedColor { get; private set; }
+    public Color Color { get; private set; }
+    public Color SelectedColor { get; private set; }
     public bool Valid { get; set; }
     public bool Aligned { get; set; }
     public bool Sized { get; set; }
@@ -1019,14 +1020,14 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
     }
 
     // AoWComp.pas:629
-    public virtual void SetColor(int value)
+    public virtual void SetColor(Color value)
     {
         Color = value;
         IsDrawn = false;
     }
 
     // AoWComp.pas:635
-    public virtual void SetSelectedColor(int value)
+    public virtual void SetSelectedColor(Color value)
     {
         SelectedColor = value;
         IsDrawn = false;
@@ -1097,8 +1098,8 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
 
     protected internal void SetWinHeightWithoutInvalidate(int value) => _winHeight = value;
 
-    public int TextColor { get => Color; set => SetColor(value); }
-    public int TextSelectedColor { get => SelectedColor; set => SetSelectedColor(value); }
+    public Color TextColor { get => Color; set => SetColor(value); }
+    public Color TextSelectedColor { get => SelectedColor; set => SetSelectedColor(value); }
     public UIComponent? OwnerComponent { get => _ownerComponent; set => SetOwner(value); }
     public Alignment Alignment { get; } = new();
     public bool Masked { get; set; }

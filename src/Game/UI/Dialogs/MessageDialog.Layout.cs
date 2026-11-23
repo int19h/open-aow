@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -43,7 +44,7 @@ public sealed partial class MessageDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = false;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -80,7 +81,7 @@ public sealed partial class MessageDialog : ILayoutModule
         TitleLabel.Alignment.BottomOffset = 0;
         TitleLabel.Masked = true;
         TitleLabel.Text = "########";
-        TitleLabel.TextColor = 0;
+        TitleLabel.TextColor = Color.Black;
         session.EndRead(TitleLabel);
         YesNoPanel = new Panel(this);
         session.BeginRead(YesNoPanel);
@@ -136,8 +137,8 @@ public sealed partial class MessageDialog : ILayoutModule
         yesBtn.ImageLibraryIndexLit = 25;
         yesBtn.ImageLibraryIndexUp = 19;
         yesBtn.Text = "Yes";
-        yesBtn.TextColor = 0;
-        yesBtn.TextSelectedColor = 16777215;
+        yesBtn.TextColor = Color.Black;
+        yesBtn.TextSelectedColor = Color.White;
         yesBtn.WinWidth = 105;
         yesBtn.Clicked += (_, _) => YesBtnClick();
         session.EndRead(yesBtn);
@@ -167,8 +168,8 @@ public sealed partial class MessageDialog : ILayoutModule
         noBtn.ImageLibraryIndexLit = 25;
         noBtn.ImageLibraryIndexUp = 19;
         noBtn.Text = "No";
-        noBtn.TextColor = 0;
-        noBtn.TextSelectedColor = 16777215;
+        noBtn.TextColor = Color.Black;
+        noBtn.TextSelectedColor = Color.White;
         noBtn.WinWidth = 105;
         noBtn.Clicked += (_, _) => NoBtnClick();
         session.EndRead(noBtn);
@@ -336,8 +337,8 @@ public sealed partial class MessageDialog : ILayoutModule
         okBtn.ImageLibraryIndexLit = 25;
         okBtn.ImageLibraryIndexUp = 19;
         okBtn.Text = "OK";
-        okBtn.TextColor = 0;
-        okBtn.TextSelectedColor = 16777215;
+        okBtn.TextColor = Color.Black;
+        okBtn.TextSelectedColor = Color.White;
         okBtn.WinWidth = 130;
         okBtn.Clicked += (_, _) => OKBtnClick();
         session.EndRead(okBtn);
@@ -423,8 +424,8 @@ public sealed partial class MessageDialog : ILayoutModule
         okBtn2.ImageLibraryIndexLit = 25;
         okBtn2.ImageLibraryIndexUp = 19;
         okBtn2.Text = "Yes";
-        okBtn2.TextColor = 0;
-        okBtn2.TextSelectedColor = 16777215;
+        okBtn2.TextColor = Color.Black;
+        okBtn2.TextSelectedColor = Color.White;
         okBtn2.WinWidth = 105;
         okBtn2.Clicked += (_, _) => OKBtn2Click();
         session.EndRead(okBtn2);
@@ -454,8 +455,8 @@ public sealed partial class MessageDialog : ILayoutModule
         cancelBtn.ImageLibraryIndexLit = 25;
         cancelBtn.ImageLibraryIndexUp = 19;
         cancelBtn.Text = "No";
-        cancelBtn.TextColor = 0;
-        cancelBtn.TextSelectedColor = 16777215;
+        cancelBtn.TextColor = Color.Black;
+        cancelBtn.TextSelectedColor = Color.White;
         cancelBtn.WinWidth = 105;
         cancelBtn.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(cancelBtn);
@@ -483,7 +484,7 @@ public sealed partial class MessageDialog : ILayoutModule
         MessageMemo.WinHeight = 100;
         MessageMemo.BorderWidth = 0;
         MessageMemo.BorderHeight = 0;
-        MessageMemo.TextColor = 0;
+        MessageMemo.TextColor = Color.Black;
         MessageMemo.CursorChar = 0;
         MessageMemo.BlinkDelay = 0;
         MessageMemo.Editable = true;
@@ -583,8 +584,8 @@ public sealed partial class MessageDialog : ILayoutModule
         yesBtn2.ImageLibraryIndexLit = 25;
         yesBtn2.ImageLibraryIndexUp = 19;
         yesBtn2.Text = "Yes";
-        yesBtn2.TextColor = 0;
-        yesBtn2.TextSelectedColor = 16777215;
+        yesBtn2.TextColor = Color.Black;
+        yesBtn2.TextSelectedColor = Color.White;
         yesBtn2.WinWidth = 105;
         yesBtn2.Clicked += (_, _) => YesBtnClick();
         session.EndRead(yesBtn2);
@@ -614,8 +615,8 @@ public sealed partial class MessageDialog : ILayoutModule
         noBtn2.ImageLibraryIndexLit = 25;
         noBtn2.ImageLibraryIndexUp = 19;
         noBtn2.Text = "No";
-        noBtn2.TextColor = 0;
-        noBtn2.TextSelectedColor = 16777215;
+        noBtn2.TextColor = Color.Black;
+        noBtn2.TextSelectedColor = Color.White;
         noBtn2.WinWidth = 105;
         noBtn2.Clicked += (_, _) => NoBtnClick();
         session.EndRead(noBtn2);
@@ -645,8 +646,8 @@ public sealed partial class MessageDialog : ILayoutModule
         cancelBtn2.ImageLibraryIndexLit = 25;
         cancelBtn2.ImageLibraryIndexUp = 19;
         cancelBtn2.Text = "Cancel";
-        cancelBtn2.TextColor = 0;
-        cancelBtn2.TextSelectedColor = 16777215;
+        cancelBtn2.TextColor = Color.Black;
+        cancelBtn2.TextSelectedColor = Color.White;
         cancelBtn2.WinWidth = 105;
         cancelBtn2.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(cancelBtn2);
@@ -729,7 +730,7 @@ public sealed partial class MessageDialog : ILayoutModule
         HeaderMemo.WinHeight = 60;
         HeaderMemo.BorderWidth = 0;
         HeaderMemo.BorderHeight = 0;
-        HeaderMemo.TextColor = 16777215;
+        HeaderMemo.TextColor = Color.White;
         HeaderMemo.CursorChar = 0;
         HeaderMemo.BlinkDelay = 0;
         HeaderMemo.Editable = true;
@@ -796,7 +797,7 @@ public sealed partial class MessageDialog : ILayoutModule
         HeaderLabel.Alignment.TopOffset = 5;
         HeaderLabel.Alignment.BottomOffset = 0;
         HeaderLabel.Masked = true;
-        HeaderLabel.TextColor = 0;
+        HeaderLabel.TextColor = Color.Black;
         session.EndRead(HeaderLabel);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);

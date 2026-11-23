@@ -3,6 +3,7 @@
 using Aow.Formats.Tree;
 
 using Aow.Game.Draw.Images;
+using Aow.Graphics;
 
 using Aow.Rtl;
 
@@ -60,7 +61,7 @@ public class EngineResource(CustomNode? owner) : EngineObject(owner)
     public T CreateResourceUser<T>() where T : EngineObject => (T)CreateResourceUser();
 
     // Engine.pas:8525
-    public virtual void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
+    public virtual void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, Color bkColor, Color color)
     {
         Rect r = default;
         LibraryDrawing.BlitLibraryImage(canvas, image: GetCellImage(), rectangle, mode, scaleX, scaleY, bkColor, color, selected: false, drawRectangle: in r);

@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -44,7 +45,7 @@ public sealed partial class PasswordDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = false;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -81,7 +82,7 @@ public sealed partial class PasswordDialog : ILayoutModule
         TitleLabel.Alignment.BottomOffset = 0;
         TitleLabel.Masked = true;
         TitleLabel.Text = "##########";
-        TitleLabel.TextColor = 0;
+        TitleLabel.TextColor = Color.Black;
         session.EndRead(TitleLabel);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -218,8 +219,8 @@ public sealed partial class PasswordDialog : ILayoutModule
         okBtn.ImageLibraryIndexLit = 25;
         okBtn.ImageLibraryIndexUp = 19;
         okBtn.Text = "Ok";
-        okBtn.TextColor = 0;
-        okBtn.TextSelectedColor = 16777215;
+        okBtn.TextColor = Color.Black;
+        okBtn.TextSelectedColor = Color.White;
         okBtn.WinWidth = 105;
         okBtn.Clicked += (_, _) => OKBtnClick();
         session.EndRead(okBtn);
@@ -249,8 +250,8 @@ public sealed partial class PasswordDialog : ILayoutModule
         cancelBtn.ImageLibraryIndexLit = 25;
         cancelBtn.ImageLibraryIndexUp = 19;
         cancelBtn.Text = "Cancel";
-        cancelBtn.TextColor = 0;
-        cancelBtn.TextSelectedColor = 16777215;
+        cancelBtn.TextColor = Color.Black;
+        cancelBtn.TextSelectedColor = Color.White;
         cancelBtn.WinWidth = 105;
         cancelBtn.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(cancelBtn);
@@ -275,7 +276,7 @@ public sealed partial class PasswordDialog : ILayoutModule
         PasswordLabel.Alignment.BottomOffset = 0;
         PasswordLabel.Masked = true;
         PasswordLabel.Text = "######";
-        PasswordLabel.TextColor = 0;
+        PasswordLabel.TextColor = Color.Black;
         session.EndRead(PasswordLabel);
         PasswordEdit = new Edit(this);
         session.BeginRead(PasswordEdit);
@@ -303,7 +304,7 @@ public sealed partial class PasswordDialog : ILayoutModule
         PasswordEdit.MaxChars = 0;
         PasswordEdit.CursorChar = 95;
         PasswordEdit.BlinkDelay = 1;
-        PasswordEdit.TextColor = 11002593;
+        PasswordEdit.TextColor = new Color(225, 226, 167);
         PasswordEdit.Editable = true;
         PasswordEdit.ImageLibraryIndex = 15;
         PasswordEdit.PassWordChar = 42;

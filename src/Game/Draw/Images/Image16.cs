@@ -1,4 +1,5 @@
 // Translated from ImageLib.pas.
+using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Game.Draw.Images;
@@ -45,7 +46,7 @@ public class Image16(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
     public override void WriteDiscardableImageData(Stream stream) => base.WriteDiscardableImageData(stream);
 
     // ImageLib.pas:2128
-    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
+    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, Color bkColor)
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         => throw new NotImplementedException();
 

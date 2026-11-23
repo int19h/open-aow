@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -44,7 +45,7 @@ public sealed partial class Pop3Dialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = false;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -81,7 +82,7 @@ public sealed partial class Pop3Dialog : ILayoutModule
         titleLbl.Alignment.BottomOffset = 0;
         titleLbl.Masked = true;
         titleLbl.Text = "Checking Email";
-        titleLbl.TextColor = 0;
+        titleLbl.TextColor = Color.Black;
         session.EndRead(titleLbl);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -242,7 +243,7 @@ public sealed partial class Pop3Dialog : ILayoutModule
         searchingEmailGameLbl.Alignment.BottomOffset = 0;
         searchingEmailGameLbl.Masked = true;
         searchingEmailGameLbl.Text = "Searching email games for:";
-        searchingEmailGameLbl.TextColor = 0;
+        searchingEmailGameLbl.TextColor = Color.Black;
         session.EndRead(searchingEmailGameLbl);
         Label emailGameFoundLbl = new(this);
         session.BeginRead(emailGameFoundLbl);
@@ -265,7 +266,7 @@ public sealed partial class Pop3Dialog : ILayoutModule
         emailGameFoundLbl.Alignment.BottomOffset = 0;
         emailGameFoundLbl.Masked = true;
         emailGameFoundLbl.Text = "Email games found:";
-        emailGameFoundLbl.TextColor = 0;
+        emailGameFoundLbl.TextColor = Color.Black;
         session.EndRead(emailGameFoundLbl);
         FoundEmailGamesList = new ListBox(this);
         session.BeginRead(FoundEmailGamesList);
@@ -293,8 +294,8 @@ public sealed partial class Pop3Dialog : ILayoutModule
         FoundEmailGamesList.BorderHeight = 4;
         FoundEmailGamesList.Changed += (_, _) => FoundEmailGamesChange();
         FoundEmailGamesList.Selected = -1;
-        FoundEmailGamesList.TextColor = 9415072;
-        FoundEmailGamesList.TextSelectedColor = 0;
+        FoundEmailGamesList.TextColor = new Color(160, 169, 143);
+        FoundEmailGamesList.TextSelectedColor = Color.Black;
         FoundEmailGamesList.ImageLibraryIndexFrame = 113;
         FoundEmailGamesList.ImageLibraryIndexTNormal = 21;
         FoundEmailGamesList.ImageLibraryIndexTSelected = 8;
@@ -355,8 +356,8 @@ public sealed partial class Pop3Dialog : ILayoutModule
         exit2Btn.ImageLibraryIndexLit = 25;
         exit2Btn.ImageLibraryIndexUp = 19;
         exit2Btn.Text = "Exit";
-        exit2Btn.TextColor = 0;
-        exit2Btn.TextSelectedColor = 16777215;
+        exit2Btn.TextColor = Color.Black;
+        exit2Btn.TextSelectedColor = Color.White;
         exit2Btn.WinWidth = 115;
         exit2Btn.Clicked += (_, _) => ExitBtnClick();
         session.EndRead(exit2Btn);
@@ -413,8 +414,8 @@ public sealed partial class Pop3Dialog : ILayoutModule
         startBtn.ImageLibraryIndexLit = 25;
         startBtn.ImageLibraryIndexUp = 19;
         startBtn.Text = "Start";
-        startBtn.TextColor = 0;
-        startBtn.TextSelectedColor = 16777215;
+        startBtn.TextColor = Color.Black;
+        startBtn.TextSelectedColor = Color.White;
         startBtn.WinWidth = 115;
         startBtn.Clicked += (_, _) => StartBtnClick();
         session.EndRead(startBtn);
@@ -444,8 +445,8 @@ public sealed partial class Pop3Dialog : ILayoutModule
         exitBtn.ImageLibraryIndexLit = 25;
         exitBtn.ImageLibraryIndexUp = 19;
         exitBtn.Text = "Exit";
-        exitBtn.TextColor = 0;
-        exitBtn.TextSelectedColor = 16777215;
+        exitBtn.TextColor = Color.Black;
+        exitBtn.TextSelectedColor = Color.White;
         exitBtn.WinWidth = 115;
         exitBtn.Clicked += (_, _) => ExitBtnClick();
         session.EndRead(exitBtn);
@@ -475,7 +476,7 @@ public sealed partial class Pop3Dialog : ILayoutModule
         LocalEmailAddressEdit.MaxChars = 0;
         LocalEmailAddressEdit.CursorChar = 95;
         LocalEmailAddressEdit.BlinkDelay = 1;
-        LocalEmailAddressEdit.TextColor = 11002593;
+        LocalEmailAddressEdit.TextColor = new Color(225, 226, 167);
         LocalEmailAddressEdit.Editable = false;
         LocalEmailAddressEdit.ImageLibraryIndex = 15;
         LocalEmailAddressEdit.PassWordChar = 0;
@@ -501,7 +502,7 @@ public sealed partial class Pop3Dialog : ILayoutModule
         AttachmentDirectoryLabel.Alignment.BottomOffset = 0;
         AttachmentDirectoryLabel.Masked = true;
         AttachmentDirectoryLabel.Text = "###########";
-        AttachmentDirectoryLabel.TextColor = 0;
+        AttachmentDirectoryLabel.TextColor = Color.Black;
         session.EndRead(AttachmentDirectoryLabel);
         Image titleIcon = new(this);
         session.BeginRead(titleIcon);
@@ -651,8 +652,8 @@ public sealed partial class Pop3Dialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         session.EndRead(close);
         LayoutIvTranslator translator = new(this);

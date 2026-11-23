@@ -1255,7 +1255,7 @@ public partial class GameMap : OwningNode
         }
 
         info.Text = text;
-        info.Color = 0xFF_FF_FF;
+        info.Color = Color.White;
         notification.Info = info;
         _showMessageEventsStore.Raise(notification);
         _messageText = text;
@@ -1273,7 +1273,7 @@ public partial class GameMap : OwningNode
         }
 
         info.Text = text;
-        info.Color = 0xFF_FF_FF;
+        info.Color = Color.White;
         notification.Info = info;
         _showMessageEventsStore.Raise(notification);
         _messageText = text;
@@ -1459,13 +1459,13 @@ public partial class GameMap : OwningNode
                 _messageFrame &= 0xF0;
                 if ((_messageFrame & 0b0001_0000) == 0)
                 {
-                    info.Color = 0x35_35_35;
+                    info.Color = new Color(53, 53, 53);
 
                     notification.Info = info;
                 }
                 else
                 {
-                    info.Color = 0xFF_FF_FF;
+                    info.Color = Color.White;
 
                     notification.Info = info;
                 }
@@ -1476,7 +1476,7 @@ public partial class GameMap : OwningNode
             if (_messageFrame == 0)
             {
                 info.Text = "";
-                info.Color = 0xFF_FF_FF;
+                info.Color = Color.White;
                 notification.Info = info;
                 _showMessageEventsStore.Raise(notification);
             }
@@ -1605,7 +1605,7 @@ public partial class GameMap : OwningNode
     {
         if (R.Left > 0 && R.Top > 0 && pixelXSurface < R.Right && pixelYSurface < R.Bottom && R.Right < ViewWidth + pixelXSurface && R.Bottom < ViewHeight + pixelYSurface)
         {
-            int color = 2_134_015;
+            Color color = new(255, 143, 32);
             DrawLine(R.Left - pixelXSurface, R.Top - pixelYSurface, R.Right - pixelXSurface, R.Top - pixelYSurface, color, lockedSurface);
             DrawLine(R.Right - pixelXSurface, R.Top - pixelYSurface, R.Right - pixelXSurface, R.Bottom - pixelYSurface, color, lockedSurface);
             DrawLine(R.Right - pixelXSurface, R.Bottom - pixelYSurface, R.Left - pixelXSurface, R.Bottom - pixelYSurface, color, lockedSurface);
@@ -1663,7 +1663,7 @@ public partial class GameMap : OwningNode
         }
     }
 
-    private static void DrawLine(int x1, int y1, int x2, int y2, int color, in LockedSurface lockedSurface)
+    private static void DrawLine(int x1, int y1, int x2, int y2, Color color, in LockedSurface lockedSurface)
     {
         PixelFormat pixelFormatId = lockedSurface.PixelFormatId;
         if (pixelFormatId is PixelFormat.Rgb555 or PixelFormat.Argb1555 or PixelFormat.Rgb565)

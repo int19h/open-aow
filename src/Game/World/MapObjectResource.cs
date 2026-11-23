@@ -9,6 +9,7 @@ using Aow.Game.Draw.Images;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Game.World;
@@ -148,7 +149,7 @@ public class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:420
-    public override void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
+    public override void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, Color bkColor, Color color)
     {
         Rect drawRectangle = default;
         int i = 0;
@@ -298,6 +299,6 @@ public class MapObjectResource : EngineResource
     // MAPOBJ.PAS:415
     public override string ResourceEditName() => "";
 
-    internal static void BlitImageSequence(Canvas canvas, ImageSequence? sequence, int frame, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color, bool selected, ref readonly Rect drawRectangle) => throw new NotImplementedException();
+    internal static void BlitImageSequence(Canvas canvas, ImageSequence? sequence, int frame, Rect rectangle, BlitMode mode, int scaleX, int scaleY, Color bkColor, Color color, bool selected, ref readonly Rect drawRectangle) => throw new NotImplementedException();
 
 }

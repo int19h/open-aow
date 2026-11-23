@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -45,7 +46,7 @@ public sealed partial class CityJoinDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -82,7 +83,7 @@ public sealed partial class CityJoinDialog : ILayoutModule
         ApproachLabel.Alignment.BottomOffset = 0;
         ApproachLabel.Masked = true;
         ApproachLabel.Text = "##########";
-        ApproachLabel.TextColor = 7921903;
+        ApproachLabel.TextColor = new Color(239, 224, 120);
         session.EndRead(ApproachLabel);
         Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
@@ -192,7 +193,7 @@ public sealed partial class CityJoinDialog : ILayoutModule
         Memo.WinHeight = 118;
         Memo.BorderWidth = 4;
         Memo.BorderHeight = 4;
-        Memo.TextColor = 16777215;
+        Memo.TextColor = Color.White;
         Memo.CursorChar = 124;
         Memo.BlinkDelay = 0;
         Memo.Editable = false;
@@ -228,8 +229,8 @@ public sealed partial class CityJoinDialog : ILayoutModule
         cancelBtn.ImageLibraryIndexLit = 40;
         cancelBtn.ImageLibraryIndexUp = 34;
         cancelBtn.Text = "Cancel";
-        cancelBtn.TextColor = 0;
-        cancelBtn.TextSelectedColor = 16777215;
+        cancelBtn.TextColor = Color.Black;
+        cancelBtn.TextSelectedColor = Color.White;
         cancelBtn.WinWidth = 119;
         cancelBtn.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(cancelBtn);
@@ -259,8 +260,8 @@ public sealed partial class CityJoinDialog : ILayoutModule
         attackBtn.ImageLibraryIndexLit = 40;
         attackBtn.ImageLibraryIndexUp = 34;
         attackBtn.Text = "Attack";
-        attackBtn.TextColor = 328543;
-        attackBtn.TextSelectedColor = 16777215;
+        attackBtn.TextColor = new Color(95, 3, 5);
+        attackBtn.TextSelectedColor = Color.White;
         attackBtn.WinWidth = 125;
         attackBtn.Clicked += (_, _) => AttackBtnClick();
         session.EndRead(attackBtn);
@@ -313,7 +314,7 @@ public sealed partial class CityJoinDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "City Requester";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Button acceptBtn = new(this);
         session.BeginRead(acceptBtn);
@@ -341,8 +342,8 @@ public sealed partial class CityJoinDialog : ILayoutModule
         acceptBtn.ImageLibraryIndexLit = 40;
         acceptBtn.ImageLibraryIndexUp = 34;
         acceptBtn.Text = "Accept";
-        acceptBtn.TextColor = 0;
-        acceptBtn.TextSelectedColor = 16777215;
+        acceptBtn.TextColor = Color.Black;
+        acceptBtn.TextSelectedColor = Color.White;
         acceptBtn.WinWidth = 119;
         acceptBtn.Clicked += (_, _) => AcceptBtnClick();
         session.EndRead(acceptBtn);
@@ -367,7 +368,7 @@ public sealed partial class CityJoinDialog : ILayoutModule
         whatLbl.Alignment.BottomOffset = 0;
         whatLbl.Masked = true;
         whatLbl.Text = "What do you do?";
-        whatLbl.TextColor = 7921903;
+        whatLbl.TextColor = new Color(239, 224, 120);
         session.EndRead(whatLbl);
         CityPictureLine = new ArnoLine(this);
         session.BeginRead(CityPictureLine);
@@ -420,8 +421,8 @@ public sealed partial class CityJoinDialog : ILayoutModule
         closeBtn.ImageLibraryIndexDown = 1;
         closeBtn.ImageLibraryIndexLit = 2;
         closeBtn.ImageLibraryIndexUp = 0;
-        closeBtn.TextColor = 0;
-        closeBtn.TextSelectedColor = 0;
+        closeBtn.TextColor = Color.Black;
+        closeBtn.TextSelectedColor = Color.Black;
         closeBtn.WinWidth = 15;
         closeBtn.Clicked += (_, _) => CloseBtnClick();
         session.EndRead(closeBtn);

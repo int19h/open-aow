@@ -1,6 +1,7 @@
 #nullable disable warnings
 // Translated from ImageLib.pas.
 using System.Globalization;
+using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Game.Draw.Images;
@@ -541,7 +542,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:2087
-    public virtual void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
+    public virtual void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, Color bkColor)
     {
     }
 

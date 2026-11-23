@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -44,7 +45,7 @@ public sealed partial class CosmagicSurgeryDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 5808200;
+        Window.MaskColor = new Color(72, 160, 88);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -114,8 +115,8 @@ public sealed partial class CosmagicSurgeryDialog : ILayoutModule
         cancelBtn.ImageLibraryIndexLit = 40;
         cancelBtn.ImageLibraryIndexUp = 34;
         cancelBtn.Text = "Cancel";
-        cancelBtn.TextColor = 0;
-        cancelBtn.TextSelectedColor = 16777215;
+        cancelBtn.TextColor = Color.Black;
+        cancelBtn.TextSelectedColor = Color.White;
         cancelBtn.WinWidth = 100;
         cancelBtn.Clicked += (_, _) => CancelBtnClick();
         session.EndRead(cancelBtn);
@@ -168,7 +169,7 @@ public sealed partial class CosmagicSurgeryDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Cosmagic Surgery";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Button castBtn = new(this);
         session.BeginRead(castBtn);
@@ -196,8 +197,8 @@ public sealed partial class CosmagicSurgeryDialog : ILayoutModule
         castBtn.ImageLibraryIndexLit = 40;
         castBtn.ImageLibraryIndexUp = 34;
         castBtn.Text = "Cast";
-        castBtn.TextColor = 0;
-        castBtn.TextSelectedColor = 16777215;
+        castBtn.TextColor = Color.Black;
+        castBtn.TextSelectedColor = Color.White;
         castBtn.WinWidth = 100;
         castBtn.Clicked += (_, _) => CastBtnClick();
         session.EndRead(castBtn);
@@ -222,7 +223,7 @@ public sealed partial class CosmagicSurgeryDialog : ILayoutModule
         selectNewFaceLbl.Alignment.BottomOffset = 0;
         selectNewFaceLbl.Masked = true;
         selectNewFaceLbl.Text = "Select New Face for:";
-        selectNewFaceLbl.TextColor = 7921903;
+        selectNewFaceLbl.TextColor = new Color(239, 224, 120);
         session.EndRead(selectNewFaceLbl);
         Button close = new(this);
         session.BeginRead(close);
@@ -253,8 +254,8 @@ public sealed partial class CosmagicSurgeryDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CastBtnClick();
         session.EndRead(close);
@@ -453,8 +454,8 @@ public sealed partial class CosmagicSurgeryDialog : ILayoutModule
         prevFaceBtn.ImageLibraryIndexLit = 49;
         prevFaceBtn.ImageLibraryIndexUp = 43;
         prevFaceBtn.Text = "<<";
-        prevFaceBtn.TextColor = 0;
-        prevFaceBtn.TextSelectedColor = 16777215;
+        prevFaceBtn.TextColor = Color.Black;
+        prevFaceBtn.TextSelectedColor = Color.White;
         prevFaceBtn.WinWidth = 50;
         prevFaceBtn.Clicked += (_, _) => PrevFaceBtnClick();
         session.EndRead(prevFaceBtn);
@@ -484,8 +485,8 @@ public sealed partial class CosmagicSurgeryDialog : ILayoutModule
         nextFaceBtn.ImageLibraryIndexLit = 49;
         nextFaceBtn.ImageLibraryIndexUp = 43;
         nextFaceBtn.Text = ">>";
-        nextFaceBtn.TextColor = 0;
-        nextFaceBtn.TextSelectedColor = 16777215;
+        nextFaceBtn.TextColor = Color.Black;
+        nextFaceBtn.TextSelectedColor = Color.White;
         nextFaceBtn.WinWidth = 50;
         nextFaceBtn.Clicked += (_, _) => NextFaceBtnClick();
         session.EndRead(nextFaceBtn);
@@ -510,7 +511,7 @@ public sealed partial class CosmagicSurgeryDialog : ILayoutModule
         UnitNameLabel.Alignment.BottomOffset = 0;
         UnitNameLabel.Masked = true;
         UnitNameLabel.Text = "########";
-        UnitNameLabel.TextColor = 7921903;
+        UnitNameLabel.TextColor = new Color(239, 224, 120);
         session.EndRead(UnitNameLabel);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);

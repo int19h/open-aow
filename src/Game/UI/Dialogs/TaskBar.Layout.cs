@@ -4,6 +4,7 @@ using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -43,7 +44,7 @@ public sealed partial class TaskBar : ILayoutModule
         TaskWindow.OverlapTopCorners = false;
         TaskWindow.Cursor = 0;
         TaskWindow.DoubleBuffered = true;
-        TaskWindow.MaskColor = 0;
+        TaskWindow.MaskColor = Color.Black;
         TaskWindow.FreeSurfaceOnHide = true;
         TaskWindow.ImageLibraryIndexFrame = 0;
         TaskWindow.ImageLibraryIndexTexture = 0;
@@ -88,8 +89,8 @@ public sealed partial class TaskBar : ILayoutModule
         tbNextButton.ImageLibraryIndexDown = 4;
         tbNextButton.ImageLibraryIndexLit = 3;
         tbNextButton.ImageLibraryIndexUp = 3;
-        tbNextButton.TextColor = 0;
-        tbNextButton.TextSelectedColor = 0;
+        tbNextButton.TextColor = Color.Black;
+        tbNextButton.TextSelectedColor = Color.Black;
         tbNextButton.WinWidth = 26;
         tbNextButton.Clicked += (_, _) => TBNextButtonClick();
         session.EndRead(tbNextButton);
@@ -126,8 +127,8 @@ public sealed partial class TaskBar : ILayoutModule
         WorldStartMenuBar.Changed += (_, _) => StartMenuBarChange();
         WorldStartMenuBar.Selected = -1;
         WorldStartMenuBar.WinWidth = 40;
-        WorldStartMenuBar.TextColor = 0;
-        WorldStartMenuBar.TextSelectedColor = 0;
+        WorldStartMenuBar.TextColor = Color.Black;
+        WorldStartMenuBar.TextSelectedColor = Color.Black;
         WorldStartMenuBar.ImageLibraryIndexDown = 8;
         WorldStartMenuBar.ImageLibraryIndexUp = 11;
         session.EndRead(WorldStartMenuBar);
@@ -161,7 +162,7 @@ public sealed partial class TaskBar : ILayoutModule
         WorldMessageEdit.MaxChars = 0;
         WorldMessageEdit.CursorChar = 124;
         WorldMessageEdit.BlinkDelay = 0;
-        WorldMessageEdit.TextColor = 0;
+        WorldMessageEdit.TextColor = Color.Black;
         WorldMessageEdit.Editable = false;
         WorldMessageEdit.ImageLibraryIndex = 5;
         WorldMessageEdit.PassWordChar = 0;
@@ -190,7 +191,7 @@ public sealed partial class TaskBar : ILayoutModule
         WorldGoldIncomeLabel.Alignment.TopOffset = 0;
         WorldGoldIncomeLabel.Alignment.BottomOffset = 1;
         WorldGoldIncomeLabel.Masked = true;
-        WorldGoldIncomeLabel.TextColor = 7864183;
+        WorldGoldIncomeLabel.TextColor = new Color(119, 255, 119);
         session.EndRead(WorldGoldIncomeLabel);
         WorldGoldTotalLabel = new Label(this);
         session.BeginRead(WorldGoldTotalLabel);
@@ -216,7 +217,7 @@ public sealed partial class TaskBar : ILayoutModule
         WorldGoldTotalLabel.Alignment.TopOffset = 0;
         WorldGoldTotalLabel.Alignment.BottomOffset = 3;
         WorldGoldTotalLabel.Masked = true;
-        WorldGoldTotalLabel.TextColor = 0;
+        WorldGoldTotalLabel.TextColor = Color.Black;
         session.EndRead(WorldGoldTotalLabel);
         WorldTurnButton = new TurnButton(this);
         session.BeginRead(WorldTurnButton);
@@ -279,8 +280,8 @@ public sealed partial class TaskBar : ILayoutModule
         wmButton.ImageLibraryIndexLit = 20;
         wmButton.ImageLibraryIndexUp = 14;
         wmButton.Text = "World Map";
-        wmButton.TextColor = 0;
-        wmButton.TextSelectedColor = 0;
+        wmButton.TextColor = Color.Black;
+        wmButton.TextSelectedColor = Color.Black;
         wmButton.WinWidth = 70;
         wmButton.Clicked += (_, _) => WMButtonClick();
         session.EndRead(wmButton);
@@ -314,8 +315,8 @@ public sealed partial class TaskBar : ILayoutModule
         ovButton.ImageLibraryIndexLit = 20;
         ovButton.ImageLibraryIndexUp = 14;
         ovButton.Text = "Realm";
-        ovButton.TextColor = 0;
-        ovButton.TextSelectedColor = 0;
+        ovButton.TextColor = Color.Black;
+        ovButton.TextSelectedColor = Color.Black;
         ovButton.WinWidth = 70;
         ovButton.Clicked += (_, _) => OVButtonClick();
         session.EndRead(ovButton);
@@ -350,8 +351,8 @@ public sealed partial class TaskBar : ILayoutModule
         PartyButton.ImageLibraryIndexLit = 20;
         PartyButton.ImageLibraryIndexUp = 14;
         PartyButton.Text = "Party";
-        PartyButton.TextColor = 0;
-        PartyButton.TextSelectedColor = 0;
+        PartyButton.TextColor = Color.Black;
+        PartyButton.TextSelectedColor = Color.Black;
         PartyButton.WinWidth = 70;
         PartyButton.Clicked += (_, _) => ConButtonClick();
         session.EndRead(PartyButton);
@@ -386,8 +387,8 @@ public sealed partial class TaskBar : ILayoutModule
         StructureButton.ImageLibraryIndexLit = 20;
         StructureButton.ImageLibraryIndexUp = 14;
         StructureButton.Text = "Structure";
-        StructureButton.TextColor = 0;
-        StructureButton.TextSelectedColor = 0;
+        StructureButton.TextColor = Color.Black;
+        StructureButton.TextSelectedColor = Color.Black;
         StructureButton.WinWidth = 70;
         StructureButton.Clicked += (_, _) => StructButtonClick();
         session.EndRead(StructureButton);
@@ -421,8 +422,8 @@ public sealed partial class TaskBar : ILayoutModule
         oV2Btn.ImageLibraryIndexLit = 20;
         oV2Btn.ImageLibraryIndexUp = 14;
         oV2Btn.Text = "Magic";
-        oV2Btn.TextColor = 0;
-        oV2Btn.TextSelectedColor = 0;
+        oV2Btn.TextColor = Color.Black;
+        oV2Btn.TextSelectedColor = Color.Black;
         oV2Btn.WinWidth = 70;
         oV2Btn.Clicked += (_, _) => OV2BtnClick();
         session.EndRead(oV2Btn);
@@ -456,8 +457,8 @@ public sealed partial class TaskBar : ILayoutModule
         infoBtn.ImageLibraryIndexLit = 20;
         infoBtn.ImageLibraryIndexUp = 14;
         infoBtn.Text = "Events";
-        infoBtn.TextColor = 0;
-        infoBtn.TextSelectedColor = 0;
+        infoBtn.TextColor = Color.Black;
+        infoBtn.TextSelectedColor = Color.Black;
         infoBtn.WinWidth = 70;
         infoBtn.Clicked += (_, _) => InfoBtnClick();
         session.EndRead(infoBtn);
@@ -494,8 +495,8 @@ public sealed partial class TaskBar : ILayoutModule
         ChatButton.ImageLibraryIndexLit = 20;
         ChatButton.ImageLibraryIndexUp = 14;
         ChatButton.Text = "Chat";
-        ChatButton.TextColor = 0;
-        ChatButton.TextSelectedColor = 0;
+        ChatButton.TextColor = Color.Black;
+        ChatButton.TextSelectedColor = Color.Black;
         ChatButton.WinWidth = 70;
         ChatButton.Clicked += (_, _) => ChatBtnClick();
         session.EndRead(ChatButton);
@@ -660,7 +661,7 @@ public sealed partial class TaskBar : ILayoutModule
         WorldTimeLabel.Alignment.TopOffset = 0;
         WorldTimeLabel.Alignment.BottomOffset = 4;
         WorldTimeLabel.Masked = true;
-        WorldTimeLabel.TextColor = 0;
+        WorldTimeLabel.TextColor = Color.Black;
         session.EndRead(WorldTimeLabel);
         PlayerIndicatorFrame = new Frame(this);
         session.BeginRead(PlayerIndicatorFrame);
@@ -780,8 +781,8 @@ public sealed partial class TaskBar : ILayoutModule
         tcNextBtn.ImageLibraryIndexDown = 4;
         tcNextBtn.ImageLibraryIndexLit = 3;
         tcNextBtn.ImageLibraryIndexUp = 3;
-        tcNextBtn.TextColor = 0;
-        tcNextBtn.TextSelectedColor = 0;
+        tcNextBtn.TextColor = Color.Black;
+        tcNextBtn.TextSelectedColor = Color.Black;
         tcNextBtn.WinWidth = 26;
         tcNextBtn.Clicked += (_, _) => TCNextBtnClick();
         session.EndRead(tcNextBtn);
@@ -818,8 +819,8 @@ public sealed partial class TaskBar : ILayoutModule
         CombatStartMenuBar.Changed += (_, _) => StartMenuBarChange();
         CombatStartMenuBar.Selected = -1;
         CombatStartMenuBar.WinWidth = 40;
-        CombatStartMenuBar.TextColor = 0;
-        CombatStartMenuBar.TextSelectedColor = 0;
+        CombatStartMenuBar.TextColor = Color.Black;
+        CombatStartMenuBar.TextSelectedColor = Color.Black;
         CombatStartMenuBar.ImageLibraryIndexDown = 8;
         CombatStartMenuBar.ImageLibraryIndexUp = 11;
         session.EndRead(CombatStartMenuBar);
@@ -854,7 +855,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatMessageEdit.MaxChars = 0;
         CombatMessageEdit.CursorChar = 124;
         CombatMessageEdit.BlinkDelay = 0;
-        CombatMessageEdit.TextColor = 16777215;
+        CombatMessageEdit.TextColor = Color.White;
         CombatMessageEdit.Editable = false;
         CombatMessageEdit.ImageLibraryIndex = 5;
         CombatMessageEdit.PassWordChar = 0;
@@ -920,8 +921,8 @@ public sealed partial class TaskBar : ILayoutModule
         CombatScannerButton.ImageLibraryIndexLit = 20;
         CombatScannerButton.ImageLibraryIndexUp = 14;
         CombatScannerButton.Text = "Battle Map";
-        CombatScannerButton.TextColor = 0;
-        CombatScannerButton.TextSelectedColor = 0;
+        CombatScannerButton.TextColor = Color.Black;
+        CombatScannerButton.TextSelectedColor = Color.Black;
         CombatScannerButton.WinWidth = 70;
         CombatScannerButton.Clicked += (_, _) => TCScannerBtnClick();
         session.EndRead(CombatScannerButton);
@@ -956,8 +957,8 @@ public sealed partial class TaskBar : ILayoutModule
         CombatUnitButton.ImageLibraryIndexLit = 20;
         CombatUnitButton.ImageLibraryIndexUp = 14;
         CombatUnitButton.Text = "Unit";
-        CombatUnitButton.TextColor = 0;
-        CombatUnitButton.TextSelectedColor = 0;
+        CombatUnitButton.TextColor = Color.Black;
+        CombatUnitButton.TextSelectedColor = Color.Black;
         CombatUnitButton.WinWidth = 70;
         CombatUnitButton.Clicked += (_, _) => TCUnitBtnClick();
         session.EndRead(CombatUnitButton);
@@ -1068,7 +1069,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatTimeLabel.Alignment.TopOffset = 0;
         CombatTimeLabel.Alignment.BottomOffset = 4;
         CombatTimeLabel.Masked = true;
-        CombatTimeLabel.TextColor = 0;
+        CombatTimeLabel.TextColor = Color.Black;
         session.EndRead(CombatTimeLabel);
         CombatPlayerIndicatorFrame = new Frame(this);
         session.BeginRead(CombatPlayerIndicatorFrame);
@@ -1220,8 +1221,8 @@ public sealed partial class TaskBar : ILayoutModule
         CombatChatButton.ImageLibraryIndexLit = 20;
         CombatChatButton.ImageLibraryIndexUp = 14;
         CombatChatButton.Text = "Chat";
-        CombatChatButton.TextColor = 0;
-        CombatChatButton.TextSelectedColor = 0;
+        CombatChatButton.TextColor = Color.Black;
+        CombatChatButton.TextSelectedColor = Color.Black;
         CombatChatButton.WinWidth = 70;
         CombatChatButton.Clicked += (_, _) => ChatBtnClick();
         session.EndRead(CombatChatButton);
@@ -1272,7 +1273,7 @@ public sealed partial class TaskBar : ILayoutModule
         WorldGoldSignLabel.Alignment.TopOffset = 0;
         WorldGoldSignLabel.Alignment.BottomOffset = 4;
         WorldGoldSignLabel.Masked = true;
-        WorldGoldSignLabel.TextColor = 7864183;
+        WorldGoldSignLabel.TextColor = new Color(119, 255, 119);
         session.EndRead(WorldGoldSignLabel);
         WorldManaIncomeLabel = new Label(this);
         session.BeginRead(WorldManaIncomeLabel);
@@ -1298,7 +1299,7 @@ public sealed partial class TaskBar : ILayoutModule
         WorldManaIncomeLabel.Alignment.TopOffset = 0;
         WorldManaIncomeLabel.Alignment.BottomOffset = 1;
         WorldManaIncomeLabel.Masked = true;
-        WorldManaIncomeLabel.TextColor = 7864183;
+        WorldManaIncomeLabel.TextColor = new Color(119, 255, 119);
         session.EndRead(WorldManaIncomeLabel);
         WorldManaTotalLabel = new Label(this);
         session.BeginRead(WorldManaTotalLabel);
@@ -1324,7 +1325,7 @@ public sealed partial class TaskBar : ILayoutModule
         WorldManaTotalLabel.Alignment.TopOffset = 0;
         WorldManaTotalLabel.Alignment.BottomOffset = 3;
         WorldManaTotalLabel.Masked = true;
-        WorldManaTotalLabel.TextColor = 0;
+        WorldManaTotalLabel.TextColor = Color.Black;
         session.EndRead(WorldManaTotalLabel);
         Panel wmiPnl = new(this);
         session.BeginRead(wmiPnl);
@@ -1400,7 +1401,7 @@ public sealed partial class TaskBar : ILayoutModule
         WorldManaSignLabel.Alignment.TopOffset = 0;
         WorldManaSignLabel.Alignment.BottomOffset = 4;
         WorldManaSignLabel.Masked = true;
-        WorldManaSignLabel.TextColor = 7864183;
+        WorldManaSignLabel.TextColor = new Color(119, 255, 119);
         session.EndRead(WorldManaSignLabel);
         CombatGoldIncomeLabel = new Label(this);
         session.BeginRead(CombatGoldIncomeLabel);
@@ -1426,7 +1427,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatGoldIncomeLabel.Alignment.TopOffset = 0;
         CombatGoldIncomeLabel.Alignment.BottomOffset = 1;
         CombatGoldIncomeLabel.Masked = true;
-        CombatGoldIncomeLabel.TextColor = 7864183;
+        CombatGoldIncomeLabel.TextColor = new Color(119, 255, 119);
         session.EndRead(CombatGoldIncomeLabel);
         CombatGoldTotalLabel = new Label(this);
         session.BeginRead(CombatGoldTotalLabel);
@@ -1452,7 +1453,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatGoldTotalLabel.Alignment.TopOffset = 0;
         CombatGoldTotalLabel.Alignment.BottomOffset = 3;
         CombatGoldTotalLabel.Masked = true;
-        CombatGoldTotalLabel.TextColor = 0;
+        CombatGoldTotalLabel.TextColor = Color.Black;
         session.EndRead(CombatGoldTotalLabel);
         Image tgIcn = new(this);
         session.BeginRead(tgIcn);
@@ -1560,7 +1561,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatGoldSignLabel.Alignment.TopOffset = 0;
         CombatGoldSignLabel.Alignment.BottomOffset = 4;
         CombatGoldSignLabel.Masked = true;
-        CombatGoldSignLabel.TextColor = 7864183;
+        CombatGoldSignLabel.TextColor = new Color(119, 255, 119);
         session.EndRead(CombatGoldSignLabel);
         CombatManaIncomeLabel = new Label(this);
         session.BeginRead(CombatManaIncomeLabel);
@@ -1586,7 +1587,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatManaIncomeLabel.Alignment.TopOffset = 0;
         CombatManaIncomeLabel.Alignment.BottomOffset = 1;
         CombatManaIncomeLabel.Masked = true;
-        CombatManaIncomeLabel.TextColor = 7864183;
+        CombatManaIncomeLabel.TextColor = new Color(119, 255, 119);
         session.EndRead(CombatManaIncomeLabel);
         CombatManaTotalLabel = new Label(this);
         session.BeginRead(CombatManaTotalLabel);
@@ -1612,7 +1613,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatManaTotalLabel.Alignment.TopOffset = 0;
         CombatManaTotalLabel.Alignment.BottomOffset = 3;
         CombatManaTotalLabel.Masked = true;
-        CombatManaTotalLabel.TextColor = 0;
+        CombatManaTotalLabel.TextColor = Color.Black;
         session.EndRead(CombatManaTotalLabel);
         Image twmIcn = new(this);
         session.BeginRead(twmIcn);
@@ -1720,7 +1721,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatManaSignLabel.Alignment.TopOffset = 0;
         CombatManaSignLabel.Alignment.BottomOffset = 4;
         CombatManaSignLabel.Masked = true;
-        CombatManaSignLabel.TextColor = 7864183;
+        CombatManaSignLabel.TextColor = new Color(119, 255, 119);
         session.EndRead(CombatManaSignLabel);
         Button relationsBtn = new(this);
         session.BeginRead(relationsBtn);
@@ -1752,8 +1753,8 @@ public sealed partial class TaskBar : ILayoutModule
         relationsBtn.ImageLibraryIndexLit = 20;
         relationsBtn.ImageLibraryIndexUp = 14;
         relationsBtn.Text = "Relations";
-        relationsBtn.TextColor = 0;
-        relationsBtn.TextSelectedColor = 0;
+        relationsBtn.TextColor = Color.Black;
+        relationsBtn.TextSelectedColor = Color.Black;
         relationsBtn.WinWidth = 70;
         relationsBtn.Clicked += (_, _) => RelationsBtnClick();
         session.EndRead(relationsBtn);
@@ -1787,8 +1788,8 @@ public sealed partial class TaskBar : ILayoutModule
         AutoCombatCheckBox.ImageLibraryIndexLit = 20;
         AutoCombatCheckBox.ImageLibraryIndexUp = 14;
         AutoCombatCheckBox.Text = "Auto";
-        AutoCombatCheckBox.TextColor = 0;
-        AutoCombatCheckBox.TextSelectedColor = 0;
+        AutoCombatCheckBox.TextColor = Color.Black;
+        AutoCombatCheckBox.TextSelectedColor = Color.Black;
         AutoCombatCheckBox.WinWidth = 70;
         AutoCombatCheckBox.Checked = false;
         AutoCombatCheckBox.Changed += (_, _) => AutoCombatCheckBoxChange();

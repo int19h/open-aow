@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -44,7 +45,7 @@ public sealed partial class ChatWindow : ILayoutModule
         MainWindow.OverlapTopCorners = false;
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
-        MainWindow.MaskColor = 0;
+        MainWindow.MaskColor = Color.Black;
         MainWindow.FreeSurfaceOnHide = true;
         MainWindow.ImageLibraryIndexFrame = 0;
         MainWindow.ImageLibraryIndexTexture = 2;
@@ -87,7 +88,7 @@ public sealed partial class ChatWindow : ILayoutModule
         ChatMemo.WinHeight = 108;
         ChatMemo.BorderWidth = 8;
         ChatMemo.BorderHeight = 5;
-        ChatMemo.TextColor = 12632256;
+        ChatMemo.TextColor = Color.Silver;
         ChatMemo.CursorChar = 124;
         ChatMemo.BlinkDelay = 0;
         ChatMemo.Editable = false;
@@ -123,7 +124,7 @@ public sealed partial class ChatWindow : ILayoutModule
         ChatEdit.MaxChars = 0;
         ChatEdit.CursorChar = 95;
         ChatEdit.BlinkDelay = 1;
-        ChatEdit.TextColor = 11002593;
+        ChatEdit.TextColor = new Color(225, 226, 167);
         ChatEdit.Editable = true;
         ChatEdit.ImageLibraryIndex = 15;
         ChatEdit.ReturnPressed += (_, _) => ChatEditReturn();
@@ -155,8 +156,8 @@ public sealed partial class ChatWindow : ILayoutModule
         PlayerList.BorderHeight = 2;
         PlayerList.Selected = -1;
         PlayerList.ItemDrawing += (_, e) => PlayerListPreDrawItem(default, drawItem: e.Item, lockedSurface: default);
-        PlayerList.TextColor = 9415072;
-        PlayerList.TextSelectedColor = 16777215;
+        PlayerList.TextColor = new Color(160, 169, 143);
+        PlayerList.TextSelectedColor = Color.White;
         PlayerList.ImageLibraryIndexFrame = 113;
         PlayerList.ImageLibraryIndexTNormal = 21;
         PlayerList.ImageLibraryIndexTSelected = 8;
@@ -212,7 +213,7 @@ public sealed partial class ChatWindow : ILayoutModule
         iwTitle.Alignment.BottomOffset = 0;
         iwTitle.Masked = true;
         iwTitle.Text = "Chat";
-        iwTitle.TextColor = 0;
+        iwTitle.TextColor = Color.Black;
         session.EndRead(iwTitle);
         Button min = new(this);
         session.BeginRead(min);
@@ -243,8 +244,8 @@ public sealed partial class ChatWindow : ILayoutModule
         min.ImageLibraryIndexDown = 4;
         min.ImageLibraryIndexLit = 5;
         min.ImageLibraryIndexUp = 3;
-        min.TextColor = 0;
-        min.TextSelectedColor = 0;
+        min.TextColor = Color.Black;
+        min.TextSelectedColor = Color.Black;
         min.WinWidth = 15;
         min.Clicked += (_, _) => MinClick();
         session.EndRead(min);

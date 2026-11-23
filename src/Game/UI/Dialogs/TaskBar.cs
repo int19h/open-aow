@@ -8,6 +8,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.RtlHost;
 
@@ -305,7 +306,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
                     WorldClockDelay = 10;
                     minute = (StrategicMap.Current.TurnTimeLeft / 60_000).TruncateToUInt16();
                     int second = (StrategicMap.Current.TurnTimeLeft % 60_000 / 1_000).TruncateToUInt16();
-                    WorldTimeLabel.TextColor = minute == 0 && second is > 0 and <= 10 ? 255 : 0;
+                    WorldTimeLabel.TextColor = minute == 0 && second is > 0 and <= 10 ? Color.Red : Color.Black;
 
                     WorldTimeLabel.Text = $"{minute.ToString(CultureInfo.InvariantCulture)}:";
                     if (second < 10)

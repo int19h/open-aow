@@ -2,6 +2,7 @@
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.World.Structures;
+using Aow.Graphics;
 using LibraryImage = Aow.Game.Draw.Images.LibraryImage;
 
 namespace Aow.Game.Tests;
@@ -27,7 +28,7 @@ public sealed class StructureBorderTests
         GrabInfo grab = new() { FileName = "border.bmp", FindRectangles = false };
         try
         {
-            Assert.Equal(GraphicsResult.Ok, surface.Clear(color));
+            Assert.Equal(GraphicsResult.Ok, surface.Clear(Color.FromPacked(color)));
             LockedSurface lockedSurface = default;
             Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
             Assert.Equal(GraphicsResult.Ok, LibraryImageClass.Of<Picture16>().GrabImages(lockedSurface, grabInfo: grab, imageLibrary: library, onProgress: null));
@@ -44,7 +45,7 @@ public sealed class StructureBorderTests
     {
         Dib16Surface surface = new(1, 1, pixelFormatId: PixelFormat.Rgb565);
         LockedSurface lockedSurface = default;
-        _ = surface.Clear(color);
+        _ = surface.Clear(Color.FromPacked(color));
         _ = surface.Lock(ref lockedSurface);
         int pixel = lockedSurface.View().UInt16(0);
         _ = surface.Unlock();
@@ -68,7 +69,7 @@ public sealed class StructureBorderTests
         {
             BorderStructure structure = new(Grab(library, height: 1, color: TopColor), middle: Grab(library, height: 4, color: MiddleColor), bottom: Grab(library, height: 5, color: BottomColor));
             LockedSurface lockedSurface = default;
-            Assert.Equal(GraphicsResult.Ok, target.Clear(0));
+            Assert.Equal(GraphicsResult.Ok, target.Clear(Color.Black));
             Assert.Equal(GraphicsResult.Ok, target.Lock(ref lockedSurface));
             Assert.True(structure.ShowBorderImage(lockedSurface, R: new Rect(0, 0, Width, height)));
             int[] rows = new int[height];

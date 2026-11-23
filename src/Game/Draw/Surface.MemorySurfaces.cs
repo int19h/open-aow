@@ -1,3 +1,4 @@
+using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Game.Draw;
@@ -6,7 +7,7 @@ public partial class Surface
 {
     public virtual int BlitDisplayController(int displayController, Rect? sourceRectangle, Rect? destinationRectangle) => throw new NotSupportedException("Native device context");
 
-    public virtual GraphicsResult Clear(int color)
+    public virtual GraphicsResult Clear(Color color)
     {
         LockedSurface lockedSurface = default;
         GraphicsResult result = Lock(ref lockedSurface);

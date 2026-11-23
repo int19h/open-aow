@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -34,7 +35,7 @@ public sealed partial class UnitBanner : ILayoutModule
         UnitNameLabel.Alignment.TopOffset = 30;
         UnitNameLabel.Alignment.BottomOffset = 0;
         UnitNameLabel.Masked = true;
-        UnitNameLabel.TextColor = 1321830;
+        UnitNameLabel.TextColor = new Color(102, 43, 20);
         session.EndRead(UnitNameLabel);
         Image attackIcon = new(this);
         session.BeginRead(attackIcon);
@@ -224,7 +225,7 @@ public sealed partial class UnitBanner : ILayoutModule
         AttackLabel.Alignment.TopOffset = 0;
         AttackLabel.Alignment.BottomOffset = 0;
         AttackLabel.Masked = true;
-        AttackLabel.TextColor = 1321830;
+        AttackLabel.TextColor = new Color(102, 43, 20);
         session.EndRead(AttackLabel);
         DefenseLabel = new Label(this);
         session.BeginRead(DefenseLabel);
@@ -246,7 +247,7 @@ public sealed partial class UnitBanner : ILayoutModule
         DefenseLabel.Alignment.TopOffset = 0;
         DefenseLabel.Alignment.BottomOffset = 0;
         DefenseLabel.Masked = true;
-        DefenseLabel.TextColor = 1321830;
+        DefenseLabel.TextColor = new Color(102, 43, 20);
         session.EndRead(DefenseLabel);
         MovesLabel = new Label(this);
         session.BeginRead(MovesLabel);
@@ -268,7 +269,7 @@ public sealed partial class UnitBanner : ILayoutModule
         MovesLabel.Alignment.TopOffset = 0;
         MovesLabel.Alignment.BottomOffset = 0;
         MovesLabel.Masked = true;
-        MovesLabel.TextColor = 1321830;
+        MovesLabel.TextColor = new Color(102, 43, 20);
         session.EndRead(MovesLabel);
         DamageLabel = new Label(this);
         session.BeginRead(DamageLabel);
@@ -290,7 +291,7 @@ public sealed partial class UnitBanner : ILayoutModule
         DamageLabel.Alignment.TopOffset = 0;
         DamageLabel.Alignment.BottomOffset = 0;
         DamageLabel.Masked = true;
-        DamageLabel.TextColor = 1321830;
+        DamageLabel.TextColor = new Color(102, 43, 20);
         session.EndRead(DamageLabel);
         ResistanceLabel = new Label(this);
         session.BeginRead(ResistanceLabel);
@@ -312,7 +313,7 @@ public sealed partial class UnitBanner : ILayoutModule
         ResistanceLabel.Alignment.TopOffset = 0;
         ResistanceLabel.Alignment.BottomOffset = 0;
         ResistanceLabel.Masked = true;
-        ResistanceLabel.TextColor = 1321830;
+        ResistanceLabel.TextColor = new Color(102, 43, 20);
         session.EndRead(ResistanceLabel);
         HitsLabel = new Label(this);
         session.BeginRead(HitsLabel);
@@ -334,7 +335,7 @@ public sealed partial class UnitBanner : ILayoutModule
         HitsLabel.Alignment.TopOffset = 0;
         HitsLabel.Alignment.BottomOffset = 0;
         HitsLabel.Masked = true;
-        HitsLabel.TextColor = 1321830;
+        HitsLabel.TextColor = new Color(102, 43, 20);
         session.EndRead(HitsLabel);
         BannerMenu = new Menu(this);
         session.BeginRead(BannerMenu);
@@ -365,13 +366,13 @@ public sealed partial class UnitBanner : ILayoutModule
         BannerMenu.OverlapTopCorners = false;
         BannerMenu.Cursor = 0;
         BannerMenu.DoubleBuffered = true;
-        BannerMenu.MaskColor = 16711935;
+        BannerMenu.MaskColor = Color.Fuchsia;
         BannerMenu.FreeSurfaceOnHide = false;
         BannerMenu.ImageLibraryIndexFrame = 10;
         BannerMenu.ImageLibraryIndexTNormal = 18;
         BannerMenu.ImageLibraryIndexTSelected = 18;
-        BannerMenu.TextColor = 8734252;
-        BannerMenu.TextSelectedColor = 16777215;
+        BannerMenu.TextColor = new Color(44, 70, 133);
+        BannerMenu.TextSelectedColor = Color.White;
         BannerMenu.ItemHeight = 13;
         BannerMenu.OwnerItem = 0;
         BannerMenu.SubMenuShowDelay = 0;
@@ -405,8 +406,8 @@ public sealed partial class UnitBanner : ILayoutModule
         AbilityList.BorderWidth = 0;
         AbilityList.BorderHeight = 0;
         AbilityList.Selected = -1;
-        AbilityList.TextColor = 1321830;
-        AbilityList.TextSelectedColor = 1530774;
+        AbilityList.TextColor = new Color(102, 43, 20);
+        AbilityList.TextSelectedColor = new Color(150, 91, 23);
         AbilityList.ImageLibraryIndexFrame = 0;
         AbilityList.ImageLibraryIndexTNormal = 0;
         AbilityList.ImageLibraryIndexTSelected = 0;

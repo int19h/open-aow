@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Graphics;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -281,8 +282,8 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         castBut.ImageLibraryIndexLit = 25;
         castBut.ImageLibraryIndexUp = 19;
         castBut.Text = "Cast";
-        castBut.TextColor = 0;
-        castBut.TextSelectedColor = 16777215;
+        castBut.TextColor = Color.Black;
+        castBut.TextSelectedColor = Color.White;
         castBut.WinWidth = 128;
         castBut.Clicked += (_, _) => CastButClick();
         session.EndRead(castBut);
@@ -343,8 +344,8 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         close.ImageLibraryIndexDown = 1;
         close.ImageLibraryIndexLit = 2;
         close.ImageLibraryIndexUp = 0;
-        close.TextColor = 0;
-        close.TextSelectedColor = 0;
+        close.TextColor = Color.Black;
+        close.TextSelectedColor = Color.Black;
         close.WinWidth = 15;
         close.Clicked += (_, _) => CloseClick();
         session.EndRead(close);
@@ -369,7 +370,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         title.Alignment.BottomOffset = 0;
         title.Masked = true;
         title.Text = "Cast Unit Spell";
-        title.TextColor = 0;
+        title.TextColor = Color.Black;
         session.EndRead(title);
         Button cancelBut = new(this);
         session.BeginRead(cancelBut);
@@ -397,8 +398,8 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         cancelBut.ImageLibraryIndexLit = 25;
         cancelBut.ImageLibraryIndexUp = 19;
         cancelBut.Text = "Cancel";
-        cancelBut.TextColor = 0;
-        cancelBut.TextSelectedColor = 16777215;
+        cancelBut.TextColor = Color.Black;
+        cancelBut.TextSelectedColor = Color.White;
         cancelBut.WinWidth = 128;
         cancelBut.Clicked += (_, _) => CloseClick();
         session.EndRead(cancelBut);
@@ -431,7 +432,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Window.OverlapTopCorners = false;
         Window.Cursor = 0;
         Window.DoubleBuffered = true;
-        Window.MaskColor = 6268490;
+        Window.MaskColor = new Color(74, 166, 95);
         Window.FreeSurfaceOnHide = true;
         Window.ImageLibraryIndexFrame = 32;
         Window.ImageLibraryIndexTexture = 2;
@@ -468,7 +469,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         selectLbl.Alignment.BottomOffset = 0;
         selectLbl.Masked = true;
         selectLbl.Text = "Select Unit(s)";
-        selectLbl.TextColor = 16777215;
+        selectLbl.TextColor = Color.White;
         session.EndRead(selectLbl);
         UnitPanel = new Panel(this);
         session.BeginRead(UnitPanel);
@@ -545,7 +546,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         SpellUpkeepLabel.Alignment.BottomOffset = 0;
         SpellUpkeepLabel.Masked = true;
         SpellUpkeepLabel.Text = "##########";
-        SpellUpkeepLabel.TextColor = 0;
+        SpellUpkeepLabel.TextColor = Color.Black;
         session.EndRead(SpellUpkeepLabel);
         SpellManaLabel = new Label(this);
         session.BeginRead(SpellManaLabel);
@@ -568,7 +569,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         SpellManaLabel.Alignment.BottomOffset = 0;
         SpellManaLabel.Masked = true;
         SpellManaLabel.Text = "#########";
-        SpellManaLabel.TextColor = 0;
+        SpellManaLabel.TextColor = Color.Black;
         session.EndRead(SpellManaLabel);
         CastingManaLabel = new Label(this);
         session.BeginRead(CastingManaLabel);
@@ -591,7 +592,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         CastingManaLabel.Alignment.BottomOffset = 0;
         CastingManaLabel.Masked = true;
         CastingManaLabel.Text = "########";
-        CastingManaLabel.TextColor = 0;
+        CastingManaLabel.TextColor = Color.Black;
         session.EndRead(CastingManaLabel);
         SpellNameLabel = new Label(this);
         session.BeginRead(SpellNameLabel);
@@ -614,7 +615,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         SpellNameLabel.Alignment.BottomOffset = 0;
         SpellNameLabel.Masked = true;
         SpellNameLabel.Text = "###########";
-        SpellNameLabel.TextColor = 16777215;
+        SpellNameLabel.TextColor = Color.White;
         session.EndRead(SpellNameLabel);
         CasterNameLabel = new Label(this);
         session.BeginRead(CasterNameLabel);
@@ -637,7 +638,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         CasterNameLabel.Alignment.BottomOffset = 0;
         CasterNameLabel.Masked = true;
         CasterNameLabel.Text = "############";
-        CasterNameLabel.TextColor = 16777215;
+        CasterNameLabel.TextColor = Color.White;
         session.EndRead(CasterNameLabel);
         CastingPointsLabel = new Label(this);
         session.BeginRead(CastingPointsLabel);
@@ -660,7 +661,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         CastingPointsLabel.Alignment.BottomOffset = 0;
         CastingPointsLabel.Masked = true;
         CastingPointsLabel.Text = "##########";
-        CastingPointsLabel.TextColor = 0;
+        CastingPointsLabel.TextColor = Color.Black;
         session.EndRead(CastingPointsLabel);
         CheckBox unit1CheckBox = new(this);
         Unit1CheckBox = unit1CheckBox;
@@ -690,8 +691,8 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit1CheckBox.ImageLibraryIndexDown = 26;
         Unit1CheckBox.ImageLibraryIndexLit = 25;
         Unit1CheckBox.ImageLibraryIndexUp = 25;
-        Unit1CheckBox.TextColor = 0;
-        Unit1CheckBox.TextSelectedColor = 0;
+        Unit1CheckBox.TextColor = Color.Black;
+        Unit1CheckBox.TextSelectedColor = Color.Black;
         Unit1CheckBox.WinWidth = 50;
         Unit1CheckBox.Checked = false;
         unit1CheckBox.Changed += (_, _) => U1Change(unit1CheckBox, slot: 0);
@@ -726,8 +727,8 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit2CheckBox.ImageLibraryIndexDown = 26;
         Unit2CheckBox.ImageLibraryIndexLit = 25;
         Unit2CheckBox.ImageLibraryIndexUp = 25;
-        Unit2CheckBox.TextColor = 0;
-        Unit2CheckBox.TextSelectedColor = 0;
+        Unit2CheckBox.TextColor = Color.Black;
+        Unit2CheckBox.TextSelectedColor = Color.Black;
         Unit2CheckBox.WinWidth = 50;
         Unit2CheckBox.Checked = false;
         unit2CheckBox.Changed += (_, _) => U1Change(unit2CheckBox, slot: 1);
@@ -762,8 +763,8 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit3CheckBox.ImageLibraryIndexDown = 26;
         Unit3CheckBox.ImageLibraryIndexLit = 25;
         Unit3CheckBox.ImageLibraryIndexUp = 25;
-        Unit3CheckBox.TextColor = 0;
-        Unit3CheckBox.TextSelectedColor = 0;
+        Unit3CheckBox.TextColor = Color.Black;
+        Unit3CheckBox.TextSelectedColor = Color.Black;
         Unit3CheckBox.WinWidth = 50;
         Unit3CheckBox.Checked = false;
         unit3CheckBox.Changed += (_, _) => U1Change(unit3CheckBox, slot: 2);
@@ -798,8 +799,8 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit4CheckBox.ImageLibraryIndexDown = 26;
         Unit4CheckBox.ImageLibraryIndexLit = 25;
         Unit4CheckBox.ImageLibraryIndexUp = 25;
-        Unit4CheckBox.TextColor = 0;
-        Unit4CheckBox.TextSelectedColor = 0;
+        Unit4CheckBox.TextColor = Color.Black;
+        Unit4CheckBox.TextSelectedColor = Color.Black;
         Unit4CheckBox.WinWidth = 50;
         Unit4CheckBox.Checked = false;
         unit4CheckBox.Changed += (_, _) => U1Change(unit4CheckBox, slot: 3);
@@ -834,8 +835,8 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit5CheckBox.ImageLibraryIndexDown = 26;
         Unit5CheckBox.ImageLibraryIndexLit = 25;
         Unit5CheckBox.ImageLibraryIndexUp = 25;
-        Unit5CheckBox.TextColor = 0;
-        Unit5CheckBox.TextSelectedColor = 0;
+        Unit5CheckBox.TextColor = Color.Black;
+        Unit5CheckBox.TextSelectedColor = Color.Black;
         Unit5CheckBox.WinWidth = 50;
         Unit5CheckBox.Checked = false;
         unit5CheckBox.Changed += (_, _) => U1Change(unit5CheckBox, slot: 4);
@@ -870,8 +871,8 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit6CheckBox.ImageLibraryIndexDown = 26;
         Unit6CheckBox.ImageLibraryIndexLit = 25;
         Unit6CheckBox.ImageLibraryIndexUp = 25;
-        Unit6CheckBox.TextColor = 0;
-        Unit6CheckBox.TextSelectedColor = 0;
+        Unit6CheckBox.TextColor = Color.Black;
+        Unit6CheckBox.TextSelectedColor = Color.Black;
         Unit6CheckBox.WinWidth = 50;
         Unit6CheckBox.Checked = false;
         unit6CheckBox.Changed += (_, _) => U1Change(unit6CheckBox, slot: 5);
@@ -906,8 +907,8 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit7CheckBox.ImageLibraryIndexDown = 26;
         Unit7CheckBox.ImageLibraryIndexLit = 25;
         Unit7CheckBox.ImageLibraryIndexUp = 25;
-        Unit7CheckBox.TextColor = 0;
-        Unit7CheckBox.TextSelectedColor = 0;
+        Unit7CheckBox.TextColor = Color.Black;
+        Unit7CheckBox.TextSelectedColor = Color.Black;
         Unit7CheckBox.WinWidth = 50;
         Unit7CheckBox.Checked = false;
         unit7CheckBox.Changed += (_, _) => U1Change(unit7CheckBox, slot: 6);
@@ -942,8 +943,8 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit8CheckBox.ImageLibraryIndexDown = 26;
         Unit8CheckBox.ImageLibraryIndexLit = 25;
         Unit8CheckBox.ImageLibraryIndexUp = 25;
-        Unit8CheckBox.TextColor = 0;
-        Unit8CheckBox.TextSelectedColor = 0;
+        Unit8CheckBox.TextColor = Color.Black;
+        Unit8CheckBox.TextSelectedColor = Color.Black;
         Unit8CheckBox.WinWidth = 50;
         Unit8CheckBox.Checked = false;
         unit8CheckBox.Changed += (_, _) => U1Change(unit8CheckBox, slot: 7);
@@ -1138,7 +1139,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         SelectionInfoLabel.Alignment.BottomOffset = 0;
         SelectionInfoLabel.Masked = true;
         SelectionInfoLabel.Text = "#########";
-        SelectionInfoLabel.TextColor = 0;
+        SelectionInfoLabel.TextColor = Color.Black;
         session.EndRead(SelectionInfoLabel);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
