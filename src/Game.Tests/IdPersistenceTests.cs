@@ -30,9 +30,9 @@ public sealed class IdPersistenceTests
     }
 
     [Fact]
-    public void CombatPlayerAndRaceBytesRoundTripBothRecordedWidths()
+    public void CombatPlayerAndRaceBytesRoundTripAllRecordedByteWidths()
     {
-        foreach (IdWidth width in new[] { IdWidth.UnsignedByte, IdWidth.Byte })
+        foreach (IdWidth width in new[] { IdWidth.UnsignedByte, IdWidth.Byte, IdWidth.SByte })
         {
             for (int stored = 0; stored <= 255; stored++)
             {
@@ -48,6 +48,15 @@ public sealed class IdPersistenceTests
         for (int stored = 0; stored <= 255; stored++)
         {
             RoundTripRequired(CombatObjectId.FromInt32(stored), width: IdWidth.Byte);
+        }
+    }
+
+    [Fact]
+    public void SignedByteCombatObject255StaysPresent()
+    {
+        foreach (IdWidth width in new[] { IdWidth.UnsignedByte, IdWidth.SByte })
+        {
+            RoundTripRequired(CombatObjectId.FromInt32(255), width: width);
         }
     }
 
@@ -109,10 +118,45 @@ public sealed class IdPersistenceTests
     }
 
     [Fact]
+    public void RequiredPlayerInt32Stored255LoadsWrappedValue()
+    {
+        ObjectNode tree = TreeWriter.Write(new RawInt32Probe(255), factory: Factory);
+        RequiredProbe<PlayerId> after = new(default, width: IdWidth.Int32);
+        TreeReader.Read(tree, objectValue: after, factory: Factory);
+        Assert.Equal(-1, after.Value.Value);
+    }
+
+    [Fact]
+    public void RequiredAbilityUInt16NoneIsRefused()
+    {
+        RequiredProbe<AbilityId> before = new(AbilityId.FromInt32(65_535), width: IdWidth.UInt16);
+        ObjectNode tree = TreeWriter.Write(before, factory: Factory);
+        RequiredProbe<AbilityId> after = new(default, width: IdWidth.UInt16);
+        _ = Assert.Throws<InvalidOperationException>(() => TreeReader.Read(tree, objectValue: after, factory: Factory));
+    }
+
+    [Fact]
+    public void OptionalAbilityUInt16Present65535UsesDocumentedCollision()
+    {
+        OptionalProbe<AbilityId> before = new(AbilityId.FromInt32(65_535), width: IdWidth.UInt16);
+        ObjectNode tree = TreeWriter.Write(before, factory: Factory);
+        if (tree.Find("Value") is IntegerNode stored)
+        {
+            Assert.Equal(65_535, stored.Value);
+        }
+        OptionalProbe<AbilityId> after = new(default, width: IdWidth.UInt16);
+        TreeReader.Read(tree, objectValue: after, factory: Factory);
+        Assert.Null(after.Value);
+    }
+
+    [Fact]
     public void OptionalByteWithoutDistinctNoneIsRefused()
     {
-        OptionalProbe<CombatObjectId> before = new(null, width: IdWidth.Byte);
-        _ = Assert.Throws<InvalidOperationException>(() => TreeWriter.Write(before, factory: Factory));
+        foreach (IdWidth width in new[] { IdWidth.UnsignedByte, IdWidth.Byte, IdWidth.SByte })
+        {
+            OptionalProbe<CombatObjectId> before = new(null, width: width);
+            _ = Assert.Throws<InvalidOperationException>(() => TreeWriter.Write(before, factory: Factory));
+        }
     }
 
     private static void RoundTrip<T>(T? expected, IdWidth width, int? none = null) where T : struct, IOptionalOriginalId<T>
@@ -132,7 +176,7 @@ public sealed class IdPersistenceTests
         long expectedStored = width switch
         {
             IdWidth.UnsignedByte or IdWidth.Byte => unchecked((byte)original),
-            IdWidth.SByte => unchecked((sbyte)original),
+            IdWidth.SByte => original,
             IdWidth.UInt16 => unchecked((ushort)original),
             IdWidth.Int32 => original,
             _ => throw new ArgumentOutOfRangeException(nameof(width)),
@@ -158,7 +202,7 @@ public sealed class IdPersistenceTests
         long expectedStored = width switch
         {
             IdWidth.UnsignedByte or IdWidth.Byte => unchecked((byte)expected.OriginalValue),
-            IdWidth.SByte => unchecked((sbyte)expected.OriginalValue),
+            IdWidth.SByte => expected.OriginalValue,
             IdWidth.UInt16 => unchecked((ushort)expected.OriginalValue),
             IdWidth.Int32 => expected.OriginalValue,
             _ => throw new ArgumentOutOfRangeException(nameof(width)),
@@ -174,6 +218,13 @@ public sealed class IdPersistenceTests
         public T? Value { get; private set; } = value;
 
         public void Persist(IPersister persister) => Value = persister.OptionalId("Value", value: Value, width, fallback: fallback);
+    }
+
+    private sealed class RawInt32Probe(int value) : IPersistable
+    {
+        public int Value { get; private set; } = value;
+
+        public void Persist(IPersister persister) => Value = persister.Int32("Value", Value);
     }
 
     private sealed class RequiredProbe<T>(T value, IdWidth width) : IPersistable where T : struct, IOriginalId<T>

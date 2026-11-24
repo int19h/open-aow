@@ -7,6 +7,7 @@ using Aow.Formats.Tree;
 using Aow.Game;
 
 using Aow.Game.Draw.Images;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
@@ -61,20 +62,21 @@ public static class PersistSupport
         => persister.Byte(name, unchecked((byte)value), fallback: fallback.TruncateToByte()).TruncateToSByte();
 
     /// <summary>
-    /// A required id. Loading the type's message-none value throws <see cref="InvalidOperationException"/>
-    /// instead of producing a present sentinel id.
+    /// A required id. Loading the type's exact stored none value throws <see cref="InvalidOperationException"/>
+    /// instead of producing a present sentinel id. A width with no distinct stored none has no refusal.
     /// </summary>
     public static T Id<T>(this IPersister persister, string name, T value, IdWidth width, int fallback = 0) where T : struct, IOriginalId<T>
     {
         int stored = Transfer(persister, name, value: value.OriginalValue, width, fallback: fallback);
-        return persister.Loading && value is IOptionalOriginalValue && T.FromOriginal(stored) is null
+        int? storedNone = StoredNone<T>(width);
+        return persister.Loading && value is IOptionalOriginalValue && stored == storedNone
             ? throw new InvalidOperationException($"{name} holds the none value {stored} for required {typeof(T).Name}.")
             : persister.Loading ? T.FromInt32(stored) : value;
     }
 
     public static T? OptionalId<T>(this IPersister persister, string name, T? value, IdWidth width, int? fallback = null) where T : struct, IOptionalOriginalId<T>
     {
-        int storedNone = StoredNone<T>(width);
+        int storedNone = StoredNone<T>(width) ?? throw new InvalidOperationException($"{typeof(T).Name} none value {T.NoneValue} has no distinct stored form at {width}.");
         int stored = Transfer(persister, name, value: value?.OriginalValue ?? T.NoneValue, width, fallback: fallback ?? T.NoneValue);
         return !persister.Loading ? value : stored == storedNone ? null : T.FromInt32(stored);
     }
@@ -95,17 +97,20 @@ public static class PersistSupport
         _ => throw new ArgumentOutOfRangeException(nameof(width)),
     };
 
-    private static int StoredNone<T>(IdWidth width) where T : struct, IOptionalOriginalId<T>
+    private static int? StoredNone<T>(IdWidth width) where T : struct, IOriginalId<T>
     {
         return width switch
         {
-            IdWidth.UnsignedByte or IdWidth.Byte or IdWidth.SByte when T.FromOriginal(unchecked((byte)T.NoneValue)) is not null
-                => throw new InvalidOperationException($"{typeof(T).Name} none value {T.NoneValue} has no distinct stored form at {width}."),
+            IdWidth.UnsignedByte or IdWidth.Byte or IdWidth.SByte when T.FromOriginal(unchecked((byte)T.NoneValue)) is not null => null,
             IdWidth.UnsignedByte or IdWidth.SByte => unchecked((sbyte)T.NoneValue),
             IdWidth.Byte => unchecked((byte)T.NoneValue),
             IdWidth.Int32 => T.NoneValue,
+            // The census stores ability absence as 65535. A present 65535 collides and loads as null
+            // through OptionalId. Required Id refuses that stored value.
+            IdWidth.UInt16 when typeof(T) == typeof(AbilityId) && T.NoneValue == -1 => 65_535,
+            IdWidth.UInt16 when T.FromOriginal(unchecked((ushort)T.NoneValue)) is not null => null,
             IdWidth.UInt16 when T.NoneValue is >= -1 and <= 65_535 => unchecked((ushort)T.NoneValue),
-            _ => throw new InvalidOperationException($"{typeof(T).Name} none value {T.NoneValue} has no exact stored form at {width}."),
+            _ => null,
         };
     }
 
