@@ -1,7 +1,6 @@
 #nullable disable warnings
 // Translated from AoWSetup.pas.
 
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -28,6 +27,8 @@ namespace Aow.Game.Session;
 public sealed class SetupControl : Component
 {
     private readonly GameEngine? _engine;
+    private readonly ISetupHost _host;
+    private readonly ISetupTransport _transport;
 
     public SetupStatuses Status { get; set; }
 
@@ -43,32 +44,9 @@ public sealed class SetupControl : Component
     [Published]
     public event Event? SettingChanged;
     [Published]
-    public event LoadMapEvent? OnLoadMap;
-    [Published]
     public event EventHandler? MapSetUp;
     [Published]
-    public event Event? Start;
-    // Nothing in the port raises OnAbort. The bound handler is kept.
-    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnAbort keeps this backing field until the port raises it.")]
-    private Event _onAbort;
-
-    [Published]
-    public event Event Abort { add => _onAbort += value; remove => _onAbort -= value; }
-
-    [Published]
-    public event CustomizeLeaderEvent? CustomizeLeader;
-    [Published]
-    public event Event? Synchronize;
-    [Published]
     public event Event? PlayerSetupCompleted;
-    [Published]
-    public event EjectPlayerEvent? PlayerEjected;
-    [Published]
-    public event IncompatibleVersionEvent? IncompatibleVersion;
-    [Published]
-    public event SendDataEvent? SendData;
-    [Published]
-    public event SendMapEvent? MapSent;
     [Published]
     public event Event? SendingMaps;
 
@@ -82,8 +60,14 @@ public sealed class SetupControl : Component
     }
 
     // AoWSetup.pas:436
-    public SetupControl(Component owner) : base(owner)
+    public SetupControl(Component owner) : this(owner, host: SetupHost.Unattended, transport: SetupTransport.Unported)
     {
+    }
+
+    public SetupControl(Component owner, ISetupHost host, ISetupTransport transport) : base(owner)
+    {
+        _host = host ?? throw new ArgumentNullException(nameof(host));
+        _transport = transport ?? throw new ArgumentNullException(nameof(transport));
         // The engine of the dialog module that owns the control, as the original read the engine
         // global.
         _engine = (owner as UIModule)?.UI.Engine;
@@ -97,9 +81,6 @@ public sealed class SetupControl : Component
         Stream = new MemoryStream();
     }
 
-    // AoWSetup.pas:456
-    public void OnSendData(object data, int size, int recipient) => SendData?.Invoke(data, size, SystemID: recipient);
-
     // AoWSetup.pas:461
     public void SendPackage(SetupPackage package, int recipient)
     {
@@ -107,7 +88,7 @@ public sealed class SetupControl : Component
         try
         {
             _engine.StoreEngineObject(stream, objectValue: package, progress: null);
-            OnSendData(size: (int)stream.Length, data: stream.GetBuffer(), recipient: recipient);
+            _ = _transport.SendData(new ReadOnlyMemory<byte>(stream.GetBuffer(), start: 0, length: (int)stream.Length), recipient: recipient);
             int streamSize = (int)stream.Length;
             _engine.OutputDebugMessage(DebugChannel.NetworkEngine, S: $"SetupPackage Send (ID:{package.MessageId.ToString(CultureInfo.InvariantCulture)}/Size:{streamSize.ToString(CultureInfo.InvariantCulture)}) to {recipient.ToString(CultureInfo.InvariantCulture)}");
         }
@@ -224,7 +205,7 @@ public sealed class SetupControl : Component
         {
             if (player.Version >>> 24 == 1 && ((player.Version >>> 16) & 0xFF) <= 10)
             {
-                PlayerEjected?.Invoke(this, player.RemoteId);
+                _host.EjectPlayer(player.RemoteId);
             }
             else
             {
@@ -418,7 +399,7 @@ public sealed class SetupControl : Component
             case 7:
                 if (GetHost())
                 {
-                    MapLoaded(package.Param2);
+                    SetPlayerMapLoaded(package.Param2);
                 }
 
                 break;
@@ -449,7 +430,7 @@ public sealed class SetupControl : Component
             case 9:
                 if (!GetHost())
                 {
-                    IncompatibleVersion?.Invoke(this, MajorVersion: package.Param2, MinorVersion: package.Param1);
+                    _host.CloseIncompatibleSession(package.Param2, minorVersion: package.Param1);
                 }
 
                 break;
@@ -462,7 +443,7 @@ public sealed class SetupControl : Component
     public void LoadMap()
     {
         _phase = SetupPhase.LoadMap;
-        OnLoadMap?.Invoke(this, Filename: _engine.StartupDirectory + Settings.MapName);
+        _host.LoadMap(_engine.StartupDirectory + Settings.MapName);
     }
 
     // AoWSetup.pas:689
@@ -489,13 +470,16 @@ public sealed class SetupControl : Component
             // reads (own-formats.md 4.1). A document the original image cannot carry has no image.
             // LoadOrRaise refuses it through the packet profile, and this sends nothing.
             MemoryStream stream = GameEngine.ImageStream(FileBoundary.LoadOrRaise(_engine.StartupDirectory + Settings.MapName, profile: GameProfile.WorldMap));
-            if (MapSent is not null)
+            try
             {
                 int size = (int)stream.Length;
-                MapSent(this, Data: stream.GetBuffer(), size, Recipient: remoteId);
+                _transport.SendMap(new ReadOnlyMemory<byte>(stream.GetBuffer(), start: 0, length: size), recipient: remoteId);
+            }
+            finally
+            {
+                stream?.Dispose();
             }
 
-            stream?.Dispose();
             return false;
         }
         else
@@ -531,12 +515,12 @@ public sealed class SetupControl : Component
     }
 
     // AoWSetup.pas:738
-    public void MapLoaded(int index)
+    public void SetPlayerMapLoaded(int playerIndex)
     {
         if (GetHost())
         {
-            PlayerSetupSettings? setting = Settings.GetSettings(index);
-            Settings.GetSettings(index).Status = setting.Status | PlayerSetupStatuses.Loaded;
+            PlayerSetupSettings? setting = Settings.GetSettings(playerIndex);
+            Settings.GetSettings(playerIndex).Status = setting.Status | PlayerSetupStatuses.Loaded;
             if (!ValidateSetupMap())
             {
                 UpdateSettings();
@@ -545,12 +529,12 @@ public sealed class SetupControl : Component
     }
 
     // AoWSetup.pas:747
-    public void MapLoaded()
+    public void ReportMapLoaded()
     {
         if (Settings.MapDay != 0 || !Settings.CustomizeLeaders)
         {
             _phase = SetupPhase.Synchronize;
-            Synchronize?.Invoke(this);
+            _host.Synchronize();
         }
 
         int i;
@@ -559,7 +543,7 @@ public sealed class SetupControl : Component
             i = Settings.IndexOfRemoteId(RemotePlayer.RemoteId);
             if (GetHost())
             {
-                MapLoaded(i);
+                SetPlayerMapLoaded(i);
             }
             else
             {
@@ -608,7 +592,6 @@ public sealed class SetupControl : Component
     public bool CustomizeLeaders()
     {
         _phase = SetupPhase.CustomizeLeaders;
-        bool result = false;
         bool found = false;
         int i = 0;
         while (!found && i != Settings.Count)
@@ -645,21 +628,17 @@ public sealed class SetupControl : Component
                 cLC.Mode = (LeaderSetupModes)(ulong)(cLC.Mode & ~LeaderSetupModes.Settings);
             }
 
-            if (CustomizeLeader is not null)
-            {
-                CustomizeLeader(this, cLC);
-                result = true;
-            }
+            _host.CustomizeLeader(cLC);
 
             _ = cLC.Release();
         }
         else
         {
             _phase = SetupPhase.Synchronize;
-            Synchronize?.Invoke(this);
+            _host.Synchronize();
         }
 
-        return result;
+        return found;
     }
 
     // AoWSetup.pas:817
@@ -785,7 +764,7 @@ public sealed class SetupControl : Component
         StrategicMap.Current.ConnectionType = (PlayerConnectionType)Settings.ConnectionType;
         if (GetRemote())
         {
-            RemotePlayerCommunicationControl remotePlayerCommunicationControl = new(_engine);
+            RemotePlayerCommunicationControl remotePlayerCommunicationControl = new(_engine, sendData: _transport.SendData);
             remotePlayerCommunicationControl.Setup(StrategicMap.Current.Players.GetCount(), localSystemId: RemotePlayer.RemoteId);
             remotePlayerCommunicationControl.SetConnectionMode(0, mode: ConnectionMode.Global);
             remotePlayerCommunicationControl.SetSystemId(0, systemId: RemotePlayer.RemoteId);
@@ -813,7 +792,6 @@ public sealed class SetupControl : Component
             }
 
             _ = StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(remotePlayerCommunicationControl);
-            remotePlayerCommunicationControl.SetSendDataHandler(SendData);
             ListPlayerCommunicationControlInfo(remotePlayerCommunicationControl);
             remotePlayerCommunicationControl.Release();
         }
@@ -868,16 +846,13 @@ public sealed class SetupControl : Component
         }
 
         Reset();
-        if (Start is not null)
+        try
         {
-            try
-            {
-                Start(this);
-            }
-            catch (Exception error)
-            {
-                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
-            }
+            _host.StartGame();
+        }
+        catch (Exception error)
+        {
+            HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
         }
     }
 
@@ -1236,16 +1211,14 @@ public sealed class SetupControl : Component
 
             if (GetRemote())
             {
+                // A host that throws aborts the loop here, as the throwing handler it replaces did.
                 for (int i = Settings.RemotePlayers.Count - 1; i >= 0; i--)
                 {
                     RemotePlayer playerRemoteId = Settings.RemotePlayers.GetPlayers(i);
                     if (Settings.IndexOfRemoteId(playerRemoteId.RemoteId) == -1)
                     {
-                        if (PlayerEjected is not null)
-                        {
-                            RemotePlayer player = Settings.RemotePlayers.GetPlayers(i);
-                            PlayerEjected(this, player.RemoteId);
-                        }
+                        RemotePlayer player = Settings.RemotePlayers.GetPlayers(i);
+                        _host.EjectPlayer(player.RemoteId);
 
                         Settings.RemotePlayers.GetPlayers(i)?.Dispose();
                     }
@@ -1553,7 +1526,7 @@ public sealed class SetupControl : Component
             if (i != -1)
             {
                 Settings.RemotePlayers.GetPlayers(i)?.Dispose();
-                PlayerEjected?.Invoke(this, remoteId);
+                _host.EjectPlayer(remoteId);
 
                 int j = Settings.IndexOfRemoteId(remoteId);
                 if (j != -1)
@@ -1568,7 +1541,7 @@ public sealed class SetupControl : Component
     }
 
     // AoWSetup.pas:1236
-    public bool SetupHost(string name, int mode, int remoteId)
+    public bool BeginHosting(string name, int mode, int remoteId)
     {
         Reset();
         _phase = SetupPhase.SetupPlayers;
@@ -1619,9 +1592,4 @@ public sealed class SetupControl : Component
     }
 
     public delegate void Event(SetupControl SetupControl);
-    public delegate void CustomizeLeaderEvent(SetupControl SetupControl, CustomizeLeaderControl CLC);
-    public delegate void LoadMapEvent(SetupControl SetupControl, string Filename);
-    public delegate void EjectPlayerEvent(SetupControl SetupControl, int RemoteID);
-    public delegate void IncompatibleVersionEvent(SetupControl SetupControl, int MajorVersion, int MinorVersion);
-    public delegate void SendMapEvent(SetupControl SetupControl, object Data, int Size, int Recipient);
 }

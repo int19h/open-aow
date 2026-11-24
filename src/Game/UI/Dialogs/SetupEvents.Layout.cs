@@ -1,6 +1,7 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable warnings
 using Aow.Game.Layout;
+using Aow.Game.Net;
 using Aow.Game.Session;
 
 namespace Aow.Game.UI.Dialogs;
@@ -35,19 +36,11 @@ public sealed partial class SetupEvents : ILayoutModule
         createdDirectPlay.UseSetupDialogs = false;
         createdDirectPlay.FilePacketSize = 1000;
         session.EndRead(createdDirectPlay);
-        SetupControl = new SetupControl(this);
+        SetupControl = new SetupControl(this, host: this, transport: SetupTransport.Unported);
         session.BeginRead(SetupControl);
         SetupControl.Name = "SetupControl";
-        SetupControl.MapSent += SetupControlSendMap;
-        SetupControl.SendData += SetupControlSendData;
         SetupControl.PlayerSetupCompleted += _ => SetupControlPlayerSetupDone();
         SetupControl.SettingChanged += _ => SetupControlSettingChanged();
-        SetupControl.CustomizeLeader += SetupControlCustomizeLeader;
-        SetupControl.OnLoadMap += SetupControlLoadMap;
-        SetupControl.Start += _ => SetupControlStart();
-        SetupControl.Synchronize += SetupControlSynchronize;
-        SetupControl.PlayerEjected += SetupControlEjectPlayer;
-        SetupControl.IncompatibleVersion += SetupControlIncompatibleVersion;
         SetupControl.SendingMaps += _ => SetupControlSendingMaps();
         session.EndRead(SetupControl);
         session.EndRead(this);

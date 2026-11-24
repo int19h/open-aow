@@ -7,17 +7,15 @@ using static Aow.Rtl.DelphiMemory;
 namespace Aow.Game.Net;
 
 // FLocalSystemID, FPackageDataList, FOnSendData. The control of a network game: the transport
-// sends through OnSendData and hands what arrives to DataReceived
-public sealed class RemotePlayerCommunicationControl(EngineObject? creator) : PlayerCommunicationControl(creator)
+// sends through the setup transport and hands what arrives to DataReceived
+public sealed class RemotePlayerCommunicationControl(EngineObject? creator, Func<ReadOnlyMemory<byte>, int, bool> sendData) : PlayerCommunicationControl(creator)
 {
 
     private int _localSystemId;
 
     internal PackageDataList PackageDataList { get; } = new PackageDataList();
 
-    private SendDataEvent? _sendData;
-
-    internal void SetSendDataHandler(SendDataEvent? handler) => _sendData = handler;
+    private readonly Func<ReadOnlyMemory<byte>, int, bool> _sendData = sendData ?? throw new ArgumentNullException(nameof(sendData));
 
     // NetworkE.pas:819
     public override int LocalSystemId => _localSystemId;
@@ -111,6 +109,6 @@ public sealed class RemotePlayerCommunicationControl(EngineObject? creator) : Pl
     public void DataReceived(object data, int size, int systemId) => PackageDataList.AddData(data, size);
 
     // NetworkE.pas:842
-    public bool SendData(object data, int size, int systemId) => _sendData is not null && _sendData(data, size, systemId);
+    public bool SendData(object data, int size, int systemId) => _sendData(new ReadOnlyMemory<byte>((byte[])data, start: 0, length: size), systemId);
 
 }

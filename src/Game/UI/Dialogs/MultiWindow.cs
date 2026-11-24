@@ -158,7 +158,7 @@ public sealed partial class MultiWindow(UIContext ui) : UIModule(ui)
             if (UI.SetupEvents.DirectPlay.CreateSession() == 0)
             {
                 MultiPanel.Visible = false;
-                _ = UI.SetupEvents.SetupControl.SetupHost(UI.SetupEvents.DirectPlay.PlayerName, mode: 1, remoteId: UI.SetupEvents.DirectPlay.PlayerID);
+                _ = UI.SetupEvents.SetupControl.BeginHosting(UI.SetupEvents.DirectPlay.PlayerName, mode: 1, remoteId: UI.SetupEvents.DirectPlay.PlayerID);
                 if (!IsEmpty(_pendingMap))
                 {
                     _ = UI.SetupEvents.SetupControl.PickMap(_pendingMap);
@@ -190,7 +190,7 @@ public sealed partial class MultiWindow(UIContext ui) : UIModule(ui)
     {
         UI.General.PlayButtonSound(0);
         MultiPanel.Visible = false;
-        _ = UI.SetupEvents.SetupControl.SetupHost("", mode: 0, remoteId: 0);
+        _ = UI.SetupEvents.SetupControl.BeginHosting("", mode: 0, remoteId: 0);
         if (!IsEmpty(_pendingMap))
         {
             _ = UI.SetupEvents.SetupControl.PickMap(_pendingMap);
@@ -238,7 +238,7 @@ public sealed partial class MultiWindow(UIContext ui) : UIModule(ui)
         if (ValidateEmail())
         {
             MultiPanel.Visible = false;
-            _ = UI.SetupEvents.SetupControl.SetupHost("", mode: 2, remoteId: 0);
+            _ = UI.SetupEvents.SetupControl.BeginHosting("", mode: 2, remoteId: 0);
             if (!IsEmpty(_pendingMap))
             {
                 _ = UI.SetupEvents.SetupControl.PickMap(_pendingMap);
