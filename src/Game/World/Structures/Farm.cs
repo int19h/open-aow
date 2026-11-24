@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using static Aow.Rtl.DelphiFormat;
 
@@ -43,7 +43,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
     {
         if (value)
         {
-            SetPlayer(-1);
+            SetPlayer(null);
             Mode |= Modes.Razed;
         }
         else
@@ -76,7 +76,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
                     if (info.Player != Player && !GetRazed())
                     {
                         int priority = data.Priority;
-                        if (Player == 0)
+                        if (Player == PlayerId.Independent)
                         {
                             priority = 50;
                         }

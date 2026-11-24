@@ -29,9 +29,9 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     public int Selection { get; protected set; }
     public ArmyHexSprite? ArmyHexSprite { get; protected set; }
 
-    private sbyte _player;
+    private PlayerId? _player = PlayerId.Independent;
 
-    public sbyte TargetPlayer { get; private set; }
+    public PlayerId? TargetPlayer { get; private set; } = PlayerId.Independent;
     public MapCoordinate Target { get; private set; }
 
     private MapCoordinate Destination { get; set; }
@@ -46,9 +46,9 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     {
         base.PersistFields(persister);
         persister.Int32List(name: "UnitIds", list: _unitIds);
-        _player = (sbyte)persister.UnsignedByte(name: "Player", value: _player);
+        _player = persister.OptionalPlayer(name: "Player", value: _player, width: IdWidth.UnsignedByte, fallback: 0);
         Target = persister.Coordinate(name: "Target", value: Target, width: CoordinateWidth.Byte);
-        TargetPlayer = (sbyte)persister.UnsignedByte(name: "TargetPlayer", value: TargetPlayer);
+        TargetPlayer = persister.OptionalPlayer(name: "TargetPlayer", value: TargetPlayer, width: IdWidth.UnsignedByte, fallback: 0);
         Mode = persister.Set("Mode", value: Mode);
         Destination = persister.Coordinate(name: "Destination", value: Destination, width: CoordinateWidth.Byte);
     }
@@ -97,8 +97,8 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
 
                 result = result && StrategicMap.Current.MoveControl.ValidPath(settings, Path);
                 result = result && ArmyHexSprite.Army.Player == _player;
-                sbyte targetPlayer = StrategicMap.Current.MapContainer.GetField(Target.X, Target.Y, Target.MapLevel).GetPlayer();
-                result = result && (targetPlayer == TargetPlayer || targetPlayer == ArmyHexSprite.Army.Player);
+                sbyte targetPlayer = (sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.MapContainer.GetField(Target.X, Target.Y, Target.MapLevel).GetPlayer());
+                result = result && (targetPlayer == PlayerIdExtensions.ToOriginal(TargetPlayer) || targetPlayer == PlayerIdExtensions.ToOriginal(ArmyHexSprite.Army.Player));
                 if (Mode.Contains(ArmyMoveModes.BuildRoads))
                 {
                     bool condition = result;
@@ -295,7 +295,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
         {
             i -= 1;
             MapField field = GetMapField(Path[i].Location);
-            result = field.GetPlayer() == -1;
+            result = field.GetPlayer() is null;
             if (!result)
             {
                 ArmyHexSprite? armyHexSprite = GetNoneMovingArmyHexSprite(field);
@@ -409,7 +409,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     public bool ObserveMove(int index)
     {
         bool visible = MoveVisible(index);
-        bool result = visible && StrategicMap.Current.ShowIndependentMoves && (StrategicMap.Current.SeatedPlayer != ArmyHexSprite.Army.Player || StrategicMap.Current.Players.GetPlayers((sbyte)(byte)StrategicMap.Current.SeatedPlayer).PlayerType != PlayerType.Human);
+        bool result = visible && StrategicMap.Current.ShowIndependentMoves && (StrategicMap.Current.SeatedPlayer != ArmyHexSprite.Army.Player || StrategicMap.Current.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer)).PlayerType != PlayerType.Human);
         if (result && StrategicMap.Current.TokenManager.TokenExecutor.ExecutingTokenEvent is MultiMoveTokenEvent eventValue && eventValue.Simultaneous)
         {
             visible = this == eventValue.Events[0];
@@ -423,7 +423,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     public bool MoveVisible(int index)
     {
         bool result;
-        if (StrategicMap.Current.SeatedPlayer != -1)
+        if (StrategicMap.Current.SeatedPlayer is not null)
         {
             PathStep item = Path[index];
             PathStep fPathItem = Path[index];
@@ -461,5 +461,5 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     }
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The unimplemented Delphi ConstructRoad stub keeps player and field.")]
-    private static bool ConstructRoad(sbyte player, MapField field) => false;
+    private static bool ConstructRoad(PlayerId? player, MapField field) => false;
 }

@@ -200,7 +200,7 @@ public sealed class CampaignTransferSettings : EngineObject
             for (int i = 0, last = StrategicMap.Current.UnitControl.GetCount() - 1; i <= last; i++)
             {
                 Troop troop = StrategicMap.Current.UnitControl[i];
-                if (troop.Player == player && troop.GetUnitType() != UnitType.Machine && (troop.GetMoveTypes() & (MoveTypes.Walking | MoveTypes.Flying)) != MoveTypes.None && troop is not Magic.Abilities.Leader && !troop.GetAbilityEnabled(155))
+                if (PlayerIdExtensions.ToOriginal(troop.Player) == player && troop.GetUnitType() != UnitType.Machine && (troop.GetMoveTypes() & (MoveTypes.Walking | MoveTypes.Flying)) != MoveTypes.None && troop is not Magic.Abilities.Leader && !troop.GetAbilityEnabled(155))
                 {
                     if (troop is Hero)
                     {
@@ -555,7 +555,7 @@ public sealed class CampaignTransferSettings : EngineObject
                 }
 
                 leader.UnitId = -1;
-                leader.SetPlayer(player);
+                leader.SetPlayer(PlayerId.FromOriginal(player));
                 leader.Activate();
             }
 
@@ -564,7 +564,7 @@ public sealed class CampaignTransferSettings : EngineObject
                 int item = SelectedUnits[i];
                 Troop troop = Units.GetUnit(item).Copy<Troop>(GetEngine());
                 troop.UnitId = -1;
-                _ = troop.Place(x, y, l, player, mode: UnitPlaceModes.ScanArea);
+                _ = troop.Place(x, y, l, player: PlayerId.FromOriginal(player), mode: UnitPlaceModes.ScanArea);
                 _ = troop.Release();
             }
 
@@ -591,7 +591,7 @@ public sealed class CampaignTransferSettings : EngineObject
 
                 hero.UnitId = -1;
                 hero.Mode |= HeroModes.SkipLibraryUpdate;
-                _ = hero.Place(x, y, l, player, mode: UnitPlaceModes.ScanArea);
+                _ = hero.Place(x, y, l, player: PlayerId.FromOriginal(player), mode: UnitPlaceModes.ScanArea);
                 hero.Mode &= ~HeroModes.SkipLibraryUpdate;
                 _ = hero.Release();
             }

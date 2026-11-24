@@ -46,7 +46,7 @@ public class SpellCastingAbility : MultiLevelAbility
                 CombatSideIndex opponentSide = source.OpponentSide;
                 if (combat.Sides[(int)side].Strength < combat.Sides[(int)opponentSide].Strength * 2 || source.HitPoints < 10 || (combat.CombatData.WallType != 0 && !combat.CombatData.WallBreached && CanCastBreachWallSpell(sourceUnit.Troop)))
                 {
-                    sbyte player = commands.Source.GetPlayer();
+                    sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(commands.Source.GetPlayer());
                     PlayerMagicControl magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
                     Spell spell;
                     if (!magic.GetCheatEnabled())
@@ -129,7 +129,7 @@ public class SpellCastingAbility : MultiLevelAbility
         damageValues = default;
         if (attacker is CombatUnit attackerUnit)
         {
-            sbyte player = attacker.GetPlayer();
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(attacker.GetPlayer());
             PlayerMagicControl magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
             Troop source = attackerUnit.Troop;
             AbilityDamageValues values = default;
@@ -155,7 +155,7 @@ public class SpellCastingAbility : MultiLevelAbility
         damageValues = default;
         if (attacker is CombatUnit attackerUnit)
         {
-            sbyte player = attacker.GetPlayer();
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(attacker.GetPlayer());
             PlayerMagicControl magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
             Troop source = attackerUnit.Troop;
             AbilityDamageValues values = default;

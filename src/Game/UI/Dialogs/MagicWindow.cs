@@ -503,7 +503,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
 
     internal static void RefreshMagicWindow(MagicWindow window)
     {
-        if (StrategicMap.Current.SeatedPlayer != -1)
+        if (StrategicMap.Current.SeatedPlayer is not null)
         {
             PlayerMagicControl control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
             window.EnchantmentList.Items.Clear();

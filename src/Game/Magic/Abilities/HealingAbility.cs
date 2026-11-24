@@ -6,7 +6,7 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -96,7 +96,7 @@ public class HealingAbility : TouchAbility
     }
 
     // AoWAb.PAS:3654
-    public override void NewTurn(AbilityOwner owner, sbyte player)
+    public override void NewTurn(AbilityOwner owner, PlayerId player)
     {
         if (owner is Troop troop && troop.Player == player)
         {

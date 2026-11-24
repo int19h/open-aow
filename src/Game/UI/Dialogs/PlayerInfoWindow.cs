@@ -29,11 +29,11 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     // AoWPInfoWin.pas:173
     public void UpdatePlayer()
     {
-        if (StrategicMap.Current.SeatedPlayer > -1)
+        if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) > -1)
         {
             string name = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetName();
             UI.PlayerInfoWindow.PlayerLabel.Text = name;
-            if (StrategicMap.Current.SeatedPlayer != 0)
+            if (StrategicMap.Current.SeatedPlayer != PlayerId.Independent)
             {
                 Player? player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
@@ -57,7 +57,7 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     public void UpdateEvents()
     {
         EventList.Items.Clear();
-        if (StrategicMap.Current.SeatedPlayer > -1)
+        if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) > -1)
         {
             StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.ListEvents(EventList.Items);
         }
@@ -162,7 +162,7 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     // AoWPInfoWin.pas:137
     public void FaceFrDraw(LockedSurface lockedSurface)
     {
-        if (StrategicMap.Current.SeatedPlayer > -1)
+        if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) > -1)
         {
             Rect r = new(FaceFrame.AbsoluteLeft + 3, FaceFrame.AbsoluteTop + 3, FaceFrame.AbsoluteLeft + FaceFrame.WinWidth - 3, FaceFrame.AbsoluteTop + FaceFrame.WinHeight - 3);
             StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFace()?.ShowStretched(r, lockedSurface);

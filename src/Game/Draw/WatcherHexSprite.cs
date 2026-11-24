@@ -172,8 +172,8 @@ public sealed class WatcherHexSprite : SingleHexSprite
         {
             if (Activated())
             {
-                ownerPlayer = Enchantment.PlayerIndex;
-                if (ownerPlayer == mapFieldMessage.Param[1].Int || (byte)StrategicMap.Current.Players.GetPlayers(ownerPlayer << 0).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMessage.Param[1].Int) == 2)
+                ownerPlayer = PlayerIdExtensions.ToOriginal(Enchantment.PlayerIndex);
+                if (ownerPlayer == mapFieldMessage.Param[1].Int || (byte)StrategicMap.Current.Players.GetPlayers(ownerPlayer << 0).DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)mapFieldMessage.Param[1].Int)) == 2)
                 {
                     int visibilityRange = VisibilityRange();
                     if (mapFieldMessage.Param[0].Int <= visibilityRange)
@@ -188,8 +188,8 @@ public sealed class WatcherHexSprite : SingleHexSprite
         {
             if (Activated())
             {
-                ownerPlayer = Enchantment.PlayerIndex;
-                if (ownerPlayer == mapFieldMessage.Param[1].Int || (byte)StrategicMap.Current.Players.GetPlayers(ownerPlayer << 0).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMessage.Param[1].Int) == 2)
+                ownerPlayer = PlayerIdExtensions.ToOriginal(Enchantment.PlayerIndex);
+                if (ownerPlayer == mapFieldMessage.Param[1].Int || (byte)StrategicMap.Current.Players.GetPlayers(ownerPlayer << 0).DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)mapFieldMessage.Param[1].Int)) == 2)
                 {
                     int visibilityRange = VisibilityRange();
                     if (mapFieldMessage.Param[0].Int <= visibilityRange)
@@ -236,7 +236,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
         WatcherState = (byte)((States)WatcherState & ~States.Active);
         if (Enchantment.EnchantmentStatus.Contains(GlobalEnchantmentStatuses.Activated))
         {
-            _ = Enchantment.Deactivate((byte)Enchantment.PlayerIndex);
+            _ = Enchantment.Deactivate(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(Enchantment.PlayerIndex)));
         }
 
         StrategicMap.Current.NotifyPlayerChanged(Owner.HexX, Owner.HexY, L: Owner.HexLevel);
@@ -299,13 +299,13 @@ public sealed class WatcherHexSprite : SingleHexSprite
         {
             for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
             {
-                int ownerPlayer = Enchantment.PlayerIndex;
-                if (ownerPlayer == i || (byte)StrategicMap.Current.Players.GetPlayers(ownerPlayer).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)i) == 2)
+                int ownerPlayer = PlayerIdExtensions.ToOriginal(Enchantment.PlayerIndex);
+                if (ownerPlayer == i || (byte)StrategicMap.Current.Players.GetPlayers(ownerPlayer).DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)i)) == 2)
                 {
                     int visibilityRange = VisibilityRange();
                     int hexY = HexY;
                     int hexX = HexX;
-                    _ = StrategicMap.Current.ExploreArea(hexX, hexY, HexLevel, player: (sbyte)i, range: visibilityRange);
+                    _ = StrategicMap.Current.ExploreArea(hexX, hexY, HexLevel, player: PlayerId.FromOriginal((sbyte)i), range: visibilityRange);
                 }
             }
         }
@@ -314,7 +314,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1321
     public void UpdateUnfog()
     {
-        int radius = (byte)StrategicMap.Current.SeatedPlayer != 255 && (Enchantment.PlayerIndex == StrategicMap.Current.SeatedPlayer || (byte)StrategicMap.Current.Players.GetPlayers(Enchantment.PlayerIndex).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)StrategicMap.Current.SeatedPlayer) == 2) && Activated()
+        int radius = (byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) != 255 && (Enchantment.PlayerIndex == StrategicMap.Current.SeatedPlayer || (byte)StrategicMap.Current.Players.GetPlayers(Enchantment.PlayerIndex).DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer))) == 2) && Activated()
             ? VisibilityRange()
             : 0;
         if (radius != _unfogRadius)
@@ -340,7 +340,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
     public int VisibilityRange()
     {
         int result = 8;
-        if (HexLevel != 0 || (Enchantment.PlayerIndex > 0 && StrategicMap.Current.Players.GetPlayers(Enchantment.PlayerIndex).MagicControl.EnemyEnchantments.Contains(PlayerEnchantmentTypes.WaterMastery)))
+        if (HexLevel != 0 || (PlayerIdExtensions.ToOriginal(Enchantment.PlayerIndex) > 0 && StrategicMap.Current.Players.GetPlayers(Enchantment.PlayerIndex).MagicControl.EnemyEnchantments.Contains(PlayerEnchantmentTypes.WaterMastery)))
         {
             result += 1;
             return result >>> 1;

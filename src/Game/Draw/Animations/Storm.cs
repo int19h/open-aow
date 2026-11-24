@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
@@ -12,10 +13,10 @@ namespace Aow.Game.Draw.Animations;
 // player
 public class Storm(CustomNode owner) : Animation(owner)
 {
-    public sbyte Player { get; private set; }
+    public PlayerId? Player { get; private set; } = PlayerId.Independent;
 
     // Storms.pas:34
-    public virtual StormDamageInfo GetTargetDamageInfo(sbyte player, int X, int Y, int L, StormDamageInfo info) => throw AbstractErrorException.Create("Abstract Error");
+    public virtual StormDamageInfo GetTargetDamageInfo(PlayerId? player, int X, int Y, int L, StormDamageInfo info) => throw AbstractErrorException.Create("Abstract Error");
 
     // Storms.pas:236
     public virtual void UpdateTargetSelection(TargetSelectionControl selection)
@@ -25,7 +26,7 @@ public class Storm(CustomNode owner) : Animation(owner)
     }
 
     // Storms.pas:209
-    public virtual void InitializeStorm(sbyte player, int X, int Y, int L)
+    public virtual void InitializeStorm(PlayerId? player, int X, int Y, int L)
     {
         Player = player;
         AnimationLevel = 28;
@@ -48,7 +49,7 @@ public class Storm(CustomNode owner) : Animation(owner)
     }
 
     // Storms.pas:242
-    public bool GetBestTarget(sbyte player, int X, int Y, int L, int range, out MapCoordinate target, out StormDamageInfo info)
+    public bool GetBestTarget(PlayerId? player, int X, int Y, int L, int range, out MapCoordinate target, out StormDamageInfo info)
     {
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[L];
         target = MapCoordinate.None;
@@ -61,7 +62,7 @@ public class Storm(CustomNode owner) : Animation(owner)
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 ArmyHexSprite armyHexSprite = level.Field[walk.X, walk.Y].GetArmyHexSprite();
-                if (armyHexSprite is not null && armyHexSprite.Army.Player != 0 && AbilityRules.ValidAttackRelation(player, independentRelation: 0, targetPlayer: armyHexSprite.Army.Player, targetRace: 0))
+                if (armyHexSprite is not null && armyHexSprite.Army.Player != PlayerId.Independent && AbilityRules.ValidAttackRelation(player, independentRelation: 0, targetPlayer: armyHexSprite.Army.Player, targetRace: 0))
                 {
                     candidate = GetTargetDamageInfo(player, walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), L: L.TruncateToSByte(), info: candidate);
                     if (info.EnemyDamage - info.FriendlyDamage < candidate.EnemyDamage - candidate.FriendlyDamage)

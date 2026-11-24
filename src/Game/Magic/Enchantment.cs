@@ -7,7 +7,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -52,16 +52,16 @@ public class Enchantment(CustomNode owner) : EngineObject(owner)
     }
 
     // Spells.PAS:1742
-    public virtual void SetSource(sbyte player)
+    public virtual void SetSource(PlayerId? player)
     {
-        if (player != Source)
+        if (PlayerIdExtensions.ToOriginal(player) != Source)
         {
             if (Source > -1)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(Source).MagicControl.UnregisterEnchantment(this);
             }
 
-            Source = player;
+            Source = PlayerIdExtensions.ToOriginal(player);
             if (Source > -1)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(Source).MagicControl.RegisterEnchantment(this);

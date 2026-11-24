@@ -1,9 +1,10 @@
 #nullable disable warnings
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 
 using Aow.Formats.Tree;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Rtl;
 
@@ -18,7 +19,7 @@ public class UnitEnchantmentAbilityData(CustomNode? owner) : AbilityData(owner)
     public ushort EnchantmentAbilityId { get; set; }
     public int EnchantmentDuration { get; set; } = -1;
     // -1 is permanent
-    public sbyte EnchantmentPlayerIndex { get; set; } = -1;
+    public PlayerId? EnchantmentPlayerIndex { get; set; } = null;
     public UnitEnchantment? Enchantment { get; set; }
 
     // AoWAb.PAS:567
@@ -36,7 +37,7 @@ public class UnitEnchantmentAbilityData(CustomNode? owner) : AbilityData(owner)
         base.PersistFields(persister);
         EnchantmentAbilityId = (ushort)persister.UInt16("EnchantmentAbilityId", value: EnchantmentAbilityId);
         Enchantment = persister.Created("Enchantment", objectValue: Enchantment);
-        EnchantmentPlayerIndex = (sbyte)persister.SByte("EnchantmentPlayerIndex", value: EnchantmentPlayerIndex, fallback: -1);
+        EnchantmentPlayerIndex = persister.OptionalPlayer("EnchantmentPlayerIndex", value: EnchantmentPlayerIndex, fallback: -1, width: IdWidth.SByte);
         EnchantmentDuration = persister.SByte("EnchantmentDuration", value: EnchantmentDuration.TruncateToSByte(), fallback: -1);
     }
 

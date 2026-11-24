@@ -6,6 +6,7 @@ using Aow.Game.Draw.Animations;
 using Aow.Game.Events;
 using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -24,7 +25,7 @@ public partial class ArmyCombatMoveTokenEvent
         }
         MapFieldMessage message = default;
         MapField field = GetMapField(Path[0].Location);
-        int defender = field.GetPlayer();
+        int defender = PlayerIdExtensions.ToOriginal(field.GetPlayer());
         MapField? source = ArmyHexSprite.Owner;
         ArmyHexSprite.SetOwner(null);
         ArmyHexSprite otherArmyHexSprite = source.GetArmyHexSprite();
@@ -71,13 +72,13 @@ public partial class ArmyCombatMoveTokenEvent
 
         int hexY = ArmyHexSprite.HexY;
         int hexLevel = ArmyHexSprite.HexLevel;
-        sbyte player = field.GetPlayer();
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
         int independentRelation = field.GetIndependentRelation();
         PathStep item = Path[0];
         PathStep fPathItem = Path[0];
         PathStep item2 = Path[0];
         int hexX = ArmyHexSprite.HexX;
-        _ = combat.Setup((byte)ArmyHexSprite.Army.Player, attackerRelation: ((sbyte)ArmyHexSprite.Army.IndependentRelation).TruncateToByte(), hexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)player, defenderRelation: independentRelation, item.Location.X, fPathItem.Location.Y, L: item2.Location.MapLevel, logActions: _combatType == CombatType.Fast);
+        _ = combat.Setup((byte)PlayerIdExtensions.ToOriginal(ArmyHexSprite.Army.Player), attackerRelation: ((sbyte)ArmyHexSprite.Army.IndependentRelation).TruncateToByte(), hexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)player, defenderRelation: independentRelation, item.Location.X, fPathItem.Location.Y, L: item2.Location.MapLevel, logActions: _combatType == CombatType.Fast);
         combat.SetExecutedHandler(CombatExecuted);
         message.MessageId = 4359;
         MapFieldMessageParameters param = message.Param;
@@ -107,7 +108,7 @@ public partial class ArmyCombatMoveTokenEvent
             if (combat is FastBattle)
             {
                 DistributeCombatEvent(combat.Logbook, execute: true);
-                if (StrategicMap.Current.RequestCombatType && StrategicMap.Current.SeatedPlayer == defender)
+                if (StrategicMap.Current.RequestCombatType && PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == defender)
                 {
                     UserEventLog log = new(null)
                     {

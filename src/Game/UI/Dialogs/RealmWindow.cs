@@ -240,7 +240,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:331
     public void UpdateOverview()
     {
-        if (StrategicMap.Current.SeatedPlayer == -1)
+        if (StrategicMap.Current.SeatedPlayer is null)
         {
             Window.Visible = false;
         }
@@ -958,7 +958,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     private static readonly string s_farmsText = "Farms";
     private static readonly string s_minesText = "Mines";
 
-    private static int BuildersGuildIncome(sbyte player)
+    private static int BuildersGuildIncome(PlayerId? player)
     {
         int number;
         if (StrategicMap.Current is not null)
@@ -982,7 +982,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
         return number;
     }
 
-    private static int CityIncome(sbyte player)
+    private static int CityIncome(PlayerId? player)
     {
         int number;
         if (StrategicMap.Current is not null)
@@ -1006,7 +1006,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
         return number;
     }
 
-    private static int FarmIncome(sbyte player)
+    private static int FarmIncome(PlayerId? player)
     {
         int number;
         if (StrategicMap.Current is not null)
@@ -1030,7 +1030,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
         return number;
     }
 
-    private static int MineIncome(sbyte player)
+    private static int MineIncome(PlayerId? player)
     {
         int number;
         if (StrategicMap.Current is not null)
@@ -1041,7 +1041,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
             for (int number2 = players.Structures.Count - 1; i <= number2; i++)
             {
                 PlayerStructure structure = players.Structures.GetStructure(i);
-                if (structure.EngineClass.ClassId == Mine.ClassId && (sbyte)(byte)structure.Player == player)
+                if (structure.EngineClass.ClassId == Mine.ClassId && structure.Player == player)
                 {
                     number += structure.GetIncome();
                 }

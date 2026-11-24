@@ -35,7 +35,7 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
         if (_newTurn is null)
         {
             StrategicMap.Current.SetSeatedPlayer(StrategicMap.Current.CurrentPlayer);
-            if (StrategicMap.Current.SeatedPlayer > -1)
+            if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) > -1)
             {
                 UI.PlayerInfoWindow.UpdateEvents();
             }
@@ -65,7 +65,7 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
                 TurnMessageLabel.Text = eventValue.Text;
                 string name = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer).GetName();
                 PlayerNameLabel.Text = name;
-                if (eventValue.TurnPlayer != 0)
+                if (eventValue.TurnPlayer != PlayerId.Independent)
                 {
                     Player? player = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer);
                     string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);

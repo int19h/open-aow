@@ -4,6 +4,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 
@@ -42,7 +43,7 @@ public class HeroUpdateTokenEvent(CustomNode? owner) : TokenEvent(owner)
             _ = troop.Player;
         }
 
-        if (troop is Hero hero && ((StrategicMap.Current.Combat is null && StrategicMap.Current.CurrentPlayer == hero.Player) || (StrategicMap.Current.Combat is not null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == hero.Player)))
+        if (troop is Hero hero && ((StrategicMap.Current.Combat is null && StrategicMap.Current.CurrentPlayer == hero.Player) || (StrategicMap.Current.Combat is not null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == PlayerIdExtensions.ToOriginal(hero.Player))))
         {
             switch (Mode)
             {

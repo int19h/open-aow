@@ -6,7 +6,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -201,7 +201,7 @@ public class AIGroupProductionControl : AIGroupTask
         int result = -1;
         bool useful = unit.Moves > _movesMin && (unit.GetMoveTypes() & _moveTypes) != MoveTypes.None;
         useful = useful && unit.GetUnitMoraleValue(_control.Group.Player, _control.Group.IndependentRelation) >= 50;
-        if (useful && _control.Group.Player == 0)
+        if (useful && _control.Group.Player == PlayerId.Independent)
         {
             useful = _control.Group.IndependentRelation < 0 || unit.GetIndependentRelation() < 0 || unit.GetIndependentRelation() == _control.Group.IndependentRelation;
         }

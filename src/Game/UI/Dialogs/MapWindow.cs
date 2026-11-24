@@ -99,7 +99,7 @@ public sealed partial class MapWindow(UIContext ui) : UIModule(ui)
     // AOWMWindow.pas:93
     public void MapViewerSceneChanged()
     {
-        if (StrategicMap.Current.SeatedPlayer != -1)
+        if (StrategicMap.Current.SeatedPlayer is not null)
         {
             UI.ScannerWindow.Scanner.SetTWidth(UI.MapWindow.MapViewer.SceneWidth / 32);
             UI.ScannerWindow.Scanner.SetTHeight(UI.MapWindow.MapViewer.SceneHeight / 32);

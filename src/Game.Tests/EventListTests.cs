@@ -136,8 +136,8 @@ public sealed class EventListTests
         try
         {
             sbyte seen = -2;
-            player.PlayerIndex = 2;
-            player.GemsChanged += source => seen = source.PlayerIndex;
+            player.PlayerIndex = PlayerId.Player2;
+            player.GemsChanged += source => seen = (sbyte)PlayerIdExtensions.ToOriginal(source.PlayerIndex);
 
             player.SetGems(9);
 

@@ -2,7 +2,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
@@ -24,7 +24,7 @@ public class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
     public override bool Activate()
     {
         _ = base.Activate();
-        if (Control.Player.PlayerIndex > 0)
+        if (PlayerIdExtensions.ToOriginal(Control.Player.PlayerIndex) > 0)
         {
             for (int i = 0, last = StrategicMap.Current.StructureControl.GetCount() - 1; i <= last; i++)
             {

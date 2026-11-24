@@ -38,7 +38,7 @@ public sealed record ProposeAlliance(int Gold = 0, int Mana = 0) : OfferProposal
 
     public override void Accepted(DiplomaticAction action)
     {
-        StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, otherPlayer: (sbyte)(byte)action.Target, relation: DiplomaticRelation.Alliance);
+        StrategicMap.Current.Players.SetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Source)), otherPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Target)), relation: DiplomaticRelation.Alliance);
         Broadcast(action, exclude: -1, viewer: action.Source);
         RemoveTargetLog(action);
     }
@@ -46,12 +46,12 @@ public sealed record ProposeAlliance(int Gold = 0, int Mana = 0) : OfferProposal
     public override DiplomaticActionReaction RejectReaction(DiplomaticAction action)
         => Relation(action.Source, second: action.Target) != DiplomaticRelation.Alliance ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
 
-    public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
+    public override void AnswerAI(DiplomaticAction action, PlayerId? player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
     {
         string errorText = "";
-        if (StrategicMap.Current.Players.GetPlayers(action.Target).AIControl.CanProposeAlliance((byte)action.Source))
+        if (StrategicMap.Current.Players.GetPlayers(action.Target).AIControl.CanProposeAlliance(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(action.Source))))
         {
-            RandSeed = (StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + action.Source + action.Target) >>> 2;
+            RandSeed = (StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + PlayerIdExtensions.ToOriginal(action.Source) + PlayerIdExtensions.ToOriginal(action.Target)) >>> 2;
             int chance = ((action.EscrowGold + action.EscrowMana) / 25) + 30;
             if (chance > 60)
             {
@@ -66,7 +66,7 @@ public sealed record ProposeAlliance(int Gold = 0, int Mana = 0) : OfferProposal
         }
     }
 
-    public override int RelationModifier(DiplomaticAction action, sbyte player, int race)
+    public override int RelationModifier(DiplomaticAction action, PlayerId? player, int race)
     {
         if (Relation(action.Source, second: action.Target) != DiplomaticRelation.Alliance)
         {

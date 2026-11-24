@@ -34,7 +34,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
             // Arena.CreateTokenEvent constructs ArenaTokenEvent for Arena actions.
             ArenaTokenEvent arenaTokenEvent = (ArenaTokenEvent)tokenEvent;
             string errorText = "";
-            if (CanTrainUnits((sbyte)tokenEvent.Param, units: arenaTokenEvent.UnitIds, ref errorText))
+            if (CanTrainUnits(PlayerId.FromOriginal((sbyte)tokenEvent.Param), units: arenaTokenEvent.UnitIds, ref errorText))
             {
                 for (int i = 0, last = arenaTokenEvent.UnitIds.Count - 1; i <= last; i++)
                 {
@@ -49,7 +49,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
                     }
                 }
 
-                if (StrategicMap.Current.SeatedPlayer == tokenEvent.Param)
+                if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == tokenEvent.Param)
                 {
                     if (arenaTokenEvent.UnitIds.Count == 1)
                     {
@@ -104,7 +104,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
     }
 
     // Arena.pas:159
-    public bool CanTrainUnits(sbyte player, Int32List units, ref string errorText)
+    public bool CanTrainUnits(PlayerId? player, Int32List units, ref string errorText)
     {
         bool result;
         if (units.Count != 0)
@@ -158,7 +158,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
     }
 
     // Arena.pas:194
-    public bool TrainUnits(sbyte player, Int32List units, out string errorText)
+    public bool TrainUnits(PlayerId? player, Int32List units, out string errorText)
     {
         errorText = "";
         if (CanTrainUnits(player, units, ref errorText) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
@@ -166,7 +166,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
             ArenaTokenEvent tokenEvent = CreateTokenEvent();
             SetupTokenEvent(tokenEvent);
             tokenEvent.UnitIds.Assign(units);
-            tokenEvent.Param = player;
+            tokenEvent.Param = PlayerIdExtensions.ToOriginal(player);
             tokenEvent.Action = 1;
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
@@ -179,7 +179,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
     }
 
     // Arena.pas:215
-    public bool CanEnter(sbyte player)
+    public bool CanEnter(PlayerId? player)
     {
         ArmyHexSprite army = Owner.GetArmyHexSprite();
         return army is not null && army.Army.Player == player;

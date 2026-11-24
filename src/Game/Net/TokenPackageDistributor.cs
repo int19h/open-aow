@@ -2,6 +2,7 @@
 // Translated from NetworkE.pas.
 
 using Aow.Game.Commands;
+using Aow.Game.Session;
 
 namespace Aow.Game.Net;
 
@@ -26,11 +27,11 @@ public sealed class TokenPackageDistributor(TokenManager manager)
                     if (tp.TokenEvents[i].TokenCounter >= TokenManager.TokenExecutor.TokenCounter)
                     {
                         TokenEvent tokenEvent = tp.TokenEvents[i];
-                        if (TokenManager.GetTokenControl(tp.Sender).Events.IndexOfTokenCounter(tokenEvent.TokenCounter) == -1)
+                        if (TokenManager.GetTokenControl(PlayerId.FromOriginal(tp.Sender)).Events.IndexOfTokenCounter(tokenEvent.TokenCounter) == -1)
                         {
                             TokenEvent fTokenEventsItem = tp.TokenEvents[i];
-                            TokenManager.GetTokenControl(tp.Sender).Add(fTokenEventsItem);
-                            TokenManager.GetTokenControl(tp.Sender).Events.SortOnTokenCounter();
+                            TokenManager.GetTokenControl(PlayerId.FromOriginal(tp.Sender)).Add(fTokenEventsItem);
+                            TokenManager.GetTokenControl(PlayerId.FromOriginal(tp.Sender)).Events.SortOnTokenCounter();
                         }
                         else
                         {
@@ -51,7 +52,7 @@ public sealed class TokenPackageDistributor(TokenManager manager)
     {
         TokenPackage tp = new(null) { Holder = Pc };
         tp.TokenEvents.Assign(events, engine: null);
-        _ = Pc.SendDataPackage(tp, sender: player, receiver);
+        _ = Pc.SendDataPackage(tp, sender: PlayerId.FromOriginal(player), receiver);
         _ = tp.Release();
     }
 

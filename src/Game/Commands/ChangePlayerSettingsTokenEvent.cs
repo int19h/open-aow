@@ -4,6 +4,7 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Net;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
@@ -13,14 +14,14 @@ public class ChangePlayerSettingsTokenEvent(CustomNode owner) : TokenEvent(owner
 {
     public new const int ClassId = 135_974;
 
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
     public string Settings { get; set; } = "";
 
     // MoveT.PAS:1891
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         Settings = persister.String("Settings", value: Settings);
     }
 

@@ -7,7 +7,7 @@ using Aow.Game.Combat;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.AI.Groups;
@@ -59,7 +59,7 @@ public class HuntAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                     {
                         int item = group.TargetUnitIds[i];
                         Troop? troop = StrategicMap.Current.UnitControl.FindUnit(item);
-                        if (troop is null || troop.Player == 0)
+                        if (troop is null || troop.Player == PlayerId.Independent)
                         {
                             group.TargetUnitIds.Delete(i);
                         }

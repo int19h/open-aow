@@ -6,6 +6,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -21,7 +22,7 @@ public class UnitSpellTokenEvent : SpellTokenEvent
 
     private readonly UnitUserList _targetUnits;
 
-    public byte TargetPlayer { get; set; }
+    public PlayerId? TargetPlayer { get; set; } = PlayerId.Independent;
 
     public int[] SpellData { get; } = new int[2];
 
@@ -38,7 +39,7 @@ public class UnitSpellTokenEvent : SpellTokenEvent
         base.PersistFields(persister);
         persister.Int32List(name: "TargetUnitIds", list: TargetUnitIds);
         persister.Int32Array(name: "SpellData", values: SpellData);
-        TargetPlayer = persister.Byte("TargetPlayer", TargetPlayer);
+        TargetPlayer = persister.OptionalPlayer("TargetPlayer", TargetPlayer, width: IdWidth.Byte, fallback: 0);
     }
 
     // Spells.PAS:1120
@@ -68,7 +69,7 @@ public class UnitSpellTokenEvent : SpellTokenEvent
                 int targetX = coordinate13.X;
                 int targetY = coordinate13.Y;
                 _ = coordinate13.MapLevel;
-                result = target.GetHitPoints() != 0 && (byte)target.Player == TargetPlayer;
+                result = target.GetHitPoints() != 0 && (byte)PlayerIdExtensions.ToOriginal(target.Player) == (byte)PlayerIdExtensions.ToOriginal(TargetPlayer);
                 if (result)
                 {
                     if (GamePack.Current.SpellControl.GetSpell<UnitSpell>(EventSpellId).TargetRange != -1)
@@ -120,12 +121,12 @@ public class UnitSpellTokenEvent : SpellTokenEvent
     public void Initialize(int spellId, Troop source, UnitUserList? targets, int mana)
     {
         EventSpellId = spellId;
-        EventPlayerIndex = (byte)source.Player;
+        EventPlayerIndex = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player));
         EventSourceId = source.UnitId;
         EventMana = mana;
         if (targets is not null && targets.GetCount() != 0)
         {
-            TargetPlayer = (byte)targets.GetUnit(0).Player;
+            TargetPlayer = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(targets.GetUnit(0).Player));
             for (int i = 0, last = targets.GetCount() - 1; i <= last; i++)
             {
                 Troop? troop = targets.GetUnit(i);
@@ -134,7 +135,7 @@ public class UnitSpellTokenEvent : SpellTokenEvent
         }
         else
         {
-            TargetPlayer = 255;
+            TargetPlayer = null;
         }
     }
 }

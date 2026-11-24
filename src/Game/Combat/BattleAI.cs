@@ -6,7 +6,7 @@ using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
@@ -2049,7 +2049,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                 n = 0;
                                                 for (; n <= 130; n += 1)
                                                 {
-                                                    bool condition = target.Troop.Player > 0 && TacticalTables.SpellTypes[n] != BattleEffectType.None && StrategicMap.Current.Players.GetPlayers(target.Troop.Player).MagicControl.Spells.IndexOf(n) != -1;
+                                                    bool condition = PlayerIdExtensions.ToOriginal(target.Troop.Player) > 0 && TacticalTables.SpellTypes[n] != BattleEffectType.None && StrategicMap.Current.Players.GetPlayers(target.Troop.Player).MagicControl.Spells.IndexOf(n) != -1;
                                                     if (condition)
                                                     {
                                                         Spell? spell = GamePack.Current.SpellControl[n];
@@ -2166,7 +2166,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                 k = 0;
                                                 for (; k <= 130; k += 1)
                                                 {
-                                                    bool condition = u.Troop.Player > 0 && TacticalTables.SpellTypes[k] != BattleEffectType.None && StrategicMap.Current.Players.GetPlayers(u.Troop.Player).MagicControl.Spells.IndexOf(k) != -1;
+                                                    bool condition = PlayerIdExtensions.ToOriginal(u.Troop.Player) > 0 && TacticalTables.SpellTypes[k] != BattleEffectType.None && StrategicMap.Current.Players.GetPlayers(u.Troop.Player).MagicControl.Spells.IndexOf(k) != -1;
                                                     if (condition)
                                                     {
                                                         Spell? spell = GamePack.Current.SpellControl[k];
@@ -2416,7 +2416,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
 
                                         if (j == 52 && u.Troop is Hero)
                                         {
-                                            if (u.Troop.Player > 0)
+                                            if (PlayerIdExtensions.ToOriginal(u.Troop.Player) > 0)
                                             {
                                                 k = 0;
                                                 for (; k <= 130; k += 1)
@@ -2863,7 +2863,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                         // { Original repeats X. }
                                                         Creator.GetEngine().OutputDebugString($"AI moves to X: {move.X.ToString(CultureInfo.InvariantCulture)} Y: {move.X.ToString(CultureInfo.InvariantCulture)}");
                                                         moved = TacticalBattleUnit.MoveCombatUnit(move.UnitHexSprite.Unit, path: pathStepList);
-                                                        if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
+                                                        if (move.UnitHexSprite.Unit.CombatPlayer == PlayerIdExtensions.ToOriginal(CombatMap.Current.SeatedPlayer))
                                                         {
                                                             int unitHexSpriteHexY = move.UnitHexSprite.HexY;
                                                             int hexX = move.UnitHexSprite.HexX;
@@ -2905,7 +2905,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                 // { Original repeats X in the debug text. }
                                                 Creator.GetEngine().OutputDebugString($"AI touches at X: {move.X.ToString(CultureInfo.InvariantCulture)} Y: {move.X.ToString(CultureInfo.InvariantCulture)}");
                                                 moved = move.UnitHexSprite.MeleeMoveTacticalBattle(pathStepList);
-                                                if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
+                                                if (move.UnitHexSprite.Unit.CombatPlayer == PlayerIdExtensions.ToOriginal(CombatMap.Current.SeatedPlayer))
                                                 {
                                                     int hexY = move.UnitHexSprite.HexY;
                                                     int hexX = move.UnitHexSprite.HexX;
@@ -2948,7 +2948,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                 // { Original repeats X in the debug text. }
                                                 Creator.GetEngine().OutputDebugString($"AI melees at X: {move.X.ToString(CultureInfo.InvariantCulture)} Y: {move.X.ToString(CultureInfo.InvariantCulture)}");
                                                 moved = move.UnitHexSprite.AbilityTouchMoveTacticalBattle(pathStepList);
-                                                if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
+                                                if (move.UnitHexSprite.Unit.CombatPlayer == PlayerIdExtensions.ToOriginal(CombatMap.Current.SeatedPlayer))
                                                 {
                                                     int hexY = move.UnitHexSprite.HexY;
                                                     int hexX = move.UnitHexSprite.HexX;
@@ -2966,7 +2966,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     // { Original repeats X in the debug text. }
                                     Creator.GetEngine().OutputDebugString($"AI ranged at X: {move.X.ToString(CultureInfo.InvariantCulture)} Y: {move.X.ToString(CultureInfo.InvariantCulture)}");
                                     moved = move.UnitHexSprite.AbilityRangedTacticalBattle(move.X, move.Y);
-                                    if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
+                                    if (move.UnitHexSprite.Unit.CombatPlayer == PlayerIdExtensions.ToOriginal(CombatMap.Current.SeatedPlayer))
                                     {
                                         int hexY = move.UnitHexSprite.HexY;
                                         int hexX = move.UnitHexSprite.HexX;

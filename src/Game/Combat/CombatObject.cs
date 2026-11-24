@@ -8,6 +8,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -666,10 +667,10 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
     }
 
     // Combat.pas:5797
-    public sbyte GetPlayer()
+    public PlayerId? GetPlayer()
     {
         byte player = (byte)CombatPlayer;
-        return player != 255 ? Combat.CombatData.Players.GetPlayers((sbyte)player).Player : (sbyte)-1;
+        return player != 255 ? PlayerId.FromOriginal(Combat.CombatData.Players.GetPlayers((sbyte)player).Player) : null;
     }
 
     // Combat.pas:5805

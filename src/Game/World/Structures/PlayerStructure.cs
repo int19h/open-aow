@@ -28,7 +28,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
 
     public override PlayerStructureResource Resource => GetResource<PlayerStructureResource>();
 
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
     public byte ProductionPriority { get; private set; }
 
     private byte _flagId;
@@ -43,7 +43,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         _ = persister.BitList(name: "VictoryLocations", list: _victoryLocations);
         ProductionPriority = persister.Byte("ProductionPriority", value: ProductionPriority);
     }
@@ -54,9 +54,9 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001989)
         {
-            if (StrategicMap.Current.Players.NumberOfPlayers < Player)
+            if (StrategicMap.Current.Players.NumberOfPlayers < PlayerIdExtensions.ToOriginal(Player))
             {
-                SetPlayer(0);
+                SetPlayer(PlayerId.Independent);
             }
 
             UpdateFlagId();
@@ -100,9 +100,9 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
         {
             if (!StrategicMap.Current.FogEnabled || !Fogged)
             {
-                if (Player >= 0)
+                if (PlayerIdExtensions.ToOriginal(Player) >= 0)
                 {
-                    if (Player > 0)
+                    if (PlayerIdExtensions.ToOriginal(Player) > 0)
                     {
                         Player? players = StrategicMap.Current.Players.GetPlayers(Player);
                         MapFieldMessageParameters param = message.Param;
@@ -123,7 +123,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
                     message.Param = param3;
                 }
 
-                if (StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.CaptureLocations && _victoryLocations[StrategicMap.Current.SeatedPlayer])
+                if (StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.CaptureLocations && _victoryLocations[PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer)])
                 {
                     MapFieldMessageParameters param4 = message.Param;
                     param4[0] = param4[0].Int | 0b0001_0000_0000_0000_0000_0000_0000;
@@ -146,14 +146,14 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
         {
             if (Resource.TerrainList.Terrain[message.HexNumber] >= 0 && !GetRazed())
             {
-                message.Result = Player == 0 ? Resource.Claimed ? (Rtl.MsgArg)0 : (Rtl.MsgArg)(-1) : (Rtl.MsgArg)Player;
+                message.Result = Player == PlayerId.Independent ? Resource.Claimed ? (Rtl.MsgArg)0 : (Rtl.MsgArg)(-1) : Session.MsgArgIds.FromPlayer(Player);
             }
         }
         else
         {
             if (message.MessageId == 4365 && Resource.TerrainList.Terrain[message.HexNumber] >= 0)
             {
-                bool condition = Player > 0;
+                bool condition = PlayerIdExtensions.ToOriginal(Player) > 0;
                 if (condition)
                 {
                     int visibilityRange = VisibilityRange();
@@ -170,22 +170,22 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
             {
                 if (message.MessageId == 4400 && Resource.TerrainList.Terrain[message.HexNumber] >= 0)
                 {
-                    message.Result = Player;
+                    message.Result = Session.MsgArgIds.FromPlayer(Player);
                 }
                 else
                 {
                     if (message.MessageId == 4353 && Resource.TerrainList.Terrain[message.HexNumber] >= 0)
                     {
-                        MoveAction moveAction = GetMoveAction((sbyte)message.Param[0].Int, action: (MoveAction)message.Param[1].Int);
+                        MoveAction moveAction = GetMoveAction(PlayerId.FromOriginal((sbyte)message.Param[0].Int), action: (MoveAction)message.Param[1].Int);
                         MapFieldMessageParameters param6 = message.Param;
                         param6[1] = (int)moveAction;
                         message.Param = param6;
                     }
                     else
                     {
-                        if (message.MessageId == 4362 && Player > 0)
+                        if (message.MessageId == 4362 && PlayerIdExtensions.ToOriginal(Player) > 0)
                         {
-                            if (Player == message.Param[1].Int || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)message.Param[1].Int) == DiplomaticRelation.Alliance)
+                            if (PlayerIdExtensions.ToOriginal(Player) == message.Param[1].Int || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)message.Param[1].Int)) == DiplomaticRelation.Alliance)
                             {
                                 int visibilityRange = VisibilityRange();
                                 if (message.Param[0].Int <= visibilityRange)
@@ -199,9 +199,9 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
             }
         }
 
-        if (message.MessageId == 4363 && Player > 0)
+        if (message.MessageId == 4363 && PlayerIdExtensions.ToOriginal(Player) > 0)
         {
-            if (Player == message.Param[1].Int || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)message.Param[1].Int) == DiplomaticRelation.Alliance)
+            if (PlayerIdExtensions.ToOriginal(Player) == message.Param[1].Int || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)message.Param[1].Int)) == DiplomaticRelation.Alliance)
             {
                 int trueVisionRange = TrueVisionRange();
                 if (message.Param[0].Int <= trueVisionRange)
@@ -232,7 +232,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     {
         if (Resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
-            if (!GetRazed() && Player != -1 && ((MoveControl)info.Sender).Player != Player && info.MoveOverCode != 1)
+            if (!GetRazed() && Player is not null && ((MoveControl)info.Sender).Player != Player && info.MoveOverCode != 1)
             {
                 moveResult.Code = -1;
                 moveResult.Done = true;
@@ -244,9 +244,8 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
         return Resource.TerrainList.Terrain[info.HexNumber] >= 0 && (!GetRazed() || Building)
-            ? Player == 0
-                ? ((MoveControl)info.Sender).Player == Player || !Resource.Claimed ? 1 : 0
-                : ((MoveControl)info.Sender).Player == Player || Player == -1 ? 1 : 0
+            ? Player == PlayerId.Independent ? ((MoveControl)info.Sender).Player == Player || !Resource.Claimed ? 1 : 0
+                : ((MoveControl)info.Sender).Player == Player || Player is null ? 1 : 0
             : 1;
     }
 
@@ -257,7 +256,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
         UpdateFlagId();
         UpdateUnfog();
         RegisterVictoryLocations();
-        if (Player != -1)
+        if (Player is not null)
         {
             _ = StrategicMap.Current.Players.GetPlayers(Player).Structures.AddChild(this);
         }
@@ -266,7 +265,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     // Structur.PAS:2294
     public override void Deactivate()
     {
-        if (Player != -1)
+        if (Player is not null)
         {
             _ = StrategicMap.Current.Players.GetPlayers(Player).Structures.RemoveChild(this);
         }
@@ -289,7 +288,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     public override void NewDay()
     {
         base.NewDay();
-        if (StrategicMap.Current.Day == 1 && Player > 0)
+        if (StrategicMap.Current.Day == 1 && PlayerIdExtensions.ToOriginal(Player) > 0)
         {
             UpdateExploration();
             UpdatePlayerSeen();
@@ -297,7 +296,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     }
 
     // Structur.PAS:2078
-    public override void NewTurn(sbyte player)
+    public override void NewTurn(PlayerId player)
     {
         base.NewTurn(player);
         if (player == Player && ProductionPriority != 255)
@@ -365,7 +364,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
             case AITargetMode.Attack:
                 if (info.Player != Player && !GetRazed())
                 {
-                    if (Player == 0 || AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: 0))
+                    if (Player == PlayerId.Independent || AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: 0))
                     {
                         int defaultAITargetPriority = DefaultAITargetPriority;
                         data.Priority = defaultAITargetPriority;
@@ -390,7 +389,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     public override bool CanRebuild(Troop troop, ref string reason) => base.CanRebuild(troop, ref reason);
 
     // Structur.PAS:2130
-    public virtual void SetPlayer(sbyte player)
+    public virtual void SetPlayer(PlayerId? player)
     {
         if (player != Player)
         {
@@ -400,7 +399,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
             }
 
             ProductionPriority = 0;
-            if (Player != -1)
+            if (Player is not null)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(Player).Structures.RemoveChild(this);
             }
@@ -425,18 +424,18 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
             int hexY2 = HexY;
             int hexX2 = HexX;
             StrategicMap.Current.NotifyPlayerChanged(hexX2, hexY2, L: hexLevel2);
-            if (Player != -1)
+            if (Player is not null)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(Player).Structures.AddChild(this);
             }
 
-            if (Player > 0 && StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.CaptureLocations)
+            if (PlayerIdExtensions.ToOriginal(Player) > 0 && StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.CaptureLocations)
             {
                 for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                 {
                     if (_victoryLocations[i])
                     {
-                        if (i == Player || (StrategicMap.Current.AlliedVictory && StrategicMap.Current.Players.GetDiplomaticRelation(Player, otherPlayer: (sbyte)i) == DiplomaticRelation.Alliance))
+                        if (i == PlayerIdExtensions.ToOriginal(Player) || (StrategicMap.Current.AlliedVictory && StrategicMap.Current.Players.GetDiplomaticRelation(Player, otherPlayer: PlayerId.FromOriginal((sbyte)i)) == DiplomaticRelation.Alliance))
                         {
                             StrategicMap.Current.Players.GetPlayers(i).CheckCaptureLocations();
                         }
@@ -458,7 +457,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     public virtual void UpdateFlagId()
     {
         _flagId = !Status.Contains(MapObjectStatuses.EditMode)
-            ? Player > 0
+            ? PlayerIdExtensions.ToOriginal(Player) > 0
                 ? (byte)StrategicMap.Current.Players.GetPlayers(Player).PlayerRace
                 : Resource.Claimed ? (byte)32 : (byte)63
             : (byte)63;
@@ -471,7 +470,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
         if (!Building)
         {
             result = 6;
-            if (HexLevel != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0))
+            if (HexLevel != 0 || (PlayerIdExtensions.ToOriginal(Player) > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0))
             {
                 return (result + 1) >>> 1;
             }
@@ -492,7 +491,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
             return;
         }
 
-        int range = Status.Contains(MapObjectStatuses.Activated) && Player != -1 && StrategicMap.Current.SeatedPlayer != -1 && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(StrategicMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance)
+        int range = Status.Contains(MapObjectStatuses.Activated) && Player is not null && StrategicMap.Current.SeatedPlayer is not null && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(StrategicMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance)
             ? VisibilityRange()
             : 0;
 
@@ -530,13 +529,13 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     // Structur.PAS:2233
     public virtual void UpdateExploration()
     {
-        if (Status.Contains(MapObjectStatuses.PlacedOnMap) && Player > 0)
+        if (Status.Contains(MapObjectStatuses.PlacedOnMap) && PlayerIdExtensions.ToOriginal(Player) > 0)
         {
             int x = default;
             int y = default;
             for (int player = 1, last = StrategicMap.Current.Players.Count - 1; player <= last; player++)
             {
-                if (player == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Alliance)
+                if (player == PlayerIdExtensions.ToOriginal(Player) || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)player)) == DiplomaticRelation.Alliance)
                 {
                     for (int i = 0, lastI = Resource.TerrainList.Count - 1; i <= lastI; i++)
                     {
@@ -544,7 +543,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
                         {
                             HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, hexNumber: i, ref x, ref y);
                             int visibilityRange = VisibilityRange();
-                            _ = StrategicMap.Current.ExploreArea(x, y, Owner.HexLevel, player: (sbyte)player, range: visibilityRange);
+                            _ = StrategicMap.Current.ExploreArea(x, y, Owner.HexLevel, player: PlayerId.FromOriginal((sbyte)player), range: visibilityRange);
                         }
                     }
                 }
@@ -558,7 +557,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     {
         if (combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders)
         {
-            SetPlayer(combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer).Player);
+            SetPlayer(PlayerId.FromOriginal(combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer).Player));
         }
     }
 
@@ -582,9 +581,9 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     }
 
     // Structur.PAS:2094
-    public virtual void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
+    public virtual void StructureCaptured(PlayerId? oldPlayer, PlayerId? newPlayer)
     {
-        if (!GetRazed() && !Building && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && Status.Contains(MapObjectStatuses.Activated) && !Resource.Claimed)
+        if (!GetRazed() && !Building && oldPlayer == PlayerId.Independent && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && Status.Contains(MapObjectStatuses.Activated) && !Resource.Claimed)
         {
             LocationTextEventLog log = new(null)
             {
@@ -600,9 +599,9 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     }
 
     // Structur.PAS:2363
-    public virtual MoveAction GetMoveAction(sbyte player, MoveAction action)
+    public virtual MoveAction GetMoveAction(PlayerId? player, MoveAction action)
     {
-        return player != Player && !GetRazed() && (Player != 0 || Resource.Claimed)
+        return player != Player && !GetRazed() && (Player != PlayerId.Independent || Resource.Claimed)
             ? MoveAction.Attack
             : action;
     }
@@ -627,11 +626,11 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
                 {
                     if (player != -1)
                     {
-                        different = army.Army.Player != player;
+                        different = PlayerIdExtensions.ToOriginal(army.Army.Player) != player;
                     }
                     else
                     {
-                        player = army.Army.Player;
+                        player = (sbyte)PlayerIdExtensions.ToOriginal(army.Army.Player);
                     }
                 }
             }
@@ -643,11 +642,11 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
         {
             if (different)
             {
-                SetPlayer(-1);
+                SetPlayer(null);
             }
             else
             {
-                SetPlayer(player);
+                SetPlayer(PlayerId.FromOriginal(player));
             }
         }
 
@@ -655,14 +654,14 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     }
 
     // Structur.PAS:1986
-    public bool GetVictoryLocation(sbyte player) => _victoryLocations[player];
+    public bool GetVictoryLocation(PlayerId player) => _victoryLocations[player.Value];
 
     // Structur.PAS:1991
-    public void SetVictoryLocation(sbyte player, bool value)
+    public void SetVictoryLocation(PlayerId player, bool value)
     {
-        if (_victoryLocations[player] != value)
+        if (_victoryLocations[player.Value] != value)
         {
-            _victoryLocations[player] = value;
+            _victoryLocations[player.Value] = value;
             if (value)
             {
                 StrategicMap.Current.Players.GetPlayers(player).RegisterVictoryLocation(this);
@@ -713,7 +712,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     // Structur.PAS:2220
     public void UpdatePlayerSeen()
     {
-        if (Status.Contains(MapObjectStatuses.PlacedOnMap) && Player > 0)
+        if (Status.Contains(MapObjectStatuses.PlacedOnMap) && PlayerIdExtensions.ToOriginal(Player) > 0)
         {
             int x = default;
             int y = default;

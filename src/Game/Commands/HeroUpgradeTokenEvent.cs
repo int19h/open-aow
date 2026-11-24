@@ -5,6 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -16,7 +17,7 @@ public class HeroUpgradeTokenEvent : TokenEvent
     public new const int ClassId = 135_965;
 
     public int UnitId { get; set; }
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
     public int Attack { get; set; }
     public int Defense { get; set; }
     public int Resistance { get; set; }
@@ -45,7 +46,7 @@ public class HeroUpgradeTokenEvent : TokenEvent
         Hits = persister.UnsignedByte(name: "Hits", value: Hits.TruncateToSByte());
         persister.Object("Abilities", objectValue: Abilities);
         UnitId = persister.Int32("UnitId", value: UnitId);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
     }
 
     // Hero.PAS:1

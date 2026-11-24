@@ -644,7 +644,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.NotYoursPanel.Visible = true;
-        if (structure is City city && city.Player == 0)
+        if (structure is City city && city.Player == PlayerId.Independent)
         {
             dialog.PopulationRaceLabel.Visible = true;
             string raceNamesPlural = dialog.UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[city.Race]);
@@ -658,7 +658,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
             dialog.NotYoursMemo.Items.Assign(description);
         }
 
-        if (structure.Player != -1)
+        if (structure.Player is not null)
         {
             int raceIndex = StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
             if (raceIndex == -1)

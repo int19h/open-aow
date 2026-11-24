@@ -6,7 +6,7 @@ using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
@@ -58,7 +58,7 @@ public class HolyGroundSpellTokenEvent(CustomNode? owner) : GlobalTargetSpellTok
                             ImageSequenceAnimation animation = new(null, show: ground.ShowSummonAnimation, newFrame: ground.NewFrameSummonAnimation) { Holder = CreationHolder() };
                             animation.SetImageSequence(GamePack.Current.SpellControl[13].CastImages.ImageSequences[0]);
                             animation.FrameCounter = -StrategicMap.Current.Random(15);
-                            animation.Tag = caster.Player;
+                            animation.Tag = PlayerIdExtensions.ToOriginal(caster.Player);
                             _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, L: Location.MapLevel);
                         }
                         else

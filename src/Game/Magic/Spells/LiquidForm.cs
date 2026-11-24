@@ -3,7 +3,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -28,7 +28,7 @@ public class LiquidForm : UnitSpell
     }
 
     // UnitSpells.pas:783
-    public override void PlayDefaultCastEffects(sbyte player, int X, int Y, int layer)
+    public override void PlayDefaultCastEffects(PlayerId? player, int X, int Y, int layer)
     {
         base.PlayDefaultCastEffects(player, X, Y, layer);
         if (player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, L: layer, radius: 0))

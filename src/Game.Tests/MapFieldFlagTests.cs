@@ -1,4 +1,5 @@
 using System.Buffers.Binary;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Tests;
@@ -47,8 +48,8 @@ public sealed class MapFieldFlagTests
         for (int player = 1; player <= 12; player++)
         {
             MapField field = new(null) { Holder = EngineFixture.Engine };
-            field.SetExplored(player, value: true);
-            Assert.Equal(MapField.ExploredFlag(player), field.FieldFlags);
+            field.SetExplored(PlayerId.FromOriginal(player), value: true);
+            Assert.Equal(MapField.ExploredFlag(PlayerId.FromOriginal(player)), field.FieldFlags);
             Assert.Equal(field.FieldFlags, field.FieldFlags & MapField.ExploredFlags);
         }
     }

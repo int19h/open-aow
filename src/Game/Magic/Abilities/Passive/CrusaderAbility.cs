@@ -1,6 +1,7 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
+using Aow.Game.Session;
 using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities.Passive;
@@ -21,7 +22,7 @@ public class CrusaderAbility : DurationAbility
     }
 
     // PassiveAb.pas:724
-    public override void NewTurn(AbilityOwner owner, sbyte player)
+    public override void NewTurn(AbilityOwner owner, PlayerId player)
     {
         if (DurationMode == DurationMode.Day)
         {

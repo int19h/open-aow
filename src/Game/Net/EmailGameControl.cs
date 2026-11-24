@@ -140,11 +140,11 @@ public sealed class EmailGameControl : EngineObject
         {
             destination = "";
             StrategicMap map = GetEngine().CreatePreviewHsm<StrategicMap>(fileName, profile: GameProfile.WorldMap);
-            bool condition = map is not null && map.ConnectionType == PlayerConnectionType.Email && map.CurrentPlayer > 0;
+            bool condition = map is not null && map.ConnectionType == PlayerConnectionType.Email && PlayerIdExtensions.ToOriginal(map.CurrentPlayer) > 0;
             if (condition)
             {
                 int count = map.Players.Count;
-                condition = map.CurrentPlayer < count;
+                condition = PlayerIdExtensions.ToOriginal(map.CurrentPlayer) < count;
             }
 
             if (condition && map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatuses.NewTurn))
@@ -165,11 +165,11 @@ public sealed class EmailGameControl : EngineObject
                                 if (previousMap is not null)
                                 {
                                     // { Original bug: the previous map's player is checked against the new map's count. }
-                                    bool test = previousMap.CurrentPlayer > 0;
+                                    bool test = PlayerIdExtensions.ToOriginal(previousMap.CurrentPlayer) > 0;
                                     if (test)
                                     {
                                         int count = map.Players.Count;
-                                        test = previousMap.CurrentPlayer < count;
+                                        test = PlayerIdExtensions.ToOriginal(previousMap.CurrentPlayer) < count;
                                     }
 
                                     if (test)

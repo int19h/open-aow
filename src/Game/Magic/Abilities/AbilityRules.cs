@@ -179,7 +179,7 @@ public static class AbilityRules
         return result;
     }
 
-    internal static int RoadConstructionCost(sbyte player, MovePath path, int movePoints)
+    internal static int RoadConstructionCost(PlayerId? player, MovePath path, int movePoints)
     {
         int result = 0;
         int i = path.Count;
@@ -260,7 +260,7 @@ public static class AbilityRules
         return Troop.Morale.Ok;
     }
 
-    internal static int PlaceRandomUnits(int X, int Y, int L, sbyte player, UnitIndexList units, int level, int value, UnitTypes types, GameEngine? engine)
+    internal static int PlaceRandomUnits(int X, int Y, int L, PlayerId? player, UnitIndexList units, int level, int value, UnitTypes types, GameEngine? engine)
     {
         int result = 0;
         if (units.Count != 0)
@@ -325,16 +325,14 @@ public static class AbilityRules
             : GamePack.Current.RaceResources.GetRaceResource(relation).Alignment;
     }
 
-    internal static DiplomaticRelation DiplomaticRelation(sbyte player, int independentRelation, sbyte otherPlayer, int otherIndependentRelation)
+    internal static DiplomaticRelation DiplomaticRelation(PlayerId? player, int independentRelation, PlayerId? otherPlayer, int otherIndependentRelation)
     {
-        if (player == 0 || otherPlayer == 0)
+        if (player == PlayerId.Independent || otherPlayer == PlayerId.Independent)
         {
-            int race = player != 0
-                ? StrategicMap.Current.Players.GetPlayers(player).PlayerRace
+            int race = player != PlayerId.Independent ? StrategicMap.Current.Players.GetPlayers(player).PlayerRace
                 : independentRelation >= 0 ? independentRelation : -1;
 
-            int otherRace = otherPlayer != 0
-                ? StrategicMap.Current.Players.GetPlayers(otherPlayer).PlayerRace
+            int otherRace = otherPlayer != PlayerId.Independent ? StrategicMap.Current.Players.GetPlayers(otherPlayer).PlayerRace
                 : otherIndependentRelation >= 0 ? otherIndependentRelation : -1;
 
             if (race == -1 || otherRace == -1)
@@ -362,11 +360,11 @@ public static class AbilityRules
         }
     }
 
-    internal static bool ValidAttackRelation(sbyte player, int independentRelation, sbyte targetPlayer, int targetRace)
+    internal static bool ValidAttackRelation(PlayerId? player, int independentRelation, PlayerId? targetPlayer, int targetRace)
     {
-        if (player == 0)
+        if (player == PlayerId.Independent)
         {
-            if (targetPlayer != 0)
+            if (targetPlayer != PlayerId.Independent)
             {
                 DiplomaticRelation relation = DiplomaticRelation(player, independentRelation, otherPlayer: targetPlayer, otherIndependentRelation: targetRace);
                 return relation is Session.DiplomaticRelation.War or Session.DiplomaticRelation.Unknown;
@@ -400,7 +398,7 @@ public static class AbilityRules
         return result;
     }
 
-    internal static int GetMovePathBattleFieldStrength(sbyte player, int independentRelation, MovePath movePath, int targetRange, int range, int step, GameEngine? engine)
+    internal static int GetMovePathBattleFieldStrength(PlayerId? player, int independentRelation, MovePath movePath, int targetRange, int range, int step, GameEngine? engine)
     {
         int result;
         if (movePath is not null && movePath.Count > 0)
@@ -550,7 +548,7 @@ public static class AbilityRules
         return attack * defense * damage / 2;
     }
 
-    internal static bool EndPlayerTurn(sbyte player, GameEngine? engine)
+    internal static bool EndPlayerTurn(PlayerId? player, GameEngine? engine)
     {
         EndTurnTokenEvent eventValue = new(null)
         {
@@ -564,23 +562,23 @@ public static class AbilityRules
         return true;
     }
 
-    internal static bool CanConstructRoad(sbyte player, MapField field)
+    internal static bool CanConstructRoad(PlayerId? player, MapField field)
     {
-        bool result = player == field.GetPlayer() || field.GetPlayer() == -1;
+        bool result = player == field.GetPlayer() || field.GetPlayer() is null;
         result = result && field.TerrainType is >= (sbyte)TerrainType.Grass and <= (sbyte)TerrainType.Wasteland;
         result = result && (byte)field.OverlayType is not (0 or 2 or 4 or 5);
         // Original shared helper
         return result && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
     }
 
-    public static void RetrieveStormDamageInfo(sbyte player, StormType storm, int x, int y,
+    public static void RetrieveStormDamageInfo(PlayerId? player, StormType storm, int x, int y,
                 int level, int innerRadius, int outerRadius, out StormDamageInfo info)
     {
         StormDamageQuery query = new()
         {
             Info = new()
             {
-                Player = player,
+                Player = player.GetValueOrDefault(),
                 FriendlyRelations = DiplomaticRelations.Peace | DiplomaticRelations.Alliance,
                 EnemyRelations = DiplomaticRelations.War | DiplomaticRelations.Unknown
             }
@@ -616,7 +614,7 @@ public static class AbilityRules
 
     internal static DamageTypes AllDamageTypes { get; } = DamageTypes.Fire | DamageTypes.Cold | DamageTypes.Lightning | DamageTypes.Magic | DamageTypes.Poison | DamageTypes.Death | DamageTypes.Holy | DamageTypes.Physical | DamageTypes.Wall | DamageTypes.NonSpecific;
 
-    internal static void TriggerStormDamage(StormType storm, int x, int y, int mapLevel, int innerRadius, int outerRadius, sbyte player)
+    internal static void TriggerStormDamage(StormType storm, int x, int y, int mapLevel, int innerRadius, int outerRadius, PlayerId? player)
     {
         MapFieldMessage message = default;
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[mapLevel];
@@ -625,7 +623,7 @@ public static class AbilityRules
         param[0] = (int)storm;
         message.Param = param;
         MapFieldMessageParameters param2 = message.Param;
-        param2[2] = player;
+        param2[2] = Session.MsgArgIds.FromPlayer(player);
         message.Param = param2;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: innerRadius);
         while (walk.Radius <= outerRadius)

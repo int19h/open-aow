@@ -8,7 +8,7 @@ using Aow.Game.Combat;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -24,7 +24,7 @@ public class GlobalTargetSpell : Spell
 {
 
     private int _casterId;
-    private sbyte _casterPlayer;
+    private PlayerId? _casterPlayer = PlayerId.Independent;
 
     public bool AboveGroundOnly { get; protected init; }
 

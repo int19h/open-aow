@@ -777,7 +777,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
         if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Activated))
         {
             TurnButton turnButton = controller.UI.TaskBar.WorldTurnButton;
-            if (StrategicMap.Current.SeatedPlayer == -1)
+            if (StrategicMap.Current.SeatedPlayer is null)
             {
                 turnButton.CurrentPlayer = 12;
                 turnButton.LastPlayer = 12;

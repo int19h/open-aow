@@ -4,6 +4,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Commands;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 
@@ -100,7 +101,7 @@ public sealed class ProductionOrderTests
             {
                 Holder = EngineFixture.Engine,
                 Location = new MapCoordinate(3, 4, 1),
-                Player = 2,
+                Player = PlayerId.Player2,
                 Queue = true,
                 Index = 1,
                 Item = new ProductionItem(null) { Holder = EngineFixture.Engine, Order = Expected(id, parameter, groupId) }

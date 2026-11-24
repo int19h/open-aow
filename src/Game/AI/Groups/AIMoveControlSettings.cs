@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
@@ -24,7 +25,7 @@ public class AIMoveControlSettings : EngineObject
     public AIMoveControlSettings(CustomNode? owner, NotifyEvent<object>? done) : this(owner) => _done = done;
 
     public int RefCount { get; private set; }
-    public sbyte Player { get; private set; }
+    public PlayerId? Player { get; private set; } = PlayerId.Independent;
     public MapCoordinate Source { get; private set; }
     public MapCoordinate Destination { get; private set; }
 

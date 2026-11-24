@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using static Aow.Rtl.DelphiStrings;
@@ -89,7 +89,7 @@ public partial class HeroEmergeEventLog(CustomNode? owner) : EventLog(owner)
     }
 
     // Hero.PAS:175
-    public void Setup(Hero hero, sbyte player, HeroJoinMode mode)
+    public void Setup(Hero hero, PlayerId? player, HeroJoinMode mode)
     {
         Player = player;
         UnitId = hero.UnitId;
@@ -110,7 +110,7 @@ public partial class HeroEmergeEventLog(CustomNode? owner) : EventLog(owner)
     {
         Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
         HeroJoinEventLog result;
-        if (hero is not null && hero.Player == 0 && hero.OfferToJoin(Player) && hero.ArmyOwner is { } army)
+        if (hero is not null && hero.Player == PlayerId.Independent && hero.OfferToJoin(Player) && hero.ArmyOwner is { } army)
         {
             result = new HeroJoinEventLog(null)
             {

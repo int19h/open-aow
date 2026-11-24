@@ -18,7 +18,7 @@ public sealed class SetupHostTests
     {
         public void LoadMap(string fileName) => log.Add($"LoadMap:{fileName}");
 
-        public void CustomizeLeader(CustomizeLeaderControl control) => log.Add($"CustomizeLeader:{control.PlayerIndex}");
+        public void CustomizeLeader(CustomizeLeaderControl control) => log.Add($"CustomizeLeader:{PlayerIdExtensions.ToOriginal(control.PlayerIndex)}");
 
         public void CloseIncompatibleSession(int majorVersion, int minorVersion) => log.Add($"CloseIncompatibleSession:{majorVersion}:{minorVersion}");
 
@@ -31,9 +31,9 @@ public sealed class SetupHostTests
 
     private sealed class RecordingTransport(List<string> log) : ISetupTransport
     {
-        public void SendMap(ReadOnlyMemory<byte> image, int recipient) => log.Add($"SendMap:{recipient}:{image.Length}");
+        public void SendMap(ReadOnlyMemory<byte> image, PlayerId recipient) => log.Add($"SendMap:{recipient}:{image.Length}");
 
-        public bool SendData(ReadOnlyMemory<byte> data, int recipient)
+        public bool SendData(ReadOnlyMemory<byte> data, PlayerId recipient)
         {
             log.Add($"SendData:{recipient}:{data.Length}");
             return true;
@@ -87,8 +87,8 @@ public sealed class SetupHostTests
         _ = Assert.Throws<InvalidOperationException>(SetupHost.Unattended.StartGame);
         _ = Assert.Throws<InvalidOperationException>(SetupHost.Unattended.Synchronize);
         _ = Assert.Throws<InvalidOperationException>(() => SetupHost.Unattended.EjectPlayer(5));
-        _ = Assert.Throws<NotImplementedException>(() => SetupTransport.Unported.SendMap(ReadOnlyMemory<byte>.Empty, recipient: 5));
-        _ = Assert.Throws<NotImplementedException>(() => SetupTransport.Unported.SendData(ReadOnlyMemory<byte>.Empty, recipient: 0));
+        _ = Assert.Throws<NotImplementedException>(() => SetupTransport.Unported.SendMap(ReadOnlyMemory<byte>.Empty, recipient: PlayerId.Player5));
+        _ = Assert.Throws<NotImplementedException>(() => SetupTransport.Unported.SendData(ReadOnlyMemory<byte>.Empty, recipient: PlayerId.Independent));
     }
 
     // An owner-only control carries the throwing defaults, so a host request through it pins
@@ -191,7 +191,7 @@ public sealed class SetupHostTests
         PlayerSetupSettings setting = new(null) { Holder = EngineFixture.Engine };
         setting.SetOwner(control.Settings);
 
-        control.SetPlayerMapLoaded(0);
+        control.SetPlayerMapLoaded(PlayerId.Independent);
 
         Assert.True(setting.Status.Contains(PlayerSetupStatuses.Loaded));
         Assert.True(updated);
@@ -206,7 +206,7 @@ public sealed class SetupHostTests
         List<string> log = [];
         using SetupControl control = ClientControl(log);
 
-        control.SetPlayerMapLoaded(0);
+        control.SetPlayerMapLoaded(PlayerId.Independent);
 
         Assert.Empty(log);
     }

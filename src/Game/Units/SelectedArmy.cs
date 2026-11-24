@@ -282,7 +282,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
         bool result = MoveSettingsList.Count > 1 ? ValidMultiMoveSelection(field) : base.ValidateSelection(field);
         if (_mode == SelectedArmyMode.BuildRoads)
         {
-            if (field.GetPlayer() != -1 && field.GetPlayer() != ArmyHexSprite.Army.Player)
+            if (field.GetPlayer() is not null && field.GetPlayer() != ArmyHexSprite.Army.Player)
             {
                 return false;
             }
@@ -304,11 +304,11 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
                 PathStep fPathItem = moveSettings.Path[0];
                 PathStep item2 = moveSettings.Path[0];
                 MapField field = StrategicMap.Current.MapContainer.GetField(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
-                bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
+                bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || PlayerIdExtensions.ToOriginal(field.GetPlayer()) <= 0;
                 if (!condition)
                 {
-                    sbyte player = field.GetPlayer();
-                    DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, otherPlayer: player);
+                    sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
+                    DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, otherPlayer: PlayerId.FromOriginal(player));
                     condition = diplomaticRelation is DiplomaticRelation.War or DiplomaticRelation.Unknown;
                 }
 
@@ -365,7 +365,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
                 {
                     if (field.FogCount != 0 || !StrategicMap.Current.FogEnabled)
                     {
-                        sbyte player = field.GetPlayer();
+                        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
                         Player? players = StrategicMap.Current.Players.GetPlayers(player);
                         string raceNamesPlural = AbilityRules.TranslateResourceString(Creator.GetEngine(), S: GameTables.RaceNamesPluralTexts[players.PlayerRace]);
                         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), S: s_armyNotAtWarFormat), arguments: [raceNamesPlural]);
@@ -573,8 +573,8 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
     // Army.PAS:3731
     public bool ValidMultiMoveSelection(MapField field)
     {
-        sbyte player = field.GetPlayer();
-        bool valid = player == -1 || player == StrategicMap.Current.SeatedPlayer;
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
+        bool valid = player == -1 || player == PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer);
         ArmyHexSprite armyHexSprite = field.GetArmyHexSprite();
         if (armyHexSprite is not null)
         {
@@ -925,7 +925,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
     private static bool ValidateMultiArmyMove(MoveSettingsList moves, int index)
     {
         bool flag = true;
-        sbyte fPlayer = ((ArmyHexSprite)moves.GetMoveSettings(index).MoveObject).Army.Player;
+        sbyte fPlayer = (sbyte)PlayerIdExtensions.ToOriginal(((ArmyHexSprite)moves.GetMoveSettings(index).MoveObject).Army.Player);
         MoveSettings moveSettings = moves.GetMoveSettings(index);
         int number = moveSettings.MovePosition;
         while (flag && number != moveSettings.Path.Count)
@@ -934,7 +934,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
             MapCoordinate mapCoordinate2 = moveSettings.Path[number].Location;
             MapCoordinate mapCoordinate3 = moveSettings.Path[number].Location;
             MapField mapField = StrategicMap.Current.MapContainer.GetField(mapCoordinate3.X, mapCoordinate2.Y, mapCoordinate.MapLevel);
-            sbyte player = mapField.GetPlayer();
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(mapField.GetPlayer());
             flag = player == -1 || player == fPlayer;
             number++;
         }

@@ -147,7 +147,7 @@ public class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                 if (Group.GuardLocation != Location)
                 {
                     MapField mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Group.GuardLocation);
-                    if (mapField.GetPlayer() == -1 || mapField.GetPlayer() == Group.Player)
+                    if (mapField.GetPlayer() is null || mapField.GetPlayer() == Group.Player)
                     {
                         SetupME();
                         GuardAreaAIGroup guardAreaAIGroup = Group;

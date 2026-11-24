@@ -271,7 +271,7 @@ public class AIGroupCooperationControl : AIGroupTask
         }
     }
 
-    private static int GetBattleFieldStrengthAdvantage(MapCoordinate location, sbyte player, int relation, UnitCollection units, int friendlyRadius, int enemyRadius, DamageTypes damageTypes)
+    private static int GetBattleFieldStrengthAdvantage(MapCoordinate location, PlayerId? player, int relation, UnitCollection units, int friendlyRadius, int enemyRadius, DamageTypes damageTypes)
     {
         BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, player, relation, requests: BattleFieldInfoRequests.None, damageTypes);
         info.EnemyRelations = DiplomaticRelations.None;

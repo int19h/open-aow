@@ -5,6 +5,7 @@ using Aow.Formats;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiPaths;
@@ -29,7 +30,7 @@ public class SaveGameTokenEvent(CustomNode? owner) : TokenEvent(owner)
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         _ = base.Execute(tokenEvent);
-        if (StrategicMap.Current.SeatedPlayer == tokenEvent.ActiveTacticalBattleIndex)
+        if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == tokenEvent.ActiveTacticalBattleIndex)
         {
             if (tokenEvent.ExecuteCount == 0)
             {

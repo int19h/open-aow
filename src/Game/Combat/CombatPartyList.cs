@@ -1,7 +1,7 @@
 #nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -37,7 +37,7 @@ public sealed class CombatPartyList(CustomNode? owner) : OwningNode(owner), IChi
             p.SetArrayOwner(this, index: position);
             p.Army.SetMapCoordinate(X.TruncateToSByte(), Y.TruncateToSByte(), L.TruncateToSByte());
             CombatPlayer players = combat.CombatData.Players.GetPlayers((sbyte)combatPlayer);
-            p.Army.SetPlayer(players.Player);
+            p.Army.SetPlayer(PlayerId.FromOriginal(players.Player));
             if (army is not null)
             {
                 p.Army.AssignSettings(army);

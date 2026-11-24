@@ -5,6 +5,7 @@ using System.Text.Json;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Events;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Xunit.Sdk;
 
@@ -47,7 +48,7 @@ public sealed class EventLogConstructionTests
                     }
                 }
 
-                Observations.Add(JsonSerializer.Serialize(new { Type = child.GetType().FullName, child.Day, child.Player, child.Id, child.RefCount, AddRefReturn = child.RefCount, DescendantReferencesNil = nil, State = OrderingRecording.Snapshot(child) }));
+                Observations.Add(JsonSerializer.Serialize(new { Type = child.GetType().FullName, child.Day, Player = PlayerIdExtensions.ToOriginal(child.Player), child.Id, child.RefCount, AddRefReturn = child.RefCount, DescendantReferencesNil = nil, State = OrderingRecording.Snapshot(child) }));
             };
         }
 
@@ -138,7 +139,7 @@ public sealed class EventLogConstructionTests
                             EngineFixture.SetMap(EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value =>
                             {
                                 value.Day = 7;
-                                value.CurrentPlayer = unchecked((sbyte)200);
+                                value.CurrentPlayer = PlayerId.FromOriginal(unchecked((sbyte)200));
                             }));
                         }
 

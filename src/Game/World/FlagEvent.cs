@@ -3,7 +3,7 @@
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Draw;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.World;
@@ -30,7 +30,7 @@ public class FlagEvent(CustomNode owner) : MapObject(owner)
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001987 && TriggerMode == FlagEventTriggerMode.NewTurn)
         {
-            UpdateNewTurnTrigger((sbyte)message.Payload.Int);
+            UpdateNewTurnTrigger(PlayerId.FromOriginal((sbyte)message.Payload.Int));
         }
     }
 
@@ -60,32 +60,32 @@ public class FlagEvent(CustomNode owner) : MapObject(owner)
     public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel) => true;
 
     // FlagEvents.pas:129
-    public virtual bool Trigger(sbyte player) => true;
+    public virtual bool Trigger(PlayerId? player) => true;
 
     // FlagEvents.pas:115
-    public bool GetTriggerPlayer(sbyte player) => player > 0 && (_triggerPlayers & (1 << (player - 1))) != 0;
+    public bool GetTriggerPlayer(PlayerId? player) => PlayerIdExtensions.ToOriginal(player) > 0 && (_triggerPlayers & (1 << (PlayerIdExtensions.ToOriginal(player) - 1))) != 0;
 
     // FlagEvents.pas:120
-    public void SetTriggerPlayer(sbyte player, bool value)
+    public void SetTriggerPlayer(PlayerId? player, bool value)
     {
-        if (player > 0)
+        if (PlayerIdExtensions.ToOriginal(player) > 0)
         {
-            _triggerPlayers = !value ? _triggerPlayers & ~(1 << (player - 1)) : _triggerPlayers | (1 << (player - 1));
+            _triggerPlayers = !value ? _triggerPlayers & ~(1 << (PlayerIdExtensions.ToOriginal(player) - 1)) : _triggerPlayers | (1 << (PlayerIdExtensions.ToOriginal(player) - 1));
         }
     }
 
     // FlagEvents.pas:134
     public void UpdateInstantTrigger()
     {
-        sbyte player = Owner.GetPlayer();
-        if (player != -1 && GetTriggerPlayer(player) && Trigger(player))
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Owner.GetPlayer());
+        if (player != -1 && GetTriggerPlayer(PlayerId.FromOriginal(player)) && Trigger(PlayerId.FromOriginal(player)))
         {
-            SetTriggerPlayer(player, value: false);
+            SetTriggerPlayer(PlayerId.FromOriginal(player), value: false);
         }
     }
 
     // FlagEvents.pas:143
-    public void UpdateNewTurnTrigger(sbyte player)
+    public void UpdateNewTurnTrigger(PlayerId? player)
     {
         if (player == Owner.GetPlayer() && GetTriggerPlayer(player) && Trigger(player))
         {

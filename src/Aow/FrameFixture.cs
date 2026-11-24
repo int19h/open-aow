@@ -403,7 +403,7 @@ internal sealed class FrameFixture
                     heroes.Add(new
                     {
                         name = hero.HeroName,
-                        FPlayer = hero.Player,
+                        FPlayer = PlayerIdExtensions.ToOriginal(hero.Player),
                         x,
                         y,
                         level,
@@ -435,7 +435,7 @@ internal sealed class FrameFixture
                     File.WriteAllText(Path.Combine(output, "world.json"), contents: JsonSerializer.Serialize(new
                     {
                         day = world.Day,
-                        seat = world.SeatedPlayer,
+                        seat = PlayerIdExtensions.ToOriginal(world.SeatedPlayer),
                         game_type = world.GameType.ToString(),
                         players,
                         cities

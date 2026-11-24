@@ -14,7 +14,7 @@ using Aow.Game.Combat.Actions;
 using Aow.Game.Draw;
 
 using Aow.Game.Draw.Images;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
@@ -163,7 +163,7 @@ public class Ability : EngineObject
     }
 
     // Ability.PAS:1585
-    public virtual void NewTurn(AbilityOwner owner, sbyte player)
+    public virtual void NewTurn(AbilityOwner owner, PlayerId player)
     {
     }
 
@@ -295,7 +295,7 @@ public class Ability : EngineObject
     }
 
     // Ability.PAS:1588
-    public virtual void NewCombatTurn(CombatObject combatObject, sbyte player)
+    public virtual void NewCombatTurn(CombatObject combatObject, PlayerId player)
     {
     }
 

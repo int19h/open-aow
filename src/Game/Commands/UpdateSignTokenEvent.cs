@@ -4,6 +4,7 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Net;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
@@ -40,7 +41,7 @@ public class UpdateSignTokenEvent(CustomNode owner) : TokenEvent(owner)
         {
             sign.SetText(Text);
             sign.TextSeen.Clear();
-            sign.TextSeen[StrategicMap.Current.CurrentPlayer] = true;
+            sign.TextSeen[PlayerIdExtensions.ToOriginal(StrategicMap.Current.CurrentPlayer)] = true;
             return ExecuteResult.Done;
         }
         else

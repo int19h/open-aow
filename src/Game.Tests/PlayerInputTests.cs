@@ -62,7 +62,7 @@ public sealed class PlayerInputTests
     {
         GameEngine engine = GameEngine.Create(null, playerInput: new Headless.HeadlessPlayerInput());
         TestDisjunction spell = new(null, holder: engine);
-        Troop source = new(null) { Holder = engine, Player = 2, UnitId = 11 };
+        Troop source = new(null) { Holder = engine, Player = PlayerId.Player2, UnitId = 11 };
         Assert.True(spell.Activate(source));
     }
 
@@ -72,8 +72,8 @@ public sealed class PlayerInputTests
         using MapScope scope = new();
         EngineFixture.PlayerInput.Clear();
         CosmagicSurgery spell = new(null, holder: EngineFixture.Engine);
-        Troop source = new(null) { Holder = EngineFixture.Engine, Player = 2, UnitId = 11 };
-        Troop target = new(null) { Holder = EngineFixture.Engine, Player = 3, UnitId = 22 };
+        Troop source = new(null) { Holder = EngineFixture.Engine, Player = PlayerId.Player2, UnitId = 11 };
+        Troop target = new(null) { Holder = EngineFixture.Engine, Player = PlayerId.Player3, UnitId = 22 };
         using UnitUserList targets = new(null) { Holder = EngineFixture.Engine };
         _ = targets.AddUnit(target);
         Assert.True(spell.CastSpell(source, targets: targets));
@@ -87,7 +87,7 @@ public sealed class PlayerInputTests
         using MapScope scope = new();
         EngineFixture.PlayerInput.Clear();
         TestDisjunction spell = new(null, holder: EngineFixture.Engine);
-        Troop source = new(null) { Holder = EngineFixture.Engine, Player = 2, UnitId = 11 };
+        Troop source = new(null) { Holder = EngineFixture.Engine, Player = PlayerId.Player2, UnitId = 11 };
         Assert.True(spell.Activate(source));
         _ = Assert.Single(EngineFixture.PlayerInput.SpellCalls);
         Assert.Equal("DisjunctionSpellCaster:51:11:Disjunction", EngineFixture.PlayerInput.SpellCalls[0]);
@@ -100,7 +100,7 @@ public sealed class PlayerInputTests
         EngineFixture.PlayerInput.Clear();
         UnitSpell spell = new(null) { Holder = EngineFixture.Engine };
         Army army = new(null) { Holder = EngineFixture.Engine };
-        Troop source = new(null) { Holder = EngineFixture.Engine, Player = 2, UnitId = 11 };
+        Troop source = new(null) { Holder = EngineFixture.Engine, Player = PlayerId.Player2, UnitId = 11 };
         source.SetOwner(army);
         Assert.True(spell.Activate(source));
         _ = Assert.Single(EngineFixture.PlayerInput.SpellCalls);
@@ -114,7 +114,7 @@ public sealed class PlayerInputTests
         EngineFixture.PlayerInput.Clear();
         UnitSpell spell = new(null) { Holder = EngineFixture.Engine };
         ArmyHexSprite party = new(null) { Holder = EngineFixture.Engine };
-        Troop source = new(null) { Holder = EngineFixture.Engine, Player = 2, UnitId = 11 };
+        Troop source = new(null) { Holder = EngineFixture.Engine, Player = PlayerId.Player2, UnitId = 11 };
         source.SetOwner(party.Army);
         spell.TargetPartySelected(source, party: party);
         _ = Assert.Single(EngineFixture.PlayerInput.SpellCalls);
@@ -127,7 +127,7 @@ public sealed class PlayerInputTests
         using MapScope scope = new();
         EngineFixture.PlayerInput.Clear();
         TestSpell spell = new(null) { Holder = EngineFixture.Engine };
-        Troop source = new(null) { Holder = EngineFixture.Engine, Player = 2, UnitId = 11 };
+        Troop source = new(null) { Holder = EngineFixture.Engine, Player = PlayerId.Player2, UnitId = 11 };
         Assert.True(spell.ActivateCombat(source));
         _ = Assert.Single(EngineFixture.PlayerInput.CombatCalls);
         Assert.Equal("CombatSpellCaster:0:11", EngineFixture.PlayerInput.CombatCalls[0]);

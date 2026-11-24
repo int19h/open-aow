@@ -1,13 +1,14 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 using System.Globalization;
 using Aow.Game.Combat;
+using Aow.Game.Session;
 
 namespace Aow.Game.World.Structures;
 
 public partial class City
 {
     // War mode shows the war panel to every player.
-    public override StructureView InfoPanel(sbyte viewer)
+    public override StructureView InfoPanel(PlayerId? viewer)
     {
         StructureView state = StatePanel();
         return state ?? (ShownToOwner(viewer)
@@ -15,9 +16,9 @@ public partial class City
             : Mode.Contains(Modes.WarMode) ? StructureView.WarCity : StructureView.OtherPlayer);
     }
 
-    public override StructureView InfoButton(sbyte viewer) => StructureView.CityScreen;
+    public override StructureView InfoButton(PlayerId? viewer) => StructureView.CityScreen;
 
-    public override StructureView DoubleClick(sbyte viewer) => Player == viewer ? StructureView.CityScreen : StructureView.None;
+    public override StructureView DoubleClick(PlayerId? viewer) => Player == viewer ? StructureView.CityScreen : StructureView.None;
 
     // "0", the directions of the neighbors that hold the city, "x" up to four characters, "C000".
     public override string CombatMapName(CombatMapSite site)

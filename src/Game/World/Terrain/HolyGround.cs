@@ -1,5 +1,6 @@
 #nullable disable warnings
 // Translated from HolyG.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Combat;
@@ -11,7 +12,7 @@ using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -29,7 +30,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
 
     public HolySummonings Mode { get; set; }
 
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
     public int Duration { get; set; }
     public int OriginalOverlay { get; set; }
 
@@ -37,7 +38,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = (sbyte)persister.SByte("Player", value: Player, fallback: -1);
+        Player = persister.OptionalPlayer("Player", value: Player, fallback: -1, width: IdWidth.SByte);
         Duration = persister.SByte("Duration", value: Duration.TruncateToSByte(), fallback: -1);
         OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay.TruncateToSByte(), fallback: -1);
     }
@@ -48,7 +49,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001986)
         {
-            NewTurn((sbyte)message.Payload.Int);
+            NewTurn(PlayerId.FromInt32((sbyte)message.Payload.Int));
         }
     }
 
@@ -112,7 +113,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
         {
             if (message.MessageId == 4402)
             {
-                if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0 && Player > 0 && Duration > 0)
+                if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0 && PlayerIdExtensions.ToOriginal(Player) > 0 && Duration > 0)
                 {
                     RestoreTerrain();
                 }
@@ -219,7 +220,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // HolyG.pas:154
-    public void NewTurn(sbyte player)
+    public void NewTurn(PlayerId player)
     {
         ArmyHexSprite army = Owner.GetArmyHexSprite();
         if (army is not null && player == army.Army.Player)
@@ -268,7 +269,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(ClassId) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
-            bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
+            bool condition = PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == animation.Tag;
             if (!condition)
             {
                 int hexLevel2 = HexLevel;

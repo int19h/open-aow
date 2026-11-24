@@ -1,6 +1,7 @@
 #nullable disable warnings
 using System.Globalization;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
@@ -31,7 +32,7 @@ public sealed partial class ControlWindow
         PartyActionLabel1.Visible = PartyActionLabel2.Visible = false;
         Army? army = UI.General.UnitList;
         bool readOnly = army.Player != StrategicMap.Current.SeatedPlayer;
-        if (army.Player == 0)
+        if (army.Player == PlayerId.Independent)
         {
             PartyMovesPanel.Visible = false;
             PartyInfoPanel.Visible = true;

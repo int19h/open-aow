@@ -64,9 +64,9 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
         {
             if (message.HexNumber == 0 && (!CombatMap.Current.FogEnabled || Owner.FogCount != 0))
             {
-                if (Unit.GetPlayer() != 0)
+                if (Unit.GetPlayer() != PlayerId.Independent)
                 {
-                    sbyte player = Unit.GetPlayer();
+                    sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Unit.GetPlayer());
                     Player? playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
                     MapFieldMessageParameters param = message.Param;
                     param[0] = param[0].Int | (playerPlayerRace.PlayerRace + 1);
@@ -84,7 +84,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
         {
             if (message.MessageId == 4352 && message.HexNumber == 0)
             {
-                sbyte player = Unit.GetPlayer();
+                sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Unit.GetPlayer());
                 message.Result = player;
             }
             else
@@ -457,11 +457,11 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
         CombatMap.Current.FrameStarted += NewFrame;
         if (CombatMap.Current.ExplorationEnabled)
         {
-            sbyte player = Unit.GetPlayer();
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Unit.GetPlayer());
             int visibilityRange = Unit.GetVisibilityRange();
             int hexY = HexY;
             int hexX = HexX;
-            _ = CombatMap.Current.ExploreArea(hexX, hexY, 0, player, range: visibilityRange);
+            _ = CombatMap.Current.ExploreArea(hexX, hexY, 0, player: PlayerId.FromOriginal(player), range: visibilityRange);
         }
 
         ActionFrame = -1;
@@ -557,14 +557,14 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
     // AoWTC.pas:3804
     public bool MeleeMoveTacticalBattle(MovePath path)
     {
-        sbyte player = Unit.GetPlayer();
-        if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 1)
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Unit.GetPlayer());
+        if (StrategicMap.Current.TokenManager.PlayerReady(PlayerId.FromOriginal(player)) && path.Count > 1)
         {
             TacticalBattleMeleeMoveTokenEvent? tokenEvent = CreateTacticalBattleMeleeMoveTokenEvent(Unit, path);
             if (tokenEvent is not null)
             {
-                sbyte fUnitPlayer = Unit.GetPlayer();
-                StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
+                sbyte fUnitPlayer = (sbyte)PlayerIdExtensions.ToOriginal(Unit.GetPlayer());
+                StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(fUnitPlayer)).AddEvent(tokenEvent);
                 _ = tokenEvent.Release();
                 return true;
             }
@@ -826,16 +826,16 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
     // AoWTC.pas:3935
     public bool AbilityTouchMoveTacticalBattle(MovePath path)
     {
-        sbyte player = Unit.GetPlayer();
-        if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 0)
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Unit.GetPlayer());
+        if (StrategicMap.Current.TokenManager.PlayerReady(PlayerId.FromOriginal(player)) && path.Count > 0)
         {
             if (path.Count > 1)
             {
                 TokenEvent? tokenEvent = CreateTacticalBattleAbilityTouchMoveTokenEvent(Unit, path, abilityId: SelectedAbility);
                 if (tokenEvent is not null)
                 {
-                    sbyte fUnitPlayer = Unit.GetPlayer();
-                    StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
+                    sbyte fUnitPlayer = (sbyte)PlayerIdExtensions.ToOriginal(Unit.GetPlayer());
+                    StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(fUnitPlayer)).AddEvent(tokenEvent);
                     _ = tokenEvent.Release();
                     return true;
                 }
@@ -858,14 +858,14 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
     // AoWTC.pas:3952
     public bool AbilityRangedTacticalBattle(int X, int Y)
     {
-        sbyte player = Unit.GetPlayer();
-        if (StrategicMap.Current.TokenManager.PlayerReady(player))
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Unit.GetPlayer());
+        if (StrategicMap.Current.TokenManager.PlayerReady(PlayerId.FromOriginal(player)))
         {
             CombatAbilityRangedTokenEvent? tokenEvent = CreateTacticalBattleAbilityRangedTokenEvent(Unit, X, Y, abilityId: SelectedAbility, spellId: SelectedSpell);
             if (tokenEvent is not null)
             {
-                sbyte fUnitPlayer = Unit.GetPlayer();
-                StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
+                sbyte fUnitPlayer = (sbyte)PlayerIdExtensions.ToOriginal(Unit.GetPlayer());
+                StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(fUnitPlayer)).AddEvent(tokenEvent);
                 _ = tokenEvent.Release();
                 return true;
             }

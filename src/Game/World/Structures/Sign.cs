@@ -55,12 +55,12 @@ public partial class Sign(CustomNode? owner) : Structure(owner)
         base.Select();
         if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
-            TextSeen[StrategicMap.Current.SeatedPlayer] = true;
+            TextSeen[PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer)] = true;
         }
     }
 
     // Sign.pas:113
-    public bool GetTextSeen(sbyte player) => TextSeen[player];
+    public bool GetTextSeen(PlayerId? player) => TextSeen[PlayerIdExtensions.ToOriginal(player)];
 
     // Sign.pas:116
     public void SetText(DelphiStringCollection text)
@@ -73,11 +73,11 @@ public partial class Sign(CustomNode? owner) : Structure(owner)
     public bool CanChangeText()
     {
         ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
-        return armyHexSprite is not null && (byte)armyHexSprite.Army.Player == (byte)StrategicMap.Current.SeatedPlayer;
+        return armyHexSprite is not null && (byte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player) == (byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer);
     }
 
     // Sign.pas:134
-    public bool ChangeText(int player, DelphiStringCollection text)
+    public bool ChangeText(PlayerId? player, DelphiStringCollection text)
     {
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && CanChangeText())
         {
@@ -119,7 +119,7 @@ public partial class Sign(CustomNode? owner) : Structure(owner)
                 int index = structure.ImageIndex;
                 int offset = structure.Owner.HexX + (structure.Owner.HexY * 16);
                 // Show takes every structure. This resource draws a sign, and another kind fails here.
-                bool animate = StrategicMap.Current.SeatedPlayer < 0 || !((Sign)structure).GetTextSeen(StrategicMap.Current.SeatedPlayer);
+                bool animate = PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) < 0 || !((Sign)structure).GetTextSeen(StrategicMap.Current.SeatedPlayer);
                 ImageSequence? sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
 
                 while (sequence is not null)

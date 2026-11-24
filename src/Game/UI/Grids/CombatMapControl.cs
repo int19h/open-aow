@@ -227,7 +227,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            PlayerChanged?.Invoke(this, e: new PlayerEventArgs(CombatMap.Current.CurrentPlayer));
+            PlayerChanged?.Invoke(this, e: new PlayerEventArgs((sbyte)PlayerIdExtensions.ToOriginal(CombatMap.Current.CurrentPlayer)));
         }
         catch
         {
@@ -240,7 +240,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            SeatedPlayerChanged?.Invoke(CombatMap.Current.SeatedPlayer);
+            SeatedPlayerChanged?.Invoke((sbyte)PlayerIdExtensions.ToOriginal(CombatMap.Current.SeatedPlayer));
         }
         catch
         {
@@ -253,7 +253,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            GemsChanged?.Invoke(this, e: new PlayerEventArgs(sender.PlayerIndex));
+            GemsChanged?.Invoke(this, e: new PlayerEventArgs((sbyte)PlayerIdExtensions.ToOriginal(sender.PlayerIndex)));
         }
         catch
         {
@@ -266,7 +266,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            IncomeChanged?.Invoke(this, e: new PlayerEventArgs(sender.PlayerIndex));
+            IncomeChanged?.Invoke(this, e: new PlayerEventArgs((sbyte)PlayerIdExtensions.ToOriginal(sender.PlayerIndex)));
         }
         catch
         {
@@ -279,7 +279,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            UpkeepChanged?.Invoke(this, e: new PlayerEventArgs(sender.PlayerIndex));
+            UpkeepChanged?.Invoke(this, e: new PlayerEventArgs((sbyte)PlayerIdExtensions.ToOriginal(sender.PlayerIndex)));
         }
         catch
         {
@@ -293,7 +293,7 @@ public sealed class CombatMapControl : Component
         try
         {
             // { The original passes the seated player as the turn number. }
-            TurnChanged?.Invoke(CombatMap.Current.SeatedPlayer);
+            TurnChanged?.Invoke(PlayerIdExtensions.ToOriginal(CombatMap.Current.SeatedPlayer));
         }
         catch
         {
@@ -306,7 +306,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            LogbookChanged?.Invoke(this, e: new PlayerEventArgs(sender.PlayerIndex));
+            LogbookChanged?.Invoke(this, e: new PlayerEventArgs((sbyte)PlayerIdExtensions.ToOriginal(sender.PlayerIndex)));
         }
         catch
         {

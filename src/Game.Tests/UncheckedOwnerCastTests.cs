@@ -149,7 +149,7 @@ public sealed class UncheckedOwnerCastTests
         {
             Holder = EngineFixture.Engine,
             UnitId = 43,
-            Player = 0,
+            Player = PlayerId.Independent,
             HitPoints = 1,
             UnitAttack = 0,
             UpgradePending = true,
@@ -158,14 +158,14 @@ public sealed class UncheckedOwnerCastTests
         scope.Map.UnitControl.RegisterUnit(unit);
         scope.Map.UnitControl.RegisterUnit(hero);
 
-        HeroUpgradeTokenEvent skipped = new(null) { Holder = EngineFixture.Engine, UnitId = 42, Player = 0, Attack = 1 };
+        HeroUpgradeTokenEvent skipped = new(null) { Holder = EngineFixture.Engine, UnitId = 42, Player = PlayerId.Independent, Attack = 1 };
         Assert.Equal(ExecuteResult.Done, skipped.Execute(null));
         Assert.Null(scope.Map.UnitControl.FindUnit<Hero>(42));
         Assert.Equal(4, unit.AbilityAttack);
         Assert.Equal(0, hero.UnitAttack);
         Assert.True(hero.UpgradePending);
 
-        HeroUpgradeTokenEvent applied = new(null) { Holder = EngineFixture.Engine, UnitId = 43, Player = 0, Attack = 1 };
+        HeroUpgradeTokenEvent applied = new(null) { Holder = EngineFixture.Engine, UnitId = 43, Player = PlayerId.Independent, Attack = 1 };
         Assert.Equal(ExecuteResult.Done, applied.Execute(null));
         Assert.False(hero.UpgradePending);
         Assert.Equal(1, hero.UnitAttack);
@@ -204,7 +204,7 @@ public sealed class UncheckedOwnerCastTests
         Player player = scope.Map.Players.GetPlayers(1);
         player.PlayerType = PlayerType.Human;
         player.MagicControl.CheatEnabled = true;
-        Troop troop = new(null) { Holder = EngineFixture.Engine, UnitId = 42, Player = 1 };
+        Troop troop = new(null) { Holder = EngineFixture.Engine, UnitId = 42, Player = PlayerId.Player1 };
         scope.Map.UnitControl.RegisterUnit(troop);
         GlobalEnchantment enchantment = new(null)
         {

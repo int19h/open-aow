@@ -110,7 +110,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         switch (info.Mode)
         {
             case AITargetMode.Attack:
-                if (info.Player != 0)
+                if (info.Player != PlayerId.Independent)
                 {
                     int value = (_amount / 5) + 15;
                     if (value > priority)
@@ -137,7 +137,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // Gems.pas:99
     public void ArmyEntered(ArmyHexSprite? armyHexSprite)
     {
-        if (armyHexSprite.Army.Player != 0)
+        if (armyHexSprite.Army.Player != PlayerId.Independent)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == armyHexSprite.Army.Player;
             if (!condition)

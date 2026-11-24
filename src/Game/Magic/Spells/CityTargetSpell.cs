@@ -8,7 +8,7 @@ using Aow.Game.Commands;
 using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
@@ -220,7 +220,7 @@ public class CityTargetSpell : Spell
     // CitySpells.pas:351
     public virtual bool SetupTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int X, int Y, int L)
     {
-        eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+        eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
         eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), L.TruncateToSByte());
         eventValue.TargetPlayer = eventValue.GetSelectedCity().Player;
         return true;

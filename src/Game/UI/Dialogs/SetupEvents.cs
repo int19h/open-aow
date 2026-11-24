@@ -42,7 +42,7 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui), ISetupHost
         {
             for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
             {
-                if (i != StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(i).Status != PlayerStatus.Terminated && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[i].ConnectionMode == ConnectionMode.Remote)
+                if (i != PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) && StrategicMap.Current.Players.GetPlayers(i).Status != PlayerStatus.Terminated && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[i].ConnectionMode == ConnectionMode.Remote)
                 {
                     PlayerCommunicationSettings? player = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[i];
                     Player? playerLeader = StrategicMap.Current.Players.GetPlayers(i);
@@ -267,7 +267,7 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui), ISetupHost
                 {
                     if (StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
                     {
-                        StrategicMap.Current.PlayerDisconnected(player);
+                        StrategicMap.Current.PlayerDisconnected(PlayerId.FromOriginal(player));
                     }
 
                     UpdateChatPlayers();

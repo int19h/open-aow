@@ -1,10 +1,12 @@
 #nullable disable warnings
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Draw.Animations;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
@@ -15,18 +17,18 @@ public class HealingTokenEvent(CustomNode? owner) : TokenEvent(owner)
     public new const int ClassId = 131_826;
 
     public int SourceId { get; set; }
-    public byte SourcePlayer { get; set; }
+    public PlayerId? SourcePlayer { get; set; } = PlayerId.Independent;
     public int TargetId { get; set; }
-    public byte TargetPlayer { get; set; }
+    public PlayerId? TargetPlayer { get; set; } = PlayerId.Independent;
 
     // AoWAb.PAS:3853
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         SourceId = persister.Int32("SourceId", value: SourceId);
-        SourcePlayer = persister.Byte("SourcePlayer", value: SourcePlayer);
+        SourcePlayer = persister.OptionalPlayer("SourcePlayer", value: SourcePlayer, width: IdWidth.Byte, fallback: 0);
         TargetId = persister.Int32("TargetId", value: TargetId);
-        TargetPlayer = persister.Byte("TargetPlayer", value: TargetPlayer);
+        TargetPlayer = persister.OptionalPlayer("TargetPlayer", value: TargetPlayer, width: IdWidth.Byte, fallback: 0);
     }
 
     // AoWAb.PAS:3861
@@ -35,7 +37,7 @@ public class HealingTokenEvent(CustomNode? owner) : TokenEvent(owner)
         _ = base.Execute(tokenEvent);
         Troop? source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
         Troop? target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
-        if (source is not null && (byte)source.Player == SourcePlayer && target is not null && (byte)target.Player == TargetPlayer)
+        if (source is not null && (byte)PlayerIdExtensions.ToOriginal(source.Player) == (byte)PlayerIdExtensions.ToOriginal(SourcePlayer) && target is not null && (byte)PlayerIdExtensions.ToOriginal(target.Player) == (byte)PlayerIdExtensions.ToOriginal(TargetPlayer))
         {
             HealingAbility ability = GamePack.Current.AbilityControl.GetAbility<HealingAbility>(47);
             if (ability.GetEnabled(source))
@@ -46,7 +48,7 @@ public class HealingTokenEvent(CustomNode? owner) : TokenEvent(owner)
                 int x = coordinate9.X;
                 int y = coordinate9.Y;
                 int l = coordinate9.MapLevel;
-                _ = StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, radius: 0);
+                _ = StrategicMap.Current.ValidateObservation(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(SourcePlayer)), x, y, l, radius: 0);
                 if (StrategicMap.Current.Visible(x, y, l, radius: 0))
                 {
                     ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
@@ -54,7 +56,7 @@ public class HealingTokenEvent(CustomNode? owner) : TokenEvent(owner)
                     _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
                 }
 
-                if ((byte)StrategicMap.Current.SeatedPlayer == SourcePlayer || StrategicMap.Current.Watching(x, y, l, radius: 0))
+                if ((byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == (byte)PlayerIdExtensions.ToOriginal(SourcePlayer) || StrategicMap.Current.Watching(x, y, l, radius: 0))
                 {
                     _ = ability.SfxLibrary.Play(0);
                 }

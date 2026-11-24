@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Commands;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using static Aow.Rtl.DelphiRounding;
 
@@ -74,7 +75,7 @@ public class DisjunctionSpellCaster(CustomNode? owner) : SpellCaster(owner)
             {
                 DisjunctionTokenEvent eventValue = new(null) { Holder = CreationHolder() };
                 Spell? spell = GamePack.Current.SpellControl[51];
-                eventValue.Initialize(CasterSpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: spell.BaseManaCost);
+                eventValue.Initialize(CasterSpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: spell.BaseManaCost);
                 eventValue.EnchantmentId = EnchantmentId;
                 eventValue.DispelChance = DispelChance;
                 StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

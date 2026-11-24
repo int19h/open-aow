@@ -50,10 +50,10 @@ public class Leader(CustomNode? owner) : Hero(owner)
         if (message.MessageId == 537001989)
         {
             SetSpherePicksMax(StrategicMap.Current.SphereCount.TruncateToByte());
-            if (StrategicMap.Current.Players.GetCount() > Player)
+            if (StrategicMap.Current.Players.GetCount() > PlayerIdExtensions.ToOriginal(Player))
             {
                 // { reload FPlayer }
-                if (StrategicMap.Current.Players.GetPlayers((sbyte)(byte)Player).PlayerRace != Race)
+                if (StrategicMap.Current.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).PlayerRace != Race)
                 {
                     Player? players = StrategicMap.Current.Players.GetPlayers(Player);
                     SetHeroResourceIndex(GamePack.Current.HeroResources.Find(players.PlayerRace, heroType: HeroType.HeroLeader));
@@ -84,11 +84,11 @@ public class Leader(CustomNode? owner) : Hero(owner)
     public override int GetPowerGeneration() => GetAbilityEnabled(52) ? (GetAbilityLevel(52) * 5) + 5 : 0;
 
     // Hero.PAS:2908
-    public override void SetPlayer(sbyte player)
+    public override void SetPlayer(PlayerId? player)
     {
         if (player != Player)
         {
-            if (Player != 0)
+            if (Player != PlayerId.Independent)
             {
                 SetOwner(null);
                 Changed();
@@ -101,7 +101,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
     }
 
     // Hero.PAS:2784
-    public override int GetUnitMoraleValue(sbyte player, int independentRelation) => 90;
+    public override int GetUnitMoraleValue(PlayerId? player, int independentRelation) => 90;
 
     // Hero.PAS:2921
     public override bool CanActivate()
@@ -123,9 +123,9 @@ public class Leader(CustomNode? owner) : Hero(owner)
     public override void Activate()
     {
         LibraryId = -1;
-        if (Player == 0)
+        if (Player == PlayerId.Independent)
         {
-            Player = (sbyte)StrategicMap.Current.Players.RaceToPlayer(Race);
+            Player = PlayerId.FromOriginal((sbyte)StrategicMap.Current.Players.RaceToPlayer(Race));
         }
 
         base.Activate();

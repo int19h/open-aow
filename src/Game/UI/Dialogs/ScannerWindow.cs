@@ -103,7 +103,7 @@ public sealed partial class ScannerWindow(UIContext ui) : UIModule(ui)
     {
         UI.MapWindow.MapViewer.SceneX = (UI.ScannerWindow.Scanner.TLeft + 6) * 33;
         UI.MapWindow.MapViewer.SceneY = (UI.ScannerWindow.Scanner.TTop + 6) * 33;
-        if (StrategicMap.Current.SeatedPlayer != -1)
+        if (StrategicMap.Current.SeatedPlayer is not null)
         {
             UI.ScannerWindow.Scanner.SetTWidth(UI.MapWindow.MapViewer.SceneWidth / 32);
             UI.ScannerWindow.Scanner.SetTHeight(UI.MapWindow.MapViewer.SceneHeight / 32);

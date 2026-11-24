@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Rtl;
 
@@ -20,7 +20,7 @@ public sealed class ProductionSettings(CustomNode? owner) : EngineObject(owner)
     public int GoldUpkeep { get; set; }
     public int ManaUpkeep { get; set; }
     public int TurnsTotal { get; set; }
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
     public int GroupId { get; set; }
     public Unit? Unit { get; set; }
     public int UnitProductionIndex { get; set; }
@@ -40,7 +40,7 @@ public sealed class ProductionSettings(CustomNode? owner) : EngineObject(owner)
         Mana = persister.Int32("Mana", value: Mana);
         TurnsLeft = persister.UnsignedByte(name: "TurnsLeft", value: TurnsLeft.TruncateToSByte());
         TurnsTotal = persister.UnsignedByte(name: "TurnsTotal", value: TurnsTotal.TruncateToSByte());
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         GroupId = persister.Int32("GroupId", value: GroupId);
         UnitProductionIndex = persister.Int32("UnitProductionIndex", value: UnitProductionIndex);
         Unit = persister.Created("Unit", objectValue: Unit);
@@ -55,7 +55,7 @@ public sealed class ProductionSettings(CustomNode? owner) : EngineObject(owner)
         Gold = 0;
         Mana = 0;
         TurnsTotal = 0;
-        Player = 0;
+        Player = PlayerId.Independent;
         GroupId = 0;
         UnitProductionIndex = -1;
         Troop? u = Unit;

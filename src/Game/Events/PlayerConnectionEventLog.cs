@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using static Aow.Rtl.DelphiStrings;
@@ -17,7 +17,7 @@ namespace Aow.Game.Events;
 public class PlayerConnectionEventLog(CustomNode? owner, EngineObject holder) : MessageEventLog(owner, holder)
 {
     private int _reason;
-    private sbyte _disconnectedPlayer;
+    private PlayerId? _disconnectedPlayer = PlayerId.Independent;
 
     // PlayerC.PAS:1714
     public override bool Yes()
@@ -40,7 +40,7 @@ public class PlayerConnectionEventLog(CustomNode? owner, EngineObject holder) : 
     }
 
     // PlayerC.PAS:1671
-    public void Setup(sbyte player, int reason)
+    public void Setup(PlayerId? player, int reason)
     {
         _reason = reason;
         _disconnectedPlayer = player;
@@ -64,7 +64,7 @@ public class PlayerConnectionEventLog(CustomNode? owner, EngineObject holder) : 
                 break;
             case 2:
                 Buttons = MessageEventLogButtons.YesNo;
-                if (_disconnectedPlayer != -1)
+                if (_disconnectedPlayer is not null)
                 {
                     string name2 = StrategicMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
                     string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_connectionLostFormat), arguments: [name2]);

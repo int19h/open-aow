@@ -28,7 +28,7 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
         base.NewDay();
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            NewTurn((sbyte)i);
+            NewTurn(PlayerId.FromOriginal((sbyte)i));
         }
 
         _ = AudioPlayback.PlaySample("SFX\\EVENTS\\NEWTURN.WAV");
@@ -39,7 +39,7 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
     }
 
     // PlayerC.PAS:1258
-    public override void NewTurn(sbyte player)
+    public override void NewTurn(PlayerId? player)
     {
         if (player == StrategicMap.Current.SeatedPlayer)
         {
@@ -124,13 +124,13 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
         }
 
         StrategicMap.Current.Players.Update();
-        StrategicMap.Current.CurrentPlayer = 0;
+        StrategicMap.Current.CurrentPlayer = PlayerId.Independent;
         int item = StrategicMap.Current.Players.LocalHumanPlayers[0];
-        StrategicMap.Current.SetSeatedPlayer((sbyte)item);
+        StrategicMap.Current.SetSeatedPlayer(PlayerId.FromOriginal((sbyte)item));
         StrategicMap.Current.NotifySeatedPlayerChanged();
-        Assert(StrategicMap.Current.SeatedPlayer != 0, message: "", file: "PlayerC.PAS", line: 1584);
+        Assert(StrategicMap.Current.SeatedPlayer != PlayerId.Independent, message: "", file: "PlayerC.PAS", line: 1584);
         StrategicMap.Current.ResetSeatedPlayerView();
-        StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
+        StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(StrategicMap.Current.CurrentPlayer));
         NewTurnEventLog log = new(null)
         {
             Holder = CreationHolder(),
@@ -173,7 +173,7 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
     public override void PasswordValidated() => ContinueLoadedMap();
 
     // PlayerC.PAS:1652
-    public override void SetPlayerGameOverStatus(sbyte player, GameOverStatus status)
+    public override void SetPlayerGameOverStatus(PlayerId? player, GameOverStatus status)
     {
         base.SetPlayerGameOverStatus(player, status);
         StrategicMap.Current.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
@@ -191,14 +191,14 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
     }
 
     // PlayerC.PAS:1646
-    public override void GameOverEventHandled(sbyte player)
+    public override void GameOverEventHandled(PlayerId? player)
     {
-        StrategicMap.Current.SetSeatedPlayer(-1);
+        StrategicMap.Current.SetSeatedPlayer(null);
         StrategicMap.Current.TriggerGameTerminatedEvent();
     }
 
     // PlayerC.PAS:1305
-    public override void EndTurn(sbyte player)
+    public override void EndTurn(PlayerId? player)
     {
         EngineMessage message = default;
         StrategicMap.Current.Players.GetPlayers(player).SetEndTurn(true);
@@ -226,7 +226,7 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
                 {
                     if (StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Human)
                     {
-                        StrategicMap.Current.AIExecutor.DeactivatePlayer((sbyte)i);
+                        StrategicMap.Current.AIExecutor.DeactivatePlayer(PlayerId.FromOriginal((sbyte)i));
                     }
 
                     EndTurnEventLog log = new(null) { Holder = CreationHolder() };
@@ -260,7 +260,7 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
     {
         StrategicMap.Current.ShowIndependentMoves = false;
         int item = StrategicMap.Current.Players.LocalHumanPlayers[0];
-        StrategicMap.Current.SetSeatedPlayer((sbyte)item);
+        StrategicMap.Current.SetSeatedPlayer(PlayerId.FromOriginal((sbyte)item));
         StrategicMap.Current.NotifySeatedPlayerChanged();
         StrategicMap.Current.ResetSeatedPlayerView();
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
@@ -268,7 +268,7 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
             Player? player = StrategicMap.Current.Players.GetPlayers(i);
             if (player.Status == PlayerStatus.Playing && player.PlayerType != PlayerType.Human)
             {
-                _ = StrategicMap.Current.AIExecutor.ActivatePlayer((sbyte)i);
+                _ = StrategicMap.Current.AIExecutor.ActivatePlayer(PlayerId.FromOriginal((sbyte)i));
             }
         }
 
@@ -276,11 +276,11 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
         {
             if (StrategicMap.Current.Players.GetPlayers(i).Status != PlayerStatus.Playing)
             {
-                StrategicMap.Current.TokenManager.TokenControls[i].Active = false;
+                StrategicMap.Current.TokenManager.TokenControls[PlayerId.FromOriginal(i)].Active = false;
             }
         }
 
-        StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
+        StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(StrategicMap.Current.CurrentPlayer));
         NewTurnEventLog log = new(null)
         {
             Holder = CreationHolder(),

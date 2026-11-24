@@ -70,7 +70,7 @@ public partial class City : PlayerCropStructure
     public override string ToString() => Describe(() =>
     {
         string location = Owner is null ? "no-owner" : string.Create(CultureInfo.InvariantCulture, handler: $"({Owner.HexX},{Owner.HexY} L{Owner.HexLevel})");
-        return string.Create(CultureInfo.InvariantCulture, handler: $"City {(string.IsNullOrEmpty(Name) ? "<no name>" : Name)} P{Player} {location}");
+        return string.Create(CultureInfo.InvariantCulture, handler: $"City {(string.IsNullOrEmpty(Name) ? "<no name>" : Name)} P{PlayerIdExtensions.ToOriginal(Player)} {location}");
     });
 
     public CityProductionControl Production { get; }
@@ -219,9 +219,9 @@ public partial class City : PlayerCropStructure
         {
             if (message.MessageId == 4364 && message.HexNumber == 0)
             {
-                if ((!StrategicMap.Current.FogEnabled || !Fogged) && Player >= 0)
+                if ((!StrategicMap.Current.FogEnabled || !Fogged) && PlayerIdExtensions.ToOriginal(Player) >= 0)
                 {
-                    if (Player == 0)
+                    if (Player == PlayerId.Independent)
                     {
                         MapFieldMessageParameters param = message.Param;
                         param[0] = param[0].Int + 851968;
@@ -289,7 +289,7 @@ public partial class City : PlayerCropStructure
                                 {
                                     if (message.MessageId == 4389)
                                     {
-                                        if (Player == 0)
+                                        if (Player == PlayerId.Independent)
                                         {
                                             int independentRelation = GetIndependentRelation();
                                             message.Result = (sbyte)independentRelation;
@@ -339,7 +339,7 @@ public partial class City : PlayerCropStructure
     public override void Deactivate()
     {
         UnregisterEnchantments();
-        if (Player != -1)
+        if (Player is not null)
         {
             _ = StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Remove(Production);
         }
@@ -454,7 +454,7 @@ public partial class City : PlayerCropStructure
             Production.ExecuteDeleteProductions();
             if (value)
             {
-                SetPlayer(-1);
+                SetPlayer(null);
             }
 
             Mode = value ? Mode | Modes.Razed : Mode & ~Modes.Razed;
@@ -477,7 +477,7 @@ public partial class City : PlayerCropStructure
         if (StrategicMap.Current.Random(8) == 0)
         {
             int unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(units, defaultRelation: 5);
-            AIGroup? group = StrategicMap.Current.AIGroupManager.CreateGroup(0, relation: unitsToIndependentRelation, behavior: GroupBehavior.Refuge);
+            AIGroup? group = StrategicMap.Current.AIGroupManager.CreateGroup(PlayerId.Independent, relation: unitsToIndependentRelation, behavior: GroupBehavior.Refuge);
             _ = group.AddUnits(units.Units);
             _ = group.Release();
         }
@@ -491,7 +491,7 @@ public partial class City : PlayerCropStructure
     public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor) => base.ExecuteTokenEvent(tokenEvent, executor);
 
     // City.pas:1134
-    public override bool GetDefenseRequirements(sbyte player, ref DefenseRequirements requirements)
+    public override bool GetDefenseRequirements(PlayerId? player, ref DefenseRequirements requirements)
     {
         if ((Mode & (Modes.WarMode | Modes.Razed)) == Modes.None)
         {
@@ -504,10 +504,10 @@ public partial class City : PlayerCropStructure
             requirements.Strength = info.Strength;
             int maximum = Round(Size * 5_000);
             int minimum = Round((double)(Size * 5_000) * StrategicMap.Current.Players.GetPlayers(player).AIControl.DefenseStrengthMultiplier);
-            Status relation = player != 0 ? StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(player) : Session.Status.Friendly;
+            Status relation = player != PlayerId.Independent ? StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(player) : Session.Status.Friendly;
 
             // { Original condition makes this neutral-player adjustment unreachable. }
-            if (relation is >= Session.Status.Hostile and <= Session.Status.Neutral && player == Player && Player == 0)
+            if (relation is >= Session.Status.Hostile and <= Session.Status.Neutral && player == Player && Player == PlayerId.Independent)
             {
                 maximum = Round(maximum) + 7_500;
                 minimum = maximum;
@@ -544,7 +544,7 @@ public partial class City : PlayerCropStructure
                 result = DefensePriority.Average;
             }
 
-            bool condition = Player != 0;
+            bool condition = Player != PlayerId.Independent;
             if (condition)
             {
                 Status playerRelation = StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(Player);
@@ -608,7 +608,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1705
-    public override void NewTurn(sbyte player)
+    public override void NewTurn(PlayerId player)
     {
         base.NewTurn(player);
         if (!Mode.Contains(Modes.WarMode))
@@ -657,14 +657,14 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1604
-    public override bool GenerateRazeDefenders(sbyte player, UnitList units)
+    public override bool GenerateRazeDefenders(PlayerId? player, UnitList units)
     {
         GenerateRebelUnits(units);
         return true;
     }
 
     // City.pas:1610
-    public override bool ExecuteRaze(sbyte player)
+    public override bool ExecuteRaze(PlayerId? player)
     {
         bool result = base.ExecuteRaze(player);
         if (result)
@@ -715,7 +715,7 @@ public partial class City : PlayerCropStructure
                     if (info.Player != Player)
                     {
                         int priority = data.Priority;
-                        if (Player > 0)
+                        if (PlayerIdExtensions.ToOriginal(Player) > 0)
                         {
                             if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: Race))
                             {
@@ -724,7 +724,7 @@ public partial class City : PlayerCropStructure
                         }
                         else
                         {
-                            if (Player == 0)
+                            if (Player == PlayerId.Independent)
                             {
                                 Status playerRelation = StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(info.Player);
                                 if (playerRelation is Session.Status.Polite or Session.Status.Friendly)
@@ -832,13 +832,13 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1092
-    public override void SetPlayer(sbyte player)
+    public override void SetPlayer(PlayerId? player)
     {
         if (player != Player)
         {
             Production.PlayerChanged();
             ResetEnchantments();
-            if (Player != -1)
+            if (Player is not null)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Remove(Production);
             }
@@ -852,7 +852,7 @@ public partial class City : PlayerCropStructure
 
             ValidateAICityAction();
             UpdateAIMigration();
-            if (Player != -1)
+            if (Player is not null)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Add(Production);
             }
@@ -863,7 +863,7 @@ public partial class City : PlayerCropStructure
     public override void UpdateFlagId()
     {
         _flagId = !Status.Contains(MapObjectStatuses.EditMode) && (!Mode.Contains(Modes.Razed) || Building) && !Mode.Contains(Modes.WarMode)
-            ? Player > 0
+            ? PlayerIdExtensions.ToOriginal(Player) > 0
                 ? (byte)(StrategicMap.Current.Players.GetPlayers(Player).PlayerRace + ((UpgradeLevel - 1) * 64))
                 : (byte)(32 + ((UpgradeLevel - 1) * 64))
             : (byte)63;
@@ -873,7 +873,7 @@ public partial class City : PlayerCropStructure
     public override int VisibilityRange()
     {
         int result = 6;
-        return HexLevel != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0)
+        return HexLevel != 0 || (PlayerIdExtensions.ToOriginal(Player) > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0)
             ? (result + 1) >>> 1
             : result;
     }
@@ -884,7 +884,7 @@ public partial class City : PlayerCropStructure
         if (combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders)
         {
             CombatData combatData = combat.CombatData;
-            SetPlayer(combatData.Players.GetPlayers(combatData.AttackerPlayer).Player);
+            SetPlayer(PlayerId.FromOriginal(combatData.Players.GetPlayers(combatData.AttackerPlayer).Player));
 
             _ = UpdatePlayer();
         }
@@ -925,9 +925,9 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1062
-    public override void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
+    public override void StructureCaptured(PlayerId? oldPlayer, PlayerId? newPlayer)
     {
-        if (!GetRazed() && !Building && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && Status.Contains(MapObjectStatuses.Activated) && !base.Resource.Claimed)
+        if (!GetRazed() && !Building && oldPlayer == PlayerId.Independent && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && Status.Contains(MapObjectStatuses.Activated) && !base.Resource.Claimed)
         {
             CityProductionEventLog log = new(null)
             {
@@ -943,10 +943,10 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2271
-    public override MoveAction GetMoveAction(sbyte player, MoveAction action)
+    public override MoveAction GetMoveAction(PlayerId? player, MoveAction action)
     {
         MoveAction result = action;
-        if (Player == 0)
+        if (Player == PlayerId.Independent)
         {
             if (action is MoveAction.Normal or MoveAction.Attack && !GetRazed() && !Mode.Contains(Modes.WarMode))
             {
@@ -955,7 +955,7 @@ public partial class City : PlayerCropStructure
         }
         else
         {
-            if (Player != player && Player != -1)
+            if (Player != player && Player is not null)
             {
                 return MoveAction.Attack;
             }
@@ -983,11 +983,11 @@ public partial class City : PlayerCropStructure
                     {
                         if (player == -1)
                         {
-                            player = army.Army.Player;
+                            player = (sbyte)PlayerIdExtensions.ToOriginal(army.Army.Player);
                         }
                         else
                         {
-                            multiplePlayers = army.Army.Player != player;
+                            multiplePlayers = PlayerIdExtensions.ToOriginal(army.Army.Player) != player;
                         }
                     }
                 }
@@ -1000,7 +1000,7 @@ public partial class City : PlayerCropStructure
                 if (!Mode.Contains(Modes.WarMode))
                 {
                     Mode |= Modes.WarMode;
-                    SetPlayer(-1);
+                    SetPlayer(null);
                     UpdateFlagId();
                     Update();
                 }
@@ -1012,11 +1012,11 @@ public partial class City : PlayerCropStructure
                     Mode &= ~Modes.WarMode;
                     if (player != -1)
                     {
-                        SetPlayer(player);
+                        SetPlayer(PlayerId.FromOriginal(player));
                     }
                     else
                     {
-                        SetPlayer(0);
+                        SetPlayer(PlayerId.Independent);
                     }
 
                     UpdateFlagId();
@@ -1026,7 +1026,7 @@ public partial class City : PlayerCropStructure
                 {
                     if (player != -1)
                     {
-                        SetPlayer(player);
+                        SetPlayer(PlayerId.FromOriginal(player));
                     }
                 }
             }
@@ -1082,11 +1082,11 @@ public partial class City : PlayerCropStructure
     public override int GetRace() => Race;
 
     // City.pas:1211
-    public override void CropTrampled(sbyte player)
+    public override void CropTrampled(PlayerId? player)
     {
-        if (player != Player && player != 0)
+        if (player != Player && player != PlayerId.Independent)
         {
-            int race = Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : (sbyte)Race;
+            int race = PlayerIdExtensions.ToOriginal(Player) > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : (sbyte)Race;
 
             int playerRelationValue = StrategicMap.Current.Races.GetRace(race).GetPlayerRelationValue(player);
             StrategicMap.Current.Races.GetRace(race).SetPlayerRelationValue(player, value: playerRelationValue + -5);
@@ -1144,7 +1144,7 @@ public partial class City : PlayerCropStructure
         for (int i = _enchantmentList.Count - 1; i >= 0; i--)
         {
             GlobalEnchantment enchantment = _enchantmentList.GetEnchantments(i);
-            _ = _enchantmentList.GetEnchantments(i).Deactivate((byte)enchantment.PlayerIndex);
+            _ = _enchantmentList.GetEnchantments(i).Deactivate(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(enchantment.PlayerIndex)));
         }
     }
 
@@ -1195,7 +1195,7 @@ public partial class City : PlayerCropStructure
     public void DeactivateEnchantment(CityEnchantment enchantment)
     {
         enchantment.Owner = null;
-        _ = enchantment.Deactivate((byte)enchantment.PlayerIndex);
+        _ = enchantment.Deactivate(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(enchantment.PlayerIndex)));
         UpdateActiveEnchantments();
         if (enchantment.CityEnchantmentId == CityEnchantmentId.GoldRush)
         {
@@ -1308,7 +1308,7 @@ public partial class City : PlayerCropStructure
     {
         if (StrategicMap.Current.Day != 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
-            if (Player > 0)
+            if (PlayerIdExtensions.ToOriginal(Player) > 0)
             {
                 bool condition = StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human && ((Modes.WarMode | Modes.Razed) & Mode) == Modes.None;
                 if (condition)
@@ -1376,7 +1376,7 @@ public partial class City : PlayerCropStructure
             }
             else
             {
-                bool condition = Player == 0;
+                bool condition = Player == PlayerId.Independent;
                 if (condition)
                 {
                     CityAction activeAction = ActiveAction;
@@ -1394,7 +1394,7 @@ public partial class City : PlayerCropStructure
     // City.pas:1081
     public void ValidateAICityAction()
     {
-        bool condition = Player > 0 && StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human && ((Modes.WarMode | Modes.Razed) & Mode) == Modes.None;
+        bool condition = PlayerIdExtensions.ToOriginal(Player) > 0 && StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human && ((Modes.WarMode | Modes.Razed) & Mode) == Modes.None;
         if (condition)
         {
             CityAction activeAction = ActiveAction;
@@ -1718,7 +1718,7 @@ public partial class City : PlayerCropStructure
             {
                 i -= 1;
                 sbyte player = (sbyte)i;
-                result = StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(player << 0), otherPlayer: Player) == DiplomaticRelation.Alliance && RaceInCity(race, player);
+                result = StrategicMap.Current.Players.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(player << 0)), otherPlayer: Player) == DiplomaticRelation.Alliance && RaceInCity(race, player: PlayerId.FromOriginal(player));
             }
         }
         else
@@ -1791,7 +1791,7 @@ public partial class City : PlayerCropStructure
     // City.pas:1645
     public void CheckRebellion()
     {
-        if (Player != 0)
+        if (Player != PlayerId.Independent)
         {
             CivilStatus status = GetCivilStatus();
             if (status is CivilStatus.Unruly or CivilStatus.Unrest && !GetRazed())
@@ -1810,7 +1810,7 @@ public partial class City : PlayerCropStructure
                     };
                     EventLog.DistributeLocationEventLog(y: HexY, level: HexLevel, x: HexX, log: log, player: Player, execute: false);
                     _ = log.Release();
-                    SetPlayer(0);
+                    SetPlayer(PlayerId.Independent);
                     UnitList units = new(null) { Holder = CreationHolder() };
                     GenerateRebelUnits(units);
                     for (int i = units.Count - 1; i >= 0; i--)
@@ -1818,7 +1818,7 @@ public partial class City : PlayerCropStructure
                         int hexLevel2 = HexLevel;
                         int hexY2 = HexY;
                         int hexX2 = HexX;
-                        _ = units.GetUnit(i).Place(hexX2, hexY2, L: hexLevel2, player: 0, mode: UnitPlaceModes.None);
+                        _ = units.GetUnit(i).Place(hexX2, hexY2, L: hexLevel2, player: PlayerId.Independent, mode: UnitPlaceModes.None);
                     }
 
                     units?.Dispose();
@@ -1831,7 +1831,7 @@ public partial class City : PlayerCropStructure
     // City.pas:1681
     public void GenerateDefenders()
     {
-        if (!GetRazed() && _defendersMode != DefendersGenerateMode.None && !Mode.Contains(Modes.WarMode) && Player == 0)
+        if (!GetRazed() && _defendersMode != DefendersGenerateMode.None && !Mode.Contains(Modes.WarMode) && Player == PlayerId.Independent)
         {
             ArmyHSList armies = new(null) { Holder = CreationHolder() };
             _ = ListArmies(armies);
@@ -1853,7 +1853,7 @@ public partial class City : PlayerCropStructure
                 RaceResource? raceResource = GamePack.Current.RaceResources.GetRaceResource(Race);
                 int hexLevel = HexLevel;
                 int hexY = HexY;
-                _ = AbilityRules.PlaceRandomUnits(HexX, hexY, L: hexLevel, player: 0, units: raceResource.UnitIndexes, level: UpgradeLevel, value, types: UnitTypes.Humanoid | UnitTypes.Creature, engine: GetEngine());
+                _ = AbilityRules.PlaceRandomUnits(HexX, hexY, L: hexLevel, player: PlayerId.Independent, units: raceResource.UnitIndexes, level: UpgradeLevel, value, types: UnitTypes.Humanoid | UnitTypes.Creature, engine: GetEngine());
             }
 
             armies?.Dispose();
@@ -1897,7 +1897,7 @@ public partial class City : PlayerCropStructure
     // City.pas:1816
     public void ListCivilStatusInfo(DelphiStringCollection list)
     {
-        if (Player != 0 && Race >= 0)
+        if (Player != PlayerId.Independent && Race >= 0)
         {
             Status playerRelation = StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(Player);
             string status = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.StatusTexts[(int)playerRelation]);
@@ -1970,7 +1970,7 @@ public partial class City : PlayerCropStructure
     // City.pas:1861
     public CivilStatus GetCivilStatus()
     {
-        if (Player != 0 && !Mode.Contains(Modes.WarMode))
+        if (Player != PlayerId.Independent && !Mode.Contains(Modes.WarMode))
         {
             Status relation = Mode.Contains(Modes.Anarchy)
                 ? Session.Status.Hostile
@@ -2151,7 +2151,7 @@ public partial class City : PlayerCropStructure
     // City.pas:2206
     public void InitializeCombat(Battle? combat, ArmyHexSprite? army)
     {
-        if (Player == 0)
+        if (Player == PlayerId.Independent)
         {
             int enemiesIndependentRelation = GetEnemiesIndependentRelation(army.Army.Player);
             combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer).IndependentRelation = enemiesIndependentRelation.TruncateToByte();
@@ -2185,7 +2185,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2241
-    public int JoinAmount(sbyte player)
+    public int JoinAmount(PlayerId? player)
     {
         int result = 0;
         ArmyHSList armies = new(null) { Holder = CreationHolder() };
@@ -2230,7 +2230,7 @@ public partial class City : PlayerCropStructure
     // City.pas:2282
     public bool IncomingNegotiateRequest(NegotiateRequestEventLog? request)
     {
-        if (Player == 0 && !Mode.Contains(Modes.WarMode))
+        if (Player == PlayerId.Independent && !Mode.Contains(Modes.WarMode))
         {
             int amount = JoinAmount(request.Player);
             if (amount != -1)
@@ -2278,7 +2278,7 @@ public partial class City : PlayerCropStructure
                     _ = ListArmies(armies);
                     for (int i = 0, last = armies.Count - 1; i <= last; i++)
                     {
-                        if (armies[i].Army.Player == 0)
+                        if (armies[i].Army.Player == PlayerId.Independent)
                         {
                             armies[i].Army.SetPlayer(offer.Player);
                         }
@@ -2317,7 +2317,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2334
-    public int GetEnemiesIndependentRelation(sbyte player)
+    public int GetEnemiesIndependentRelation(PlayerId? player)
     {
         UnitUserList units = new(null) { Holder = CreationHolder() };
         _ = ListUnits(units);
@@ -2349,7 +2349,7 @@ public partial class City : PlayerCropStructure
     // City.pas:2354
     public void ReturnBattleFieldInfo(ref BattleFieldInfo info)
     {
-        if (info.Requests.Contains(BattleFieldInfoRequests.EffectiveStrength) && Player > 0)
+        if (info.Requests.Contains(BattleFieldInfoRequests.EffectiveStrength) && PlayerIdExtensions.ToOriginal(Player) > 0)
         {
             int value = 5_000;
             Status playerRelation = StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(Player);
@@ -2503,7 +2503,7 @@ public partial class City : PlayerCropStructure
     private static readonly string s_cityStoneWallText = "Stone Wall";
     private static City s_sortingCity;
 
-    private static bool RaceInCity(int race, sbyte player)
+    private static bool RaceInCity(int race, PlayerId? player)
     {
         bool flag = false;
         Player? players = StrategicMap.Current.Players.GetPlayers(player);

@@ -20,7 +20,7 @@ public class FloodEnchantment : GlobalEnchantment
 
     public bool Removed { get; set; }
     public int RestoreDays { get; set; }
-    public sbyte DispelPlayer { get; set; }
+    public PlayerId? DispelPlayer { get; set; } = PlayerId.Independent;
     // alignment
     public int TurnsActive { get; set; }
 
@@ -40,7 +40,7 @@ public class FloodEnchantment : GlobalEnchantment
         TurnsActive = persister.Int32("TurnsActive", value: TurnsActive);
         persister.Object("FloodControl", objectValue: FloodControl);
         Removed = persister.Boolean("Removed", value: Removed);
-        DispelPlayer = (sbyte)persister.UnsignedByte(name: "DispelPlayer", value: DispelPlayer);
+        DispelPlayer = persister.OptionalPlayer(name: "DispelPlayer", value: DispelPlayer, width: IdWidth.UnsignedByte, fallback: 0);
         RestoreDays = persister.SByte("RestoreDays", value: RestoreDays.TruncateToSByte(), fallback: -1);
     }
 
@@ -61,18 +61,18 @@ public class FloodEnchantment : GlobalEnchantment
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001987)
         {
-            if (message.Payload.Int == PlayerIndex && !Removed)
+            if (message.Payload.Int == PlayerIdExtensions.ToOriginal(PlayerIndex) && !Removed)
             {
                 NewTurn();
             }
 
-            if (message.Payload.Int == DispelPlayer && Removed)
+            if (message.Payload.Int == PlayerIdExtensions.ToOriginal(DispelPlayer) && Removed)
             {
                 RestoreDays = (RestoreDays - 1).TruncateToSByte();
                 if (RestoreDays <= 0)
                 {
                     FloodControl.Restore();
-                    _ = base.Deactivate((byte)DispelPlayer);
+                    _ = base.Deactivate(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(DispelPlayer)));
                 }
             }
         }
@@ -105,7 +105,7 @@ public class FloodEnchantment : GlobalEnchantment
     public override int GetAIUpkeepPriority() => 500;
 
     // GlobalEnchantmentSpells.pas:1328
-    public override bool CanDeactivate(byte player, ref string reason)
+    public override bool CanDeactivate(PlayerId? player, ref string reason)
     {
         if (!Removed)
         {
@@ -119,11 +119,11 @@ public class FloodEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1338
-    public override bool Deactivate(byte player)
+    public override bool Deactivate(PlayerId? player)
     {
         if (!Removed)
         {
-            DispelPlayer = (sbyte)player;
+            DispelPlayer = PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(player));
             Removed = true;
             RestoreDays = StrategicMap.Current.PlayMode == PlayMode.Simultaneous ? 2 : 1;
 
@@ -138,7 +138,7 @@ public class FloodEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1320
-    public override bool Activate(sbyte player)
+    public override bool Activate(PlayerId? player)
     {
         _ = base.Activate(player);
         Removed = false;

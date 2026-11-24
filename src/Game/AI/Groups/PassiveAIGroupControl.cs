@@ -22,7 +22,7 @@ public class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                 MapCoordinate location = Group.GetLocation();
                 GroupDefenseSelector selector = new(this);
                 _ = selector.Execute(Group, location.X, location.Y, L: location.MapLevel, units: null);
-                if (selector.Defenders.Count != Group.Units.Count && Group.Player != 0)
+                if (selector.Defenders.Count != Group.Units.Count && Group.Player != PlayerId.Independent)
                 {
                     GroupBehavior randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
                     AIGroup? group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: randomGroupBehavior);

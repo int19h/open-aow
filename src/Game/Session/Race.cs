@@ -97,21 +97,21 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
     }
 
     // Ability.PAS:249
-    public void SetPlayerRelationValue(sbyte player, int value)
+    public void SetPlayerRelationValue(PlayerId? player, int value)
     {
-        if (player > 0)
+        if (PlayerIdExtensions.ToOriginal(player) > 0)
         {
             // { Original dereferences AoWHSMap before the nil check below. }
-            _playerRelations[player - 1] = value - StrategicMap.Current.Races.RelationOffset;
+            _playerRelations[PlayerIdExtensions.ToOriginal(player) - 1] = value - StrategicMap.Current.Races.RelationOffset;
             StrategicMap.Current?.TriggerRelationsChanged();
         }
     }
 
     // Ability.PAS:259
-    public int GetPlayerRelationValue(sbyte player) => player > 0 ? _playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset : 50;
+    public int GetPlayerRelationValue(PlayerId? player) => PlayerIdExtensions.ToOriginal(player) > 0 ? _playerRelations[PlayerIdExtensions.ToOriginal(player) - 1] + StrategicMap.Current.Races.RelationOffset : 50;
 
     // Ability.PAS:265
-    public Status GetPlayerRelation(sbyte player) => player > 0 ? StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset) : Status.Neutral;
+    public Status GetPlayerRelation(PlayerId? player) => PlayerIdExtensions.ToOriginal(player) > 0 ? StatusValueToStatus(_playerRelations[PlayerIdExtensions.ToOriginal(player) - 1] + StrategicMap.Current.Races.RelationOffset) : Status.Neutral;
 
     // Ability.PAS:271
     public void NewDay()

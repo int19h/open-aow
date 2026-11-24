@@ -3,7 +3,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
@@ -26,7 +26,7 @@ public class PowerLeakEnchantment : GlobalEnchantment
     public override int GetAIUpkeepPriority() => 750;
 
     // GlobalEnchantmentSpells.pas:1021
-    public override bool Deactivate(byte player)
+    public override bool Deactivate(PlayerId? player)
     {
         _ = base.Deactivate(player);
         for (int i = StrategicMap.Current.Players.Count - 1; i >= 0; i--)
@@ -38,7 +38,7 @@ public class PowerLeakEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1011
-    public override bool Activate(sbyte player)
+    public override bool Activate(PlayerId? player)
     {
         _ = base.Activate(player);
         for (int i = StrategicMap.Current.Players.Count - 1; i >= 0; i--)

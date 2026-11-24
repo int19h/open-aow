@@ -34,10 +34,10 @@ public sealed class RelationBandTests
 
         public int ShowCount { get; private set; }
 
-        public override void ShowPlayerActions(sbyte player)
+        public override void ShowPlayerActions(PlayerId? player)
         {
             ShowCount += 1;
-            ShownPlayer = player;
+            ShownPlayer = PlayerIdExtensions.ToOriginal(player);
         }
     }
 
@@ -148,7 +148,7 @@ public sealed class RelationBandTests
         Assert.False(window.Race1CheckBox.Visible);
 
         scope.Map.Players.SetNumberOfPlayers(12);
-        scope.Map.SeatedPlayer = 1;
+        scope.Map.SeatedPlayer = PlayerId.Player1;
         Player? seated = scope.Map.Players.GetPlayers(1);
         for (int i = 1; i <= 12; i++)
         {
@@ -180,7 +180,7 @@ public sealed class RelationBandTests
         window.Player1Image.Checked = true;
         window.Race12Image.Checked = true;
 
-        window.ShowRelations(0);
+        window.ShowRelations(PlayerId.Independent);
         Assert.False(window.Player1CheckBox.Checked);
         Assert.False(window.Player12CheckBox.Checked);
         Assert.True(window.Race12Image.Checked);
@@ -188,23 +188,23 @@ public sealed class RelationBandTests
         Assert.False(window.RelationPanel.Aligned);
         Assert.False(window.MainWindow.IsDrawn);
 
-        window.ShowRelations(-23);
+        window.ShowRelations(PlayerId.FromOriginal(-23));
         Assert.False(window.Player1CheckBox.Checked);
         Assert.True(window.Player1Image.Checked);
         Assert.Equal(0, window.ShowCount);
 
-        window.ShowRelations(1);
+        window.ShowRelations(PlayerId.Player1);
         Assert.True(window.Player1CheckBox.Checked);
         Assert.False(window.Player12CheckBox.Checked);
         Assert.Equal(0, window.ShowCount);
 
-        window.ShowRelations(12);
+        window.ShowRelations(PlayerId.Player12);
         Assert.False(window.Player1CheckBox.Checked);
         Assert.True(window.Player12CheckBox.Checked);
         Assert.Equal(0, window.ShowCount);
 
         scope.Map.Players.SetNumberOfPlayers(12);
-        scope.Map.SeatedPlayer = 12;
+        scope.Map.SeatedPlayer = PlayerId.Player12;
         Player? seated = scope.Map.Players.GetPlayers(12);
         for (int i = 1; i <= 12; i++)
         {
@@ -217,7 +217,7 @@ public sealed class RelationBandTests
             }
         }
 
-        window.ShowRelations(1);
+        window.ShowRelations(PlayerId.Player1);
         Assert.True(window.Player1CheckBox.Checked);
         Assert.True(window.Player12CheckBox.Checked);
         Assert.Equal(1, window.ShowCount);
@@ -251,7 +251,7 @@ public sealed class RelationBandTests
         using DialogScope dialogs = new();
         RecordingRelWindow window = CreateWindow(dialogs.UI);
         MarkChecks(window);
-        window.HighlightPlayer(4);
+        window.HighlightPlayer(PlayerId.Player4);
         Assert.Equal(-1, window.SelectedIndex);
         Assert.False(window.Player1CheckBox.Checked);
         Assert.False(window.Player12CheckBox.Checked);
@@ -261,9 +261,9 @@ public sealed class RelationBandTests
         Assert.Equal(5, window.Race1Image.CurrentImage);
         Assert.Equal(5, window.Race12Image.CurrentImage);
 
-        scope.Map.SeatedPlayer = 0;
+        scope.Map.SeatedPlayer = PlayerId.Independent;
         _ = window.Players.Add(0);
-        window.HighlightPlayer(0);
+        window.HighlightPlayer(PlayerId.Independent);
         Assert.Equal(0, window.SelectedIndex);
         Assert.True(window.Player1CheckBox.Checked);
         Assert.False(window.Player12CheckBox.Checked);
@@ -278,8 +278,8 @@ public sealed class RelationBandTests
         }
 
         scope.Map.Players.SetNumberOfPlayers(1);
-        scope.Map.SeatedPlayer = 0;
-        window.HighlightPlayer(12);
+        scope.Map.SeatedPlayer = PlayerId.Independent;
+        window.HighlightPlayer(PlayerId.Player12);
         Assert.Equal(11, window.SelectedIndex);
         Assert.False(window.Player1CheckBox.Checked);
         Assert.True(window.Player12CheckBox.Checked);
@@ -298,7 +298,7 @@ public sealed class RelationBandTests
         MarkChecks(window);
         window.HighlightRace(7);
         Assert.Equal(7, window.SelectedRace);
-        Assert.Equal(-1, window.SelectedPlayer);
+        Assert.Equal(-1, PlayerIdExtensions.ToOriginal(window.SelectedPlayer));
         Assert.Equal(19, window.SelectedIndex);
         Assert.True(window.Player12CheckBox.Checked);
         Assert.Equal(175, window.Player12CheckBox.Alignment.TopOffset);

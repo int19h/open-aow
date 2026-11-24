@@ -42,7 +42,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         Status = AIGroupStatuses.None;
         Productions = new AIGroupProductionList(null) { Holder = CreationHolder() };
         GroupId = -1;
-        Player = -1;
+        Player = null;
         IndependentRelation = -1;
         TransporterId = -1;
         LeaderId = -1;
@@ -59,7 +59,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public AIGroupProductionList Productions { get; }
 
     public int GroupId { get; set; }
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
     public int LeaderId { get; set; }
     public int TransporterId { get; set; }
     public int IndependentRelation { get; set; }
@@ -119,7 +119,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             TargetLocation = ReadTargetLocation(target);
         }
         TargetType = persister.Enum("TargetType", value: TargetType);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         IndependentRelation = persister.RawSByte("IndependentRelation", value: IndependentRelation.TruncateToSByte());
         ProcessPriority = persister.Byte("ProcessPriority", value: ProcessPriority.TruncateToByte());
         RecruitmentPriority = persister.Byte("RecruitmentPriority", value: RecruitmentPriority.TruncateToByte());
@@ -219,7 +219,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001986)
         {
-            NewTurn((sbyte)message.Payload.Int);
+            NewTurn(PlayerId.FromInt32((sbyte)message.Payload.Int));
         }
         else
         {
@@ -375,7 +375,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     }
 
     // AIGroup.pas:510
-    public virtual void NewTurn(sbyte player)
+    public virtual void NewTurn(PlayerId player)
     {
         if (player == Player)
         {
@@ -678,7 +678,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     {
         Assert(!Status.Contains(AIGroupStatuses.Activated), message: "", file: "AIGroup.pas", line: 479);
         Status |= AIGroupStatuses.Activated;
-        sbyte player = Player;
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Player);
         if (player != -1)
         {
             _ = StrategicMap.Current.Players.GetPlayers(player).AIGroups.AddChild(this);
@@ -698,7 +698,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         }
 
         Status &= ~AIGroupStatuses.Activated;
-        sbyte player = Player;
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Player);
         if (player != -1)
         {
             _ = StrategicMap.Current.Players.GetPlayers(player).AIGroups.RemoveChild(this);
@@ -706,17 +706,17 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     }
 
     // AIGroup.pas:498
-    public void SetPlayer(sbyte player)
+    public void SetPlayer(PlayerId? player)
     {
         if (player != Player)
         {
-            if (Status.Contains(AIGroupStatuses.Activated) && Player != -1)
+            if (Status.Contains(AIGroupStatuses.Activated) && Player is not null)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(Player).AIGroups.RemoveChild(this);
             }
 
             Player = player;
-            if (Status.Contains(AIGroupStatuses.Activated) && Player != -1)
+            if (Status.Contains(AIGroupStatuses.Activated) && Player is not null)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(Player).AIGroups.AddChild(this);
             }
@@ -726,7 +726,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     // AIGroup.pas:123
     public virtual EngineClass GroupControlClass() => EngineClass.Of<AIGroupControl>();
 
-    public virtual bool HuntingPlayer(sbyte player) => false;
+    public virtual bool HuntingPlayer(PlayerId? player) => false;
 
     // AIGroup.pas:121
     public static GroupBehavior Behavior => GroupBehavior.None;

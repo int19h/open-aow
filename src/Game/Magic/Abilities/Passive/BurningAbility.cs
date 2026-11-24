@@ -2,6 +2,7 @@
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
+using Aow.Game.Session;
 using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities.Passive;
@@ -21,7 +22,7 @@ public class BurningAbility : DurationAbility
     }
 
     // PassiveAb.pas:773
-    public override void NewCombatTurn(CombatObject combatObject, sbyte player)
+    public override void NewCombatTurn(CombatObject combatObject, PlayerId player)
     {
         DurationAbilityData data = GetData(combatObject.AbilityOwner);
         if (data is not null)

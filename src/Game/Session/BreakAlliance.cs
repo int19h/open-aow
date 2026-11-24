@@ -27,7 +27,7 @@ public sealed record BreakAlliance : DiplomaticProposal
     public override void Sent(DiplomaticAction action)
     {
         action.ApplyRelationModifiers();
-        StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, otherPlayer: (sbyte)(byte)action.Target, relation: DiplomaticRelation.Peace);
+        StrategicMap.Current.Players.SetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Source)), otherPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Target)), relation: DiplomaticRelation.Peace);
         if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
             string allianceBroken = AbilityRules.TranslateResourceString(action.GetEngine(), S: AllianceBrokenText);
@@ -37,7 +37,7 @@ public sealed record BreakAlliance : DiplomaticProposal
         Broadcast(action, exclude: -1, viewer: action.Target);
     }
 
-    public override int RelationModifier(DiplomaticAction action, sbyte player, int race)
+    public override int RelationModifier(DiplomaticAction action, PlayerId? player, int race)
         => player == action.Source && Relation(action.Source, second: action.Target) == DiplomaticRelation.Alliance
             ? RaceModifier(action.Target, race, modifier: -40)
             : 0;

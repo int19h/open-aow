@@ -8,7 +8,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using static Aow.Rtl.DelphiRandom;
@@ -46,7 +46,7 @@ public class CallHero : Spell
                 hero.SetHitPoints((sbyte)hero.GetHits());
             }
 
-            ArmyHexSprite? army = hero.Place(x, y, L: layer, player: 0, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);
+            ArmyHexSprite? army = hero.Place(x, y, L: layer, player: PlayerId.Independent, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);
             bool showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(x, y, layer, player: StrategicMap.Current.SeatedPlayer);
             bool condition = StrategicMap.Current.SeatedPlayer == source.Player;
             if (!condition)
@@ -133,7 +133,7 @@ public class CallHero : Spell
         if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+            eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
@@ -152,7 +152,7 @@ public class CallHero : Spell
         for (int i = StrategicMap.Current.HeroControl.GetCount() - 1; i >= 0; i--)
         {
             hero = StrategicMap.Current.HeroControl[i];
-            if (hero.Player == 0 && hero.Owner is Army && hero.ArmyOwner.Location.X != -1)
+            if (hero.Player == PlayerId.Independent && hero.Owner is Army && hero.ArmyOwner.Location.X != -1)
             {
                 _ = hero.OfferToJoin(source.Player) ? heroes.AddAbility(hero, 10) : heroes.AddAbility(hero, 1);
             }
@@ -163,7 +163,7 @@ public class CallHero : Spell
             for (int i = StrategicMap.Current.HeroControl.GetCount() - 1; i >= 0; i--)
             {
                 hero = StrategicMap.Current.HeroControl[i];
-                if (!hero.UnitStatus.Contains(UnitStatuses.Killed) && hero.Player <= 0 && hero.Owner is null)
+                if (!hero.UnitStatus.Contains(UnitStatuses.Killed) && PlayerIdExtensions.ToOriginal(hero.Player) <= 0 && hero.Owner is null)
                 {
                     _ = hero.OfferToJoin(source.Player) ? heroes.AddAbility(hero, 10) : heroes.AddAbility(hero, 1);
                 }

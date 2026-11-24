@@ -7,7 +7,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -53,10 +53,10 @@ public sealed class ArmyView(CustomNode owner) : Army(owner)
     public override MapCoordinate GetLocation() => Location;
 
     // Army.PAS:89
-    public override bool GetUnitConcealedForPlayer(int index, sbyte player) => ((UnitConcealment[index] >>> (player - 1)) & 1) != 0;
+    public override bool GetUnitConcealedForPlayer(int index, PlayerId? player) => ((UnitConcealment[index] >>> (PlayerIdExtensions.ToOriginal(player) - 1)) & 1) != 0;
 
     // Army.PAS:78
-    public override bool GetConcealedForPlayer(sbyte player) => ((ConcealedForPlayers >>> (player - 1)) & 1) != 0;
+    public override bool GetConcealedForPlayer(PlayerId? player) => ((ConcealedForPlayers >>> (PlayerIdExtensions.ToOriginal(player) - 1)) & 1) != 0;
 
     // Army.PAS:100
     public void Setup(Army army, int selection)
@@ -75,7 +75,7 @@ public sealed class ArmyView(CustomNode owner) : Army(owner)
                 MoraleValues[count - 1] = unit.MoraleValue;
                 for (int player = 1, lastPlayer = StrategicMap.Current.Players.GetCount() - 1; player <= lastPlayer; player++)
                 {
-                    SetUnitConcealedForPlayer(value: army.GetUnitConcealedForPlayer(i, player: (sbyte)player), index: Units.Count - 1, player: (sbyte)player);
+                    SetUnitConcealedForPlayer(value: army.GetUnitConcealedForPlayer(i, player: PlayerId.FromOriginal((sbyte)player)), index: Units.Count - 1, player: PlayerId.FromOriginal((sbyte)player));
                 }
             }
 
@@ -84,16 +84,16 @@ public sealed class ArmyView(CustomNode owner) : Army(owner)
     }
 
     // Army.PAS:81
-    public void SetConcealedForPlayer(sbyte player, bool value)
+    public void SetConcealedForPlayer(PlayerId player, bool value)
     {
-        int mask = 1 << (player - 1);
+        int mask = 1 << (player.Value - 1);
         ConcealedForPlayers = value ? (ushort)(ConcealedForPlayers | (ushort)mask) : (ushort)(ConcealedForPlayers & ~(ushort)mask);
     }
 
     // Army.PAS:92
-    public void SetUnitConcealedForPlayer(int index, sbyte player, bool value)
+    public void SetUnitConcealedForPlayer(int index, PlayerId? player, bool value)
     {
-        int mask = 1 << (player - 1);
+        int mask = 1 << (PlayerIdExtensions.ToOriginal(player) - 1);
         UnitConcealment[index] = value ? (ushort)(UnitConcealment[index] | (ushort)mask) : (ushort)(UnitConcealment[index] & ~(ushort)mask);
     }
 }

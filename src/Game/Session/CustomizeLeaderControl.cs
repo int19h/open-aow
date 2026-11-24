@@ -9,7 +9,7 @@ namespace Aow.Game.Session;
 public sealed class CustomizeLeaderControl(CustomNode? owner) : LeaderSetupControl(owner)
 {
     public SetupControl SetupControl { get; init; }
-    public int PlayerIndex { get; init; }
+    public PlayerId? PlayerIndex { get; init; } = PlayerId.Independent;
 
     // intf_P1_03.inc:99
     public override bool Done()

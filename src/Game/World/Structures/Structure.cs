@@ -49,7 +49,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
 
     public int UpdateCount { get; private set; }
 
-    public sbyte BuildingPlayer { get; set; } = -1;
+    public PlayerId? BuildingPlayer { get; set; } = null;
     public int BuildingDays { get; private set; }
 
     private StructureShadow? _shadow;
@@ -82,7 +82,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         base.PersistFields(persister);
         BuildingDays = persister.Byte("BuildingDays", value: BuildingDays.TruncateToByte());
         StructureId = persister.Int32("StructureId", value: StructureId);
-        BuildingPlayer = (sbyte)persister.UnsignedByte(name: "BuildingPlayer", value: BuildingPlayer, fallback: 255);
+        BuildingPlayer = persister.OptionalPlayer(name: "BuildingPlayer", value: BuildingPlayer, fallback: 255, width: IdWidth.UnsignedByte);
     }
 
     // Structur.PAS:1629
@@ -97,7 +97,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         {
             if (message.MessageId == 537001986)
             {
-                NewTurn((sbyte)message.Payload.Int);
+                NewTurn(PlayerId.FromInt32((sbyte)message.Payload.Int));
             }
             else
             {
@@ -254,7 +254,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
                                             if (message.MessageId == 4391)
                                             {
                                                 DefenseRequirements requirements = message.Param[1].As<DefenseRequirementsQuery>().Requirements;
-                                                bool stored = GetDefenseRequirements((sbyte)message.Param[0].Int, ref requirements);
+                                                bool stored = GetDefenseRequirements(PlayerId.FromOriginal((sbyte)message.Param[0].Int), ref requirements);
                                                 message.Param[1].As<DefenseRequirementsQuery>().Requirements = requirements;
                                                 if (stored)
                                                 {
@@ -440,7 +440,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     public virtual bool Razeable => Resource.Razeable;
 
     // Structur.PAS:1844
-    public virtual bool RazeWithoutConfirmation(sbyte player)
+    public virtual bool RazeWithoutConfirmation(PlayerId? player)
     {
         string reason = "";
         if (CanRaze(player, ref reason) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
@@ -448,7 +448,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
             StructureTokenEvent eventValue = CreateTokenEvent();
             SetupTokenEvent(eventValue);
             eventValue.Action = -1;
-            eventValue.Param = player;
+            eventValue.Param = PlayerIdExtensions.ToOriginal(player);
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
@@ -463,11 +463,11 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     public virtual void SetupRazeDefenderAIGroup(UnitUserList attackers, UnitUserList defenders)
     {
         int unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(defenders, defaultRelation: 5);
-        HuntAIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup<HuntAIGroup>(0, relation: unitsToIndependentRelation);
+        HuntAIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup<HuntAIGroup>(PlayerId.Independent, relation: unitsToIndependentRelation);
         _ = group.AddUnits(defenders.Units);
         for (int i = attackers.Count - 1; i >= 0; i--)
         {
-            if (attackers.GetUnit(i).Player != 0)
+            if (attackers.GetUnit(i).Player != PlayerId.Independent)
             {
                 Troop? troop = attackers.GetUnit(i);
                 _ = group.TargetUnitIds.Add(troop.UnitId);
@@ -488,7 +488,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     {
         if (tokenEvent.Action == -1)
         {
-            return ExecuteRaze((sbyte)tokenEvent.Param) ? ExecuteResult.Done : ExecuteResult.DoneHalt;
+            return ExecuteRaze(PlayerId.FromOriginal((sbyte)tokenEvent.Param)) ? ExecuteResult.Done : ExecuteResult.DoneHalt;
         }
         else
         {
@@ -513,7 +513,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1505
-    public virtual bool GetDefenseRequirements(sbyte player, ref DefenseRequirements requirements) => false;
+    public virtual bool GetDefenseRequirements(PlayerId? player, ref DefenseRequirements requirements) => false;
 
     // Structur.PAS:1502
     public virtual DefensePriority GetDefensePriority() => DefensePriority.None;
@@ -524,7 +524,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1479
-    public virtual void NewTurn(sbyte player)
+    public virtual void NewTurn(PlayerId player)
     {
         if (player == BuildingPlayer)
         {
@@ -627,7 +627,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         EventLog.DistributeLocationEventLog(y: HexY, level: HexLevel, x: HexX, log: log, player: BuildingPlayer, execute: false);
         _ = log.Release();
         SetRazed(false);
-        BuildingPlayer = -1;
+        BuildingPlayer = null;
         ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
@@ -663,7 +663,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1734
-    public virtual bool GenerateRazeDefenders(sbyte player, UnitList units)
+    public virtual bool GenerateRazeDefenders(PlayerId? player, UnitList units)
     {
         int hexX = HexX;
         int hexY = HexY;
@@ -689,7 +689,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1767
-    public virtual bool PlaceRazeDefenders(sbyte player)
+    public virtual bool PlaceRazeDefenders(PlayerId? player)
     {
         UnitList defenders = new(null) { Holder = CreationHolder() };
         UnitUserList placed = new(null) { Holder = CreationHolder() };
@@ -704,7 +704,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
                 _ = placed.AddUnit(troop);
                 int hexLevel = HexLevel;
                 int hexY = HexY;
-                _ = troop.Place(HexX, hexY, L: hexLevel, player: 0, mode: UnitPlaceModes.ScanArea);
+                _ = troop.Place(HexX, hexY, L: hexLevel, player: PlayerId.Independent, mode: UnitPlaceModes.ScanArea);
             }
 
             _ = ListUnits(attackers);
@@ -723,7 +723,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1801
-    public virtual bool ExecuteRaze(sbyte player)
+    public virtual bool ExecuteRaze(PlayerId? player)
     {
         string reason = "";
         if (CanRaze(player, ref reason))
@@ -805,7 +805,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1046
-    public virtual bool ExecuteAI(sbyte player, int phase) => false;
+    public virtual bool ExecuteAI(PlayerId? player, int phase) => false;
 
     // Structur.PAS:1049
     public virtual void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
@@ -822,10 +822,10 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1349
-    public virtual bool VisibleForPlayer(sbyte player)
+    public virtual bool VisibleForPlayer(PlayerId? player)
     {
         bool result = false;
-        if (player >= 0)
+        if (PlayerIdExtensions.ToOriginal(player) >= 0)
         {
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
             while (true)
@@ -962,7 +962,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1862
-    public virtual bool Raze(sbyte player)
+    public virtual bool Raze(PlayerId? player)
     {
         string reason = "";
         if (CanRaze(player, ref reason) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
@@ -995,7 +995,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1708
-    public virtual bool CanRaze(sbyte player, ref string reason)
+    public virtual bool CanRaze(PlayerId? player, ref string reason)
     {
         bool result;
         if (!GetRazed() && Razeable)
@@ -1070,7 +1070,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1087
-    public sbyte GetPlayer() => Owner.GetPlayer();
+    public PlayerId? GetPlayer() => Owner.GetPlayer();
 
     // Structur.PAS:1217
     public void FogChanged()
@@ -1095,7 +1095,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1366
-    public bool ValidateObservation(sbyte player)
+    public bool ValidateObservation(PlayerId? player)
     {
         bool result = false;
         MapLevel level = Owner.Owner;
@@ -1121,7 +1121,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1409
-    public bool Building => BuildingPlayer != -1;
+    public bool Building => BuildingPlayer is not null;
 
     // Structur.PAS:1655
     public bool ShowBorderImage(LockedSurface lockedSurface, Rect R)

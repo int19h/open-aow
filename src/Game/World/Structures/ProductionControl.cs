@@ -102,7 +102,7 @@ public partial class ProductionControl : EngineObject
                 UnregisterGroupProduction();
             }
 
-            sbyte player = GetPlayer();
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
             if (player > -1)
             {
                 Player? players = StrategicMap.Current.Players.GetPlayers(player);
@@ -282,7 +282,7 @@ public partial class ProductionControl : EngineObject
     public virtual MapCoordinate Location => MapCoordinate.None;
 
     // intf_P1_02.inc:133
-    public virtual sbyte GetPlayer() => throw AbstractErrorException.Create("Abstract Error");
+    public virtual PlayerId? GetPlayer() => throw AbstractErrorException.Create("Abstract Error");
 
     // Structur.PAS:279
     public virtual int QueueSizeMax => 5;
@@ -345,7 +345,7 @@ public partial class ProductionControl : EngineObject
     public virtual void Deactivate() => UnregisterGroupProduction();
 
     // Structur.PAS:804
-    public virtual void NewTurn(sbyte player)
+    public virtual void NewTurn(PlayerId player)
     {
         if (Status == ProductionControlStatus.Waiting && player == GetPlayer())
         {
@@ -407,7 +407,7 @@ public partial class ProductionControl : EngineObject
         bool condition = index >= 0 && index < Queue.Count;
         if (condition)
         {
-            sbyte player = GetPlayer();
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
         if (condition)
@@ -415,8 +415,8 @@ public partial class ProductionControl : EngineObject
             ProductionTokenEvent eventValue = CreateProductionTokenEvent();
             eventValue.Command = 1;
             eventValue.Index = index;
-            sbyte player = GetPlayer();
-            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
+            StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -432,15 +432,15 @@ public partial class ProductionControl : EngineObject
         bool condition = Queue.Count != 0;
         if (condition)
         {
-            sbyte player = GetPlayer();
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
         if (condition)
         {
             ProductionTokenEvent eventValue = CreateProductionTokenEvent();
             eventValue.Command = 2;
-            sbyte player = GetPlayer();
-            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
+            StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -493,7 +493,7 @@ public partial class ProductionControl : EngineObject
         bool condition = CanProduceUnit(index, queue, reason);
         if (condition)
         {
-            sbyte player = GetPlayer();
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
         if (condition)
@@ -507,8 +507,8 @@ public partial class ProductionControl : EngineObject
                 Order = new ProduceUnit(index, groupId)
             };
 
-            sbyte player = GetPlayer();
-            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
+            StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -560,7 +560,7 @@ public partial class ProductionControl : EngineObject
         bool condition = CanResearchUnit(index, queue, ref reason);
         if (condition)
         {
-            sbyte player = GetPlayer();
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
         if (condition)
@@ -574,8 +574,8 @@ public partial class ProductionControl : EngineObject
                 Order = new ResearchSpell(index)
             };
 
-            sbyte player = GetPlayer();
-            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
+            StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
             _ = eventValue.Release();
             // { Original returns False after successfully queueing research. }
             return false;
@@ -624,7 +624,7 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:339
     public void GroupProductionProduced(Troop? troop, int groupId)
     {
-        sbyte player = GetPlayer();
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
         AIGroup group = StrategicMap.Current.Players.GetPlayers(player).AIGroups.FindId(groupId);
         group?.UnitProduced(this, troop);
     }
@@ -632,15 +632,15 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:693
     public bool Produce(ProductionItem item, bool queue)
     {
-        sbyte player = GetPlayer();
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
             ProductionTokenEvent eventValue = CreateProductionTokenEvent();
             eventValue.Command = 0;
             eventValue.Queue = queue;
             eventValue.Item = item.Copy<ProductionItem>(GetEngine());
-            sbyte player2 = GetPlayer();
-            StrategicMap.Current.TokenManager.GetTokenControl(player2).AddEvent(eventValue);
+            sbyte player2 = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
+            StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player2)).AddEvent(eventValue);
             _ = eventValue.Release();
             // { Original returns False after successfully queueing production. }
             return false;
@@ -657,7 +657,7 @@ public partial class ProductionControl : EngineObject
         bool condition = Queue.Count != 0 && Status == ProductionControlStatus.Waiting;
         if (condition)
         {
-            sbyte player = GetPlayer();
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
         if (condition)
@@ -666,8 +666,8 @@ public partial class ProductionControl : EngineObject
             {
                 ProductionTokenEvent eventValue = CreateProductionTokenEvent();
                 eventValue.Command = 3;
-                sbyte player = GetPlayer();
-                StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+                sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
+                StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
                 _ = eventValue.Release();
                 return true;
             }
@@ -688,7 +688,7 @@ public partial class ProductionControl : EngineObject
         bool condition = value != LoopQueue;
         if (condition)
         {
-            sbyte player = GetPlayer();
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
         if (condition)
@@ -697,8 +697,8 @@ public partial class ProductionControl : EngineObject
             eventValue.Command = 4;
             eventValue.Index = value ? 1 : 0;
 
-            sbyte player = GetPlayer();
-            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
+            StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -737,7 +737,7 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:890
     public int FindOptimalResearchProduction(CombatPredictor? predictor, int gold)
     {
-        sbyte player = GetPlayer();
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
         Player? playerPlayer = StrategicMap.Current.Players.GetPlayers(player);
         Unit unit = new(null) { Holder = CreationHolder() };
         DoubleItemList productions = [];

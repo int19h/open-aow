@@ -213,7 +213,7 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
         for (int i = 0; i <= 11; i++)
         {
             window.Controls[i].Visible = i < window.Players.Count;
-            bool condition = i < window.Players.Count && window.Players[i] == StrategicMap.Current.SeatedPlayer;
+            bool condition = i < window.Players.Count && window.Players[i] == PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer);
             window.Controls[i].Checked = condition;
         }
 

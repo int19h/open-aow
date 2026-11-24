@@ -36,5 +36,5 @@ public readonly struct DiplomaticActionCollection : IReadOnlyList<DiplomaticActi
     public DiplomaticAction GetDiplomaticActions(int index) => this[index];
 
     // Diplomacy.pas:1100
-    public DiplomaticAction? FindLastAction(int kind, DiplomaticActionReaction reaction, int source, int target, int other) => this.FindLast(item => item.Proposal.ToFields().Kind == kind && item.Reaction == reaction && (source == item.Source || source == -1) && (item.Target == target || target == -1) && (item.OtherPlayer == other || other == -1));
+    public DiplomaticAction? FindLastAction(int kind, DiplomaticActionReaction reaction, int source, int target, PlayerId? other) => this.FindLast(item => item.Proposal.ToFields().Kind == kind && item.Reaction == reaction && (source == PlayerIdExtensions.ToOriginal(item.Source) || source == -1) && (PlayerIdExtensions.ToOriginal(item.Target) == target || target == -1) && (item.OtherPlayer == other || other is null));
 }

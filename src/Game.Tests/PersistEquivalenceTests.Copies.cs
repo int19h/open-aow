@@ -49,7 +49,7 @@ public sealed partial class PersistEquivalenceTests
         WithUnitResource(resource => WithDestroyingMap(_ =>
         {
             Army army = new(null) { Holder = EngineFixture.Engine };
-            Unit unit = new(null) { Holder = EngineFixture.Engine, UnitResource = resource, UnitId = 7, GroupId = 2, MoraleValue = -3, Player = 1 };
+            Unit unit = new(null) { Holder = EngineFixture.Engine, UnitResource = resource, UnitId = 7, GroupId = 2, MoraleValue = -3, Player = PlayerId.Player1 };
             unit.SetOwner(army);
             Army other = new(null) { Holder = EngineFixture.Engine };
             SameCopies(army, other);
@@ -65,9 +65,9 @@ public sealed partial class PersistEquivalenceTests
     {
         WithDestroyingMap(_ =>
         {
-            Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Source", Player = 2, LibraryId = 4, GroupId = 3 };
+            Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Source", Player = PlayerId.Player2, LibraryId = 4, GroupId = 3 };
             PlainItem(itemId: 9, name: "Ring").SetOwner(hero.Inventory);
-            Hero other = new(null) { Holder = EngineFixture.Engine, HeroName = "Other", Player = 5 };
+            Hero other = new(null) { Holder = EngineFixture.Engine, HeroName = "Other", Player = PlayerId.Player5 };
             SameCopies(hero, other);
             Hero copy = (Hero)hero.Copy(EngineFixture.Engine);
             copy.GroupId = 8;
@@ -93,7 +93,7 @@ public sealed partial class PersistEquivalenceTests
             WithDestroyingMap(_ =>
             {
                 DiplomaticProposal proposal = DiplomaticProposal.FromFields(kind: 9, gold: 70, mana: 5) with { Message = ["Hail", "Neighbor"] };
-                using DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Proposal = proposal, Source = 1, Target = 2, OtherPlayer = 3, Day = 9 };
+                using DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Proposal = proposal, Source = PlayerId.Player1, Target = PlayerId.Player2, OtherPlayer = PlayerId.Player3, Day = 9 };
                 DiplomaticActionEventLog log = new(null) { Holder = EngineFixture.Engine };
                 log.SetDiplomaticAction(action);
                 Assert.NotSame(action, log.Action);
@@ -125,7 +125,7 @@ public sealed partial class PersistEquivalenceTests
                 _ = data.TurnOrder.Add(1);
                 _ = data.TurnOrder.Add(0);
                 new CombatParty(null) { Holder = EngineFixture.Engine, Location = new MapCoordinate(4, 5, 0), PlayerIndex = 1 }.SetOwner(data.Parties);
-                Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Fighter", Player = 1 };
+                Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Fighter", Player = PlayerId.Player1 };
                 CombatUnit unit = new(null) { Holder = EngineFixture.Engine, Id = 3, Position = 1 };
                 unit.SetUnit(hero);
                 _ = hero.Release();
@@ -184,7 +184,7 @@ public sealed partial class PersistEquivalenceTests
         {
             PlayerCollection source = new(null) { Holder = EngineFixture.Engine };
             source.SetNumberOfPlayers(2);
-            source.GetPlayers(1).Leader = new Leader(null) { Holder = EngineFixture.Engine, HeroName = "Chosen", Player = 1 };
+            source.GetPlayers(1).Leader = new Leader(null) { Holder = EngineFixture.Engine, HeroName = "Chosen", Player = PlayerId.Player1 };
             source.GetPlayers(2).Day = 120;
             source.GetPlayers(2).Name = "Second";
             PlayerCollection viaTree = new(null) { Holder = EngineFixture.Engine };
@@ -261,7 +261,7 @@ public sealed partial class PersistEquivalenceTests
             _ = new UnitResource(resources) { Race = 3, Attack = 5, ObtainValue = 50 };
             SameObjectImage(resources, className: "UnitResourceList", classTable: "game");
             HeroLibrary library = new(null) { Holder = EngineFixture.Engine };
-            new Hero(null) { Holder = EngineFixture.Engine, HeroName = "Library", Player = 1 }.SetOwner(library);
+            new Hero(null) { Holder = EngineFixture.Engine, HeroName = "Library", Player = PlayerId.Player1 }.SetOwner(library);
             SameObjectImage(library, className: "HeroLibrary", classTable: "game");
             EmailGameList games = new(null) { Holder = EngineFixture.Engine };
             new EmailGame(null) { Holder = EngineFixture.Engine, UniqueLocalId = 2, UniqueId = 17 }.SetOwner(games);

@@ -48,7 +48,7 @@ public partial class PowerNode : PlayerStructure
     public override void Activate()
     {
         base.Activate();
-        if (Player != -1)
+        if (Player is not null)
         {
             _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
         }
@@ -57,7 +57,7 @@ public partial class PowerNode : PlayerStructure
     // PowerNode.pas:138
     public override void Deactivate()
     {
-        if (Player != -1)
+        if (Player is not null)
         {
             _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
         }
@@ -70,7 +70,7 @@ public partial class PowerNode : PlayerStructure
     {
         if (value)
         {
-            SetPlayer(-1);
+            SetPlayer(null);
             State |= States.Razed;
         }
         else
@@ -100,7 +100,7 @@ public partial class PowerNode : PlayerStructure
                 if (info.Player != Player && !GetRazed())
                 {
                     int p = data.Priority;
-                    if (Player == 0)
+                    if (Player == PlayerId.Independent)
                     {
                         p = 50;
                     }
@@ -142,19 +142,19 @@ public partial class PowerNode : PlayerStructure
     }
 
     // PowerNode.pas:117
-    public override void SetPlayer(sbyte player)
+    public override void SetPlayer(PlayerId? player)
     {
         if (player != Player)
         {
             if (Status.Contains(MapObjectStatuses.Activated))
             {
-                if (Player != -1)
+                if (Player is not null)
                 {
                     _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
                 }
 
                 base.SetPlayer(player);
-                if (Player != -1)
+                if (Player is not null)
                 {
                     _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
                 }

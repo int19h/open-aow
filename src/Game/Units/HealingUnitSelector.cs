@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Commands;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
@@ -44,9 +44,9 @@ public sealed class HealingUnitSelector(EngineObject creator) : UnitSelector(cre
                 {
                     Holder = Creator.CreationHolder(),
                     SourceId = source.UnitId,
-                    SourcePlayer = (byte)source.Player,
+                    SourcePlayer = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)),
                     TargetId = target.UnitId,
-                    TargetPlayer = (byte)target.Player
+                    TargetPlayer = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(target.Player))
                 };
                 StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 _ = eventValue.Release();

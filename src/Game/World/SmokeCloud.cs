@@ -9,7 +9,7 @@ using Aow.Game.Draw;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
@@ -34,7 +34,7 @@ public class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:187
     public new const int ClassId = 135_746;
 
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
     public int TurnsRemaining { get; set; }
     public bool Drifting { get; set; }
 
@@ -55,7 +55,7 @@ public class SmokeCloud : MultiHexMapObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         TurnsRemaining = persister.Int32("TurnsRemaining", value: TurnsRemaining);
         Drifting = persister.Boolean("Drifting", value: Drifting);
         _direction = persister.Byte("Direction", value: _direction.TruncateToByte());
@@ -66,13 +66,13 @@ public class SmokeCloud : MultiHexMapObject
     public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
-        if (message.MessageId == 537001986 && message.Payload.Int == Player && !_updated)
+        if (message.MessageId == 537001986 && message.Payload.Int == PlayerIdExtensions.ToOriginal(Player) && !_updated)
         {
             UpdateCloud();
             return;
         }
 
-        if (message.MessageId == 537001987 && message.Payload.Int == Player)
+        if (message.MessageId == 537001987 && message.Payload.Int == PlayerIdExtensions.ToOriginal(Player))
         {
             _updated = false;
         }
@@ -153,7 +153,7 @@ public class SmokeCloud : MultiHexMapObject
         }
 
         SmokeCloudEnchantment smokeCloudEnchantment = Enchantment;
-        if (smokeCloudEnchantment.PlayerIndex > 0 && !smokeCloudEnchantment.EnchantmentStatus.Contains(GlobalEnchantmentStatuses.Activated))
+        if (PlayerIdExtensions.ToOriginal(smokeCloudEnchantment.PlayerIndex) > 0 && !smokeCloudEnchantment.EnchantmentStatus.Contains(GlobalEnchantmentStatuses.Activated))
         {
             _ = smokeCloudEnchantment.Activate(smokeCloudEnchantment.PlayerIndex);
         }
@@ -165,9 +165,9 @@ public class SmokeCloud : MultiHexMapObject
     public override void Deactivate()
     {
         base.Deactivate();
-        if (Enchantment.PlayerIndex > 0)
+        if (PlayerIdExtensions.ToOriginal(Enchantment.PlayerIndex) > 0)
         {
-            _ = Enchantment.Deactivate((byte)Enchantment.PlayerIndex);
+            _ = Enchantment.Deactivate(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(Enchantment.PlayerIndex)));
         }
         UpdateConcealment(hexLevel: HexLevel, hexY: HexY, hexX: HexX);
     }

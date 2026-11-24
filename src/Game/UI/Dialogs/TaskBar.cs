@@ -175,7 +175,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
                     UI.Graphics.TaskBar[race + 32].ShowClipped(PlayerIndicatorFrame.WinLeft + 3 + (position * 5), PlayerIndicatorFrame.WinTop + 2, lockedSurface: surface);
                     if (StrategicMap.Current.PlayMode == PlayMode.Turn)
                     {
-                        if (i == StrategicMap.Current.CurrentPlayer)
+                        if (i == PlayerIdExtensions.ToOriginal(StrategicMap.Current.CurrentPlayer))
                         {
                             CurrentPlayerImage.WinLeft = PlayerIndicatorFrame.WinLeft + 2 + (position * 5);
                             CurrentPlayerImage.WinTop = PlayerIndicatorFrame.WinTop + 11;

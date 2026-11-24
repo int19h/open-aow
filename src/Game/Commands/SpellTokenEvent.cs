@@ -1,10 +1,12 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -17,7 +19,7 @@ public class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
 
     public int EventSpellId { get; protected set; }
     public int EventSourceId { get; set; }
-    public byte EventPlayerIndex { get; protected set; }
+    public PlayerId? EventPlayerIndex { get; protected set; } = PlayerId.Independent;
     public int EventMana { get; protected set; }
 
     // Spells.PAS:423
@@ -26,12 +28,12 @@ public class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
         base.PersistFields(persister);
         EventSpellId = persister.Int32("EventSpellId", value: EventSpellId);
         EventSourceId = persister.Int32("EventSourceId", value: EventSourceId);
-        EventPlayerIndex = persister.Byte("EventPlayerIndex", value: EventPlayerIndex);
+        EventPlayerIndex = persister.OptionalPlayer("EventPlayerIndex", value: EventPlayerIndex, width: IdWidth.Byte, fallback: 0);
         EventMana = persister.Int32("EventMana", value: EventMana);
     }
 
     // Spells.PAS:431
-    public void Initialize(int spellId, byte playerIndex, int sourceId, int mana)
+    public void Initialize(int spellId, PlayerId? playerIndex, int sourceId, int mana)
     {
         EventSpellId = spellId;
         EventSourceId = sourceId;
@@ -45,7 +47,7 @@ public class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
     public virtual bool Validate(Hero source)
     {
         string reason = "";
-        return (byte)source.Player == EventPlayerIndex && source.CanCastSpellInstantly(EventSpellId, mana: EventMana, ref reason);
+        return (byte)PlayerIdExtensions.ToOriginal(source.Player) == (byte)PlayerIdExtensions.ToOriginal(EventPlayerIndex) && source.CanCastSpellInstantly(EventSpellId, mana: EventMana, ref reason);
     }
 
     public virtual bool Process(Troop source, int value) => GamePack.Current.SpellControl[EventSpellId].ExecuteTokenEvent(this, source, executeCount: value);

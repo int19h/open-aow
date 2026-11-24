@@ -38,10 +38,10 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
     private int _refCount = 1;
 
     public int Day { get; set; }
-    public sbyte Source { get; set; }
-    public sbyte Target { get; set; }
+    public PlayerId? Source { get; set; } = PlayerId.Independent;
+    public PlayerId? Target { get; set; } = PlayerId.Independent;
     // The census finds it written for every kind, 255 for the kinds that name no other player.
-    public sbyte OtherPlayer { get; set; }
+    public PlayerId? OtherPlayer { get; set; } = PlayerId.Independent;
     public DiplomaticActionReaction Reaction { get; set; }
 
     public DiplomaticProposal Proposal { get; set; } = new DeclareWar();
@@ -62,9 +62,9 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
             _ = message.Add(line);
         }
 
-        Source = (sbyte)persister.UnsignedByte(name: "Source", value: Source);
-        Target = (sbyte)persister.UnsignedByte(name: "Target", value: Target);
-        OtherPlayer = (sbyte)persister.UnsignedByte(name: "OtherPlayer", value: OtherPlayer);
+        Source = persister.OptionalPlayer(name: "Source", value: Source, width: IdWidth.UnsignedByte, fallback: 0);
+        Target = persister.OptionalPlayer(name: "Target", value: Target, width: IdWidth.UnsignedByte, fallback: 0);
+        OtherPlayer = persister.OptionalPlayer(name: "OtherPlayer", value: OtherPlayer, width: IdWidth.UnsignedByte, fallback: 0);
         gold = persister.Int32("Gold", value: gold);
         mana = persister.Int32("Mana", value: mana);
         Span<byte> kindData = [kind];
@@ -108,7 +108,7 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
     public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
-        if (message.MessageId == 537001986 && message.Payload.Int == Source && Reaction == DiplomaticActionReaction.None)
+        if (message.MessageId == 537001986 && message.Payload.Int == PlayerIdExtensions.ToOriginal(Source) && Reaction == DiplomaticActionReaction.None)
         {
             bool ignore = Proposal.LapsesUnanswered(this);
             if (ignore && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Day > Day + 1))
@@ -147,7 +147,7 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
     public virtual void ExecuteAccept(DiplomaticActionTokenEvent tokenEvent)
     {
         Reaction = DiplomaticActionReaction.Accept;
-        RetrieveDefaultMessage(Source, Target, other: OtherPlayer, Reaction);
+        RetrieveDefaultMessage(Source, target: PlayerIdExtensions.ToOriginal(Target), other: OtherPlayer, Reaction);
         Player? players = StrategicMap.Current.Players.GetPlayers(Target);
         StrategicMap.Current.Players.GetPlayers(Target).SetGems(players.Gems + EscrowGold);
         EscrowGold = 0;
@@ -168,19 +168,19 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
         Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Source);
         StrategicMap.Current.Players.GetPlayers(Source).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + EscrowMana);
         EscrowMana = 0;
-        RetrieveDefaultMessage(Source, Target, other: OtherPlayer, Reaction);
+        RetrieveDefaultMessage(Source, target: PlayerIdExtensions.ToOriginal(Target), other: OtherPlayer, Reaction);
         DiplomaticActionEventLog log = StrategicMap.Current.Players.GetPlayers(Target).EventLogbook.FindId<DiplomaticActionEventLog>(EventLogId);
         log.SetDiplomaticAction(this);
         StrategicMap.Current.Players.GetPlayers(Source).EventLogbook.AddEvent(log);
     }
 
     // Diplomacy.pas:722
-    public virtual void ExecuteAI(sbyte player)
+    public virtual void ExecuteAI(PlayerId? player)
     {
         DiplomaticActionReaction reaction = Reaction;
         if (reaction == DiplomaticActionReaction.None)
         {
-            DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)Source, otherPlayer: (sbyte)(byte)Target);
+            DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(Source)), otherPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(Target)));
             ByteList idealPeace = [];
             ByteList idealWar = [];
             ByteList peace = [];
@@ -289,10 +289,10 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
     }
 
     // Diplomacy.pas:505
-    public string GetName(sbyte player) => Proposal.Name(this);
+    public string GetName(PlayerId? player) => Proposal.Name(this);
 
     // Diplomacy.pas:527
-    public int GetRelationModifier(sbyte player, int race) => Proposal.RelationModifier(this, player, race);
+    public int GetRelationModifier(PlayerId? player, int race) => Proposal.RelationModifier(this, player, race);
 
     // Diplomacy.pas:707
     public DiplomaticActionEventLog CreateEventLog()
@@ -307,7 +307,7 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
     }
 
     // Diplomacy.pas:938
-    public void UpdateAIDiplomaticActionsLog(sbyte player)
+    public void UpdateAIDiplomaticActionsLog(PlayerId? player)
     {
         Player? players = StrategicMap.Current.Players.GetPlayers(player);
         if (players.PlayerType is (>= PlayerType.Cpu1 and <= PlayerType.Cpu3) or PlayerType.Cpu4 or PlayerType.Cpu5)
@@ -321,11 +321,11 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
 
     private static readonly string s_notEnoughManaText = "Not enough mana.";
 
-    private static void RetrieveDefaultDiplomaticActionMessage(int source, int target, int other, DiplomaticProposal proposal, DiplomaticActionReaction reaction, DelphiStringCollection text, GameEngine? engine)
+    private static void RetrieveDefaultDiplomaticActionMessage(PlayerId? source, PlayerId? target, int other, DiplomaticProposal proposal, DiplomaticActionReaction reaction, DelphiStringCollection text, GameEngine? engine)
     {
         text.Clear();
         TextControl fTextControl = GamePack.Current.TextControl;
-        DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)source, otherPlayer: (sbyte)target);
+        DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(source)), otherPlayer: PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(target)));
         Player? players = StrategicMap.Current.Players.GetPlayers(source);
         string sourceRace = AbilityRules.TranslateResourceString(engine, S: GameTables.RaceNamesPluralTexts[players.PlayerRace]);
         Player? players2 = StrategicMap.Current.Players.GetPlayers(target);

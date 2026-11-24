@@ -11,14 +11,14 @@ namespace Aow.Game.Magic.Abilities;
 internal static class RosterTables
 {
 
-    internal static int GetUnitIndexAIPriority(int unitIndex, sbyte player, int relation, GameEngine? engine)
+    internal static int GetUnitIndexAIPriority(int unitIndex, PlayerId? player, int relation, GameEngine? engine)
     {
         UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         int result;
         if (resource is not null && resource.GetTransportCapacity() == 0)
         {
             int value;
-            if (player != 0)
+            if (player != PlayerId.Independent)
             {
                 if (resource.Race != -1)
                 {

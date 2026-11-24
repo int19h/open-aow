@@ -11,7 +11,7 @@ using Aow.Game.Draw.Animations;
 using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
@@ -85,7 +85,7 @@ public class Anarchy : CityTargetSpell
     public override bool ValidTargetCity(Troop source, City? targetCity)
     {
         bool result = base.ValidTargetCity(source, targetCity);
-        return result && targetCity.Player != 0 && !targetCity.Enchantments.Contains(CityEnchantmentIds.AntiMagicShell);
+        return result && targetCity.Player != PlayerId.Independent && !targetCity.Enchantments.Contains(CityEnchantmentIds.AntiMagicShell);
     }
 
     // CitySpells.pas:867

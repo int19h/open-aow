@@ -1,14 +1,15 @@
 using System.Globalization;
 using Aow.Game.Combat;
+using Aow.Game.Session;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Structures;
 
 public partial class ExplorationSite
 {
-    public override StructureView InfoPanel(sbyte viewer) => StatePanel() ?? StructureView.ExplorationSite;
+    public override StructureView InfoPanel(PlayerId? viewer) => StatePanel() ?? StructureView.ExplorationSite;
 
-    public override StructureView InfoButton(sbyte viewer)
+    public override StructureView InfoButton(PlayerId? viewer)
     {
         _ = Search();
         return StructureView.None;

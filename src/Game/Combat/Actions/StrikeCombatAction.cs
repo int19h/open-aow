@@ -3,6 +3,7 @@
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -48,7 +49,7 @@ public class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
         {
             _ = GamePack.Current.AbilityControl[94].Expand(entangledTarget.Troop);
             UnitEnchantmentAbilityData data = entangledTarget.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
-            data?.EnchantmentPlayerIndex = source.CombatPlayer;
+            data?.EnchantmentPlayerIndex = PlayerId.FromOriginal(source.CombatPlayer);
         }
     }
 

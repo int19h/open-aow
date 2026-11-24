@@ -7,6 +7,7 @@ using Aow.Game.Commands;
 using Aow.Game.Draw;
 
 using Aow.Game.Net;
+using Aow.Game.Session;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using MovePath = Aow.Game.World.Movement.MovePath;
@@ -27,6 +28,28 @@ public sealed class MapNetSoundConstructionTests
             _ = base.AddChild(child);
             return Members.Count - 1;
         }
+    }
+
+    [Fact]
+    public void RemoteBroadcastUsesSystemZeroAndQueuesALocalCopy()
+    {
+        int? recipient = null;
+        using RemotePlayerCommunicationControl remote = new(EngineFixture.Engine, sendData: (_, systemId) =>
+        {
+            recipient = systemId;
+            return true;
+        });
+        remote.Setup(1, localSystemId: 7);
+        using MemoryStream sent = new();
+        sent.Write([1, 2, 3]);
+        Assert.True(remote.SendPackageData(NetworkSession.AllPlayers, stream: sent));
+        Assert.Equal(0, recipient);
+        Assert.Equal(1, remote.PackageDataList.Count);
+
+        using MemoryStream received = new();
+        Assert.True(remote.ReceivePackageData(received));
+        Assert.Equal(sent.ToArray(), received.ToArray());
+        Assert.Equal(0, remote.PackageDataList.Count);
     }
 
     public static IEnumerable<object[]> EngineCases()
@@ -224,7 +247,7 @@ public sealed class MapNetSoundConstructionTests
             1 => new TerrainList(),
             2 => new HexSpriteMapMouse(),
             3 => new MapCoordinateList(),
-            4 => new TokenControl(null!, player: 7),
+            4 => new TokenControl(null!, player: PlayerId.Player7),
             5 => new TokenExecutor(null!),
             6 => new TokenManager(null!),
             7 => new PlayerCommunicationControl(EngineFixture.Engine),
@@ -270,7 +293,7 @@ public sealed class MapNetSoundConstructionTests
                     Assert.Empty(steps);
                     break;
                 case TokenControl control:
-                    Assert.Equal(7, control.Player);
+                    Assert.Equal(7, PlayerIdExtensions.ToOriginal(control.Player));
                     Assert.True(control.Active);
                     Assert.Equal(0, control.Count);
                     break;
@@ -329,7 +352,7 @@ public sealed class MapNetSoundConstructionTests
     public void TokenControlPublicationHasNoLaterConstructorWork()
     {
         using TokenManager manager = new(null);
-        TokenControl control = new(manager, player: 7);
+        TokenControl control = new(manager, player: PlayerId.Player7);
         Assert.Same(control, manager.TokenExecutor.TacticalBattleList[0]);
         _ = Assert.Single(manager.TokenExecutor.TacticalBattleList);
         control.Dispose();

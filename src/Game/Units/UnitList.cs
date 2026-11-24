@@ -7,7 +7,7 @@ using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -87,7 +87,7 @@ public class UnitList(CustomNode? owner) : ObservableNode(owner), IChildList<Tro
     }
 
     // Unit.PAS:2362
-    public virtual sbyte GetPlayer() => -1;
+    public virtual PlayerId? GetPlayer() => null;
 
     // Unit.PAS:2366
     public int GetStrength(DamageType damageType) => Units.GetStrength(damageType);

@@ -6,6 +6,7 @@ using Aow.Game.Combat;
 using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -35,7 +36,7 @@ public class LightningStorm(CustomNode? owner) : Storm(owner)
     }
 
     // Storms.pas:487
-    public override StormDamageInfo GetTargetDamageInfo(sbyte player, int X, int Y, int L, StormDamageInfo info)
+    public override StormDamageInfo GetTargetDamageInfo(PlayerId? player, int X, int Y, int L, StormDamageInfo info)
     {
         AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Lightning, X, Y, L, innerRadius: 0, outerRadius: 1, out info);
         return info;
@@ -53,7 +54,7 @@ public class LightningStorm(CustomNode? owner) : Storm(owner)
     }
 
     // Storms.pas:443
-    public override void InitializeStorm(sbyte player, int X, int Y, int L)
+    public override void InitializeStorm(PlayerId? player, int X, int Y, int L)
     {
         Rect r = default;
         base.InitializeStorm(player, X, Y, L);

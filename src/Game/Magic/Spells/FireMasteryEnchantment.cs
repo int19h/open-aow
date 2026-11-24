@@ -48,7 +48,7 @@ public class FireMasteryEnchantment : GlobalEnchantment
     public override int GetAIUpkeepPriority() => 1_250;
 
     // GlobalEnchantmentSpells.pas:1680
-    public override bool Deactivate(byte player)
+    public override bool Deactivate(PlayerId? player)
     {
         _ = base.Deactivate(player);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
@@ -69,7 +69,7 @@ public class FireMasteryEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1653
-    public override bool CanActivate(sbyte player, ref string reason)
+    public override bool CanActivate(PlayerId? player, ref string reason)
     {
         if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.FireMastery))
         {
@@ -85,7 +85,7 @@ public class FireMasteryEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1663
-    public override bool Activate(sbyte player)
+    public override bool Activate(PlayerId? player)
     {
         _ = base.Activate(player);
         // { Original doubles Water. }

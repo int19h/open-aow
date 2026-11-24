@@ -47,9 +47,9 @@ public sealed class ThrowingCastTests
         {
         }
 
-        public override bool CanJoin(sbyte player) => true;
+        public override bool CanJoin(PlayerId? player) => true;
 
-        public override bool OfferToJoin(sbyte player) => true;
+        public override bool OfferToJoin(PlayerId? player) => true;
     }
 
     private sealed class ItemSite : Structure
@@ -132,9 +132,9 @@ public sealed class ThrowingCastTests
     public void NonHeroFindIsAbsentAndAHeroStillResolves()
     {
         using MapScope scope = new();
-        scope.Map.SeatedPlayer = 0;
-        Troop troop = new(null) { Holder = EngineFixture.Engine, UnitId = 42, Player = 0 };
-        Hero hero = new(null) { Holder = EngineFixture.Engine, UnitId = 43, Player = 4 };
+        scope.Map.SeatedPlayer = PlayerId.Independent;
+        Troop troop = new(null) { Holder = EngineFixture.Engine, UnitId = 42, Player = PlayerId.Independent };
+        Hero hero = new(null) { Holder = EngineFixture.Engine, UnitId = 43, Player = PlayerId.Player4 };
         scope.Map.UnitControl.RegisterUnit(troop);
         scope.Map.UnitControl.RegisterUnit(hero);
 
@@ -339,10 +339,10 @@ public sealed class ThrowingCastTests
     {
         using MapScope scope = new();
         UnitList units = new(null) { Holder = EngineFixture.Engine };
-        JoiningHero hero = new() { Holder = EngineFixture.Engine, UnitId = 42, Player = 0 };
+        JoiningHero hero = new() { Holder = EngineFixture.Engine, UnitId = 42, Player = PlayerId.Independent };
         hero.SetOwnerWithoutNotify(units);
         scope.Map.UnitControl.RegisterUnit(hero);
-        HeroEmergeEventLog emerge = new(null) { Holder = EngineFixture.Engine, UnitId = 42, Player = 1 };
+        HeroEmergeEventLog emerge = new(null) { Holder = EngineFixture.Engine, UnitId = 42, Player = PlayerId.Player1 };
         HeroJoinEventLog? log = null;
         Exception error = Record.Exception(() => log = emerge.CreateHeroJoinEventLog());
         Assert.Null(error);
@@ -359,9 +359,9 @@ public sealed class ThrowingCastTests
     public void WarpPartyWithoutArmyReturnsFalse()
     {
         using MapScope scope = new();
-        scope.Map.TokenManager.CreatePlayer(1);
+        scope.Map.TokenManager.CreatePlayer(PlayerId.Player1);
         UnitList units = new(null) { Holder = EngineFixture.Engine };
-        Hero hero = new(null) { Holder = EngineFixture.Engine, UnitId = 7, Player = 1 };
+        Hero hero = new(null) { Holder = EngineFixture.Engine, UnitId = 7, Player = PlayerId.Player1 };
         hero.SetOwnerWithoutNotify(units);
         WarpParty spell = new(null, holder: EngineFixture.Engine);
         bool result = true;
@@ -395,8 +395,8 @@ public sealed class ThrowingCastTests
     {
         using MapScope scope = new();
         UnitList units = new(null) { Holder = EngineFixture.Engine };
-        Troop source = new(null) { Holder = EngineFixture.Engine, UnitId = 6, Player = 1 };
-        Troop target = new(null) { Holder = EngineFixture.Engine, UnitId = 9, Player = 1 };
+        Troop source = new(null) { Holder = EngineFixture.Engine, UnitId = 6, Player = PlayerId.Player1 };
+        Troop target = new(null) { Holder = EngineFixture.Engine, UnitId = 9, Player = PlayerId.Player1 };
         _ = units.Units.AddUnit(source);
         _ = units.Units.AddUnit(target);
         UnitSpell spell = new(null) { Holder = EngineFixture.Engine };
@@ -408,7 +408,7 @@ public sealed class ThrowingCastTests
         Army army = new(null)
         {
             Holder = EngineFixture.Engine,
-            Player = 1
+            Player = PlayerId.Player1
         };
         _ = army.Units.AddUnit(source);
         _ = army.Units.AddUnit(target);

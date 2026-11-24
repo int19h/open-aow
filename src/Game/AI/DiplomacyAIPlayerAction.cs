@@ -17,13 +17,13 @@ namespace Aow.Game.AI;
 
 public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
-    private sbyte _nextPlayer;
+    private PlayerId? _nextPlayer = PlayerId.Independent;
 
     // Diplomacy.pas:1549
     public override bool Activate()
     {
         bool result = base.Activate();
-        _nextPlayer = 0;
+        _nextPlayer = PlayerId.Independent;
         return result;
     }
 
@@ -31,37 +31,37 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
     public override bool Process()
     {
         _ = base.Process();
-        if (Control.Player.PlayerIndex != 0)
+        if (Control.Player.PlayerIndex != PlayerId.Independent)
         {
             while (true)
             {
                 int count = StrategicMap.Current.Players.Count;
-                if (!(_nextPlayer < count && !Control.Player.GetBusy()))
+                if (!(PlayerIdExtensions.ToOriginal(_nextPlayer) < count && !Control.Player.GetBusy()))
                 {
                     break;
                 }
 
-                _nextPlayer = (sbyte)(_nextPlayer + 1);
+                _nextPlayer = PlayerId.FromOriginal((sbyte)(PlayerIdExtensions.ToOriginal(_nextPlayer) + 1));
                 while (true)
                 {
                     int fPlayersCount = StrategicMap.Current.Players.Count;
-                    if (!(_nextPlayer < fPlayersCount && (Control.Player.GetFirstDaySeen((sbyte)(byte)_nextPlayer) == -1 || Control.Player.PlayerIndex == _nextPlayer)))
+                    if (!(PlayerIdExtensions.ToOriginal(_nextPlayer) < fPlayersCount && (Control.Player.GetFirstDaySeen(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(_nextPlayer))) == -1 || Control.Player.PlayerIndex == _nextPlayer)))
                     {
                         break;
                     }
 
-                    _nextPlayer = (sbyte)(_nextPlayer + 1);
+                    _nextPlayer = PlayerId.FromOriginal((sbyte)(PlayerIdExtensions.ToOriginal(_nextPlayer) + 1));
                 }
 
                 int count2 = StrategicMap.Current.Players.Count;
-                if (_nextPlayer < count2)
+                if (PlayerIdExtensions.ToOriginal(_nextPlayer) < count2)
                 {
                     _ = ExecuteDiplomacy(_nextPlayer);
                 }
             }
 
             int count3 = StrategicMap.Current.Players.Count;
-            return _nextPlayer < count3;
+            return PlayerIdExtensions.ToOriginal(_nextPlayer) < count3;
         }
         else
         {
@@ -70,21 +70,21 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
     }
 
     // Diplomacy.pas:1552
-    public DiplomaticAction? CreateDA(DiplomaticProposal action, int target, int other, int minDays)
+    public DiplomaticAction? CreateDA(DiplomaticProposal action, PlayerId? target, int other, int minDays)
     {
-        sbyte player = Control.Player.PlayerIndex;
-        DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(player).DiplomaticActions.FindLastAction(action.ToFields().Kind, reaction: DiplomaticActionReaction.None, source: player, target, other);
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Control.Player.PlayerIndex);
+        DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(player).DiplomaticActions.FindLastAction(action.ToFields().Kind, reaction: DiplomaticActionReaction.None, source: PlayerId.FromOriginal(player), target, other);
         return last is null || StrategicMap.Current.Day - last.Day >= minDays
-            ? StrategicMap.Current.Players.GetPlayers(player).CreateDiplomaticAction(action, target, other)
+            ? StrategicMap.Current.Players.GetPlayers(player).CreateDiplomaticAction(action, target, other: PlayerId.FromOriginal(other))
             : null;
     }
 
     // Diplomacy.pas:1563
-    public bool ExecuteDiplomacy(sbyte player)
+    public bool ExecuteDiplomacy(PlayerId? player)
     {
         // { Original bug: the result remains False even when an action is sent. }
         DiplomaticAction? action = null;
-        int source = Control.Player.PlayerIndex;
+        int source = PlayerIdExtensions.ToOriginal(Control.Player.PlayerIndex);
         ByteList idealPeace = [];
         ByteList idealWar = [];
         ByteList peace = [];
@@ -93,37 +93,37 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
         Control.ListPeaceWarUnknownPlayers(peace, war, unknown);
         Control.ListIdealPeaceWarPlayers(idealPeace, war: idealWar);
         int index;
-        switch (StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)source, otherPlayer: (sbyte)(byte)player))
+        switch (StrategicMap.Current.Players.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)source), otherPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(player))))
         {
             case DiplomaticRelation.Unknown:
-                if (idealPeace.IndexOf((byte)player) != -1)
+                if (idealPeace.IndexOf((byte)PlayerIdExtensions.ToOriginal(player)) != -1)
                 {
-                    action = Control.CanOfferPeace((byte)player)
+                    action = Control.CanOfferPeace(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player)))
                         ? CreateDA(new OfferPeace(), target: player, other: -1, minDays: 10)
                         : CreateDA(new DeclareWar(), target: player, other: -1, minDays: -1);
                 }
 
-                if (idealWar.IndexOf((byte)player) != -1)
+                if (idealWar.IndexOf((byte)PlayerIdExtensions.ToOriginal(player)) != -1)
                 {
-                    action = Control.CanDeclareWar((byte)player)
+                    action = Control.CanDeclareWar(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player)))
                         ? CreateDA(new DeclareWar(), target: player, other: -1, minDays: -1)
                         : CreateDA(new OfferPeace(), target: player, other: -1, minDays: 10);
                 }
 
                 break;
             case DiplomaticRelation.Peace:
-                if (!Control.CanOfferPeace((byte)player) && idealWar.IndexOf((byte)player) != -1)
+                if (!Control.CanOfferPeace(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player))) && idealWar.IndexOf((byte)PlayerIdExtensions.ToOriginal(player)) != -1)
                 {
                     RandSeed = StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + source;
                     index = Random(idealWar.Count);
-                    if (idealWar[index] == player)
+                    if (idealWar[index] == PlayerIdExtensions.ToOriginal(player))
                     {
                         action = CreateDA(new DeclareWar(), target: player, other: -1, minDays: -1);
                     }
                 }
                 else
                 {
-                    if (Control.CanProposeAlliance((byte)player))
+                    if (Control.CanProposeAlliance(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player))))
                     {
                         RandSeed = (StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + source) >>> 2;
                         if (Random(100) < 30)
@@ -135,11 +135,11 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
 
                 break;
             case DiplomaticRelation.Alliance:
-                if (!Control.CanOfferPeace((byte)player) && idealWar.IndexOf((byte)player) != -1)
+                if (!Control.CanOfferPeace(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player))) && idealWar.IndexOf((byte)PlayerIdExtensions.ToOriginal(player)) != -1)
                 {
                     RandSeed = StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + source + 1;
                     index = Random(idealWar.Count);
-                    if (idealWar[index] == player)
+                    if (idealWar[index] == PlayerIdExtensions.ToOriginal(player))
                     {
                         action = CreateDA(new BreakAlliance(), target: player, other: -1, minDays: -1);
                     }
@@ -147,7 +147,7 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
 
                 break;
             case DiplomaticRelation.War:
-                if (!Control.CanDeclareWar((byte)player))
+                if (!Control.CanDeclareWar(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player))))
                 {
                     DoubleItemList candidates = [];
                     int score;
@@ -155,14 +155,14 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
                     for (int i = 0, last = idealPeace.Count - 1; i <= last; i++)
                     {
                         candidate = idealPeace[i].TruncateToSByte();
-                        if (war.IndexOf((byte)candidate) != -1 && Control.CanOfferPeace((byte)candidate))
+                        if (war.IndexOf((byte)candidate) != -1 && Control.CanOfferPeace(PlayerId.FromOriginal((byte)candidate)))
                         {
-                            action = StrategicMap.Current.Players.GetPlayers(source).DiplomaticActions.FindLastAction(OfferPeace.Kind, reaction: DiplomaticActionReaction.None, source, target: candidate, other: -1);
+                            action = StrategicMap.Current.Players.GetPlayers(source).DiplomaticActions.FindLastAction(OfferPeace.Kind, reaction: DiplomaticActionReaction.None, source: PlayerId.FromOriginal(source), target: PlayerId.FromOriginal(candidate), other: -1);
                             if (action is null || StrategicMap.Current.Day - action.Day > 12)
                             {
                                 score = -i;
-                                score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, relations: DiplomaticRelations.Peace) * 5;
-                                score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, relations: DiplomaticRelations.Alliance) * 10;
+                                score -= StrategicMap.Current.Players.GetDiplomaticRelationCount(PlayerId.FromOriginal((sbyte)(byte)candidate), relations: DiplomaticRelations.Peace) * 5;
+                                score -= StrategicMap.Current.Players.GetDiplomaticRelationCount(PlayerId.FromOriginal((sbyte)(byte)candidate), relations: DiplomaticRelations.Alliance) * 10;
                                 _ = candidates.AddAbility(candidate, score);
                             }
 
@@ -177,12 +177,12 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
                             candidate = idealWar[j].TruncateToSByte();
                             if (war.IndexOf((byte)candidate) != -1)
                             {
-                                action = StrategicMap.Current.Players.GetPlayers(source).DiplomaticActions.FindLastAction(OfferPeace.Kind, reaction: DiplomaticActionReaction.None, source, target: candidate, other: -1);
+                                action = StrategicMap.Current.Players.GetPlayers(source).DiplomaticActions.FindLastAction(OfferPeace.Kind, reaction: DiplomaticActionReaction.None, source: PlayerId.FromOriginal(source), target: PlayerId.FromOriginal(candidate), other: -1);
                                 if (action is null || StrategicMap.Current.Day - action.Day > 12)
                                 {
                                     score = j;
-                                    score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, relations: DiplomaticRelations.Peace) * 5;
-                                    score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, relations: DiplomaticRelations.Alliance) * 10;
+                                    score -= StrategicMap.Current.Players.GetDiplomaticRelationCount(PlayerId.FromOriginal((sbyte)(byte)candidate), relations: DiplomaticRelations.Peace) * 5;
+                                    score -= StrategicMap.Current.Players.GetDiplomaticRelationCount(PlayerId.FromOriginal((sbyte)(byte)candidate), relations: DiplomaticRelations.Alliance) * 10;
                                     _ = candidates.AddAbility(candidate, score);
                                 }
 
@@ -194,9 +194,9 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
                     if (candidates.Count != 0)
                     {
                         candidates.SortDescendingItemB();
-                        if (candidates[0].First == player)
+                        if (candidates[0].First == PlayerIdExtensions.ToOriginal(player))
                         {
-                            action = CreateDA(new OfferPeace(), target: candidates[0].First.TruncateToSByte(), other: -1, minDays: -1);
+                            action = CreateDA(new OfferPeace(), target: PlayerId.FromOriginal(candidates[0].First.TruncateToSByte()), other: -1, minDays: -1);
                         }
                     }
                 }
@@ -221,7 +221,7 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
         ByteList idealPeace = [];
         ByteList idealWar = [];
         Control.ListIdealPeaceWarPlayers(idealPeace, war: idealWar);
-        int player = Control.Player.PlayerIndex;
+        int player = PlayerIdExtensions.ToOriginal(Control.Player.PlayerIndex);
         Player? players = StrategicMap.Current.Players.GetPlayers(player);
         string s = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[players.PlayerRace]);
         string name = StrategicMap.Current.Players.GetPlayers(player).GetName();

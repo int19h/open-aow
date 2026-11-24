@@ -1,6 +1,7 @@
 #nullable disable warnings
 // Translated from NetworkE.pas.
 using Aow.Game.Commands;
+using Aow.Game.Session;
 
 namespace Aow.Game.Net;
 
@@ -116,12 +117,12 @@ public sealed class TokenControl : IDisposable
     {
         if (Local() && !Global() && events.Count != 0)
         {
-            _tokenManager.TokenPackageDistributor.SendTokenEvents(Player, receiver: NetworkSession.AllPlayers, events);
+            _tokenManager.TokenPackageDistributor.SendTokenEvents(PlayerIdExtensions.ToOriginal(Player), receiver: NetworkSession.AllPlayers, events);
         }
     }
 
     // NetworkE.pas:1169
-    public TokenControl(TokenManager manager, int player)
+    public TokenControl(TokenManager manager, PlayerId? player)
     {
         // A construction test passes no manager.
         Events = new TokenEventList(null) { Holder = manager?.Owner };
@@ -181,21 +182,21 @@ public sealed class TokenControl : IDisposable
     public bool Local()
     {
         PlayerCommunicationControl? playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
-        return playerCommunicationControl.GetPlayers(Player).ConnectionMode == ConnectionMode.Local;
+        return playerCommunicationControl.GetPlayers(PlayerIdExtensions.ToOriginal(Player)).ConnectionMode == ConnectionMode.Local;
     }
 
     // NetworkE.pas:1252
     public bool Global()
     {
         PlayerCommunicationControl? playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
-        return playerCommunicationControl.GetPlayers(Player).ConnectionMode == ConnectionMode.Global;
+        return playerCommunicationControl.GetPlayers(PlayerIdExtensions.ToOriginal(Player)).ConnectionMode == ConnectionMode.Global;
     }
 
     // NetworkE.pas:1258
     public bool Remote()
     {
         PlayerCommunicationControl? playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
-        return playerCommunicationControl.GetPlayers(Player).ConnectionMode == ConnectionMode.Remote;
+        return playerCommunicationControl.GetPlayers(PlayerIdExtensions.ToOriginal(Player)).ConnectionMode == ConnectionMode.Remote;
     }
 
     // NetworkE.pas:1266
@@ -224,7 +225,7 @@ public sealed class TokenControl : IDisposable
     }
 
     public TokenEventList Events { get; }
-    public int Player { get; }
+    public PlayerId? Player { get; } = PlayerId.Independent;
     public bool Active { get; set; }
     public int Count => GetCount();
 

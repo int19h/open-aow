@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -26,7 +26,7 @@ public sealed partial class ProductionPlaceControl(CustomNode? owner) : Producti
         ProductionPlace.HexLevel);
 
     // PrdPlace.pas:166
-    public override sbyte GetPlayer() => ProductionPlace.Player;
+    public override PlayerId? GetPlayer() => ProductionPlace.Player;
 
     // PrdPlace.pas:179
     public override bool UnitProduced()
@@ -117,7 +117,7 @@ public sealed partial class ProductionPlaceControl(CustomNode? owner) : Producti
         int result = GamePack.Current.UnitResources.GetUnitResource(index).Level * 2;
         if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
         {
-            sbyte player = ProductionPlace.Player;
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(ProductionPlace.Player);
             int picks;
             if (player > 0)
             {

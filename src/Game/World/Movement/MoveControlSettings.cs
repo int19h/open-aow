@@ -41,7 +41,7 @@ public partial class MoveControlSettings : EngineObject
     public MoveControlSettingsStatus Status { get; set; }
     public MoveModes Mode { get; set; }
     public MovePath Path { get; }
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
 
     private int _width;
     private int _height;
@@ -124,7 +124,7 @@ public partial class MoveControlSettings : EngineObject
         }
 
         Mode = MoveModes.None;
-        Player = -1;
+        Player = null;
         Source = new MapCoordinate(-1, -1, -1);
         Destination = new MapCoordinate(-1, -1, -1);
         Status = MoveControlSettingsStatus.Idle;

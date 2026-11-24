@@ -8,6 +8,7 @@ using Aow.Game.Combat;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic;
+using Aow.Game.Session;
 using Aow.Game.UI.Dialogs;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
@@ -78,11 +79,11 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     {
         if (structure is PlayerStructure player)
         {
-            player.Player = state.Owned ? Viewer : OtherPlayer;
+            player.Player = state.Owned ? PlayerId.Player1 : PlayerId.Player2;
         }
 
         EngineFixture.Engine.Debug = state.Debug;
-        structure.BuildingPlayer = state.Building ? (sbyte)3 : (sbyte)-1;
+        structure.BuildingPlayer = state.Building ? global::Aow.Game.Session.PlayerId.Player3 : null;
         if (state.Razed)
         {
             Raze(structure);
@@ -122,7 +123,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             : structure.GetRazed()
             ? "Razed"
             : structure is PlayerStructure playerStructure
-            ? playerStructure.Player == seated || EngineFixture.Engine.Debug
+            ? PlayerIdExtensions.ToOriginal(playerStructure.Player) == seated || EngineFixture.Engine.Debug
                 ? structure is City city
                     ? city.Mode.Contains(City.Modes.WarMode) ? "WarCity" : "City"
                     : structure is ProductionPlace productionPlace
@@ -166,9 +167,9 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     // aowMapEvents.pas:518 TheMapStructureDblClick, past the selected structure test.
     private static string OldDoubleClick(Structure structure, sbyte seated)
     {
-        return structure is City city && city.Player == seated
+        return structure is City city && PlayerIdExtensions.ToOriginal(city.Player) == seated
             ? "CityScreen"
-            : structure is ProductionPlace productionPlace && productionPlace.CanDoubleClick() && ((PlayerStructure)structure).Player == seated
+            : structure is ProductionPlace productionPlace && productionPlace.CanDoubleClick() && PlayerIdExtensions.ToOriginal(((PlayerStructure)structure).Player) == seated
             ? "ProductionScreen"
             : structure is WizardsTower ? "Action(WizardsTower)" : structure is Arena ? "Action(Arena)" : "None";
     }
@@ -258,7 +259,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         {
             Map = new StrategicMap(null, holder: EngineFixture.Engine)
             {
-                SeatedPlayer = Viewer
+                SeatedPlayer = PlayerId.Player1
             };
             EngineFixture.SetMap(Map);
         }
@@ -314,7 +315,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             {
                 Apply(structure, state);
                 string expected = OldInfoPanel(structure, seated: Viewer);
-                StructureView view = structure.InfoPanel(Viewer);
+                StructureView view = structure.InfoPanel(PlayerId.Player1);
                 Assert.True(InfoWindow.StructurePanels.TryGet(view, out _), userMessage: $"{type.Name} {state}: no panel renderer for {view}");
                 if (view.Name != expected)
                 {
@@ -346,7 +347,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 (Structure structure, ArmyOwner owner) = scene.Create(type);
                 if (structure is PlayerStructure player)
                 {
-                    player.Player = owned ? Viewer : OtherPlayer;
+                    player.Player = owned ? PlayerId.Player1 : PlayerId.Player2;
                 }
                 // Targeting under way from this structure, the state the altar arm tests first.
                 TargetSelectionControl selection = scene.Map.TargetSelection;
@@ -354,7 +355,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 selection.Source = structure;
                 int queries = owner.ArmyQueries;
                 string expected = OldInfoButton(structure);
-                StructureView view = structure.InfoButton(Viewer);
+                StructureView view = structure.InfoButton(PlayerId.Player1);
                 bool cancelled = !selection.Status.Contains(TargetSelectionStatuses.Activated);
                 selection.Status = TargetSelectionStatuses.None;
                 selection.Source = null;
@@ -387,14 +388,14 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 (Structure structure, ArmyOwner owner) = scene.Create(type);
                 if (structure is PlayerStructure player)
                 {
-                    player.Player = owned ? Viewer : OtherPlayer;
+                    player.Player = owned ? PlayerId.Player1 : PlayerId.Player2;
                 }
 
                 int queries = owner.ArmyQueries;
                 string expected = OldDoubleClick(structure, seated: Viewer);
                 // The old cascade only names the arm, so the army count is unchanged here.
                 Assert.Equal(queries, owner.ArmyQueries);
-                StructureView view = structure.DoubleClick(Viewer);
+                StructureView view = structure.DoubleClick(PlayerId.Player1);
                 if (view != StructureView.None)
                 {
                     Assert.True(MapEvents.StructureScreens.TryGet(view, out _), userMessage: $"{type.Name}: no screen renderer for {view}");

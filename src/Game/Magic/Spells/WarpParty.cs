@@ -5,6 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -43,7 +44,7 @@ public class WarpParty : Spell
             }
 
             WarpPartyTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+            eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
             eventValue.ArmyId = armyOwner.CreateId(255);
             MapCoordinate warpLocation = CalculateWarpLocation(armyOwner.GetArmyHexSprite());
             eventValue.WarpLocation = warpLocation;
@@ -73,7 +74,7 @@ public class WarpParty : Spell
     {
         MapFieldMessage message = default;
         MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, layer);
-        bool result = field.GetArmyHexSprite() is null && field.GetPlayer() == -1;
+        bool result = field.GetArmyHexSprite() is null && field.GetPlayer() is null;
         if (result)
         {
             message.MessageId = 4384;
@@ -143,7 +144,7 @@ public class WarpParty : Spell
         {
             int i = Random(candidates.Count);
             field = candidates[i];
-            if (field.GetArmyHexSprite() is null && field.GetPlayer() == -1)
+            if (field.GetArmyHexSprite() is null && field.GetPlayer() is null)
             {
                 message.MessageId = 4384;
                 MapFieldMessageParameters param = message.Param;

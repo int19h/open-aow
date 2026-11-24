@@ -300,12 +300,12 @@ public class CombatMap : GameMap
         if (!Status.Contains(HexSpriteMapStatuses.Editting) && Combat is not null)
         {
             UpdateCursor();
-            if (EndTurnPending && ((StrategicMap.Current.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(Combat.HostPlayer).ConnectionMode != ConnectionMode.Remote) || (Players.GetPlayers(CurrentCombatPlayer).Auto && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(CurrentPlayer).ConnectionMode != ConnectionMode.Remote)))
+            if (EndTurnPending && ((StrategicMap.Current.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(Combat.HostPlayer).ConnectionMode != ConnectionMode.Remote) || (Players.GetPlayers(CurrentCombatPlayer).Auto && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(PlayerIdExtensions.ToOriginal(CurrentPlayer)).ConnectionMode != ConnectionMode.Remote)))
             {
                 switch (AI.Status)
                 {
                     case BattleAI.AIStatus.Idle:
-                        GetEngine().OutputDebugString($"AI for Player {((int)CurrentPlayer).ToString(CultureInfo.InvariantCulture)} turn begins.");
+                        GetEngine().OutputDebugString($"AI for Player {CurrentPlayer.ToOriginal().ToString(CultureInfo.InvariantCulture)} turn begins.");
                         AI.BeginTurn();
                         break;
                     case BattleAI.AIStatus.Busy:
@@ -315,7 +315,7 @@ public class CombatMap : GameMap
                         if (EndTurn(true))
                         {
                             AI.Status = BattleAI.AIStatus.Idle;
-                            GetEngine().OutputDebugString($"AI for Player {((int)CurrentPlayer).ToString(CultureInfo.InvariantCulture)} turn ends.");
+                            GetEngine().OutputDebugString($"AI for Player {CurrentPlayer.ToOriginal().ToString(CultureInfo.InvariantCulture)} turn ends.");
                         }
 
                         break;
@@ -413,11 +413,11 @@ public class CombatMap : GameMap
         SeatedCombatPlayer = player;
         if (player == -1)
         {
-            SetSeatedPlayer(-1);
+            SetSeatedPlayer(null);
         }
         else
         {
-            SetSeatedPlayer(Combat.CombatData.Players.GetPlayers(SeatedCombatPlayer).Player);
+            SetSeatedPlayer(PlayerId.FromOriginal(Combat.CombatData.Players.GetPlayers(SeatedCombatPlayer).Player));
         }
 
         _seatedPlayerChangedEventsStore.Raise(CurrentCombatPlayer);
@@ -432,10 +432,10 @@ public class CombatMap : GameMap
             Round += 1;
         }
 
-        SetCurrentPlayer(Players.GetPlayers(CurrentCombatPlayer).Player);
+        SetCurrentPlayer(PlayerId.FromOriginal(Players.GetPlayers(CurrentCombatPlayer).Player));
         Combat.NewTurn((byte)CurrentCombatPlayer);
         UnitSelection.Unselect();
-        StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(CurrentPlayer);
+        StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(CurrentPlayer));
         if (Players.GetPlayers(CurrentCombatPlayer).Player == 0)
         {
             string ind = AbilityRules.TranslateResourceString(GetEngine(), S: s_independentsText);
@@ -523,7 +523,7 @@ public class CombatMap : GameMap
 
         if (StrategicMap.Current.TokenManager.PlayerReady(CurrentPlayer))
         {
-            TacticalBattleEndTurnTokenEvent? tokenEvent = CreateTacticalBattleEndTurnTokenEvent(CurrentPlayer);
+            TacticalBattleEndTurnTokenEvent? tokenEvent = CreateTacticalBattleEndTurnTokenEvent((sbyte)PlayerIdExtensions.ToOriginal(CurrentPlayer));
             if (tokenEvent is not null)
             {
                 StrategicMap.Current.TokenManager.GetTokenControl(CurrentPlayer).AddEvent(tokenEvent);
@@ -627,7 +627,7 @@ public class CombatMap : GameMap
     // AoWTC.pas:2475
     public void UpdateCursor()
     {
-        if (!((SeatedPlayer == -1 || StrategicMap.Current.TokenManager.PlayerReady(SeatedPlayer)) && SeatedPlayer == CurrentPlayer && !Players.GetPlayers(CurrentCombatPlayer).Auto && Current.SeatedCombatPlayer == Current.CurrentCombatPlayer))
+        if (!((SeatedPlayer is null || StrategicMap.Current.TokenManager.PlayerReady(SeatedPlayer)) && SeatedPlayer == CurrentPlayer && !Players.GetPlayers(CurrentCombatPlayer).Auto && Current.SeatedCombatPlayer == Current.CurrentCombatPlayer))
         {
             Mouse.Cursor = ((Frame >>> 2) % 4) + 6;
         }
@@ -733,7 +733,7 @@ public class CombatMap : GameMap
 
     private TacticalBattleEndTurnTokenEvent? CreateTacticalBattleEndTurnTokenEvent(sbyte player)
     {
-        return player != -1 && StrategicMap.Current.TokenManager.PlayerReady(player)
+        return player != -1 && StrategicMap.Current.TokenManager.PlayerReady(PlayerId.FromOriginal(player))
             ? new TacticalBattleEndTurnTokenEvent(null) { Holder = CreationHolder() }
             : null;
     }

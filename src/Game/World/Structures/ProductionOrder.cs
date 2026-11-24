@@ -59,7 +59,7 @@ public abstract record ProductionOrder
     }
 
     // The order's turns ran out in the turn of Player (Structur.PAS:804).
-    public virtual void Complete(ProductionControl control, sbyte player)
+    public virtual void Complete(ProductionControl control, PlayerId player)
     {
     }
 

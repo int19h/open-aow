@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Audio;
 
 using Aow.Game.Commands;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
@@ -26,7 +26,7 @@ public partial class PrisonersJoinEventLog(CustomNode? owner) : JoinEventLog(own
         {
             StructureTokenEvent tokenEvent = dungeon.CreateTokenEvent();
             dungeon.SetupTokenEvent(tokenEvent);
-            tokenEvent.Param = Player;
+            tokenEvent.Param = PlayerIdExtensions.ToOriginal(Player);
             tokenEvent.Action = 1;
             StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();

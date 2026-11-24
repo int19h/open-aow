@@ -3,7 +3,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.AI.Groups;
@@ -59,7 +59,7 @@ public class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owner)
         switch (State)
         {
             case 0:
-                bool condition = Group.Player != 0;
+                bool condition = Group.Player != PlayerId.Independent;
                 if (!condition)
                 {
                     StrategicMapIndependentAIMode independentAIMode = StrategicMap.Current.IndependentAIMode;

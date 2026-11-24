@@ -197,8 +197,8 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
 
         string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_dayFormat), arguments: [day]);
         UI.PlayerInfoWindow.TurnLabel.Text = format;
-        UI.MapEvents.TheMapGemsChanged(StrategicMap.Current.SeatedPlayer);
-        UI.MapEvents.TheMapIncomeChanged(StrategicMap.Current.SeatedPlayer);
+        UI.MapEvents.TheMapGemsChanged((sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer));
+        UI.MapEvents.TheMapIncomeChanged((sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer));
         if (UI.RealmWindow.Window.Visible)
         {
             UI.RealmWindow.UpdateOverview();
@@ -208,7 +208,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
     // aowMapEvents.pas:187
     public void TheMapEndTurn(sbyte player, bool cancelled)
     {
-        if (StrategicMap.Current.SeatedPlayer == player && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.None)
+        if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == player && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.None)
         {
             if (cancelled)
             {
@@ -248,7 +248,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
     public void TheMapGemsChanged(sbyte player)
     {
         bool update = false;
-        if (StrategicMap.Current.SeatedPlayer == player)
+        if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == player)
         {
             update = true;
         }
@@ -256,7 +256,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         {
             if (StrategicMap.Current.CombatMap is not null)
             {
-                if (StrategicMap.Current.CombatMap.SeatedPlayer == player)
+                if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.CombatMap.SeatedPlayer) == player)
                 {
                     update = true;
                 }
@@ -307,7 +307,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
     public void TheMapIncomeChanged(sbyte player)
     {
         bool update = false;
-        if (StrategicMap.Current.SeatedPlayer == player)
+        if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == player)
         {
             update = true;
         }
@@ -315,7 +315,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         {
             if (StrategicMap.Current.CombatMap is not null)
             {
-                if (StrategicMap.Current.CombatMap.SeatedPlayer == player)
+                if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.CombatMap.SeatedPlayer) == player)
                 {
                     update = true;
                 }
@@ -392,10 +392,10 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
     // aowMapEvents.pas:375
     public void TheMapPlayerMagicChanged(sbyte player)
     {
-        MagicPlayerChanged(UI.MagicWindow, player);
-        UI.SpellBook.PlayerChanged(player);
+        MagicPlayerChanged(UI.MagicWindow, player: PlayerId.FromOriginal(player));
+        UI.SpellBook.PlayerChanged(PlayerId.FromOriginal(player));
         bool update = false;
-        if (StrategicMap.Current.SeatedPlayer == player)
+        if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == player)
         {
             update = true;
         }
@@ -403,7 +403,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         {
             if (StrategicMap.Current.CombatMap is not null)
             {
-                if (StrategicMap.Current.CombatMap.SeatedPlayer == player)
+                if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.CombatMap.SeatedPlayer) == player)
                 {
                     update = true;
                 }
@@ -461,7 +461,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
     // aowMapEvents.pas:1021
     public void TheMapLogbookChanged(sbyte player)
     {
-        if (player == StrategicMap.Current.SeatedPlayer)
+        if (player == PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer))
         {
             UI.PlayerInfoWindow.UpdateEvents();
         }
@@ -475,7 +475,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         {
             if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network)
             {
-                if (player == StrategicMap.Current.SeatedPlayer)
+                if (player == PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer))
                 {
                     /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
                     throw new NotImplementedException();
@@ -908,11 +908,11 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         dialog.FillPlayers();
         dialog.RelationPanel.Aligned = false;
         dialog.MainWindow.IsDrawn = false;
-        if (dialog.SelectedPlayer != -1)
+        if (dialog.SelectedPlayer is not null)
         {
             dialog.HighlightPlayer(dialog.SelectedPlayer);
         }
-        if (dialog.InfoPlayer != -1)
+        if (dialog.InfoPlayer is not null)
         {
             if (dialog.NewActionPanel.Visible)
             {
@@ -939,7 +939,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         window.ItemBag = null;
     }
 
-    private static void MagicPlayerChanged(MagicWindow window, sbyte player)
+    private static void MagicPlayerChanged(MagicWindow window, PlayerId? player)
     {
         if (window.Window.Visible && player == StrategicMap.Current.SeatedPlayer)
         {

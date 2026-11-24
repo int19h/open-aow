@@ -6,7 +6,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -63,7 +63,7 @@ public class FreezeWaterTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEv
                         if (ice is not null)
                         {
                             ice.DaysRemaining = (((StrategicMap.Current.Random(11) - 5) / 5) + 3).TruncateToSByte();
-                            ice.CasterPlayer = (sbyte)EventPlayerIndex;
+                            ice.CasterPlayer = PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(EventPlayerIndex));
                         }
                     }
                 }
@@ -84,7 +84,7 @@ public class FreezeWaterTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEv
             }
 
             ice.DaysRemaining = (((StrategicMap.Current.Random(11) - 5) / 5) + 3).TruncateToSByte();
-            ice.CasterPlayer = (sbyte)EventPlayerIndex;
+            ice.CasterPlayer = PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(EventPlayerIndex));
         }
     }
 }

@@ -5,6 +5,7 @@ using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
@@ -81,7 +82,7 @@ public sealed class UnitUserList(CustomNode? owner) : ObservableNode(owner), ICh
     }
 
     // Unit.PAS:2362
-    public sbyte GetPlayer() => -1;
+    public PlayerId? GetPlayer() => null;
 
     // Unit.PAS:2366
     public int GetStrength(DamageType damageType) => Units.GetStrength(damageType);

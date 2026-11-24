@@ -262,7 +262,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     }
 
     // Cave.pas:317
-    public bool CanEnter(sbyte player)
+    public bool CanEnter(PlayerId? player)
     {
         ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
         return armyHexSprite is not null && player == armyHexSprite.Army.Player && CanEnterSelection(armyHexSprite.Army.Units) != 0;
@@ -297,17 +297,17 @@ public partial class Cave(CustomNode owner) : Structure(owner)
             int hexY3 = HexY;
             int hexX = HexX;
             MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY3, l);
-            bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
+            bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || PlayerIdExtensions.ToOriginal(field.GetPlayer()) <= 0;
             if (!condition)
             {
-                sbyte player = field.GetPlayer();
-                DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, otherPlayer: player);
+                sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
+                DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, otherPlayer: PlayerId.FromOriginal(player));
                 condition = diplomaticRelation is DiplomaticRelation.War or DiplomaticRelation.Unknown;
             }
 
             if (condition)
             {
-                if (field.GetPlayer() > -1 && field.GetPlayer() != armyHexSprite.Army.Player)
+                if (PlayerIdExtensions.ToOriginal(field.GetPlayer()) > -1 && field.GetPlayer() != armyHexSprite.Army.Player)
                 {
                     if (!StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).GetBusy())
                     {
@@ -334,7 +334,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                     result = ArmyHexSprite.MoveArmy(armyHexSprite, selection, path, mode: ArmyMoveModes.None, force: false);
                 }
 
-                if (result && (byte)StrategicMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player)
+                if (result && (byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == (byte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player))
                 {
                     StrategicMap.Current.ViewLevel(l);
                     StrategicMap.Current.SelectedArmy.Select(armyHexSprite);
@@ -345,7 +345,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                 // { Original only warns the seated player. }
                 if (armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
                 {
-                    sbyte player = field.GetPlayer();
+                    sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
                     Player? playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
                     string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
                     string messageText = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NoWarDeclaredFormat), args: [raceNamesPlural]);
@@ -367,7 +367,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     }
 
     // Cave.pas:388
-    public bool Enter(sbyte player)
+    public bool Enter(PlayerId? player)
     {
         if (CanEnter(player))
         {

@@ -27,7 +27,7 @@ public class Crop(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001991)
         {
-            EndTurn((sbyte)message.Payload.Int);
+            EndTurn(PlayerId.FromOriginal((sbyte)message.Payload.Int));
         }
     }
 
@@ -138,15 +138,15 @@ public class Crop(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Crops.pas:136
-    public void EndTurn(sbyte player)
+    public void EndTurn(PlayerId? player)
     {
         ArmyHexSprite army = Owner.GetArmyHexSprite();
-        sbyte playerIndex = player;
-        if (army is not null && army.Army.Player == playerIndex && CropOwner.Player > 0 && playerIndex != CropOwner.Player)
+        sbyte playerIndex = (sbyte)PlayerIdExtensions.ToOriginal(player);
+        if (army is not null && PlayerIdExtensions.ToOriginal(army.Army.Player) == playerIndex && PlayerIdExtensions.ToOriginal(CropOwner.Player) > 0 && playerIndex != PlayerIdExtensions.ToOriginal(CropOwner.Player))
         {
-            if (StrategicMap.Current.Players.GetDiplomaticRelation(CropOwner.Player, otherPlayer: playerIndex) == DiplomaticRelation.War)
+            if (StrategicMap.Current.Players.GetDiplomaticRelation(CropOwner.Player, otherPlayer: PlayerId.FromOriginal(playerIndex)) == DiplomaticRelation.War)
             {
-                CropOwner.CropTrampled(playerIndex);
+                CropOwner.CropTrampled(PlayerId.FromOriginal(playerIndex));
                 Dispose();
             }
         }

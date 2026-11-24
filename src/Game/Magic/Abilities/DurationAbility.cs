@@ -4,6 +4,7 @@ using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -66,7 +67,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
     }
 
     // AoWAb.PAS:46
-    public override void NewTurn(AbilityOwner owner, sbyte player)
+    public override void NewTurn(AbilityOwner owner, PlayerId player)
     {
         if (DurationMode == DurationMode.Day)
         {
@@ -119,7 +120,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
     }
 
     // AoWAb.PAS:67
-    public override void NewCombatTurn(CombatObject combatObject, sbyte player)
+    public override void NewCombatTurn(CombatObject combatObject, PlayerId player)
     {
         if (DurationMode == DurationMode.CombatTurn)
         {

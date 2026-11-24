@@ -58,7 +58,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
             if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
             {
                 AITargetQuery? query = message.Param[0].As<AITargetQuery>();
-                CrystalAIInfo info = new() { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
+                CrystalAIInfo info = new() { Player = query.Info.Player.GetValueOrDefault(), OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
                 AITargetData data = query.Data;
                 int priority = data.Priority;
                 priority = UpdateAITarget(info, priority);
@@ -121,7 +121,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         switch (info.Kind)
         {
             case 0:
-                if (info.Player != 0)
+                if (info.Player != PlayerId.Independent)
                 {
                     int p = (_amount / 5) + 15;
                     if (priority < p)
@@ -140,12 +140,12 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // ManaCrystals.pas:125
     public void ArmyEntered(ArmyHexSprite? armyHexSprite)
     {
-        if ((byte)armyHexSprite.Army.Player == 0)
+        if ((byte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player) == 0)
         {
             return;
         }
 
-        bool condition = (byte)StrategicMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player;
+        bool condition = (byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == (byte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player);
         if (!condition)
         {
             int hexLevel = HexLevel;
@@ -165,7 +165,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         LocationTextEventLog log = new(null)
         {
             Holder = CreationHolder(),
-            Player = (sbyte)(byte)armyHexSprite.Army.Player,
+            Player = PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player)),
             Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_manaCrystalsFoundFormat), args: [_amount.ToString(CultureInfo.InvariantCulture)])
         };
         log.SetLocation(level: HexLevel, y: HexY, x: HexX);
@@ -180,7 +180,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     //   Remaining inherited declaration constraints are documented at local ABI adapters. }
     public readonly struct CrystalAIInfo
     {
-        public sbyte Player { get; init; }
+        public PlayerId Player { get; init; }
         public sbyte OtherPlayer { get; init; }
         public byte Kind { get; init; }
     }

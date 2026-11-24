@@ -1,5 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
+using Aow.Game.Session;
 
 namespace Aow.Game.Events;
 
@@ -7,5 +8,5 @@ namespace Aow.Game.Events;
 public partial class SendEmailGameEventLog(CustomNode owner) : EventLog(owner)
 {
     public int Mode { get; set; }
-    public sbyte SendPlayer { get; init; }
+    public PlayerId? SendPlayer { get; init; } = PlayerId.Independent;
 }

@@ -12,6 +12,7 @@ using Aow.Game.Commands;
 using Aow.Game.Draw.Animations;
 using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
@@ -75,7 +76,7 @@ public class Spell : EngineObject
     }
 
     // Spells.PAS:224
-    public virtual void PlayDefaultCastEffects(sbyte player, int X, int Y, int layer)
+    public virtual void PlayDefaultCastEffects(PlayerId? player, int X, int Y, int layer)
     {
         if (StrategicMap.Current.Visible(X, Y, L: layer, radius: 0))
         {

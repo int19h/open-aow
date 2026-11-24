@@ -7,7 +7,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.AI.Groups;
@@ -32,7 +32,7 @@ public class HuntAIGroup(CustomNode owner) : AIGroup(owner), IAIGroupClass
     }
 
     // AIGroup.pas:1457
-    public override bool HuntingPlayer(sbyte player)
+    public override bool HuntingPlayer(PlayerId? player)
     {
         bool result = false;
         int i = TargetUnitIds.Count;

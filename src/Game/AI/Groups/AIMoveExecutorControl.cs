@@ -55,7 +55,7 @@ public partial class AIMoveExecutorControl : EngineObject
                 {
                     points = settings.GetMovePoints(walk.X, walk.Y, mapLevel);
                     MapField mapField = StrategicMap.Current.MapContainer.GetField(walk.X, walk.Y, mapLevel);
-                    if (points != 16777215 && (mapField.GetPlayer() == -1 || mapField.GetPlayer() == army.Player))
+                    if (points != 16777215 && (mapField.GetPlayer() is null || mapField.GetPlayer() == army.Player))
                     {
                         if (CanMoveTo(army, selection, walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), mapLevel) == selection)
                         {
@@ -198,7 +198,7 @@ public partial class AIMoveExecutorControl : EngineObject
         }
         else
         {
-            if ((Executor.Destination.X != x || Executor.Destination.Y != y || Executor.Destination.MapLevel != mapLevel) && mapField.GetPlayer() != -1 && mapField.GetPlayer() != army.Player)
+            if ((Executor.Destination.X != x || Executor.Destination.Y != y || Executor.Destination.MapLevel != mapLevel) && mapField.GetPlayer() is not null && mapField.GetPlayer() != army.Player)
             {
                 allowed = false;
             }

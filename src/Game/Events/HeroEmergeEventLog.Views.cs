@@ -1,8 +1,10 @@
 
+using Aow.Game.Session;
+
 namespace Aow.Game.Events;
 
 public partial class HeroEmergeEventLog
 {
     // The AI takes the hero when it can pay.
-    public override void ExecuteAI(sbyte player) => _ = ExecuteAI();
+    public override void ExecuteAI(PlayerId? player) => _ = ExecuteAI();
 }

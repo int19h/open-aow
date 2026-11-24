@@ -22,7 +22,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     {
         UpdateStatistics();
         Player player = Control.Player;
-        if (player.PlayerIndex != 0)
+        if (player.PlayerIndex != PlayerId.Independent)
         {
             AIBudgetManager manager = player.AIBudget;
             AIBudget upgradeBudget = manager.Budgets.FindChild<AIBudget>(AICityUpgradeBudget.ClassId);

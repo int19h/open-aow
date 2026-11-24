@@ -1,4 +1,5 @@
 
+using Aow.Game.Session;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
 
@@ -52,7 +53,7 @@ public partial class MapLevel
         return result;
     }
 
-    private bool Explore(MapField field, sbyte player)
+    private bool Explore(MapField field, PlayerId? player)
     {
         if (field.GetExplored(player))
         {
@@ -69,9 +70,9 @@ public partial class MapLevel
         return true;
     }
 
-    public FogExplorationChanges UnFogExploreArea(int x, int y, sbyte player, int radius)
+    public FogExplorationChanges UnFogExploreArea(int x, int y, PlayerId? player, int radius)
     {
-        DelphiAssert.Assert(player >= 0, message: "Invalid Player Index", file: "AoWHSMap.PAS", line: 276);
+        DelphiAssert.Assert(PlayerIdExtensions.ToOriginal(player) >= 0, message: "Invalid Player Index", file: "AoWHSMap.PAS", line: 276);
         FogExplorationChanges result = default;
         foreach (MapField field in Area(x, y, radius))
         {
@@ -90,7 +91,7 @@ public partial class MapLevel
         return result;
     }
 
-    public bool ExploreArea(int x, int y, sbyte player, int radius)
+    public bool ExploreArea(int x, int y, PlayerId? player, int radius)
     {
         bool result = false;
         foreach (MapField field in Area(x, y, radius))

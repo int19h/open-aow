@@ -4,6 +4,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.AI;
 using Aow.Game.Commands;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
@@ -107,7 +108,7 @@ public class GlobalEnchantmentSpell(CustomNode? owner) : Spell(owner)
         if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             GlobalEnchantmentSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+            eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
             eventValue.Enchantment = CreateEnchantment();
             SetupEnchantment(source, eventValue.Enchantment);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

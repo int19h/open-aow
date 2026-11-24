@@ -8,6 +8,7 @@ using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -72,7 +73,7 @@ public class UnitSpell : Spell
                 {
                     UnitSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
                     eventValue.Initialize(SpellId, source, targets: null, mana: BaseManaCost);
-                    eventValue.TargetPlayer = (byte)source.Player;
+                    eventValue.TargetPlayer = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player));
                     _ = eventValue.TargetUnitIds.Add(target.UnitId);
                     StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                     _ = eventValue.Release();

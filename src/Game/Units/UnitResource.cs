@@ -7,7 +7,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
@@ -148,10 +148,10 @@ public class UnitResource : TroopResource
         sbyte player;
         if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
-            player = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetPlayer();
+            player = (sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetPlayer());
             if (player == -1)
             {
-                player = StrategicMap.Current.EditorPlayer;
+                player = (sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.EditorPlayer);
             }
         }
         else
@@ -161,7 +161,7 @@ public class UnitResource : TroopResource
 
         Unit unit = new(null) { Holder = CreationHolder() };
         unit.SetUnitResource(this);
-        bool result = unit.Place(hexX, hexY, L: hexLevel, player, mode: UnitPlaceModes.None) is not null;
+        bool result = unit.Place(hexX, hexY, L: hexLevel, player: PlayerId.FromOriginal(player), mode: UnitPlaceModes.None) is not null;
         _ = unit.Release();
         return result;
     }

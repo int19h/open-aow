@@ -3,7 +3,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.Draw;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
@@ -25,7 +25,7 @@ public sealed class AIMoveExecutorArmy(CustomNode? owner) : AIMoveExecutorUnitLi
     public MapCoordinate TransportSource { get; private set; }
     public MapCoordinate TransportDestination { get; private set; }
 
-    public sbyte Player { get; private set; }
+    public PlayerId? Player { get; private set; } = PlayerId.Independent;
 
     // AIGroup.pas:4527
     public void Setup(AIMoveExecutorUnit? transporter)

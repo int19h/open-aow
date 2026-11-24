@@ -1,4 +1,6 @@
 
+using Aow.Game.Session;
+
 namespace Aow.Game.Events;
 
 public partial class EventLog
@@ -8,5 +10,5 @@ public partial class EventLog
 
     // What the AI player Player does with the event when it goes through its logbook
     // (AI.pas:1626).
-    public virtual void ExecuteAI(sbyte player) { }
+    public virtual void ExecuteAI(PlayerId? player) { }
 }

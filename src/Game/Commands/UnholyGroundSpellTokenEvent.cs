@@ -6,7 +6,7 @@ using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
@@ -59,7 +59,7 @@ public class UnholyGroundSpellTokenEvent(CustomNode? owner) : GlobalTargetSpellT
                         ImageSequenceAnimation animation = new(null, show: ground.ShowSummonAnimation, newFrame: ground.NewFrameSummonAnimation) { Holder = CreationHolder() };
                         animation.SetImageSequence(GamePack.Current.SpellControl[14].CastImages.ImageSequences[0]);
                         animation.FrameCounter = -StrategicMap.Current.Random(15);
-                        animation.Tag = source.Player;
+                        animation.Tag = PlayerIdExtensions.ToOriginal(source.Player);
                         _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, L: Location.MapLevel);
                     }
                     else

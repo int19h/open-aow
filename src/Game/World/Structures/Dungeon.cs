@@ -79,7 +79,7 @@ public partial class Dungeon : ExplorationSite
         ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
         if (tokenEvent.Action == 1)
         {
-            LiberatePrisoners((sbyte)tokenEvent.Param);
+            LiberatePrisoners(PlayerId.FromOriginal((sbyte)tokenEvent.Param));
             return ExecuteResult.Done;
         }
 
@@ -167,7 +167,7 @@ public partial class Dungeon : ExplorationSite
     }
 
     // Dungeon.pas:178
-    public void LiberatePrisoners(sbyte player)
+    public void LiberatePrisoners(PlayerId? player)
     {
         LocationTextEventLog locationLog = new(null)
         {
@@ -218,7 +218,7 @@ public partial class Dungeon : ExplorationSite
             string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_afterLiberationJoinedForcesFormat), args: [hero.HeroName, name2]);
             armyLog.Messages.Text = format;
         }
-        EventLog.DistributeLocationEventLog(y: HexY, level: HexLevel, log: armyLog, player: -1, x: HexX, execute: false);
+        EventLog.DistributeLocationEventLog(y: HexY, level: HexLevel, log: armyLog, player: null, x: HexX, execute: false);
         _ = armyLog.Release();
         ArmyHexSprite army = new(null) { Holder = CreationHolder() };
         using (army.Army.BeginUpdate())

@@ -21,16 +21,16 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
     public new const int ClassId = 131_664;
 
     // PlayerC.PAS:589
-    public override void NewTurn(sbyte player)
+    public override void NewTurn(PlayerId? player)
     {
         StrategicMap.Current.LockMapChangedEvent();
-        StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(player);
+        StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(player));
         NewTurnEventLog log;
         if (StrategicMap.Current.RequestCombatType)
         {
-            if (StrategicMap.Current.SeatedPlayer != -1)
+            if (StrategicMap.Current.SeatedPlayer is not null)
             {
-                StrategicMap.Current.SetSeatedPlayer(-1);
+                StrategicMap.Current.SetSeatedPlayer(null);
             }
 
             if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
@@ -55,7 +55,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
                     Mode = NewTurnEventLogMode.Dialog,
                     DialogStyle = NewTurnEventLogDialogStyles.None
                 };
-                if (player == 0)
+                if (player == PlayerId.Independent)
                 {
                     log.Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_independentsAreMovingText);
                 }
@@ -108,7 +108,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
         if (StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
         {
             _ = StrategicMap.Current.AIExecutor.ActivatePlayer(player);
-            if (player == 0)
+            if (player == PlayerId.Independent)
             {
                 string independents = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.IndependentsText);
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_areMovingFormat), arguments: [independents]);
@@ -192,11 +192,11 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
         if (!StrategicMap.Current.RequestCombatType)
         {
             int item = StrategicMap.Current.Players.LocalHumanPlayers[0];
-            StrategicMap.Current.SetSeatedPlayer((sbyte)item);
+            StrategicMap.Current.SetSeatedPlayer(PlayerId.FromOriginal((sbyte)item));
             StrategicMap.Current.ResetSeatedPlayerView();
         }
 
-        NewTurn((sbyte)StrategicMap.Current.TurnOrder[1]);
+        NewTurn(PlayerId.FromOriginal((sbyte)StrategicMap.Current.TurnOrder[1]));
     }
 
     // PlayerC.PAS:835
@@ -216,7 +216,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
     public override void PasswordValidated() => ContinueLoadedMap();
 
     // PlayerC.PAS:854
-    public override void SetPlayerGameOverStatus(sbyte player, GameOverStatus status)
+    public override void SetPlayerGameOverStatus(PlayerId? player, GameOverStatus status)
     {
         base.SetPlayerGameOverStatus(player, status);
         if (!StrategicMap.Current.RequestCombatType || StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
@@ -237,7 +237,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
     }
 
     // PlayerC.PAS:868
-    public override void GameOver(sbyte player, GameOverStatus status)
+    public override void GameOver(PlayerId? player, GameOverStatus status)
     {
         StrategicMap.Current.LockGameOverEvent();
         base.GameOver(player, status);
@@ -245,7 +245,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
     }
 
     // PlayerC.PAS:842
-    public override void GameOverEventHandled(sbyte player)
+    public override void GameOverEventHandled(PlayerId? player)
     {
         if (StrategicMap.Current.RequestCombatType)
         {
@@ -264,7 +264,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
     }
 
     // PlayerC.PAS:715
-    public override void EndTurn(sbyte player)
+    public override void EndTurn(PlayerId? player)
     {
         base.EndTurn(player);
         if (player == StrategicMap.Current.SeatedPlayer)
@@ -288,7 +288,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
             EndTurnEventLog log = new(null) { Holder = CreationHolder() };
             StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).EventLogbook.AddEvent(log);
             _ = log.Release();
-            int index = StrategicMap.Current.TurnOrder.IndexOf((byte)StrategicMap.Current.CurrentPlayer);
+            int index = StrategicMap.Current.TurnOrder.IndexOf((byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.CurrentPlayer));
             bool found = false;
             while (!found)
             {
@@ -303,24 +303,24 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
                 found = StrategicMap.Current.Players.GetPlayers(nextPlayer).Status == PlayerStatus.Playing;
                 if (!found)
                 {
-                    base.NewTurn(nextPlayer);
-                    base.EndTurn(nextPlayer);
+                    base.NewTurn(PlayerId.FromOriginal(nextPlayer));
+                    base.EndTurn(PlayerId.FromOriginal(nextPlayer));
                 }
             }
 
             if (StrategicMap.Current.TurnOrder.Count != 0)
             {
-                NewTurn((sbyte)StrategicMap.Current.TurnOrder[index]);
+                NewTurn(PlayerId.FromOriginal((sbyte)StrategicMap.Current.TurnOrder[index]));
             }
             else
             {
-                NewTurn(0);
+                NewTurn(PlayerId.Independent);
             }
         }
     }
 
     // PlayerC.PAS:693
-    public override void SetSeatedPlayer(sbyte player)
+    public override void SetSeatedPlayer(PlayerId? player)
     {
         StrategicMap.Current.LockMapChangedEvent();
         base.SetSeatedPlayer(player);
@@ -332,11 +332,11 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
     public virtual void ContinueLoadedMap()
     {
         DefaultStartMap();
-        StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
+        StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(StrategicMap.Current.CurrentPlayer));
         NewTurnEventLog log;
         if (StrategicMap.Current.RequestCombatType)
         {
-            StrategicMap.Current.SetSeatedPlayer(-1);
+            StrategicMap.Current.SetSeatedPlayer(null);
             if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PlayerType == PlayerType.Human)
             {
                 log = new NewTurnEventLog(null)
@@ -359,7 +359,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
                     Mode = NewTurnEventLogMode.Dialog,
                     DialogStyle = NewTurnEventLogDialogStyles.None
                 };
-                if (StrategicMap.Current.CurrentPlayer == 0)
+                if (StrategicMap.Current.CurrentPlayer == PlayerId.Independent)
                 {
                     log.Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_independentsAreMovingText);
                 }
@@ -376,7 +376,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
         else
         {
             int item = StrategicMap.Current.Players.LocalHumanPlayers[0];
-            StrategicMap.Current.SetSeatedPlayer((sbyte)item);
+            StrategicMap.Current.SetSeatedPlayer(PlayerId.FromOriginal((sbyte)item));
             StrategicMap.Current.ResetSeatedPlayerView();
             if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PlayerType == PlayerType.Human && StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
             {
@@ -418,7 +418,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
         SetSeatedPlayer(StrategicMap.Current.CurrentPlayer);
         StrategicMap.Current.ResetTurnTimer();
         StrategicMap.Current.EnableTurnTimer();
-        if (StrategicMap.Current.CurrentPlayer != -1)
+        if (StrategicMap.Current.CurrentPlayer is not null)
         {
             ReplayLogbook();
         }
@@ -427,7 +427,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
     // PlayerC.PAS:709
     public void StartGameCallback(EventLog log)
     {
-        if (StrategicMap.Current.SeatedPlayer == -1)
+        if (StrategicMap.Current.SeatedPlayer is null)
         {
             SetSeatedPlayer(StrategicMap.Current.CurrentPlayer);
         }

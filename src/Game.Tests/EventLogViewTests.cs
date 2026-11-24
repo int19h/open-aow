@@ -229,8 +229,8 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             HeroResource = new HeroResource(null) { Holder = EngineFixture.Engine, HeroType = HeroType.Hero };
         }
 
-        public override bool CanJoin(sbyte player) => _joins;
-        public override bool OfferToJoin(sbyte player) => _joins;
+        public override bool CanJoin(PlayerId? player) => _joins;
+        public override bool OfferToJoin(PlayerId? player) => _joins;
         public override bool GetTransporter() => false;
     }
 
@@ -239,7 +239,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     {
         internal List<sbyte> Players { get; } = [];
 
-        public override void ExecuteAI(sbyte player) => Players.Add(player);
+        public override void ExecuteAI(PlayerId? player) => Players.Add((sbyte)PlayerIdExtensions.ToOriginal(player));
     }
 
     // Counts the unit lookups. An empty dictionary returns a miss without hashing, so the table holds one seed.
@@ -274,8 +274,8 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         }
         else if (typeof(GameOverEventLog).IsAssignableFrom(type))
         {
-            yield return new State("seated", (e, _) => e.Player = Seated);
-            yield return new State("other", (e, _) => e.Player = OtherPlayer);
+            yield return new State("seated", (e, _) => e.Player = PlayerId.Player1);
+            yield return new State("other", (e, _) => e.Player = PlayerId.Player2);
         }
         else if (typeof(PlayerMagicEventLog).IsAssignableFrom(type))
         {
@@ -318,7 +318,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         {
             _map = new StrategicMap(null, holder: EngineFixture.Engine)
             {
-                SeatedPlayer = Seated,
+                SeatedPlayer = PlayerId.Player1,
                 UnitControl = new UnitControl(null) { Holder = EngineFixture.Engine }
             };
             _units = [with(UnitFinds)];
@@ -345,7 +345,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         {
             NegotiateRequestEventLog request = (NegotiateRequestEventLog)log;
             request.Object = what;
-            request.Player = Seated;
+            request.Player = PlayerId.Player1;
             request.Hex = new MapCoordinate(0, 0, 0);
             while (_field.FindOwnedChild(ArmyHexSprite.ClassId) is HexSprite standing)
             {
@@ -467,7 +467,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             }
 
             Assert.Equal(arm ?? typeof(EventLog), declaring);
-            _ = resolved.AppendLine($"{type.Name}: View {declaring.Name}, old arm {arm?.Name ?? "none"}, ExecuteAI {type.GetMethod(nameof(EventLog.ExecuteAI), types: [typeof(sbyte)])!.DeclaringType!.Name}");
+            _ = resolved.AppendLine($"{type.Name}: View {declaring.Name}, old arm {arm?.Name ?? "none"}, ExecuteAI {type.GetMethod(nameof(EventLog.ExecuteAI), types: [typeof(PlayerId?)])!.DeclaringType!.Name}");
         }
         output.WriteLine(resolved.ToString());
     }
@@ -479,7 +479,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         List<string> mismatches = [];
         foreach (Type type in EventLogTypes())
         {
-            Type declaring = type.GetMethod(nameof(EventLog.ExecuteAI), types: [typeof(sbyte)])!.DeclaringType!;
+            Type declaring = type.GetMethod(nameof(EventLog.ExecuteAI), types: [typeof(PlayerId?)])!.DeclaringType!;
             EventLog log = scene.Create(type);
             string old = OldExecuteAI(log);
             string actual = declaring == typeof(EventLog) ? "None" : declaring.Name;
@@ -493,21 +493,21 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         DiplomaticActionEventLog diplomatic = (DiplomaticActionEventLog)scene.Create(typeof(DiplomaticActionEventLog));
         RecordingAction action = new();
         diplomatic.Action = action;
-        diplomatic.ExecuteAI(3);
+        diplomatic.ExecuteAI(PlayerId.Player3);
         Assert.Equal(new[] { (sbyte)3 }, action.Players);
 
         // The hero emerge AI looks up its hero first. No unit holds the id, so it stops there.
         HeroEmergeEventLog emerge = (HeroEmergeEventLog)scene.Create(typeof(HeroEmergeEventLog));
         emerge.UnitId = 4321;
         int finds = scene.UnitFinds.Finds;
-        emerge.ExecuteAI(3);
+        emerge.ExecuteAI(PlayerId.Player3);
         Assert.Equal(finds + 1, scene.UnitFinds.Finds);
 
         // Every other class leaves the unit table alone.
         foreach (Type? type in EventLogTypes().Where(t => t != typeof(HeroEmergeEventLog) && t != typeof(DiplomaticActionEventLog)))
         {
             finds = scene.UnitFinds.Finds;
-            scene.Create(type).ExecuteAI(3);
+            scene.Create(type).ExecuteAI(PlayerId.Player3);
             Assert.Equal(finds, scene.UnitFinds.Finds);
         }
     }

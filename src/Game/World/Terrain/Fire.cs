@@ -11,7 +11,7 @@ using Aow.Game.Combat;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -36,7 +36,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 
     private int _showPriority = 1_744_830_464;
 
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
 
     private int _explosionFrame;
 
@@ -46,7 +46,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         base.PersistFields(persister);
         TurnsLeft = persister.UnsignedByte(name: "TurnsLeft", value: TurnsLeft.TruncateToSByte());
         _mode = persister.Set("Mode", value: _mode);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         Age = persister.Byte("Age", value: Age.TruncateToByte());
     }
 
@@ -54,13 +54,13 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
-        if (message.MessageId == 537001986 && message.Payload.Int == Player)
+        if (message.MessageId == 537001986 && message.Payload.Int == PlayerIdExtensions.ToOriginal(Player))
         {
             NewTurn();
             return;
         }
 
-        if (message.MessageId == 537001987 && message.Payload.Int == Player)
+        if (message.MessageId == 537001987 && message.Payload.Int == PlayerIdExtensions.ToOriginal(Player))
         {
             NewTurnDone();
         }

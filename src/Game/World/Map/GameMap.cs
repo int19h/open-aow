@@ -9,6 +9,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Movement;
 using Aow.Graphics;
@@ -65,7 +66,7 @@ public partial class GameMap : OwningNode
         _hexSelectorVisible = false;
         ExplorationEnabled = true;
         FogEnabled = true;
-        SeatedPlayer = 1;
+        SeatedPlayer = PlayerId.Player1;
         FPS = 30;
     }
 
@@ -631,7 +632,7 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:810 shows the explored fields only.
     public virtual void UpdateStaticScene()
     {
-        if (ExplorationEnabled && SeatedPlayer != -1 && !Status.Contains(HexSpriteMapStatuses.Editting))
+        if (ExplorationEnabled && SeatedPlayer is not null && !Status.Contains(HexSpriteMapStatuses.Editting))
         {
             ResetVisibleStaticHexSprite();
             int maxX = ViewHexX + ViewWidthHex - 1;
@@ -691,7 +692,7 @@ public partial class GameMap : OwningNode
             int maxX = ViewHexX + ViewWidthHex - 1;
             int maxY = ViewHexY + ViewHeightHex - 1;
             MapLevel level = MapContainer.GetMapLevel(ViewMapLevel);
-            if (SeatedPlayer != -1)
+            if (SeatedPlayer is not null)
             {
                 for (int x = ViewHexX; x <= maxX; x++)
                 {
@@ -1078,9 +1079,9 @@ public partial class GameMap : OwningNode
     public int ViewWidthHex { get; private set; }
     public int ViewHeightHex { get; private set; }
 
-    public sbyte CurrentPlayer { get; set; }
+    public PlayerId? CurrentPlayer { get; set; } = PlayerId.Independent;
 
-    public sbyte SeatedPlayer { get; set; }
+    public PlayerId? SeatedPlayer { get; set; } = PlayerId.Independent;
 
     private readonly EventStore<ShowMessageNotification> _showMessageEventsStore;
 
@@ -1187,10 +1188,10 @@ public partial class GameMap : OwningNode
     }
 
     // AoWHSMap.PAS:590
-    public virtual void SetSeatedPlayer(sbyte player) => SeatedPlayer = player;
+    public virtual void SetSeatedPlayer(PlayerId? player) => SeatedPlayer = player;
 
     // AoWHSMap.PAS:594
-    public virtual void SetCurrentPlayer(sbyte player) => CurrentPlayer = player;
+    public virtual void SetCurrentPlayer(PlayerId? player) => CurrentPlayer = player;
 
     // AoWHSMap.PAS:401
     public virtual void SetFogEnabled(bool value)
@@ -1508,7 +1509,7 @@ public partial class GameMap : OwningNode
     }
 
     // AoWHSMap.PAS:612
-    public bool ExploreArea(int X, int Y, int level, sbyte player, int range)
+    public bool ExploreArea(int X, int Y, int level, PlayerId? player, int range)
     {
         bool result;
         if (!Status.Contains(HexSpriteMapStatuses.Editting))
@@ -1528,7 +1529,7 @@ public partial class GameMap : OwningNode
     }
 
     // AoWHSMap.PAS:622
-    public FogExplorationChanges UnFogExploreArea(int X, int Y, int level, sbyte player, int range)
+    public FogExplorationChanges UnFogExploreArea(int X, int Y, int level, PlayerId? player, int range)
     {
         FogExplorationChanges result = default;
         // { Preserve the original assertion diagnostic, independent of the build path. }
@@ -1542,7 +1543,7 @@ public partial class GameMap : OwningNode
         // { Original leaves Result undefined when a fog-only operation changes nothing. }
         if (!Status.Contains(HexSpriteMapStatuses.Editting))
         {
-            if (player >= 0)
+            if (PlayerIdExtensions.ToOriginal(player) >= 0)
             {
                 result = MapContainer.GetMapLevel(level).UnFogExploreArea(X, Y, player, radius);
             }
@@ -1614,7 +1615,7 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:666 advances a pointer one row. GetField retains that row order.
     public void DrawFog(in LockedSurface surface)
     {
-        bool exploration = ExplorationEnabled || StrategicMap.Current.SeatedPlayer == -1;
+        bool exploration = ExplorationEnabled || StrategicMap.Current.SeatedPlayer is null;
         if (!FogEnabled && !exploration)
         {
             return;
@@ -1629,7 +1630,7 @@ public partial class GameMap : OwningNode
             for (int y = ViewHexY; y < ViewHexY + ViewHeightHex; y++, pixelY += 32)
             {
                 MapField field = level.GetField(x, y);
-                bool unexplored = exploration && (SeatedPlayer == -1 || !field.GetExplored(SeatedPlayer));
+                bool unexplored = exploration && (SeatedPlayer is null || !field.GetExplored(SeatedPlayer));
                 if (unexplored)
                 {
                     GamePack.Current.GeneralImages[3].Show(pixelX, pixelY, lockedSurface: surface);
