@@ -135,109 +135,99 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         DataSurface s8 = new(w, h, pixelFormatId: PixelFormat.Pal8, palette);
         DataSurface s24 = new(w, h, pixelFormatId: PixelFormat.Rgb24, palette: null!);
         Fnv hash = new();
+        LockedSurface d555 = default, d565 = default, d8 = default, d24 = default;
+        _ = s555.Lock(ref d555);
+        _ = s565.Lock(ref d565);
+        _ = s8.Lock(ref d8);
+        _ = s24.Lock(ref d24);
+        Span<ushort> words = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, ushort>(d555.Data.AsSpan(d555.DataIndex, length: d555.Pitch * h));
+        words.Fill(Magenta555);
         try
         {
-            LockedSurface d555 = default, d565 = default, d8 = default, d24 = default;
-            _ = s555.Lock(ref d555);
-            _ = s565.Lock(ref d565);
-            _ = s8.Lock(ref d8);
-            _ = s24.Lock(ref d24);
-            Span<ushort> words = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, ushort>(d555.Data.AsSpan(d555.DataIndex, length: d555.Pitch * h));
-            words.Fill(Magenta555);
-            try
+            source.Show(0, 0, lockedSurface: d555);
+        }
+        catch (Exception) { }
+        for (int y = 0; y < h; y++)
+        {
+            for (int x = 0; x < w; x++)
             {
-                source.Show(0, 0, lockedSurface: d555);
+                int c = words[(y * d555.Pitch / 2) + x];
+                int r = (c >> 10) & 31, g = (c >> 5) & 31, b = c & 31;
+                d565.View().UInt16(value: (r << 11) | (g << 6) | ((g >> 4) << 5) | b, offset: (y * d565.Pitch) + (x * 2));
+                d8.View()[(y * d8.Pitch) + x] = c == Magenta555 ? (byte)0 : (byte)(1 + ((r ^ (g << 3) ^ (b << 5)) % 255));
+                Span<byte> p24 = d24.View().Bytes((y * d24.Pitch) + (x * 3), count: 3);
+                p24[0] = (byte)(b << 3);
+                p24[1] = (byte)(g << 3);
+                p24[2] = (byte)(r << 3);
             }
-            catch (Exception) { }
-            for (int y = 0; y < h; y++)
-            {
-                for (int x = 0; x < w; x++)
-                {
-                    int c = words[(y * d555.Pitch / 2) + x];
-                    int r = (c >> 10) & 31, g = (c >> 5) & 31, b = c & 31;
-                    d565.View().UInt16(value: (r << 11) | (g << 6) | ((g >> 4) << 5) | b, offset: (y * d565.Pitch) + (x * 2));
-                    d8.View()[(y * d8.Pitch) + x] = c == Magenta555 ? (byte)0 : (byte)(1 + ((r ^ (g << 3) ^ (b << 5)) % 255));
-                    Span<byte> p24 = d24.View().Bytes((y * d24.Pitch) + (x * 3), count: 3);
-                    p24[0] = (byte)(b << 3);
-                    p24[1] = (byte)(g << 3);
-                    p24[2] = (byte)(r << 3);
-                }
-            }
+        }
 
-            int key565 = 0xF81F, key24 = 0xF800F8;
-            (string Name, LockedSurface SD, int Key)[] sources = [("555", d555, Magenta555), ("565", d565, key565), ("8", d8, 0), ("24", d24, key24)];
-            Rect[] rects = [new Rect(0, 0, w, h), new Rect(Math.Min(1, w - 1), Math.Min(1, h - 1), Math.Max(1, w - 1), Math.Max(1, h - 1))];
-            Func<LibraryImage>[] grabbers =
-            [
-                () => new Picture08(null!), () => new RleSprite08(null!), () => new Picture16(null!),
+        int key565 = 0xF81F, key24 = 0xF800F8;
+        (string Name, LockedSurface SD, int Key)[] sources = [("555", d555, Magenta555), ("565", d565, key565), ("8", d8, 0), ("24", d24, key24)];
+        Rect[] rects = [new Rect(0, 0, w, h), new Rect(Math.Min(1, w - 1), Math.Min(1, h - 1), Math.Max(1, w - 1), Math.Max(1, h - 1))];
+        Func<LibraryImage>[] grabbers =
+        [
+            () => new Picture08(null!), () => new RleSprite08(null!), () => new Picture16(null!),
                 () => new Sprite16(null!), () => new RleSprite16(null!), () => new BitMask(null!), () => new Shadow(null!),
             ];
-            int grabs = 0;
-            foreach ((string? name, LockedSurface lockedSurface, int key) in sources)
+        int grabs = 0;
+        foreach ((string? name, LockedSurface lockedSurface, int key) in sources)
+        {
+            foreach (Rect rectangle in rects)
             {
-                foreach (Rect rectangle in rects)
+                foreach (Func<LibraryImage> create in grabbers)
                 {
-                    foreach (Func<LibraryImage> create in grabbers)
+                    foreach (bool inverse in new[] { false, true })
                     {
-                        foreach (bool inverse in new[] { false, true })
+                        LibraryImage image = create();
+                        if (!image.SupportGrabPixelFormat(lockedSurface.PixelFormatId) || (inverse && image is not BitMask))
                         {
-                            LibraryImage image = create();
-                            if (!image.SupportGrabPixelFormat(lockedSurface.PixelFormatId) || (inverse && image is not BitMask))
-                            {
-                                image.Dispose();
-                                continue;
-                            }
-                            hash.Add($"{RecordedTypeName(image.GetType())} {name} {rectangle.Left} {inverse}");
-                            grabs++;
-                            GrabInfo grab = image.CreateGrabInfo();
-                            grab.TransparentPixel = key;
-                            grab.FileName = "grab.bmp";
-                            if (grab is BitMask.GrabInfo mask)
-                            {
-                                mask.Inverse = inverse;
-                            }
+                            image.Dispose();
+                            continue;
+                        }
+                        hash.Add($"{RecordedTypeName(image.GetType())} {name} {rectangle.Left} {inverse}");
+                        grabs++;
+                        GrabInfo grab = image.CreateGrabInfo();
+                        grab.TransparentPixel = key;
+                        grab.FileName = "grab.bmp";
+                        if (grab is BitMask.GrabInfo mask)
+                        {
+                            mask.Inverse = inverse;
+                        }
 
+                        try
+                        {
+                            bool grabbed;
                             try
                             {
-                                bool grabbed;
-                                try
-                                {
-                                    grabbed = image.GrabImage(lockedSurface, R: rectangle, grabInfo: grab);
-                                }
-                                catch (Exception error)
-                                {
-                                    hash.Add(error.GetType().Name);
-                                    grabbed = false;
-                                }
-                                hash.Add(grabbed ? 1 : 0);
-                                if (grabbed)
-                                {
-                                    Pin(image, hash);
-                                    RoundTrip(image, hash);
-                                }
+                                grabbed = image.GrabImage(lockedSurface, R: rectangle, grabInfo: grab);
                             }
-                            finally
+                            catch (Exception error)
                             {
-                                image.Dispose();
+                                hash.Add(error.GetType().Name);
+                                grabbed = false;
                             }
+                            hash.Add(grabbed ? 1 : 0);
+                            if (grabbed)
+                            {
+                                Pin(image, hash);
+                                RoundTrip(image, hash);
+                            }
+                        }
+                        finally
+                        {
+                            image.Dispose();
                         }
                     }
                 }
             }
+        }
 
-            entries.Add(new Entry(label, Images: grabs, Hash: hash.Value.ToString("X16")));
-            _ = s24.Unlock();
-            _ = s8.Unlock();
-            _ = s565.Unlock();
-            _ = s555.Unlock();
-        }
-        finally
-        {
-            s24.Dispose();
-            s8.Dispose();
-            s565.Dispose();
-            s555.Dispose();
-        }
+        entries.Add(new Entry(label, Images: grabs, Hash: hash.Value.ToString("X16")));
+        _ = s24.Unlock();
+        _ = s8.Unlock();
+        _ = s565.Unlock();
+        _ = s555.Unlock();
     }
 
     // Writes the image to a stream, reads it back and pins the copy.
@@ -554,32 +544,25 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         int w = Math.Max(1, image.Width + 6), h = Math.Max(1, image.Height + 4);
         DataSurface surface = new(palette: new Palette(), width: w, height: h, pixelFormatId: format);
         Fnv hash = new();
+        LockedSurface lockedSurface = default;
+        Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
+        Span<byte> pixels = lockedSurface.Data.AsSpan(lockedSurface.DataIndex, length: lockedSurface.Pitch * h);
+        for (int i = 0; i < pixels.Length; i++)
+        {
+            pixels[i] = (byte)((i * 37) + (x * 5) + y);
+        }
+
+        lockedSurface.ClipRectangle = new Rect(1, 1, w - 1, h - 1);
         try
         {
-            LockedSurface lockedSurface = default;
-            Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
-            Span<byte> pixels = lockedSurface.Data.AsSpan(lockedSurface.DataIndex, length: lockedSurface.Pitch * h);
-            for (int i = 0; i < pixels.Length; i++)
-            {
-                pixels[i] = (byte)((i * 37) + (x * 5) + y);
-            }
-
-            lockedSurface.ClipRectangle = new Rect(1, 1, w - 1, h - 1);
-            try
-            {
-                draw(lockedSurface);
-            }
-            catch (Exception error)
-            {
-                hash.Add(error.GetType().Name);
-            }
-            hash.Add(pixels);
-            _ = surface.Unlock();
+            draw(lockedSurface);
         }
-        finally
+        catch (Exception error)
         {
-            surface.Dispose();
+            hash.Add(error.GetType().Name);
         }
+        hash.Add(pixels);
+        _ = surface.Unlock();
         return hash.Value;
     }
 

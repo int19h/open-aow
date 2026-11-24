@@ -231,8 +231,6 @@ public partial class GameEngine : OwningNode
             {
                 Search(directories[i]);
             }
-
-            directories?.Dispose();
         }
 
         files = [];

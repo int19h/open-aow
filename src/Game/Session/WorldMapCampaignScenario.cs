@@ -33,7 +33,6 @@ public sealed class WorldMapCampaignScenario : CampaignScenario
     {
         IntroPages?.Dispose();
         OutroPages?.Dispose();
-        Paths?.Dispose();
         base.Dispose();
     }
 

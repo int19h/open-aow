@@ -28,7 +28,6 @@ public class UnitSpellTokenEvent : SpellTokenEvent
     // Spells.PAS:1126
     public override void Dispose()
     {
-        TargetUnitIds?.Dispose();
         _targetUnits?.Dispose();
         base.Dispose();
     }

@@ -24,7 +24,7 @@ public sealed class LayoutValueTests
         Assert.Equal<double>(lowImage, highImage);
         Assert.NotEqual(low, high);
 
-        using DoubleItemList list = new();
+        DoubleItemList list = [];
         _ = list.Add(low);
         Assert.Equal(-1, list.IndexOf(high));
         Assert.Equal(0, list.IndexOf(low));

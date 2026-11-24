@@ -24,11 +24,7 @@ public class ProductionPlaceResource : PlayerStructureResource
     public UnitIndexList Units { get; }
 
     // PrdPlace.pas:709
-    public override void Dispose()
-    {
-        Units?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // PrdPlace.pas:730
     public override void PersistFields(IPersister persister)

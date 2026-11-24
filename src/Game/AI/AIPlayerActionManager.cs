@@ -13,11 +13,7 @@ public sealed class AIPlayerActionManager(CustomNode? owner) : EngineObject(owne
     private readonly DelphiList<AIPlayerActionClass> _registeredClasses = [];
 
     // AI.pas:42
-    public override void Dispose()
-    {
-        _registeredClasses?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // AI.pas:48
     public int GetCount() => _registeredClasses.Count;

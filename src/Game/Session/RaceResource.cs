@@ -52,9 +52,6 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
     public override void Dispose()
     {
         ReleaseImageLibrary();
-        UnitIndexes?.Dispose();
-        SpecialUnitIndexes?.Dispose();
-        _heroNames?.Dispose();
         base.Dispose();
     }
 

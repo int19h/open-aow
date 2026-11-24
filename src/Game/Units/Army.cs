@@ -1997,8 +1997,6 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         {
             result = AddUnitsResult.MultipleTransporters;
         }
-
-        list?.Dispose();
         return result;
     }
 
@@ -2225,9 +2223,6 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
 
             evilArmy?.Dispose();
         }
-
-        units?.Dispose();
-        races?.Dispose();
     }
 
     // Army.PAS:2029
@@ -2442,7 +2437,6 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         }
 
         armies?.Dispose();
-        units?.Dispose();
         StrategicMap.Current.UnlockGameOverEvent();
     }
 

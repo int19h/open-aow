@@ -19,7 +19,6 @@ public sealed class PadControl : ControlStyleObject
     // MoveT.PAS:3622
     public override void Dispose()
     {
-        TerrainTypes?.Dispose();
         PadResources?.Clear();
         base.Dispose();
     }

@@ -56,7 +56,6 @@ public partial class GameMap
             }
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
-        saved?.Dispose();
         return result;
     }
 }

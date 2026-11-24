@@ -171,8 +171,6 @@ public sealed class AbilityControl : EngineObject
             _ = text.Add("-------------------------------------------------");
             _ = text.Add("");
         }
-
-        list?.Dispose();
     }
 
     // intf_P1_06.inc:178

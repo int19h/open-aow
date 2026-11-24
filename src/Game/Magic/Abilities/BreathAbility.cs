@@ -61,8 +61,6 @@ public class BreathAbility : RangedAttackAbility
                 _ = targets.Remove(other);
                 count -= 1;
             }
-
-            targets?.Dispose();
         }
 
         return result;

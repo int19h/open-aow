@@ -21,7 +21,6 @@ public sealed class MapNetSoundConstructionTests
 {
     private sealed class MapOwner : EngineFixture.Owner
     {
-
         public override int AddChild(EngineObject child)
         {
             Assert.True(EngineFixture.Forwards(child.Owner, recorder: this));
@@ -304,7 +303,7 @@ public sealed class MapNetSoundConstructionTests
                     break;
                 case PackageDataList packages: Assert.Equal(0, packages.Count); break;
                 case TokenPackageDistributor distributor: Assert.Null(distributor.TokenManager); break;
-                case SoundSystem sound: Assert.Equal(1, sound.RefCount); break;
+                case SoundSystem sound: Assert.False(sound.IsDisposed); break;
                 case UnitSfxManager sfx: Assert.Equal(0, sfx.Sfx.Count); break;
                 case SongPlayer song:
                     Assert.Equal(-1, song.CurrentIndex);

@@ -16,11 +16,7 @@ public class ArenaTokenEvent(CustomNode owner) : StructureTokenEvent(owner)
     public Int32List UnitIds { get; } = [];
 
     // Arena.pas:80
-    public override void Dispose()
-    {
-        UnitIds?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // Arena.pas:89
     public override void PersistFields(IPersister persister)

@@ -34,11 +34,7 @@ public partial class MessageEventLog : EventLog
     public PressedEventLogButton PressedButton { get; private set; }
 
     // EventLog.pas:832
-    public override void Dispose()
-    {
-        Message?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // EventLog.pas:835
     public override void PersistFields(IPersister persister)

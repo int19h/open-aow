@@ -97,7 +97,6 @@ public sealed class MapViewerCenteringTests
             Viewer.Dispose();
             Map.MapContainer?.Dispose();
             Map.Dispose();
-            _target.Dispose();
         }
     }
 

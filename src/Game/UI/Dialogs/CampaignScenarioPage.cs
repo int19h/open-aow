@@ -21,11 +21,7 @@ public sealed class CampaignScenarioPage(CustomNode owner) : EngineObject(owner)
     public DelphiStringList Text { get; } = [];
 
     // AoWVideoDlg.pas:257
-    public override void Dispose()
-    {
-        Text?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // AoWVideoDlg.pas:268
     public override void PersistFields(IPersister persister)

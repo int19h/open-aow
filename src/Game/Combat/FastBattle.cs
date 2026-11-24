@@ -217,8 +217,6 @@ public sealed class FastBattle(CustomNode owner) : Battle(owner)
                 Terminate();
             }
         }
-
-        objects?.Dispose();
     }
 
     private static readonly string s_roundFormat = "Round: %s";

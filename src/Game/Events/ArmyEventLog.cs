@@ -47,10 +47,7 @@ public partial class ArmyEventLog : EventLog
     // Army.PAS:150
     public override void Dispose()
     {
-        ArmyMessages?.Dispose();
         ArmyView?.Dispose();
-        DamageValues?.Dispose();
-        DamageTypes?.Dispose();
         base.Dispose();
     }
 

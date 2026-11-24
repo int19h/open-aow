@@ -28,12 +28,7 @@ public partial class Sign(CustomNode? owner) : Structure(owner)
     public BitList TextSeen { get; } = [];
 
     // Sign.pas:92
-    public override void Dispose()
-    {
-        Text?.Dispose();
-        TextSeen?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // Sign.pas:105
     public override void PersistFields(IPersister persister)

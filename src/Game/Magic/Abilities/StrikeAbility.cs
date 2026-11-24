@@ -25,11 +25,7 @@ public class StrikeAbility : AdjustableAbility
     public MeleeRound MeleeRound { get; }
 
     // AoWAb.PAS:1220
-    public override void Dispose()
-    {
-        MeleeRound?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // AoWAb.PAS:1349
     public override CombatMode GetCombatMode(AbilityOwner? owner) => CombatMode.Melee;
@@ -118,7 +114,6 @@ public class StrikeAbility : AdjustableAbility
         }
 
         bool result = round.Count != 0;
-        round?.Dispose();
         return result;
     }
 

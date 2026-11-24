@@ -373,9 +373,6 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
                 available.Delete(0);
             }
         }
-
-        invalid?.Dispose();
-        available?.Dispose();
     }
 
     // Player.PAS:1691

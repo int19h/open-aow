@@ -78,8 +78,6 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
         {
             Proposal = DiplomaticProposal.FromFields(kind, gold, mana) with { Message = DiplomaticProposal.Lines(message) };
         }
-
-        message?.Dispose();
         EscrowGold = persister.Int32("EscrowGold", value: EscrowGold);
         EscrowMana = persister.Int32("EscrowMana", value: EscrowMana);
         EventLogId = persister.Int32("EventLogId", value: EventLogId);
@@ -191,9 +189,6 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
             StrategicMap.Current.Players.GetPlayers(Target).AIControl.ListPeaceWarUnknownPlayers(peace, war, unknown);
             StrategicMap.Current.Players.GetPlayers(Target).AIControl.ListIdealPeaceWarPlayers(idealPeace, war: idealWar);
             Proposal.AnswerAI(this, player, relation, idealPeace, idealWar);
-            peace?.Dispose();
-            war?.Dispose();
-            unknown?.Dispose();
             idealPeace?.Dispose();
             idealWar?.Dispose();
         }

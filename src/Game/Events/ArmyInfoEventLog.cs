@@ -44,7 +44,6 @@ public partial class ArmyInfoEventLog : EventLog
     // Army.PAS:263
     public override void Dispose()
     {
-        Messages?.Dispose();
         ArmyView?.Dispose();
         base.Dispose();
     }

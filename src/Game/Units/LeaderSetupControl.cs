@@ -44,7 +44,6 @@ public class LeaderSetupControl : EngineObject
     {
         OriginalLeader?.Dispose();
         Leader?.Dispose();
-        Items?.Dispose();
         base.Dispose();
     }
 

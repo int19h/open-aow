@@ -23,11 +23,7 @@ public sealed partial class ArmyId(CustomNode? owner) : EngineObject(owner)
     public MapCoordinate Location { get; set; }
 
     // Army.PAS:7
-    public override void Dispose()
-    {
-        UnitIds?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // Army.PAS:24
     public bool Valid()

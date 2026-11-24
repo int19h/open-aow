@@ -24,11 +24,7 @@ public partial class HelpMessageEventLog : EventLog
     public int Mode { get; }
 
     // EventLog.pas:868
-    public override void Dispose()
-    {
-        Message?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     private static readonly string s_helpText = "Help";
 

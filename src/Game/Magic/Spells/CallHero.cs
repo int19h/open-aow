@@ -181,8 +181,6 @@ public class CallHero : Spell
         {
             result = null;
         }
-
-        heroes?.Dispose();
         return result;
     }
 

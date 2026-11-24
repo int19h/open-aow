@@ -137,7 +137,6 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
             }
 
             canPlaceHere = canPlaceHere && mapContainer.Map.CanChangeTerrain(this, hexX, hexY, hexLevel, terrain: terrainList);
-            terrainList?.Dispose();
         }
 
         return canPlaceHere;

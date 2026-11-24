@@ -336,78 +336,71 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
         try
         {
             DataSurface? surface = null;
-            try
+            LockedSurface lSD = default;
+            if (lockedSurface.BitCount != 16)
             {
-                LockedSurface lSD = default;
-                if (lockedSurface.BitCount != 16)
+                surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, pixelFormatId: PixelFormat.Rgb565, palette: null);
+                gr.Left = 0;
+                gr.Top = 0;
+                int width = surface.Width;
+                gr.Right = width;
+                int height = surface.Height;
+                gr.Bottom = height;
+                _ = surface.Lock(ref lSD);
+                if (LockedSurface.RemapSurfacePart(width: surface.Width, height: surface.Height, source: lockedSurface, sourceX: R.Left, sourceY: R.Top, destination: lSD, destinationX: 0, destinationY: 0) != 0)
                 {
-                    surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, pixelFormatId: PixelFormat.Rgb565, palette: null);
-                    gr.Left = 0;
-                    gr.Top = 0;
-                    int width = surface.Width;
-                    gr.Right = width;
-                    int height = surface.Height;
-                    gr.Bottom = height;
-                    _ = surface.Lock(ref lSD);
-                    if (LockedSurface.RemapSurfacePart(width: surface.Width, height: surface.Height, source: lockedSurface, sourceX: R.Left, sourceY: R.Top, destination: lSD, destinationX: 0, destinationY: 0) != 0)
-                    {
-                        throw new ArgumentException("Invalid PixelFormat");
-                    }
-
-                    _colorKey = PixelRemap.RemapPixelInfo(grabInfo.TransparentPixel, sourcePixelFormatId: lockedSurface.PixelFormatId, sourcePalette: lockedSurface.Palette, destinationPixelFormatId: lSD.PixelFormatId, destinationPalette: null);
-                }
-                else
-                {
-                    lSD = lockedSurface;
-                    gr = R;
-                    _colorKey = grabInfo.TransparentPixel;
+                    throw new ArgumentException("Invalid PixelFormat");
                 }
 
-                Clear();
-                DataLoaded = true;
-                DataWidth = gr.Right - gr.Left;
-                DataHeight = gr.Bottom - gr.Top;
-                SetWidthWithoutOverrides(DataWidth);
-                SetHeightWithoutOverrides(DataHeight);
-                FileName = ExtractFileName(grabInfo.FileName);
-                FileIndex = grabInfo.FileIndex;
-                StoredPixelFormatId = lSD.PixelFormatId;
-                PixelFormatId = StoredPixelFormatId;
-                position = 0;
-                skip = 0;
-                LockedSurface.MinimizeTransparentRectangle(lSD, R: gr, transparentColor: _colorKey, result: out Rect mr);
-                _spriteX = mr.Left - gr.Left;
-                _spriteY = mr.Top - gr.Top;
-                _spriteWidth = mr.Right - mr.Left;
-                _spriteHeight = mr.Bottom - mr.Top;
-                for (int y = mr.Top, last = mr.Bottom - 1; y <= last; y++)
-                {
-                    int row = lSD.Pitch * y;
-                    StartRow();
-                    for (int x = mr.Left, lastX = mr.Right - 1; x <= lastX; x++)
-                    {
-                        int c = lSD.View().UInt16(row + x + x);
-                        if (c != _colorKey)
-                        {
-                            FlushSkip();
-                            AddWord(c.TruncateToUInt16());
-                        }
-                        else
-                        {
-                            skip += 1;
-                        }
-                    }
-
-                    EndRow();
-                }
-
-                _data = MemorySurfaces.Reallocate(_data, size: position);
-                DataSize = position;
+                _colorKey = PixelRemap.RemapPixelInfo(grabInfo.TransparentPixel, sourcePixelFormatId: lockedSurface.PixelFormatId, sourcePalette: lockedSurface.Palette, destinationPixelFormatId: lSD.PixelFormatId, destinationPalette: null);
             }
-            finally
+            else
             {
-                surface?.Dispose();
+                lSD = lockedSurface;
+                gr = R;
+                _colorKey = grabInfo.TransparentPixel;
             }
+
+            Clear();
+            DataLoaded = true;
+            DataWidth = gr.Right - gr.Left;
+            DataHeight = gr.Bottom - gr.Top;
+            SetWidthWithoutOverrides(DataWidth);
+            SetHeightWithoutOverrides(DataHeight);
+            FileName = ExtractFileName(grabInfo.FileName);
+            FileIndex = grabInfo.FileIndex;
+            StoredPixelFormatId = lSD.PixelFormatId;
+            PixelFormatId = StoredPixelFormatId;
+            position = 0;
+            skip = 0;
+            LockedSurface.MinimizeTransparentRectangle(lSD, R: gr, transparentColor: _colorKey, result: out Rect mr);
+            _spriteX = mr.Left - gr.Left;
+            _spriteY = mr.Top - gr.Top;
+            _spriteWidth = mr.Right - mr.Left;
+            _spriteHeight = mr.Bottom - mr.Top;
+            for (int y = mr.Top, last = mr.Bottom - 1; y <= last; y++)
+            {
+                int row = lSD.Pitch * y;
+                StartRow();
+                for (int x = mr.Left, lastX = mr.Right - 1; x <= lastX; x++)
+                {
+                    int c = lSD.View().UInt16(row + x + x);
+                    if (c != _colorKey)
+                    {
+                        FlushSkip();
+                        AddWord(c.TruncateToUInt16());
+                    }
+                    else
+                    {
+                        skip += 1;
+                    }
+                }
+
+                EndRow();
+            }
+
+            _data = MemorySurfaces.Reallocate(_data, size: position);
+            DataSize = position;
         }
         catch
         {

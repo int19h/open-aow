@@ -163,7 +163,6 @@ public partial class Dungeon : ExplorationSite
             }
 
             _ = Int32List.FillWithRandomUnits(list, Prisoners.Units, level: 4, value: (int)_prisonersMode * 50, types: UnitTypes.Humanoid | UnitTypes.Creature | UnitTypes.Machine);
-            list?.Dispose();
         }
     }
 

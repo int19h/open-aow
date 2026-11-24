@@ -158,7 +158,6 @@ public sealed partial class TacticalBattle(CustomNode? owner) : Battle(owner)
                     StrategicMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
                     RandomBattleMapGenerator generator = new(this);
                     _ = generator.RandomMap(this, CombatData.Location.X, CombatData.Location.Y, L: CombatData.Location.MapLevel);
-                    generator?.Dispose();
                     bool condition = StrategicMap.Current.StartingGame || StrategicMap.Current.VisibleForPlayer(CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel, player: StrategicMap.Current.SeatedPlayer);
                     CombatMap.Current.PlaySounds = condition;
                     if (!CombatMap.Current.PlaySounds)

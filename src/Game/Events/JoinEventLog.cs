@@ -35,7 +35,6 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
     // Diplomacy.pas:12
     public override void Dispose()
     {
-        UnitIds?.Dispose();
         JoinMessage?.Dispose();
         base.Dispose();
     }

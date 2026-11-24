@@ -51,7 +51,6 @@ public sealed class ImageSequence(ImageSequenceList? owner) : IDisposable
     // ImageLib.pas:8559
     public void Dispose()
     {
-        FrameTable?.Dispose();
         ReleaseImageLibrary();
         Next?.Dispose();
     }
@@ -515,6 +514,5 @@ public sealed class ImageSequence(ImageSequenceList? owner) : IDisposable
         _ = surface.Unlock();
         /* TODO: Implement cell or array backing for this address. */
         throw new NotImplementedException();
-        surface?.Dispose();
     }
 }

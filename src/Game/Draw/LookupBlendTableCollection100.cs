@@ -17,11 +17,7 @@ public sealed class LookupBlendTableCollection100 : IDisposable
     public LookupBlendTableCollection100() => Tables = new BlendTableList();
 
     // GFXE.pas:9680
-    public void Dispose()
-    {
-        Clear();
-        Tables?.Dispose();
-    }
+    public void Dispose() => Clear();
 
     // GFXE.pas:9692
     public void Clear()

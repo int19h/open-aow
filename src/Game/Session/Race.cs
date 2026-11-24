@@ -38,8 +38,6 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
     public override void Dispose()
     {
         SetEnabled(false);
-        _playerRelations?.Dispose();
-        DefaultRelations?.Dispose();
         base.Dispose();
     }
 

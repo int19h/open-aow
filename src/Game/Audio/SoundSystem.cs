@@ -7,8 +7,6 @@ namespace Aow.Game.Audio;
 // (RegisterSoundSystem calls it on the class)
 public class SoundSystem : IDisposable
 {
-    protected internal int RefCount { get; private set; }
-
     // Sound.pas:115
     protected internal virtual SampleClass SampleClass() => throw AbstractErrorException.Create("Abstract Error");
 
@@ -41,29 +39,6 @@ public class SoundSystem : IDisposable
 
     // Sound.pas:125
     public virtual bool MusicEnabled => throw AbstractErrorException.Create("Abstract Error");
-
-    // Sound.pas:1152
-    public SoundSystem() => RefCount = 1;
-
-    // Sound.pas:1165
-    public virtual int Release()
-    {
-        RefCount -= 1;
-        int result = RefCount;
-        if (RefCount == 0)
-        {
-            Dispose();
-        }
-
-        return result;
-    }
-
-    // Sound.pas:1173
-    public virtual int AddRef()
-    {
-        RefCount += 1;
-        return RefCount;
-    }
 
     // Sound.pas:130
     public virtual bool SetSfxEnabled(bool value) => throw AbstractErrorException.Create("Abstract Error");
@@ -104,9 +79,18 @@ public class SoundSystem : IDisposable
     // Sound.pas:143
     public virtual bool RestoreSongStatus(SongStatus status) => throw AbstractErrorException.Create("Abstract Error");
 
+    // Set by Dispose. The audio device is released once.
+    public bool IsDisposed { get; private set; }
+
     // Sound.pas:1158
     public virtual void Dispose()
     {
+        if (IsDisposed)
+        {
+            return;
+        }
+
+        IsDisposed = true;
         if (Status.Contains(SoundSystemStatuses.Activated))
         {
             _ = Deactivate();

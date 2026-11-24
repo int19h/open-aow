@@ -395,8 +395,6 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 Executor.Moves.Reset();
             }
         }
-
-        sorted?.Dispose();
         armies?.Dispose();
         return result;
     }
@@ -491,8 +489,6 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
         {
             Executor.ExecuteMoves();
         }
-
-        sorted?.Dispose();
         armies?.Dispose();
         return result;
     }

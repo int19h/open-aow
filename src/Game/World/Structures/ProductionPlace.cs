@@ -431,8 +431,6 @@ public partial class ProductionPlace : PlayerStructure
                     {
                         armyHexSprite.Army.SetBehavior(255, behavior: GroupBehavior.Guard);
                     }
-
-                    units?.Dispose();
                 }
             }
         }

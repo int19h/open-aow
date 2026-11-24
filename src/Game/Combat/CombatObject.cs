@@ -64,9 +64,6 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
         {
             Deactivate();
         }
-
-        Targets?.Dispose();
-        TargetedBy?.Dispose();
         base.Dispose();
     }
 

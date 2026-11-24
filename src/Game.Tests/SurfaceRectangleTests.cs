@@ -168,8 +168,6 @@ public sealed class SurfaceRectangleTests
         }
         finally
         {
-            whole.Dispose();
-            part.Dispose();
             source.Dispose();
         }
     }
@@ -180,30 +178,23 @@ public sealed class SurfaceRectangleTests
     public void SubDescriptorsMoveTheFirstPixel()
     {
         DataSurface source = MakeSource();
-        try
-        {
-            LockedSurface full = default, part = default;
-            Assert.Equal(GraphicsResult.Ok, source.Lock(ref full));
-            _ = source.Unlock();
-            Assert.Equal(0, full.DataIndex);
-            Assert.Equal(GraphicsResult.Ok, source.Lock(ref part, R: new Rect(1, 1, 4, 3)));
-            _ = source.Unlock(part);
-            Assert.Same(full.Data, part.Data);
-            Assert.Equal(full.Pitch + 2, part.DataIndex);
-            Assert.Equal((3, 2), (part.Width, part.Height));
-            Assert.Equal(Source(1, 1), part.View().UInt16(0));
-            Assert.Equal(Source(3, 2), part.View().UInt16(part.Pitch + 4));
-            LockedSurface sub = LockedSurface.CreateFrom(full, R: new Rect(2, 1, 4, 3));
-            Assert.Same(full.Data, sub.Data);
-            Assert.Equal(full.Pitch + 4, sub.DataIndex);
-            Assert.Equal(new Rect(0, 0, 2, 2), sub.ClipRectangle);
-            Assert.Equal(Source(2, 1), sub.View().UInt16(0));
-            Assert.Equal(GraphicsResult.Error, source.Lock(ref part, R: new Rect(1, 1, 5, 3)));
-        }
-        finally
-        {
-            source.Dispose();
-        }
+        LockedSurface full = default, part = default;
+        Assert.Equal(GraphicsResult.Ok, source.Lock(ref full));
+        _ = source.Unlock();
+        Assert.Equal(0, full.DataIndex);
+        Assert.Equal(GraphicsResult.Ok, source.Lock(ref part, R: new Rect(1, 1, 4, 3)));
+        _ = source.Unlock(part);
+        Assert.Same(full.Data, part.Data);
+        Assert.Equal(full.Pitch + 2, part.DataIndex);
+        Assert.Equal((3, 2), (part.Width, part.Height));
+        Assert.Equal(Source(1, 1), part.View().UInt16(0));
+        Assert.Equal(Source(3, 2), part.View().UInt16(part.Pitch + 4));
+        LockedSurface sub = LockedSurface.CreateFrom(full, R: new Rect(2, 1, 4, 3));
+        Assert.Same(full.Data, sub.Data);
+        Assert.Equal(full.Pitch + 4, sub.DataIndex);
+        Assert.Equal(new Rect(0, 0, 2, 2), sub.ClipRectangle);
+        Assert.Equal(Source(2, 1), sub.View().UInt16(0));
+        Assert.Equal(GraphicsResult.Error, source.Lock(ref part, R: new Rect(1, 1, 5, 3)));
     }
 
     // GetPrimarySurfaceRgn returns @FPrimarySurfaceRgn in the original: never nil, the rectangle

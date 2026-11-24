@@ -20,11 +20,7 @@ public sealed class TextControlItem(CustomNode owner) : EngineObject(owner)
     public string Name { get; set; } = "";
 
     // Structur.PAS:4400
-    public override void Dispose()
-    {
-        Text?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // Structur.PAS:4411
     public override void PersistFields(IPersister persister)

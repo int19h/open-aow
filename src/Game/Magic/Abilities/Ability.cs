@@ -50,7 +50,6 @@ public class Ability : EngineObject
     // Ability.PAS:1245
     public override void Dispose()
     {
-        Description?.Dispose();
         SfxLibrary?.Dispose();
         ImageSequences?.Dispose();
         base.Dispose();

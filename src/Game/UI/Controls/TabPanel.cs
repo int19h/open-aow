@@ -42,7 +42,6 @@ public sealed partial class TabPanel : Control
         }
 
         Panels.Clear();
-        Items.Dispose();
         base.Dispose();
     }
 

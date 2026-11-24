@@ -78,7 +78,6 @@ public class UnitResource : TroopResource
     // UnitRes.PAS:92
     public override void Dispose()
     {
-        Description?.Dispose();
         for (int rankOrdinal = (int)Unit.Rank.None; rankOrdinal <= (int)Unit.Rank.Gold; rankOrdinal++)
         {
             Unit.Rank rank = (Unit.Rank)rankOrdinal;

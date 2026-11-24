@@ -311,8 +311,6 @@ public class UnitSpell : Spell
         {
             result = false;
         }
-
-        list?.Dispose();
         return result;
     }
 

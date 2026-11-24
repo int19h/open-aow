@@ -785,8 +785,6 @@ public sealed class RandomBattleMapGenerator : IDisposable
                 }
             }
         }
-
-        units?.Dispose();
         if (Items is not null)
         {
             position = 0;

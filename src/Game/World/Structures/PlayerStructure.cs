@@ -37,11 +37,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     public byte UnfogRange { get; protected set; }
 
     // Structur.PAS:1977
-    public override void Dispose()
-    {
-        base.Dispose();
-        _victoryLocations?.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // Structur.PAS:2180
     public override void PersistFields(IPersister persister)

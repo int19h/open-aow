@@ -55,7 +55,6 @@ public abstract record DiplomaticProposal
             Text = text
         };
         IReadOnlyList<string> lines = Lines(list);
-        list?.Dispose();
         return lines;
     }
 

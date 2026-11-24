@@ -39,11 +39,7 @@ public sealed class ResourceEditSettings(CustomNode owner) : ControlStyleObject(
     }
 
     // Engine.pas:8656
-    public override void Dispose()
-    {
-        Editors?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // Engine.pas:8667
     public string GetUniqueEditorName(string name)

@@ -21,11 +21,7 @@ public class CommandAbilityData(CustomNode owner) : AbilityData(owner)
     public ByteList CommandedUnits { get; } = [];
 
     // AoWAb.PAS:4954
-    public override void Dispose()
-    {
-        CommandedUnits?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // AoWAb.PAS:4967
     public override void PersistFields(IPersister persister)

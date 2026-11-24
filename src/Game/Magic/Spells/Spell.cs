@@ -57,7 +57,6 @@ public class Spell : EngineObject
     {
         CastSounds?.Dispose();
         CastImages?.Dispose();
-        SpellText?.Dispose();
         base.Dispose();
     }
 

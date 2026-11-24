@@ -17,11 +17,7 @@ public sealed class PathFindingStep(CustomNode owner) : EngineObject(owner)
     public DoubleItemList MovePointLines { get; } = [];
 
     // MoveT.PAS:28
-    public override void Dispose()
-    {
-        MovePointLines?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // MoveT.PAS:34
     public void AddMovePointLine(int direction, int count) => MovePointLines.AddAbility(direction, count);

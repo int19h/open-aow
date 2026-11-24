@@ -148,8 +148,6 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
                         StrategicMap.Current.TriggerExecuteEventLog(magicLog, immediate: false, done: null);
                         _ = magicLog.Release();
                     }
-
-                    spells?.Dispose();
                 }
 
                 StrategicMap.Current.TutorialControl.ShowMessage(52, immediate: false, onceOnly: true);

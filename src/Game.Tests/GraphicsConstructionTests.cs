@@ -196,7 +196,6 @@ public sealed class GraphicsConstructionTests
             copy[0] = copy[0] with { Red = 63 };
         }
         _ = surface.Unlock();
-        surface.Dispose();
         Assert.Equal((byte)29, palette[0].Red);
     }
 
@@ -214,7 +213,6 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(GraphicsResult.Ok, surface.Lock(ref descriptor));
         Assert.NotNull(descriptor.Data);
         _ = surface.Unlock();
-        surface.Dispose();
         Assert.Equal((byte)29, palette[0].Red);
     }
 
@@ -281,9 +279,9 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void SurfaceCaptureKeepsCopiedPixelsAndPalette()
     {
-        using Dib16Surface source = new(7, 4, pixelFormatId: PixelFormat.Rgb555);
+        Dib16Surface source = new(7, 4, pixelFormatId: PixelFormat.Rgb555);
         _ = source.Clear(Color.Red);
-        using DataSurface copy = new(source, R: default);
+        DataSurface copy = new(source, R: default);
         LockedSurface lockedSurface = default;
         _ = copy.Lock(ref lockedSurface);
         Assert.Equal(7, lockedSurface.Width);

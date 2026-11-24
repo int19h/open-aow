@@ -16,28 +16,21 @@ public sealed class RleSprite08GrabTests
         DataSurface surface = new(palette: new Palette { PixelFormatId = PixelFormat.Bgr24 }, width: w, height: h, pixelFormatId: PixelFormat.Pal8);
         RleSprite08 image = new(null);
         GrabInfo grab = image.CreateGrabInfo();
-        try
+        LockedSurface lockedSurface = default;
+        Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
+        for (int y = 0; y < h; y++)
         {
-            LockedSurface lockedSurface = default;
-            Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
-            for (int y = 0; y < h; y++)
+            for (int x = 0; x < w; x++)
             {
-                for (int x = 0; x < w; x++)
-                {
-                    lockedSurface.View()[(y * lockedSurface.Pitch) + x] = pixels[y, x];
-                }
+                lockedSurface.View()[(y * lockedSurface.Pitch) + x] = pixels[y, x];
             }
+        }
 
-            grab.TransparentPixel = 0;
-            grab.FileName = "grab.bmp";
-            bool grabbed = image.GrabImage(lockedSurface, R: rectangle, grabInfo: grab);
-            _ = surface.Unlock();
-            return (image, grabbed);
-        }
-        finally
-        {
-            surface.Dispose();
-        }
+        grab.TransparentPixel = 0;
+        grab.FileName = "grab.bmp";
+        bool grabbed = image.GrabImage(lockedSurface, R: rectangle, grabInfo: grab);
+        _ = surface.Unlock();
+        return (image, grabbed);
     }
 
     private static byte[] Encoded(RleSprite08 image) => image.Data.AsSpan(0, length: image.DataSize).ToArray();
@@ -137,7 +130,6 @@ public sealed class RleSprite08GrabTests
         finally
         {
             image.Dispose();
-            surface.Dispose();
         }
     }
 
@@ -174,7 +166,7 @@ public sealed class RleSprite08GrabTests
     // Draws the image at (0, 0) on an 8-bit surface filled with $55.
     private static byte[,] Draw(RleSprite08 image, int w, int h)
     {
-        using DataSurface surface = new(palette: new Palette { PixelFormatId = PixelFormat.Bgr24 }, width: w, height: h, pixelFormatId: PixelFormat.Pal8);
+        DataSurface surface = new(palette: new Palette { PixelFormatId = PixelFormat.Bgr24 }, width: w, height: h, pixelFormatId: PixelFormat.Pal8);
         LockedSurface lockedSurface = default;
         Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
         for (int y = 0; y < h; y++)

@@ -433,15 +433,11 @@ public sealed partial class StrategicMap : GameMap
         _structureDestroyedEventsStore.Clear();
         _unitDestroyedEventsStore.Clear();
         OnLeaderChangedStore.Clear();
-        Description?.Dispose();
-        _objectives?.Dispose();
-        TurnOrder?.Dispose();
         PlayerControl?.Dispose();
         TextControl?.Dispose();
         _combatEventsStore.Clear();
         _playerChangedEventsStore.Clear();
         _executeEventLogEventsStore.Clear();
-        _executeEventLogCallBacks?.Dispose();
         OnActivateAbilityStore.Clear();
         GameSongs?.Dispose();
         StartupSongs?.Dispose();
@@ -2173,8 +2169,6 @@ public sealed partial class StrategicMap : GameMap
             _ = TurnOrder.Add(item.TruncateToByte());
             list.Delete(index);
         }
-
-        list?.Dispose();
     }
 
     // AoWHSMap.PAS:2749
@@ -2514,8 +2508,6 @@ public sealed partial class StrategicMap : GameMap
             {
                 _ = candidates[Random(candidates.Count)].PlaceResourceUser(Current, X, Y, L);
             }
-
-            candidates?.Dispose();
         }
         else
         {

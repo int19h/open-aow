@@ -28,11 +28,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
     private readonly QuadItemList<ProductionControl> _productions = [];
 
     // AI.pas:1208
-    public override void Dispose()
-    {
-        _productions?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // AI.pas:1532
     public override bool Process()
@@ -320,8 +316,6 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
                     _ = player.AIBudget.ExpenseMade(budget.Gold, budget.Mana);
                 }
             }
-
-            candidates?.Dispose();
         }
 
         // { Original behavior: both transporter routines always return False. }
@@ -414,8 +408,6 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
                     _ = ResearchTransporter(budget);
                 }
             }
-
-            candidates?.Dispose();
         }
 
         // { Original behavior: both transporter routines always return False. }

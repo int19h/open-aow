@@ -219,7 +219,6 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
 
         Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxGold, R, surface);
-        values?.Dispose();
         KeyMaximumLabel.Text = _maxGold.ToString(CultureInfo.InvariantCulture);
     }
 
@@ -235,7 +234,6 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
 
         Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxMana, R, surface);
-        values?.Dispose();
         KeyMaximumLabel.Text = _maxMana.ToString(CultureInfo.InvariantCulture);
     }
 
@@ -251,7 +249,6 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
 
         Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxHeroes, R, surface);
-        values?.Dispose();
         KeyMaximumLabel.Text = _maxHeroes.ToString(CultureInfo.InvariantCulture);
     }
 
@@ -267,7 +264,6 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
 
         Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxArmies, R, surface);
-        values?.Dispose();
         KeyMaximumLabel.Text = _maxArmies.ToString(CultureInfo.InvariantCulture);
     }
 
@@ -283,7 +279,6 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
 
         Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxStructures, R, surface);
-        values?.Dispose();
         KeyMaximumLabel.Text = _maxStructures.ToString(CultureInfo.InvariantCulture);
     }
 
@@ -299,7 +294,6 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
 
         Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxStrength, R, surface);
-        values?.Dispose();
         // { Original strength graph labels the structures maximum. }
         KeyMaximumLabel.Text = _maxStructures.ToString(CultureInfo.InvariantCulture);
     }

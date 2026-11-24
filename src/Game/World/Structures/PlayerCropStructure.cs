@@ -385,8 +385,6 @@ public class PlayerCropStructure : PlayerStructure
             }
 
             // { Original frees and clears the recursion guard only on normal completion. }
-            crops?.Dispose();
-            locations?.Dispose();
             _changingCrops = false;
             CropsChanged();
         }

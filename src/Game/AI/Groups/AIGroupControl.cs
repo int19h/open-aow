@@ -538,8 +538,6 @@ public class AIGroupControl : EngineObject
         {
             result = null;
         }
-
-        list?.Dispose();
         return result;
     }
 

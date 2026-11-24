@@ -14,7 +14,6 @@ public sealed class SfxManager(Component owner) : Component(owner)
     public override void Dispose()
     {
         Clear();
-        Sfx?.Dispose();
         base.Dispose();
     }
 
@@ -44,8 +43,6 @@ public sealed class SfxManager(Component owner) : Component(owner)
             {
                 Search(directories[i]);
             }
-
-            directories?.Dispose();
         }
 
         Sfx.Clear();

@@ -52,7 +52,6 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
             }
 
             persister.Skip("AbilityData");
-            ids.Dispose();
             return;
         }
 
@@ -74,8 +73,6 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
         {
             _ = persister.CreatedSlot("AbilityData", slot: data.GetAbilityId(), objectValue: data);
         }
-
-        stored.Dispose();
     }
 
     // Ability.PAS:1667

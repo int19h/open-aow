@@ -68,8 +68,6 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
                             StrategicMap.Current.TriggerExecuteEventLog(research, immediate: false, done: null);
                             _ = research.Release();
                         }
-
-                        spells?.Dispose();
                     }
                 }
                 else

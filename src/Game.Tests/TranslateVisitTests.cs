@@ -26,7 +26,7 @@ public sealed class TranslateVisitTests
     [Fact]
     public void AVisitWithoutADictionaryLeavesTheStrings()
     {
-        using TranslateVisit translator = new(EngineFixture.Engine);
+        TranslateVisit translator = new(EngineFixture.Engine);
         using StoredObject value = new() { Name = "Oak", Detail = "Hill" };
         translator.Object(value, id: 4);
         Assert.Equal("Oak", value.Name);
@@ -36,7 +36,7 @@ public sealed class TranslateVisitTests
     [Fact]
     public void ATextVisitRewritesEachStringThroughTheDictionary()
     {
-        using TranslateTextStream translator = new(EngineFixture.Engine);
+        TranslateTextStream translator = new(EngineFixture.Engine);
         using IvDictionary dictionary = new();
         translator.FDictionary = dictionary;
         using StoredObject value = new() { Name = "Oak", Detail = "Hill" };

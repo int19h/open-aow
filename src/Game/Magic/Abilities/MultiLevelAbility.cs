@@ -15,11 +15,7 @@ public class MultiLevelAbility(CustomNode? owner) : AdjustableAbility(owner)
     public Int32List LevelCosts { get; } = [];
 
     // AoWAb.PAS:255
-    public override void Dispose()
-    {
-        LevelCosts?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // AoWAb.PAS:322
     public virtual string GetLevelName(int level) => $"Unknown {level.ToString(CultureInfo.InvariantCulture)}";

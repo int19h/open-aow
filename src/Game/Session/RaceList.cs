@@ -66,8 +66,6 @@ public class RaceList : ControlStyleNode, IChildList<Race>
         {
             result = -1;
         }
-
-        races?.Dispose();
         return result;
     }
 

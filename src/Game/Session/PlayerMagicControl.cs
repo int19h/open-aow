@@ -92,7 +92,6 @@ public sealed class PlayerMagicControl : EngineObject
     {
         try
         {
-            Spells?.Dispose();
             Enchantments?.Dispose();
             _changedEventsStore.Clear();
             _ = PowerSources.RemoveChild(_externalPowerSource);
@@ -353,8 +352,6 @@ public sealed class PlayerMagicControl : EngineObject
                     _ = Spells.Add(item);
                 }
             }
-
-            candidates?.Dispose();
         }
 
         if (ResearchSpellId != 0)
@@ -868,7 +865,6 @@ public sealed class PlayerMagicControl : EngineObject
                 list.Delete(0);
             }
         }
-        list?.Dispose();
         return 0;
     }
 }

@@ -62,7 +62,6 @@ public partial class MoveControlSettings : EngineObject
     public override void Dispose()
     {
         Clear();
-        ProcessedMapFields?.Dispose();
         SubMoves?.Dispose();
         Path?.Dispose();
         Units?.Dispose();

@@ -37,12 +37,7 @@ public sealed class ToolTip : GenericWindow
     }
 
     // AOWToolTip.pas:72
-    public override void Dispose()
-    {
-        _lines.Dispose();
-        Items.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // AOWToolTip.pas:79
     public override void Validate()

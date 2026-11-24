@@ -173,14 +173,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         {
             FDictionary = dictionary
         };
-        try
-        {
-            stream.Object(objectValue, id: 0);
-        }
-        finally
-        {
-            stream?.Dispose();
-        }
+        stream.Object(objectValue, id: 0);
     }
 
     // Army.PAS:5660

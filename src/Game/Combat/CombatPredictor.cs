@@ -57,8 +57,6 @@ public sealed class CombatPredictor : IDisposable
     public void Dispose()
     {
         Reset();
-        _allUnits?.Dispose();
-        _activeUnits?.Dispose();
         Sides[0]?.Dispose();
         Sides[1]?.Dispose();
     }
@@ -782,8 +780,6 @@ public sealed class CombatPredictor : IDisposable
                     }
                 }
             }
-
-            list?.Dispose();
         }
         else
         {

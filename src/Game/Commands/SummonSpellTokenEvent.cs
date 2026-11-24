@@ -24,11 +24,7 @@ public class SummonSpellTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
     public UnitIndexList UnitIndices { get; } = [];
 
     // SummonSpells.pas:165
-    public override void Dispose()
-    {
-        UnitIndices?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // SummonSpells.pas:176
     public override void PersistFields(IPersister persister)

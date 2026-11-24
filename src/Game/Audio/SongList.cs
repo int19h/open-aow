@@ -59,12 +59,7 @@ public class SongList : EngineObject
     }
 
     // Sound.pas:794
-    public override void Dispose()
-    {
-        Songs?.Dispose();
-        SongNames?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // Sound.pas:832
     public void Search(string path, string ext)

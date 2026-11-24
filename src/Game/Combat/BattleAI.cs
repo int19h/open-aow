@@ -711,15 +711,12 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                 }
 
                 value += total;
-                point3DList?.Dispose();
                 {
                     for (int i = 0, last = obstacles.Count - 1; i <= last; i++)
                     {
                         (obstacles[i] as IDisposable)?.Dispose();
                     }
                 }
-
-                obstacles?.Dispose();
                 return original - value;
             case BattleEffectType.None:
             case BattleEffectType.Touch:
@@ -928,8 +925,6 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                             }
                         }
                     }
-
-                    round?.Dispose();
                 }
             }
             catch

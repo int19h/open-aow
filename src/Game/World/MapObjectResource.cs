@@ -33,7 +33,6 @@ public class MapObjectResource : EngineResource
     // MAPOBJ.PAS:391
     public override void Dispose()
     {
-        TerrainList?.Dispose();
         ImageLibrary?.Dispose();
         ImageSequenceList?.Dispose();
 

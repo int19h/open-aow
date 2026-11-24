@@ -136,8 +136,6 @@ public partial class Menu : GenericWindow
                 HostLog.FallbackAtCallSite(Logger, error: error);
             }
         }
-
-        Items.Dispose();
         foreach (Menu menu in SubMenus)
         {
             menu.DetachMenu();

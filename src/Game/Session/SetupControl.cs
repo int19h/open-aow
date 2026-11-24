@@ -1124,8 +1124,6 @@ public sealed class SetupControl : Component
                 done = true;
             }
         }
-
-        list?.Dispose();
         return result;
     }
 

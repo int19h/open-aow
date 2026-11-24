@@ -571,7 +571,6 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
         int hexLevel = _place.HexLevel;
         int hexY = _place.HexY;
         _preview = generator.RandomMap(null, _place.HexX, hexY, L: hexLevel);
-        generator?.Dispose();
         ArmyHexSprite army = _place.Owner.GetArmyHexSprite();
         if (army is not null)
         {

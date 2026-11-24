@@ -233,8 +233,6 @@ public sealed class ItemControl(CustomNode? owner) : EngineObject(owner)
         }
 
         Item? result = list.Count != 0 ? list[list.RandomChanceItemB(1)].First : null;
-
-        list?.Dispose();
         return result;
     }
 
@@ -290,8 +288,6 @@ public sealed class ItemControl(CustomNode? owner) : EngineObject(owner)
                 result += 1;
             }
         }
-
-        list?.Dispose();
         return result;
     }
 
