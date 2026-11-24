@@ -8,6 +8,7 @@ using Aow.Game.Draw.Images;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
+using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.UI.Dialogs;
 using Aow.Game.UI.Windows;
@@ -82,7 +83,7 @@ public sealed class OfflineStubTests
     private static SetupEvents OfflineSetupEvents(UIContext ui)
     {
         SetupEvents events = ui.Add(new SetupEvents(ui) { DirectPlay = new GDPlay { PlayerName = "No Name" } });
-        events.SetupControl = new SetupControl(events);
+        events.SetupControl = new SetupControl(events, host: events, transport: SetupTransport.Unported);
         return events;
     }
 

@@ -18,7 +18,7 @@ using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
 
-public sealed partial class SetupEvents(UIContext ui) : UIModule(ui)
+public sealed partial class SetupEvents(UIContext ui) : UIModule(ui), ISetupHost
 {
     public GDPlay DirectPlay { get; set; }
     public SetupControl SetupControl { get; set; }
@@ -63,7 +63,7 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowSetupEvents.pas:90
-    public void SetupControlStart()
+    public void StartGame()
     {
         UI.SynchronizeDialog.Window.Visible = false;
         UI.ScenarioSetup.CloseSetup();
@@ -74,11 +74,6 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui)
             UpdateChatPlayers();
         }
     }
-
-    // aowSetupEvents.pas:102
-    public void SetupControlSendMap(SetupControl control, object data, int size, int recipient)
-        /* TODO: Implement aowDPlayComp.Players in the platform or editor service. */
-        => throw new NotImplementedException();
 
     // aowSetupEvents.pas:111
     public void DPlayFileStartMessage(int id, string name, int size, in byte response)
@@ -153,14 +148,14 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowSetupEvents.pas:189
-    public void SetupControlCustomizeLeader(SetupControl control, CustomizeLeaderControl leader)
+    public void CustomizeLeader(CustomizeLeaderControl control)
     {
         UI.ScenarioSetup.ScenarioSetupPanel.Visible = false;
-        UI.LeaderSetupWindow.Execute(leader);
+        UI.LeaderSetupWindow.Execute(control);
     }
 
     // aowSetupEvents.pas:195
-    public void SetupControlLoadMap(SetupControl control, string fileName)
+    public void LoadMap(string fileName)
     {
         string fileNameLocal = ExtractFileName(fileName);
         string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_loadingFormat), arguments: [fileNameLocal]);
@@ -170,16 +165,16 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui)
         UI.ProgressDialog.ProgressBar.Max = 100;
         UI.ProgressDialog.Window.Visible = true;
         UI.General.Manager.OverlayPriority = 5_000;
-        if (!control.Settings.CustomizeLeaders)
+        if (!SetupControl.Settings.CustomizeLeaders)
         {
             _ = AudioHost.SongPlayer.Stop(false);
             AudioHost.SongPlayer.Songs.Clear();
             _ = (AudioHost.SoundSystem?.FadeMusicVolume(0, speed: 1));
         }
 
-        if (control.Stream.Length != 0)
+        if (SetupControl.Stream.Length != 0)
         {
-            UI.Engine.LoadHsmFromStream(control.Stream, edit: false, (_, message, progression) => UI.General.MapProgress(message, progression));
+            UI.Engine.LoadHsmFromStream(SetupControl.Stream, edit: false, (_, message, progression) => UI.General.MapProgress(message, progression));
             string fileName2 = ExtractFileName(fileName);
             StrategicMap.Current.FileName = $"{UI.Engine.StartupDirectory}Scenario\\{fileName2}";
         }
@@ -190,19 +185,14 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui)
 
         UI.General.Manager.OverlayPriority = 0;
         UI.ProgressDialog.Window.Visible = false;
-        control.MapLoaded();
+        SetupControl.ReportMapLoaded();
     }
-
-    // aowSetupEvents.pas:220
-    public bool SetupControlSendData(object data, int size, int recipient)
-        /* TODO: Implement aowDPlayComp.SendMessage in the platform or editor service. */
-        => throw new NotImplementedException();
 
     // aowSetupEvents.pas:225
     public void SetupControlSettingChanged() => ScenarioSetup.UpdateScenarioSetup(UI.ScenarioSetup);
 
     // aowSetupEvents.pas:228
-    public void SetupControlEjectPlayer(SetupControl control, int remoteId)
+    public void EjectPlayer(int remoteId)
         /* TODO: Implement aowDPlayComp.EjectPlayer in the platform or editor service. */
         => throw new NotImplementedException();
 
@@ -224,18 +214,18 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowSetupEvents.pas:239
-    public void SetupControlSynchronize(SetupControl control)
+    public void Synchronize()
     {
         UI.General.Manager.Aligned = false;
         UI.ScenarioSetup.ScenarioSetupPanel.Visible = false;
-        if (control.GetRemote())
+        if (SetupControl.GetRemote())
         {
             UI.SynchronizeDialog.Window.Visible = true;
         }
     }
 
     // aowSetupEvents.pas:249
-    public void SetupControlIncompatibleVersion(SetupControl control, int major, int minor)
+    public void CloseIncompatibleSession(int majorVersion, int minorVersion)
         /* TODO: Implement aowDPlayComp.CloseSession in the platform or editor service. */
         => throw new NotImplementedException();
 

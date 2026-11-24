@@ -258,12 +258,7 @@
             "Component.Tag": 0,
             "Component.children": [],
             "Component.freeNotifies": null,
-            "SetupControl.CustomizeLeader": null,
-            "SetupControl.IncompatibleVersion": null,
-            "SetupControl.MapSent": null,
             "SetupControl.MapSetUp": null,
-            "SetupControl.OnLoadMap": null,
-            "SetupControl.PlayerEjected": null,
             "SetupControl.PlayerSetupCompleted": null,
             "SetupControl.RemotePlayer": {
               "$type": "Aow.Game.Session.RemotePlayer",
@@ -274,7 +269,6 @@
               "RemotePlayer.RemoteId": 0,
               "RemotePlayer.Version": 0
             },
-            "SetupControl.SendData": null,
             "SetupControl.SendingMaps": null,
             "SetupControl.SettingChanged": null,
             "SetupControl.Settings": {
@@ -315,7 +309,6 @@
               "SetupSettings.TurnTime": 0,
               "SetupSettings.VictoryCondition": 0
             },
-            "SetupControl.Start": null,
             "SetupControl.Status": 0,
             "SetupControl.Stream": {
               "$type": "System.IO.MemoryStream",
@@ -334,10 +327,14 @@
               "MemoryStream._writable": true,
               "Stream._asyncActiveSemaphore": null
             },
-            "SetupControl.Synchronize": null,
             "SetupControl._engine": null,
-            "SetupControl._onAbort": null,
+            "SetupControl._host": {
+              "$type": "Aow.Game.Session.SetupHost"
+            },
             "SetupControl._phase": 0,
+            "SetupControl._transport": {
+              "$type": "Aow.Game.Net.SetupTransport"
+            },
             "SetupControl._updateCount": 0
           }
         }
@@ -359,12 +356,7 @@
             "Component.Tag": 0,
             "Component.children": [],
             "Component.freeNotifies": null,
-            "SetupControl.CustomizeLeader": null,
-            "SetupControl.IncompatibleVersion": null,
-            "SetupControl.MapSent": null,
             "SetupControl.MapSetUp": null,
-            "SetupControl.OnLoadMap": null,
-            "SetupControl.PlayerEjected": null,
             "SetupControl.PlayerSetupCompleted": null,
             "SetupControl.RemotePlayer": {
               "$type": "Aow.Game.Session.RemotePlayer",
@@ -375,7 +367,6 @@
               "RemotePlayer.RemoteId": 0,
               "RemotePlayer.Version": 0
             },
-            "SetupControl.SendData": null,
             "SetupControl.SendingMaps": null,
             "SetupControl.SettingChanged": null,
             "SetupControl.Settings": {
@@ -416,7 +407,6 @@
               "SetupSettings.TurnTime": 0,
               "SetupSettings.VictoryCondition": 0
             },
-            "SetupControl.Start": null,
             "SetupControl.Status": 0,
             "SetupControl.Stream": {
               "$type": "System.IO.MemoryStream",
@@ -435,10 +425,14 @@
               "MemoryStream._writable": true,
               "Stream._asyncActiveSemaphore": null
             },
-            "SetupControl.Synchronize": null,
             "SetupControl._engine": null,
-            "SetupControl._onAbort": null,
+            "SetupControl._host": {
+              "$type": "Aow.Game.Session.SetupHost"
+            },
             "SetupControl._phase": 0,
+            "SetupControl._transport": {
+              "$type": "Aow.Game.Net.SetupTransport"
+            },
             "SetupControl._updateCount": 0
           }
         }
@@ -455,25 +449,18 @@
               "Component.Tag": 0,
               "Component.children": [],
               "Component.freeNotifies": null,
-              "SetupControl.CustomizeLeader": null,
-              "SetupControl.IncompatibleVersion": null,
-              "SetupControl.MapSent": null,
               "SetupControl.MapSetUp": null,
-              "SetupControl.OnLoadMap": null,
-              "SetupControl.PlayerEjected": null,
               "SetupControl.PlayerSetupCompleted": null,
               "SetupControl.RemotePlayer": null,
-              "SetupControl.SendData": null,
               "SetupControl.SendingMaps": null,
               "SetupControl.SettingChanged": null,
               "SetupControl.Settings": null,
-              "SetupControl.Start": null,
               "SetupControl.Status": 0,
               "SetupControl.Stream": null,
-              "SetupControl.Synchronize": null,
               "SetupControl._engine": null,
-              "SetupControl._onAbort": null,
+              "SetupControl._host": null,
               "SetupControl._phase": 0,
+              "SetupControl._transport": null,
               "SetupControl._updateCount": 0
             }
           }

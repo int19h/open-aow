@@ -229,7 +229,7 @@ public sealed class MapNetSoundConstructionTests
             6 => new TokenManager(null!),
             7 => new PlayerCommunicationControl(EngineFixture.Engine),
             8 => new PackageDataList(),
-            9 => new RemotePlayerCommunicationControl(EngineFixture.Engine),
+            9 => new RemotePlayerCommunicationControl(EngineFixture.Engine, sendData: (_, _) => false),
             10 => new LocalPlayerCommunicationControl(EngineFixture.Engine),
             11 => new TokenPackageDistributor(null!),
             12 => new SoundSystem(),
