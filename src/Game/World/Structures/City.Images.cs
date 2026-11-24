@@ -15,7 +15,7 @@ public partial class City
         UpdateVisibleForSeatedPlayer();
         Production.Activate();
         StrategicMap? map = StrategicMap.Current;
-        if (Player != -1)
+        if (Player is not null)
         {
             _ = map.Players.GetPlayers(Player).ProductionControls.Add(Production);
         }

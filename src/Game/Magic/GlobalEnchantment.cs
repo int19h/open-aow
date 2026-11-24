@@ -9,7 +9,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic;
@@ -26,7 +26,7 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
 
     public int DispelMana { get; set; }
     public GlobalEnchantmentType EnchantmentType { get; set; }
-    public sbyte PlayerIndex { get; set; }
+    public PlayerId? PlayerIndex { get; set; } = PlayerId.Independent;
     public string Name { get; set; } = "";
     public int EnchantmentManaUpkeep { get; set; }
 
@@ -36,7 +36,7 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
         base.PersistFields(persister);
         EnchantmentId = persister.Int32("EnchantmentId", value: EnchantmentId);
         EnchantmentType = persister.Enum("EnchantmentType", value: EnchantmentType);
-        PlayerIndex = (sbyte)persister.UnsignedByte(name: "PlayerIndex", value: PlayerIndex);
+        PlayerIndex = persister.OptionalPlayer(name: "PlayerIndex", value: PlayerIndex, width: IdWidth.UnsignedByte, fallback: 0);
         Name = persister.String("Name", value: Name);
         EnchantmentManaUpkeep = persister.Int32("EnchantmentManaUpkeep", value: EnchantmentManaUpkeep);
         DispelMana = persister.Int32("DispelMana", value: DispelMana);
@@ -76,10 +76,10 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
     public virtual int GetAIUpkeepPriority() => 0;
 
     // Spells.PAS:2563
-    public virtual bool CanDeactivate(byte player, ref string reason) => true;
+    public virtual bool CanDeactivate(PlayerId? player, ref string reason) => true;
 
     // Spells.PAS:2565
-    public virtual bool Deactivate(byte player)
+    public virtual bool Deactivate(PlayerId? player)
     {
         EnchantmentStatus &= ~GlobalEnchantmentStatuses.Activated;
         if (EnchantmentMode.Contains(GlobalEnchantmentModes.Owned))
@@ -102,7 +102,7 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
     }
 
     // Spells.PAS:2536
-    public virtual bool CanActivate(sbyte player, ref string reason)
+    public virtual bool CanActivate(PlayerId? player, ref string reason)
     {
         if (EnchantmentType != GlobalEnchantmentType.None && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(EnchantmentType.ToFlag()))
         {
@@ -117,7 +117,7 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
     }
 
     // Spells.PAS:2550
-    public virtual bool Activate(sbyte player)
+    public virtual bool Activate(PlayerId? player)
     {
         PlayerIndex = player;
         EnchantmentStatus |= GlobalEnchantmentStatuses.Activated;
@@ -142,10 +142,10 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
     }
 
     // Spells.PAS:2575
-    public virtual bool CanCast(sbyte player, ref string reason) => CanActivate(player, ref reason);
+    public virtual bool CanCast(PlayerId? player, ref string reason) => CanActivate(player, ref reason);
 
     // Spells.PAS:2577
-    public virtual bool Cast(sbyte player)
+    public virtual bool Cast(PlayerId? player)
     {
         bool result;
         string reason = "";
@@ -174,25 +174,25 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
     }
 
     // Spells.PAS:2597
-    public virtual bool CanDispel(sbyte player, ref string reason) => CanDeactivate((byte)player, ref reason);
+    public virtual bool CanDispel(PlayerId? player, ref string reason) => CanDeactivate(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player)), ref reason);
 
     // Spells.PAS:2599
-    public virtual bool Dispel(byte player)
+    public virtual bool Dispel(PlayerId? player)
     {
         bool result;
         string reason = "";
-        if (CanDispel((sbyte)player, ref reason))
+        if (CanDispel(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(player)), ref reason))
         {
             _ = AddRef();
             MapCoordinate location = GetLocation();
             for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
             {
-                if (VisibleForPlayer((sbyte)i))
+                if (VisibleForPlayer(PlayerId.FromOriginal((sbyte)i)))
                 {
                     GlobalEnchantmentEventLog log = new(null)
                     {
                         Holder = CreationHolder(),
-                        Player = (sbyte)player,
+                        Player = PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(player)),
                         EnchantmentPlayer = PlayerIndex
                     };
                     log.SetLocation(location);
@@ -215,20 +215,20 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
     }
 
     // Spells.PAS:2626
-    public virtual bool CanRemove(sbyte player, ref string reason) => player == PlayerIndex && CanDeactivate((byte)PlayerIndex, ref reason);
+    public virtual bool CanRemove(PlayerId? player, ref string reason) => player == PlayerIndex && CanDeactivate(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(PlayerIndex)), ref reason);
 
     // Spells.PAS:2631
-    public virtual bool Remove(byte player)
+    public virtual bool Remove(PlayerId? player)
     {
         bool result;
         string reason = "";
-        if (CanRemove((sbyte)player, ref reason))
+        if (CanRemove(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(player)), ref reason))
         {
             _ = AddRef();
             MapCoordinate location = GetLocation();
             for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
             {
-                if (VisibleForPlayer((sbyte)i))
+                if (VisibleForPlayer(PlayerId.FromOriginal((sbyte)i)))
                 {
                     GlobalEnchantmentEventLog log = new(null)
                     {
@@ -244,7 +244,7 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
                 }
             }
 
-            result = Deactivate((byte)PlayerIndex);
+            result = Deactivate(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(PlayerIndex)));
             _ = Release();
         }
         else
@@ -256,7 +256,7 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
     }
 
     // Spells.PAS:2507
-    public virtual bool VisibleForPlayer(sbyte player)
+    public virtual bool VisibleForPlayer(PlayerId? player)
     {
         if (!EnchantmentMode.Contains(GlobalEnchantmentModes.TrueGlobal) && player != PlayerIndex)
         {

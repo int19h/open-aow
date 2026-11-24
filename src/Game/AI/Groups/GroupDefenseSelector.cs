@@ -40,7 +40,7 @@ public sealed class GroupDefenseSelector : IDisposable
     public void Dispose() => Defenders?.Dispose();
 
     // AIGroup.pas:1652
-    public bool GetDefenders(sbyte player, int X, int Y, int L, UnitUserList units)
+    public bool GetDefenders(PlayerId? player, int X, int Y, int L, UnitUserList units)
     {
         bool result = false;
         MapCoordinate location = new((sbyte)X, (sbyte)Y, (sbyte)L);

@@ -64,8 +64,8 @@ public sealed class PlayerDiplomaticRelations : EngineObject
                 for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                 {
                     // { The loop index supplies the player. }
-                    DiplomaticRelation diplomaticRelation = GetDiplomaticRelation((sbyte)i);
-                    GetHistory((sbyte)i).Add(diplomaticRelation, day: 0);
+                    DiplomaticRelation diplomaticRelation = GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)i));
+                    GetHistory(PlayerId.FromOriginal((sbyte)i)).Add(diplomaticRelation, day: 0);
                 }
             }
             else
@@ -75,7 +75,7 @@ public sealed class PlayerDiplomaticRelations : EngineObject
                     for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                     {
                         DiplomaticRelation diplomaticRelation = Player.LegacyRelations.GetDiplomaticRelation(i);
-                        GetHistory((sbyte)i).Add(diplomaticRelation, day: 0);
+                        GetHistory(PlayerId.FromOriginal((sbyte)i)).Add(diplomaticRelation, day: 0);
                     }
 
                     Player.LegacyRelations.Clear();
@@ -85,12 +85,12 @@ public sealed class PlayerDiplomaticRelations : EngineObject
     }
 
     // Player.PAS:100
-    public DiplomaticRelation GetDiplomaticRelation(sbyte player) => player < _relations.Count ? (DiplomaticRelation)_relations.List[player] : DiplomaticRelation.Unknown;
+    public DiplomaticRelation GetDiplomaticRelation(PlayerId? player) => PlayerIdExtensions.ToOriginal(player) < _relations.Count ? (DiplomaticRelation)_relations.List[PlayerIdExtensions.ToOriginal(player)] : DiplomaticRelation.Unknown;
 
     // Player.PAS:107
-    public void SetDiplomaticRelation(sbyte player, DiplomaticRelation value)
+    public void SetDiplomaticRelation(PlayerId? player, DiplomaticRelation value)
     {
-        _relations[player] = (byte)value;
+        _relations[PlayerIdExtensions.ToOriginal(player)] = (byte)value;
         if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && StrategicMap.Current.Day > 0)
         {
             GetHistory(player).Add(value, StrategicMap.Current.Day);
@@ -98,7 +98,7 @@ public sealed class PlayerDiplomaticRelations : EngineObject
     }
 
     // Player.PAS:114
-    public DiplomaticRelationHistoryList GetHistory(sbyte player) => _history.GetChild<DiplomaticRelationHistoryList>(player - 1);
+    public DiplomaticRelationHistoryList GetHistory(PlayerId? player) => _history.GetChild<DiplomaticRelationHistoryList>(PlayerIdExtensions.ToOriginal(player) - 1);
 
     // Player.PAS:119
     public void ValidateHistory()

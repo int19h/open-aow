@@ -30,7 +30,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     public int Day { get; set; } = StrategicMap.Current is { } map ? map.Day : 0;
     public int Id { get; set; }
 
-    public sbyte Player { get; set; } = StrategicMap.Current is { } map ? map.CurrentPlayer : (sbyte)0;
+    public PlayerId? Player { get; set; } = StrategicMap.Current is { } map ? map.CurrentPlayer : PlayerId.Independent;
 
     public int RefCount { get; private set; }
 
@@ -54,7 +54,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     {
         base.PersistFields(persister);
         Day = persister.Int32("Day", value: Day);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         Id = persister.Int32("Id", value: Id);
     }
 
@@ -84,11 +84,11 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     // EventLog.pas:376
     public virtual Color GetTextColor()
     {
-        bool condition = Player > 0;
+        bool condition = PlayerIdExtensions.ToOriginal(Player) > 0;
         if (condition)
         {
             int count = StrategicMap.Current.Players.GetCount();
-            condition = Player < count;
+            condition = PlayerIdExtensions.ToOriginal(Player) < count;
         }
 
         int index = condition ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : 12;
@@ -101,11 +101,11 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     {
         get
         {
-            bool condition = Player > 0;
+            bool condition = PlayerIdExtensions.ToOriginal(Player) > 0;
             if (condition)
             {
                 int count = StrategicMap.Current.Players.GetCount();
-                condition = Player < count;
+                condition = PlayerIdExtensions.ToOriginal(Player) < count;
             }
 
             return condition ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : 12;
@@ -185,7 +185,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
             {
                 EventLog copyLog = log.Copy<EventLog>(log.GetEngine());
                 player.EventLogbook.AddEvent(copyLog);
-                if (i == StrategicMap.Current.SeatedPlayer && execute)
+                if (i == PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) && execute)
                 {
                     _ = copyLog.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                 }
@@ -195,16 +195,16 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         }
     }
 
-    internal static void DistributeLocationEventLog(EventLog log, sbyte player, int x, int y, sbyte level, bool execute)
+    internal static void DistributeLocationEventLog(EventLog log, PlayerId? player, int x, int y, sbyte level, bool execute)
     {
         for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
         {
             Player? targetPlayer = StrategicMap.Current.Players.GetPlayers(i);
-            if (targetPlayer.Status == PlayerStatus.Playing && (i == player || !StrategicMap.Current.FoggedForPlayer(x, y, L: level, player: (sbyte)i)))
+            if (targetPlayer.Status == PlayerStatus.Playing && (i == PlayerIdExtensions.ToOriginal(player) || !StrategicMap.Current.FoggedForPlayer(x, y, L: level, player: PlayerId.FromOriginal((sbyte)i))))
             {
                 EventLog copyLog = log.Copy<EventLog>(log.GetEngine());
                 targetPlayer.EventLogbook.AddEvent(copyLog);
-                if (i == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human && execute)
+                if (i == PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) && StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human && execute)
                 {
                     _ = copyLog.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                 }

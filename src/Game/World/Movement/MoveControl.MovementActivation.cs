@@ -63,7 +63,7 @@ public partial class MoveControl
         TransporterArmy = Settings.TransporterArmy;
         _processedMapFields = Settings.ProcessedMapFields;
         SetMapL(Map.MapContainer.GetMapLevel(Source.MapLevel));
-        if (Mode.Contains(MoveModes.ExploredTerrainOnly) && Player != -1)
+        if (Mode.Contains(MoveModes.ExploredTerrainOnly) && Player is not null)
         {
             _movePoint = ExploredOnlyMoveOnMovePointProc;
             _exploredMask = MapField.ExploredFlag(Player);

@@ -7,7 +7,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Combat;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
@@ -97,7 +97,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
         {
             if (message.MessageId == 537001986)
             {
-                TriggerNewTurn((sbyte)message.Payload.Int);
+                TriggerNewTurn(PlayerId.FromInt32((sbyte)message.Payload.Int));
             }
         }
     }
@@ -563,7 +563,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
     }
 
     // Ability.PAS:1977
-    public void TriggerNewTurn(sbyte player)
+    public void TriggerNewTurn(PlayerId player)
     {
         for (int i = 0, last = OwnAbilityCount - 1; i <= last; i++)
         {
@@ -575,7 +575,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
     }
 
     // Ability.PAS:1984
-    public void TriggerNewCombatTurn(CombatObject combat, sbyte player)
+    public void TriggerNewCombatTurn(CombatObject combat, PlayerId player)
     {
         for (int i = 0, last = OwnAbilityCount - 1; i <= last; i++)
         {

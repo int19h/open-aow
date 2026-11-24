@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -34,7 +34,7 @@ public class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
     }
 
     // FlagEvents.pas:204
-    public override bool Trigger(sbyte player)
+    public override bool Trigger(PlayerId? player)
     {
         if (StrategicMap.Current.SeatedPlayer == player)
         {

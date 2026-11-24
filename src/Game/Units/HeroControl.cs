@@ -6,7 +6,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -256,7 +256,7 @@ public sealed class HeroControl : EngineObject
         for (int i = _heroes.Count - 1; i >= 0; i--)
         {
             Hero hero = _heroes[i];
-            if (!hero.HeroStatus.Contains(HeroStatuses.Died) && hero.Player <= 0)
+            if (!hero.HeroStatus.Contains(HeroStatuses.Died) && PlayerIdExtensions.ToOriginal(hero.Player) <= 0)
             {
                 result += hero.GetLevel();
                 count += 1;
@@ -273,7 +273,7 @@ public sealed class HeroControl : EngineObject
         for (int i = _heroes.Count - 1; i >= 0; i--)
         {
             Hero hero = _heroes[i];
-            if (!hero.HeroStatus.Contains(HeroStatuses.Died) && hero.Player <= 0 && result > hero.GetLevel())
+            if (!hero.HeroStatus.Contains(HeroStatuses.Died) && PlayerIdExtensions.ToOriginal(hero.Player) <= 0 && result > hero.GetLevel())
             {
                 result = hero.GetLevel();
             }

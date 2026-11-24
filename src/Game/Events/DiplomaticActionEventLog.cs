@@ -59,11 +59,11 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
         int race;
         if (Action.Proposal.SignedAsOtherPlayer)
         {
-            bool condition = Action.OtherPlayer > 0;
+            bool condition = PlayerIdExtensions.ToOriginal(Action.OtherPlayer) > 0;
             if (condition)
             {
                 int count = StrategicMap.Current.Players.Count;
-                condition = Action.OtherPlayer < count;
+                condition = PlayerIdExtensions.ToOriginal(Action.OtherPlayer) < count;
             }
 
             race = condition ? StrategicMap.Current.Players.GetPlayers(Action.OtherPlayer).PlayerRace : 12;
@@ -74,11 +74,11 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
         {
             if (Action.Reaction == DiplomaticActionReaction.Accept)
             {
-                bool condition = Action.Target > 0;
+                bool condition = PlayerIdExtensions.ToOriginal(Action.Target) > 0;
                 if (condition)
                 {
                     int count = StrategicMap.Current.Players.Count;
-                    condition = Action.Target < count;
+                    condition = PlayerIdExtensions.ToOriginal(Action.Target) < count;
                 }
 
                 race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Target).PlayerRace : 12;
@@ -89,11 +89,11 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
             {
                 if (StrategicMap.Current.SeatedPlayer != Action.Source)
                 {
-                    bool condition = Action.Source > 0;
+                    bool condition = PlayerIdExtensions.ToOriginal(Action.Source) > 0;
                     if (condition)
                     {
                         int count = StrategicMap.Current.Players.Count;
-                        condition = Action.Source < count;
+                        condition = PlayerIdExtensions.ToOriginal(Action.Source) < count;
                     }
 
                     race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Source).PlayerRace : 12;
@@ -102,11 +102,11 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
                 }
                 else
                 {
-                    bool condition = Action.Target > 0;
+                    bool condition = PlayerIdExtensions.ToOriginal(Action.Target) > 0;
                     if (condition)
                     {
                         int count = StrategicMap.Current.Players.Count;
-                        condition = Action.Target < count;
+                        condition = PlayerIdExtensions.ToOriginal(Action.Target) < count;
                     }
 
                     race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Target).PlayerRace : 12;
@@ -125,22 +125,22 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
             DiplomaticAction? action = Action;
             if (!action.Proposal.SignedAsOtherPlayer)
             {
-                bool condition = action.Source > 0;
+                bool condition = PlayerIdExtensions.ToOriginal(action.Source) > 0;
                 if (condition)
                 {
                     int count = StrategicMap.Current.Players.Count;
-                    condition = action.Source < count;
+                    condition = PlayerIdExtensions.ToOriginal(action.Source) < count;
                 }
 
                 return condition ? StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace : -1;
             }
             else
             {
-                bool condition = action.OtherPlayer > 0;
+                bool condition = PlayerIdExtensions.ToOriginal(action.OtherPlayer) > 0;
                 if (condition)
                 {
                     int count = StrategicMap.Current.Players.Count;
-                    condition = action.OtherPlayer < count;
+                    condition = PlayerIdExtensions.ToOriginal(action.OtherPlayer) < count;
                 }
 
                 return condition ? StrategicMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerRace : -1;
@@ -155,11 +155,11 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
         get
         {
             DiplomaticAction? action = Action;
-            bool condition = action.Target > 0;
+            bool condition = PlayerIdExtensions.ToOriginal(action.Target) > 0;
             if (condition)
             {
                 int count = StrategicMap.Current.Players.Count;
-                condition = action.Target < count;
+                condition = PlayerIdExtensions.ToOriginal(action.Target) < count;
             }
 
             return condition ? StrategicMap.Current.Players.GetPlayers(action.Target).PlayerRace : -1;

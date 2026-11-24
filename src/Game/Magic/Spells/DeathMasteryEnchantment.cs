@@ -37,7 +37,7 @@ public class DeathMasteryEnchantment : GlobalEnchantment
             {
                 if (StrategicMap.Current.Players.GetPlayers(message.Payload.Int).MagicControl.EnemyEnchantments.Contains(PlayerEnchantmentTypes.DeathMastery))
                 {
-                    NewTurn((sbyte)message.Payload.Int);
+                    NewTurn(PlayerId.FromOriginal((sbyte)message.Payload.Int));
                 }
             }
         }
@@ -47,7 +47,7 @@ public class DeathMasteryEnchantment : GlobalEnchantment
     public override int GetAIUpkeepPriority() => 1_250;
 
     // GlobalEnchantmentSpells.pas:1509
-    public override bool Deactivate(byte player)
+    public override bool Deactivate(PlayerId? player)
     {
         _ = base.Deactivate(player);
         // { Original doubles Life. }
@@ -60,7 +60,7 @@ public class DeathMasteryEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1489
-    public override bool CanActivate(sbyte player, ref string reason)
+    public override bool CanActivate(PlayerId? player, ref string reason)
     {
         bool result = base.CanActivate(player, ref reason);
         if (result)
@@ -78,7 +78,7 @@ public class DeathMasteryEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1500
-    public override bool Activate(sbyte player)
+    public override bool Activate(PlayerId? player)
     {
         _ = base.Activate(player);
         // { Original doubles Life. }
@@ -89,7 +89,7 @@ public class DeathMasteryEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1522
-    public void NewTurn(sbyte player)
+    public void NewTurn(PlayerId? player)
     {
         byte[] flags = [];
         int mask = MapField.ExploredFlag(player);

@@ -108,7 +108,7 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     public PlayerSetupSettings? GetSettings(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // AoWSetup.pas:366
-    public int IndexOfPlayer(byte player)
+    public int IndexOfPlayer(PlayerId player)
     {
         int result = -1;
         int i = 0;

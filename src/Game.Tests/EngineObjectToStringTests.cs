@@ -25,11 +25,19 @@ public sealed class EngineObjectToStringTests
     [Fact]
     public void UnitAndArmyUseStableIdsAndGuardMissingResources()
     {
-        Unit unit = new(null) { UnitId = 7, Player = 2 };
+        Unit unit = new(null) { UnitId = 7, Player = PlayerId.Player2 };
         Assert.Equal("Unit#7 P2 no-resource", unit.ToString());
+        unit.Player = null;
+        Assert.Equal("Unit#7 P-1 no-resource", unit.ToString());
+        unit.Player = PlayerId.Independent;
+        Assert.Equal("Unit#7 P0 no-resource", unit.ToString());
 
-        Army army = new(null) { Player = 1, Status = ArmyStatuses.Selected };
+        Army army = new(null) { Player = PlayerId.Player1, Status = ArmyStatuses.Selected };
         Assert.Equal("Army P1 status=Selected", army.ToString());
+        army.Player = null;
+        Assert.Equal("Army P-1 status=Selected", army.ToString());
+        army.Player = PlayerId.Independent;
+        Assert.Equal("Army P0 status=Selected", army.ToString());
     }
 
     [Fact]
@@ -40,16 +48,20 @@ public sealed class EngineObjectToStringTests
 
         Player player = (Player)RuntimeHelpers.GetUninitializedObject(typeof(Player));
         player.Name = "Merlin";
-        player.PlayerIndex = 0;
+        player.PlayerIndex = PlayerId.Independent;
         player.PlayerType = PlayerType.Human;
         Assert.Equal("Player Merlin idx=0 Human", player.ToString());
+        player.PlayerIndex = null;
+        Assert.Equal("Player Merlin idx=-1 Human", player.ToString());
     }
 
     [Fact]
     public void CityAndMapObjectGuardAnAbsentOwner()
     {
-        City city = (City)RuntimeHelpers.GetUninitializedObject(typeof(City));
-        Assert.Equal("City <no name> P0 no-owner", city.ToString());
+        City city = new(null!, holder: EngineFixture.Engine);
+        Assert.Equal("City Noname P0 no-owner", city.ToString());
+        city.Player = null;
+        Assert.Equal("City Noname P-1 no-owner", city.ToString());
 
         MapObject mapObject = new(null);
         string text = mapObject.ToString();

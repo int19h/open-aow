@@ -40,7 +40,7 @@ public sealed partial class PersistEquivalenceTests
     {
         DiplomaticProposal proposal = DiplomaticProposal.FromFields(kind.TruncateToByte(), gold: gold, mana: mana) with { Message = ["Hail", "Neighbor"] };
         SchemaClass classValue = s_schema.Get("DiplomaticAction");
-        DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Proposal = proposal, Source = 1, Target = 2, OtherPlayer = 3, Day = 9 };
+        DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Proposal = proposal, Source = PlayerId.Player1, Target = PlayerId.Player2, OtherPlayer = PlayerId.Player3, Day = 9 };
         JsonObject document = DocumentBackend.Write(TreeWriter.Write(action, factory: Factory), classValue: classValue, schema: s_schema, engine: "game");
         _ = Assert.IsType<JsonString>(document["$case"]);
         Check("DiplomaticAction", objectValue: action);
@@ -93,7 +93,7 @@ public sealed partial class PersistEquivalenceTests
             using Player viaPersist = NewPlayer(index: -1);
             Load(viaReadWrite, image: image);
             TreeReader.Read(OriginalBackend.Read(image, classValue: s_schema.Get("Player"), schema: s_schema, engine: "game"), objectValue: viaPersist, factory: Factory);
-            Assert.Equal(0, viaPersist.PlayerIndex);
+            Assert.Equal(0, PlayerIdExtensions.ToOriginal(viaPersist.PlayerIndex));
             Assert.NotEqual("Setup", viaPersist.LeaderSetup.HeroName);
             EqualBytes(Image(viaReadWrite), actual: Image(viaPersist), label: "Player 0 read");
         });
@@ -108,7 +108,7 @@ public sealed partial class PersistEquivalenceTests
     {
         WithDestroyingMap(map =>
         {
-            map.SeatedPlayer = 2;
+            map.SeatedPlayer = PlayerId.Player2;
             if (network)
             {
                 map.ConnectionType = PlayerConnectionType.Network;
@@ -373,7 +373,7 @@ public sealed partial class PersistEquivalenceTests
                 ["pages.ilb"] = "seiten.ilb",
                 ["bell.wav"] = "glocke.wav",
             };
-            map.SeatedPlayer = 2;
+            map.SeatedPlayer = PlayerId.Player2;
             using Player player = NewPlayer(index: 2);
             player.Settings = "Easy";
             player.View = player.View with { X = 7 };
@@ -452,7 +452,7 @@ public sealed partial class PersistEquivalenceTests
         {
             using SetupSettings settings = new(null) { Holder = EngineFixture.Engine, MapName = "Islands", FileName = "islands.hsm", RandomSeed = 77, DayLimit = 40 };
             new RemotePlayer(null) { Holder = EngineFixture.Engine, Name = "Host", RemoteId = 5, Version = 136 }.SetOwner(settings.RemotePlayers);
-            new PlayerSetupSettings(null) { Holder = EngineFixture.Engine, PlayerId = 1, Race = 3 }.SetOwner(settings);
+            new PlayerSetupSettings(null) { Holder = EngineFixture.Engine, PlayerId = PlayerId.Player1, Race = 3 }.SetOwner(settings);
             using SetupPackage package = new(null) { Holder = EngineFixture.Engine, MessageId = 5, Param1 = 2, Param2 = 9 };
             package.Data = settings.Copy(EngineFixture.Engine);
             using MemoryStream memory = new();
@@ -464,7 +464,7 @@ public sealed partial class PersistEquivalenceTests
             SetupSettings data = Assert.IsType<SetupSettings>(received.Data);
             Assert.Equal(("Islands", "islands.hsm", 77, 40), (data.MapName, data.FileName, data.RandomSeed, data.DayLimit));
             Assert.Equal(("Host", 5, 136), (data.RemotePlayers[0].Name, data.RemotePlayers[0].RemoteId, data.RemotePlayers[0].Version));
-            Assert.Equal((byte)1, ((PlayerSetupSettings)data.GetChild(0)).PlayerId);
+            Assert.Equal((byte)1, (byte)PlayerIdExtensions.ToOriginal(((PlayerSetupSettings)data.GetChild(0)).PlayerId));
             Assert.True(package.Compare(received, engine: EngineFixture.Engine));
             using MemoryStream again = new();
             EngineFixture.Engine.StoreEngineObject(again, objectValue: received, progress: null);
@@ -495,8 +495,8 @@ public sealed partial class PersistEquivalenceTests
             {
                 Holder = EngineFixture.Engine,
                 Proposal = DiplomaticProposal.FromFields(1, gold: 100, mana: 20) with { Message = ["Hail", "Neighbor"] },
-                Source = 1,
-                Target = 2,
+                Source = PlayerId.Player1,
+                Target = PlayerId.Player2,
                 Day = 9,
             };
             using MemoryStream memory = new();
@@ -505,7 +505,7 @@ public sealed partial class PersistEquivalenceTests
             using DiplomaticActionTokenEvent received = Assert.IsType<DiplomaticActionTokenEvent>(EngineFixture.Engine.RetrieveEngineObject(memory, progress: null));
             Assert.Equal(3, received.Operation);
             Assert.Equal(tokenEvent.Action.Proposal, received.Action.Proposal);
-            Assert.Equal(((sbyte)1, (sbyte)2, 9), (received.Action.Source, received.Action.Target, received.Action.Day));
+            Assert.Equal(((sbyte)1, (sbyte)2, 9), ((sbyte)PlayerIdExtensions.ToOriginal(received.Action.Source), (sbyte)PlayerIdExtensions.ToOriginal(received.Action.Target), received.Action.Day));
             EqualBytes(Image(tokenEvent.Action), actual: Image(received.Action), label: "diplomatic action received");
         }
         finally
@@ -518,7 +518,7 @@ public sealed partial class PersistEquivalenceTests
     }
 
     private static Player NewPlayer(int index)
-        => new(null) { Holder = EngineFixture.Engine, PlayerIndex = (sbyte)index };
+        => new(null) { Holder = EngineFixture.Engine, PlayerIndex = PlayerId.FromOriginal((sbyte)index) };
 
     // A preview load, as a preview reads a map.
     private static void LoadPreview(EngineObject objectValue, byte[] image) => TreeReader.Read(node: OriginalBackend.Read(classValue: s_schema.Get(Factory.ClassName(objectValue)), image: image, schema: s_schema, engine: "game"), objectValue: objectValue, factory: Factory, preview: true);

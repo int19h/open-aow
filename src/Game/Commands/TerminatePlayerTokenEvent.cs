@@ -15,7 +15,7 @@ public class TerminatePlayerTokenEvent(CustomNode? owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131_836;
 
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
 
     public ExitGameCallBack? ExitCallback { get; init; }
     public ExitGameMode ExitMode { get; init; }
@@ -24,7 +24,7 @@ public class TerminatePlayerTokenEvent(CustomNode? owner) : TokenEvent(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
     }
 
     // MoveT.PAS:3255
@@ -32,8 +32,8 @@ public class TerminatePlayerTokenEvent(CustomNode? owner) : TokenEvent(owner)
     {
         StrategicMap.Current.Players.GetPlayers(Player).PlayerType = PlayerType.Cpu3;
         RemotePlayerCommunicationControl? remotePlayerCommunicationControl = (RemotePlayerCommunicationControl?)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
-        remotePlayerCommunicationControl.SetConnectionMode(Player, mode: ConnectionMode.Global);
-        remotePlayerCommunicationControl.SetSystemId(Player, systemId: 0);
+        remotePlayerCommunicationControl.SetConnectionMode(PlayerIdExtensions.ToOriginal(Player), mode: ConnectionMode.Global);
+        remotePlayerCommunicationControl.SetSystemId(PlayerIdExtensions.ToOriginal(Player), systemId: 0);
 
         if (!StrategicMap.Current.Players.GetPlayers(Player).SingleProcessCycle)
         {

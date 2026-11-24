@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -28,7 +28,7 @@ public sealed partial class CityProductionControl(CustomNode? owner) : Productio
         City.HexLevel);
 
     // City.pas:707
-    public override sbyte GetPlayer() => City.Player;
+    public override PlayerId? GetPlayer() => City.Player;
 
     // City.pas:675
     public override bool UnitProduced()

@@ -25,9 +25,9 @@ public class NegotiateTokenEvent(CustomNode? owner) : TokenEvent(owner)
     public NegotiateOffer Offer { get; set; }
     public MapCoordinate Location { get; set; }
     public ArmyId? ArmyId { get; set; }
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
 
-    private byte _ownerPlayer;
+    private PlayerId? _ownerPlayer = PlayerId.Independent;
 
     public ArmyHexSprite? ArmyHexSprite { get; private set; }
 
@@ -56,8 +56,8 @@ public class NegotiateTokenEvent(CustomNode? owner) : TokenEvent(owner)
         Gold = persister.Int32("Gold", value: Gold);
         Offer = persister.Enum("Offer", value: Offer);
         Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Byte);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
-        _ownerPlayer = persister.Byte("OwnerPlayer", value: _ownerPlayer);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
+        _ownerPlayer = persister.OptionalPlayer("OwnerPlayer", value: _ownerPlayer, width: IdWidth.Byte, fallback: 0);
         Object = persister.Enum("Object", value: Object);
         MovePoints = persister.Int32("MovePoints", value: MovePoints);
         // Delphi TNegotiateTE.FData1 and FData2 (ids 39 and 40) are always 0 (omitted) and never read.
@@ -102,7 +102,7 @@ public class NegotiateTokenEvent(CustomNode? owner) : TokenEvent(owner)
             result = true;
         }
 
-        return result && Location.X != -1 && (byte)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetPlayer() == _ownerPlayer;
+        return result && Location.X != -1 && (byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetPlayer()) == (byte)PlayerIdExtensions.ToOriginal(_ownerPlayer);
     }
 
     // Diplomacy.pas:192

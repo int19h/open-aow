@@ -3,7 +3,7 @@
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Events;
@@ -13,13 +13,13 @@ public class GlobalEnchantmentEventLog(CustomNode owner) : LocationTextEventLog(
 {
     public new const int ClassId = 131_819;
 
-    public sbyte EnchantmentPlayer { get; set; }
+    public PlayerId? EnchantmentPlayer { get; set; } = PlayerId.Independent;
 
     // Spells.PAS:2660
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        EnchantmentPlayer = (sbyte)persister.UnsignedByte(name: "EnchantmentPlayer", value: EnchantmentPlayer);
+        EnchantmentPlayer = persister.OptionalPlayer(name: "EnchantmentPlayer", value: EnchantmentPlayer, width: IdWidth.UnsignedByte, fallback: 0);
     }
 
     // Spells.PAS:2665
@@ -27,7 +27,7 @@ public class GlobalEnchantmentEventLog(CustomNode owner) : LocationTextEventLog(
     {
         get
         {
-            sbyte player = EnchantmentPlayer;
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(EnchantmentPlayer);
             return player > 0 && StrategicMap.Current.Players.GetCount() > player
                 ? StrategicMap.Current.Players.GetPlayers(EnchantmentPlayer).PlayerRace
                 : 12;

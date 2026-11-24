@@ -9,6 +9,7 @@ using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -24,7 +25,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     // PoisonC.pas:64
     public new const int ClassId = 135_743;
 
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
     public int TurnsRemaining { get; set; }
 
     private bool _drifting;
@@ -35,7 +36,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         TurnsRemaining = persister.Int32("TurnsRemaining", value: TurnsRemaining);
         _drifting = persister.Boolean("Drifting", value: _drifting);
         _direction = persister.Byte("Direction", value: _direction.TruncateToByte());
@@ -45,13 +46,13 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
-        if (message.MessageId == 537001986 && message.Payload.Int == Player && !_updated)
+        if (message.MessageId == 537001986 && message.Payload.Int == PlayerIdExtensions.ToOriginal(Player) && !_updated)
         {
             UpdateCloud();
             return;
         }
 
-        if (message.MessageId == 537001987 && message.Payload.Int == Player)
+        if (message.MessageId == 537001987 && message.Payload.Int == PlayerIdExtensions.ToOriginal(Player))
         {
             _updated = false;
         }
@@ -209,7 +210,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         param[0] = (int)StormType.Pestilence;
         message.Param = param;
         MapFieldMessageParameters param2 = message.Param;
-        param2[2] = Player;
+        param2[2] = Session.MsgArgIds.FromPlayer(Player);
         message.Param = param2;
         ref HexNumberWalkData walk = ref hexNumberWalkData;
         while (base.Resource.TerrainList.Count > walk.HexNumber)

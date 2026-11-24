@@ -12,7 +12,7 @@ public class InitializeAIPlayerAction(CustomNode owner) : AIPlayerAction(owner),
     public override bool Process()
     {
         Control.Player.AIBudget.UpdateBudgets();
-        if (Control.Player.PlayerIndex != 0)
+        if (Control.Player.PlayerIndex != PlayerId.Independent)
         {
             Control.UpdateSkirmishGroups();
         }

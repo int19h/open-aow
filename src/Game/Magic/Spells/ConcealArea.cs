@@ -51,7 +51,7 @@ public class ConcealArea : Spell
         {
             MapLevel level = StrategicMap.Current.MapContainer.MapLevels[layer];
             LocationTextEventLog? log;
-            if (StrategicMap.Current.Players.GetDiplomaticRelation(source.Player, otherPlayer: (sbyte)player) == DiplomaticRelation.War && player != source.Player)
+            if (StrategicMap.Current.Players.GetDiplomaticRelation(source.Player, otherPlayer: PlayerId.FromOriginal((sbyte)player)) == DiplomaticRelation.War && player != PlayerIdExtensions.ToOriginal(source.Player))
             {
                 log = null;
                 HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 0);
@@ -60,9 +60,9 @@ public class ConcealArea : Spell
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                     {
                         MapField mapField = level.GetField(walk.X, walk.Y);
-                        if (mapField.GetExplored(player) && !StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, layer, player: (sbyte)player))
+                        if (mapField.GetExplored(PlayerId.FromOriginal(player)) && !StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, layer, player: PlayerId.FromOriginal((sbyte)player)))
                         {
-                            mapField.SetExplored(player, value: false);
+                            mapField.SetExplored(PlayerId.FromOriginal(player), value: false);
                             if (log is null)
                             {
                                 log = new LocationTextEventLog(null)
@@ -84,7 +84,7 @@ public class ConcealArea : Spell
             }
             else
             {
-                if (StrategicMap.Current.VisibleForPlayer(x, y, layer, player: (sbyte)player))
+                if (StrategicMap.Current.VisibleForPlayer(x, y, layer, player: PlayerId.FromOriginal((sbyte)player)))
                 {
                     log = new LocationTextEventLog(null)
                     {
@@ -115,7 +115,7 @@ public class ConcealArea : Spell
             bool war = false;
             for (int player = 1, last = StrategicMap.Current.Players.Count - 1; player <= last; player++)
             {
-                war = war || StrategicMap.Current.Players.GetPlayers(source.Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.War;
+                war = war || StrategicMap.Current.Players.GetPlayers(source.Player).DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)player)) == DiplomaticRelation.War;
             }
 
             if (!war)
@@ -137,7 +137,7 @@ public class ConcealArea : Spell
         if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+            eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;

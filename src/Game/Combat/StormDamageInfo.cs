@@ -8,7 +8,7 @@ namespace Aow.Game.Combat;
 // Each set keeps the width of its Delphi set: a value is cut to that width when it is assigned.
 public struct StormDamageInfo
 {
-    public sbyte Player { get; internal set; }
+    public PlayerId Player { get; internal set; }
     public sbyte IndependentRelation { get; }
 
     public readonly DiplomaticRelations FriendlyRelations { get; init; }

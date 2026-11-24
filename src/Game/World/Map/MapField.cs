@@ -6,6 +6,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Magic;
+using Aow.Game.Session;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
@@ -402,7 +403,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public const int AITargetFlag = 0x0800_0000;
 
     // The explored bit of a player, as SetExplored shifts it (AoWHSMap.PAS:46).
-    public static int ExploredFlag(int player) => 1 << ((player - 1) & 0b0001_1111);
+    public static int ExploredFlag(PlayerId? player) => 1 << ((PlayerIdExtensions.ToOriginal(player) - 1) & 0b0001_1111);
 
     // Byte 2 of the flags: how many unfogged areas cover the field. FogArea counts it down and
     // UnFogArea up, and zero is fogged (AoWHSMap.PAS:247 and 265, WordRec(LongRec(FFieldFlags).Hi).Lo).
@@ -435,7 +436,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // AoWHSMap.PAS:90
-    public sbyte GetPlayer()
+    public PlayerId? GetPlayer()
     {
         MapFieldMessage message = default;
         if ((FieldFlags & OwnerFlag) != 0)
@@ -443,11 +444,11 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             message.MessageId = 4352;
             message.Result = -1;
             SendMapFieldMessage(ref message);
-            return (sbyte)message.Result.Int;
+            return PlayerId.FromOriginal((sbyte)message.Result.Int);
         }
         else
         {
-            return -1;
+            return null;
         }
     }
 
@@ -511,12 +512,12 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // AoWHSMap.PAS:165
-    public MoveAction GetMoveAction(sbyte player)
+    public MoveAction GetMoveAction(PlayerId? player)
     {
         MapFieldMessage message = default;
         message.MessageId = 4353;
         MapFieldMessageParameters param = message.Param;
-        param[0] = player;
+        param[0] = Session.MsgArgIds.FromPlayer(player);
         message.Param = param;
         MapFieldMessageParameters param2 = message.Param;
         param2[1] = 0;
@@ -574,16 +575,16 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         SendMapFieldMessage(ref message);
     }
 
-    public bool GetExplored(int player)
+    public bool GetExplored(PlayerId? player)
     {
-        int count = player & 31;
+        int count = PlayerIdExtensions.ToOriginal(player) & 31;
         return count == 0 || ((uint)FieldFlags & (1u << (count - 1))) != 0;
     }
 
-    public void SetExplored(int player, bool value) => SetExploredRaw(player, value: value ? 1 : 0);
+    public void SetExplored(PlayerId? player, bool value) => SetExploredRaw(player, value: value ? 1 : 0);
 
     // The original tests ECX, including the bits above the Boolean byte.
-    public void SetExploredRaw(int player, int value)
+    public void SetExploredRaw(PlayerId? player, int value)
     {
         int mask = ExploredFlag(player);
         if (value != 0)

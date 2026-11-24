@@ -30,8 +30,8 @@ public sealed record DeclareWar : DiplomaticProposal
     public override void Sent(DiplomaticAction action)
     {
         action.ApplyRelationModifiers();
-        StrategicMap.Current.Players.GetPlayers(action.Target).PlayerSeen((sbyte)(byte)action.Source);
-        StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, otherPlayer: (sbyte)(byte)action.Target, relation: DiplomaticRelation.War);
+        StrategicMap.Current.Players.GetPlayers(action.Target).PlayerSeen(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Source)));
+        StrategicMap.Current.Players.SetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Source)), otherPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Target)), relation: DiplomaticRelation.War);
         if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
             string warDeclared = AbilityRules.TranslateResourceString(action.GetEngine(), S: s_warDeclaredText);
@@ -41,10 +41,10 @@ public sealed record DeclareWar : DiplomaticProposal
         Broadcast(action, exclude: -1, viewer: action.Target);
     }
 
-    public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
+    public override void AnswerAI(DiplomaticAction action, PlayerId? player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
         => action.UpdateAIDiplomaticActionsLog(player);
 
-    public override int RelationModifier(DiplomaticAction action, sbyte player, int race)
+    public override int RelationModifier(DiplomaticAction action, PlayerId? player, int race)
     {
         return player == action.Source && Relation(action.Source, second: action.Target) != DiplomaticRelation.War
 ? RaceModifier(modifier: Relation(action.Source, second: action.Target) == DiplomaticRelation.Alliance

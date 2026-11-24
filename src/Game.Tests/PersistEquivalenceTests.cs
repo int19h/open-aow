@@ -62,21 +62,21 @@ public sealed partial class PersistEquivalenceTests
     public void EventLogMatchesTheConverter()
     {
         Check("EventLog", new EventLog(null) { Holder = EngineFixture.Engine });
-        Check("EventLog", new EventLog(null) { Holder = EngineFixture.Engine, Day = 0, Player = 0, Id = 0 });
-        Check("EventLog", new EventLog(null) { Holder = EngineFixture.Engine, Day = int.MinValue, Player = -128, Id = int.MaxValue });
-        Check("EventLog", new EventLog(null) { Holder = EngineFixture.Engine, Day = int.MaxValue, Player = 127, Id = int.MinValue });
+        Check("EventLog", new EventLog(null) { Holder = EngineFixture.Engine, Day = 0, Player = PlayerId.Independent, Id = 0 });
+        Check("EventLog", new EventLog(null) { Holder = EngineFixture.Engine, Day = int.MinValue, Player = PlayerId.FromOriginal(-128), Id = int.MaxValue });
+        Check("EventLog", new EventLog(null) { Holder = EngineFixture.Engine, Day = int.MaxValue, Player = PlayerId.FromOriginal(127), Id = int.MinValue });
     }
 
     [Fact]
     public void MessageEventLogMatchesTheConverter()
     {
         Check("MessageEventLog", new MessageEventLog(null, holder: EngineFixture.Engine));
-        MessageEventLog empty = new(null, holder: EngineFixture.Engine) { Day = 0, Player = 0, Id = 0, Title = "", Layout = 0, Buttons = 0 };
+        MessageEventLog empty = new(null, holder: EngineFixture.Engine) { Day = 0, Player = PlayerId.Independent, Id = 0, Title = "", Layout = 0, Buttons = 0 };
         Check("MessageEventLog", empty);
         MessageEventLog full = new(null, holder: EngineFixture.Engine)
         {
             Day = int.MaxValue,
-            Player = -1,
+            Player = null,
             Id = int.MinValue,
             Title = "Jörg",
             Layout = MessageEventLogLayout.Header,
@@ -186,9 +186,9 @@ public sealed partial class PersistEquivalenceTests
     public void FrozenWaterHexSpriteMatchesTheConverter()
     {
         Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null) { Holder = EngineFixture.Engine });
-        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null) { Holder = EngineFixture.Engine, DaysRemaining = 0, CasterPlayer = 0 });
-        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null) { Holder = EngineFixture.Engine, DaysRemaining = -128, CasterPlayer = 127 });
-        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null) { Holder = EngineFixture.Engine, DaysRemaining = 127, CasterPlayer = -1 });
+        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null) { Holder = EngineFixture.Engine, DaysRemaining = 0, CasterPlayer = PlayerId.Independent });
+        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null) { Holder = EngineFixture.Engine, DaysRemaining = -128, CasterPlayer = PlayerId.FromOriginal(127) });
+        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null) { Holder = EngineFixture.Engine, DaysRemaining = 127, CasterPlayer = null });
     }
 
     // A level of 5 by 3 fields: field [0][0] is empty, the others hold up to three frozen water
@@ -410,7 +410,7 @@ public sealed partial class PersistEquivalenceTests
             Holder = EngineFixture.Engine,
             EnchantmentId = int.MinValue,
             EnchantmentType = (GlobalEnchantmentType)255,
-            PlayerIndex = -1,
+            PlayerIndex = null,
             Name = "Jörg",
             EnchantmentManaUpkeep = int.MaxValue,
             DispelMana = 0,
@@ -430,20 +430,20 @@ public sealed partial class PersistEquivalenceTests
         {
             EnchantmentId = 9,
             EnchantmentType = (GlobalEnchantmentType)1,
-            PlayerIndex = 4,
+            PlayerIndex = PlayerId.Player4,
             Name = "",
             EnchantmentManaUpkeep = int.MinValue,
             DispelMana = int.MaxValue,
             TurnsActive = int.MaxValue,
             Removed = true,
-            DispelPlayer = 127,
+            DispelPlayer = PlayerId.FromOriginal(127),
             RestoreDays = 0,
         };
         flood.FloodControl.Width = 1;
         flood.FloodControl.Height = 2;
         flood.FloodControl.OriginalTerrain = [1, 2, 3, 4];
         Check("FloodEnchantment", flood);
-        Check("FloodEnchantment", new FloodEnchantment(null, holder: EngineFixture.Engine) { Removed = false, RestoreDays = -128, DispelPlayer = -128, TurnsActive = int.MinValue });
+        Check("FloodEnchantment", new FloodEnchantment(null, holder: EngineFixture.Engine) { Removed = false, RestoreDays = -128, DispelPlayer = PlayerId.FromOriginal(-128), TurnsActive = int.MinValue });
     }
 
     // The single stores its exact bits: the document holds a number, and $bits for negative zero, an
@@ -477,7 +477,7 @@ public sealed partial class PersistEquivalenceTests
         {
             Holder = EngineFixture.Engine,
             EnchantmentAbilityId = 0,
-            EnchantmentPlayerIndex = -1,
+            EnchantmentPlayerIndex = null,
             EnchantmentDuration = -1,
             Enchantment = null,
         };
@@ -486,7 +486,7 @@ public sealed partial class PersistEquivalenceTests
         {
             Holder = EngineFixture.Engine,
             EnchantmentAbilityId = 65535,
-            EnchantmentPlayerIndex = 0,
+            EnchantmentPlayerIndex = PlayerId.Independent,
             EnchantmentDuration = -128,
             Enchantment = new CosmagicSurgeryEnchantment(null) { Holder = EngineFixture.Engine, FaceIndex = 3, UnitId = int.MinValue },
         };
@@ -495,7 +495,7 @@ public sealed partial class PersistEquivalenceTests
         {
             Holder = EngineFixture.Engine,
             EnchantmentAbilityId = 1,
-            EnchantmentPlayerIndex = 127,
+            EnchantmentPlayerIndex = PlayerId.FromOriginal(127),
             EnchantmentDuration = 127,
             Enchantment = new UnitEnchantment(null) { Holder = EngineFixture.Engine, EnchantmentAbilityId = int.MaxValue },
         };
@@ -507,8 +507,8 @@ public sealed partial class PersistEquivalenceTests
     {
         Each<DiplomaticRelation>(value => Check("DiplomaticRelationHistoryItem", new DiplomaticRelationHistoryItem(null) { Holder = EngineFixture.Engine, Day = 3, Relation = value }));
         Check("DiplomaticRelationHistoryItem", new DiplomaticRelationHistoryItem(null) { Holder = EngineFixture.Engine, Relation = (DiplomaticRelation)255, Day = int.MinValue });
-        Each<ChangeGlobalMagicTokenEventMode>(value => Check("ChangeGlobalMagicTokenEvent", new ChangeGlobalMagicTokenEvent(null) { Holder = EngineFixture.Engine, Mode = value, PlayerIndex = 1, EnchantmentId = 2, Value = 3 }));
-        Check("ChangeGlobalMagicTokenEvent", new ChangeGlobalMagicTokenEvent(null) { Holder = EngineFixture.Engine, Mode = (ChangeGlobalMagicTokenEventMode)255, PlayerIndex = 255, EnchantmentId = int.MaxValue, Value = int.MinValue });
+        Each<ChangeGlobalMagicTokenEventMode>(value => Check("ChangeGlobalMagicTokenEvent", new ChangeGlobalMagicTokenEvent(null) { Holder = EngineFixture.Engine, Mode = value, PlayerIndex = PlayerId.Player1, EnchantmentId = 2, Value = 3 }));
+        Check("ChangeGlobalMagicTokenEvent", new ChangeGlobalMagicTokenEvent(null) { Holder = EngineFixture.Engine, Mode = (ChangeGlobalMagicTokenEventMode)255, PlayerIndex = null, EnchantmentId = int.MaxValue, Value = int.MinValue });
         Each<GlobalEnchantmentType>(value => Check("GlobalEnchantment", new GlobalEnchantment(null) { Holder = EngineFixture.Engine, EnchantmentType = value }));
         Each<ItemType>(value => Check("ItemGraphics", new ItemGraphics(null) { Holder = EngineFixture.Engine, ItemType = value }));
         Each<MessageEventLogLayout>(value => Check("MessageEventLog", new MessageEventLog(null, holder: EngineFixture.Engine) { Layout = value }));
@@ -590,8 +590,8 @@ public sealed partial class PersistEquivalenceTests
         WithDestroyingMap(_ =>
         {
             PlayerDiplomaticRelations relations = new(null) { Holder = EngineFixture.Engine };
-            relations.SetDiplomaticRelation(3, value: DiplomaticRelation.War);
-            relations.SetDiplomaticRelation(1, value: DiplomaticRelation.Alliance);
+            relations.SetDiplomaticRelation(PlayerId.Player3, value: DiplomaticRelation.War);
+            relations.SetDiplomaticRelation(PlayerId.Player1, value: DiplomaticRelation.Alliance);
             Check("PlayerDiplomaticRelations", relations, converterRead: false);
         });
     }
@@ -747,7 +747,7 @@ public sealed partial class PersistEquivalenceTests
 
         item.AddAbilityData(new MultiLevelAbilityData(null) { Holder = EngineFixture.Engine, Level = 3, LevelAbilityId = 12 });
         item.AddAbilityData(Commanding(defaultValue: 0, 1, 0, 0, 2));
-        item.AddAbilityData(new DurationAbilityData(null) { Holder = EngineFixture.Engine, AbilityId = 7, Duration = 2, PlayerIndex = 1, Source = -1 });
+        item.AddAbilityData(new DurationAbilityData(null) { Holder = EngineFixture.Engine, AbilityId = 7, Duration = 2, PlayerIndex = PlayerId.Player1, Source = -1 });
         item.AddAbilityData(new UnitEnchantmentAbilityData(null) { Holder = EngineFixture.Engine, EnchantmentAbilityId = 9, Enchantment = new UnitEnchantment(null) { Holder = EngineFixture.Engine, UnitId = 4 } });
         item.AddAbilityData(new LeadershipAbilityData(null) { Holder = EngineFixture.Engine, LevelAbilityId = 20, Level = 1, ExternalLevel = 1, ExternalSource = "banner" });
         item.AddAbilityData(new HealingAbilityData(null) { Holder = EngineFixture.Engine, Enabled = true });
@@ -800,7 +800,7 @@ public sealed partial class PersistEquivalenceTests
                 {
                     Holder = EngineFixture.Engine,
                     OldAIBehavior = value,
-                    Player = -1,
+                    Player = null,
                     Mode = ArmyModes.FixedBehavior,
                     UserMode = ArmyUserModes.None
                 };
@@ -989,7 +989,7 @@ public sealed partial class PersistEquivalenceTests
             GroupId = 0,
             TransporterId = 0,
             LeaderId = 0,
-            Player = 0,
+            Player = PlayerId.Independent,
             IndependentRelation = 0,
             ProcessPriority = 0,
             RecruitmentPriority = 0,
@@ -1005,7 +1005,7 @@ public sealed partial class PersistEquivalenceTests
                 GroupId = int.MinValue,
                 TransporterId = int.MaxValue,
                 LeaderId = int.MinValue,
-                Player = -1,
+                Player = null,
                 IndependentRelation = sbyte.MinValue,
                 ProcessPriority = 255,
                 RecruitmentPriority = 1,

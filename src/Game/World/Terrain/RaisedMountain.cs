@@ -1,5 +1,6 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 // Translated from Mountain.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
@@ -8,7 +9,7 @@ using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -23,7 +24,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
 
     public RaisedMountainModes Mode { get; set; }
 
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
     public int Duration { get; set; }
     public int OriginalOverlay { get; set; }
 
@@ -31,7 +32,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = (sbyte)persister.SByte("Player", value: Player, fallback: -1);
+        Player = persister.OptionalPlayer("Player", value: Player, fallback: -1, width: IdWidth.SByte);
         Duration = persister.SByte("Duration", value: Duration.TruncateToSByte(), fallback: -1);
         OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay.TruncateToSByte(), fallback: -1);
     }
@@ -42,7 +43,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001986)
         {
-            NewTurn((sbyte)message.Payload.Int);
+            NewTurn(PlayerId.FromInt32((sbyte)message.Payload.Int));
         }
     }
 
@@ -81,7 +82,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     }
 
     // Mountain.pas:201
-    public void NewTurn(sbyte player)
+    public void NewTurn(PlayerId player)
     {
         if (player == Player && Duration > 0)
         {
@@ -103,7 +104,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         // { Original tests the base mountain ID, although this object is raised terrain. }
         if (this == field.FindOwnedChild(MountainMapObject.ClassId) && animation.FrameCounter == 0)
         {
-            bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
+            bool condition = PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == animation.Tag;
             if (!condition)
             {
                 int hexLevel2 = HexLevel;

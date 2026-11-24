@@ -4,7 +4,7 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Net;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
@@ -19,7 +19,7 @@ public class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
 
     private MapCoordinate Location { get; set; }
 
-    public sbyte Player { get; private set; }
+    public PlayerId? Player { get; private set; } = PlayerId.Independent;
 
     private int _structureClassId;
 
@@ -35,7 +35,7 @@ public class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
         base.PersistFields(persister);
         Action = persister.Int32("Action", value: Action);
         Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Byte);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         _structureClassId = persister.Int32("StructureClassId", value: _structureClassId);
         _razed = persister.Boolean("Razed", value: _razed);
         Param = persister.Int32("Param", value: Param);

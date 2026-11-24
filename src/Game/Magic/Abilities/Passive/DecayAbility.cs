@@ -1,6 +1,7 @@
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
+using Aow.Game.Session;
 
 namespace Aow.Game.Magic.Abilities.Passive;
 
@@ -19,7 +20,7 @@ public class DecayAbility : DurationAbility
     }
 
     // PassiveAb.pas:855
-    public override void NewCombatTurn(CombatObject combatObject, sbyte player)
+    public override void NewCombatTurn(CombatObject combatObject, PlayerId player)
     {
         DurationAbilityData data = GetData(combatObject.AbilityOwner);
         if (data is not null && data.PlayerIndex == player)

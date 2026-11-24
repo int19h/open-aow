@@ -7,6 +7,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -298,8 +299,8 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
     internal static bool MoveCombatUnit(TacticalBattleUnit unitObject, MovePath path)
     {
         bool result = false;
-        sbyte player = unitObject.GetPlayer();
-        if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 1)
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(unitObject.GetPlayer());
+        if (StrategicMap.Current.TokenManager.PlayerReady(PlayerId.FromOriginal(player)) && path.Count > 1)
         {
             int movePoints = unitObject.MovePoints;
             int cost = 0;
@@ -326,8 +327,8 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
                 CombatMoveTokenEvent? eventValue = CreateCombatMoveTokenEvent(unitObject, path: newPath);
                 if (eventValue is not null)
                 {
-                    sbyte unitObjectPlayer = unitObject.GetPlayer();
-                    StrategicMap.Current.TokenManager.GetTokenControl(unitObjectPlayer).AddEvent(eventValue);
+                    sbyte unitObjectPlayer = (sbyte)PlayerIdExtensions.ToOriginal(unitObject.GetPlayer());
+                    StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(unitObjectPlayer)).AddEvent(eventValue);
                     _ = eventValue.Release();
                     result = true;
                 }

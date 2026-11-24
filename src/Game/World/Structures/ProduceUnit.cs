@@ -95,7 +95,7 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
         }
     }
 
-    public override void Complete(ProductionControl control, sbyte player)
+    public override void Complete(ProductionControl control, PlayerId player)
     {
         if (control.UnitProduced())
         {

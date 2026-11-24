@@ -6,6 +6,7 @@ using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 
@@ -21,7 +22,7 @@ public sealed partial class PersistEquivalenceTests
         WithUnitResource(resource => WithDestroyingMap(_ =>
         {
             Army army = new(null) { Holder = EngineFixture.Engine };
-            Unit unit = new(null) { Holder = EngineFixture.Engine, UnitResource = resource, UnitId = 7, GroupId = 2, MoraleValue = -3, Player = 1 };
+            Unit unit = new(null) { Holder = EngineFixture.Engine, UnitResource = resource, UnitId = 7, GroupId = 2, MoraleValue = -3, Player = PlayerId.Player1 };
             unit.SetOwner(army);
             Check("Army", army);
         }));
@@ -56,12 +57,12 @@ public sealed partial class PersistEquivalenceTests
         WithDestroyingMap(_ =>
         {
             SchemaClass classValue = s_schema.Get("Hero");
-            Check("Hero", new Hero(null) { Holder = EngineFixture.Engine, HeroName = "Plain", Player = 2, LibraryId = 4 });
+            Check("Hero", new Hero(null) { Holder = EngineFixture.Engine, HeroName = "Plain", Player = PlayerId.Player2, LibraryId = 4 });
             Hero updating = new(null)
             {
                 Holder = EngineFixture.Engine,
                 HeroName = "Updating",
-                Player = 2,
+                Player = PlayerId.Player2,
                 Mode = HeroModes.UpdatingFromLibrary
             };
             JsonObject written = DocumentBackend.Write(TreeWriter.Write(updating, Factory), classValue, s_schema, engine: "game");
@@ -70,23 +71,23 @@ public sealed partial class PersistEquivalenceTests
             // A blank load is not updating, so it writes the items the converter's image lacks.
             Check("Hero", updating, converterRead: false);
 
-            using Hero source = new(null) { Holder = EngineFixture.Engine, HeroName = "Source", Player = 2 };
+            using Hero source = new(null) { Holder = EngineFixture.Engine, HeroName = "Source", Player = PlayerId.Player2 };
             new Item(null) { Holder = EngineFixture.Engine, ItemId = 9, Name = "Ring" }.SetOwner(source.Inventory);
             byte[] image = Image(source);
             using Hero viaReadWrite = Updating(player: 5);
             using Hero viaPersist = Updating(player: 5);
             Load(viaReadWrite, image);
             TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: viaPersist, Factory);
-            Assert.Equal(5, viaReadWrite.Player);
-            Assert.Equal(5, viaPersist.Player);
+            Assert.Equal(5, PlayerIdExtensions.ToOriginal(viaReadWrite.Player));
+            Assert.Equal(5, PlayerIdExtensions.ToOriginal(viaPersist.Player));
             Assert.Equal("Source", viaPersist.HeroName);
             Assert.Null(viaReadWrite.Inventory.Items.GetItem(0));
             Assert.Null(viaPersist.Inventory.Items.GetItem(0));
             EqualBytes(Image(viaReadWrite), Image(viaPersist), label: "Hero updating load");
 
-            using Hero plain = new(null) { Holder = EngineFixture.Engine, Player = 5 };
+            using Hero plain = new(null) { Holder = EngineFixture.Engine, Player = PlayerId.Player5 };
             TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: plain, Factory);
-            Assert.Equal(2, plain.Player);
+            Assert.Equal(2, PlayerIdExtensions.ToOriginal(plain.Player));
             Assert.Equal(9, plain.Inventory.Items.GetItem(0).ItemId);
         });
 
@@ -95,7 +96,7 @@ public sealed partial class PersistEquivalenceTests
             Hero hero = new(null)
             {
                 Holder = EngineFixture.Engine,
-                Player = player,
+                Player = PlayerId.FromOriginal(player),
                 Mode = HeroModes.UpdatingFromLibrary
             };
             return hero;
@@ -130,7 +131,7 @@ public sealed partial class PersistEquivalenceTests
     public void ArmyIdMatchesTheConverter()
     {
         Check("ArmyId", new ArmyId(null) { Holder = EngineFixture.Engine });
-        ArmyId full = new(null) { Holder = EngineFixture.Engine, Player = -1, Location = new MapCoordinate(sbyte.MinValue, sbyte.MaxValue, 1) };
+        ArmyId full = new(null) { Holder = EngineFixture.Engine, Player = null, Location = new MapCoordinate(sbyte.MinValue, sbyte.MaxValue, 1) };
         _ = full.UnitIds.Add(int.MinValue);
         _ = full.UnitIds.Add(0);
         _ = full.UnitIds.Add(int.MaxValue);
@@ -213,7 +214,7 @@ public sealed partial class PersistEquivalenceTests
         WithDestroyingMap(_ =>
         {
             using Army army = new(null) { Holder = EngineFixture.Engine };
-            Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Archer", LibraryName = "Mine", Player = 1 };
+            Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Archer", LibraryName = "Mine", Player = PlayerId.Player1 };
             hero.SetNickname("the Swift");
             hero.SetOwner(army);
             Item sword = new(null) { Holder = EngineFixture.Engine, ItemId = 4, OwnerName = "Lair", Name = "Sword", LibraryId = -1 };

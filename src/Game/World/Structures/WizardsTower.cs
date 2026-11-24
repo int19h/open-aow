@@ -48,13 +48,13 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     {
         string reason = "";
         ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
-        if (tokenEvent.Action == 1 && CanBuy((sbyte)tokenEvent.Param, ref reason))
+        if (tokenEvent.Action == 1 && CanBuy(PlayerId.FromOriginal((sbyte)tokenEvent.Param), ref reason))
         {
             Player? player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
             int buyCost = BuyCost();
             player.SetGems(player.Gems - buyCost);
             _ = player.MagicControl.Spells.Add(SpellId);
-            if (StrategicMap.Current.SeatedPlayer == tokenEvent.Param)
+            if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == tokenEvent.Param)
             {
                 Spell? spell = GamePack.Current.SpellControl[SpellId];
                 string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_theyTaughtYouSpellFormat), args: [spell.SpellName]);
@@ -114,8 +114,8 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
             switch (info.Mode)
             {
                 case AITargetMode.Attack:
-                    sbyte player = Owner.GetPlayer();
-                    if (player != info.Player && (player <= 0 || AbilityRules.ValidAttackRelation(info.Player, independentRelation: 0, targetPlayer: player, targetRace: 0)) && ValidAITarget(info.Player))
+                    sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Owner.GetPlayer());
+                    if (player != PlayerIdExtensions.ToOriginal(info.Player) && (player <= 0 || AbilityRules.ValidAttackRelation(info.Player, independentRelation: 0, targetPlayer: PlayerId.FromOriginal(player), targetRace: 0)) && ValidAITarget(info.Player))
                     {
                         if (data.Priority < 10)
                         {
@@ -145,13 +145,13 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     public override bool CanDoubleClick() => CanEnter(StrategicMap.Current.SeatedPlayer);
 
     // WizardsTower.pas:99
-    public bool ValidAITarget(sbyte player) => player > 0 && !GetRazed() && SpellId != 0 && StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1 && GamePack.Current.SpellControl[SpellId].CastDuration > 0;
+    public bool ValidAITarget(PlayerId? player) => PlayerIdExtensions.ToOriginal(player) > 0 && !GetRazed() && SpellId != 0 && StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1 && GamePack.Current.SpellControl[SpellId].CastDuration > 0;
 
     // WizardsTower.pas:163
     public void GenerateSettings() => SpellId = GamePack.Current.SpellControl.GetRandomSpell(_spellLevel, _spellLevel, spheres: _magicSpheres);
 
     // WizardsTower.pas:174
-    public bool CanEnter(sbyte player)
+    public bool CanEnter(PlayerId? player)
     {
         ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
         return armyHexSprite is not null && armyHexSprite.Army.Player == player;
@@ -181,7 +181,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     public int BuyCost() => SpellId != 0 ? GamePack.Current.SpellControl[SpellId].ResearchCost : -1;
 
     // WizardsTower.pas:221
-    public bool CanBuy(sbyte player, ref string reason)
+    public bool CanBuy(PlayerId? player, ref string reason)
     {
         bool result;
         if (SpellId != 0)
@@ -215,7 +215,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     }
 
     // WizardsTower.pas:243
-    public bool Buy(sbyte player, out string reason)
+    public bool Buy(PlayerId? player, out string reason)
     {
         reason = "";
         if (CanBuy(player, ref reason) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
@@ -223,7 +223,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
             StructureTokenEvent tokenEvent = CreateTokenEvent();
             SetupTokenEvent(tokenEvent);
             tokenEvent.Action = 1;
-            tokenEvent.Param = player;
+            tokenEvent.Param = PlayerIdExtensions.ToOriginal(player);
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
             return true;

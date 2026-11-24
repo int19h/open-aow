@@ -7,6 +7,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 using Aow.Game.Draw;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Xunit.Sdk;
 
@@ -83,7 +84,7 @@ public sealed class ArmySpriteConstructionTests
         EngineObject loaded = null!;
         try
         {
-            ((ArmyHexSprite)source).Army.Player = 2;
+            ((ArmyHexSprite)source).Army.Player = PlayerId.Player2;
             EnginePersistableFactory factory = new(fixture.Engine);
             FormatSchema schema = FormatSchema.Current;
             SchemaClass classValue = schema.Get(factory.ClassName(source));

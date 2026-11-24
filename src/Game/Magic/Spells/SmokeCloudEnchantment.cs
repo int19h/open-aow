@@ -1,6 +1,7 @@
 #nullable disable warnings
 // Translated from SmokeCloud.pas.
 using Aow.Engine.Nodes;
+using Aow.Game.Session;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -26,7 +27,7 @@ public class SmokeCloudEnchantment : GlobalEnchantment
     public override string GetName() => GamePack.Current.SpellControl[74].SpellName;
 
     // SmokeCloud.pas:156
-    public override bool VisibleForPlayer(sbyte player)
+    public override bool VisibleForPlayer(PlayerId? player)
     {
         HexNumberWalkData hexNumberWalkData = default;
         bool result = PlayerIndex == player;
@@ -46,7 +47,7 @@ public class SmokeCloudEnchantment : GlobalEnchantment
     // The unused fourth byte in the original register result has no defined value.
     public override MapCoordinate GetLocation() => new() { X = Cloud.HexX, Y = Cloud.HexY, MapLevel = Cloud.HexLevel };
 
-    public override bool Deactivate(byte player)
+    public override bool Deactivate(PlayerId? player)
     {
         if (((ulong)EnchantmentStatus & 1) == 0)
         {

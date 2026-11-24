@@ -198,7 +198,7 @@ public sealed class HexSpriteMapKeyboard(CustomNode? owner) : EngineObject(owner
                     complete = CompareText(_cheatText, s_cheatNames[i]) == 0;
                 }
 
-                if (complete && StrategicMap.Current.SeatedPlayer != -1 && !StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetBusy())
+                if (complete && StrategicMap.Current.SeatedPlayer is not null && !StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetBusy())
                 {
                     CheatTokenEvent cheat = new(null)
                     {

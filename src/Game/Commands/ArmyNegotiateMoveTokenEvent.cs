@@ -107,7 +107,7 @@ public class ArmyNegotiateMoveTokenEvent(CustomNode? owner) : MoveArmyTokenEvent
         }
     }
 
-    private static void NegotiateArmy(sbyte player, ArmyHexSprite armyHexSprite, int selection, int X, int Y, int L, int movePoints)
+    private static void NegotiateArmy(PlayerId? player, ArmyHexSprite armyHexSprite, int selection, int X, int Y, int L, int movePoints)
     {
         MapFieldMessage message = default;
         if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
@@ -120,7 +120,7 @@ public class ArmyNegotiateMoveTokenEvent(CustomNode? owner) : MoveArmyTokenEvent
                     ArmyId = armyHexSprite.Army.CreateId(selection),
                     MovePoints = movePoints,
                     Hex = new MapCoordinate(unchecked((sbyte)(byte)X), unchecked((sbyte)(byte)Y), unchecked((sbyte)(byte)L)),
-                    Player = (sbyte)(byte)player
+                    Player = PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(player))
                 };
                 message.MessageId = 4366;
                 MapFieldMessageParameters param = message.Param;
@@ -146,7 +146,7 @@ public class ArmyNegotiateMoveTokenEvent(CustomNode? owner) : MoveArmyTokenEvent
                 ArmyId = armyHexSprite.Army.CreateId(selection),
                 MovePoints = movePoints,
                 Hex = new MapCoordinate(unchecked((sbyte)(byte)X), unchecked((sbyte)(byte)Y), unchecked((sbyte)(byte)L)),
-                Player = (sbyte)(byte)player
+                Player = PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(player))
             };
             message.MessageId = 4366;
             MapFieldMessageParameters param3 = message.Param;

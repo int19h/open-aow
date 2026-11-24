@@ -184,7 +184,7 @@ public sealed partial class AIPlayerControl : EngineObject
     public GroupBehavior GetRandomGroupBehavior()
     {
         Player player = Player;
-        if (Player.PlayerIndex == 0)
+        if (Player.PlayerIndex == PlayerId.Independent)
         {
             int random = Random(10);
             StrategicMapIndependentAIMode independentAIMode = StrategicMap.Current.IndependentAIMode;
@@ -298,14 +298,14 @@ public sealed partial class AIPlayerControl : EngineObject
     {
         peace.Clear();
         war.Clear();
-        _ = peace.Add(Player.PlayerIndex.TruncateToByte());
+        _ = peace.Add(PlayerIdExtensions.ToOriginal(Player.PlayerIndex).TruncateToByte());
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            if (i != Player.PlayerIndex)
+            if (i != PlayerIdExtensions.ToOriginal(Player.PlayerIndex))
             {
                 if (StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
                 {
-                    DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, otherPlayer: (sbyte)i);
+                    DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, otherPlayer: PlayerId.FromOriginal((sbyte)i));
                     if (relation is DiplomaticRelation.Peace or DiplomaticRelation.Alliance)
                     {
                         _ = peace.Add(i.TruncateToByte());
@@ -320,7 +320,7 @@ public sealed partial class AIPlayerControl : EngineObject
                         {
                             if (relation == DiplomaticRelation.Unknown)
                             {
-                                if (Player.GetFirstDaySeen((sbyte)i) != -1)
+                                if (Player.GetFirstDaySeen(PlayerId.FromOriginal((sbyte)i)) != -1)
                                 {
                                     _ = unknown.Add(i.TruncateToByte());
                                 }
@@ -339,17 +339,17 @@ public sealed partial class AIPlayerControl : EngineObject
         peace.Clear();
         war.Clear();
         DoubleItemList doubleItemList = [];
-        _ = doubleItemList.AddAbility(Player.PlayerIndex, 999);
+        _ = doubleItemList.AddAbility(PlayerIdExtensions.ToOriginal(Player.PlayerIndex), 999);
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            if (i != Player.PlayerIndex && StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
+            if (i != PlayerIdExtensions.ToOriginal(Player.PlayerIndex) && StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
             {
                 int priority = 0;
-                DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, otherPlayer: (sbyte)i);
+                DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, otherPlayer: PlayerId.FromOriginal((sbyte)i));
                 Player? players = StrategicMap.Current.Players.GetPlayers(i);
                 Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
                 Status raceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
-                DiplomaticAction action = Player.DiplomaticActions.FindLastAction(DeclareWar.Kind, reaction: DiplomaticActionReaction.None, source: i.TruncateToSByte(), target: Player.PlayerIndex, other: -1);
+                DiplomaticAction action = Player.DiplomaticActions.FindLastAction(DeclareWar.Kind, reaction: DiplomaticActionReaction.None, source: PlayerId.FromOriginal(i.TruncateToSByte()), target: Player.PlayerIndex, other: -1);
                 if (action is not null)
                 {
                     int days = StrategicMap.Current.Day - action.Day;
@@ -426,10 +426,10 @@ public sealed partial class AIPlayerControl : EngineObject
     }
 
     // AI.pas:375
-    public bool CanOfferPeace(byte player)
+    public bool CanOfferPeace(PlayerId? player)
     {
         bool result;
-        if (!(Player.DiplomaticRelations.GetHistory((sbyte)player).GetRelationOnDay(0) == DiplomaticRelation.War && Player.DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.War))
+        if (!(Player.DiplomaticRelations.GetHistory(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(player))).GetRelationOnDay(0) == DiplomaticRelation.War && Player.DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(player))) == DiplomaticRelation.War))
         {
             ByteList idealPeace = [];
             ByteList idealWar = [];
@@ -438,13 +438,13 @@ public sealed partial class AIPlayerControl : EngineObject
             ByteList unknown = [];
             ListPeaceWarUnknownPlayers(peace, war, unknown);
             ListIdealPeaceWarPlayers(idealPeace, war: idealWar);
-            _ = war.Remove(player);
-            _ = unknown.Remove(player);
-            _ = peace.Remove(player);
+            _ = war.Remove(PlayerIdExtensions.ToOriginal(player));
+            _ = unknown.Remove(PlayerIdExtensions.ToOriginal(player));
+            _ = peace.Remove(PlayerIdExtensions.ToOriginal(player));
             int peaceCount = peace.Count;
             int warCount = war.Count;
-            int peaceIndex = idealPeace.IndexOf(player);
-            int warIndex = idealWar.IndexOf(player);
+            int peaceIndex = idealPeace.IndexOf((byte)PlayerIdExtensions.ToOriginal(player));
+            int warIndex = idealWar.IndexOf((byte)PlayerIdExtensions.ToOriginal(player));
             for (int i = 0, last = unknown.Count - 1; i <= last; i++)
             {
                 int index = idealPeace.IndexOf(unknown[i]);
@@ -477,7 +477,7 @@ public sealed partial class AIPlayerControl : EngineObject
             result = !(peaceCount > warCount && !(warCount == 0 && peaceCount == 1 && StrategicMap.Current.Players.ActivePlayers.Count > 2));
             if (Player.PlayerType is PlayerType.Cpu3 or PlayerType.Cpu4 or PlayerType.Cpu5)
             {
-                Player? players = StrategicMap.Current.Players.GetPlayers((sbyte)player);
+                Player? players = StrategicMap.Current.Players.GetPlayers((sbyte)PlayerIdExtensions.ToOriginal(player));
                 Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
                 Status defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
                 if (defaultRaceRelation is Status.Hostile or Status.Wary)
@@ -495,10 +495,10 @@ public sealed partial class AIPlayerControl : EngineObject
     }
 
     // AI.pas:426
-    public bool CanDeclareWar(byte player)
+    public bool CanDeclareWar(PlayerId? player)
     {
         bool result;
-        if (!(Player.DiplomaticRelations.GetHistory((sbyte)player).GetRelationOnDay(0) == DiplomaticRelation.Peace && Player.DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Peace))
+        if (!(Player.DiplomaticRelations.GetHistory(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(player))).GetRelationOnDay(0) == DiplomaticRelation.Peace && Player.DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(player))) == DiplomaticRelation.Peace))
         {
             ByteList idealPeace = [];
             ByteList idealWar = [];
@@ -507,13 +507,13 @@ public sealed partial class AIPlayerControl : EngineObject
             ByteList unknown = [];
             ListPeaceWarUnknownPlayers(peace, war, unknown);
             ListIdealPeaceWarPlayers(idealPeace, war: idealWar);
-            _ = peace.Remove(player);
-            _ = unknown.Remove(player);
-            _ = war.Remove(player);
+            _ = peace.Remove(PlayerIdExtensions.ToOriginal(player));
+            _ = unknown.Remove(PlayerIdExtensions.ToOriginal(player));
+            _ = war.Remove(PlayerIdExtensions.ToOriginal(player));
             int peaceCount = peace.Count;
             int warCount = war.Count;
-            int peaceIndex = idealPeace.IndexOf(player);
-            int warIndex = idealWar.IndexOf(player);
+            int peaceIndex = idealPeace.IndexOf((byte)PlayerIdExtensions.ToOriginal(player));
+            int warIndex = idealWar.IndexOf((byte)PlayerIdExtensions.ToOriginal(player));
             for (int i = 0, last = unknown.Count - 1; i <= last; i++)
             {
                 int index = idealPeace.IndexOf(unknown[i]);
@@ -543,7 +543,7 @@ public sealed partial class AIPlayerControl : EngineObject
                 }
             }
 
-            result = !(warCount > peaceCount && Player.DiplomaticRelations.GetHistory((sbyte)player).GetRelationOnDay(0) != DiplomaticRelation.War);
+            result = !(warCount > peaceCount && Player.DiplomaticRelations.GetHistory(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(player))).GetRelationOnDay(0) != DiplomaticRelation.War);
         }
         else
         {
@@ -554,19 +554,19 @@ public sealed partial class AIPlayerControl : EngineObject
     }
 
     // AI.pas:472
-    public bool CanProposeAlliance(byte player)
+    public bool CanProposeAlliance(PlayerId? player)
     {
         bool result;
-        if (CanOfferPeace(player) && Player.DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Peace)
+        if (CanOfferPeace(player) && Player.DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(player))) == DiplomaticRelation.Peace)
         {
             result = StrategicMap.Current.Day > 10;
-            int lastModifiedOnDay = Player.DiplomaticRelations.GetHistory((sbyte)player).LastModifiedOnDay;
+            int lastModifiedOnDay = Player.DiplomaticRelations.GetHistory(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(player))).LastModifiedOnDay;
             if (StrategicMap.Current.Day - lastModifiedOnDay < 8)
             {
                 result = false;
             }
 
-            Player? players = StrategicMap.Current.Players.GetPlayers((sbyte)player);
+            Player? players = StrategicMap.Current.Players.GetPlayers((sbyte)PlayerIdExtensions.ToOriginal(player));
             Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
             Status defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
             if (defaultRaceRelation is Status.Hostile or Status.Wary)

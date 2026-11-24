@@ -10,16 +10,16 @@ public partial class TurnPlayerControl
     public override void NewDay()
     {
         StrategicMap map = StrategicMap.Current;
-        int player = map.SeatedPlayer;
+        int player = PlayerIdExtensions.ToOriginal(map.SeatedPlayer);
         if (map.RequestCombatType)
         {
-            map.SeatedPlayer = -1;
+            map.SeatedPlayer = null;
         }
 
         base.NewDay();
         if (map.RequestCombatType)
         {
-            map.SeatedPlayer = (sbyte)player;
+            map.SeatedPlayer = PlayerId.FromOriginal((sbyte)player);
         }
 
         HeadlessHooks.AfterNewDay?.Invoke(this);

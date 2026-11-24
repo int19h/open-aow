@@ -19,7 +19,7 @@ public sealed class AIGroupControlTarget(CustomNode owner) : EngineObject(owner)
 
     private int _refCount = 1;
 
-    public AITargetInfo Info { get; init; }
+    public AITargetInfo Info { get; init; } = new AITargetInfo();
 
     public AITargetData Data { get; internal set; }
     public MapCoordinate Location { get; internal init; }

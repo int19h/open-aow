@@ -9,7 +9,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Commands;
 
 using Aow.Game.Events;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -80,7 +80,7 @@ public sealed class GlobalMagicControl : EngineObject
     public bool GetSphereManaDoubled(MagicSphere sphere) => DoubleSphereManaCount[(int)sphere] != 0;
 
     // Spells.PAS:2685
-    public void OutOfMana(sbyte player, int mana)
+    public void OutOfMana(PlayerId? player, int mana)
     {
         int index = 0;
         while (index != -1 && mana > 0 && Enchantments.GetCount() != 0)
@@ -111,20 +111,20 @@ public sealed class GlobalMagicControl : EngineObject
                 EventLog.DistributeEventLog(log, execute: false);
                 _ = log.Release();
                 _ = enchantment.AddRef();
-                _ = enchantment.Deactivate((byte)player);
+                _ = enchantment.Deactivate(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player)));
                 _ = enchantment.Release();
             }
         }
     }
 
     // Spells.PAS:2688
-    public void RemovePlayerEnchantments(sbyte player)
+    public void RemovePlayerEnchantments(PlayerId? player)
     {
         for (int i = Enchantments.GetCount() - 1; i >= 0; i--)
         {
             if (player == Enchantments.GetEnchantments(i).PlayerIndex)
             {
-                _ = Enchantments.GetEnchantments(i).Remove((byte)player);
+                _ = Enchantments.GetEnchantments(i).Remove(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player)));
             }
         }
     }
@@ -159,7 +159,7 @@ public sealed class GlobalMagicControl : EngineObject
     }
 
     // Spells.PAS:2700
-    public int GetEnchantmentUpkeep(sbyte player)
+    public int GetEnchantmentUpkeep(PlayerId? player)
     {
         int result = 0;
         for (int i = Enchantments.GetCount() - 1; i >= 0; i--)
@@ -241,14 +241,14 @@ public sealed class GlobalMagicControl : EngineObject
     public ChangeGlobalMagicTokenEvent CreateChangeMagicTokenEvent() => new(null) { Holder = CreationHolder() };
 
     // Spells.PAS:2710
-    public bool ExecuteDispelEnchantment(sbyte player, int enchantmentId)
+    public bool ExecuteDispelEnchantment(PlayerId? player, int enchantmentId)
     {
         int index = IndexOfId(enchantmentId);
-        return index != -1 && Enchantments.GetEnchantments(index).Dispel((byte)player);
+        return index != -1 && Enchantments.GetEnchantments(index).Dispel(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player)));
     }
 
     // Spells.PAS:2712
-    public bool DispelEnchantment(sbyte player, GlobalEnchantment enchantment)
+    public bool DispelEnchantment(PlayerId? player, GlobalEnchantment enchantment)
     {
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment.EnchantmentId) != -1)
         {
@@ -258,7 +258,7 @@ public sealed class GlobalMagicControl : EngineObject
                 ChangeGlobalMagicTokenEvent eventValue = CreateChangeMagicTokenEvent();
                 eventValue.Mode = ChangeGlobalMagicTokenEventMode.DispelEnchantment;
                 eventValue.EnchantmentId = enchantment.EnchantmentId;
-                eventValue.PlayerIndex = (byte)player;
+                eventValue.PlayerIndex = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player));
                 StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
                 _ = eventValue.Release();
                 return true;
@@ -280,14 +280,14 @@ public sealed class GlobalMagicControl : EngineObject
     }
 
     // Spells.PAS:2714
-    public bool ExecuteRemoveEnchantment(sbyte player, int enchantmentId)
+    public bool ExecuteRemoveEnchantment(PlayerId? player, int enchantmentId)
     {
         int index = IndexOfId(enchantmentId);
-        return index != -1 && Enchantments.GetEnchantments(index).Remove((byte)player);
+        return index != -1 && Enchantments.GetEnchantments(index).Remove(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player)));
     }
 
     // Spells.PAS:2716
-    public bool RemoveEnchantment(sbyte player, GlobalEnchantment? enchantment)
+    public bool RemoveEnchantment(PlayerId? player, GlobalEnchantment? enchantment)
     {
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment.EnchantmentId) != -1)
         {
@@ -297,7 +297,7 @@ public sealed class GlobalMagicControl : EngineObject
                 ChangeGlobalMagicTokenEvent eventValue = CreateChangeMagicTokenEvent();
                 eventValue.Mode = ChangeGlobalMagicTokenEventMode.RemoveEnchantment;
                 eventValue.EnchantmentId = enchantment.EnchantmentId;
-                eventValue.PlayerIndex = (byte)player;
+                eventValue.PlayerIndex = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player));
                 StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
                 _ = eventValue.Release();
                 return true;

@@ -4,6 +4,7 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 
@@ -19,7 +20,7 @@ public class CityTargetSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner
 
     private MapCoordinate _targetLocation;
 
-    public sbyte TargetPlayer { get; set; }
+    public PlayerId? TargetPlayer { get; set; } = PlayerId.Independent;
 
     // CitySpells.pas:175
     public override void PersistFields(IPersister persister)
@@ -27,7 +28,7 @@ public class CityTargetSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner
         base.PersistFields(persister);
         int location = persister.Int32("TargetLocation", value: StoredCoordinateImage.From(_targetLocation).ToInt32());
         _targetLocation = StoredCoordinateImage.FromInt32(location).Location;
-        TargetPlayer = (sbyte)persister.UnsignedByte(name: "TargetPlayer", value: TargetPlayer);
+        TargetPlayer = persister.OptionalPlayer(name: "TargetPlayer", value: TargetPlayer, width: IdWidth.UnsignedByte, fallback: 0);
     }
 
     // CitySpells.pas:189

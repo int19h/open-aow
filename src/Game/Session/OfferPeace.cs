@@ -36,7 +36,7 @@ public sealed record OfferPeace(int Gold = 0, int Mana = 0) : OfferProposal(Gold
 
     public override void Accepted(DiplomaticAction action)
     {
-        StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, otherPlayer: (sbyte)(byte)action.Target, relation: DiplomaticRelation.Peace);
+        StrategicMap.Current.Players.SetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Source)), otherPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Target)), relation: DiplomaticRelation.Peace);
         Broadcast(action, exclude: -1, viewer: action.Source);
         RemoveTargetLog(action);
     }
@@ -44,25 +44,25 @@ public sealed record OfferPeace(int Gold = 0, int Mana = 0) : OfferProposal(Gold
     public override DiplomaticActionReaction RejectReaction(DiplomaticAction action)
         => Relation(action.Source, second: action.Target) != DiplomaticRelation.Peace ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
 
-    public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
+    public override void AnswerAI(DiplomaticAction action, PlayerId? player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
     {
         string errorText = "";
-        int source = action.Source;
-        int target = action.Target;
-        DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(target).DiplomaticActions.FindLastAction(Kind, reaction: DiplomaticActionReaction.None, source: target, target: source, other: -1);
+        int source = PlayerIdExtensions.ToOriginal(action.Source);
+        int target = PlayerIdExtensions.ToOriginal(action.Target);
+        DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(target).DiplomaticActions.FindLastAction(Kind, reaction: DiplomaticActionReaction.None, source: PlayerId.FromOriginal(target), target: PlayerId.FromOriginal(source), other: -1);
         if (idealPeace.IndexOf((byte)source) != -1 || (last is not null && StrategicMap.Current.Day - last.Day <= 1))
         {
-            _ = StrategicMap.Current.Players.GetPlayers(target).AIControl.CanOfferPeace((byte)source)
+            _ = StrategicMap.Current.Players.GetPlayers(target).AIControl.CanOfferPeace(PlayerId.FromOriginal((byte)source))
                 ? action.Accept(errorText)
                 : action.Reject(errorText);
         }
         else
         {
-            if (StrategicMap.Current.Players.GetPlayers(target).AIControl.CanOfferPeace((byte)source))
+            if (StrategicMap.Current.Players.GetPlayers(target).AIControl.CanOfferPeace(PlayerId.FromOriginal((byte)source)))
             {
-                if (StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)source, relations: DiplomaticRelations.Peace | DiplomaticRelations.Alliance) + 1 < StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)source, relations: DiplomaticRelations.War))
+                if (StrategicMap.Current.Players.GetDiplomaticRelationCount(PlayerId.FromOriginal((sbyte)(byte)source), relations: DiplomaticRelations.Peace | DiplomaticRelations.Alliance) + 1 < StrategicMap.Current.Players.GetDiplomaticRelationCount(PlayerId.FromOriginal((sbyte)(byte)source), relations: DiplomaticRelations.War))
                 {
-                    last = StrategicMap.Current.Players.GetPlayers(target).DiplomaticActions.FindLastAction(Kind, reaction: DiplomaticActionReaction.Reject, source, target, other: -1);
+                    last = StrategicMap.Current.Players.GetPlayers(target).DiplomaticActions.FindLastAction(Kind, reaction: DiplomaticActionReaction.Reject, source: PlayerId.FromOriginal(source), target: PlayerId.FromOriginal(target), other: -1);
                     if (last is null || StrategicMap.Current.Day - last.Day > 8)
                     {
                         // { Original bug: escrow gold is counted twice. }
@@ -92,7 +92,7 @@ public sealed record OfferPeace(int Gold = 0, int Mana = 0) : OfferProposal(Gold
         DiplomaticRelation diplomaticRelation = Relation(action.Source, second: action.Target);
         if (diplomaticRelation is not (DiplomaticRelation.Peace or DiplomaticRelation.War))
         {
-            DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(action.Source).CreateDiplomaticAction(new DeclareWar(), action.Target, other: -1);
+            DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(action.Source).CreateDiplomaticAction(new DeclareWar(), action.Target, other: null);
             if (last is not null)
             {
                 string errorText = "";
@@ -102,7 +102,7 @@ public sealed record OfferPeace(int Gold = 0, int Mana = 0) : OfferProposal(Gold
         }
     }
 
-    public override int RelationModifier(DiplomaticAction action, sbyte player, int race)
+    public override int RelationModifier(DiplomaticAction action, PlayerId? player, int race)
     {
         if (Relation(action.Source, second: action.Target) != DiplomaticRelation.Peace)
         {

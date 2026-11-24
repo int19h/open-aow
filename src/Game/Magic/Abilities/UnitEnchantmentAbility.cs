@@ -4,6 +4,7 @@ using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -72,7 +73,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
             // { Original also reports player zero as unknown. }
             return data.Enchantment.Source <= 0
                 ? AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.UnknownText)
-                : source is not null && source.Player == data.Enchantment.Source
+                : source is not null && PlayerIdExtensions.ToOriginal(source.Player) == data.Enchantment.Source
                     ? AbilityRules.TranslateResourceString(GetEngine(), S: s_manaText)
                     : StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).Leader.HeroName;
         }
@@ -83,7 +84,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:735
-    public override void NewTurn(AbilityOwner owner, sbyte player)
+    public override void NewTurn(AbilityOwner owner, PlayerId player)
     {
         if (GetDurationMode() == DurationMode.Day)
         {
@@ -170,7 +171,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:756
-    public override void NewCombatTurn(CombatObject combatObject, sbyte player)
+    public override void NewCombatTurn(CombatObject combatObject, PlayerId player)
     {
         if (GetDurationMode() == DurationMode.CombatTurn)
         {

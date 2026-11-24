@@ -181,7 +181,7 @@ public class Campaign : EngineObject
 
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            if (StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Human && StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)i, otherPlayer: player) != DiplomaticRelation.Alliance)
+            if (StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Human && StrategicMap.Current.Players.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)i), otherPlayer: PlayerId.FromOriginal(player)) != DiplomaticRelation.Alliance)
             {
                 if (DifficultyLevel == CampaignDifficultyLevel.Easy)
                 {

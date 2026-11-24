@@ -6,6 +6,7 @@ using Aow.Game.Combat;
 using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
@@ -39,7 +40,7 @@ public class FireStorm(CustomNode? owner) : Storm(owner)
     }
 
     // Storms.pas:603
-    public override StormDamageInfo GetTargetDamageInfo(sbyte player, int X, int Y, int L, StormDamageInfo info)
+    public override StormDamageInfo GetTargetDamageInfo(PlayerId? player, int X, int Y, int L, StormDamageInfo info)
     {
         AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Fire, X, Y, L, innerRadius: 0, outerRadius: 2, out info);
         return info;
@@ -57,7 +58,7 @@ public class FireStorm(CustomNode? owner) : Storm(owner)
     }
 
     // Storms.pas:545
-    public override void InitializeStorm(sbyte player, int X, int Y, int L)
+    public override void InitializeStorm(PlayerId? player, int X, int Y, int L)
     {
         Rect r = default;
         base.InitializeStorm(player, X, Y, L);

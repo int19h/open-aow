@@ -76,10 +76,10 @@ public sealed class ObjectCastCrashTests
 
         public int ShowCount { get; private set; }
 
-        public override void ShowPlayerActions(sbyte player)
+        public override void ShowPlayerActions(PlayerId? player)
         {
             ShowCount += 1;
-            ShownPlayer = player;
+            ShownPlayer = PlayerIdExtensions.ToOriginal(player);
         }
     }
 
@@ -307,12 +307,12 @@ public sealed class ObjectCastCrashTests
             };
             window.RelationWindowCreate();
 
-            window.ShowRelations(0);
+            window.ShowRelations(PlayerId.Independent);
             Assert.False(window.Race12Image.Checked);
             Assert.False(window.Player1CheckBox.Checked);
             Assert.Equal(0, window.ShowCount);
 
-            window.ShowRelations(1);
+            window.ShowRelations(PlayerId.Player1);
             Assert.False(window.Race12Image.Checked);
             Assert.True(window.Player1CheckBox.Checked);
             Assert.False(window.RelationPanel.Aligned);
@@ -320,10 +320,10 @@ public sealed class ObjectCastCrashTests
             Assert.Equal(0, window.ShowCount);
 
             Player? player = scope.Map.Players.GetPlayers(1);
-            player.PlayerIndex = 1;
+            player.PlayerIndex = PlayerId.Player1;
             player.Status = PlayerStatus.Playing;
-            scope.Map.SeatedPlayer = 1;
-            window.ShowRelations(1);
+            scope.Map.SeatedPlayer = PlayerId.Player1;
+            window.ShowRelations(PlayerId.Player1);
             Assert.Equal(1, window.ShowCount);
             Assert.Equal(1, window.ShownPlayer);
             Assert.True(window.Player1CheckBox.Checked);

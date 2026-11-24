@@ -2,7 +2,7 @@
 // Translated from NetworkE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-
+using Aow.Game.Session;
 using Aow.Rtl;
 
 namespace Aow.Game.Net;
@@ -115,9 +115,9 @@ public sealed class PlayerCommunicator(CustomNode? owner) : EngineObject(owner)
     }
 
     // NetworkE.pas:685
-    public bool SendDataPackage(DataPackage package, int sender, int receiver)
+    public bool SendDataPackage(DataPackage package, PlayerId? sender, int receiver)
     {
-        package.Sender = sender;
+        package.Sender = PlayerIdExtensions.ToOriginal(sender);
         package.Receiver = receiver;
         SendStream.Clear();
         Engine.StoreEngineObject(SendStream, objectValue: package, progress: null);

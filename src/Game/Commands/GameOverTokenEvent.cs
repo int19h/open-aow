@@ -13,14 +13,14 @@ public class GameOverTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135_441;
 
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
     public GameOverStatus GameOverStatus { get; set; }
 
     // MoveT.PAS:3233
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         GameOverStatus = persister.Enum("GameOverStatus", value: GameOverStatus);
     }
 

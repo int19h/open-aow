@@ -1,5 +1,6 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Net;
@@ -14,7 +15,7 @@ public class ChangePlayerMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
     public new const int ClassId = 135_445;
 
     public ChangePlayerMagicTokenEventMode Mode { get; set; }
-    public byte PlayerIndex { get; set; }
+    public PlayerId? PlayerIndex { get; set; } = PlayerId.Independent;
     public int Value { get; set; }
 
     // Spells.PAS:2448
@@ -22,7 +23,7 @@ public class ChangePlayerMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         base.PersistFields(persister);
         Mode = persister.Enum("Mode", value: Mode);
-        PlayerIndex = persister.Byte("PlayerIndex", value: PlayerIndex);
+        PlayerIndex = persister.OptionalPlayer("PlayerIndex", value: PlayerIndex, width: IdWidth.Byte, fallback: 0);
         Value = persister.Int32("Value", value: Value);
         // Delphi TChangePlayerMagicTE.FExtraValue (id 23) is always 0 (omitted) and never read.
         persister.Skip("ExtraValue");
@@ -33,7 +34,7 @@ public class ChangePlayerMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         _ = base.Execute(tokenEvent);
         bool success = false;
-        PlayerMagicControl magic = StrategicMap.Current.Players.GetPlayers((sbyte)PlayerIndex).MagicControl;
+        PlayerMagicControl magic = StrategicMap.Current.Players.GetPlayers((sbyte)PlayerIdExtensions.ToOriginal(PlayerIndex)).MagicControl;
         switch (Mode)
         {
             case ChangePlayerMagicTokenEventMode.DispelEnchantment:

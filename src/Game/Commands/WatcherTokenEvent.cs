@@ -6,6 +6,7 @@ using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
@@ -26,7 +27,7 @@ public class WatcherTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(
         Spell? spell = GamePack.Current.SpellControl[57];
         watcher.Enchantment.EnchantmentManaUpkeep = spell.ManaUpkeep;
         _ = StrategicMap.Current.PlaceHex(watcher, Location.X, Location.Y, L: Location.MapLevel);
-        if ((byte)StrategicMap.Current.SeatedPlayer == EventPlayerIndex)
+        if ((byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == (byte)PlayerIdExtensions.ToOriginal(EventPlayerIndex))
         {
             watcher.StartAnimation(Location.X, Location.Y, layer: Location.MapLevel);
         }

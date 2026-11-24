@@ -30,7 +30,7 @@ public class EnchantedRoadsEnchantment : GlobalEnchantment
     public override int GetAIUpkeepPriority() => 900;
 
     // GlobalEnchantmentSpells.pas:563
-    public override bool Deactivate(byte player)
+    public override bool Deactivate(PlayerId? player)
     {
         _ = base.Deactivate(player);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
@@ -39,7 +39,7 @@ public class EnchantedRoadsEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:545
-    public override bool CanActivate(sbyte player, ref string reason)
+    public override bool CanActivate(PlayerId? player, ref string reason)
     {
         bool result = base.CanActivate(player, ref reason);
         if (result && StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.EnchantedRoads))
@@ -54,7 +54,7 @@ public class EnchantedRoadsEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:555
-    public override bool Activate(sbyte player)
+    public override bool Activate(PlayerId? player)
     {
         _ = base.Activate(player);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);

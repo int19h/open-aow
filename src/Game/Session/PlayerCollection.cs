@@ -75,16 +75,16 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     }
 
     // Player.PAS:1434
-    public int GetDiplomaticRelationCount(sbyte player, DiplomaticRelations relations)
+    public int GetDiplomaticRelationCount(PlayerId? player, DiplomaticRelations relations)
     {
         int result = 0;
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            if (i != player)
+            if (i != PlayerIdExtensions.ToOriginal(player))
             {
                 if (GetPlayers(i).Status == PlayerStatus.Playing)
                 {
-                    if (relations.Contains(GetDiplomaticRelation(player, otherPlayer: (sbyte)i).ToFlag()))
+                    if (relations.Contains(GetDiplomaticRelation(player, otherPlayer: PlayerId.FromOriginal((sbyte)i)).ToFlag()))
                     {
                         result += 1;
                     }
@@ -96,41 +96,41 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     }
 
     // Player.PAS:1445
-    public DiplomaticRelation GetDiplomaticRelation(sbyte player, sbyte otherPlayer) => this[player].DiplomaticRelations.GetDiplomaticRelation(otherPlayer);
+    public DiplomaticRelation GetDiplomaticRelation(PlayerId? player, PlayerId? otherPlayer) => this[PlayerIdExtensions.ToOriginal(player)].DiplomaticRelations.GetDiplomaticRelation(otherPlayer);
 
     // Player.PAS:1450
-    public void SetDiplomaticRelation(sbyte player, sbyte otherPlayer, DiplomaticRelation relation)
+    public void SetDiplomaticRelation(PlayerId? player, PlayerId? otherPlayer, DiplomaticRelation relation)
     {
-        if (this[player].DiplomaticRelations.GetDiplomaticRelation(otherPlayer) != relation || this[otherPlayer].DiplomaticRelations.GetDiplomaticRelation(player) != relation)
+        if (this[PlayerIdExtensions.ToOriginal(player)].DiplomaticRelations.GetDiplomaticRelation(otherPlayer) != relation || this[PlayerIdExtensions.ToOriginal(otherPlayer)].DiplomaticRelations.GetDiplomaticRelation(player) != relation)
         {
             if (relation == DiplomaticRelation.Alliance)
             {
                 for (int i = 1, last = Count - 1; i <= last; i++)
                 {
-                    if (GetPlayers(player).GetFirstDaySeen((sbyte)i) == -1 && GetPlayers(otherPlayer).GetFirstDaySeen((sbyte)i) != -1)
+                    if (GetPlayers(player).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)i)) == -1 && GetPlayers(otherPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)i)) != -1)
                     {
-                        GetPlayers(player).PlayerSeen((sbyte)i);
+                        GetPlayers(player).PlayerSeen(PlayerId.FromOriginal((sbyte)i));
                     }
 
-                    if (GetPlayers(otherPlayer).GetFirstDaySeen((sbyte)i) == -1 && GetPlayers(player).GetFirstDaySeen((sbyte)i) != -1)
+                    if (GetPlayers(otherPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)i)) == -1 && GetPlayers(player).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)i)) != -1)
                     {
-                        GetPlayers(otherPlayer).PlayerSeen((sbyte)i);
+                        GetPlayers(otherPlayer).PlayerSeen(PlayerId.FromOriginal((sbyte)i));
                     }
                 }
             }
 
-            this[player].DiplomaticRelations.SetDiplomaticRelation(otherPlayer, value: relation);
-            this[otherPlayer].DiplomaticRelations.SetDiplomaticRelation(player, value: relation);
+            this[PlayerIdExtensions.ToOriginal(player)].DiplomaticRelations.SetDiplomaticRelation(otherPlayer, value: relation);
+            this[PlayerIdExtensions.ToOriginal(otherPlayer)].DiplomaticRelations.SetDiplomaticRelation(player, value: relation);
             if (relation == DiplomaticRelation.War)
             {
-                this[player].AIValidAttackPlayers[otherPlayer] = true;
-                this[otherPlayer].AIValidAttackPlayers[player] = true;
+                this[PlayerIdExtensions.ToOriginal(player)].AIValidAttackPlayers[PlayerIdExtensions.ToOriginal(otherPlayer)] = true;
+                this[PlayerIdExtensions.ToOriginal(otherPlayer)].AIValidAttackPlayers[PlayerIdExtensions.ToOriginal(player)] = true;
             }
 
             if (relation is DiplomaticRelation.Peace or DiplomaticRelation.Alliance)
             {
-                this[player].AIValidAttackPlayers[otherPlayer] = false;
-                this[otherPlayer].AIValidAttackPlayers[player] = false;
+                this[PlayerIdExtensions.ToOriginal(player)].AIValidAttackPlayers[PlayerIdExtensions.ToOriginal(otherPlayer)] = false;
+                this[PlayerIdExtensions.ToOriginal(otherPlayer)].AIValidAttackPlayers[PlayerIdExtensions.ToOriginal(player)] = false;
             }
 
             StrategicMap.Current.DiplomaticRelationsChangedEventsStore.Raise(this);
@@ -204,7 +204,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
                 if (j != i)
                 {
                     byte item = ActivePlayers[i];
-                    result = GetDiplomaticRelation((sbyte)ActivePlayers[j], otherPlayer: (sbyte)item) == DiplomaticRelation.Alliance;
+                    result = GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)ActivePlayers[j]), otherPlayer: PlayerId.FromOriginal((sbyte)item)) == DiplomaticRelation.Alliance;
                 }
             }
         }
@@ -295,7 +295,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         while (Count <= value)
         {
             Player player = new(null) { Holder = CreationHolder() };
-            player.SetPlayerIndex((sbyte)Count);
+            player.SetPlayerIndex(PlayerId.FromOriginal((sbyte)Count));
             if (Count == 0)
             {
                 player.PlayerType = PlayerType.Independent;

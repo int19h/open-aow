@@ -8,7 +8,7 @@ using Aow.Game.Commands;
 using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -155,7 +155,7 @@ public class StormSpell : Spell
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             StormSpellTokenEvent tokenEvent = new(null) { Holder = CreationHolder() };
-            tokenEvent.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+            tokenEvent.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
             tokenEvent.Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();

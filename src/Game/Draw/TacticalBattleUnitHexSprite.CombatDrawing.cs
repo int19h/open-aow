@@ -4,6 +4,7 @@ using Aow.Game.Combat;
 using Aow.Game.Draw.Images;
 
 using Aow.Game.Host;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
@@ -31,9 +32,9 @@ public partial class TacticalBattleUnitHexSprite
             pixelXSurface = x - pixelXSurface + OffsetX;
             pixelYSurface = y - pixelYSurface - 8 + OffsetY;
             int race;
-            if (Unit.GetPlayer() > 0)
+            if (PlayerIdExtensions.ToOriginal(Unit.GetPlayer()) > 0)
             {
-                sbyte player = Unit.GetPlayer();
+                sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Unit.GetPlayer());
                 race = StrategicMap.Current.Players.GetPlayers(player).PlayerRace;
             }
             else

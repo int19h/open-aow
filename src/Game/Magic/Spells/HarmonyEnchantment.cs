@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
@@ -37,7 +37,7 @@ public class HarmonyEnchantment : GlobalEnchantment
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
         base.MessageProc(ref message, sender);
-        if (message.MessageId == 537001986 && message.Payload.Int == PlayerIndex)
+        if (message.MessageId == 537001986 && message.Payload.Int == PlayerIdExtensions.ToOriginal(PlayerIndex))
         {
             NewDay();
         }
@@ -47,7 +47,7 @@ public class HarmonyEnchantment : GlobalEnchantment
     public override int GetAIUpkeepPriority() => 500;
 
     // GlobalEnchantmentSpells.pas:956
-    public override bool Deactivate(byte player)
+    public override bool Deactivate(PlayerId? player)
     {
         _ = base.Deactivate(player);
         if (DaysActive > 10)
@@ -63,7 +63,7 @@ public class HarmonyEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:949
-    public override bool Activate(sbyte player)
+    public override bool Activate(PlayerId? player)
     {
         _ = base.Activate(player);
         NewDay();

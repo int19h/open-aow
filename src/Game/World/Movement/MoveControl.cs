@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -24,7 +24,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
 
     private Statuses _status;
 
-    public sbyte Player { get; private set; }
+    public PlayerId? Player { get; private set; } = PlayerId.Independent;
     public MoveModes Mode { get; private set; }
 
     private MapCoordinate Source { get; set; }
@@ -169,7 +169,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
     public void Clear()
     {
         Deactivate();
-        Player = -1;
+        Player = null;
         MapLevel = null;
         Source = new MapCoordinate(-1, -1, -1);
         Destination = new MapCoordinate(-1, -1, -1);

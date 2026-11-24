@@ -313,16 +313,16 @@ public class CombatUnit : CombatObject
                     party = Combat.CombatData.Parties.GetParty((byte)(Position >>> 4));
                     if (party is not null && (sbyte)party.PlayerIndex == CombatPlayer)
                     {
-                        sbyte player = GetPlayer();
+                        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
                         ArmyHexSprite? placed;
                         if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                         {
-                            placed = Troop.Place(party.Location.X, party.Location.Y, L: party.Location.MapLevel, player: 0, mode: UnitPlaceModes.NeglectEmptyPlayerLocation);
+                            placed = Troop.Place(party.Location.X, party.Location.Y, L: party.Location.MapLevel, player: PlayerId.Independent, mode: UnitPlaceModes.NeglectEmptyPlayerLocation);
                         }
                         else
                         {
-                            sbyte player2 = GetPlayer();
-                            placed = Troop.Place(party.Location.X, party.Location.Y, L: party.Location.MapLevel, player: player2, mode: UnitPlaceModes.NeglectEmptyPlayerLocation);
+                            sbyte player2 = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
+                            placed = Troop.Place(party.Location.X, party.Location.Y, L: party.Location.MapLevel, player: PlayerId.FromOriginal(player2), mode: UnitPlaceModes.NeglectEmptyPlayerLocation);
                         }
 
                         if (placed is not null)
@@ -338,15 +338,15 @@ public class CombatUnit : CombatObject
 
                 if (party is null || party.Location.X != -1)
                 {
-                    sbyte player = GetPlayer();
+                    sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
                     if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                     {
-                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, L: Combat.CombatData.Location.MapLevel, player: 0, mode: UnitPlaceModes.ScanArea);
+                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, L: Combat.CombatData.Location.MapLevel, player: PlayerId.Independent, mode: UnitPlaceModes.ScanArea);
                     }
                     else
                     {
-                        sbyte player2 = GetPlayer();
-                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, L: Combat.CombatData.Location.MapLevel, player: player2, mode: UnitPlaceModes.ScanArea);
+                        sbyte player2 = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
+                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, L: Combat.CombatData.Location.MapLevel, player: PlayerId.FromOriginal(player2), mode: UnitPlaceModes.ScanArea);
                     }
 
                     Dispose();
@@ -355,8 +355,8 @@ public class CombatUnit : CombatObject
                 {
                     if (party is not null && (sbyte)party.PlayerIndex != CombatPlayer)
                     {
-                        sbyte player = GetPlayer();
-                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, L: Combat.CombatData.Location.MapLevel, player, mode: UnitPlaceModes.ScanArea);
+                        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
+                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, L: Combat.CombatData.Location.MapLevel, player: PlayerId.FromOriginal(player), mode: UnitPlaceModes.ScanArea);
                     }
                 }
             }
@@ -428,7 +428,7 @@ public class CombatUnit : CombatObject
     {
         base.NewTurn(combatPlayer);
         Troop? u = Troop;
-        u?.TriggerNewCombatTurn(this, player: (sbyte)combatPlayer);
+        u?.TriggerNewCombatTurn(this, player: PlayerId.FromInt32((sbyte)combatPlayer));
     }
 
     // Combat.pas:1124

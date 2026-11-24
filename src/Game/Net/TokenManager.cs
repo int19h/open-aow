@@ -1,5 +1,7 @@
 #nullable disable warnings
 // Translated from NetworkE.pas.
+using Aow.Game.Session;
+
 namespace Aow.Game.Net;
 
 // _tokenExecutor, _tokenPackageDistributor, _owner, _tokenControls (one per player, nil for a
@@ -27,7 +29,7 @@ public sealed class TokenManager : IDisposable
     public TokenPackageDistributor CreateTokenPackageDistributor() => new(this);
 
     // NetworkE.pas:1652
-    public TokenControl CreateTokenControl(int player) => new(this, player);
+    public TokenControl CreateTokenControl(PlayerId? player) => new(this, player);
 
     // NetworkE.pas:1628
     public void Initialize(PlayerCommunicator pc)
@@ -38,7 +40,7 @@ public sealed class TokenManager : IDisposable
             ClearPlayers();
             for (int i = 0, last = pc.PlayerCommunicationControl.GetCount() - 1; i <= last; i++)
             {
-                CreatePlayer(i);
+                CreatePlayer(PlayerId.FromOriginal(i));
             }
         }
 
@@ -51,14 +53,14 @@ public sealed class TokenManager : IDisposable
     // NetworkE.pas:1694
     // { A player is ready when nothing of his waits: no system events, no token events, and his events
     //   are not being executed }
-    public bool PlayerReady(int player)
+    public bool PlayerReady(PlayerId? player)
     {
-        if (player < _tokenControls.Count && _tokenControls[player] is not null)
+        if (PlayerIdExtensions.ToOriginal(player) < _tokenControls.Count && _tokenControls[PlayerIdExtensions.ToOriginal(player)] is not null)
         {
-            bool condition = TokenExecutor.SystemEvents.Count != 0 || _tokenControls[player].GetCount() != 0;
+            bool condition = TokenExecutor.SystemEvents.Count != 0 || _tokenControls[PlayerIdExtensions.ToOriginal(player)].GetCount() != 0;
             if (!condition)
             {
-                TokenControl? item = _tokenControls[player];
+                TokenControl? item = _tokenControls[PlayerIdExtensions.ToOriginal(player)];
                 condition = TokenExecutor.PrefetchTacticalBattle == item && TokenExecutor.State.Contains(TokenExecutorStates.Executing);
             }
 
@@ -71,27 +73,27 @@ public sealed class TokenManager : IDisposable
     }
 
     // NetworkE.pas:1663
-    public void CreatePlayer(int player)
+    public void CreatePlayer(PlayerId? player)
     {
-        if (player >= _tokenControls.Count || _tokenControls[player] is null)
+        if (PlayerIdExtensions.ToOriginal(player) >= _tokenControls.Count || _tokenControls[PlayerIdExtensions.ToOriginal(player)] is null)
         {
-            while (player >= _tokenControls.Count)
+            while (PlayerIdExtensions.ToOriginal(player) >= _tokenControls.Count)
             {
                 _tokenControls.Add(null);
             }
 
             TokenControl createTokenControl = CreateTokenControl(player);
-            _tokenControls[player] = createTokenControl;
+            _tokenControls[PlayerIdExtensions.ToOriginal(player)] = createTokenControl;
         }
     }
 
     // NetworkE.pas:1673
-    public void DeletePlayer(int player)
+    public void DeletePlayer(PlayerId player)
     {
-        if (player < _tokenControls.Count && _tokenControls[player] is not null)
+        if (player.Value < _tokenControls.Count && _tokenControls[player.Value] is not null)
         {
-            (_tokenControls[player] as IDisposable)?.Dispose();
-            _tokenControls[player] = null;
+            (_tokenControls[player.Value] as IDisposable)?.Dispose();
+            _tokenControls[player.Value] = null;
         }
     }
 
@@ -124,7 +126,7 @@ public sealed class TokenManager : IDisposable
     public int GetCount() => _tokenControls.Count;
 
     // NetworkE.pas:1710
-    public TokenControl? GetTokenControl(int player) => player < _tokenControls.Count ? _tokenControls[player] : null;
+    public TokenControl? GetTokenControl(PlayerId? player) => PlayerIdExtensions.ToOriginal(player) < _tokenControls.Count ? _tokenControls[PlayerIdExtensions.ToOriginal(player)] : null;
 
     // NetworkE.pas:1718
     public void ReportMessage(string message) => _message?.Invoke(this, message);
@@ -136,7 +138,7 @@ public sealed class TokenManager : IDisposable
 
     public sealed class TokenControlsAccessor(TokenManager target)
     {
-        public TokenControl? this[int player] => target.GetTokenControl(player);
+        public TokenControl? this[PlayerId? player] => target.GetTokenControl(player);
     }
 
     public TokenControlsAccessor TokenControls => new(this);

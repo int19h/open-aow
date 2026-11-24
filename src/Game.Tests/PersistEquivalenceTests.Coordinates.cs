@@ -7,6 +7,7 @@ using Aow.Formats.Schema;
 using Aow.Game.AI.Groups;
 using Aow.Game.Commands;
 using Aow.Game.Magic;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -137,7 +138,7 @@ public sealed partial class PersistEquivalenceTests
         };
         city.SetOwner(control.Enchantments);
         Check("GlobalMagicControl", control, converterRead: false);
-        ArmyId army = new(null!) { Holder = EngineFixture.Engine, Player = 2, Location = new MapCoordinate(-1, 7, 2) };
+        ArmyId army = new(null!) { Holder = EngineFixture.Engine, Player = PlayerId.Player2, Location = new MapCoordinate(-1, 7, 2) };
         Check("ArmyId", army);
     }
 

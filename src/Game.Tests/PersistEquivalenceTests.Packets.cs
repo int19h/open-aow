@@ -7,6 +7,7 @@ using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 using Aow.Game.Commands;
 using Aow.Game.Net;
+using Aow.Game.Session;
 using Aow.Game.World.Movement;
 
 namespace Aow.Game.Tests;
@@ -84,7 +85,7 @@ public sealed partial class PersistEquivalenceTests
         _ = spell.TargetUnitIds.Add(9);
         spell.SpellData[0] = 11;
         spell.SpellData[1] = -4;
-        spell.TargetPlayer = 2;
+        spell.TargetPlayer = PlayerId.Player2;
         Alike("UnitSpellTokenEvent", objectValue: spell);
     }
 

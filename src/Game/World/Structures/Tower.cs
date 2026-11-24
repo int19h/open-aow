@@ -4,6 +4,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
@@ -39,7 +40,7 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
     {
         if (value)
         {
-            SetPlayer(-1);
+            SetPlayer(null);
             State |= States.Razed;
         }
         else
@@ -89,7 +90,7 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
         if (!Building)
         {
             result = 12;
-            if (HexLevel != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0))
+            if (HexLevel != 0 || (PlayerIdExtensions.ToOriginal(Player) > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0))
             {
                 return (result + 1) >>> 1;
             }

@@ -132,7 +132,7 @@ public sealed partial class UnitWindow
             }
             else
             {
-                if (h.Player == 0)
+                if (h.Player == PlayerId.Independent)
                 {
                     UI.UnitWindow.SpherePanel.Visible = false;
                     string noLeader = UI.Engine.TranslateResourceString(s_noLeaderText);
@@ -229,7 +229,7 @@ public sealed partial class UnitWindow
                     UI.UnitWindow.SphereLabel.Text = leaderSpheres;
                 }
 
-                if ((StrategicMap.Current.Combat is null && h.Player == StrategicMap.Current.SeatedPlayer) || (StrategicMap.Current.Combat is not null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == h.Player))
+                if ((StrategicMap.Current.Combat is null && h.Player == StrategicMap.Current.SeatedPlayer) || (StrategicMap.Current.Combat is not null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == PlayerIdExtensions.ToOriginal(h.Player)))
                 {
                     string items = UI.Engine.TranslateResourceString(s_itemsText);
                     _ = UI.UnitWindow.UnitTabs.Items.Add(items);
@@ -266,7 +266,7 @@ public sealed partial class UnitWindow
             }
 
             UI.UnitWindow.MainWindow.Visible = true;
-            if (h is not null && ((StrategicMap.Current.Combat is null && h.Player == StrategicMap.Current.SeatedPlayer) || (StrategicMap.Current.Combat is not null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == h.Player)))
+            if (h is not null && ((StrategicMap.Current.Combat is null && h.Player == StrategicMap.Current.SeatedPlayer) || (StrategicMap.Current.Combat is not null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == PlayerIdExtensions.ToOriginal(h.Player))))
             {
                 if (h.Inventory.Items.GetItem(0) is not null)
                 {

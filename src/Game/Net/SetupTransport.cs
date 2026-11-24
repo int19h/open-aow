@@ -1,3 +1,5 @@
+using Aow.Game.Session;
+
 namespace Aow.Game.Net;
 
 // The network transport of a SetupControl: the platform sends map images and setup data
@@ -12,11 +14,11 @@ public sealed class SetupTransport : ISetupTransport
     // mistake stops instead of waiting for a send that never happens.
     public static SetupTransport Unported { get; } = new();
 
-    public void SendMap(ReadOnlyMemory<byte> image, int recipient)
+    public void SendMap(ReadOnlyMemory<byte> image, PlayerId recipient)
         /* TODO: Implement aowDPlayComp file transfer in the platform or editor service. */
         => throw new NotImplementedException();
 
-    public bool SendData(ReadOnlyMemory<byte> data, int recipient)
+    public bool SendData(ReadOnlyMemory<byte> data, PlayerId recipient)
         /* TODO: Implement aowDPlayComp.SendMessage in the platform or editor service. */
         => throw new NotImplementedException();
 }

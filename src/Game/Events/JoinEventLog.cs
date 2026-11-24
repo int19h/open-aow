@@ -66,7 +66,7 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
             int item = UnitIds[i];
             Troop troop = StrategicMap.Current.UnitControl.FindUnit(item);
             // { Original behavior: missing and dead units do not invalidate the offer. }
-            if (troop is not null && troop.Player == 0)
+            if (troop is not null && troop.Player == PlayerId.Independent)
             {
                 MapCoordinate coordinate20 = troop.GetLocation();
                 int locationX = coordinate20.X;
@@ -116,10 +116,10 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
     public virtual bool Reject(ref string errorText) => true;
 
     // Diplomacy.pas:33
-    public void SetupJoinArmy(Army army, sbyte player, JoinMode joinMode)
+    public void SetupJoinArmy(Army army, PlayerId? player, JoinMode joinMode)
     {
         FirstUnitId = 0;
-        Player = (sbyte)(byte)player;
+        Player = PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(player));
         Selection = army.GetJoinSelection(player);
         Gold = army.JoinAmount(player, Selection);
         JoinMode = joinMode;

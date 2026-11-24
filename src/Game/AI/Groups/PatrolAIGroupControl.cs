@@ -256,7 +256,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
             while (newList.Count != 30 && j != lists[i].Count)
             {
                 mapField = lists[i].List[j].First;
-                if (mapField.GetPlayer() == -1)
+                if (mapField.GetPlayer() is null)
                 {
                     message.Result = 0;
                     mapField.SendMapFieldMessage(ref message);
@@ -275,7 +275,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
         }
 
         mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(group.PatrolFrom);
-        if (mapField.GetPlayer() == -1)
+        if (mapField.GetPlayer() is null)
         {
             _ = lists[0].AddAbility(mapField, 0);
         }

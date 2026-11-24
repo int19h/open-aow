@@ -181,7 +181,7 @@ public class TownGate : CityTargetSpell
     public bool ValidTeleportLocation(ArmyHexSprite? army, int selection, int X, int Y, int L)
     {
         MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
-        bool result = field.GetPlayer() == -1 || field.GetPlayer() == army.Army.Player;
+        bool result = field.GetPlayer() is null || field.GetPlayer() == army.Army.Player;
 
         if (result)
         {

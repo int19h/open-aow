@@ -6,6 +6,7 @@ using Aow.Game.Combat;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
@@ -43,7 +44,7 @@ public class CityWallDoor(CustomNode? owner) : CityWall(owner)
             bool condition = HitPoints == 0;
             if (!condition)
             {
-                int indexOfPlayer = CombatMap.Current.Combat.CombatData.Players.IndexOfPlayer((byte)CombatMap.Current.CurrentPlayer);
+                int indexOfPlayer = CombatMap.Current.Combat.CombatData.Players.IndexOfPlayer((byte)PlayerIdExtensions.ToOriginal(CombatMap.Current.CurrentPlayer));
                 condition = CombatMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)indexOfPlayer).SideIndex != 1 && combatUnit is null;
             }
 

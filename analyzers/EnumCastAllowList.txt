@@ -27,7 +27,7 @@ M:Aow.Game.AI.Groups.AIMoveExecutorUnitStatusConversions.<G>$104459C16AE9D8DA476
 M:Aow.Game.AI.Groups.AIMoveExecutorUnitStatusConversions.<G>$34AC030BB385C8C3ED881B4C8996A568.ToAIMoveExecutorUnitStatus~Aow.Game.AI.Groups.AIMoveExecutorUnitStatus
 M:Aow.Game.AI.Groups.GroupDefenseSelector.EnoughStrength(System.ReadOnlySpan{System.Int32})~System.Boolean
 M:Aow.Game.AI.Groups.GroupDefenseSelector.Execute(Aow.Game.AI.Groups.AIGroup,System.Int32,System.Int32,System.Int32,Aow.Game.Units.UnitUserList)~System.Boolean
-M:Aow.Game.AI.Groups.GroupDefenseSelector.GetDefenders(System.SByte,System.Int32,System.Int32,System.Int32,Aow.Game.Units.UnitUserList)~System.Boolean
+M:Aow.Game.AI.Groups.GroupDefenseSelector.GetDefenders(System.Nullable{Aow.Game.Session.PlayerId},System.Int32,System.Int32,System.Int32,Aow.Game.Units.UnitUserList)~System.Boolean
 M:Aow.Game.AI.Groups.GroupDefenseSelector.UsefulUnit(Aow.Game.Magic.Abilities.Troop,System.ReadOnlySpan{System.Int32})~System.Boolean
 M:Aow.Game.Combat.Battle.Finalize
 M:Aow.Game.Combat.BattleAI.EvalBattle
@@ -74,7 +74,7 @@ M:Aow.Game.Magic.Abilities.Hero.Killed
 M:Aow.Game.Magic.Abilities.Leader.GetSpheres(System.Int32)~Aow.Game.Magic.MagicSphere
 M:Aow.Game.Magic.Abilities.Troop.GetCombatValue(Aow.Game.Magic.Abilities.Troop,System.Int32)~System.Int32
 M:Aow.Game.Magic.Abilities.Troop.GetStrengthMax(Aow.Game.Combat.DamageTypes)~System.Int32
-M:Aow.Game.Magic.Abilities.Troop.GetUnitMoraleValue(System.SByte,System.Int32)~System.Int32
+M:Aow.Game.Magic.Abilities.Troop.GetUnitMoraleValue(System.Nullable{Aow.Game.Session.PlayerId},System.Int32)~System.Int32
 M:Aow.Game.Magic.Abilities.Troop.OptimalDamageType(Aow.Game.Combat.DamageTypes)~Aow.Game.Combat.DamageType
 M:Aow.Game.Magic.Abilities.Troop.UpdateOffensiveStrength
 M:Aow.Game.Magic.GlobalEnchantmentTypeConversions.<G>$33E629BBC7802DCDE86BAB03BE63AE56.ToFlag~Aow.Game.Magic.GlobalEnchantmentTypes
@@ -90,7 +90,7 @@ M:Aow.Game.Session.CampaignTransferSettings.ExecuteSelection
 M:Aow.Game.Session.DiplomaticRelationConversions.<G>$E372B9065A69B496E6AFC62858B6424E.ToFlag~Aow.Game.Session.DiplomaticRelations
 M:Aow.Game.Session.DiplomaticRelationConversions.<G>$EA07F528299B22008E090833FF0BC159.ToDiplomaticRelation~Aow.Game.Session.DiplomaticRelation
 M:Aow.Game.Session.DiplomaticRelationList.GetDiplomaticRelation(System.Int32)~Aow.Game.Session.DiplomaticRelation
-M:Aow.Game.Session.PlayerDiplomaticRelations.GetDiplomaticRelation(System.SByte)~Aow.Game.Session.DiplomaticRelation
+M:Aow.Game.Session.PlayerDiplomaticRelations.GetDiplomaticRelation(System.Nullable{Aow.Game.Session.PlayerId})~Aow.Game.Session.DiplomaticRelation
 M:Aow.Game.Session.PlayerMagicControl.NewTurn
 M:Aow.Game.Session.PlayerTypeConversions.<G>$E5AE731E0AE6459CAFFD1CF6D3EF1B9F.ToPlayerType~Aow.Game.Session.PlayerType
 M:Aow.Game.Session.PlayerTypeConversions.<G>$EFC5F7D7B1A241222613978B31029DEB.ToFlag~Aow.Game.Session.PlayerTypes
@@ -129,7 +129,7 @@ M:Aow.Game.Units.UnitResource.#ctor(Aow.Engine.Nodes.CustomNode)
 M:Aow.Game.Units.UnitResource.Dispose
 M:Aow.Game.Units.UnitTypeConversions.<G>$285AA75683558D828475A8C1CD18FE78.ToUnitType~Aow.Game.Units.UnitType
 M:Aow.Game.Units.UnitTypeConversions.<G>$6B5F6652558ACAC4DE36017D44833FC7.ToFlag~Aow.Game.Units.UnitTypes
-M:Aow.Game.World.Map.MapField.GetMoveAction(System.SByte)~Aow.Game.World.Movement.MoveAction
+M:Aow.Game.World.Map.MapField.GetMoveAction(System.Nullable{Aow.Game.Session.PlayerId})~Aow.Game.World.Movement.MoveAction
 M:Aow.Game.World.Map.MapField.GetWallType~Aow.Game.Combat.WallType
 M:Aow.Game.World.Map.StrategicMap.Activate
 M:Aow.Game.World.Map.TerrainTypeConversions.<G>$169BC290C5396F646DCDEE849FA5B86E.ToFlag~Aow.Game.World.Map.TerrainTypes
@@ -138,7 +138,7 @@ M:Aow.Game.World.Movement.MoveTypeConversions.<G>$A4F96E34E7E51C657978C760DF61AC
 M:Aow.Game.World.Movement.MoveTypeConversions.<G>$A9189EE39C892DFA6C01FDC0900FE846.ToFlag~Aow.Game.World.Movement.MoveTypes
 M:Aow.Game.World.Structures.City.GenerateDefenders
 M:Aow.Game.World.Structures.City.GetCivilStatus~Aow.Game.World.Structures.City.CivilStatus
-M:Aow.Game.World.Structures.City.JoinAmount(System.SByte)~System.Int32
+M:Aow.Game.World.Structures.City.JoinAmount(System.Nullable{Aow.Game.Session.PlayerId})~System.Int32
 M:Aow.Game.World.Structures.City.ListCivilStatusInfo(Aow.Rtl.DelphiStringCollection)
 M:Aow.Game.World.Structures.CityEnchantmentIdConversions.<G>$04C63ADEF5A9B1FF0A8781DD0D6485F3.ToCityEnchantmentId~Aow.Game.World.Structures.CityEnchantmentId
 M:Aow.Game.World.Structures.CityEnchantmentIdConversions.<G>$8E8D400D7F2A8B18DCE8B5E0F3B96FA8.ToFlag~Aow.Game.World.Structures.CityEnchantmentIds

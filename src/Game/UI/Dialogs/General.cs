@@ -960,7 +960,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
         if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Activated))
         {
             TurnButton turn = controller.UI.TaskBar.WorldTurnButton;
-            if (StrategicMap.Current.SeatedPlayer != -1)
+            if (StrategicMap.Current.SeatedPlayer is not null)
             {
                 turn.LastPlayer = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
                 if (turn.LastPlayer == -1)

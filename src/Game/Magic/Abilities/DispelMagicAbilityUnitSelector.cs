@@ -2,7 +2,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Commands;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -40,9 +40,9 @@ public sealed class DispelMagicAbilityUnitSelector(EngineObject creator) : UnitS
                 {
                     Holder = Creator.CreationHolder(),
                     SourceId = source.UnitId,
-                    SourcePlayer = (byte)source.Player,
+                    SourcePlayer = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)),
                     TargetId = target.UnitId,
-                    TargetPlayer = (byte)target.Player
+                    TargetPlayer = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(target.Player))
                 };
                 StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 _ = eventValue.Release();

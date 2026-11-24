@@ -29,7 +29,7 @@ public class House(CustomNode owner) : CombatStructure(owner)
             {
                 _race = structure is City city ? city.Race : 0;
 
-                _flagId = structure.Player == -1 ? -1 : StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
+                _flagId = structure.Player is null ? -1 : StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
 
                 if (_flagId == -1)
                 {

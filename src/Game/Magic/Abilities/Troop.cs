@@ -60,7 +60,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public AIGroup? Group { get; set; }
 
     // group
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
 
     public UnitStatuses UnitStatus { get; set; }
 
@@ -69,7 +69,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         UnitResource? resource = (this as Unit)?.UnitResource;
         string kind = resource is null ? "no-resource" : string.Create(CultureInfo.InvariantCulture, handler: $"{resource.UnitType} race={resource.Race} L{resource.Level}");
         string location = Owner is Army army ? string.Create(CultureInfo.InvariantCulture, handler: $" ({army.Location.X},{army.Location.Y} L{army.Location.MapLevel})") : "";
-        return string.Create(CultureInfo.InvariantCulture, handler: $"Unit#{UnitId} P{Player} {kind}{location}");
+        return string.Create(CultureInfo.InvariantCulture, handler: $"Unit#{UnitId} P{PlayerIdExtensions.ToOriginal(Player)} {kind}{location}");
     });
 
     public int MoraleValue { get; set; }
@@ -123,7 +123,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         GroupId = persister.Int32("GroupId", value: GroupId);
         UnitId = persister.Int32("UnitId", value: UnitId, fallback: -1);
         MoraleValue = persister.UnsignedByte(name: "MoraleValue", value: MoraleValue.TruncateToSByte());
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         if (persister.Loading)
         {
             try
@@ -171,14 +171,14 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001986)
         {
-            NewTurn((sbyte)message.Payload.Int);
+            NewTurn(PlayerId.FromInt32((sbyte)message.Payload.Int));
             return;
         }
         else
         {
             if (message.MessageId == 537001987)
             {
-                NewTurnDone((sbyte)message.Payload.Int);
+                NewTurnDone(PlayerId.FromInt32((sbyte)message.Payload.Int));
             }
             else
             {
@@ -394,7 +394,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1355
-    public virtual void NewTurn(sbyte player)
+    public virtual void NewTurn(PlayerId player)
     {
         if (player == Player)
         {
@@ -426,9 +426,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1375
-    public virtual void NewTurnDone(sbyte player)
+    public virtual void NewTurnDone(PlayerId player)
     {
-        if (player == Player && Player > 0)
+        if (player == Player && PlayerIdExtensions.ToOriginal(Player) > 0)
         {
             if (StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.FireMastery))
             {
@@ -487,7 +487,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual DelphiStringCollection? Description => null;
 
     // Unit.PAS:494
-    public virtual void SetPlayer(sbyte player)
+    public virtual void SetPlayer(PlayerId? player)
     {
         if (player != Player)
         {
@@ -514,10 +514,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual UnitSize UnitSize => UnitSize.Medium;
 
     // Unit.PAS:260
-    public virtual int GetUnitMoraleValue(sbyte player, int independentRelation)
+    public virtual int GetUnitMoraleValue(PlayerId? player, int independentRelation)
     {
         int morale;
-        if (player >= 0 && GetUnitType() != UnitType.Machine && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (PlayerIdExtensions.ToOriginal(player) >= 0 && GetUnitType() != UnitType.Machine && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             int race = GetRace();
             morale = GetRelationValue(player, independentRelation);
@@ -581,7 +581,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
         UnitStatus |= UnitStatuses.Activated;
         StrategicMap.Current.UnitControl.RegisterUnit(this);
-        if (GroupId != 0 && Player >= 0)
+        if (GroupId != 0 && PlayerIdExtensions.ToOriginal(Player) >= 0)
         {
             AIGroup? group = StrategicMap.Current.AIGroupManager.Groups.FindId(GroupId);
             if (group is not null)
@@ -688,7 +688,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1796
-    public virtual bool CanJoin(sbyte player)
+    public virtual bool CanJoin(PlayerId? player)
     {
         bool condition = Group is null;
         if (!condition)
@@ -754,14 +754,14 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1835
-    public virtual int JoinAmount(sbyte player)
+    public virtual int JoinAmount(PlayerId? player)
     {
         AIGroup? group = Group;
         return group is not null && group.GroupClass.Behavior == GroupBehavior.Refuge ? 0 : Round(GetObtainValue() * 0.75);
     }
 
     // Unit.PAS:1843
-    public virtual bool OfferToJoin(sbyte player)
+    public virtual bool OfferToJoin(PlayerId? player)
     {
         if (CanJoin(player))
         {
@@ -792,7 +792,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1872
-    public virtual void GetJoinMessage(sbyte player, int count, int amount, JoinMode mode, DelphiStringCollection messages)
+    public virtual void GetJoinMessage(PlayerId? player, int count, int amount, JoinMode mode, DelphiStringCollection messages)
     {
         messages.Clear();
         switch (mode)
@@ -830,7 +830,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         AIGroup? group = Group;
         _ = (group?.DeleteUnit(this));
 
-        SetPlayer(-1);
+        SetPlayer(null);
         Changed();
     }
 
@@ -840,7 +840,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         _ = ExpandAbility(128);
         UnitStatus &= ~UnitStatuses.Killed;
         SetHitPoints(1);
-        SetPlayer(0);
+        SetPlayer(PlayerId.Independent);
     }
 
     // Unit.PAS:1231
@@ -849,7 +849,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         _ = ExpandAbility(129);
         UnitStatus &= ~UnitStatuses.Killed;
         SetHitPoints(1);
-        SetPlayer(0);
+        SetPlayer(PlayerId.Independent);
     }
 
     // Unit.PAS:152
@@ -884,10 +884,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public MapCoordinate GetLocation() => UnitHolder is { } holder ? holder.GetLocation() : MapCoordinate.None;
 
     // Unit.PAS:231
-    public int GetRelationValue(sbyte player, int independentRelation)
+    public int GetRelationValue(PlayerId? player, int independentRelation)
     {
         int race = GetRace();
-        if (player != 0)
+        if (player != PlayerId.Independent)
         {
             if (race != -1 && !GetAbilityEnabled(107))
             {
@@ -910,7 +910,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:256
-    public Status GetRelation(sbyte player, int independentRelation) => Race.StatusValueToStatus(GetRelationValue(player, independentRelation));
+    public Status GetRelation(PlayerId? player, int independentRelation) => Race.StatusValueToStatus(GetRelationValue(player, independentRelation));
 
     // Unit.PAS:301
     public Status UnitRelation(Troop troop)
@@ -925,8 +925,8 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:312
     public int UpdateMoraleValue()
     {
-        int player = Player;
-        int value = GetUnitMoraleValue((sbyte)player, independentRelation: GetIndependentRelation());
+        int player = PlayerIdExtensions.ToOriginal(Player);
+        int value = GetUnitMoraleValue(PlayerId.FromOriginal((sbyte)player), independentRelation: GetIndependentRelation());
         if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && GetUnitType() != UnitType.Machine && this is not Leader && Owner is Army)
         {
             if (GetUpkeep() != 0 && player > 0 && !GetAbilityEnabled(155))
@@ -1055,7 +1055,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:463
-    public bool CanDispelEnchantment(sbyte player)
+    public bool CanDispelEnchantment(PlayerId? player)
     {
         AbilityTypeList list = GamePack.Current.AbilityControl.AbilitiesByType[4];
         int i = list.Count;
@@ -1064,7 +1064,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         {
             i -= 1;
             UnitEnchantment? enchantment = AbilityToEnchantment(list.GetAbility(i).AbilityId);
-            result = enchantment is not null && player != enchantment.Source;
+            result = enchantment is not null && PlayerIdExtensions.ToOriginal(player) != enchantment.Source;
         }
 
         return result;
@@ -1219,7 +1219,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
 
         int moveTypesToInt32 = (byte)moves;
         table = MovementTables.MovePointTables[moveTypesToInt32];
-        if (Player > 0)
+        if (PlayerIdExtensions.ToOriginal(Player) > 0)
         {
             if (StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.EnchantedRoads))
             {
@@ -1332,9 +1332,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 {
                     for (int player = 1, last = StrategicMap.Current.Players.Count - 1; player <= last; player++)
                     {
-                        if (player != Player && StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.War && field.GetExplored(player) && !StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, mapField.HexLevel, player: (sbyte)player))
+                        if (player != PlayerIdExtensions.ToOriginal(Player) && StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)player)) == DiplomaticRelation.War && field.GetExplored(PlayerId.FromOriginal(player)) && !StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, mapField.HexLevel, player: PlayerId.FromOriginal((sbyte)player)))
                         {
-                            field.SetExplored(player, value: false);
+                            field.SetExplored(PlayerId.FromOriginal(player), value: false);
                         }
                     }
                 }
@@ -1593,7 +1593,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             if (ExpandAbility(153))
             {
                 GetAbilityData<UnitEnchantmentAbilityData>(153).Enchantment.SetUpkeep(0);
-                GetAbilityData<UnitEnchantmentAbilityData>(153).Enchantment.SetSource(-2);
+                GetAbilityData<UnitEnchantmentAbilityData>(153).Enchantment.SetSource(PlayerId.FromOriginal(-2));
                 Spell? spell = GamePack.Current.SpellControl[17];
                 GetAbilityData<UnitEnchantmentAbilityData>(153).Enchantment.DispelResistance = ((UnitSpell)(object?)spell).UnitDispelResistance.TruncateToSByte();
             }
@@ -1620,7 +1620,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             if (ExpandAbility(167))
             {
                 GetAbilityData<UnitEnchantmentAbilityData>(167).Enchantment.SetUpkeep(0);
-                GetAbilityData<UnitEnchantmentAbilityData>(167).Enchantment.SetSource(-2);
+                GetAbilityData<UnitEnchantmentAbilityData>(167).Enchantment.SetSource(PlayerId.FromOriginal(-2));
                 GetAbilityData<UnitEnchantmentAbilityData>(167).Enchantment.DispelResistance = 7;
             }
         }
@@ -1646,7 +1646,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             if (ExpandAbility(158))
             {
                 GetAbilityData<UnitEnchantmentAbilityData>(158).Enchantment.SetUpkeep(0);
-                GetAbilityData<UnitEnchantmentAbilityData>(158).Enchantment.SetSource(-2);
+                GetAbilityData<UnitEnchantmentAbilityData>(158).Enchantment.SetSource(PlayerId.FromOriginal(-2));
                 Spell? spell = GamePack.Current.SpellControl[56];
                 GetAbilityData<UnitEnchantmentAbilityData>(158).Enchantment.DispelResistance = ((UnitSpell)(object?)spell).UnitDispelResistance.TruncateToSByte();
             }
@@ -1677,7 +1677,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:1319
     public void ValidateLifeMastery()
     {
-        sbyte player = Player;
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Player);
         if (player > 0)
         {
             if (!StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.LifeMastery))
@@ -1715,7 +1715,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:1344
     public void ValidateDeathMastery()
     {
-        sbyte player = Player;
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Player);
         if (player > 0)
         {
             if ((((byte)StrategicMap.Current.Players.GetPlayers(player).MagicControl.EnemyEnchantments) & 32) == 0)
@@ -1741,7 +1741,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         _ = coordinate49.X;
         _ = coordinate49.Y;
         int hexLevel = coordinate49.MapLevel;
-        return (hexLevel != 0 && !GetAbilityEnabled(39)) || (hexLevel == 0 && Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0)
+        return (hexLevel != 0 && !GetAbilityEnabled(39)) || (hexLevel == 0 && PlayerIdExtensions.ToOriginal(Player) > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0)
             ? (result + 1) >>> 1
             : result;
     }
@@ -1750,17 +1750,17 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public int TrueVisionRange() => GetAbilityEnabled(41) ? VisibilityRange() : 1;
 
     // Unit.PAS:1428
-    public bool CanPlace(int X, int Y, int L, sbyte player, UnitPlaceModes mode)
+    public bool CanPlace(int X, int Y, int L, PlayerId? player, UnitPlaceModes mode)
     {
         if (X >= 0 && Y >= 0 && X < StrategicMap.Current.MapContainer.Width && Y < StrategicMap.Current.MapContainer.Height)
         {
             MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
-            sbyte fieldPlayer = field.GetPlayer();
-            if (mode.Contains(UnitPlaceModes.NeglectEmptyPlayerLocation) || fieldPlayer == player || fieldPlayer == -1 || player == -1)
+            sbyte fieldPlayer = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
+            if (mode.Contains(UnitPlaceModes.NeglectEmptyPlayerLocation) || fieldPlayer == PlayerIdExtensions.ToOriginal(player) || fieldPlayer == -1 || player is null)
             {
                 ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
                 return armyHexSprite is not null
-                    ? !mode.Contains(UnitPlaceModes.CreateNewArmy) && (player == -1 || armyHexSprite.Army.Player == player) && armyHexSprite.Army.CanAddUnit(this)
+                    ? !mode.Contains(UnitPlaceModes.CreateNewArmy) && (player is null || armyHexSprite.Army.Player == player) && armyHexSprite.Army.CanAddUnit(this)
                     : ValidTerrain(field.TerrainType, field.OverlayType);
             }
             else
@@ -1775,7 +1775,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1454
-    public ArmyHexSprite? Place(int X, int Y, int L, sbyte player, UnitPlaceModes mode)
+    public ArmyHexSprite? Place(int X, int Y, int L, PlayerId? player, UnitPlaceModes mode)
     {
         ArmyHexSprite? result = null;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);
@@ -1787,7 +1787,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 if (armyHexSprite is null)
                 {
                     armyHexSprite = new ArmyHexSprite(null) { Holder = CreationHolder() };
-                    if (player != -1)
+                    if (player is not null)
                     {
                         armyHexSprite.Army.SetPlayer(player);
                     }
@@ -2104,7 +2104,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (active.Contains(DamageTypes.Cold) && ExpandAbility(95))
         {
             UnitEnchantmentAbilityData data = GetAbilityData<UnitEnchantmentAbilityData>(95);
-            data?.EnchantmentPlayerIndex = (sbyte)combat.CombatData.CurrentPlayer;
+            data?.EnchantmentPlayerIndex = PlayerId.FromOriginal((sbyte)combat.CombatData.CurrentPlayer);
 
             _ = RemoveAbility(127);
             result |= DamageTypes.Cold;
@@ -2112,7 +2112,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (active.Contains(DamageTypes.Lightning) && ExpandAbility(92))
         {
             DurationAbilityData data = GetAbilityData<DurationAbilityData>(92);
-            data?.PlayerIndex = combat.CombatData.CurrentPlayer;
+            data?.PlayerIndex = PlayerId.FromInt32(combat.CombatData.CurrentPlayer);
 
             result |= DamageTypes.Lightning;
         }

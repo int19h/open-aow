@@ -259,7 +259,7 @@ internal static class Program
                 if (frames <= 3 || frames % 1000000 == 0)
                 {
                     Player player = map.Players.GetPlayers(map.CurrentPlayer);
-                    HostLog.Information(logger, text: $"frame {frames}, map {(ulong)map.Status:X}, player {map.CurrentPlayer}, busy {player.GetBusy()}, ready {map.TokenManager.PlayerReady(map.CurrentPlayer)}, AI locks {map.AILockCount}/{map.AIExecutor.LockCount}, AI {(ulong)map.AIExecutor.Status:X}, phase {player.AIControl.Phase}, actions {player.AIControl.Actions.Count}");
+                    HostLog.Information(logger, text: $"frame {frames}, map {(ulong)map.Status:X}, player {PlayerIdExtensions.ToOriginal(map.CurrentPlayer)}, busy {player.GetBusy()}, ready {map.TokenManager.PlayerReady(map.CurrentPlayer)}, AI locks {map.AILockCount}/{map.AIExecutor.LockCount}, AI {(ulong)map.AIExecutor.Status:X}, phase {player.AIControl.Phase}, actions {player.AIControl.Actions.Count}");
                 }
                 if (randomTrace is not null && frames % 100000 == 0 && map.CombatMap is CombatMap tacticalMap)
                 {

@@ -9,7 +9,7 @@ using Aow.Game.Draw.Animations;
 using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 
@@ -74,7 +74,7 @@ public class ResurrectHero : Spell
                 int count = heroes.Count;
                 Hero hero = heroes.GetHero(StrategicMap.Current.Random(count));
                 hero.Resurrect();
-                ArmyHexSprite? army = hero.Place(x, y, L: layer, player: 0, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);
+                ArmyHexSprite? army = hero.Place(x, y, L: layer, player: PlayerId.Independent, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);
                 LocationTextEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
@@ -129,7 +129,7 @@ public class ResurrectHero : Spell
         if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+            eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;

@@ -43,7 +43,7 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     {
         bool result = base.Activate();
         Player player = Control.Player;
-        if (player.PlayerIndex != 0)
+        if (player.PlayerIndex != PlayerId.Independent)
         {
             _state = 0;
             for (int i = 0, last = player.Heroes.GetCount() - 1; i <= last; i++)
@@ -63,7 +63,7 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     public override bool Process()
     {
         Player player = Control.Player;
-        if (player.PlayerIndex != 0)
+        if (player.PlayerIndex != PlayerId.Independent)
         {
             while (_state != -1 && StrategicMap.Current.AIExecutor.ProcessTimeLeft > 0 && !player.GetBusy())
             {

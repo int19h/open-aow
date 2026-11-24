@@ -310,7 +310,7 @@ public class Battle : EngineObject
             data = CombatData;
             int item = data.DefeatedLeaders[i];
             CombatPlayer players = data.Players.GetPlayers((sbyte)item);
-            StrategicMap.Current.GameOver(players.Player, status: GameOverStatus.Lost);
+            StrategicMap.Current.GameOver(PlayerId.FromOriginal(players.Player), status: GameOverStatus.Lost);
             Logbook.PlayerEliminated = true;
         }
 
@@ -603,7 +603,7 @@ public class Battle : EngineObject
                         CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
                         CombatPlayer fPlayersPlayers = data.Players.GetPlayers(data.DefenderPlayer);
                         CombatPlayer players2 = data.Players.GetPlayers(data.AttackerPlayer);
-                        side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, attackerRelation: ((byte)players2.IndependentRelation).TruncateToSByte(), defender: fPlayersPlayers.Player, defenderRelation: players.IndependentRelation.TruncateToSByte(), armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
+                        side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, attackerRelation: ((byte)players2.IndependentRelation).TruncateToSByte(), defender: PlayerId.FromOriginal(fPlayersPlayers.Player), defenderRelation: players.IndependentRelation.TruncateToSByte(), player: (sbyte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player), relation: armyHexSprite.Army.IndependentRelation);
                     }
                     else
                     {
@@ -656,10 +656,10 @@ public class Battle : EngineObject
         MapFieldMessage message = default;
         using (army.BeginUpdate())
         {
-            byte player = (byte)CombatData.Players.IndexOf((byte)army.Player, relation: army.IndependentRelation.TruncateToByte());
+            byte player = (byte)CombatData.Players.IndexOf((byte)PlayerIdExtensions.ToOriginal(army.Player), relation: army.IndependentRelation.TruncateToByte());
             if (player == 255)
             {
-                player = AddCombatPlayer((byte)army.Player, independentRelation: army.IndependentRelation.TruncateToByte(), side);
+                player = AddCombatPlayer((byte)PlayerIdExtensions.ToOriginal(army.Player), independentRelation: army.IndependentRelation.TruncateToByte(), side);
             }
 
             byte position = GetPartyPosition(X, Y, layer: L);
@@ -710,10 +710,10 @@ public class Battle : EngineObject
         CombatParty party;
         using (army.BeginUpdate())
         {
-            byte player = (byte)CombatData.Players.IndexOf((byte)army.Player, relation: army.IndependentRelation.TruncateToByte());
+            byte player = (byte)CombatData.Players.IndexOf((byte)PlayerIdExtensions.ToOriginal(army.Player), relation: army.IndependentRelation.TruncateToByte());
             if (player == 255)
             {
-                player = AddCombatPlayer((byte)army.Player, independentRelation: army.IndependentRelation.TruncateToByte(), side);
+                player = AddCombatPlayer((byte)PlayerIdExtensions.ToOriginal(army.Player), independentRelation: army.IndependentRelation.TruncateToByte(), side);
             }
 
             party = CombatData.Parties.CreateParty(this, position: (byte)(position << 0), combatPlayer: player, X, Y, L, army);
@@ -738,7 +738,7 @@ public class Battle : EngineObject
         CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
         CombatPlayer fPlayersPlayers = data.Players.GetPlayers(data.DefenderPlayer);
         CombatPlayer players2 = data.Players.GetPlayers(data.AttackerPlayer);
-        CombatSideIndex side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, attackerRelation: ((byte)players2.IndependentRelation).TruncateToSByte(), defender: fPlayersPlayers.Player, defenderRelation: players.IndependentRelation.TruncateToSByte(), player: (sbyte)player, relation: independentRelation.TruncateToSByte());
+        CombatSideIndex side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, attackerRelation: ((byte)players2.IndependentRelation).TruncateToSByte(), defender: PlayerId.FromOriginal(fPlayersPlayers.Player), defenderRelation: players.IndependentRelation.TruncateToSByte(), player: (sbyte)player, relation: independentRelation.TruncateToSByte());
         byte playerLocal = (byte)CombatData.Players.IndexOf(player, relation: independentRelation);
         if (playerLocal == 255)
         {

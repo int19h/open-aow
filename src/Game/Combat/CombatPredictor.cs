@@ -6,7 +6,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -447,10 +447,10 @@ public sealed class CombatPredictor : IDisposable
         AddUnits(army.Army.Units);
         MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(L);
         Army armyLocal = army.Army;
-        byte player = (byte)armyLocal.Player;
+        byte player = (byte)PlayerIdExtensions.ToOriginal(armyLocal.Player);
         int relation = armyLocal.IndependentRelation.TruncateToByte();
 
-        int defender = level.GetField(X, Y).GetPlayer().TruncateToByte();
+        int defender = PlayerIdExtensions.ToOriginal(level.GetField(X, Y).GetPlayer()).TruncateToByte();
         int defenderRelation = level.GetField(X, Y).GetIndependentRelation();
         if (defender != 255)
         {
@@ -474,7 +474,7 @@ public sealed class CombatPredictor : IDisposable
                     ArmyHexSprite armyHexSprite = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                     if (armyHexSprite is not null && armyHexSprite != army)
                     {
-                        CombatSideIndex side = CombatAbilityTables.GetCombatSide(player.TruncateToSByte(), attackerRelation: ((byte)relation).TruncateToSByte(), defender: defender.TruncateToSByte(), defenderRelation: defenderRelation.TruncateToSByte(), armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
+                        CombatSideIndex side = CombatAbilityTables.GetCombatSide(player.TruncateToSByte(), attackerRelation: ((byte)relation).TruncateToSByte(), defender: PlayerId.FromOriginal(defender.TruncateToSByte()), defenderRelation: defenderRelation.TruncateToSByte(), player: (sbyte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player), relation: armyHexSprite.Army.IndependentRelation);
                         if (side != CombatSideIndex.Neutral)
                         {
                             MapField field = level.GetField(X, Y);
@@ -507,7 +507,7 @@ public sealed class CombatPredictor : IDisposable
     {
         MapFieldMessage message = default;
         MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(L);
-        int defender = level.GetField(X, Y).GetPlayer().TruncateToByte();
+        int defender = PlayerIdExtensions.ToOriginal(level.GetField(X, Y).GetPlayer()).TruncateToByte();
         int defenderRelation = level.GetField(X, Y).GetIndependentRelation();
         if (defender != 255)
         {
@@ -531,7 +531,7 @@ public sealed class CombatPredictor : IDisposable
                     ArmyHexSprite armyHexSprite = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                     if (armyHexSprite is not null)
                     {
-                        CombatSideIndex side = CombatAbilityTables.GetCombatSide(player.TruncateToSByte(), attackerRelation: ((byte)relation).TruncateToSByte(), defender: defender.TruncateToSByte(), defenderRelation: defenderRelation.TruncateToSByte(), armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
+                        CombatSideIndex side = CombatAbilityTables.GetCombatSide(player.TruncateToSByte(), attackerRelation: ((byte)relation).TruncateToSByte(), defender: PlayerId.FromOriginal(defender.TruncateToSByte()), defenderRelation: defenderRelation.TruncateToSByte(), player: (sbyte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player), relation: armyHexSprite.Army.IndependentRelation);
                         if (side == CombatSideIndex.Defender)
                         {
                             MapField field = level.GetField(X, Y);

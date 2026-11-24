@@ -155,9 +155,9 @@ public sealed class DiplomaticProposalTests
     private static DiplomaticAction Action(Case c) => new(null)
     {
         Holder = EngineFixture.Engine,
-        Source = c.Source,
-        Target = c.Target,
-        OtherPlayer = c.Other,
+        Source = PlayerId.FromOriginal(c.Source),
+        Target = PlayerId.FromOriginal(c.Target),
+        OtherPlayer = PlayerId.FromOriginal(c.Other),
         Reaction = (DiplomaticActionReaction)c.Reaction,
         EscrowGold = c.EscrowGold,
         EscrowMana = c.EscrowMana,
@@ -169,7 +169,7 @@ public sealed class DiplomaticProposalTests
     private static void AssertCase(Case c, DiplomaticAction? action)
     {
         Assert.Equal(Expected(c.Kind, c.Gold, c.Mana) with { Message = c.Message }, action.Proposal);
-        Assert.Equal((c.Source, c.Target, c.Other, c.Reaction), (action.Source, action.Target, action.OtherPlayer, (byte)action.Reaction));
+        Assert.Equal((c.Source, c.Target, c.Other, c.Reaction), ((sbyte)PlayerIdExtensions.ToOriginal(action.Source), (sbyte)PlayerIdExtensions.ToOriginal(action.Target), (sbyte)PlayerIdExtensions.ToOriginal(action.OtherPlayer), (byte)action.Reaction));
         Assert.Equal((c.EscrowGold, c.EscrowMana, c.EventLogId, c.Day), (action.EscrowGold, action.EscrowMana, action.EventLogId, action.Day));
     }
 
@@ -229,7 +229,7 @@ public sealed class DiplomaticProposalTests
         {
             string[] message = ["The Dark Elves declare war on the Humans.", "", "Second line."];
             using DiplomaticActionEventLog log = new(null) { Holder = EngineFixture.Engine, Day = 5 };
-            log.Action = new DiplomaticAction(null) { Holder = EngineFixture.Engine, Source = 6, Target = 11, OtherPlayer = -1, EventLogId = 16, Day = 7, Proposal = new DeclareWar() with { Message = message } };
+            log.Action = new DiplomaticAction(null) { Holder = EngineFixture.Engine, Source = PlayerId.Player6, Target = PlayerId.Player11, OtherPlayer = null, EventLogId = 16, Day = 7, Proposal = new DeclareWar() with { Message = message } };
             string bytes = Write(engine, value: log);
             DiplomaticActionEventLog copy = Read<DiplomaticActionEventLog>(engine, hex: bytes);
             Assert.Equal(message, copy.Action.Proposal.Message);
@@ -300,7 +300,7 @@ public sealed class DiplomaticProposalTests
     [Fact]
     public void TheEditorBuildsTheProposal()
     {
-        DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Source = 1, Target = 2, OtherPlayer = -1, Proposal = new OfferPeace() with { Message = ["Default text."] } };
+        DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Source = PlayerId.Player1, Target = PlayerId.Player2, OtherPlayer = null, Proposal = new OfferPeace() with { Message = ["Default text."] } };
         action.Proposal = action.Proposal with { Message = DiplomaticProposal.Lines("Peace?\r\nPlease.") };
         action.Proposal = action.Proposal.WithOffer(120, mana: 30);
         Assert.Equal(new OfferPeace(120, Mana: 30) with { Message = ["Peace?", "Please."] }, action.Proposal);
@@ -532,9 +532,9 @@ public sealed class DiplomaticProposalTests
                 {
                     foreach (sbyte source in new sbyte[] { 0, 1 })
                     {
-                        DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Source = source, Target = 2, Reaction = (DiplomaticActionReaction)reaction, Proposal = proposal };
+                        DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Source = PlayerId.FromOriginal(source), Target = PlayerId.Player2, Reaction = (DiplomaticActionReaction)reaction, Proposal = proposal };
                         string where = $"{proposal} reaction {reaction} source {source}";
-                        Assert.True(OldText(kind, reaction: (DiplomaticActionReaction)reaction, sourceSeated: source == EngineFixture.Engine.StrategicMap.SeatedPlayer) == proposal.LogText(action), userMessage: where);
+                        Assert.True(OldText(kind, reaction: (DiplomaticActionReaction)reaction, sourceSeated: source == PlayerIdExtensions.ToOriginal(EngineFixture.Engine.StrategicMap.SeatedPlayer)) == proposal.LogText(action), userMessage: where);
                         Assert.True(OldMiddleIcon(kind, reaction) == proposal.MiddleIcon(action), userMessage: where);
                         checks += 2;
                     }

@@ -2,6 +2,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Rtl;
 
 namespace Aow.Game.Units;
@@ -22,7 +23,7 @@ public class UnitSelector : IDisposable
 
     private int _references;
 
-    public sbyte Player { get; private set; }
+    public PlayerId? Player { get; private set; } = PlayerId.Independent;
     public string Caption { get; set; } = "";
     public UnitUserList Units { get; }
     public int Selection { get; private set; }

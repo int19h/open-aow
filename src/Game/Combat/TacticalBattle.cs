@@ -76,9 +76,9 @@ public sealed partial class TacticalBattle(CustomNode? owner) : Battle(owner)
 
         for (int i = 0, last = StrategicMap.Current.TokenManager.GetCount() - 1; i <= last; i++)
         {
-            if (StrategicMap.Current.TokenManager.GetTokenControl(i).Local() || StrategicMap.Current.TokenManager.GetTokenControl(i).Global())
+            if (StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(i)).Local() || StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(i)).Global())
             {
-                StrategicMap.Current.TokenManager.GetTokenControl(i).ClearEvents();
+                StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(i)).ClearEvents();
             }
         }
 

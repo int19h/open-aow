@@ -47,18 +47,18 @@ public partial class Mine : PlayerStructure
     public override void Activate()
     {
         base.Activate();
-        if (Player != -1)
+        if (Player is not null)
         {
-            StrategicMap.Current.Players.GetPlayers((sbyte)(byte)Player).RegisterIncomeSource(_incomeSource);
+            StrategicMap.Current.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).RegisterIncomeSource(_incomeSource);
         }
     }
 
     // Mine.pas:150
     public override void Deactivate()
     {
-        if (Player != -1)
+        if (Player is not null)
         {
-            StrategicMap.Current.Players.GetPlayers((sbyte)(byte)Player).UnregisterIncomeSource(_incomeSource);
+            StrategicMap.Current.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).UnregisterIncomeSource(_incomeSource);
         }
 
         base.Deactivate();
@@ -69,7 +69,7 @@ public partial class Mine : PlayerStructure
     {
         if (value)
         {
-            SetPlayer(-1);
+            SetPlayer(null);
             State |= 1;
         }
         else
@@ -96,15 +96,15 @@ public partial class Mine : PlayerStructure
             switch (info.Mode)
             {
                 case AITargetMode.Attack:
-                    if ((byte)info.Player != (byte)Player && !GetRazed())
+                    if ((byte)PlayerIdExtensions.ToOriginal(info.Player) != (byte)PlayerIdExtensions.ToOriginal(Player) && !GetRazed())
                     {
-                        if ((byte)Player == 0)
+                        if ((byte)PlayerIdExtensions.ToOriginal(Player) == 0)
                         {
                             candidatePriority = 50;
                         }
                         else
                         {
-                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: (sbyte)(byte)Player, targetRace: 0))
+                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)), targetRace: 0))
                             {
                                 candidatePriority = 50 - (StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2);
                                 if (candidatePriority < 25)
@@ -122,7 +122,7 @@ public partial class Mine : PlayerStructure
 
                     break;
                 case AITargetMode.Defend:
-                    if ((byte)info.Player == (byte)Player)
+                    if ((byte)PlayerIdExtensions.ToOriginal(info.Player) == (byte)PlayerIdExtensions.ToOriginal(Player))
                     {
                         data.Priority = 20;
                     }
@@ -148,21 +148,21 @@ public partial class Mine : PlayerStructure
     }
 
     // Mine.pas:126
-    public override void SetPlayer(sbyte player)
+    public override void SetPlayer(PlayerId? player)
     {
         if (player != Player)
         {
             if (Status.Contains(MapObjectStatuses.Activated))
             {
-                if (Player != -1)
+                if (Player is not null)
                 {
-                    StrategicMap.Current.Players.GetPlayers((sbyte)(byte)Player).UnregisterIncomeSource(_incomeSource);
+                    StrategicMap.Current.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).UnregisterIncomeSource(_incomeSource);
                 }
 
                 base.SetPlayer(player);
-                if (Player != -1)
+                if (Player is not null)
                 {
-                    StrategicMap.Current.Players.GetPlayers((sbyte)(byte)Player).RegisterIncomeSource(_incomeSource);
+                    StrategicMap.Current.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).RegisterIncomeSource(_incomeSource);
                 }
             }
             else

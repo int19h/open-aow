@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using Aow.Engine.Collections;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
@@ -304,10 +305,10 @@ public sealed class AsmStubsProbeTests
             for (int i = -2; i <= 34; i++)
             {
                 string label = $"{Decrement(j)}_{Decrement(i)}";
-                AddNumber(lines, label: $"AoWE.TAoWMapField.GetExplored_{label}", value: field.GetExplored(i) ? 1 : 0);
-                field.SetExplored(i, value: false);
+                AddNumber(lines, label: $"AoWE.TAoWMapField.GetExplored_{label}", value: field.GetExplored(PlayerId.FromOriginal(i)) ? 1 : 0);
+                field.SetExplored(PlayerId.FromOriginal(i), value: false);
                 AddHex(lines, label: $"AoWE.TAoWMapField.SetExplored_clear_{label}", value: field.FieldFlags);
-                field.SetExplored(i, value: true);
+                field.SetExplored(PlayerId.FromOriginal(i), value: true);
                 AddHex(lines, label: $"AoWE.TAoWMapField.SetExplored_set_{label}", value: field.FieldFlags);
             }
         }
@@ -317,10 +318,10 @@ public sealed class AsmStubsProbeTests
             for (int j = 0; j < s_values.Length; j++)
             {
                 field.FieldFlags = 0;
-                field.SetExploredRaw(s_values[i], value: s_values[j]);
+                field.SetExploredRaw(PlayerId.FromOriginal(s_values[i]), value: s_values[j]);
                 string tag = $"{Decrement(i)}_{Decrement(j)}";
                 AddHex(lines, label: $"AoWE.TAoWMapField.SetExplored_raw_{tag}", value: field.FieldFlags);
-                AddNumber(lines, label: $"AoWE.TAoWMapField.GetExplored_extreme_{tag}", value: field.GetExplored(s_values[i]) ? 1 : 0);
+                AddNumber(lines, label: $"AoWE.TAoWMapField.GetExplored_extreme_{tag}", value: field.GetExplored(PlayerId.FromOriginal(s_values[i])) ? 1 : 0);
             }
         }
 

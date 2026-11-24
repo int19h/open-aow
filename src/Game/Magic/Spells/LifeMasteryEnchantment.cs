@@ -30,7 +30,7 @@ public class LifeMasteryEnchantment : GlobalEnchantment
     public override int GetAIUpkeepPriority() => 1_250;
 
     // GlobalEnchantmentSpells.pas:1428
-    public override bool Deactivate(byte player)
+    public override bool Deactivate(PlayerId? player)
     {
         _ = base.Deactivate(player);
         // { Original doubles Death. }
@@ -43,7 +43,7 @@ public class LifeMasteryEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1401
-    public override bool CanActivate(sbyte player, ref string reason)
+    public override bool CanActivate(PlayerId? player, ref string reason)
     {
         bool result = base.CanActivate(player, ref reason);
         if (result)
@@ -61,7 +61,7 @@ public class LifeMasteryEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1412
-    public override bool Activate(sbyte player)
+    public override bool Activate(PlayerId? player)
     {
         _ = base.Activate(player);
         // { Original doubles Death. }

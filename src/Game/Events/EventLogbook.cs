@@ -2,7 +2,7 @@
 // Translated from EventLog.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
@@ -18,7 +18,7 @@ public sealed class EventLogbook : EngineObject
 
     private readonly EventLogList _events;
 
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
 
     private int _nextId;
 
@@ -98,7 +98,7 @@ public sealed class EventLogbook : EngineObject
     public T FindId<T>(int id) where T : EventLog => (T)FindId(id);
 
     // EventLog.pas:575
-    public int FindFirstLog(int player, int day)
+    public int FindFirstLog(PlayerId? player, int day)
     {
         int result = 0;
         while (result != _events.Count && (_events[result].Player != player || _events[result].Day != day))
@@ -110,7 +110,7 @@ public sealed class EventLogbook : EngineObject
     }
 
     // EventLog.pas:587
-    public int FindFirstLog(int classId, int player, int day)
+    public int FindFirstLog(int classId, PlayerId? player, int day)
     {
         int result = 0;
         while (result != _events.Count && (_events[result].Player != player || _events[result].Day != day || _events[result].EngineClass.ClassId != classId))

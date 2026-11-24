@@ -6,7 +6,7 @@ using Aow.Game.Commands;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Abilities.Passive;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 
@@ -87,7 +87,7 @@ public class SummonSpell : Spell
         if (CanActivate(source, messageText: ref reason))
         {
             SummonSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+            eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
             SetupSummonSpellTokenEvent(eventValue);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();

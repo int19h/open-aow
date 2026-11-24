@@ -56,7 +56,7 @@ public partial class Hero : Troop
     public HeroStatuses HeroStatus { get; private set; }
 
     private int _deathDay;
-    private sbyte _deathPlayer;
+    private PlayerId? _deathPlayer = PlayerId.Independent;
 
     public HeroModes Mode { get; set; }
 
@@ -131,7 +131,7 @@ public partial class Hero : Troop
     public override void PersistFields(IPersister persister)
     {
         int oldExperience = default;
-        sbyte player = Player;
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Player);
         HeroResourceIndex = persister.Int32("HeroResourceIndex", value: HeroResourceIndex);
         if (persister.Loading)
         {
@@ -141,7 +141,7 @@ public partial class Hero : Troop
         base.PersistFields(persister);
         if (persister.Loading && Mode.Contains(HeroModes.UpdatingFromLibrary))
         {
-            Player = player;
+            Player = PlayerId.FromOriginal(player);
         }
 
         FaceIndex = persister.Int32("FaceIndex", value: FaceIndex);
@@ -164,7 +164,7 @@ public partial class Hero : Troop
         Experience = persister.Int32("Experience", value: Experience);
         HeroStatus = persister.Set("HeroStatus", value: HeroStatus);
         _deathDay = persister.Int32("DeathDay", value: _deathDay);
-        _deathPlayer = (sbyte)persister.UnsignedByte(name: "DeathPlayer", value: _deathPlayer);
+        _deathPlayer = persister.OptionalPlayer(name: "DeathPlayer", value: _deathPlayer, width: IdWidth.UnsignedByte, fallback: 0);
         if (persister.Loading && Experience == 0)
         {
             Experience = LevelToExperience((oldExperience >>> 5) + 1);
@@ -206,9 +206,9 @@ public partial class Hero : Troop
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001989)
         {
-            if (StrategicMap.Current.Players.GetCount() <= Player && Owner is null)
+            if (StrategicMap.Current.Players.GetCount() <= PlayerIdExtensions.ToOriginal(Player) && Owner is null)
             {
-                SetPlayer(-1);
+                SetPlayer(null);
                 return;
             }
         }
@@ -533,17 +533,17 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1311
-    public override void NewTurn(sbyte player)
+    public override void NewTurn(PlayerId player)
     {
         base.NewTurn(player);
         if (player == Player)
         {
             ValidateHeroUpgrade();
-            player = (sbyte)GetCastingPointsMax();
-            CastingPoints = player;
+            sbyte castingPoints = (sbyte)GetCastingPointsMax();
+            CastingPoints = castingPoints;
             if (CastingSpellId != 0 && CastingManaValue < CastingProgress)
             {
-                CastingManaValue += player;
+                CastingManaValue += castingPoints;
                 CastingPoints = 0;
                 if (CastingManaValue > CastingProgress)
                 {
@@ -637,15 +637,15 @@ public partial class Hero : Troop
     public override DelphiStringCollection? Description => null;
 
     // Hero.PAS:933
-    public override void SetPlayer(sbyte player)
+    public override void SetPlayer(PlayerId? player)
     {
         if (player != Player)
         {
-            bool condition = Player != -1;
+            bool condition = Player is not null;
             if (condition)
             {
                 int count = StrategicMap.Current.Players.Count;
-                condition = Player < count;
+                condition = PlayerIdExtensions.ToOriginal(Player) < count;
             }
 
             if (condition)
@@ -655,7 +655,7 @@ public partial class Hero : Troop
             }
 
             base.SetPlayer(player);
-            if (Player != -1)
+            if (Player is not null)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(Player).Heroes.AddChild(this);
                 _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(PowerSource);
@@ -702,9 +702,9 @@ public partial class Hero : Troop
             SetHeroResourceIndex(0);
         }
 
-        if (Player > 0 && StrategicMap.Current.Players.GetPlayers(Player) is null && Owner is null)
+        if (PlayerIdExtensions.ToOriginal(Player) > 0 && StrategicMap.Current.Players.GetPlayers(Player) is null && Owner is null)
         {
-            Player = -1;
+            Player = null;
         }
 
         if (Owner is null && GroupId != 0)
@@ -725,7 +725,7 @@ public partial class Hero : Troop
                 _ = StrategicMap.Current.HeroControl.RegisterHero(this);
             }
 
-            if (Player != -1 && Owner is not null)
+            if (Player is not null && Owner is not null)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(PowerSource);
                 _ = StrategicMap.Current.Players.GetPlayers(Player).Heroes.AddChild(this);
@@ -739,11 +739,11 @@ public partial class Hero : Troop
     // Hero.PAS:993
     public override void Deactivate()
     {
-        bool condition = Player != -1;
+        bool condition = Player is not null;
         if (condition)
         {
             int count = StrategicMap.Current.Players.Count;
-            condition = Player < count;
+            condition = PlayerIdExtensions.ToOriginal(Player) < count;
         }
 
         if (condition)
@@ -756,7 +756,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:765
-    public override bool CanJoin(sbyte player)
+    public override bool CanJoin(PlayerId? player)
     {
         bool result;
         if (Race != -1)
@@ -794,13 +794,13 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:794
-    public override bool OfferToJoin(sbyte player)
+    public override bool OfferToJoin(PlayerId? player)
     {
         bool result;
         if (CanJoin(player))
         {
             Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-            if (EmergedToPlayer() == -1)
+            if (EmergedToPlayer() is null)
             {
                 if ((!GetAbilityEnabled(128) || player != _deathPlayer) && (Group is null || Group.GroupClass.Behavior != GroupBehavior.Refuge))
                 {
@@ -866,7 +866,7 @@ public partial class Hero : Troop
         _deathPlayer = Player;
         base.Killed();
         HeroStatus |= HeroStatuses.Died;
-        SetPlayer(-1);
+        SetPlayer(null);
         SetOwner(null);
     }
 
@@ -913,10 +913,10 @@ public partial class Hero : Troop
             int player;
             if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
             {
-                player = StrategicMap.Current.MapContainer.GetField(x, y, l).GetPlayer();
+                player = PlayerIdExtensions.ToOriginal(StrategicMap.Current.MapContainer.GetField(x, y, l).GetPlayer());
                 if (player == -1)
                 {
-                    player = StrategicMap.Current.EditorPlayer;
+                    player = PlayerIdExtensions.ToOriginal(StrategicMap.Current.EditorPlayer);
                 }
             }
             else
@@ -924,7 +924,7 @@ public partial class Hero : Troop
                 player = -1;
             }
 
-            placed = Place(x, y, l, player: (sbyte)player, mode: UnitPlaceModes.None) is not null;
+            placed = Place(x, y, l, player: PlayerId.FromOriginal((sbyte)player), mode: UnitPlaceModes.None) is not null;
         }
         else
         {
@@ -988,7 +988,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:782
-    public sbyte EmergedToPlayer()
+    public PlayerId? EmergedToPlayer()
     {
         int i = StrategicMap.Current.Players.Count;
         sbyte result = -1;
@@ -1001,7 +1001,7 @@ public partial class Hero : Troop
             }
         }
 
-        return result;
+        return PlayerId.FromOriginal(result);
     }
 
     // Hero.PAS:875
@@ -1439,31 +1439,31 @@ public partial class Hero : Troop
         int x = coordinate42.X;
         int y = coordinate42.Y;
         int l = coordinate42.MapLevel;
-        if (Player != 0 && x != -1)
+        if (Player != PlayerId.Independent && x != -1)
         {
             UpgradePending = false;
             int level = GetLevel();
             if (level < LevelMax)
             {
-                if (Player > 0 && StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu2)
+                if (PlayerIdExtensions.ToOriginal(Player) > 0 && StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu2)
                 {
                     SetExperience(GetExperience() + s_heroExperienceTable[level / 5].DailyExperience + 1);
                 }
                 else
                 {
-                    if (Player > 0 && StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu3)
+                    if (PlayerIdExtensions.ToOriginal(Player) > 0 && StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu3)
                     {
                         SetExperience(GetExperience() + s_heroExperienceTable[level / 5].DailyExperience + 2);
                     }
                     else
                     {
-                        if (Player > 0 && StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu4)
+                        if (PlayerIdExtensions.ToOriginal(Player) > 0 && StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu4)
                         {
                             SetExperience(GetExperience() + s_heroExperienceTable[level / 5].DailyExperience + 3);
                         }
                         else
                         {
-                            if (Player > 0 && StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu5)
+                            if (PlayerIdExtensions.ToOriginal(Player) > 0 && StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu5)
                             {
                                 SetExperience(GetExperience() + s_heroExperienceTable[level / 5].DailyExperience + 4);
                             }

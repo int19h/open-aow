@@ -10,7 +10,7 @@ public sealed partial class ArmyId
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         int location = persister.Int32("Location", value: StoredCoordinateImage.From(Location).ToInt32());
         Location = StoredCoordinateImage.FromInt32(location).Location;
         persister.Int32List(name: "UnitIds", list: UnitIds);

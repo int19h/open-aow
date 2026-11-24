@@ -139,7 +139,7 @@ public sealed class PlayerMagicControl : EngineObject
     public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
-        if (message.MessageId == 537001986 && message.Payload.Int == Player.PlayerIndex)
+        if (message.MessageId == 537001986 && message.Payload.Int == PlayerIdExtensions.ToOriginal(Player.PlayerIndex))
         {
             NewTurn();
         }
@@ -156,7 +156,7 @@ public sealed class PlayerMagicControl : EngineObject
         ActiveEnchantments = value;
         for (int i = StrategicMap.Current.Players.GetCount() - 1; i >= 1; i--)
         {
-            if (i != Player.PlayerIndex)
+            if (i != PlayerIdExtensions.ToOriginal(Player.PlayerIndex))
             {
                 StrategicMap.Current.Players.GetPlayers(i).MagicControl.UpdateEnemyEnchantments();
             }
@@ -169,7 +169,7 @@ public sealed class PlayerMagicControl : EngineObject
         EnemyEnchantments = PlayerEnchantmentTypes.None;
         for (int i = StrategicMap.Current.Players.GetCount() - 1; i >= 1; i--)
         {
-            if (i != Player.PlayerIndex)
+            if (i != PlayerIdExtensions.ToOriginal(Player.PlayerIndex))
             {
                 if (StrategicMap.Current.Players.GetPlayers(i).DiplomaticRelations.GetDiplomaticRelation(Player.PlayerIndex) == DiplomaticRelation.War)
                 {
@@ -287,7 +287,7 @@ public sealed class PlayerMagicControl : EngineObject
 
         if (mana > 0)
         {
-            StrategicMap.Current.GlobalMagicControl.OutOfMana((sbyte)(byte)Player.PlayerIndex, mana);
+            StrategicMap.Current.GlobalMagicControl.OutOfMana(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player.PlayerIndex)), mana);
         }
     }
 
@@ -329,7 +329,7 @@ public sealed class PlayerMagicControl : EngineObject
     // Spells.PAS:2074
     public void NewTurn()
     {
-        if (StrategicMap.Current.Day == 1 && Player.PlayerIndex != 0 && (StrategicMap.Current.GameType != GameType.Campaign || Spells.Count == 0))
+        if (StrategicMap.Current.Day == 1 && Player.PlayerIndex != PlayerId.Independent && (StrategicMap.Current.GameType != GameType.Campaign || Spells.Count == 0))
         {
             Int32List candidates = [];
             for (int kindOrdinal = (int)SpellType.Combat; kindOrdinal <= (int)SpellType.Global; kindOrdinal++)
@@ -585,7 +585,7 @@ public sealed class PlayerMagicControl : EngineObject
     {
         int id;
         // { Preserve a valid unused ID before allocating a new one. }
-        if (enchantment.EnchantmentId != 0 && enchantment.EnchantmentId >>> 24 == Player.PlayerIndex)
+        if (enchantment.EnchantmentId != 0 && enchantment.EnchantmentId >>> 24 == PlayerIdExtensions.ToOriginal(Player.PlayerIndex))
         {
             id = enchantment.EnchantmentId;
             enchantment.EnchantmentId = 0;
@@ -606,7 +606,7 @@ public sealed class PlayerMagicControl : EngineObject
                 _nextEnchantmentId = 1;
             }
 
-            id = (Player.PlayerIndex << 24) + _nextEnchantmentId;
+            id = (PlayerIdExtensions.ToOriginal(Player.PlayerIndex) << 24) + _nextEnchantmentId;
             _nextEnchantmentId += 1;
             if (_nextEnchantmentId > 1048575)
             {
@@ -615,7 +615,7 @@ public sealed class PlayerMagicControl : EngineObject
 
             while (Enchantments.IndexOfId(id) != -1)
             {
-                id = (Player.PlayerIndex << 24) + _nextEnchantmentId;
+                id = (PlayerIdExtensions.ToOriginal(Player.PlayerIndex) << 24) + _nextEnchantmentId;
                 _nextEnchantmentId += 1;
                 if (_nextEnchantmentId > 1048575)
                 {
@@ -688,7 +688,7 @@ public sealed class PlayerMagicControl : EngineObject
         return new(null)
         {
             Holder = CreationHolder(),
-            PlayerIndex = (byte)Player.PlayerIndex
+            PlayerIndex = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(Player.PlayerIndex))
         };
     }
 
@@ -859,7 +859,7 @@ public sealed class PlayerMagicControl : EngineObject
                 {
                     GlobalEnchantment enchantment = item.GlobalEnchantment;
                     _ = enchantment.AddRef();
-                    _ = enchantment.Remove((byte)Player.PlayerIndex);
+                    _ = enchantment.Remove(PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(Player.PlayerIndex)));
                     _ = enchantment.Release();
                 }
                 list.Delete(0);

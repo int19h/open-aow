@@ -7,6 +7,7 @@ using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 
 namespace Aow.Game.Tests;
 
@@ -42,7 +43,7 @@ public sealed partial class PersistEquivalenceTests
     public void ACombatUnitTakesItsStoredTroopOnBothLoads()
     {
         SchemaClass classValue = s_schema.Get("CombatUnit");
-        Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Fighter", Player = 2 };
+        Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Fighter", Player = PlayerId.Player2 };
         CombatUnit source = new(null) { Holder = EngineFixture.Engine, Id = 3, Position = 1, Disabled = true };
         source.SetUnit(hero);
         _ = hero.Release();
@@ -75,7 +76,7 @@ public sealed partial class PersistEquivalenceTests
             ["Painter"] = "Maler",
             ["Abilities"] = "Fähigkeiten",
         };
-        Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = 2 };
+        Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = PlayerId.Player2 };
         using CombatUnit unit = new(null) { Holder = EngineFixture.Engine, Id = 3 };
         unit.SetUnit(hero);
         _ = hero.Release();
@@ -134,7 +135,7 @@ public sealed partial class PersistEquivalenceTests
             data.Location = data.Location with { X = 7 };
             _ = data.TurnOrder.Add(1);
             _ = new CombatPlayer(data.Players) { Holder = EngineFixture.Engine, Player = 2, IndependentRelation = 1 };
-            Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = 2 };
+            Hero hero = new(null) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = PlayerId.Player2 };
             CombatUnit unit = new(data.CombatObjects) { Holder = EngineFixture.Engine, Id = 3, Position = 1 };
             unit.SetUnit(hero);
             _ = hero.Release();

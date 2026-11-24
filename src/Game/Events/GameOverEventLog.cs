@@ -19,7 +19,7 @@ public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
     public new const int ClassId = 131_812;
 
     public DelphiStringList Message { get; } = [];
-    public sbyte TargetPlayer { get; set; }
+    public PlayerId? TargetPlayer { get; set; } = PlayerId.Independent;
 
     // EventLog.pas:774
     public override void Dispose() => base.Dispose();

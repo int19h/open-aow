@@ -71,7 +71,7 @@ public sealed record ResearchSpell(int Index) : ProductionOrder
         control.Status = ProductionControlStatus.Producing;
     }
 
-    public override void Complete(ProductionControl control, sbyte player)
+    public override void Complete(ProductionControl control, PlayerId player)
     {
         control.UnitResearched();
         control.Settings.Clear();

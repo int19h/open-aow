@@ -4,6 +4,7 @@ using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -41,7 +42,7 @@ public sealed class AIMoveTargetSelector : EngineObject
     private MovePointTable _transportMovePointTable;
 
     public MapCoordinate SourceLocation { get; internal set; }
-    public AITargetInfo TargetInfo { get; internal set; }
+    public AITargetInfo TargetInfo { get; internal set; } = new AITargetInfo();
     public MovePointTable MovePointTable { get; internal set; }
 
     public int MovePointsMax { get; set; }
@@ -84,9 +85,9 @@ public sealed class AIMoveTargetSelector : EngineObject
         MovePointTable movePointTable = MovePointTable;
         movePointTable.Fill(-1);
         MovePointTable = movePointTable;
-        TargetInfo = default;
+        TargetInfo = new AITargetInfo();
         AITargetInfo targetInfo = TargetInfo;
-        targetInfo.Player = -1;
+        targetInfo.Player = null;
         TargetInfo = targetInfo;
         MovePointsMax = 250;
         MovePointsMin = 100;
@@ -107,7 +108,7 @@ public sealed class AIMoveTargetSelector : EngineObject
         AITargetInfo targetInfo = TargetInfo;
         targetInfo.Player = army.Army.Player;
         TargetInfo = targetInfo;
-        if (TargetInfo.Player == 0)
+        if (TargetInfo.Player == PlayerId.Independent)
         {
             AITargetInfo targetInfo2 = TargetInfo;
             targetInfo2.IndependentRelation = (sbyte)army.Army.IndependentRelation;
@@ -457,7 +458,7 @@ public sealed class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6690
     public bool Search(AIGroupControl control)
     {
-        if (TargetInfo.Player != -1 && _targetFound is not null && SourceLocation != MapCoordinate.None && (MovePointsMax > 0 || (MovePointsMin > 0 && _transporter is not null)))
+        if (TargetInfo.Player is not null && _targetFound is not null && SourceLocation != MapCoordinate.None && (MovePointsMax > 0 || (MovePointsMin > 0 && _transporter is not null)))
         {
             _state = MovePointsMax > 0 ? 0 : 10;
             _control = control;

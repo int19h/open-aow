@@ -24,7 +24,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
 
     private readonly ByteList _players = [];
 
-    public sbyte Player { get; private set; } = -1;
+    public PlayerId? Player { get; private set; } = null;
 
     private int _playerProcessCycles;
 
@@ -86,17 +86,14 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     };
 
     // AI.pas:617
-    public bool ActivatePlayer(sbyte player)
+    public bool ActivatePlayer(PlayerId? player)
     {
-        if (_players.IndexOf((byte)player) == -1)
+        if (_players.IndexOf((byte)PlayerIdExtensions.ToOriginal(player)) == -1)
         {
-            _ = _players.Add(player.TruncateToByte());
+            _ = _players.Add(PlayerIdExtensions.ToOriginal(player).TruncateToByte());
             Status |= AIExecutorStatuses.Enabled;
             StrategicMap.Current.Players.GetPlayers(player).AIControl.Activate(this);
-            if (Player == -1)
-            {
-                Player = player;
-            }
+            Player ??= player;
 
             return true;
         }
@@ -107,15 +104,15 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     }
 
     // AI.pas:630
-    public void DeactivatePlayer(sbyte player)
+    public void DeactivatePlayer(PlayerId? player)
     {
-        if (_players.IndexOf((byte)player) != -1)
+        if (_players.IndexOf((byte)PlayerIdExtensions.ToOriginal(player)) != -1)
         {
-            _ = _players.Remove(player.TruncateToByte());
+            _ = _players.Remove(PlayerIdExtensions.ToOriginal(player).TruncateToByte());
             StrategicMap.Current.Players.GetPlayers(player).AIControl.Deactivate();
             if (_players.Count == 0)
             {
-                Player = -1;
+                Player = null;
                 Status &= ~AIExecutorStatuses.Enabled;
             }
         }
@@ -127,7 +124,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
         if (Status.Contains(AIExecutorStatuses.Enabled) && StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
         {
             _tokenControlDone = true;
-            if (StrategicMap.Current.CurrentPlayer == 0 && StrategicMap.Current.CombatMap is null)
+            if (StrategicMap.Current.CurrentPlayer == PlayerId.Independent && StrategicMap.Current.CombatMap is null)
             {
                 CaptureTokenCycles(5);
             }
@@ -207,7 +204,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
                                 _tokenControlDone = false;
                                 if (!done || StrategicMap.Current.Players.GetPlayers(Player).AIControl.GetProcessCyclesMax() <= _playerProcessCycles)
                                 {
-                                    int index = _players.IndexOf((byte)Player);
+                                    int index = _players.IndexOf((byte)PlayerIdExtensions.ToOriginal(Player));
                                     index += 1;
                                     _playerProcessCycles = 0;
                                     // { Original behavior: Index = Count is not wrapped here. }
@@ -216,7 +213,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
                                         index = 0;
                                     }
 
-                                    Player = (sbyte)_players[index];
+                                    Player = PlayerId.FromOriginal((sbyte)_players[index]);
                                 }
                             }
 

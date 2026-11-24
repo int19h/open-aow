@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Commands;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
@@ -35,7 +35,7 @@ public class CosmagicSurgerySpellCaster(CustomNode? owner) : SpellCaster(owner)
             eventValue.Initialize(CasterSpellId, source, targets: null, mana: spell.BaseManaCost);
             _ = eventValue.TargetUnitIds.Add(TargetUnitId);
             eventValue.SpellData[0] = FaceIndex;
-            eventValue.TargetPlayer = (byte)target.Player;
+            eventValue.TargetPlayer = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(target.Player));
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;

@@ -1,5 +1,6 @@
 #nullable disable warnings
 // Translated from PoisonP.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Combat;
@@ -11,7 +12,7 @@ using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -29,7 +30,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
 
     public PoisonPlantStatuses PlantStatus { get; set; } = PoisonPlantStatuses.None;
 
-    public sbyte CasterPlayer { get; set; } = -1;
+    public PlayerId? CasterPlayer { get; set; } = null;
     public int DaysRemaining { get; set; } = -1;
     public int OriginalOverlay { get; set; } = -1;
 
@@ -37,7 +38,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        CasterPlayer = (sbyte)persister.SByte("CasterPlayer", value: CasterPlayer, fallback: -1);
+        CasterPlayer = persister.OptionalPlayer("CasterPlayer", value: CasterPlayer, fallback: -1, width: IdWidth.SByte);
         DaysRemaining = persister.SByte("DaysRemaining", value: DaysRemaining.TruncateToSByte(), fallback: -1);
         OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay.TruncateToSByte(), fallback: -1);
     }
@@ -48,7 +49,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001986)
         {
-            NewTurn((sbyte)message.Payload.Int);
+            NewTurn(PlayerId.FromInt32((sbyte)message.Payload.Int));
         }
     }
 
@@ -108,7 +109,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
                 if (message.MessageId == 4402)
                 {
                     // { Original excludes player zero from early restoration. }
-                    if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && CasterPlayer > 0 && DaysRemaining > 0)
+                    if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && PlayerIdExtensions.ToOriginal(CasterPlayer) > 0 && DaysRemaining > 0)
                     {
                         RestoreTerrain();
                     }
@@ -235,7 +236,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     }
 
     // PoisonP.pas:186
-    public void NewTurn(sbyte player)
+    public void NewTurn(PlayerId player)
     {
         if (PoisonPlantActive())
         {
@@ -265,7 +266,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
         MapField mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == mapField.FindOwnedChild(ClassId) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
-            bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
+            bool condition = PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == animation.Tag;
             if (!condition)
             {
                 int hexLevel2 = HexLevel;

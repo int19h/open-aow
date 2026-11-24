@@ -38,7 +38,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
             case 0:
                 {
                     Player player = Control.Player;
-                    if (player.PlayerIndex != 0)
+                    if (player.PlayerIndex != PlayerId.Independent)
                     {
                         if (FindAvailableTransporter() is null && !ProducingTransporter() && StrategicMap.Current.Day > 5)
                         {
@@ -77,7 +77,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
                             _manaUpkeep = 0;
                         }
 
-                        if (player.PlayerIndex != 0 && (player.AIBudget.Gold > 25 || player.AIBudget.Mana > 25) && (_goldUpkeep > 0 || _manaUpkeep > 0))
+                        if (player.PlayerIndex != PlayerId.Independent && (player.AIBudget.Gold > 25 || player.AIBudget.Mana > 25) && (_goldUpkeep > 0 || _manaUpkeep > 0))
                         {
                             _productionIndex = -1;
                             _state += 1;

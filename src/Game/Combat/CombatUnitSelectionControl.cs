@@ -8,7 +8,7 @@ using Aow.Game.Draw.Images;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
@@ -241,20 +241,20 @@ public sealed class CombatUnitSelectionControl : MoveSelector
                                     }
                                     else
                                     {
-                                        sbyte player = TacticalBattleUnitHexSprite.Unit.GetPlayer();
-                                        if (unitHexSprite.Unit.GetPlayer() == player && !targets.Contains(CombatTargetTypes.Friend))
+                                        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(TacticalBattleUnitHexSprite.Unit.GetPlayer());
+                                        if (PlayerIdExtensions.ToOriginal(unitHexSprite.Unit.GetPlayer()) == player && !targets.Contains(CombatTargetTypes.Friend))
                                         {
                                             CombatMap.Current.Selection.UnselectLocation();
                                             CombatMap.Current.Selection.SelectLocationHexSprite(unitHexSprite);
                                         }
                                         else
                                         {
-                                            sbyte fUnitPlayer = TacticalBattleUnitHexSprite.Unit.GetPlayer();
-                                            bool condition = unitHexSprite.Unit.GetPlayer() == fUnitPlayer && targets.Contains(CombatTargetTypes.Friend);
+                                            sbyte fUnitPlayer = (sbyte)PlayerIdExtensions.ToOriginal(TacticalBattleUnitHexSprite.Unit.GetPlayer());
+                                            bool condition = PlayerIdExtensions.ToOriginal(unitHexSprite.Unit.GetPlayer()) == fUnitPlayer && targets.Contains(CombatTargetTypes.Friend);
                                             if (!condition)
                                             {
-                                                sbyte player2 = TacticalBattleUnitHexSprite.Unit.GetPlayer();
-                                                condition = unitHexSprite.Unit.GetPlayer() != player2 && targets.Contains(CombatTargetTypes.Enemy);
+                                                sbyte player2 = (sbyte)PlayerIdExtensions.ToOriginal(TacticalBattleUnitHexSprite.Unit.GetPlayer());
+                                                condition = PlayerIdExtensions.ToOriginal(unitHexSprite.Unit.GetPlayer()) != player2 && targets.Contains(CombatTargetTypes.Enemy);
                                             }
 
                                             if (condition)
@@ -330,8 +330,8 @@ public sealed class CombatUnitSelectionControl : MoveSelector
         int hexY = unitHexSprite.HexY;
         int hexX = unitHexSprite.HexX;
         MoveControlSettings.SetSourcePosition(hexX, hexY, hexLevel);
-        sbyte player = unitHexSprite.Unit.GetPlayer();
-        MoveControlSettings.Player = player;
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(unitHexSprite.Unit.GetPlayer());
+        MoveControlSettings.Player = PlayerId.FromOriginal(player);
         MoveControlSettings.ArmyHexSprite = unitHexSprite;
         MoveControlSettings.Selection = 0;
         MoveControlSettings.SetDestinationPosition(X, Y, L);
@@ -1273,7 +1273,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
     // AoWTC.pas:3073
     public bool ValidMultiMoveSelection(MapField field)
     {
-        sbyte player = field.GetPlayer();
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
         return player == -1;
     }
 
@@ -1362,8 +1362,8 @@ public sealed class CombatUnitSelectionControl : MoveSelector
         bool flag2 = moves.Count != 0;
         if (flag2)
         {
-            sbyte player = ((TacticalBattleUnitHexSprite)moves.GetMoveSettings(0).MoveObject).Unit.GetPlayer();
-            flag2 = StrategicMap.Current.TokenManager.PlayerReady(player);
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(((TacticalBattleUnitHexSprite)moves.GetMoveSettings(0).MoveObject).Unit.GetPlayer());
+            flag2 = StrategicMap.Current.TokenManager.PlayerReady(PlayerId.FromOriginal(player));
         }
         bool flag;
         if (flag2)
@@ -1410,8 +1410,8 @@ public sealed class CombatUnitSelectionControl : MoveSelector
             }
             if (multiMoveTokenEvent.Events.Count != 0)
             {
-                sbyte player2 = ((TacticalBattleUnitHexSprite)moves.GetMoveSettings(0).MoveObject).Unit.GetPlayer();
-                StrategicMap.Current.TokenManager.GetTokenControl(player2).AddEvent(multiMoveTokenEvent);
+                sbyte player2 = (sbyte)PlayerIdExtensions.ToOriginal(((TacticalBattleUnitHexSprite)moves.GetMoveSettings(0).MoveObject).Unit.GetPlayer());
+                StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player2)).AddEvent(multiMoveTokenEvent);
                 flag = true;
             }
             else

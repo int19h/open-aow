@@ -8,7 +8,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -53,7 +53,7 @@ public class Crusade : Spell
             if (StrategicMap.Current.Random(100) < 20)
             {
                 party = new ArmyHexSprite(null) { Holder = CreationHolder() };
-                party.Army.SetPlayer(0);
+                party.Army.SetPlayer(PlayerId.Independent);
                 count = 1;
                 unitIndex = StrategicMap.Current.Random(1);
                 for (int j = 0; j <= count - 1; j++)
@@ -75,7 +75,7 @@ public class Crusade : Spell
                 for (int i = 0; i <= 1; i++)
                 {
                     party = new ArmyHexSprite(null) { Holder = CreationHolder() };
-                    party.Army.SetPlayer(0);
+                    party.Army.SetPlayer(PlayerId.Independent);
                     count = StrategicMap.Current.Random(3) + 4;
                     for (int j = 0; j <= count - 1; j++)
                     {
@@ -94,7 +94,7 @@ public class Crusade : Spell
                 }
 
                 party = new ArmyHexSprite(null) { Holder = CreationHolder() };
-                party.Army.SetPlayer(0);
+                party.Army.SetPlayer(PlayerId.Independent);
                 unitIndex = StrategicMap.Current.Random(3);
                 count = 2;
                 if (unitIndex == 2)
@@ -132,7 +132,7 @@ public class Crusade : Spell
         if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+            eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;

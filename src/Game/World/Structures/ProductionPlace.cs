@@ -82,7 +82,7 @@ public partial class ProductionPlace : PlayerStructure
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537002242)
         {
-            MasterySpellCast((sbyte)message.Param[0].Int, sphere: (MagicSphere)message.Param[1].Int);
+            MasterySpellCast(PlayerId.FromInt32((sbyte)message.Param[0].Int), sphere: (MagicSphere)message.Param[1].Int);
         }
     }
 
@@ -101,7 +101,7 @@ public partial class ProductionPlace : PlayerStructure
     {
         base.Activate();
         ProductionControl.Activate();
-        if (Player != -1)
+        if (Player is not null)
         {
             if (GetMagicSphere() == MagicSphere.None)
             {
@@ -123,7 +123,7 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:574
     public override void Deactivate()
     {
-        if (Player != -1)
+        if (Player is not null)
         {
             if (GetMagicSphere() == MagicSphere.None)
             {
@@ -154,7 +154,7 @@ public partial class ProductionPlace : PlayerStructure
         if (value)
         {
             ProductionControl.ExecuteDeleteProductions();
-            SetPlayer(-1);
+            SetPlayer(null);
             RazedState = 1;
         }
         else
@@ -175,7 +175,7 @@ public partial class ProductionPlace : PlayerStructure
         base.NewDay();
         if (StrategicMap.Current.Day == 1)
         {
-            if (Player == 0)
+            if (Player == PlayerId.Independent)
             {
                 GenerateDefenders();
             }
@@ -185,7 +185,7 @@ public partial class ProductionPlace : PlayerStructure
     }
 
     // PrdPlace.pas:686
-    public override void NewTurn(sbyte player)
+    public override void NewTurn(PlayerId player)
     {
         base.NewTurn(player);
         ProductionControl.NewTurn(player);
@@ -203,7 +203,7 @@ public partial class ProductionPlace : PlayerStructure
     {
         if (ProductionControl.Queue.Count == 0)
         {
-            return Player > 0
+            return PlayerIdExtensions.ToOriginal(Player) > 0
                 ? GetMagicSphere() != MagicSphere.None
                     ? GetPower() != 0 ? AbilityRules.TranslateResourceString(GetEngine(), S: GameText.GeneratingExtraPowerText) : "-"
                     : BaseIncome != 0
@@ -229,7 +229,7 @@ public partial class ProductionPlace : PlayerStructure
                 case AITargetMode.Raid:
                     if (info.Player != Player)
                     {
-                        if (Player == 0)
+                        if (Player == PlayerId.Independent)
                         {
                             data.Priority = 50;
                         }
@@ -282,12 +282,12 @@ public partial class ProductionPlace : PlayerStructure
     public override void Update()
     {
         base.Update();
-        if (_incomeSource is not null && Player >= 0)
+        if (_incomeSource is not null && PlayerIdExtensions.ToOriginal(Player) >= 0)
         {
             StrategicMap.Current.Players.GetPlayers(Player).UpdateIncome();
         }
 
-        if (_powerSource is not null && Player >= 0)
+        if (_powerSource is not null && PlayerIdExtensions.ToOriginal(Player) >= 0)
         {
             StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Update();
         }
@@ -297,12 +297,12 @@ public partial class ProductionPlace : PlayerStructure
     public override bool CanDoubleClick() => StrategicMap.Current.SeatedPlayer == Player && GetMagicSphere() == MagicSphere.None;
 
     // PrdPlace.pas:586
-    public override void SetPlayer(sbyte player)
+    public override void SetPlayer(PlayerId? player)
     {
         if (player != Player)
         {
             ProductionControl.PlayerChanged();
-            if (Player != -1)
+            if (Player is not null)
             {
                 if (_powerSource is not null)
                 {
@@ -321,7 +321,7 @@ public partial class ProductionPlace : PlayerStructure
             }
 
             base.SetPlayer(player);
-            if (Player != -1)
+            if (Player is not null)
             {
                 if (_powerSource is not null)
                 {
@@ -361,7 +361,7 @@ public partial class ProductionPlace : PlayerStructure
     {
         int result;
         // { The original tests msCosmos, rather than msNone, here. }
-        if (Player > 0 && GetMagicSphere() != MagicSphere.Cosmos && !GetRazed() && !Building)
+        if (PlayerIdExtensions.ToOriginal(Player) > 0 && GetMagicSphere() != MagicSphere.Cosmos && !GetRazed() && !Building)
         {
             MagicSphere magicSphere = GetMagicSphere();
             result = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
@@ -374,9 +374,9 @@ public partial class ProductionPlace : PlayerStructure
     }
 
     // PrdPlace.pas:543
-    public override void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
+    public override void StructureCaptured(PlayerId? oldPlayer, PlayerId? newPlayer)
     {
-        if (!GetRazed() && !Building && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && Status.Contains(MapObjectStatuses.Activated) && !Resource.Claimed)
+        if (!GetRazed() && !Building && oldPlayer == PlayerId.Independent && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && Status.Contains(MapObjectStatuses.Activated) && !Resource.Claimed)
         {
             ProductionPlaceEventLog log = new(null)
             {
@@ -425,9 +425,9 @@ public partial class ProductionPlace : PlayerStructure
                     }
 
                     int hexY = HexY;
-                    _ = AbilityRules.PlaceRandomUnits(HexX, hexY, L: HexLevel, player: 0, units, level: 4, value: budget, types: UnitTypes.Humanoid | UnitTypes.Creature, engine: GetEngine());
+                    _ = AbilityRules.PlaceRandomUnits(HexX, hexY, L: HexLevel, player: PlayerId.Independent, units, level: 4, value: budget, types: UnitTypes.Humanoid | UnitTypes.Creature, engine: GetEngine());
                     armyHexSprite = Owner.GetArmyHexSprite();
-                    if (armyHexSprite is not null && armyHexSprite.Army.Player == 0)
+                    if (armyHexSprite is not null && armyHexSprite.Army.Player == PlayerId.Independent)
                     {
                         armyHexSprite.Army.SetBehavior(255, behavior: GroupBehavior.Guard);
                     }
@@ -460,7 +460,7 @@ public partial class ProductionPlace : PlayerStructure
         }
         else
         {
-            if (Player > 0)
+            if (PlayerIdExtensions.ToOriginal(Player) > 0)
             {
                 MagicSphere magicSphere = GetMagicSphere();
                 int picks = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
@@ -478,9 +478,9 @@ public partial class ProductionPlace : PlayerStructure
     }
 
     // PrdPlace.pas:306
-    public void MasterySpellCast(sbyte player, MagicSphere sphere)
+    public void MasterySpellCast(PlayerId player, MagicSphere sphere)
     {
-        if (sphere == GetMagicSphere() && Player > 0)
+        if (sphere == GetMagicSphere() && PlayerIdExtensions.ToOriginal(Player) > 0)
         {
             int unitIndex = sphere switch
             {

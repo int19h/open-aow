@@ -116,7 +116,7 @@ public abstract record DiplomaticProposal
 
     // The AI target's answer (Diplomacy.pas:722). Relation is the relation of the source to the
     // target, IdealPeace and IdealWar the target's ideal partners.
-    public virtual void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
+    public virtual void AnswerAI(DiplomaticAction action, PlayerId? player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
     {
     }
 
@@ -126,10 +126,10 @@ public abstract record DiplomaticProposal
     }
 
     // How the proposal moves the relation of Race to Player (Diplomacy.pas:527).
-    public virtual int RelationModifier(DiplomaticAction action, sbyte player, int race) => 0;
+    public virtual int RelationModifier(DiplomaticAction action, PlayerId? player, int race) => 0;
 
     // Modifier, scaled by how Race regards the race of Other, or Modifier itself for Other's own race.
-    protected static int RaceModifier(int other, int race, int modifier)
+    protected static int RaceModifier(PlayerId? other, int race, int modifier)
     {
         if (StrategicMap.Current.Players.GetPlayers(other).PlayerRace != race)
         {
@@ -141,11 +141,11 @@ public abstract record DiplomaticProposal
     }
 
     // The relation of First to Second.
-    protected static DiplomaticRelation Relation(int first, int second)
-        => StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)first, otherPlayer: (sbyte)(byte)second);
+    protected static DiplomaticRelation Relation(PlayerId? first, PlayerId? second)
+        => StrategicMap.Current.Players.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(first)), otherPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(second)));
 
     // Shows Log at once when Player is seated.
-    protected static void ShowTo(EventLog log, sbyte player)
+    protected static void ShowTo(EventLog log, PlayerId? player)
     {
         if (player == StrategicMap.Current.SeatedPlayer)
         {
@@ -154,7 +154,7 @@ public abstract record DiplomaticProposal
     }
 
     // Announces the action to every player who knows both sides but Exclude, and shows it to Viewer.
-    protected static void Broadcast(DiplomaticAction action, int exclude, sbyte viewer)
+    protected static void Broadcast(DiplomaticAction action, int exclude, PlayerId? viewer)
     {
         DiplomaticActionEventLog log = action.CreateEventLog();
         BroadcastDiplomaticEvent(log, exclude);
@@ -165,7 +165,7 @@ public abstract record DiplomaticProposal
     // Delivers the proposal to the target's logbook (Diplomacy.pas:992, the arm of the kinds that wait for an answer).
     protected static void Deliver(DiplomaticAction action)
     {
-        StrategicMap.Current.Players.GetPlayers(action.Target).PlayerSeen((sbyte)(byte)action.Source);
+        StrategicMap.Current.Players.GetPlayers(action.Target).PlayerSeen(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Source)));
         if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
             string messageSent = AbilityRules.TranslateResourceString(action.GetEngine(), S: s_messageSentText);
@@ -220,7 +220,7 @@ public abstract record DiplomaticProposal
         for (int number = StrategicMap.Current.Players.Count - 1; i <= number; i++)
         {
             Player? players = StrategicMap.Current.Players.GetPlayers(i);
-            if (players.Status == PlayerStatus.Playing && i != exclude && (i == log.Action.Source || i == log.Action.Target || (StrategicMap.Current.Players.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)log.Action.Source) != -1 && StrategicMap.Current.Players.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)log.Action.Target) != -1)))
+            if (players.Status == PlayerStatus.Playing && i != exclude && (i == PlayerIdExtensions.ToOriginal(log.Action.Source) || i == PlayerIdExtensions.ToOriginal(log.Action.Target) || (StrategicMap.Current.Players.GetPlayers(i).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(log.Action.Source))) != -1 && StrategicMap.Current.Players.GetPlayers(i).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(log.Action.Target))) != -1)))
             {
                 EventLog eventLog = log.Copy<EventLog>(log.GetEngine());
                 players.EventLogbook.AddEvent(eventLog);

@@ -308,8 +308,8 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
             ShowSpellEntry(spellSpell, panel: Spell8Panel, button: Spell8Button, name: Spell8SpellLabel, spellClass: Spell8ClassLabel, cost: Spell8CostLabel, memo: Spell8Memo, icon: Spell8Icon);
             if (Mode == 0)
             {
-                _playerPages.Count = StrategicMap.Current.SeatedPlayer + 1;
-                _playerPages.List[StrategicMap.Current.SeatedPlayer] = new DoubleItemList.DoubleItem(First: (int)_spellType, Second: Page);
+                _playerPages.Count = PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) + 1;
+                _playerPages.List[PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer)] = new DoubleItemList.DoubleItem(First: (int)_spellType, Second: Page);
             }
 
             if (PageKind == 1)
@@ -330,7 +330,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
     {
         if (ValidateHero())
         {
-            sbyte player2 = Mode == 1 ? CombatMap.Current.SeatedPlayer : StrategicMap.Current.SeatedPlayer;
+            sbyte player2 = Mode == 1 ? (sbyte)PlayerIdExtensions.ToOriginal(CombatMap.Current.SeatedPlayer) : (sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer);
 
             Leader? leader = StrategicMap.Current.Players.GetPlayers(player2).Leader;
             for (int i = 0; i <= 6; i++)
@@ -708,7 +708,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
     }
 
     // AoWSpellBook.pas:415
-    public void PlayerChanged(sbyte player)
+    public void PlayerChanged(PlayerId? player)
     {
         if (Book.Visible && player == StrategicMap.Current.SeatedPlayer)
         {
@@ -822,8 +822,8 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
         Mode = 0;
         if (ValidateHero())
         {
-            _spellType = (SpellType)_playerPages[StrategicMap.Current.SeatedPlayer].First;
-            Page = _playerPages[StrategicMap.Current.SeatedPlayer].Second;
+            _spellType = (SpellType)_playerPages[PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer)].First;
+            Page = _playerPages[PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer)].Second;
             if (_hero.Casting())
             {
                 SetPageKind(0);

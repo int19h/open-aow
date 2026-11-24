@@ -6,7 +6,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
@@ -92,7 +92,7 @@ public class HealingShowersTokenEvent(CustomNode? owner) : GlobalTargetSpellToke
 
                             if (healed)
                             {
-                                bool condition = playSound || (byte)army.Army.Player == (byte)StrategicMap.Current.SeatedPlayer;
+                                bool condition = playSound || (byte)PlayerIdExtensions.ToOriginal(army.Army.Player) == (byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer);
                                 if (!condition)
                                 {
                                     int hexY = army.HexY;

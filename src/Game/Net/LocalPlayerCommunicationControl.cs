@@ -1,6 +1,6 @@
 // Translated from NetworkE.pas.
 using Aow.Engine.Nodes;
-
+using Aow.Game.Session;
 using static Aow.Rtl.DelphiMemory;
 
 namespace Aow.Game.Net;
@@ -63,6 +63,6 @@ public sealed class LocalPlayerCommunicationControl(EngineObject creator) : Play
     }
 
     // NetworkE.pas:752
-    public void SetConnectionMode(int index, ConnectionMode mode) => PlayerCommunicationSettingsList.Players[index].ConnectionMode = mode;
+    public void SetConnectionMode(PlayerId index, ConnectionMode mode) => PlayerCommunicationSettingsList.Players[index.Value].ConnectionMode = mode;
 
 }

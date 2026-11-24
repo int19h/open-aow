@@ -1,6 +1,7 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 using Aow.Game.Commands;
 using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 
@@ -58,9 +59,9 @@ public sealed class PlainSpellAnimationTests
         using MapScope scope = new();
         Run(new HealingShowers(null, holder: EngineFixture.Engine), _ =>
         {
-            Unit source = new(null) { Holder = EngineFixture.Engine, Player = 2 };
+            Unit source = new(null) { Holder = EngineFixture.Engine, Player = PlayerId.Player2 };
             HealingShowersTokenEvent showers = new(null) { Holder = EngineFixture.Engine };
-            showers.Initialize(spellId: 73, playerIndex: 1, sourceId: 0, mana: 0);
+            showers.Initialize(spellId: 73, playerIndex: PlayerId.Player1, sourceId: 0, mana: 0);
             showers.SetLocation(x: 0, y: 0, layer: 0);
             int before = scope.Map.DynamicFixedVisibleHexSprite.Count;
             Assert.True(showers.Process(source, value: 0));
@@ -74,9 +75,9 @@ public sealed class PlainSpellAnimationTests
         using MapScope scope = new();
         Run(new Tornado(null, holder: EngineFixture.Engine), _ =>
         {
-            Unit source = new(null) { Holder = EngineFixture.Engine, Player = 2 };
+            Unit source = new(null) { Holder = EngineFixture.Engine, Player = PlayerId.Player2 };
             TornadoTokenEvent tornado = new(null) { Holder = EngineFixture.Engine };
-            tornado.Initialize(spellId: 68, playerIndex: 1, sourceId: 0, mana: 0);
+            tornado.Initialize(spellId: 68, playerIndex: PlayerId.Player1, sourceId: 0, mana: 0);
             tornado.SetLocation(x: 0, y: 0, layer: 0);
             int before = scope.Map.DynamicFixedVisibleHexSprite.Count;
             Assert.True(tornado.Process(source, value: 0));

@@ -23,10 +23,10 @@ namespace Aow.Game.Session;
 public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(owner)
 {
     public new const int ClassId = 131_667;
-    private sbyte _localPlayer;
+    private PlayerId? _localPlayer = PlayerId.Independent;
 
     // PlayerC.PAS:984
-    public override void NewTurn(sbyte player)
+    public override void NewTurn(PlayerId? player)
     {
         if (StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status.Contains(PbemPlayerStatuses.NewTurn) || StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human || StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Terminated)
         {
@@ -102,16 +102,16 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
 
         if (test)
         {
-            _localPlayer = (sbyte)player;
+            _localPlayer = PlayerId.FromOriginal((sbyte)player);
             Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
             StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = fPlayersPlayers.PbemSettings.Status | PbemPlayerStatuses.NewTurn;
         }
         else
         {
-            StrategicMap.Current.SetSeatedPlayer(-1);
+            StrategicMap.Current.SetSeatedPlayer(null);
         }
 
-        NewTurn((sbyte)StrategicMap.Current.TurnOrder[1]);
+        NewTurn(PlayerId.FromOriginal((sbyte)StrategicMap.Current.TurnOrder[1]));
     }
 
     // PlayerC.PAS:1187
@@ -165,7 +165,7 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
     }
 
     // PlayerC.PAS:1053
-    public override void EndTurn(sbyte player)
+    public override void EndTurn(PlayerId? player)
     {
         if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human && StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
         {
@@ -297,7 +297,7 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
         => throw new NotImplementedException();
 
     // PlayerC.PAS:1018
-    public void TriggerGameRestartedEvents(sbyte player)
+    public void TriggerGameRestartedEvents(PlayerId? player)
     {
         StrategicMap.Current.SynchronizeBegin();
         RestartGameEventLog log = new(null, holder: CreationHolder())
@@ -360,7 +360,7 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
         {
             StrategicMap.Current.SynchronizeBegin();
             DefaultStartMap();
-            StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
+            StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(StrategicMap.Current.CurrentPlayer));
             NewTurn(StrategicMap.Current.CurrentPlayer);
             StrategicMap.Current.SynchronizeEnd();
         }
@@ -393,7 +393,7 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
         {
             StrategicMap.Current.SynchronizeBegin();
             DefaultStartMap();
-            StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
+            StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(StrategicMap.Current.CurrentPlayer));
             EndTurn(StrategicMap.Current.CurrentPlayer);
             StrategicMap.Current.SynchronizeEnd();
         }
@@ -429,7 +429,7 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
             MessageEventLog log;
             if (GetEngine().EmailGames.EmailGameRestarted(fPlayersPlayers.PbemSettings.EmailGame))
             {
-                SetSeatedPlayer(-1);
+                SetSeatedPlayer(null);
                 log = new MessageEventLog(null, holder: CreationHolder())
                 {
                     Buttons = MessageEventLogButtons.YesNo,
@@ -445,7 +445,7 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
             }
             else
             {
-                SetSeatedPlayer(-1);
+                SetSeatedPlayer(null);
                 if ((StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status & (PbemPlayerStatuses.NewTurn | PbemPlayerStatuses.TurnDone)) == PbemPlayerStatuses.TurnDone)
                 {
                     log = new MessageEventLog(null, holder: CreationHolder())

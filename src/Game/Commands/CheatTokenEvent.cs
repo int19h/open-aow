@@ -15,14 +15,14 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131_829;
 
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
     public int CheatId { get; set; }
 
     // MoveT.PAS:3460
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         CheatId = persister.Int32("CheatId", value: CheatId);
     }
 

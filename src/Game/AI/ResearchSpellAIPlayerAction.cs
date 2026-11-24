@@ -19,7 +19,7 @@ public class ResearchSpellAIPlayerAction(CustomNode owner) : AIPlayerAction(owne
     // Spells.PAS:1504
     public override bool Process()
     {
-        if (Control.Player.PlayerIndex != 0 && Control.Player.MagicControl.ResearchSpellId == 0)
+        if (Control.Player.PlayerIndex != PlayerId.Independent && Control.Player.MagicControl.ResearchSpellId == 0)
         {
             SpellList spells = new();
             DoubleItemList choices = [];

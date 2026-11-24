@@ -24,7 +24,7 @@ public sealed class PlayerSetupSettings : EngineObject
 
     public Leader? Leader { get; private set; }
 
-    public byte PlayerId { get; set; }
+    public PlayerId? PlayerId { get; set; } = Session.PlayerId.Independent;
     public int BehaviorMode { get; set; }
 
     public string EmailAddress { get; set; } = "";
@@ -41,7 +41,7 @@ public sealed class PlayerSetupSettings : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PlayerId = persister.Byte("PlayerId", value: PlayerId);
+        PlayerId = persister.OptionalPlayer("PlayerId", value: PlayerId, width: IdWidth.Byte, fallback: 0);
         Behavior = persister.Record<SetupPlayerBehaviorImage, SetupPlayerBehavior>(name: "Behavior", value: Behavior);
         Race = persister.UnsignedByte(name: "Race", value: Race.TruncateToSByte());
         BehaviorMode = persister.RawByte("BehaviorMode", value: BehaviorMode.TruncateToByte());

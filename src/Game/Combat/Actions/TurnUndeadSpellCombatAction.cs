@@ -3,7 +3,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
@@ -25,7 +25,7 @@ public class TurnUndeadSpellCombatAction(CustomNode owner) : CombatSpellCombatAc
             {
                 _ = GamePack.Current.AbilityControl[34].Expand(target.Troop);
                 UnitEnchantmentAbilityData data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(34);
-                data?.EnchantmentPlayerIndex = source.CombatPlayer;
+                data?.EnchantmentPlayerIndex = PlayerId.FromOriginal(source.CombatPlayer);
             }
         }
     }

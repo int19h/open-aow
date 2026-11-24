@@ -134,7 +134,7 @@ public partial class ExplorationSite : Structure
         int hexY2 = HexY;
         int hexLevel2 = HexLevel;
         int armyHexX = army.HexX;
-        _ = combat.Setup((byte)army.Army.Player, attackerRelation: ((sbyte)army.Army.IndependentRelation).TruncateToByte(), armyHexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)_defenders.Player, defenderRelation: _defenders.IndependentRelation.TruncateToByte(), hexX, hexY2, L: hexLevel2, logActions: true);
+        _ = combat.Setup((byte)PlayerIdExtensions.ToOriginal(army.Army.Player), attackerRelation: ((sbyte)army.Army.IndependentRelation).TruncateToByte(), armyHexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)PlayerIdExtensions.ToOriginal(_defenders.Player), defenderRelation: _defenders.IndependentRelation.TruncateToByte(), hexX, hexY2, L: hexLevel2, logActions: true);
         int hexY3 = HexY;
         int hexLevel3 = HexLevel;
         int hexX2 = HexX;
@@ -154,7 +154,7 @@ public partial class ExplorationSite : Structure
         ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
         if (armyHexSprite is not null && CanSearch(armyHexSprite.Army.Player))
         {
-            sbyte player = armyHexSprite.Army.Player;
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player);
             if (_defenders.Units.Count == 0)
             {
                 ExecuteSearchDone(CombatType.Fast, combatResult: CombatResult.Victory);
@@ -179,7 +179,7 @@ public partial class ExplorationSite : Structure
                     eventValue = new CombatEventLog(null) { Holder = CreationHolder() };
                     eventValue.SetCombatLogbook(combat.Logbook);
                     StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
-                    if (StrategicMap.Current.SeatedPlayer == player && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
+                    if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == player && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
                     {
                         _ = eventValue.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                     }
@@ -204,7 +204,7 @@ public partial class ExplorationSite : Structure
                         eventValue = new CombatEventLog(null) { Holder = CreationHolder() };
                         eventValue.SetCombatLogbook(combat.Logbook);
                         StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
-                        if (StrategicMap.Current.SeatedPlayer == player && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
+                        if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == player && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
                         {
                             _ = eventValue.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                         }
@@ -236,7 +236,7 @@ public partial class ExplorationSite : Structure
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 request.SetCenterLocation(HexX.TruncateToByte(), hexY.TruncateToByte(), L: hexLevel);
-                request.AttackerPlayer = armyHexSprite.Army.Player;
+                request.AttackerPlayer = (sbyte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player);
                 request.DefenderPlayer = 0;
                 StrategicMap.Current.TriggerTypedExecuteEventLog(request, immediate: true, done: RequestCombatTypeCallback);
                 _ = request.Release();
@@ -273,7 +273,7 @@ public partial class ExplorationSite : Structure
         for (int i = 0, last = data.GetCount() - 1; i <= last; i++)
         {
             CombatObject objectValue = data.GetObjects(i);
-            if (objectValue is CombatUnit combatUnit && objectValue.GetPlayer() == 0)
+            if (objectValue is CombatUnit combatUnit && objectValue.GetPlayer() == PlayerId.Independent)
             {
                 Troop? troop = combatUnit.Troop;
                 _ = troop.AddRef();
@@ -308,7 +308,7 @@ public partial class ExplorationSite : Structure
     }
 
     // ExploreS.pas:246
-    public bool CanSearch(sbyte player)
+    public bool CanSearch(PlayerId? player)
     {
         if (!Explored)
         {

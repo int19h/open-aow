@@ -135,32 +135,32 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
         {
             if (GoldCheckBox.Checked)
             {
-                DrawGold((sbyte)Players[i], R: bounds, surface);
+                DrawGold(PlayerId.FromInt32((sbyte)Players[i]), R: bounds, surface);
             }
 
             if (ManaCheckBox.Checked)
             {
-                DrawMana((sbyte)Players[i], R: bounds, surface);
+                DrawMana(PlayerId.FromInt32((sbyte)Players[i]), R: bounds, surface);
             }
 
             if (HeroesCheckBox.Checked)
             {
-                DrawHeroes((sbyte)Players[i], R: bounds, surface);
+                DrawHeroes(PlayerId.FromInt32((sbyte)Players[i]), R: bounds, surface);
             }
 
             if (StructuresCheckBox.Checked)
             {
-                DrawStructures((sbyte)Players[i], R: bounds, surface);
+                DrawStructures(PlayerId.FromInt32((sbyte)Players[i]), R: bounds, surface);
             }
 
             if (ArmiesCheckBox.Checked)
             {
-                DrawArmies((sbyte)Players[i], R: bounds, surface);
+                DrawArmies(PlayerId.FromInt32((sbyte)Players[i]), R: bounds, surface);
             }
 
             if (StrengthCheckBox.Checked)
             {
-                DrawStrength((sbyte)Players[i], R: bounds, surface);
+                DrawStrength(PlayerId.FromInt32((sbyte)Players[i]), R: bounds, surface);
             }
         }
     }
@@ -208,7 +208,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWResultsWin.pas:160
-    public void DrawGold(sbyte player, in Rect R, in LockedSurface surface)
+    public void DrawGold(PlayerId player, in Rect R, in LockedSurface surface)
     {
         Int32List values = [];
         TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
@@ -223,7 +223,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWResultsWin.pas:175
-    public void DrawMana(sbyte player, in Rect R, in LockedSurface surface)
+    public void DrawMana(PlayerId player, in Rect R, in LockedSurface surface)
     {
         Int32List values = [];
         TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
@@ -238,7 +238,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWResultsWin.pas:190
-    public void DrawHeroes(sbyte player, in Rect R, in LockedSurface surface)
+    public void DrawHeroes(PlayerId player, in Rect R, in LockedSurface surface)
     {
         Int32List values = [];
         TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
@@ -253,7 +253,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWResultsWin.pas:205
-    public void DrawArmies(sbyte player, in Rect R, in LockedSurface surface)
+    public void DrawArmies(PlayerId player, in Rect R, in LockedSurface surface)
     {
         Int32List values = [];
         TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
@@ -268,7 +268,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWResultsWin.pas:220
-    public void DrawStructures(sbyte player, in Rect R, in LockedSurface surface)
+    public void DrawStructures(PlayerId player, in Rect R, in LockedSurface surface)
     {
         Int32List values = [];
         TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
@@ -283,7 +283,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWResultsWin.pas:235
-    public void DrawStrength(sbyte player, in Rect R, in LockedSurface surface)
+    public void DrawStrength(PlayerId player, in Rect R, in LockedSurface surface)
     {
         Int32List values = [];
         TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;

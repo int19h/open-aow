@@ -309,7 +309,7 @@ public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
 
                             int direction = GetDirection(MoveIndex);
                             mapField = GetMapField(Path[MoveIndex - 1].Location);
-                            if (mapField.GetPlayer() == -1)
+                            if (mapField.GetPlayer() is null)
                             {
                                 if (direction != 0)
                                 {
@@ -409,11 +409,11 @@ public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
             {
                 if (CombatMap.Current.ExplorationEnabled)
                 {
-                    sbyte player = Unit.GetPlayer();
+                    sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Unit.GetPlayer());
                     int visibilityRange = Unit.GetVisibilityRange();
                     int hexY = Unit.UnitHexSprite.HexY;
                     int hexX = Unit.UnitHexSprite.HexX;
-                    _ = CombatMap.Current.ExploreArea(hexX, hexY, 0, player, range: visibilityRange);
+                    _ = CombatMap.Current.ExploreArea(hexX, hexY, 0, player: PlayerId.FromOriginal(player), range: visibilityRange);
                     int fUnitVisibilityRange = Unit.GetVisibilityRange();
                     int fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
                     int fUnitHexSpriteHexX = Unit.UnitHexSprite.HexX;
@@ -428,7 +428,7 @@ public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                     CombatMap.Current.TriggerMapChangedEvent(rectangle2, L: 0);
                 }
 
-                sbyte fUnitPlayer = Unit.GetPlayer();
+                sbyte fUnitPlayer = (sbyte)PlayerIdExtensions.ToOriginal(Unit.GetPlayer());
                 if (StrategicMap.Current.Players.GetPlayers(fUnitPlayer).PlayerType != PlayerType.Human || CombatMap.Current.Players.GetPlayers(Unit.CombatPlayer).Auto)
                 {
                     Unit.MovePoints = 0;

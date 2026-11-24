@@ -29,7 +29,7 @@ public class Fury : UnitSpell
     }
 
     // UnitSpells.pas:369
-    public override void PlayDefaultCastEffects(sbyte player, int X, int Y, int layer)
+    public override void PlayDefaultCastEffects(PlayerId? player, int X, int Y, int layer)
     {
         base.PlayDefaultCastEffects(player, X, Y, layer);
         if (player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, L: layer, radius: 0))

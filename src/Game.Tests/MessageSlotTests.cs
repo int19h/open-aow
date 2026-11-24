@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
 using Aow.Game.Draw;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 
@@ -213,7 +213,7 @@ public sealed class MessageSlotTests
             if (m.MessageId == 0x1151)
             {
                 StormDamageInfo info = m.Param[2].As<StormDamageQuery>()!.Info;
-                info.Player = 7;
+                info.Player = PlayerId.Player7;
                 m.Param[2].As<StormDamageQuery>()!.Info = info;
             }
             else if (m.MessageId == 0x1150)
@@ -227,7 +227,7 @@ public sealed class MessageSlotTests
         param[2] = query;
         message.Param = param;
         field.SendMapFieldMessage(ref message);
-        Assert.Equal(7, query.Info.Player);
+        Assert.Equal(7, query.Info.Player.Value);
         _ = Assert.Throws<InvalidCastException>(() => message.Param[2].Int);
         message = default;
         message.MessageId = 0x1150;

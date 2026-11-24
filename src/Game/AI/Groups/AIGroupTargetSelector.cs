@@ -1007,7 +1007,7 @@ public class AIGroupTargetSelector : AIGroupTask
         predictor.AddUnits(units);
         if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(GroupControl.Group.Player) != MoveAction.Negotiate)
         {
-            predictor.InitializeAdjacentOpponents((byte)GroupControl.Group.Player, relation: GroupControl.Group.IndependentRelation.TruncateToByte(), target.Location.X, target.Location.Y, L: target.Location.MapLevel);
+            predictor.InitializeAdjacentOpponents((byte)PlayerIdExtensions.ToOriginal(GroupControl.Group.Player), relation: GroupControl.Group.IndependentRelation.TruncateToByte(), target.Location.X, target.Location.Y, L: target.Location.MapLevel);
         }
 
         int superiority = GetRequiredCombatPredictorSuperiority(target);

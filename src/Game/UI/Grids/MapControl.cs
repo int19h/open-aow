@@ -392,7 +392,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            CurrentPlayerChanged?.Invoke(this, e: new PlayerEventArgs(StrategicMap.Current.CurrentPlayer));
+            CurrentPlayerChanged?.Invoke(this, e: new PlayerEventArgs((sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.CurrentPlayer)));
         }
         catch
         {
@@ -448,7 +448,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            SeatedPlayerChanged?.Invoke(StrategicMap.Current.SeatedPlayer);
+            SeatedPlayerChanged?.Invoke((sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer));
         }
         catch
         {
@@ -461,7 +461,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            GemsChanged?.Invoke(player.PlayerIndex);
+            GemsChanged?.Invoke((sbyte)PlayerIdExtensions.ToOriginal(player.PlayerIndex));
         }
         catch
         {
@@ -474,7 +474,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            IncomeChanged?.Invoke(player.PlayerIndex);
+            IncomeChanged?.Invoke((sbyte)PlayerIdExtensions.ToOriginal(player.PlayerIndex));
         }
         catch
         {
@@ -487,7 +487,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            UpkeepChanged?.Invoke(player.PlayerIndex);
+            UpkeepChanged?.Invoke((sbyte)PlayerIdExtensions.ToOriginal(player.PlayerIndex));
         }
         catch
         {
@@ -500,7 +500,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            PlayerMagicChanged?.Invoke(control.Player.PlayerIndex);
+            PlayerMagicChanged?.Invoke((sbyte)PlayerIdExtensions.ToOriginal(control.Player.PlayerIndex));
         }
         catch
         {
@@ -570,7 +570,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            LogbookChanged?.Invoke(player.PlayerIndex);
+            LogbookChanged?.Invoke((sbyte)PlayerIdExtensions.ToOriginal(player.PlayerIndex));
         }
         catch
         {

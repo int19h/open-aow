@@ -4,7 +4,7 @@ using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Draw;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -18,7 +18,7 @@ public sealed partial class ArmyId(CustomNode? owner) : EngineObject(owner)
 
     public Int32List UnitIds { get; } = [];
 
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
 
     public MapCoordinate Location { get; set; }
 

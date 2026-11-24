@@ -343,7 +343,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
                 return;
             }
 
-            if (StrategicMap.Current.SeatedPlayer != -1 && StrategicMap.Current.CombatMap is null)
+            if (StrategicMap.Current.SeatedPlayer is not null && StrategicMap.Current.CombatMap is null)
             {
                 Player? player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 if (player.GetBusy() && player.GameOverStatus == GameOverStatus.None)

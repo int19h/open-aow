@@ -274,7 +274,7 @@ public class AIGroupControl : EngineObject
     public virtual void ExecuteME(int X, int Y, int L)
     {
         MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
-        if (field.GetPlayer() != -1 && field.GetPlayer() != Group.Player)
+        if (field.GetPlayer() is not null && field.GetPlayer() != Group.Player)
         {
             MoveExecutor.Mode |= AIMoveExecutorModes.Adjacent | AIMoveExecutorModes.Attack;
         }
@@ -427,7 +427,7 @@ public class AIGroupControl : EngineObject
         ResetCP();
         if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(Group.Player) != MoveAction.Negotiate)
         {
-            CombatPredictor.InitializeAdjacentOpponents((byte)Group.Player, relation: Group.IndependentRelation.TruncateToByte(), target.Location.X, target.Location.Y, L: target.Location.MapLevel);
+            CombatPredictor.InitializeAdjacentOpponents((byte)PlayerIdExtensions.ToOriginal(Group.Player), relation: Group.IndependentRelation.TruncateToByte(), target.Location.X, target.Location.Y, L: target.Location.MapLevel);
         }
     }
 

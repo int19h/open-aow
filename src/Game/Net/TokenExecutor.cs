@@ -3,7 +3,7 @@
 using Aow.Engine;
 
 using Aow.Game.Commands;
-
+using Aow.Game.Session;
 using Aow.Rtl;
 using static Aow.Rtl.LegacyApplication;
 
@@ -118,7 +118,7 @@ public sealed class TokenExecutor : IDisposable
     }
 
     // NetworkE.pas:1380
-    public TokenControl GetTacticalBattle(int index) => TacticalBattleList[index];
+    public TokenControl GetTacticalBattle(PlayerId? index) => TacticalBattleList[PlayerIdExtensions.ToOriginal(index)];
 
     // NetworkE.pas:1385
     public void AddTacticalBattle(TokenControl tacticalBattle) => TacticalBattleList.Add(tacticalBattle);

@@ -37,7 +37,7 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
 
     public void BeforeFrame()
     {
-        if (_pending && map.CurrentPlayer == _caster)
+        if (_pending && PlayerIdExtensions.ToOriginal(map.CurrentPlayer) == _caster)
         {
             _pending = false;
             CastGlobal();

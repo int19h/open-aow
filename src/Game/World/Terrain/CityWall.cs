@@ -206,7 +206,7 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
             {
                 WallType = city.WallType;
                 razed = city.GetRazed();
-                _flagId = city.Player == -1 ? -1 : StrategicMap.Current.Players.GetPlayers(city.Player).PlayerRace;
+                _flagId = city.Player is null ? -1 : StrategicMap.Current.Players.GetPlayers(city.Player).PlayerRace;
             }
             else
             {
@@ -215,7 +215,7 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
                 {
                     WallType = 1;
                     razed = tower.GetRazed();
-                    _flagId = tower.Player == -1 ? -1 : StrategicMap.Current.Players.GetPlayers(tower.Player).PlayerRace;
+                    _flagId = tower.Player is null ? -1 : StrategicMap.Current.Players.GetPlayers(tower.Player).PlayerRace;
                 }
                 else
                 {

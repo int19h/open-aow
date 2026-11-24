@@ -7,7 +7,7 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
@@ -48,7 +48,7 @@ public class CityEnchantment : GlobalEnchantment
     }
 
     // City.pas:2746
-    public override bool Deactivate(byte player)
+    public override bool Deactivate(PlayerId? player)
     {
         bool result;
         if (EnchantmentStatus.Contains(GlobalEnchantmentStatuses.Activated))
@@ -65,7 +65,7 @@ public class CityEnchantment : GlobalEnchantment
     }
 
     // City.pas:2734
-    public override bool VisibleForPlayer(sbyte player) => GetCity().VisibleForPlayer(player);
+    public override bool VisibleForPlayer(PlayerId? player) => GetCity().VisibleForPlayer(player);
 
     // City.pas:2756
     public City GetCity() => StrategicMap.Current.MapContainer.GetField(EnchantmentLocation.X, EnchantmentLocation.Y, EnchantmentLocation.MapLevel).FindNoneTransparentHexSprite<City>();

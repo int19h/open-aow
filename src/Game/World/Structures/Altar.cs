@@ -42,7 +42,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     {
         if (value)
         {
-            SetPlayer(-1);
+            SetPlayer(null);
             Mode = AltarMode.Razed;
         }
         else
@@ -122,7 +122,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     }
 
     // Altar.pas:259
-    public override bool ExecuteAI(sbyte player, int phase)
+    public override bool ExecuteAI(PlayerId? player, int phase)
     {
         if (player == Player && (phase is 1 or 2))
         {
@@ -169,7 +169,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     }
 
     // Altar.pas:233
-    public override void SetPlayer(sbyte player)
+    public override void SetPlayer(PlayerId? player)
     {
         if (player != Player)
         {
@@ -230,7 +230,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     {
         string reason = "";
         TargetSelectionControl selection = StrategicMap.Current.TargetSelection;
-        if (!GetRazed() && Player >= 0 && TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm is null)
+        if (!GetRazed() && PlayerIdExtensions.ToOriginal(Player) >= 0 && TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm is null)
         {
             selection.Initialize(this);
             selection.TargetMode |= TargetSelectionModes.ValidateDistance | TargetSelectionModes.ExternalFloater;

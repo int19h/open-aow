@@ -111,7 +111,7 @@ public class AIGroupWanderControl : AIGroupTask
                     {
                         i = StrategicMap.Current.Random(Round(fields.Count * 0.1) + 1);
                         field = fields[i].First;
-                        if (field.GetPlayer() != -1)
+                        if (field.GetPlayer() is not null)
                         {
                             fields.Delete(i);
                             field = null;

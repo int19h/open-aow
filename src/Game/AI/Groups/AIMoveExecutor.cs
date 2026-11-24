@@ -6,6 +6,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -39,7 +40,7 @@ public sealed class AIMoveExecutor : EngineObject
     public int State { get; private set; }
     public AIMoveExecutorStatus Status { get; set; }
 
-    private sbyte _player;
+    private PlayerId? _player = PlayerId.Independent;
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _processCycles;
 
@@ -104,7 +105,7 @@ public sealed class AIMoveExecutor : EngineObject
     // AIGroup.pas:6031
     public AIMoveExecutorUnit AddUnit(Troop? troop)
     {
-        if (_player == -1)
+        if (_player is null)
         {
             _player = troop.Player;
         }
@@ -194,7 +195,7 @@ public sealed class AIMoveExecutor : EngineObject
         State = 0;
         _done = null;
         ControlQueue.Clear();
-        _player = -1;
+        _player = null;
         MovePointsMax = 200;
     }
 

@@ -142,7 +142,7 @@ public partial class Teleport(CustomNode? owner) : Structure(owner)
             {
                 ArmyHexSprite otherArmy = field.GetArmyHexSprite();
                 // { Original rejects a same-player army when CanAddUnits succeeds. }
-                return otherArmy is null || (byte)armyHexSprite.Army.Player != (byte)otherArmy.Army.Player || otherArmy.Army.CanAddUnits(armyHexSprite.Army.Units) == 0;
+                return otherArmy is null || (byte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player) != (byte)PlayerIdExtensions.ToOriginal(otherArmy.Army.Player) || otherArmy.Army.CanAddUnits(armyHexSprite.Army.Units) == 0;
             }
         }
 
@@ -150,7 +150,7 @@ public partial class Teleport(CustomNode? owner) : Structure(owner)
     }
 
     // Teleport.pas:208
-    public bool CanTeleport(sbyte player)
+    public bool CanTeleport(PlayerId? player)
     {
         ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
         // { Original only checks destination X here; X=0 is rejected. }
@@ -158,7 +158,7 @@ public partial class Teleport(CustomNode? owner) : Structure(owner)
     }
 
     // Teleport.pas:218
-    public bool TeleportPlayer(sbyte player)
+    public bool TeleportPlayer(PlayerId? player)
     {
         bool result;
         if (CanTeleport(player))
@@ -171,17 +171,17 @@ public partial class Teleport(CustomNode? owner) : Structure(owner)
                 _ = path.AddMapCoordinate(Destination.X, Destination.Y, Destination.MapLevel);
                 _ = path.AddMapCoordinate(mapLevel: HexLevel, y: HexY, x: HexX);
                 MapField field = StrategicMap.Current.MapContainer.GetField(Destination.X, Destination.Y, Destination.MapLevel);
-                bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
+                bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || PlayerIdExtensions.ToOriginal(field.GetPlayer()) <= 0;
                 if (!condition)
                 {
-                    sbyte playerLocal = field.GetPlayer();
-                    DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, otherPlayer: playerLocal);
+                    sbyte playerLocal = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
+                    DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, otherPlayer: PlayerId.FromOriginal(playerLocal));
                     condition = diplomaticRelation is DiplomaticRelation.War or DiplomaticRelation.Unknown;
                 }
 
                 if (condition)
                 {
-                    if (field.GetPlayer() > -1 && field.GetPlayer() != armyHexSprite.Army.Player)
+                    if (PlayerIdExtensions.ToOriginal(field.GetPlayer()) > -1 && field.GetPlayer() != armyHexSprite.Army.Player)
                     {
                         if (!StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).GetBusy())
                         {
@@ -208,7 +208,7 @@ public partial class Teleport(CustomNode? owner) : Structure(owner)
                         result = ArmyHexSprite.MoveArmy(armyHexSprite, selection: 255, path, mode: ArmyMoveModes.None, force: false);
                     }
 
-                    if (result && (byte)StrategicMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player)
+                    if (result && (byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == (byte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player))
                     {
                         StrategicMap.Current.CenterViewTo(Destination.X, Destination.Y, Destination.MapLevel);
                         StrategicMap.Current.SelectedArmy.Select(armyHexSprite);
@@ -216,7 +216,7 @@ public partial class Teleport(CustomNode? owner) : Structure(owner)
                 }
                 else
                 {
-                    sbyte playerLocal = field.GetPlayer();
+                    sbyte playerLocal = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
                     Player? playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal);
                     string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
                     string messageText = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NoWarDeclaredFormat), args: [raceNamesPlural]);

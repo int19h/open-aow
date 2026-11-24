@@ -7,6 +7,7 @@ using Aow.Game.AI.Groups;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
@@ -20,13 +21,13 @@ public class DisbandUnitTokenEvent(CustomNode? owner) : TokenEvent(owner)
     public new const int ClassId = 135_447;
 
     public int UnitId { get; set; }
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
 
     // MoveT.PAS:3532
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         UnitId = persister.Int32("UnitId", value: UnitId);
     }
 
@@ -37,7 +38,7 @@ public class DisbandUnitTokenEvent(CustomNode? owner) : TokenEvent(owner)
         if (troop is not null && troop.Player == Player)
         {
             _ = troop.AddRef();
-            if (troop.GetRace() == 5 && troop.Player > 0 && StrategicMap.Current.Players.GetPlayers(troop.Player).PlayerRace == 5 && (troop.GetAbilityEnabled(162) || troop.GetAbilityEnabled(164) || troop.GetAbilityEnabled(165)))
+            if (troop.GetRace() == 5 && PlayerIdExtensions.ToOriginal(troop.Player) > 0 && StrategicMap.Current.Players.GetPlayers(troop.Player).PlayerRace == 5 && (troop.GetAbilityEnabled(162) || troop.GetAbilityEnabled(164) || troop.GetAbilityEnabled(165)))
             {
                 StrategicMap.Current.Players.GetPlayers(troop.Player).HeroEmerging = true;
             }
@@ -50,18 +51,18 @@ public class DisbandUnitTokenEvent(CustomNode? owner) : TokenEvent(owner)
                 int l = coordinate5.MapLevel;
                 PlayerStructure structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
                 ArmyHexSprite? armyHexSprite;
-                if (troop.Owner is not Army || troop.Owner.Count > 1 || (structure is not null && structure.Player > 0))
+                if (troop.Owner is not Army || troop.Owner.Count > 1 || (structure is not null && PlayerIdExtensions.ToOriginal(structure.Player) > 0))
                 {
                     MapCoordinate coordinate6 = troop.GetLocation();
                     x = coordinate6.X;
                     y = coordinate6.Y;
                     l = coordinate6.MapLevel;
                     troop.SetOwner(null);
-                    armyHexSprite = troop.Place(x, y, l, player: 0, mode: UnitPlaceModes.ScanArea);
+                    armyHexSprite = troop.Place(x, y, l, player: PlayerId.Independent, mode: UnitPlaceModes.ScanArea);
                 }
                 else
                 {
-                    troop.ArmyOwner.SetPlayer(0);
+                    troop.ArmyOwner.SetPlayer(PlayerId.Independent);
                     armyHexSprite = troop.ArmyOwner.GetArmyHexSprite();
                 }
 

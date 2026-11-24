@@ -4,6 +4,7 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Net;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 
@@ -16,7 +17,7 @@ public class ProductionTokenEvent(CustomNode? owner) : TokenEvent(owner)
 
     public MapCoordinate Location { get; internal set; }
 
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
     public int Command { get; set; }
     public ProductionItem? Item { get; set; }
     public bool Queue { get; set; }
@@ -41,7 +42,7 @@ public class ProductionTokenEvent(CustomNode? owner) : TokenEvent(owner)
         base.PersistFields(persister);
         Command = persister.Int32("Command", value: Command);
         Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Byte);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         Item = persister.Created("Item", objectValue: Item);
         Index = persister.Int32("Index", value: Index);
         // Delphi TProductionTE.FReserved (id 27) is always 0 (omitted) and never read.

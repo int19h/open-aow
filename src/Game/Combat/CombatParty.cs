@@ -3,7 +3,7 @@
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -47,7 +47,7 @@ public sealed class CombatParty : EngineObject
     public void Activate(Battle combat)
     {
         CombatPlayer players = combat.CombatData.Players.GetPlayers((sbyte)PlayerIndex);
-        Army.SetPlayer(players.Player);
+        Army.SetPlayer(PlayerId.FromOriginal(players.Player));
     }
 
     // Combat2.pas:67

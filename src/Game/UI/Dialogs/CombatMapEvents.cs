@@ -96,9 +96,9 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
         UI.CombatUnitInfo.MainWindow.Visible = false;
         UI.CombatScanner.Scanner.SetMap(null);
         UI.General.Manager.OverlayPriority = 0;
-        UI.MapEvents.TheMapGemsChanged(StrategicMap.Current.SeatedPlayer);
-        UI.MapEvents.TheMapIncomeChanged(StrategicMap.Current.SeatedPlayer);
-        UI.MapEvents.TheMapPlayerMagicChanged(StrategicMap.Current.SeatedPlayer);
+        UI.MapEvents.TheMapGemsChanged((sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer));
+        UI.MapEvents.TheMapIncomeChanged((sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer));
+        UI.MapEvents.TheMapPlayerMagicChanged((sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer));
     }
 
     // aowTCMapEvents.pas:157

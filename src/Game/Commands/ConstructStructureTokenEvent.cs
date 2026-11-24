@@ -18,7 +18,7 @@ public class ConstructStructureTokenEvent(CustomNode? owner) : TokenEvent(owner)
     public new const int ClassId = 135_962;
 
     public int UnitId { get; set; }
-    public sbyte Player { get; set; }
+    public PlayerId? Player { get; set; } = PlayerId.Independent;
     public int ControlId { get; set; }
 
     // Structur.PAS:3098
@@ -27,7 +27,7 @@ public class ConstructStructureTokenEvent(CustomNode? owner) : TokenEvent(owner)
         base.PersistFields(persister);
         ControlId = persister.Int32("ControlId", value: ControlId);
         UnitId = persister.Int32("UnitId", value: UnitId);
-        Player = (sbyte)persister.UnsignedByte(name: "Player", value: Player);
+        Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
     }
 
     // Structur.PAS:3106

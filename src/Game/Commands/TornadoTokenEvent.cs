@@ -8,6 +8,7 @@ using Aow.Game.Draw.Animations;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
@@ -121,7 +122,7 @@ public class TornadoTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(
                     _ = log.ArmyMessages.Add(tornadoText);
                     log.ArmyIcon = 2;
                     log.ArmyView.Setup(army.Army, selection);
-                    EventLog.DistributeLocationEventLog(y: army.HexY, x: army.HexX, log: log, player: (sbyte)EventPlayerIndex, level: army.HexLevel, execute: true);
+                    EventLog.DistributeLocationEventLog(y: army.HexY, x: army.HexX, log: log, player: PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(EventPlayerIndex)), level: army.HexLevel, execute: true);
                     _ = log.Release();
                     MapCoordinate location = GamePack.Current.SpellControl.GetSpell<Tornado>(68).CalculateWarpLocation(army, selection);
                     if (location != MapCoordinate.None)
@@ -153,7 +154,7 @@ public class TornadoTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(
                         }
 
                         UnitUserList movedUnits = new(null) { Holder = CreationHolder() };
-                        byte owner = (byte)army.Army.Player;
+                        byte owner = (byte)PlayerIdExtensions.ToOriginal(army.Army.Player);
                         mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(location);
                         if (army.Army.ValidateSelection(255) != selection)
                         {
@@ -163,7 +164,7 @@ public class TornadoTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(
                                 {
                                     troopObject = army.Army.Units.GetUnit(i);
                                     _ = movedUnits.AddUnit(troopObject);
-                                    ArmyHexSprite? placed = troopObject.Place(location.X, location.Y, L: location.MapLevel, player: (sbyte)(byte)army.Army.Player, mode: UnitPlaceModes.None);
+                                    ArmyHexSprite? placed = troopObject.Place(location.X, location.Y, L: location.MapLevel, player: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(army.Army.Player)), mode: UnitPlaceModes.None);
                                     placed?.Army.UpdateExploration();
                                 }
                             }
@@ -177,7 +178,7 @@ public class TornadoTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(
                         if (owner == 0)
                         {
                             int unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(movedUnits, defaultRelation: 5);
-                            HuntAIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup<HuntAIGroup>(0, relation: unitsToIndependentRelation);
+                            HuntAIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup<HuntAIGroup>(PlayerId.Independent, relation: unitsToIndependentRelation);
                             _ = group.AddUnits(movedUnits.Units);
                             _ = group.TargetUnitIds.Add(source.UnitId);
                             _ = group.Release();

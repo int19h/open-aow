@@ -65,7 +65,7 @@ public class PlayerCropStructure : PlayerStructure
     public override void Activate()
     {
         base.Activate();
-        sbyte player = Player;
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Player);
         if (player != -1)
         {
             StrategicMap.Current.Players.GetPlayers(player).RegisterIncomeSource(_incomeSource);
@@ -81,7 +81,7 @@ public class PlayerCropStructure : PlayerStructure
     // Crops.pas:372
     public override void Deactivate()
     {
-        sbyte player = Player;
+        sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Player);
         if (player != -1)
         {
             StrategicMap.Current.Players.GetPlayers(player).UnregisterIncomeSource(_incomeSource);
@@ -139,7 +139,7 @@ public class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:325
-    public override void NewTurn(sbyte player)
+    public override void NewTurn(PlayerId player)
     {
         base.NewTurn(player);
         if (Player == player)
@@ -152,18 +152,18 @@ public class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:342
-    public override void SetPlayer(sbyte player)
+    public override void SetPlayer(PlayerId? player)
     {
         if (player != Player)
         {
-            if (Player != -1)
+            if (Player is not null)
             {
                 StrategicMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(_incomeSource);
             }
 
             base.SetPlayer(player);
             UpdateCrops();
-            if (Player != -1)
+            if (Player is not null)
             {
                 StrategicMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(_incomeSource);
             }
@@ -241,15 +241,15 @@ public class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:413
-    public virtual int GetRace() => Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : -1;
+    public virtual int GetRace() => PlayerIdExtensions.ToOriginal(Player) > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : -1;
 
     // Crops.pas:339
     public virtual void CropsChanged() => UpdateIncome();
 
     // Crops.pas:290
-    public virtual void CropTrampled(sbyte player)
+    public virtual void CropTrampled(PlayerId? player)
     {
-        if (player != Player && Player > 0 && player > 0)
+        if (player != Player && PlayerIdExtensions.ToOriginal(Player) > 0 && PlayerIdExtensions.ToOriginal(player) > 0)
         {
             int race = StrategicMap.Current.Players.GetPlayers(Player).PlayerRace;
             int playerRelationValue = StrategicMap.Current.Races.GetRace(race).GetPlayerRelationValue(player);
@@ -263,7 +263,7 @@ public class PlayerCropStructure : PlayerStructure
         if (value != Income && Status.Contains(MapObjectStatuses.Activated))
         {
             Income = value;
-            sbyte player = Player;
+            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Player);
             if (player != -1)
             {
                 StrategicMap.Current.Players.GetPlayers(player).UpdateIncome();
