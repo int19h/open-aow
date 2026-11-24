@@ -15,6 +15,30 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // AcceptsChild admits only a Player, so the cast never fails.
     public Player this[int index] => GetChild<Player>(index);
 
+    public Player this[PlayerId player] => this[player.Index];
+
+    public IEnumerable<PlayerId> Ids
+    {
+        get
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                yield return PlayerId.FromInt32(i);
+            }
+        }
+    }
+
+    public IEnumerable<PlayerId> GameIds
+    {
+        get
+        {
+            for (int i = 1; i < Count; i++)
+            {
+                yield return PlayerId.FromInt32(i);
+            }
+        }
+    }
+
     protected sealed override bool AcceptsChild(EngineObject child) => child is Player;
 
     int IChildSink<Player>.AddChild(Player child) => AddChild(child);
@@ -160,6 +184,10 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
 
     // Player.PAS:1552
     public Player? GetPlayers(int index) => index >= 0 && index < Count ? this[index] : null;
+
+    public Player? GetPlayers(PlayerId player) => GetPlayers(player.Index);
+
+    public Player? GetPlayers(PlayerId? player) => player is PlayerId id ? GetPlayers(id) : null;
 
     // Player.PAS:1559
     public bool GetActivePlayersAllied()
