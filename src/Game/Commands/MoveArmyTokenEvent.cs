@@ -39,11 +39,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     private bool _animate;
 
     // MoveT.PAS:2066
-    public override void Dispose()
-    {
-        _unitIds?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // MoveT.PAS:2093
     public override void PersistFields(IPersister persister)

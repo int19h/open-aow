@@ -26,11 +26,7 @@ public class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction
     public int SpellId { get; protected set; }
 
     // CombatSpells.pas:563
-    public override void Dispose()
-    {
-        TargetIds?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // CombatSpells.pas:569
     public override void PersistFields(IPersister persister)

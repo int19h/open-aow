@@ -21,11 +21,7 @@ public sealed class TutorialControl(CustomNode? owner) : EngineObject(owner)
     private readonly Int32List _shownMessages = [];
 
     // AoWHSMap.PAS:6
-    public override void Dispose()
-    {
-        _shownMessages?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // AoWHSMap.PAS:11
     public override void PersistFields(IPersister persister)

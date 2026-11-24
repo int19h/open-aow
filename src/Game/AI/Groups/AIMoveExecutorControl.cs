@@ -76,8 +76,6 @@ public partial class AIMoveExecutorControl : EngineObject
                 mapLevel = location.MapLevel;
                 StrategicMap.Current.MoveControl.CalculatePath(settings, settings.Path, x, y, L: mapLevel);
             }
-
-            candidates?.Dispose();
         }
         else
         {

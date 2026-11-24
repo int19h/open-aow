@@ -780,7 +780,6 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
         int hexLevel = _city.HexLevel;
         int hexY = _city.HexY;
         _preview = generator.RandomMap(null, _city.HexX, hexY, L: hexLevel);
-        generator?.Dispose();
         ArmyHSList armies = new(null) { Holder = UI.Engine };
         _ = _city.ListArmies(armies);
         for (int i = 0, last = armies.GetCount() - 1; i <= last; i++)

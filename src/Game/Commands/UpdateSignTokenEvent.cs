@@ -22,11 +22,7 @@ public class UpdateSignTokenEvent(CustomNode owner) : TokenEvent(owner)
     public MapCoordinate Location { get; set; }
 
     // Sign.pas:199
-    public override void Dispose()
-    {
-        Text?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // Sign.pas:205
     public override void PersistFields(IPersister persister)

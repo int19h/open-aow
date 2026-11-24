@@ -138,11 +138,7 @@ public class WindowControl(Component? owner) : UIComponent(owner)
     public bool Dockable { get; set; }
 
     // AoWWinControl.pas:110
-    public override void Dispose()
-    {
-        BackSurface?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // AoWWinControl.pas:120
     public override void Validate()
@@ -279,7 +275,6 @@ public class WindowControl(Component? owner) : UIComponent(owner)
             {
                 if (BackSurface.GetPixelFormatId() != surface.GetPixelFormatId())
                 {
-                    BackSurface?.Dispose();
                     BackSurface = null;
                 }
             }

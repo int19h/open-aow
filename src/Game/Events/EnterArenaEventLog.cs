@@ -20,11 +20,7 @@ public partial class EnterArenaEventLog(CustomNode? owner) : EventLog(owner)
     public Int32List UnitIds { get; } = [];
 
     // Arena.pas:265
-    public override void Dispose()
-    {
-        UnitIds?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // Arena.pas:271
     public int GetCount() => UnitIds.Count;
@@ -62,7 +58,6 @@ public partial class EnterArenaEventLog(CustomNode? owner) : EventLog(owner)
         }
 
         bool result = Arena.TrainUnits(StrategicMap.Current.SeatedPlayer, units, out errorText);
-        units?.Dispose();
         return result;
     }
 
@@ -79,7 +74,6 @@ public partial class EnterArenaEventLog(CustomNode? owner) : EventLog(owner)
         }
 
         bool result = Arena.CanTrainUnits(StrategicMap.Current.SeatedPlayer, units, ref errorText);
-        units?.Dispose();
         return result;
     }
 

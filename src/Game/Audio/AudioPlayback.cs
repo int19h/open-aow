@@ -72,7 +72,7 @@ public static class AudioPlayback
 
             AudioHost.SampleList?.Clear();
 
-            _ = AudioHost.SoundSystem.Release();
+            AudioHost.SoundSystem.Dispose();
             AudioHost.SoundSystem = null;
         }
     }

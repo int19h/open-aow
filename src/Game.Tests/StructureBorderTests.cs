@@ -37,7 +37,6 @@ public sealed class StructureBorderTests
         finally
         {
             _ = surface.Unlock();
-            surface.Dispose();
         }
     }
 
@@ -49,7 +48,6 @@ public sealed class StructureBorderTests
         _ = surface.Lock(ref lockedSurface);
         int pixel = lockedSurface.View().UInt16(0);
         _ = surface.Unlock();
-        surface.Dispose();
         return pixel;
     }
 
@@ -91,7 +89,6 @@ public sealed class StructureBorderTests
         finally
         {
             _ = target.Unlock();
-            target.Dispose();
             library.Dispose();
             ImageLibraries.LibraryImageClasses.Clear();
             ImageLibraries.LibraryImageClasses = previousClasses;

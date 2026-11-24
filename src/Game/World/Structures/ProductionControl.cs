@@ -786,8 +786,6 @@ public partial class ProductionControl : EngineObject
         {
             result = -1;
         }
-
-        productions?.Dispose();
         unit?.Dispose();
         return result;
     }

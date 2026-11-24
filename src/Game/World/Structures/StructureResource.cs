@@ -56,7 +56,6 @@ public class StructureResource : FixedImageLibraryTerrainMapObjectResource
     // Structur.PAS:1904
     public override void Dispose()
     {
-        Description?.Dispose();
         Defenders?.Dispose();
         base.Dispose();
     }

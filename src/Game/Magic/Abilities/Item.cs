@@ -85,8 +85,6 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
         {
             StrategicMap.Current.ItemControl.UnregisterItem(this);
         }
-
-        _description?.Dispose();
         base.Dispose();
     }
 

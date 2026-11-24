@@ -32,7 +32,6 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
     public override void Dispose()
     {
         ResetSelectedUnitGraphics();
-        _selectedUnitGraphics?.Dispose();
         base.Dispose();
     }
 
@@ -496,7 +495,6 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
 
         ResetSelectedUnitGraphics();
         _selectedUnitGraphics.Assign(list);
-        list?.Dispose();
     }
 
     // Army.PAS:3673

@@ -246,7 +246,6 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
         Player? players = hexSpriteMap.Players.GetPlayers(i);
         dialog.Leader.Assign(players.LeaderSetup, dialog.UI.Engine);
         hexSpriteMap?.Dispose();
-        value?.Dispose();
     }
 
     private static void LoadWorldCampaign(WorldMap dialog, string name) => dialog.UI.Engine.LoadCampaign(FileBoundary.ReadName($"{dialog.UI.Engine.StartupDirectory}Scenario\\Campaign\\{name}"));

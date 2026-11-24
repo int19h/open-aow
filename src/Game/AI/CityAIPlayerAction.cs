@@ -240,8 +240,6 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
                 result = true;
             }
         }
-
-        cities?.Dispose();
         return result;
     }
 
@@ -315,8 +313,6 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
         {
             result = false;
         }
-
-        cities?.Dispose();
         return result;
     }
 
@@ -432,8 +428,6 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
         {
             result = false;
         }
-
-        cities?.Dispose();
         return result;
     }
 

@@ -86,8 +86,6 @@ public sealed class LibraryImageClass
         {
             result = GraphicsResult.Error;
         }
-
-        rects?.Dispose();
         return result;
     }
 

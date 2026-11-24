@@ -133,33 +133,25 @@ internal static class LocalizationFrameChecks
         {
             Dib16Surface left = new(120, 40, pixelFormatId: PixelFormat.Rgb555);
             Dib16Surface right = new(120, 40, pixelFormatId: PixelFormat.Rgb555);
+            _ = left.Clear(Color.Black);
+            _ = right.Clear(Color.Black);
+            LockedSurface l = default, r = default;
+            _ = left.Lock(ref l);
+            _ = right.Lock(ref r);
             try
             {
-                _ = left.Clear(Color.Black);
-                _ = right.Clear(Color.Black);
-                LockedSurface l = default, r = default;
-                _ = left.Lock(ref l);
-                _ = right.Lock(ref r);
-                try
+                ui.Fonts.Age8.SetText(0, 0, text: undead, lockedSurface: l);
+                ui.Fonts.Age8.SetText(0, 0, text: "Undead", lockedSurface: r);
+                Span<byte> pixels = l.Data.AsSpan(l.DataIndex, length: l.Pitch * 40);
+                if (!pixels.SequenceEqual(r.Data.AsSpan(r.DataIndex, length: r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))
                 {
-                    ui.Fonts.Age8.SetText(0, 0, text: undead, lockedSurface: l);
-                    ui.Fonts.Age8.SetText(0, 0, text: "Undead", lockedSurface: r);
-                    Span<byte> pixels = l.Data.AsSpan(l.DataIndex, length: l.Pitch * 40);
-                    if (!pixels.SequenceEqual(r.Data.AsSpan(r.DataIndex, length: r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))
-                    {
-                        throw new InvalidOperationException("English Undead rendering differs");
-                    }
-                }
-                finally
-                {
-                    _ = left.Unlock();
-                    _ = right.Unlock();
+                    throw new InvalidOperationException("English Undead rendering differs");
                 }
             }
             finally
             {
-                left?.Dispose();
-                right?.Dispose();
+                _ = left.Unlock();
+                _ = right.Unlock();
             }
         }
         Console.WriteLine($"Localization frames: language {language}, Undead(plural) = {undead}, {germanBytes.Count} German extended bytes scanned across {fonts.Length} fonts");

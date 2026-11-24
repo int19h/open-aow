@@ -465,62 +465,55 @@ public sealed class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibrar
         try
         {
             DataSurface? surface = null;
-            try
+            LockedSurface lSD = default;
+            if (lockedSurface.BitCount != 16)
             {
-                LockedSurface lSD = default;
-                if (lockedSurface.BitCount != 16)
+                surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, pixelFormatId: PixelFormat.Rgb565, palette: null);
+                gr.Left = 0;
+                gr.Top = 0;
+                int width = surface.Width;
+                gr.Right = width;
+                int height = surface.Height;
+                gr.Bottom = height;
+                _ = surface.Lock(ref lSD);
+                if (LockedSurface.RemapSurfacePart(width: surface.Width, height: surface.Height, source: lockedSurface, sourceX: R.Left, sourceY: R.Top, destination: lSD, destinationX: 0, destinationY: 0) != 0)
                 {
-                    surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, pixelFormatId: PixelFormat.Rgb565, palette: null);
-                    gr.Left = 0;
-                    gr.Top = 0;
-                    int width = surface.Width;
-                    gr.Right = width;
-                    int height = surface.Height;
-                    gr.Bottom = height;
-                    _ = surface.Lock(ref lSD);
-                    if (LockedSurface.RemapSurfacePart(width: surface.Width, height: surface.Height, source: lockedSurface, sourceX: R.Left, sourceY: R.Top, destination: lSD, destinationX: 0, destinationY: 0) != 0)
-                    {
-                        throw new ArgumentException("Invalid PixelFormat");
-                    }
-
-                    _transparentColor = PixelRemap.RemapPixelInfo(grabInfo.TransparentPixel, sourcePixelFormatId: lockedSurface.PixelFormatId, sourcePalette: lockedSurface.Palette, destinationPixelFormatId: lSD.PixelFormatId, destinationPalette: null);
-                }
-                else
-                {
-                    lSD = lockedSurface;
-                    gr = R;
-                    _transparentColor = grabInfo.TransparentPixel;
+                    throw new ArgumentException("Invalid PixelFormat");
                 }
 
-                Clear();
-                DataLoaded = true;
-                DataWidth = gr.Right - gr.Left;
-                DataHeight = gr.Bottom - gr.Top;
-                SetWidthWithoutOverrides(DataWidth);
-                SetHeightWithoutOverrides(DataHeight);
-                FileName = ExtractFileName(grabInfo.FileName);
-                FileIndex = grabInfo.FileIndex;
-                StoredPixelFormatId = lSD.PixelFormatId;
-                PixelFormatId = StoredPixelFormatId;
-                _colorKey = _transparentColor;
-                LockedSurface.MinimizeTransparentRectangle(lSD, R: gr, _transparentColor, result: out Rect mr);
-                int left = mr.Left;
-                _spriteX = left - gr.Left;
-                int top = mr.Top;
-                _spriteY = top - gr.Top;
-                _spriteWidth = mr.Right - left;
-                int bottom = mr.Bottom;
-                _spriteHeight = bottom - top;
-                DataSize = _spriteWidth * _spriteHeight * 2;
-                AllocateDiscardableImageData(_spriteWidth, _spriteHeight);
-                for (int y = top; y <= bottom - 1; y++)
-                {
-                    lSD.View().Bytes((lSD.Pitch * y) + (mr.Left * 2), count: _spriteWidth * 2).CopyTo(_buffer.AsSpan((y - mr.Top) * _pitch, length: _spriteWidth * 2));
-                }
+                _transparentColor = PixelRemap.RemapPixelInfo(grabInfo.TransparentPixel, sourcePixelFormatId: lockedSurface.PixelFormatId, sourcePalette: lockedSurface.Palette, destinationPixelFormatId: lSD.PixelFormatId, destinationPalette: null);
             }
-            finally
+            else
             {
-                surface?.Dispose();
+                lSD = lockedSurface;
+                gr = R;
+                _transparentColor = grabInfo.TransparentPixel;
+            }
+
+            Clear();
+            DataLoaded = true;
+            DataWidth = gr.Right - gr.Left;
+            DataHeight = gr.Bottom - gr.Top;
+            SetWidthWithoutOverrides(DataWidth);
+            SetHeightWithoutOverrides(DataHeight);
+            FileName = ExtractFileName(grabInfo.FileName);
+            FileIndex = grabInfo.FileIndex;
+            StoredPixelFormatId = lSD.PixelFormatId;
+            PixelFormatId = StoredPixelFormatId;
+            _colorKey = _transparentColor;
+            LockedSurface.MinimizeTransparentRectangle(lSD, R: gr, _transparentColor, result: out Rect mr);
+            int left = mr.Left;
+            _spriteX = left - gr.Left;
+            int top = mr.Top;
+            _spriteY = top - gr.Top;
+            _spriteWidth = mr.Right - left;
+            int bottom = mr.Bottom;
+            _spriteHeight = bottom - top;
+            DataSize = _spriteWidth * _spriteHeight * 2;
+            AllocateDiscardableImageData(_spriteWidth, _spriteHeight);
+            for (int y = top; y <= bottom - 1; y++)
+            {
+                lSD.View().Bytes((lSD.Pitch * y) + (mr.Left * 2), count: _spriteWidth * 2).CopyTo(_buffer.AsSpan((y - mr.Top) * _pitch, length: _spriteWidth * 2));
             }
         }
         catch

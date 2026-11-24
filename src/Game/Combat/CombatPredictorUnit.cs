@@ -54,7 +54,6 @@ public sealed partial class CombatPredictorUnit : IDisposable
     // CombatPredictor.pas:4
     public void Dispose()
     {
-        RoundTargets?.Dispose();
         object? objectValue = Targets;
         if (objectValue is not null)
         {

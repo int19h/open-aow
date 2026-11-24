@@ -69,8 +69,6 @@ public sealed class CampaignTransferSettings : EngineObject
         Heroes?.Dispose();
         Items?.Dispose();
         Units?.Dispose();
-        SelectedSpheres?.Dispose();
-        _spells?.Dispose();
         // { Original bug: the three selected-index lists are never freed. }
         base.Dispose();
     }
@@ -157,8 +155,6 @@ public sealed class CampaignTransferSettings : EngineObject
                 }
             }
         }
-
-        candidates?.Dispose();
     }
 
     // Diplomacy.pas:1842
@@ -498,7 +494,6 @@ public sealed class CampaignTransferSettings : EngineObject
 
         SetSelectedTransferGold(TransferPointsMax);
         SetSelectedTransferMana(TransferPointsMax);
-        candidates?.Dispose();
     }
 
     // Diplomacy.pas:2109

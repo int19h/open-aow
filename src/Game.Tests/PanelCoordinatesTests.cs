@@ -102,7 +102,7 @@ public sealed class PanelCoordinatesTests
         Assert.Equal(1, list.FirstShownItem);
         list.Valid = false;
 
-        using DataSurface surface = new(640, 480, pixelFormatId: PixelFormat.Rgb555, palette: null);
+        DataSurface surface = new(640, 480, pixelFormatId: PixelFormat.Rgb555, palette: null);
         LockedSurface lockedSurface = default;
         Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
         try

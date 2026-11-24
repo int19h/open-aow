@@ -22,11 +22,7 @@ public class SummonSpell : Spell
     public UnitIndexList UnitIndices { get; }
 
     // SummonSpells.pas:249
-    public override void Dispose()
-    {
-        UnitIndices?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // SummonSpells.pas:241
     public SummonSpell(CustomNode? owner) : base(owner)

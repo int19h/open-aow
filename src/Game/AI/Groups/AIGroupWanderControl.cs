@@ -130,8 +130,6 @@ public class AIGroupWanderControl : AIGroupTask
                     {
                         Done();
                     }
-
-                    fields?.Dispose();
                 }
                 else
                 {

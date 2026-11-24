@@ -117,8 +117,6 @@ public class Tornado : GlobalTargetSpell
                 locations.Delete(index);
             }
         }
-
-        locations?.Dispose();
         return result;
     }
 

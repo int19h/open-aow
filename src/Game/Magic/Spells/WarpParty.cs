@@ -163,8 +163,6 @@ public class WarpParty : Spell
                 candidates.Delete(i);
             }
         }
-
-        candidates?.Dispose();
         return result;
     }
 

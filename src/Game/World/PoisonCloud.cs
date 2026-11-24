@@ -268,8 +268,6 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
                         _ = directions.Remove(direction.TruncateToByte());
                     }
                 }
-
-                directions?.Dispose();
                 if (!valid)
                 {
                     int tries = 20;

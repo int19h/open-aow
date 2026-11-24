@@ -384,8 +384,6 @@ public sealed class CombatUnitSelectionControl : MoveSelector
         {
             (temporary[i] as IDisposable)?.Dispose();
         }
-
-        temporary?.Dispose();
     }
 
     // AoWTC.pas:3178
@@ -718,8 +716,6 @@ public sealed class CombatUnitSelectionControl : MoveSelector
 
             Update();
         }
-
-        units?.Dispose();
     }
 
     // AoWTC.pas:2807

@@ -1430,8 +1430,6 @@ public partial class Hero : Troop
                 break;
             }
         }
-
-        choices?.Dispose();
     }
 
     // Hero.PAS:1269

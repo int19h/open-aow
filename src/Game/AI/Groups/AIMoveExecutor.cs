@@ -55,7 +55,6 @@ public sealed class AIMoveExecutor : EngineObject
         Units = null;
         Moves?.Dispose();
         Moves = null;
-        ControlQueue?.Dispose();
         ControlQueue = null;
         base.Dispose();
     }
@@ -248,8 +247,6 @@ public sealed class AIMoveExecutor : EngineObject
                 }
             }
         }
-
-        used?.Dispose();
         return armies;
     }
 

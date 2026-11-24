@@ -279,14 +279,10 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
             {
                 HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
-
-            _messages?.Dispose();
             _messages = null;
             DiplomaticActions?.Dispose();
             DiplomaticActions = null;
-            AIValidAttackPlayers?.Dispose();
             AIValidAttackPlayers = null;
-            LegacyRelations?.Dispose();
             try
             {
                 _logbookChangedEventsStore.Clear();
@@ -300,17 +296,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
 
             try
             {
-                LegacyNewRelations?.Dispose();
                 DiplomaticRelations?.Dispose();
-            }
-            catch (Exception error)
-            {
-                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
-            }
-
-            try
-            {
-                ProductionControls?.Dispose();
             }
             catch (Exception error)
             {
@@ -347,16 +333,6 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
             try
             {
                 LeaderSetup?.Dispose();
-            }
-            catch (Exception error)
-            {
-                HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
-            }
-
-            try
-            {
-                FirstDaySeen?.Dispose();
-                _lastDaySeen?.Dispose();
             }
             catch (Exception error)
             {
@@ -1217,8 +1193,6 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
 
             locations?.Dispose();
         }
-
-        heroes?.Dispose();
     }
 
     // Player.PAS:812

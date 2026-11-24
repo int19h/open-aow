@@ -199,8 +199,6 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
                             action = CreateDA(new OfferPeace(), target: candidates[0].First.TruncateToSByte(), other: -1, minDays: -1);
                         }
                     }
-
-                    candidates?.Dispose();
                 }
 
                 break;
@@ -214,12 +212,6 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
             _ = action.Send(ref errorText);
             _ = action.Release();
         }
-
-        peace?.Dispose();
-        war?.Dispose();
-        unknown?.Dispose();
-        idealPeace?.Dispose();
-        idealWar?.Dispose();
         return false;
     }
 
@@ -254,9 +246,6 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
             string name2 = StrategicMap.Current.Players.GetPlayers(item).GetName();
             GetEngine().OutputDebugMessage(DebugChannel.AI, S: name2);
         }
-
-        idealPeace?.Dispose();
-        idealWar?.Dispose();
     }
 
     // Diplomacy.pas:1546

@@ -25,12 +25,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
     private readonly ByteList _sideB = [];
 
     // HxBridge.pas:77
-    public override void Dispose()
-    {
-        base.Dispose();
-        _sideA?.Dispose();
-        _sideB?.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // HxBridge.pas:100
     public override int GetTerrain(int index) => index == 0 ? _terrain : -2;

@@ -329,8 +329,6 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
         {
             lists[i]?.Dispose();
         }
-
-        choices?.Dispose();
         _ = settings.Release();
         return result;
     }

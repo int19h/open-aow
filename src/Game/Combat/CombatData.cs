@@ -59,7 +59,6 @@ public sealed partial class CombatData : EngineObject
         CombatObjects?.Dispose();
         DefeatedLeaders?.Dispose();
         InvolvedLeaders?.Dispose();
-        TurnOrder?.Dispose();
         base.Dispose();
     }
 

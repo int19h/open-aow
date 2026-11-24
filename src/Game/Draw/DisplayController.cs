@@ -119,8 +119,6 @@ public partial class DisplayController(Component? owner) : Component(owner)
                     }
                 }
             }
-
-            m.Dispose();
         }
         else
         {

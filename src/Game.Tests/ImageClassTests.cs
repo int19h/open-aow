@@ -131,7 +131,7 @@ public sealed class ImageClassTests
         Assert.Equal("BMP", descriptor.Extension);
         Assert.Equal("Bitmap files (*.bmp)", descriptor.Description);
         _ = Assert.Throws<AbstractErrorException>(() => descriptor.Name);
-        using ImageFileClassList classes = new();
+        ImageFileClassList classes = [];
         _ = classes.Add(descriptor);
         Assert.Same(descriptor, classes.FindClass(".bmp"));
         Assert.Null(classes.FindClass("png"));
@@ -160,7 +160,6 @@ public sealed class ImageClassTests
         finally
         {
             _ = surface.Unlock();
-            surface.Dispose();
             library.Dispose();
             ImageLibraries.LibraryImageClasses.Clear();
             ImageLibraries.LibraryImageClasses = previousClasses;

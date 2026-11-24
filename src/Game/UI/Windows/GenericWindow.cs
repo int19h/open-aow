@@ -48,7 +48,6 @@ public class GenericWindow(Component? owner) : BaseWindow(owner)
             {
                 if (BackSurface is not null)
                 {
-                    BackSurface?.Dispose();
                     BackSurface = null;
                 }
             }

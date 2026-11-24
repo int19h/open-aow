@@ -23,11 +23,7 @@ public class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
     private readonly DelphiStringList _message = [];
 
     // FlagEvents.pas:186
-    public override void Dispose()
-    {
-        _message?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // FlagEvents.pas:197
     public override void PersistFields(IPersister persister)

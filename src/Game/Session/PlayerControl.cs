@@ -43,8 +43,6 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
             tokenExecutor.SetGetSyncValueHandler(null);
             tokenExecutor.SetSyncErrorHandler(null);
         }
-
-        _disconnectedPlayers?.Dispose();
         base.Dispose();
     }
 

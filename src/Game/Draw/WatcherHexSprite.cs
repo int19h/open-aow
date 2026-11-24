@@ -37,7 +37,6 @@ public sealed class WatcherHexSprite : SingleHexSprite
     public override void Dispose()
     {
         base.Dispose();
-        _unexplored?.Dispose();
         _ = Enchantment.Release();
     }
 

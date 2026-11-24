@@ -120,7 +120,6 @@ public sealed class GraphicsArrayTests
         finally
         {
             list.Dispose();
-            copy.Dispose();
         }
     }
 

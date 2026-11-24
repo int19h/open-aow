@@ -73,8 +73,6 @@ public sealed class ImageLibraryManager : Component
             {
                 SearchDirectory(list[i]);
             }
-
-            list?.Dispose();
         }
 
         DiskList.Clear();

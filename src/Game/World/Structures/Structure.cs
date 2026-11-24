@@ -683,8 +683,6 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
             {
                 _ = units.DeleteUnit(units.GetUnit(units.Count - 1));
             }
-
-            indexes?.Dispose();
         }
 
         return true;
@@ -803,8 +801,6 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
                 _ = messages.Add($"  {errors[i]}");
             }
         }
-
-        errors?.Dispose();
         return result;
     }
 
@@ -1071,8 +1067,6 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
                 road?.UpdateTransitions();
             }
         }
-
-        table?.Dispose();
     }
 
     // Structur.PAS:1087

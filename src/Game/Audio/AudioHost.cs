@@ -32,7 +32,6 @@ public static class AudioHost
 
     internal static void Finalize()
     {
-        SongPlayer?.Dispose();
         SongPlayer = null;
         SampleList?.Dispose();
         SampleList = null;
@@ -40,10 +39,9 @@ public static class AudioHost
         {
             ShowMessage("Inproper use of Sound Engine (SoundData still loaded)!");
         }
-
-        SampleDataList?.Dispose();
         SampleDataList = null;
-        _ = (SoundSystem?.Release());
+        SoundSystem?.Dispose();
+        SoundSystem = null;
 
         SoundSystems?.Dispose();
     }

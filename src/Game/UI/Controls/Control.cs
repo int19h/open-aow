@@ -22,11 +22,7 @@ public partial class Control : UIComponent
     }
 
     // AoWControl.pas:53
-    public override void Dispose()
-    {
-        ToolTipText.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // AoWControl.pas:84
     // { Update counts the tool tip delay and shows or hides the tool tip, and asks the owner to redraw

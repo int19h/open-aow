@@ -19,7 +19,6 @@ public class PlayerCropStructureResource(CustomNode owner) : PlayerStructureReso
     // Crops.pas:592
     public override void Dispose()
     {
-        CropLocations?.Dispose();
         CropLocations = null;
         base.Dispose();
     }
@@ -30,8 +29,6 @@ public class PlayerCropStructureResource(CustomNode owner) : PlayerStructureReso
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
         {
-            CropLocations?.Dispose();
-
             CropLocations = TerrainList.CreateSurroundingHexNumberTable();
         }
     }

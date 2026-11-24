@@ -173,8 +173,6 @@ public partial class TerrainMapObject(CustomNode? owner) : MultiHexMapObject(own
         {
             result = null;
         }
-
-        candidates?.Dispose();
         return result;
     }
 

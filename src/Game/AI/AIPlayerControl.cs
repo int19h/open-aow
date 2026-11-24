@@ -265,8 +265,6 @@ public sealed partial class AIPlayerControl : EngineObject
                 skirmishCount += 1;
                 units.Delete(0);
             }
-
-            units?.Dispose();
         }
     }
 
@@ -425,8 +423,6 @@ public sealed partial class AIPlayerControl : EngineObject
                 ? war.Add(middlePlayer.TruncateToByte())
                 : peace.Add(middlePlayer.TruncateToByte());
         }
-
-        doubleItemList?.Dispose();
     }
 
     // AI.pas:375
@@ -489,12 +485,6 @@ public sealed partial class AIPlayerControl : EngineObject
                     result = false;
                 }
             }
-
-            peace?.Dispose();
-            war?.Dispose();
-            unknown?.Dispose();
-            idealPeace?.Dispose();
-            idealWar?.Dispose();
         }
         else
         {
@@ -554,11 +544,6 @@ public sealed partial class AIPlayerControl : EngineObject
             }
 
             result = !(warCount > peaceCount && Player.DiplomaticRelations.GetHistory((sbyte)player).GetRelationOnDay(0) != DiplomaticRelation.War);
-            peace?.Dispose();
-            war?.Dispose();
-            unknown?.Dispose();
-            idealPeace?.Dispose();
-            idealWar?.Dispose();
         }
         else
         {

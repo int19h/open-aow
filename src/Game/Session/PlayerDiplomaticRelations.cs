@@ -28,7 +28,6 @@ public sealed class PlayerDiplomaticRelations : EngineObject
     // Player.PAS:85
     public override void Dispose()
     {
-        _relations?.Dispose();
         _history?.Dispose();
         base.Dispose();
     }

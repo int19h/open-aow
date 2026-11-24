@@ -218,7 +218,6 @@ public sealed class AIMoveTargetSelector : EngineObject
             }
 
             _ = _bufferedTargets.RemoveChild(target);
-            gaps?.Dispose();
         }
 
         return _bufferedTargets.Count != 0 && _state != -1;

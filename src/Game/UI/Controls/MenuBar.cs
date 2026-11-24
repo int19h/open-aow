@@ -46,7 +46,6 @@ public sealed partial class MenuBar : Control
         }
 
         Menus.Clear();
-        Items.Dispose();
         base.Dispose();
     }
 

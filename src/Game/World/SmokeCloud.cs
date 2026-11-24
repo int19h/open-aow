@@ -270,8 +270,6 @@ public class SmokeCloud : MultiHexMapObject
                         _ = directions.Remove(direction.TruncateToByte());
                     }
                 }
-
-                directions?.Dispose();
                 if (!valid)
                 {
                     int tries = 20;

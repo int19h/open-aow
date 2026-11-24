@@ -168,8 +168,6 @@ public sealed class SpellControl(CustomNode? owner) : EngineObject(owner)
         }
 
         int result = candidates.Count != 0 ? candidates[StrategicMap.Current.Random(candidates.Count)] : 0;
-
-        candidates?.Dispose();
         return result;
     }
 }

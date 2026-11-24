@@ -175,7 +175,6 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
     // Ability.PAS:74 around HSEngine.pas:3368.
     public override void Dispose()
     {
-        FireControl?.Dispose();
         ImageSequences?.Dispose();
         TextControl?.Dispose();
         AbilityControl.UnregisterAll();
@@ -191,11 +190,8 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
 
         base.Dispose();
         PluginControl?.Dispose();
-        TerrainTypes?.Dispose();
         TerrainTypes = null;
-        OverlayTypes?.Dispose();
         OverlayTypes = null;
-        DecorationTypes?.Dispose();
         DecorationTypes = null;
         ImageLibraryManager?.Dispose();
         ImageLibraryManager = null;
@@ -448,7 +444,6 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
         // the call refuses through the packet profile. The PFS files keep their original bytes.
         _ = crCs.Add(FileBoundary.ImageTailInt32(FileBoundary.ReadName($"{path}RELEASE.HSS"), profile: GameProfile.ScenarioSet));
         int result = EngineServices.GetCrc32(MemoryMarshal.AsBytes(crCs.List.AsSpan()), size: crCs.Count * 4);
-        crCs?.Dispose();
         return result;
     }
 

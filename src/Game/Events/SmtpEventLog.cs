@@ -18,9 +18,5 @@ public partial class SmtpEventLog(CustomNode owner) : EventLog(owner)
     public string Error { get; set; } = "";
 
     // Diplomacy.pas:2447
-    public override void Dispose()
-    {
-        Message?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 }

@@ -45,9 +45,6 @@ public class ResearchSpellAIPlayerAction(CustomNode owner) : AIPlayerAction(owne
                 DoubleItemList.DoubleItem item = choices[index];
                 _ = Control.Player.MagicControl.ExecuteResearchSpell(item.First);
             }
-
-            choices?.Dispose();
-            spells?.Dispose();
         }
 
         return false;

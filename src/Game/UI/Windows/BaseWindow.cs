@@ -88,7 +88,6 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
 
                 if (FreeSurfaceOnHide && BackSurface is not null)
                 {
-                    BackSurface?.Dispose();
                     BackSurface = null;
                 }
             }
@@ -374,7 +373,6 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                         if (lockedSurface.PixelFormatId != destinationSurfaceDescription.PixelFormatId)
                         {
                             _ = BackSurface.Unlock();
-                            BackSurface?.Dispose();
                             BackSurface = new DataSurface(WinWidth, WinHeight, destinationSurfaceDescription.PixelFormatId, palette: null);
                             if (Masked)
                             {

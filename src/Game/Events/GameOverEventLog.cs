@@ -22,11 +22,7 @@ public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
     public sbyte TargetPlayer { get; set; }
 
     // EventLog.pas:774
-    public override void Dispose()
-    {
-        Message?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // EventLog.pas:780
     public override void PersistFields(IPersister persister)

@@ -26,12 +26,7 @@ public partial class ItemExplorationSiteEventLog(CustomNode owner) : EventLog(ow
     public MapCoordinate Location { get; internal init; }
 
     // ItemExpS.pas:194
-    public override void Dispose()
-    {
-        ItemIds?.Dispose();
-        Messages?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // ItemExpS.pas:204
     public override void PersistFields(IPersister persister)

@@ -60,7 +60,6 @@ public sealed class StringsTests
         _ = Assert.Throws<FormatException>(() => copy.Assign(new Persistent()));
         copy.Assign(copy);
         Assert.Equal(0, copy.Count);
-        list.Dispose();
         Assert.False(objectValue.Destroyed);
         Assert.False(other.Destroyed);
     }
@@ -219,7 +218,6 @@ public sealed class StringsTests
         Assert.Equal("error 1", Assert.Throws<ArgumentException>(() => DelphiStringCollection.Error("error %d", data: 1)).Message);
         copy.BeginUpdate();
         copy.EndUpdate();
-        copy.Dispose();
         IndexedProperty<int, int> readOnly = new(i => i + 1);
         Assert.Equal(3, readOnly[2]);
         _ = Assert.Throws<InvalidOperationException>(() => readOnly[2] = 4);

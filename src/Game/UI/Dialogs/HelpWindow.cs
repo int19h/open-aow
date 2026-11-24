@@ -113,6 +113,5 @@ public sealed partial class HelpWindow(UIContext ui) : UIModule(ui)
         }
 
         UI.HelpWindow.MainWindow.Visible = true;
-        lines?.Dispose();
     }
 }

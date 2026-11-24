@@ -61,8 +61,6 @@ public class Campaign : EngineObject
         Stream?.Dispose();
         TransferSettings?.Dispose();
         Scenarios?.Dispose();
-        CompletedScenarios?.Dispose();
-        RaceHistory?.Dispose();
         base.Dispose();
     }
 

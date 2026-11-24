@@ -43,8 +43,6 @@ public sealed class HexSpriteMapViewer : Component
             _hexSpriteMap.SetCenterViewHandler(null);
             _hexSpriteMap.SetViewLevelHandler(null);
         }
-
-        StaticSurface?.Dispose();
         CenteredSurface?.Dispose();
         base.Dispose();
     }
@@ -67,7 +65,6 @@ public sealed class HexSpriteMapViewer : Component
     {
         if (StaticSurface is not null && StaticSurface.GetPixelFormatId() != surface.GetPixelFormatId())
         {
-            StaticSurface?.Dispose();
             StaticSurface = null;
         }
 
@@ -189,11 +186,7 @@ public sealed class HexSpriteMapViewer : Component
     }
 
     // HSEngine.pas:4837
-    public void ResetStaticSurface()
-    {
-        StaticSurface?.Dispose();
-        StaticSurface = null;
-    }
+    public void ResetStaticSurface() => StaticSurface = null;
 
     // HSEngine.pas:4843
     public void ShowScene(int X, int Y, Surface? surface)

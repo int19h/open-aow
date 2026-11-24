@@ -22,11 +22,7 @@ public class HuntAIGroup(CustomNode owner) : AIGroup(owner), IAIGroupClass
     public Int32List TargetUnitIds { get; } = [];
 
     // AIGroup.pas:1436
-    public override void Dispose()
-    {
-        TargetUnitIds?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // AIGroup.pas:1473
     public override void PersistFields(IPersister persister)

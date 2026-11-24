@@ -57,14 +57,7 @@ public sealed class Scanner(Component owner) : Control(owner)
     public bool Incremental { get; set; }
 
     // Scanner.pas:126
-    public override void Dispose()
-    {
-        _mapSurface?.Dispose();
-
-        _objectSurface?.Dispose();
-
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // Scanner.pas:398
     public override void Validate()
@@ -162,7 +155,6 @@ public sealed class Scanner(Component owner) : Control(owner)
                 if (_mapSurface is not null && _mapSurface.PixelFormatId != lockedSurface.PixelFormatId)
                 {
                     _objectSurface?.Dispose();
-                    _mapSurface?.Dispose();
                     _mapSurface = null;
                 }
 

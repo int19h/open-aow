@@ -197,8 +197,6 @@ public sealed class FloodControl(CustomNode? owner) : EngineObject(owner)
                 index += 2;
             }
         }
-
-        candidates?.Dispose();
         StrategicMap.Current.UnlockMapChangedEvent();
         StrategicMap.Current.InvalidateMap();
     }

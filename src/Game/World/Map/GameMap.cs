@@ -483,7 +483,6 @@ public partial class GameMap : OwningNode
         }
 
         UnlockTerrainChangedEvent();
-        list?.Dispose();
         if (count != 0)
         {
             r.Left = X - radius;
@@ -592,9 +591,6 @@ public partial class GameMap : OwningNode
             }
 
             UnlockTerrainChangedEvent();
-            changed?.Dispose();
-            orgList?.Dispose();
-            newList?.Dispose();
             if (count != 0)
             {
                 r.Left = X - radius;

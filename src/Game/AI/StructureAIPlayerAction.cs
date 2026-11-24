@@ -18,11 +18,7 @@ public class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
     private readonly Int32List _structureIds = [];
 
     // Structur.PAS:3324
-    public override void Dispose()
-    {
-        _structureIds?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // Structur.PAS:3330
     public override bool Activate()

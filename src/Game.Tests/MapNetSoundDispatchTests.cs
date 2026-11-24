@@ -118,6 +118,30 @@ public sealed class MapNetSoundDispatchTests
         }
     }
 
+    private sealed class CountingSoundSystem : SoundSystem
+    {
+        internal CountingSoundSystem() => Status = SoundSystemStatuses.Activated;
+
+        internal int Deactivations { get; private set; }
+
+        protected internal override bool Deactivate()
+        {
+            Deactivations++;
+            Dispose();
+            return true;
+        }
+    }
+
+    [Fact]
+    public void SoundSystemDisposesOnceAcrossReentrantAndSecondCalls()
+    {
+        CountingSoundSystem system = new();
+        system.Dispose();
+        system.Dispose();
+        Assert.Equal(1, system.Deactivations);
+        Assert.True(system.IsDisposed);
+    }
+
     private static WaveFormat Format => new(FormatTag: 1, Channels: 1, SamplesPerSecond: 8000, BlockAlign: 1, BitsPerSample: 8);
 
     [Theory]
@@ -189,7 +213,7 @@ public sealed class MapNetSoundDispatchTests
         SoundSystemClass meta = AudioHost.SoundSystems.Find(name);
         SoundSystem system = meta.CreateInstance();
         _ = Assert.IsType<SdlSoundSystem>(system);
-        Assert.Equal(1, system.RefCount);
+        Assert.False(system.IsDisposed);
         system.Dispose();
         Assert.True(AudioPlayback.InitializeSoundSystem(name,
             settings: new SoundSettings { SampleRate = 8000, SampleVoices = 1, SfxEnabled = true }));
@@ -231,7 +255,7 @@ public sealed class MapNetSoundDispatchTests
         NullSoundSystem.Install();
         SoundSystem system = NullSoundSystem.Descriptor.CreateInstance();
         _ = Assert.IsType<NullSoundSystem>(system);
-        Assert.Equal(1, system.RefCount);
+        Assert.False(system.IsDisposed);
         SampleData data = SampleData.Create("silent");
         Sample sample = NullSoundSystem.Samples.CreateInstance(data);
         Assert.Equal("NullSample", sample.GetType().Name);

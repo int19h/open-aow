@@ -352,7 +352,6 @@ public partial class ExplorationSite : Structure
             }
 
             // { Original silently ignores defender-generation failures. }
-            list?.Dispose();
         }
     }
 }

@@ -71,9 +71,7 @@ public sealed class TargetSelectionControl : IDisposable
     // Structur.PAS:3793
     public void Dispose()
     {
-        Text?.Dispose();
         OnChangeStore.Clear();
-        HexNumbers?.Dispose();
         HexNumbers = null;
         if (ImageLibrary is not null)
         {

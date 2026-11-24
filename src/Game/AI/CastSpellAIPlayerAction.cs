@@ -34,9 +34,6 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     // Spells.PAS:1551
     public override void Dispose()
     {
-        _idleHeroes?.Dispose();
-        _castingHeroes?.Dispose();
-        _pendingHeroes?.Dispose();
         _castSpellActions?.Dispose();
         base.Dispose();
     }
@@ -93,8 +90,6 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                 spells[i].AIPrefetchCastSpellActions(hero, actions: _castSpellActions);
             }
         }
-
-        spells?.Dispose();
     }
 
     // Spells.PAS:1593

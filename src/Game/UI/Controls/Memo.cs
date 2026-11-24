@@ -71,7 +71,6 @@ public sealed partial class Memo : Control
     // AoWMemo.pas:138
     public override void Dispose()
     {
-        Lines?.Dispose();
         _items?.Dispose();
         for (int i = 0, last = ColorList.Count - 1; i <= last; i++)
         {

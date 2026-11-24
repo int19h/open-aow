@@ -25,11 +25,7 @@ public sealed class FastBattleCommandList : IDisposable
     private readonly DelphiList<FastBattleCommand> _commands;
 
     // AIGroup.pas:6727
-    public void Dispose()
-    {
-        Clear();
-        _commands?.Dispose();
-    }
+    public void Dispose() => Clear();
 
     // AIGroup.pas:6734
     public void Clear()

@@ -41,11 +41,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     public int LockCount { get; private set; }
 
     // AI.pas:569
-    public override void Dispose()
-    {
-        _players?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // AI.pas:575
     public bool RequestProcessTime(int time)

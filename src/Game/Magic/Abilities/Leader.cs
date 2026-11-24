@@ -33,7 +33,6 @@ public class Leader(CustomNode? owner) : Hero(owner)
         }
 
         base.Dispose();
-        _spheres?.Dispose();
     }
 
     // Hero.PAS:2891

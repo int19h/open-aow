@@ -23,11 +23,7 @@ public sealed class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSpri
     private int _frame;
 
     // GlobalSpells.pas:205
-    public override void Dispose()
-    {
-        _hexes?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // GlobalSpells.pas:211
     public override int GetShowPriority() => 2_013_265_920;

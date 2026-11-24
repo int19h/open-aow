@@ -20,11 +20,7 @@ public class DispelMagicCombatAction(CustomNode owner) : SingleTargetCombatActio
     public Int32List EnchantmentIds { get; } = [];
 
     // AoWAb.PAS:3941
-    public override void Dispose()
-    {
-        EnchantmentIds?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // AoWAb.PAS:3946
     public override void PersistFields(IPersister persister)

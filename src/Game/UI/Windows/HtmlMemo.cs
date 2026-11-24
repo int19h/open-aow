@@ -51,8 +51,6 @@ public sealed partial class HtmlMemo : BaseWindow
     // AoWHTMLMemo.pas:105
     public override void Dispose()
     {
-        _lines.Dispose();
-        Items.Dispose();
         for (int i = 0, last = Changes.Count - 1; i <= last; i++)
         {
         }
@@ -647,7 +645,6 @@ public sealed partial class HtmlMemo : BaseWindow
                 {
                     if (BackSurface.PixelFormatId != lockedSurface.PixelFormatId)
                     {
-                        BackSurface?.Dispose();
                         BackSurface = null;
                     }
                 }

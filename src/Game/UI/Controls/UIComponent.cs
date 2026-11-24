@@ -205,8 +205,6 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
         {
             Children[0].SetOwner(null);
         }
-
-        Children?.Dispose();
         Alignment?.Dispose();
         for (int i = 0, last = DrawList.Count - 1; i <= last; i++)
         {

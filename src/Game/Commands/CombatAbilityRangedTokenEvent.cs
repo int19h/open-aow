@@ -1512,8 +1512,6 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                         }
                     }
                 }
-
-                point3DList?.Dispose();
                 break;
             case BattleEffectType.ScreenSwarm:
                 hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
@@ -1929,8 +1927,6 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
         {
             (obstacles[i] as IDisposable)?.Dispose();
         }
-
-        obstacles?.Dispose();
         _strikeIndex += 1;
     }
 

@@ -23,11 +23,7 @@ public sealed class BirdsViewHexSprite(CustomNode owner) : FixedVisibleHexSprite
     private int _frame;
 
     // GlobalSpells.pas:412
-    public override void Dispose()
-    {
-        _hexes?.Dispose();
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // GlobalSpells.pas:418
     public override int GetShowPriority() => 2_013_265_920;
