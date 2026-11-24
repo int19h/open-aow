@@ -7,6 +7,8 @@ using Aow.Formats.Tree;
 using Aow.Game;
 
 using Aow.Game.Draw.Images;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 
@@ -23,6 +25,15 @@ public enum CoordinateWidth
 
     /// <summary>A signed 32-bit integer in the range -128 to 127.</summary>
     Int32,
+}
+
+public enum IdWidth
+{
+    UnsignedByte,
+    Byte,
+    SByte,
+    Int32,
+    UInt16,
 }
 
 public static class PersistSupport
@@ -49,6 +60,59 @@ public static class PersistSupport
     /// <summary>A signed byte stored as an unsigned one (Delphi <c>rwByte</c> on a shortint), with its unsigned fallback.</summary>
     public static int UnsignedByte(this IPersister persister, string name, int value, int fallback = 0)
         => persister.Byte(name, unchecked((byte)value), fallback: fallback.TruncateToByte()).TruncateToSByte();
+
+    /// <summary>
+    /// A required id. Loading the type's exact stored none value throws <see cref="InvalidOperationException"/>
+    /// instead of producing a present sentinel id. A width with no distinct stored none has no refusal.
+    /// </summary>
+    public static T Id<T>(this IPersister persister, string name, T value, IdWidth width, int fallback = 0) where T : struct, IOriginalId<T>
+    {
+        int stored = Transfer(persister, name, value: value.OriginalValue, width, fallback: fallback);
+        int? storedNone = StoredNone<T>(width);
+        return persister.Loading && value is IOptionalOriginalValue && stored == storedNone
+            ? throw new InvalidOperationException($"{name} holds the none value {stored} for required {typeof(T).Name}.")
+            : persister.Loading ? T.FromInt32(stored) : value;
+    }
+
+    public static T? OptionalId<T>(this IPersister persister, string name, T? value, IdWidth width, int? fallback = null) where T : struct, IOptionalOriginalId<T>
+    {
+        int storedNone = StoredNone<T>(width) ?? throw new InvalidOperationException($"{typeof(T).Name} none value {T.NoneValue} has no distinct stored form at {width}.");
+        int stored = Transfer(persister, name, value: value?.OriginalValue ?? T.NoneValue, width, fallback: fallback ?? T.NoneValue);
+        return !persister.Loading ? value : stored == storedNone ? null : T.FromInt32(stored);
+    }
+
+    public static PlayerId Player(this IPersister persister, string name, PlayerId value, IdWidth width, int fallback = 0)
+        => persister.Id(name, value: value, width, fallback: fallback);
+
+    public static PlayerId? OptionalPlayer(this IPersister persister, string name, PlayerId? value, IdWidth width, int? fallback = null)
+        => persister.OptionalId(name, value: value, width, fallback: fallback);
+
+    private static int Transfer(IPersister persister, string name, int value, IdWidth width, int fallback) => width switch
+    {
+        IdWidth.UnsignedByte => persister.UnsignedByte(name, value, fallback: fallback),
+        IdWidth.Byte => persister.Byte(name, unchecked((byte)value), fallback: fallback.TruncateToByte()),
+        IdWidth.SByte => persister.SByte(name, value, fallback),
+        IdWidth.Int32 => persister.Int32(name, value, fallback),
+        IdWidth.UInt16 => persister.UInt16(name, unchecked((ushort)value), fallback: unchecked((ushort)fallback)),
+        _ => throw new ArgumentOutOfRangeException(nameof(width)),
+    };
+
+    private static int? StoredNone<T>(IdWidth width) where T : struct, IOriginalId<T>
+    {
+        return width switch
+        {
+            IdWidth.UnsignedByte or IdWidth.Byte or IdWidth.SByte when T.FromOriginal(unchecked((byte)T.NoneValue)) is not null => null,
+            IdWidth.UnsignedByte or IdWidth.SByte => unchecked((sbyte)T.NoneValue),
+            IdWidth.Byte => unchecked((byte)T.NoneValue),
+            IdWidth.Int32 => T.NoneValue,
+            // The census stores ability absence as 65535. A present 65535 collides and loads as null
+            // through OptionalId. Required Id refuses that stored value.
+            IdWidth.UInt16 when typeof(T) == typeof(AbilityId) && T.NoneValue == -1 => 65_535,
+            IdWidth.UInt16 when T.FromOriginal(unchecked((ushort)T.NoneValue)) is not null => null,
+            IdWidth.UInt16 when T.NoneValue is >= -1 and <= 65_535 => unchecked((ushort)T.NoneValue),
+            _ => null,
+        };
+    }
 
     /// <summary>
     /// A map coordinate stored as X, Y and MapLevel. Byte width is an unsigned byte.

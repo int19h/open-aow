@@ -1,4 +1,5 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
+using System.Collections;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
 
@@ -61,8 +62,13 @@ public sealed partial class SpellConstructionTests
         }
     }
 
-    private static object? State(object? value, int depth = 0)
+    private static object? State(object? value, int depth = 0, Type? declaredType = null)
     {
+        if (OriginalValueSnapshot.TryRender(value, declaredType: declaredType, rendered: out object? originalValue))
+        {
+            return originalValue;
+        }
+
         if (value is null)
         {
             return null;
@@ -91,12 +97,17 @@ public sealed partial class SpellConstructionTests
 
         if (value is Array array)
         {
-            return array.Cast<object?>().Select(x => State(x, depth: depth + 1)).ToArray();
+            return array.Cast<object?>().Select(x => State(x, depth: depth + 1, declaredType: type.GetElementType())).ToArray();
         }
 
         if (InlineArrays.Elements(value) is { } elements)
         {
-            return elements.Select(x => State(x, depth: depth + 1)).ToArray();
+            return elements.Select(x => State(x, depth: depth + 1, declaredType: InlineArrays.ElementType(value))).ToArray();
+        }
+
+        if (value is IList list)
+        {
+            return list.Cast<object?>().Select(x => State(x, depth: depth + 1, declaredType: type.IsGenericType ? type.GetGenericArguments()[0] : null)).ToArray();
         }
 
         if (depth > 8)
@@ -117,7 +128,7 @@ public sealed partial class SpellConstructionTests
                 object? fieldValue = field.GetValue(value);
                 fields[$"{current.Name}.{MemberNames.Of(field)}"] = MemberNames.Of(field) is "_owner" or "Owner"
                     ? fieldValue is null ? null : "$owner"
-                    : State(fieldValue, depth: depth + 1);
+                    : State(fieldValue, depth: depth + 1, declaredType: field.FieldType);
             }
         }
 

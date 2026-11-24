@@ -62,8 +62,13 @@ public sealed class RemainingConstructionTests
     private static string Snapshot(object value)
     {
         Dictionary<object, string> visited = [with(ReferenceEqualityComparer.Instance)];
-        object? State(object? item, string path)
+        object? State(object? item, string path, Type? declaredType = null)
         {
+            if (OriginalValueSnapshot.TryRender(item, declaredType: declaredType, rendered: out object? originalValue))
+            {
+                return originalValue;
+            }
+
             if (item is null)
             {
                 return null;
@@ -111,17 +116,17 @@ public sealed class RemainingConstructionTests
             }
             if (item is Array array)
             {
-                return array.Cast<object?>().Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
+                return array.Cast<object?>().Select((x, i) => State(x, path: $"{path}[{i}]", declaredType: type.GetElementType())).ToArray();
             }
 
             if (InlineArrays.Elements(item) is { } elements)
             {
-                return elements.Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
+                return elements.Select((x, i) => State(x, path: $"{path}[{i}]", declaredType: InlineArrays.ElementType(item))).ToArray();
             }
 
             if (item is IList list)
             {
-                return list.Cast<object?>().Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
+                return list.Cast<object?>().Select((x, i) => State(x, path: $"{path}[{i}]", declaredType: type.IsGenericType ? type.GetGenericArguments()[0] : null)).ToArray();
             }
 
             SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
@@ -141,7 +146,7 @@ public sealed class RemainingConstructionTests
                         fields[key] = child is null ? null : "$owner";
                         continue;
                     }
-                    fields[key] = State(child, path: $"{path}.{key}");
+                    fields[key] = State(child, path: $"{path}.{key}", declaredType: field.FieldType);
                 }
             }
 
