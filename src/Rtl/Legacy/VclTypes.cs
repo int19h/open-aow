@@ -24,6 +24,4 @@ public delegate void KeyEvent<in TSender>(TSender sender, ref ushort key, ShiftS
 
 public enum ConnectionType : byte { None, Unknown, TCP, IPX, Modem, Serial }
 
-public enum StreamSoundMode : byte { Stop, Play, Stream }
-
 public enum WindowState : byte { Normal, Minimized, Maximized }

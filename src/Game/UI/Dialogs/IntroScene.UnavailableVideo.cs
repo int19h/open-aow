@@ -1,5 +1,4 @@
 using Aow.Game.Draw;
-using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -9,8 +8,6 @@ public sealed partial class IntroScene
     public void InitializeSound() { }
 
     public void ReleaseSound() { }
-
-    public void VideoPlayerStreamSound(StreamSoundMode mode, object data, int size) { }
 
     public void Execute() => Finish();
 

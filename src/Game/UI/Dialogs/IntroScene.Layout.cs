@@ -77,7 +77,6 @@ public sealed partial class IntroScene : ILayoutModule
         LayoutVideoPlayer videoPlayer = new(this);
         session.BeginRead(videoPlayer);
         videoPlayer.Name = "VideoPlayer";
-        videoPlayer.StreamSound += VideoPlayerStreamSound;
         videoPlayer.LoopMode = LayoutVideoPlayer.VideoPlayerLoopMode.None;
         videoPlayer.Options = VideoPlayerOptions.SoundEnabled | VideoPlayerOptions.VideoEnabled;
         session.EndRead(videoPlayer);
