@@ -4,7 +4,6 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Net;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
@@ -27,36 +26,34 @@ public class CombatFlowControlTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:3603
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        StrategicMap strategicMap = GetEngine().StrategicMap;
         if (Mode.Contains(CombatFlowControlModes.SetAutoSwitch))
         {
-            strategicMap.TokenManager.TokenExecutor.HoldTacticalBattle = false;
+            GetEngine().StrategicMap.TokenManager.TokenExecutor.HoldTacticalBattle = false;
         }
 
         if (Mode.Contains(CombatFlowControlModes.LockAIExecutor))
         {
-            strategicMap.AIExecutor.Lock();
+            GetEngine().StrategicMap.AIExecutor.Lock();
         }
 
         if (Mode.Contains(CombatFlowControlModes.UnlockAIExecutor))
         {
-            strategicMap.AIExecutor.Unlock();
+            GetEngine().StrategicMap.AIExecutor.Unlock();
         }
 
         if (Mode.Contains(CombatFlowControlModes.ActivateTacticalBattle))
         {
-            strategicMap.TokenManager.TokenExecutor.ActivateTacticalBattle(Player);
+            GetEngine().StrategicMap.TokenManager.TokenExecutor.ActivateTacticalBattle(Player);
         }
 
-        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
         if (Mode.Contains(CombatFlowControlModes.EnableTurnTimer))
         {
-            engineStrategicMap.EnableTurnTimer();
+            GetEngine().StrategicMap.EnableTurnTimer();
         }
 
         if (Mode.Contains(CombatFlowControlModes.DisableTurnTimer))
         {
-            engineStrategicMap.DisableTurnTimer();
+            GetEngine().StrategicMap.DisableTurnTimer();
         }
 
         return ExecuteResult.Done;

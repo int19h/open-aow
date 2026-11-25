@@ -85,23 +85,22 @@ public class HealingShowersTokenEvent(CustomNode? owner) : GlobalTargetSpellToke
 
                             army.Army.Update();
                             bool healed = healed2;
-                            StrategicMap visibleForPlayerStrategicMap = GetEngine().StrategicMap;
                             if (healed)
                             {
                                 int hexY = army.HexY;
                                 int hexX = army.HexX;
+                                StrategicMap visibleForPlayerStrategicMap = GetEngine().StrategicMap;
                                 healed = visibleForPlayerStrategicMap.VisibleForPlayer(hexX, hexY, army.HexLevel, player: visibleForPlayerStrategicMap.SeatedPlayer);
                             }
 
                             if (healed)
                             {
-                                StrategicMap toOriginalStrategicMap = GetEngine().StrategicMap;
-                                bool condition = playSound || (byte)PlayerIdExtensions.ToOriginal(army.Army.Player) == (byte)PlayerIdExtensions.ToOriginal(toOriginalStrategicMap.SeatedPlayer);
+                                bool condition = playSound || (byte)PlayerIdExtensions.ToOriginal(army.Army.Player) == (byte)PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.SeatedPlayer);
                                 if (!condition)
                                 {
                                     int hexY = army.HexY;
                                     int hexX = army.HexX;
-                                    condition = toOriginalStrategicMap.Watching(hexX, hexY, L: army.HexLevel, radius: 1);
+                                    condition = GetEngine().StrategicMap.Watching(hexX, hexY, L: army.HexLevel, radius: 1);
                                 }
 
                                 playSound = condition;
@@ -110,7 +109,7 @@ public class HealingShowersTokenEvent(CustomNode? owner) : GlobalTargetSpellToke
                                 animation.AnimationLevel = 27;
                                 int armyHexY = army.HexY;
                                 int armyHexX = army.HexX;
-                                _ = toOriginalStrategicMap.PlaceHex(animation, armyHexX, armyHexY, L: army.HexLevel);
+                                _ = GetEngine().StrategicMap.PlaceHex(animation, armyHexX, armyHexY, L: army.HexLevel);
                             }
                         }
 
@@ -141,8 +140,8 @@ public class HealingShowersTokenEvent(CustomNode? owner) : GlobalTargetSpellToke
     // GlobalTargetSpells.pas:2141
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        StrategicMap viewMapLevelStrategicMap = GetEngine().StrategicMap;
-        if (viewMapLevelStrategicMap.ViewMapLevel == Location.MapLevel)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.ViewMapLevel == Location.MapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out int pixelX, out int pixelY);
             pixelX -= pixelXSurface;
@@ -153,7 +152,7 @@ public class HealingShowersTokenEvent(CustomNode? owner) : GlobalTargetSpellToke
                 DetailLevel.High => 160,
                 DetailLevel.Normal or _ => 100,
             };
-            RandSeed = viewMapLevelStrategicMap.InitialRandomSeed;
+            RandSeed = strategicMap.InitialRandomSeed;
             for (int i = 0; i <= count; i++)
             {
                 int x = Random(100) - 50;

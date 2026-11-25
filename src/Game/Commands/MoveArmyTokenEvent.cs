@@ -119,12 +119,11 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
             }
         }
 
-        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
         // A rejected CPU move invalidates the executor so the group picks another. A driven human
         // does the same. A human who plays the turn leaves the executor alone.
-        if (!result && HeadlessHooks.HandSeatToAI(engineStrategicMap.Players.GetPlayers(_player).PlayerType) && engineStrategicMap.Players.GetPlayers(_player).AIControl.MoveExecutor.Status == AIMoveExecutorStatus.Busy)
+        if (!result && HeadlessHooks.HandSeatToAI(GetEngine().StrategicMap.Players.GetPlayers(_player).PlayerType) && GetEngine().StrategicMap.Players.GetPlayers(_player).AIControl.MoveExecutor.Status == AIMoveExecutorStatus.Busy)
         {
-            engineStrategicMap.Players.GetPlayers(_player).AIControl.MoveExecutor.InvalidateMove(ArmyHexSprite, Selection);
+            GetEngine().StrategicMap.Players.GetPlayers(_player).AIControl.MoveExecutor.InvalidateMove(ArmyHexSprite, Selection);
         }
 
         return result;
@@ -236,14 +235,14 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
             if (Animating())
             {
                 UpdateAnimation();
-                StrategicMap watchingStrategicMap = GetEngine().StrategicMap;
-                bool condition = ArmyHexSprite.Army.Player == watchingStrategicMap.SeatedPlayer;
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                bool condition = ArmyHexSprite.Army.Player == strategicMap.SeatedPlayer;
                 if (!condition)
                 {
                     int hexLevel = ArmyHexSprite.HexLevel;
                     int hexY = ArmyHexSprite.HexY;
                     int hexX = ArmyHexSprite.HexX;
-                    condition = watchingStrategicMap.Watching(hexX, hexY, L: hexLevel, radius: 0);
+                    condition = strategicMap.Watching(hexX, hexY, L: hexLevel, radius: 0);
                 }
 
                 if (condition)
@@ -269,8 +268,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     // MoveT.PAS:2342
     public virtual void SetupNextMove()
     {
-        StrategicMap viewMapLevelStrategicMap = GetEngine().StrategicMap;
-        if ((MoveVisible(MoveIndex) || _animate) && (Path[MoveIndex].Location.MapLevel == viewMapLevelStrategicMap.ViewMapLevel || viewMapLevelStrategicMap.ShowIndependentMoves))
+        if ((MoveVisible(MoveIndex) || _animate) && (Path[MoveIndex].Location.MapLevel == GetEngine().StrategicMap.ViewMapLevel || GetEngine().StrategicMap.ShowIndependentMoves))
         {
             _animate = true;
             int direction = GetDirection(MoveIndex);
@@ -418,9 +416,8 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     public bool ObserveMove(int index)
     {
         bool visible = MoveVisible(index);
-        StrategicMap getPlayersStrategicMap = GetEngine().StrategicMap;
-        bool result = visible && getPlayersStrategicMap.ShowIndependentMoves && (getPlayersStrategicMap.SeatedPlayer != ArmyHexSprite.Army.Player || getPlayersStrategicMap.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(getPlayersStrategicMap.SeatedPlayer)).PlayerType != PlayerType.Human);
-        if (result && getPlayersStrategicMap.TokenManager.TokenExecutor.ExecutingTokenEvent is MultiMoveTokenEvent eventValue && eventValue.Simultaneous)
+        bool result = visible && GetEngine().StrategicMap.ShowIndependentMoves && (GetEngine().StrategicMap.SeatedPlayer != ArmyHexSprite.Army.Player || GetEngine().StrategicMap.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.SeatedPlayer)).PlayerType != PlayerType.Human);
+        if (result && GetEngine().StrategicMap.TokenManager.TokenExecutor.ExecutingTokenEvent is MultiMoveTokenEvent eventValue && eventValue.Simultaneous)
         {
             visible = this == eventValue.Events[0];
             return visible;
@@ -433,13 +430,13 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     public bool MoveVisible(int index)
     {
         bool result;
-        StrategicMap visibleStrategicMap = GetEngine().StrategicMap;
-        if (visibleStrategicMap.SeatedPlayer is not null)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.SeatedPlayer is not null)
         {
             PathStep item = Path[index];
             PathStep fPathItem = Path[index];
             PathStep item2 = Path[index];
-            result = visibleStrategicMap.Visible(item2.Location.X, fPathItem.Location.Y, L: item.Location.MapLevel, radius: 0);
+            result = strategicMap.Visible(item2.Location.X, fPathItem.Location.Y, L: item.Location.MapLevel, radius: 0);
             if (result && ArmyHexSprite.Army.Status.Contains(ArmyStatuses.FullyConcealed))
             {
                 return false;

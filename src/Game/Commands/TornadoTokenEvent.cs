@@ -61,13 +61,14 @@ public class TornadoTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(
             }
 
             // The original constructs a plain animation and stores it on the event. The later warp uses an image sequence.
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
             _animation = new Animation(null, show: ShowAnimation)
             {
                 Holder = CreationHolder(),
                 AnimationLevel = 27
 ,
-                AnimationMap = GetEngine().StrategicMap,
-                Tag = (GetEngine().StrategicMap.ViewWidth & 0xFFFF) | (GetEngine().StrategicMap.ViewHeight << 16)
+                AnimationMap = engineStrategicMap,
+                Tag = (engineStrategicMap.ViewWidth & 0xFFFF) | (engineStrategicMap.ViewHeight << 16)
             };
             _animation.Activate();
         }
@@ -129,8 +130,8 @@ public class TornadoTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(
                     MapCoordinate location = GetEngine().GamePack.SpellControl.GetSpell<Tornado>(68).CalculateWarpLocation(army, selection);
                     if (location != MapCoordinate.None)
                     {
-                        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
-                        if (source.Player == engineStrategicMap.SeatedPlayer || engineStrategicMap.Watching(Location.X, Location.Y, L: Location.MapLevel, radius: 2))
+                        StrategicMap watchingStrategicMap = GetEngine().StrategicMap;
+                        if (source.Player == watchingStrategicMap.SeatedPlayer || watchingStrategicMap.Watching(Location.X, Location.Y, L: Location.MapLevel, radius: 2))
                         {
                             _ = GetEngine().GamePack.SpellControl[EventSpellId].CastSounds.Play(1);
                         }
@@ -208,14 +209,14 @@ public class TornadoTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(
     // GlobalTargetSpells.pas:1599
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        StrategicMap viewMapLevelStrategicMap = GetEngine().StrategicMap;
-        if (viewMapLevelStrategicMap.ViewMapLevel == Location.MapLevel)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.ViewMapLevel == Location.MapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out int pixelX, out int pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
             _angle = _angle + 20 + (_animation.FrameCounter / 5);
-            RandSeed = viewMapLevelStrategicMap.InitialRandomSeed;
+            RandSeed = strategicMap.InitialRandomSeed;
             for (int i = 0; i <= 200; i++)
             {
                 int direction = Random(360);

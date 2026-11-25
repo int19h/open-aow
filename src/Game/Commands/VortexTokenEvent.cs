@@ -139,14 +139,14 @@ public class VortexTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(o
     // GlobalTargetSpells.pas:1945
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        StrategicMap viewMapLevelStrategicMap = GetEngine().StrategicMap;
-        if (viewMapLevelStrategicMap.ViewMapLevel == Location.MapLevel)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.ViewMapLevel == Location.MapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out int pixelX, out int pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
             _angle = _angle + 20 + (_animation.FrameCounter / 5);
-            RandSeed = viewMapLevelStrategicMap.InitialRandomSeed;
+            RandSeed = strategicMap.InitialRandomSeed;
             for (int i = 0; i <= 200; i++)
             {
                 int direction = Random(360);

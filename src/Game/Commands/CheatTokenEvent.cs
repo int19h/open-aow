@@ -97,9 +97,10 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
                 }
 
                 {
-                    foreach (Player? player in GetEngine().StrategicMap.Players.Skip(1))
+                    StrategicMap skipStrategicMap = GetEngine().StrategicMap;
+                    foreach (Player? player in skipStrategicMap.Players.Skip(1))
                     {
-                        bool fMagicControlCheatEnabled = GetEngine().StrategicMap.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
+                        bool fMagicControlCheatEnabled = skipStrategicMap.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
                         player.MagicControl.CheatEnabled = fMagicControlCheatEnabled;
                     }
                 }
