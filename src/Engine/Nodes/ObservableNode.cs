@@ -2,6 +2,7 @@
 // Translated from Engine.pas.
 using Aow.Formats.Tree;
 using Aow.Game;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Engine.Nodes;
@@ -347,32 +348,11 @@ public class ObservableNode(CustomNode? owner) : CustomNode(owner)
     }
 
     // Engine.pas:8099
-    public override EngineObject? FindChild(int classId)
-    {
-        int i = 0;
-        bool found = false;
-        EngineObject? c = null;
-        while (!found && i < _children.Count)
-        {
-            c = _children.List[i];
-            found = c is not null && classId == c.EngineClass.ClassId;
-            i += 1;
-        }
+    // In range the list indexer returns List[i]. EngineClass caches on the children the loop would cache.
+    public override EngineObject? FindChild(int classId) => _children.FirstOrDefault(child => child is not null && classId == child.EngineClass.ClassId);
 
-        return found ? c : null;
-    }
-
-    // Engine.pas:8117
-    public override int FindChildIndex(EngineObject? child)
-    {
-        int result = Count - 1;
-        while (result >= 0 && child != _children.List[result])
-        {
-            result -= 1;
-        }
-
-        return result;
-    }
+    // Engine.pas:8117. FindLastIndex walks the indexer from the last slot, as the loop does.
+    public override int FindChildIndex(EngineObject? child) => _children.FindLastIndex(candidate => candidate == child);
 
     public int UpdateCount { get; private set; }
 

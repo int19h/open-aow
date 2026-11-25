@@ -224,13 +224,9 @@ public class AIGroupTargetSelector : AIGroupTask
             switch (State)
             {
                 case 0:
-                    i = 0;
-                    while (i != GroupControl.Targets.Count && GroupControl.Targets.GetTargets(i).Status.Contains(AIGroupTargetFlags.Done))
-                    {
-                        i += 1;
-                    }
-
-                    if (i < GroupControl.Targets.Count && GetValidTargets() < _validTargetLimit)
+                    // FindIndex returns -1 where the loop left the count.
+                    i = GroupControl.Targets.FindIndex(static target => !target.Status.Contains(AIGroupTargetFlags.Done));
+                    if (i >= 0 && GetValidTargets() < _validTargetLimit)
                     {
                         _target = GroupControl.Targets.GetTargets(i);
                         _priority = _target.DataA;
@@ -440,13 +436,9 @@ public class AIGroupTargetSelector : AIGroupTask
                     TargetProcessed();
                     break;
                 case 10:
-                    i = 0;
-                    while (i != GroupControl.Targets.Count && !GroupControl.Targets.GetTargets(i).Status.Contains(AIGroupTargetFlags.Valid))
-                    {
-                        i += 1;
-                    }
-
-                    if (i == GroupControl.Targets.Count)
+                    // FindIndex returns -1 where the loop left the count.
+                    i = GroupControl.Targets.FindIndex(static target => target.Status.Contains(AIGroupTargetFlags.Valid));
+                    if (i < 0)
                     {
                         NoTargetsFound();
                         Done();
@@ -635,13 +627,11 @@ public class AIGroupTargetSelector : AIGroupTask
 
                     break;
                 case 31:
+                    // A missing child is -1. The loop then starts at slot 0. FindIndex returns -1
+                    // where the loop left the count.
                     i = GroupControl.Targets.IndexOfChild(_nextTarget);
-                    while (i < GroupControl.Targets.Count && (i == -1 || GroupControl.Targets.GetTargets(i).TransporterId != -1 || !GroupControl.Targets.GetTargets(i).Status.Contains(AIGroupTargetFlags.Valid)))
-                    {
-                        i += 1;
-                    }
-
-                    if (i < GroupControl.Targets.Count)
+                    i = GroupControl.Targets.FindIndex(startIndex: i < 0 ? 0 : i, match: static target => target.TransporterId == -1 && target.Status.Contains(AIGroupTargetFlags.Valid));
+                    if (i >= 0)
                     {
                         UnitUserList required = new(null) { Holder = CreationHolder() };
                         UnitUserList optional = new(null) { Holder = CreationHolder() };
@@ -695,21 +685,20 @@ public class AIGroupTargetSelector : AIGroupTask
         return result;
     }
 
+    private readonly record struct OverlapSought(AIGroupControlTarget? Target, AIGroup? IgnoreGroup);
+
     // AIGroup.pas:3067
     public bool TargetOverlapFound(AIGroupControlTarget? target, AIGroup? ignoreGroup)
     {
         Player? player = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
-        int i = player.AIGroups.Count;
-        bool result = false;
-        while (i != 0 && !result)
+        // GetGroups(i) is the enumerated group. The fields and the radius are reads.
+        // FindLastIndex keeps the backward walk. The sought pair is state, so the predicate allocates nothing.
+        OverlapSought sought = new(Target: target, IgnoreGroup: ignoreGroup);
+        return player.AIGroups.FindLastIndex(sought, match: static (overlap, group) =>
         {
-            i -= 1;
-            AIGroup group = player.AIGroups.GetGroups(i);
             MapCoordinate aimed = group.TargetLocation ?? MapCoordinate.None;
-            result = group != ignoreGroup && group.TargetType == AIGroupTargetStatus.Execute && target.Location.MapLevel == aimed.MapLevel && HexGeometry.DeltaHexToRadius(aimed.X, aimed.Y, target.Location.X, target.Location.Y) <= 1;
-        }
-
-        return result;
+            return group != overlap.IgnoreGroup && group.TargetType == AIGroupTargetStatus.Execute && overlap.Target.Location.MapLevel == aimed.MapLevel && HexGeometry.DeltaHexToRadius(aimed.X, aimed.Y, overlap.Target.Location.X, overlap.Target.Location.Y) <= 1;
+        }) != -1;
     }
 
     // AIGroup.pas:3088
@@ -763,18 +752,20 @@ public class AIGroupTargetSelector : AIGroupTask
     }
 
     // AIGroup.pas:3125
+    // GetTargets(i) is the enumerated target. Contains reads the flag set. The count walks
+    // backward, and the indexer allocates nothing.
     public int GetValidTargets()
     {
-        int result = 0;
-        for (int i = GroupControl.Targets.Count - 1; i >= 0; i--)
+        int count = 0;
+        for (int index = GroupControl.Targets.Count - 1; index >= 0; index--)
         {
-            if (GroupControl.Targets.GetTargets(i).Status.Contains(AIGroupTargetFlags.Valid))
+            if (GroupControl.Targets.GetTargets(index).Status.Contains(AIGroupTargetFlags.Valid))
             {
-                result += 1;
+                count += 1;
             }
         }
 
-        return result;
+        return count;
     }
 
     // AIGroup.pas:3134

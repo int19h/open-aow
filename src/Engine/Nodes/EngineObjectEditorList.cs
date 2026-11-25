@@ -26,14 +26,6 @@ public sealed class EngineObjectEditorList
     }
 
     // Engine.pas:8364
-    public EditorClass? FindEditor(int classId)
-    {
-        int i = 0;
-        while (i != Count && classId != _list[i].EditorClassId)
-        {
-            i += 1;
-        }
-
-        return i != Count ? _list[i] : null;
-    }
+    // EditorClassId is a field. List.Find is the list's own search and returns the first match.
+    public EditorClass? FindEditor(int classId) => _list.Find(editor => editor.EditorClassId == classId);
 }

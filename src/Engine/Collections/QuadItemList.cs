@@ -175,65 +175,26 @@ public class QuadItemList : Persistent, IReadOnlyList<QuadItemList.QuadInteger>
     // Engine.pas:5533
     public QuadInteger First() => Get(0);
 
-    // Engine.pas:5556
+    // Engine.pas:5556. In range the indexer returns _list[i], and the record equality
+    // compares the same fields.
     public int IndexOf(in QuadInteger item)
     {
-        int result = 0;
-        while (result < _count && _list[result] != item)
-        {
-            result += 1;
-        }
-
-        return result == _count ? -1 : result;
+        // A lambda cannot capture the in parameter.
+        QuadInteger sought = item;
+        return this.FindIndex(entry => entry == sought);
     }
 
     // Engine.pas:5564
-    public int IndexOfItemA(int A)
-    {
-        int result = 0;
-        while (result < _count && _list[result].First != A)
-        {
-            result += 1;
-        }
-
-        return result == _count ? -1 : result;
-    }
+    public int IndexOfItemA(int A) => this.FindIndex(entry => entry.First == A);
 
     // Engine.pas:5571
-    public int IndexOfItemB(int B)
-    {
-        int result = 0;
-        while (result < _count && _list[result].Second != B)
-        {
-            result += 1;
-        }
-
-        return result == _count ? -1 : result;
-    }
+    public int IndexOfItemB(int B) => this.FindIndex(entry => entry.Second == B);
 
     // Engine.pas:5578
-    public int IndexOfItemC(int C)
-    {
-        int result = 0;
-        while (result < _count && _list[result].Third != C)
-        {
-            result += 1;
-        }
-
-        return result == _count ? -1 : result;
-    }
+    public int IndexOfItemC(int C) => this.FindIndex(entry => entry.Third == C);
 
     // Engine.pas:5585
-    public int IndexOfItemD(int D)
-    {
-        int result = 0;
-        while (result < _count && _list[result].Fourth != D)
-        {
-            result += 1;
-        }
-
-        return result == _count ? -1 : result;
-    }
+    public int IndexOfItemD(int D) => this.FindIndex(entry => entry.Fourth == D);
 
     // Engine.pas:5592
     public void Insert(int index, in QuadInteger item)

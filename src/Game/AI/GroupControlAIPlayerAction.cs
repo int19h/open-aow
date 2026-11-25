@@ -37,13 +37,9 @@ public class GroupControlAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
                 if (_groupControl is null)
                 {
                     Control.Player.AIGroups.SortOnProcessPriority();
-                    int i = 0;
-                    while (i < Control.Player.AIGroups.Count && Control.Player.AIGroups.GetGroups(i).Status.Contains(AIGroupStatuses.Done))
-                    {
-                        i += 1;
-                    }
-
-                    if (i < Control.Player.AIGroups.Count)
+                    // FindIndex returns -1 where the loop left the count. Status.Contains reads the set.
+                    int i = Control.Player.AIGroups.FindIndex(static group => !group.Status.Contains(AIGroupStatuses.Done));
+                    if (i >= 0)
                     {
                         ActivateGroupControl(Control.Player.AIGroups.GetGroups(i));
                     }

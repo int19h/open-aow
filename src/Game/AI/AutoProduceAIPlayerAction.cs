@@ -415,6 +415,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
     }
 
     // AI.pas:1444
+    // Transporter and GroupId only read. One pass calls Transporter once per army and returns that troop.
     public Troop? FindAvailableTransporter()
     {
         Player player = Control.Player;

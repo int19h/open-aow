@@ -200,14 +200,8 @@ public sealed partial class AIPlayerControl : EngineObject
     // AI.pas:213
     public void UpdateSkirmishGroups()
     {
-        int skirmishCount = 0;
-        for (int i = 0, last = Player.AIGroups.Count - 1; i <= last; i++)
-        {
-            if (Player.AIGroups.GetGroups(i).EngineClass.ClassId == SkirmishAIGroup.ClassId)
-            {
-                skirmishCount += 1;
-            }
-        }
+        // GetGroups(i) is the enumerated group. EngineClass caches on every group, as the loop did.
+        int skirmishCount = Player.AIGroups.Count(static group => group.EngineClass.ClassId == SkirmishAIGroup.ClassId);
 
         int wantedCount;
         if (StrategicMap.Current.Day > 5)
@@ -399,16 +393,16 @@ public sealed partial class AIPlayerControl : EngineObject
 
         doubleItemList.SortDescendingItemB();
         DoubleItemList.DoubleItem item;
-        for (int i = 0, last = (doubleItemList.Count / 2) - 1; i <= last; i++)
+        // The first half, in stored order. Add appends into the byte list.
+        foreach (DoubleItemList.DoubleItem entry in doubleItemList.Take(doubleItemList.Count / 2))
         {
-            item = doubleItemList[i];
-            _ = peace.Add(item.First.TruncateToByte());
+            _ = peace.Add(entry.First.TruncateToByte());
         }
 
-        for (int i = doubleItemList.Count - 1, last = (doubleItemList.Count + 1) / 2; i >= last; i--)
+        // The second half from the end, so the higher index is added first.
+        foreach (DoubleItemList.DoubleItem entry in doubleItemList.Reverse().Take(doubleItemList.Count / 2))
         {
-            item = doubleItemList[i];
-            _ = war.Add(item.First.TruncateToByte());
+            _ = war.Add(entry.First.TruncateToByte());
         }
 
         if ((doubleItemList.Count & 1) != 0)

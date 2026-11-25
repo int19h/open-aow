@@ -12,32 +12,11 @@ public class EngineObjectClassList : DelphiList<EngineClass>
     protected internal EngineClass? GetEngineClass(int index) => this[index];
 
     // Engine.pas:8301
-    public EngineClass? FindClass(int classId)
-    {
-        int i = 0;
-        bool found = false;
-        while (!found && i < Count)
-        {
-            found = classId == this[i].ClassId;
-            i += 1;
-        }
-
-        return found ? this[i - 1] : null;
-    }
+    // ClassId is a field. The list enumerates this[i], which is the slot the loop reads.
+    public EngineClass? FindClass(int classId) => this.FirstOrDefault(engineClass => classId == engineClass.ClassId);
 
     // Engine.pas:8316
-    public int FindClassIndex(int classId)
-    {
-        int i = 0;
-        bool found = false;
-        while (!found && i < Count)
-        {
-            found = classId == this[i].ClassId;
-            i += 1;
-        }
-
-        return found ? i - 1 : -1;
-    }
+    public int FindClassIndex(int classId) => this.FindIndex(engineClass => classId == engineClass.ClassId);
 
     // Engine.pas:8331
     public EngineClass GetClass(int classId)

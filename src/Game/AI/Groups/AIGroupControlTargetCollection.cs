@@ -1,6 +1,7 @@
 #nullable disable warnings
 using System.Collections;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -35,7 +36,7 @@ public readonly struct AIGroupControlTargetCollection : IReadOnlyList<AIGroupCon
     // AIGroup.pas:684
     public AIGroupControlTarget GetTargets(int index)
     {
-        Rtl.DelphiAssert.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 687);
+        DelphiAssert.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 687);
         return this[index];
     }
 
@@ -46,20 +47,8 @@ public readonly struct AIGroupControlTargetCollection : IReadOnlyList<AIGroupCon
     public void SortOnDataB() => Holder.SortChildren<AIGroupControlTarget>(CompareDataB);
 
     // AIGroup.pas:739
-    public int IndexOfMapCoordinate(MapCoordinate location)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (location == this[result].Location)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    // Location is a field. FindLastIndex keeps the last slot, the first hit of the backward walk.
+    public int IndexOfMapCoordinate(MapCoordinate location) => this.FindLastIndex(target => location == target.Location);
 
     private static int ComparePriority(AIGroupControlTarget item1, AIGroupControlTarget item2) => item2.Data.Priority - item1.Data.Priority;
 

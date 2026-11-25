@@ -49,12 +49,10 @@ public static class ExceptionCensus
     {
         for (Type? type = exception.GetType(); type is not null; type = type.BaseType)
         {
-            for (int index = 0; index < Kinds.Count; index++)
+            int index = Kinds.FindIndex(kind => type.Name == kind);
+            if (index >= 0)
             {
-                if (type.Name == Kinds[index])
-                {
-                    return index;
-                }
+                return index;
             }
         }
 

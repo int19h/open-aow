@@ -165,17 +165,8 @@ public class SByteList : Persistent, IReadOnlyList<sbyte>
     // Engine.pas:4020
     public int First() => Get(0);
 
-    // Engine.pas:4043
-    public int IndexOf(sbyte item)
-    {
-        int result = 0;
-        while (result < _count && _list[result] != item)
-        {
-            result += 1;
-        }
-
-        return result == _count ? -1 : result;
-    }
+    // Engine.pas:4043. In range the indexer returns _list[i].
+    public int IndexOf(sbyte item) => this.FindIndex(value => value == item);
 
     // Engine.pas:4050
     public void Insert(int index, int item)
@@ -285,15 +276,13 @@ public class SByteList : Persistent, IReadOnlyList<sbyte>
         int i;
         int DefaultRun()
         {
-            int result = 0;
-            int j = i;
-            while (j < _count && _list[j] == _default)
+            int count = 0;
+            for (int index = i; index < _count && _list[index] == _default; index++)
             {
-                result += 1;
-                j += 1;
+                count += 1;
             }
 
-            return result;
+            return count;
         }
 
         i = 0;
@@ -333,18 +322,9 @@ public class SByteList : Persistent, IReadOnlyList<sbyte>
         int result;
         if (_count != 0)
         {
-            int total = 0;
+            // The draw below stays a loop. The weights are a checked sum (decision 1).
+            int total = this.Sum(value => Math.Max(value + bonus, val2: 0));
             int chance;
-            for (int i = _count - 1; i >= 0; i--)
-            {
-                chance = _list[i] + bonus;
-                if (chance < 0)
-                {
-                    chance = 0;
-                }
-
-                total += chance;
-            }
 
             int r = Random(total);
             total = 0;

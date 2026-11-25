@@ -246,19 +246,9 @@ public class AIGroupProductionControl : AIGroupTask
     }
 
     // AIGroup.pas:2514
-    public int GetCurrentProductionTime()
-    {
-        int result = -1;
-        for (int i = 0, last = Productions.Count - 1; i <= last; i++)
-        {
-            if (Productions.GetUnitProductions(i).ProductionTime > result)
-            {
-                result = Productions.GetUnitProductions(i).ProductionTime;
-            }
-        }
-
-        return result;
-    }
+    // GetUnitProductions(i) is the enumerated production. ProductionTime is a field. A time at or
+    // below the seed stays -1.
+    public int GetCurrentProductionTime() => Math.Max(Productions.Select(static production => production.ProductionTime).DefaultIfEmpty(-1).Max(), val2: -1);
 
     // AIGroup.pas:2524
     public int GetCompleteProductionTime()

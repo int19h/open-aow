@@ -63,16 +63,10 @@ public sealed class AIGroupManager(CustomNode? owner) : OwningNode(owner), IChil
     // AIGroup.pas:600
     public AIGroup? CreateGroup(PlayerId? player, int relation, GroupBehavior behavior)
     {
-        bool found = false;
-        int i = RegisteredClasses.Count;
-        while (!found && i != 0)
-        {
-            i -= 1;
-            found = behavior == RegisteredClasses[i].Behavior;
-        }
-
+        // Behavior is a field. FindLastIndex is the list's own backward search.
+        int i = RegisteredClasses.FindLastIndex(groupClass => behavior == groupClass.Behavior);
         AIGroup result;
-        if (found)
+        if (i >= 0)
         {
             result = RegisteredClasses[i].CreateInstance(this, holder: CreationHolder());
             result.GroupId = CreateUniqueId();

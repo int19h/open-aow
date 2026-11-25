@@ -93,19 +93,12 @@ public abstract class DelphiStringCollection : Persistent, IReadOnlyList<string>
     // CLASSES.PAS TStrings.IndexOf, IndexOfName and IndexOfObject.
     public virtual int IndexOf(string value) => this.FindIndex(item => AnsiCompareText(item, value) == 0);
 
-    public int IndexOfName(string name)
+    // Pos, Copy and AnsiCompareText only read the string. The enumerator yields this[i].
+    public int IndexOfName(string name) => this.FindIndex(value =>
     {
-        for (int i = 0; i < Count; i++)
-        {
-            string s = this[i];
-            int p = Pos((string?)"=", haystack: (string?)s);
-            if (p > 0 && AnsiCompareText(Copy(s, index: 1, count: p - 1), name) == 0)
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
+        int separator = Pos((string?)"=", haystack: (string?)value);
+        return separator > 0 && AnsiCompareText(Copy(value, index: 1, count: separator - 1), b: name) == 0;
+    });
 
     public int IndexOfObject(object? item)
     {
@@ -123,16 +116,7 @@ public abstract class DelphiStringCollection : Persistent, IReadOnlyList<string>
     // CLASSES.PAS TStrings.GetTextStr and SetTextStr. The reader stops at NUL.
     public string Text
     {
-        get
-        {
-            string text = "";
-            for (int i = 0; i < Count; i++)
-            {
-                text += $"{this[i]}\r\n";
-            }
-
-            return text;
-        }
+        get => string.Concat(this.Select(static line => $"{line}\r\n"));
         set
         {
             BeginUpdate();

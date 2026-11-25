@@ -97,25 +97,13 @@ public class AIGroupCooperationControl : AIGroupTask
     }
 
     // AIGroup.pas:2851
-    public int GetCooperateMoveDays()
+    // The first group is skipped, as the original loop starts at slot 1. GetMovesMin and MovePoints
+    // only read. A non-positive day stays at the seed, which is -1.
+    public int GetCooperateMoveDays() => Math.Max(Groups.Skip(1).Select(static recruit =>
     {
-        int result = -1;
-        // { Original bug: the first cooperation group is skipped. }
-        for (int i = 1, last = Groups.Count - 1; i <= last; i++)
-        {
-            int moves = Groups.GetRecruitmentGroups(i).Group.GetMovesMin();
-            if (moves > 0)
-            {
-                int days = (Groups.GetRecruitmentGroups(i).MovePoints - 1) / moves;
-                if (result < days)
-                {
-                    result = days;
-                }
-            }
-        }
-
-        return result;
-    }
+        int moves = recruit.Group.GetMovesMin();
+        return moves > 0 ? (recruit.MovePoints - 1) / moves : -1;
+    }).DefaultIfEmpty(-1).Max(), val2: -1);
 
     // AIGroup.pas:2868
     public int CooperatedStrength => CooperateStrength - _remainingStrength;

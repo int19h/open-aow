@@ -1,6 +1,7 @@
 #nullable disable warnings
 using System.Collections;
 using Aow.Game.World.Structures;
+using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -36,7 +37,7 @@ public readonly struct AIGroupProductionLocationCollection : IReadOnlyList<AIGro
     // AIGroup.pas:907
     public AIGroupProductionLocation GetProductionLocation(int index)
     {
-        Rtl.DelphiAssert.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 909);
+        DelphiAssert.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 909);
         return this[index];
     }
 
@@ -44,20 +45,8 @@ public readonly struct AIGroupProductionLocationCollection : IReadOnlyList<AIGro
     public void SortOnMovePoints() => Holder.SortChildren<AIGroupProductionLocation>(CompareMovePoints);
 
     // AIGroup.pas:934
-    public int IndexOfPC(ProductionControl control)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].ProductionControl == control)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    // ProductionControl is a field. FindLastIndex keeps the last slot, the first hit of the backward walk.
+    public int IndexOfPC(ProductionControl control) => this.FindLastIndex(location => location.ProductionControl == control);
 
     // AIGroup.pas:945
     public AIGroupProductionLocation? FindPC(ProductionControl control)

@@ -214,61 +214,35 @@ public abstract class CustomNode : EngineObject, IOwner
         return n;
     }
 
-    // Engine.pas:2768
+    // Engine.pas:2768. Children[i] reads GetChild. The walk is the original forward loop: the
+    // child list is not a typed list, so a query would allocate the OfType iterator.
     public virtual EngineObject? FindChildInTree(int classId)
     {
-        EngineObject? result = FindChild(classId);
-        if (result is null)
+        EngineObject? found = FindChild(classId);
+        if (found is not null)
         {
-            int i = 0;
-            while (result is null && i < Count)
-            {
-                if (Children[i] is CustomNode child)
-                {
-                    result = child.FindChildInTree(classId);
-                }
+            return found;
+        }
 
-                i += 1;
+        for (int index = 0; index < Count && found is null; index++)
+        {
+            if (Children[index] is CustomNode child)
+            {
+                found = child.FindChildInTree(classId);
             }
         }
 
-        return result;
+        return found;
     }
 
-    // Engine.pas:2726
-    public virtual EngineObject? FindChild(int classId)
-    {
-        int i = 0;
-        bool found = false;
-        EngineObject? c = null;
-        while (!found && i < Count)
-        {
-            c = Children[i];
-            found = c is not null && c.EngineClass.ClassId == classId;
-            i += 1;
-        }
-
-        return found ? c : null;
-    }
+    // Engine.pas:2726. EngineClass caches its value on first read. The query stops at the first hit.
+    public virtual EngineObject? FindChild(int classId) => ((IOwner)this).Children.OfType<EngineObject>().FirstOrDefault(child => child.EngineClass.ClassId == classId);
 
     // The class id selects the child. A child of another class throws, the same way the call site did.
     public T FindChild<T>(int classId) where T : EngineObject => (T)FindChild(classId);
 
-    // Engine.pas:2744
-    public virtual EngineObject? FindOwnedChild(int classId)
-    {
-        int i = 0;
-        bool found = false;
-        EngineObject? c = null;
-        while (!found && i < Count)
-        {
-            c = Children[i];
-            found = c is not null && c.Owner == this && classId == c.EngineClass.ClassId;
-            i += 1;
-        }
-
-        return found ? c : null;
-    }
+    // Engine.pas:2744. Owner is a field read. The class id caches on the children the loop would cache.
+    public virtual EngineObject? FindOwnedChild(int classId) => ((IOwner)this).Children.OfType<EngineObject>().FirstOrDefault(child => child.Owner == this && classId == child.EngineClass.ClassId);
 
     // The class id selects the child. A child of another class throws, the same way the call site did.
     public T FindOwnedChild<T>(int classId) where T : EngineObject => (T)FindOwnedChild(classId);
