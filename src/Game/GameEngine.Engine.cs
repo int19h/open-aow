@@ -363,16 +363,18 @@ public partial class GameEngine : OwningNode
     public EngineObject? RetrieveFromFile(string fileName, ProgressEvent progress, GameProfile profile) => RetrieveFromTree(FileBoundary.OpenOrRaise(fileName, profile: profile), progress: progress);
 
     // Retrieves the object of a tree whose preflight has passed, as RetrieveEObject retrieves the
-    // object of a stream: the stored class is created and loaded, and a failure gives nil.
-    public EngineObject? RetrieveFromTree(GameFileTree tree, ProgressEvent? progress) => (EngineObject?)TreeReader.ReadCreated(tree.Root, className: tree.ClassName, factory: new EnginePersistableFactory(this, progress: progress));
+    // object of a stream: the stored class is created and loaded, and a failure gives nil. A
+    // player-facing load passes a list for the objects the load goes on without (issue 384).
+    public EngineObject? RetrieveFromTree(GameFileTree tree, ProgressEvent? progress, ICollection<DroppedObject>? dropped = null) => (EngineObject?)TreeReader.ReadCreated(tree.Root, className: tree.ClassName, factory: new EnginePersistableFactory(this, progress: progress), dropped: dropped);
 
     // The stored class is the caller's class. An object of another class throws, the same way the call site did.
-    public T RetrieveFromTree<T>(GameFileTree tree, ProgressEvent? progress) where T : EngineObject => (T)RetrieveFromTree(tree, progress: progress);
+    public T RetrieveFromTree<T>(GameFileTree tree, ProgressEvent? progress, ICollection<DroppedObject>? dropped = null) where T : EngineObject => (T)RetrieveFromTree(tree, progress: progress, dropped: dropped);
 
     // Loads the tree of a prepared file into an object the caller holds, as ReadEObject loads a
     // stream (persistence-tree.md 6 and 7). A failure of the object goes to the error handler as
-    // rwEObject passes it to OnError. No handler continues.
-    public void ReadTree(GameFileTree tree, EngineObject objectValue, ProgressEvent? progress, bool preview = false, LoadErrorHandler? onError = null) => TreeReader.ReadObject(tree.Root, objectValue: objectValue, factory: new EnginePersistableFactory(this, progress: progress), onError: onError, preview: preview);
+    // rwEObject passes it to OnError. No handler continues. A player-facing load passes a list for
+    // the objects the load goes on without (issue 384).
+    public void ReadTree(GameFileTree tree, EngineObject objectValue, ProgressEvent? progress, bool preview = false, LoadErrorHandler? onError = null, ICollection<DroppedObject>? dropped = null) => TreeReader.ReadObject(tree.Root, objectValue: objectValue, factory: new EnginePersistableFactory(this, progress: progress), onError: onError, preview: preview, dropped: dropped);
 
     // Engine.pas:8985
     // The tree of the object goes to the file boundary, which converts, validates and replaces the

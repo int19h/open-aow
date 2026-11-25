@@ -6,34 +6,72 @@ namespace Aow.Formats.Tree;
 /// <summary>
 /// The load's <see cref="LoadErrorHandler"/>, with the same stop flag as the original stream.
 /// A null handler continues. Once a handler stops the load, later exceptions stop too.
-/// An empty message is reported as "Error Reading EngineObject".
+/// An empty message is reported as "Error Reading EngineObject". A load with a dropped list adds
+/// each object it goes on without to that list. The list changes nothing about whether the load
+/// goes on: the record never throws, so a failure to name or add an object cannot replace the
+/// failed read the load goes on without.
 /// </summary>
-internal sealed class LoadErrorPolicy
+internal sealed class LoadErrorPolicy(LoadErrorHandler? handler, ICollection<DroppedObject>? dropped = null)
 {
-    private readonly LoadErrorHandler? _handler;
     private bool _stopped;
 
-    internal LoadErrorPolicy(LoadErrorHandler? handler) => _handler = handler;
+    /// <summary>Decides on the failed read of a created object or a child of the stored class.</summary>
+    internal bool Continue(Exception error, DocumentNodePath at, string className) => Continue(error, at: at, className: className, objectValue: null, factory: null);
 
-    internal bool Continue(Exception error)
+    /// <summary>
+    /// Decides on the failed read of a fixed object, whose class the document does not store. The
+    /// factory names the class only for a load that records what it dropped.
+    /// </summary>
+    internal bool Continue(Exception error, DocumentNodePath at, IPersistable objectValue, IPersistableFactory factory)
+        => Continue(error, at: at, className: null, objectValue: objectValue, factory: factory);
+
+    private bool Continue(Exception error, DocumentNodePath at, string? className, IPersistable? objectValue, IPersistableFactory? factory)
     {
         if (_stopped)
         {
             return false;
         }
 
+        string message = error.Message.Length == 0 ? "Error Reading EObject" : error.Message;
         bool continueLoad = true;
-        if (_handler is not null)
-        {
-            string message = error.Message.Length == 0 ? "Error Reading EObject" : error.Message;
-            _handler(message, out continueLoad);
-        }
+        handler?.Invoke(message, out continueLoad);
         if (!continueLoad)
         {
             _stopped = true;
+            return false;
         }
 
-        return !_stopped;
+        if (dropped is not null)
+        {
+            Record(dropped, error: error, at: at, message: message, className: className ?? StoredName(objectValue, factory));
+        }
+
+        return true;
+    }
+
+    // The stored name of a fixed object, or its plain type name when the factory cannot name it.
+    private static string StoredName(IPersistable? objectValue, IPersistableFactory? factory)
+    {
+        try
+        {
+            return (objectValue, factory) is ({ } value, { } names) ? names.ClassName(value) : objectValue?.GetType().Name ?? "";
+        }
+        catch (Exception)
+        {
+            return objectValue?.GetType().Name ?? "";
+        }
+    }
+
+    // A list that refuses the entry leaves it out. The load goes on as it would without the list.
+    private static void Record(ICollection<DroppedObject> dropped, Exception error, DocumentNodePath at, string message, string className)
+    {
+        try
+        {
+            dropped.Add(new DroppedObject(className, Path: at.ToString(), Message: message, Error: error));
+        }
+        catch (Exception)
+        {
+        }
     }
 }
 
@@ -78,8 +116,20 @@ public static class TreeWriter
 /// </summary>
 public static class TreeReader
 {
-    public static void Read(ObjectNode node, IPersistable objectValue, IPersistableFactory factory, LoadErrorHandler? onError = null, bool preview = false)
+    /// <remarks>
+    /// Without a dropped list the root is strict: a failure of the root throws whatever the
+    /// handler says, as before. A load that passes a dropped list takes the root rule of
+    /// <see cref="ReadObject"/>, so a root failure goes to the handler and, when the load goes on,
+    /// is in the list. No load that passes no list changes.
+    /// </remarks>
+    public static void Read(ObjectNode node, IPersistable objectValue, IPersistableFactory factory, LoadErrorHandler? onError = null, bool preview = false, ICollection<DroppedObject>? dropped = null)
     {
+        if (dropped is not null)
+        {
+            ReadObject(node, objectValue: objectValue, factory: factory, onError: onError, preview: preview, dropped: dropped);
+            return;
+        }
+
         MemberPersister persister = new(node, loading: true, factory, path: DocumentNodePath.Root, errors: new LoadErrorPolicy(onError), preview: preview);
         objectValue.Persist(persister);
         persister.Finish();
@@ -89,11 +139,12 @@ public static class TreeReader
     /// Reads a tree into an object the caller holds the way <c>TEngine.ReadEObject</c> reads a
     /// stream (<c>rwEObject</c> with id 0): a failure of the root goes to the load's handler like a
     /// failure of a nested object. A handler that continues, or no handler, leaves the object as the
-    /// load left it, and a handler that stops makes the load throw the original exception.
+    /// load left it, and a handler that stops makes the load throw the original exception. A load
+    /// that goes on without an object adds it to <paramref name="dropped"/> when the caller passes one.
     /// </summary>
-    public static void ReadObject(ObjectNode node, IPersistable objectValue, IPersistableFactory factory, LoadErrorHandler? onError = null, bool preview = false)
+    public static void ReadObject(ObjectNode node, IPersistable objectValue, IPersistableFactory factory, LoadErrorHandler? onError = null, bool preview = false, ICollection<DroppedObject>? dropped = null)
     {
-        LoadErrorPolicy errors = new(onError);
+        LoadErrorPolicy errors = new(onError, dropped: dropped);
         MemberPersister persister = new(node, loading: true, factory: factory, path: DocumentNodePath.Root, errors: errors, preview: preview);
         try
         {
@@ -102,7 +153,7 @@ public static class TreeReader
         }
         catch (Exception error)
         {
-            if (!errors.Continue(error))
+            if (!errors.Continue(error, at: DocumentNodePath.Root, objectValue: objectValue, factory: factory))
             {
                 throw;
             }
@@ -113,11 +164,12 @@ public static class TreeReader
     /// Creates the root of a tree and reads it the way <c>TEngine.RetrieveEObject</c> reads a
     /// stream (<c>rwCreateEObject</c> with id 0): the factory creates the class, and a failure
     /// releases the object and goes to the load's handler. A handler that continues, or no
-    /// handler, returns null. A handler that stops makes the load throw the original exception.
+    /// handler, returns null. A handler that stops makes the load throw the original exception. A
+    /// load that goes on without an object adds it to <paramref name="dropped"/> when the caller passes one.
     /// </summary>
-    public static IPersistable? ReadCreated(ObjectNode node, string className, IPersistableFactory factory, LoadErrorHandler? onError = null, bool preview = false)
+    public static IPersistable? ReadCreated(ObjectNode node, string className, IPersistableFactory factory, LoadErrorHandler? onError = null, bool preview = false, ICollection<DroppedObject>? dropped = null)
     {
-        LoadErrorPolicy errors = new(onError);
+        LoadErrorPolicy errors = new(onError, dropped: dropped);
         IPersistable? created = null;
         try
         {
@@ -134,7 +186,7 @@ public static class TreeReader
                 factory.Release(created);
             }
 
-            if (!errors.Continue(error))
+            if (!errors.Continue(error, at: DocumentNodePath.Root, className: className))
             {
                 throw;
             }
@@ -670,7 +722,7 @@ internal sealed class MemberPersister : IPersister
             }
             catch (Exception error)
             {
-                if (!Continue(error))
+                if (!Continue(error, at: _path.Member(name), objectValue: objectValue))
                 {
                     throw;
                 }
@@ -813,7 +865,7 @@ internal sealed class MemberPersister : IPersister
             }
             catch (Exception error)
             {
-                if (!Continue(error))
+                if (!Continue(error, at: at, objectValue: objectValue))
                 {
                     throw;
                 }
@@ -940,7 +992,7 @@ internal sealed class MemberPersister : IPersister
                         Factory.Release(created);
                     }
 
-                    if (!Continue(error))
+                    if (!Continue(error, at: _path.Member(name).Item(slot), className: className))
                     {
                         throw;
                     }
@@ -1003,7 +1055,7 @@ internal sealed class MemberPersister : IPersister
                 }
                 catch (Exception error)
                 {
-                    if (!Continue(error))
+                    if (!Continue(error, at: FieldPath(at, index: i, width), objectValue: fields[i]))
                     {
                         throw;
                     }
@@ -1076,7 +1128,7 @@ internal sealed class MemberPersister : IPersister
                         Factory.Release(created);
                     }
 
-                    if (!Continue(error))
+                    if (!Continue(error, at: at.Item(k), className: className))
                     {
                         throw;
                     }
@@ -1266,7 +1318,9 @@ internal sealed class MemberPersister : IPersister
         return current;
     }
 
-    private bool Continue(Exception error) => _errors is null || _errors.Continue(error);
+    private bool Continue(Exception error, DocumentNodePath at, string className) => _errors is null || _errors.Continue(error, at: at, className: className);
+
+    private bool Continue(Exception error, DocumentNodePath at, IPersistable objectValue) => _errors is null || _errors.Continue(error, at: at, objectValue: objectValue, factory: Factory);
 
     // rwCreateEObject creates the object and runs its load. A failure releases the object, and the
     // load's handler decides whether the parent continues with null.
@@ -1288,7 +1342,7 @@ internal sealed class MemberPersister : IPersister
                 Factory.Release(created);
             }
 
-            if (!Continue(error))
+            if (!Continue(error, at: at, className: className))
             {
                 throw;
             }
@@ -1429,7 +1483,7 @@ internal sealed class ItemSlot(TreeValue? loaded, bool loading, IPersistableFact
                     _factory.Release(created);
                 }
 
-                if (_errors is not null && !_errors.Continue(error))
+                if (_errors is not null && !_errors.Continue(error, at: _path, className: className))
                 {
                     throw;
                 }

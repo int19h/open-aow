@@ -172,19 +172,22 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui), ISetupHost
             _ = (AudioHost.SoundSystem?.FadeMusicVolume(0, speed: 1));
         }
 
-        if (SetupControl.Stream.Length != 0)
+        _ = DroppedObjectReport.Load(UI, fileName: fileName, load: dropped =>
         {
-            UI.Engine.LoadHsmFromStream(SetupControl.Stream, edit: false, (_, message, progression) => UI.General.MapProgress(message, progression));
-            string fileName2 = ExtractFileName(fileName);
-            StrategicMap.Current.FileName = $"{UI.Engine.StartupDirectory}Scenario\\{fileName2}";
-        }
-        else
-        {
-            UI.Engine.LoadHsm(fileName, edit: false, progress: (_, message, progression) => UI.General.MapProgress(message, progression), profile: GameProfile.WorldMap);
-        }
+            if (SetupControl.Stream.Length != 0)
+            {
+                UI.Engine.LoadHsmFromStream(SetupControl.Stream, edit: false, progress: (_, message, progression) => UI.General.MapProgress(message, progression), dropped: dropped);
+                string fileName2 = ExtractFileName(fileName);
+                StrategicMap.Current.FileName = $"{UI.Engine.StartupDirectory}Scenario\\{fileName2}";
+            }
+            else
+            {
+                UI.Engine.LoadHsm(fileName, edit: false, progress: (_, message, progression) => UI.General.MapProgress(message, progression), profile: GameProfile.WorldMap, dropped: dropped);
+            }
 
-        UI.General.Manager.OverlayPriority = 0;
-        UI.ProgressDialog.Window.Visible = false;
+            UI.General.Manager.OverlayPriority = 0;
+            UI.ProgressDialog.Window.Visible = false;
+        });
         SetupControl.ReportMapLoaded();
     }
 
