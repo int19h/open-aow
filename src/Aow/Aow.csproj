@@ -2,6 +2,8 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <OutputType>Exe</OutputType>
+    <!-- Built from assets/icon/openaow.webp by the private tools/icon/make_icon.py. -->
+    <ApplicationIcon>$(MSBuildThisFileDirectory)../../assets/icon/openaow.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../Platform/Aow.Platform.csproj" />
