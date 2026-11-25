@@ -72,7 +72,9 @@ public static class GameLayouts
         _ = ui.Load(session, module: new TitleScene(ui));
         // The intro scene is published after its layout ran (E2Globals.IntroScene).
         IntroScene intro = new(ui);
-        session.Load(intro, publish: static _ => { });
+        session.Load(intro, publish: static _ =>
+        {
+        });
         _ = ui.Add(intro);
         _ = ui.Load(session, module: new SendEmailGameDialog(ui));
         _ = ui.Load(session, module: new EmailSettingsDialog(ui));

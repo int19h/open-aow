@@ -7,11 +7,14 @@ namespace Aow.Game.Layout;
 public sealed class LayoutVideoPlayer(Component owner) : VideoPlayer(owner)
 {
     public VideoPlayerLoopMode LoopMode { get; set; }
-
     public VideoPlayerOptions Options { get; set; }
 
     public enum VideoPlayerLoopMode
     {
-        None, LoopLongest, LoopVideo, LoopSound, LoopIndependent
+        None,
+        LoopLongest,
+        LoopVideo,
+        LoopSound,
+        LoopIndependent
     }
 }

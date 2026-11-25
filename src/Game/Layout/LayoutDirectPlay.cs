@@ -7,69 +7,61 @@ namespace Aow.Game.Layout;
 
 public sealed class LayoutDirectPlay(Component owner) : GDPlay(owner)
 {
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event ChatMessageReceived keeps this backing field until the port raises it.")]
+    private GDChatMessageEvent _chatMessageReceived;
+
+    public event GDChatMessageEvent ChatMessageReceived { add => _chatMessageReceived += value; remove => _chatMessageReceived -= value; }
+
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event Ejected keeps this backing field until the port raises it.")]
+    private NotifyEvent<LayoutDirectPlay> _ejected;
+
+    public event NotifyEvent<LayoutDirectPlay> Ejected { add => _ejected += value; remove => _ejected -= value; }
+
     public int FilePacketSize { get; set; }
+
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event FileTransferCompleted keeps this backing field until the port raises it.")]
+    private GDFileDoneMessageEvent _fileTransferCompleted;
+
+    public event GDFileDoneMessageEvent FileTransferCompleted { add => _fileTransferCompleted += value; remove => _fileTransferCompleted -= value; }
+
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event FileTransferProgressed keeps this backing field until the port raises it.")]
+    private GDFileProgressMessageEvent _fileTransferProgressed;
+
+    public event GDFileProgressMessageEvent FileTransferProgressed { add => _fileTransferProgressed += value; remove => _fileTransferProgressed -= value; }
+
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event FileTransferStarting keeps this backing field until the port raises it.")]
+    private GDFileStartMessageEvent _fileTransferStarting;
+
+    public event GDFileStartMessageEvent FileTransferStarting { add => _fileTransferStarting += value; remove => _fileTransferStarting -= value; }
+
     public bool GuaranteeMessages { get; set; }
     public int MaxPlayers { get; set; }
 
-    // Nothing in the port raises OnChatMessage. The bound handler is kept.
-    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnChatMessage keeps this backing field until the port raises it.")]
-    private GDChatMessageEvent _onChatMessage;
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event MessageFailed keeps this backing field until the port raises it.")]
+    private GDMessageErrorEvent _messageFailed;
 
-    public event GDChatMessageEvent ChatMessageReceived { add => _onChatMessage += value; remove => _onChatMessage -= value; }
+    public event GDMessageErrorEvent MessageFailed { add => _messageFailed += value; remove => _messageFailed -= value; }
 
-    // Nothing in the port raises OnDestroyPlayer. The bound handler is kept.
-    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnDestroyPlayer keeps this backing field until the port raises it.")]
-    private GDDestroyPlayerEvent _onDestroyPlayer;
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event MessageReceived keeps this backing field until the port raises it.")]
+    private GDMessageEvent _messageReceived;
 
-    public event GDDestroyPlayerEvent PlayerDestroyed { add => _onDestroyPlayer += value; remove => _onDestroyPlayer -= value; }
+    public event GDMessageEvent MessageReceived { add => _messageReceived += value; remove => _messageReceived -= value; }
 
-    // Nothing in the port raises OnEjected. The bound handler is kept.
-    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnEjected keeps this backing field until the port raises it.")]
-    private NotifyEvent<LayoutDirectPlay> _onEjected;
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event PingMessage keeps this backing field until the port raises it.")]
+    private GDPingMessageEvent _pingMessage;
 
-    public event NotifyEvent<LayoutDirectPlay> Ejected { add => _onEjected += value; remove => _onEjected -= value; }
+    public event GDPingMessageEvent PingMessage { add => _pingMessage += value; remove => _pingMessage -= value; }
 
-    // Nothing in the port raises OnFileDoneMessage. The bound handler is kept.
-    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnFileDoneMessage keeps this backing field until the port raises it.")]
-    private GDFileDoneMessageEvent _onFileDoneMessage;
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event PlayerDestroyed keeps this backing field until the port raises it.")]
+    private GDDestroyPlayerEvent _playerDestroyed;
 
-    public event GDFileDoneMessageEvent FileTransferCompleted { add => _onFileDoneMessage += value; remove => _onFileDoneMessage -= value; }
+    public event GDDestroyPlayerEvent PlayerDestroyed { add => _playerDestroyed += value; remove => _playerDestroyed -= value; }
 
-    // Nothing in the port raises OnFileProgressMessage. The bound handler is kept.
-    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnFileProgressMessage keeps this backing field until the port raises it.")]
-    private GDFileProgressMessageEvent _onFileProgressMessage;
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event SessionLost keeps this backing field until the port raises it.")]
+    private GDSessionLostEvent _sessionLost;
 
-    public event GDFileProgressMessageEvent FileTransferProgressed { add => _onFileProgressMessage += value; remove => _onFileProgressMessage -= value; }
+    public event GDSessionLostEvent SessionLost { add => _sessionLost += value; remove => _sessionLost -= value; }
 
-    // Nothing in the port raises OnFileStartMessage. The bound handler is kept.
-    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnFileStartMessage keeps this backing field until the port raises it.")]
-    private GDFileStartMessageEvent _onFileStartMessage;
-
-    public event GDFileStartMessageEvent FileTransferStarting { add => _onFileStartMessage += value; remove => _onFileStartMessage -= value; }
-
-    // Nothing in the port raises OnMessage. The bound handler is kept.
-    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnMessage keeps this backing field until the port raises it.")]
-    private GDMessageEvent _onMessage;
-
-    public event GDMessageEvent MessageReceived { add => _onMessage += value; remove => _onMessage -= value; }
-
-    // Nothing in the port raises OnMessageError. The bound handler is kept.
-    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnMessageError keeps this backing field until the port raises it.")]
-    private GDMessageErrorEvent _onMessageError;
-
-    public event GDMessageErrorEvent MessageFailed { add => _onMessageError += value; remove => _onMessageError -= value; }
-
-    // Nothing in the port raises OnPingMessage. The bound handler is kept.
-    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnPingMessage keeps this backing field until the port raises it.")]
-    private GDPingMessageEvent _onPingMessage;
-
-    public event GDPingMessageEvent PingMessage { add => _onPingMessage += value; remove => _onPingMessage -= value; }
-
-    // Nothing in the port raises OnSessionLost. The bound handler is kept.
-    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnSessionLost keeps this backing field until the port raises it.")]
-    private GDSessionLostEvent _onSessionLost;
-
-    public event GDSessionLostEvent SessionLost { add => _onSessionLost += value; remove => _onSessionLost -= value; }
     public bool UseCodes { get; set; }
     public bool UseSetupDialogs { get; set; }
 

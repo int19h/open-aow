@@ -392,13 +392,20 @@ the 92 `AoW/` units predate the matching and are stale.
   without parameters.
 - The forms layer of the private gate (`tools/check.py`) builds the model and the generator, then
   runs `tests/forms`. Since C11 the generator tests hold the generator to its own recorded output
-  in `tests/forms/expected/generated` (120 files, one test per file and one for the file list), a
+  in `tests/forms/expected/generated` (116 files, one test per file and one for the file list), a
   regression test of the emitter, and keep the checks that it is deterministic, refuses a target
-  inside the product repository and reports unknown or mistyped properties and handlers. No test
-  compares the generator's output with the same relative paths under `src`. The layer writes the difference between the
-  two to the gate's log folder as `forms-reference.diff`, as information and never as a failure,
-  and its summary names how many files differ. `AOW_FORMS_RECORD=1` records a new expectation
-  when the generator or the model it reads changes on purpose.
+  inside the product repository and reports unknown or mistyped properties and handlers. Issue 365
+  requires the generator's output for every one of those files to equal the checked-in file at the
+  same path under `src`, byte for byte. A difference fails the layer and names every file. A
+  content difference names the first differing line. A line-ending difference says so. A product
+  layout with no generated file fails and is named. A file under `Game/UI` or `Game/Draw`
+  is in scope when its name ends in `.Layout.cs` or `.ComponentConstruction.cs`. A file
+  under `Game/Layout` is in scope except the four hand-written support types
+  (`ILayoutModule.cs`, `LayoutSession.cs`, `LayoutStrings.cs`, `VideoPlayerOptions.cs`).
+  The two construction partials under `Game/Net` belong to emitted types. The generator
+  reads them and does not write them, so they are outside this scan. The layer still writes `forms-reference.diff` in the gate log, and its
+  summary names how many files differ. `AOW_FORMS_RECORD=1` records a new expectation when the
+  generator or the model it reads changes on purpose.
 
 ## 9. Done measures
 

@@ -340,7 +340,7 @@ public sealed partial class UnitBanner : ILayoutModule
         BannerMenu = new Menu(this);
         session.BeginRead(BannerMenu);
         BannerMenu.Name = "BannerPopup";
-        BannerMenu.MousePressed += (_, e) => BannerPopupMouseDown(default, button: (byte)e.Button, shift: default, default, default);
+        BannerMenu.MousePressed += (_, e) => BannerPopupMouseDown(default, button: (int)e.Button, shift: default, default, default);
         BannerMenu.Visible = false;
         BannerMenu.Priority = 350;
         BannerMenu.WinLeft = 0;

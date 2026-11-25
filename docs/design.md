@@ -682,8 +682,9 @@ each top-level type in its own file. The library project is `src/Game/Aow.Game.c
 `Aow.Game`). It compiles `src/Game` and `src/Engine`. A layout partial sits beside its type and
 keeps the `.Layout.cs` suffix. The executable is `src/Aow/Aow.csproj` (assembly `Aow`, namespace
 `Aow`). The private transpiler and the forms generator are reference emitters: the transpiler
-accepts `emit --out <dir>`, the generator writes into private scratch space, both stay outside
-the product tree, and their output serves comparison only and is never copied into `src`.
+accepts `emit --out <dir>`, the generator writes into private scratch space, and neither
+writes into `src`. Issue 365 requires each checked-in file the generator emits to equal
+that output byte for byte. A difference fails the forms layer.
 
 ```
 D:\git\open-aow
