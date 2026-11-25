@@ -66,7 +66,7 @@ public sealed class ItemGraphics(CustomNode? owner) : EngineResource(owner)
     }
 
     // Army.PAS:5152
-    public override LibraryImage? GetCellImage()
+    public LibraryImage? GetCellImage()
     {
         _ = AddRef();
         LibraryImage? image = _imageLibrary[ImageIndex];

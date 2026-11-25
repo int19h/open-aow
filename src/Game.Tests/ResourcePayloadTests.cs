@@ -46,7 +46,7 @@ public sealed class ResourcePayloadTests
             Assert.Equal(Advance(Seed, draws: 3), streamSeed);
             foreach (ObjectNode tree in Backends(tree: Stored("MapObjectResource", property: "ImageSequenceList", payload), className: "MapObjectResource"))
             {
-                Holder viaTree = new((persister, self) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: self.Sequences));
+                Holder viaTree = new((persister, self) => GamePersistence.ImageSequences(persister, name: "ImageSequenceList", list: self.Sequences));
                 DelphiRandom.RandSeed = Seed;
                 TreeReader.Read(tree, objectValue: viaTree, factory: Factory);
                 Assert.Equal(streamSeed, DelphiRandom.RandSeed);
@@ -56,7 +56,7 @@ public sealed class ResourcePayloadTests
             }
             // The save writes what SaveToStream writes and draws nothing.
             DelphiRandom.RandSeed = Seed;
-            ObjectNode written = TreeWriter.Write(new Holder((persister, _) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: viaStream)), factory: Factory);
+            ObjectNode written = TreeWriter.Write(new Holder((persister, _) => GamePersistence.ImageSequences(persister, name: "ImageSequenceList", list: viaStream)), factory: Factory);
             Assert.Equal(Seed, DelphiRandom.RandSeed);
             Assert.Equal(StreamSaved(viaStream), Payload("MapObjectResource", property: "ImageSequenceList", tree: written));
         }
@@ -72,7 +72,7 @@ public sealed class ResourcePayloadTests
         int seed = DelphiRandom.RandSeed;
         try
         {
-            Holder holder = new((persister, self) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: self.Sequences));
+            Holder holder = new((persister, self) => GamePersistence.ImageSequences(persister, name: "ImageSequenceList", list: self.Sequences));
             StreamLoad(holder.Sequences, payload: Sequences());
             DelphiRandom.RandSeed = Seed;
             TreeReader.Read(new ObjectNode(null, slot: null), objectValue: holder, factory: Factory);
@@ -97,7 +97,7 @@ public sealed class ResourcePayloadTests
         source.SetTerrain(0, value: 1);
         source.SetOverlay(1, value: 4);
         source.SetTerrain(3, value: -2);
-        ObjectNode written = TreeWriter.Write(new Holder((persister, _) => PersistSupport.TerrainList(persister, name: "TerrainList", list: source)), factory: Factory);
+        ObjectNode written = TreeWriter.Write(new Holder((persister, _) => GamePersistence.TerrainList(persister, name: "TerrainList", list: source)), factory: Factory);
         byte[] payload = [2, 0, 0, 0, 1, 0xFE, 0xFE, 4];
         Assert.Equal(2, source.Count);
         Assert.Equal(payload, Payload("MapObjectResource", property: "TerrainList", tree: written));
@@ -105,7 +105,7 @@ public sealed class ResourcePayloadTests
         {
             TerrainList loaded = new();
             loaded.SetTerrain(5, value: 9);
-            TreeReader.Read(tree, objectValue: new Holder((persister, _) => PersistSupport.TerrainList(persister, name: "TerrainList", list: loaded)), factory: Factory);
+            TreeReader.Read(tree, objectValue: new Holder((persister, _) => GamePersistence.TerrainList(persister, name: "TerrainList", list: loaded)), factory: Factory);
             Assert.Equal(2, loaded.Count);
             Assert.Equal([1, -2], new[] { loaded.GetTerrain(0), loaded.GetTerrain(1) });
             Assert.Equal([-2, 4], new[] { loaded.GetOverlay(0), loaded.GetOverlay(1) });
@@ -121,7 +121,7 @@ public sealed class ResourcePayloadTests
         foreach (ObjectNode tree in Backends("MapObjectResource", tree: Stored("MapObjectResource", property: "ImageLibrary", payload)))
         {
             using ImageLibrary loaded = new(null);
-            TreeReader.Read(tree, objectValue: new Holder((persister, _) => PersistSupport.ImageLibrary(persister, name: "ImageLibrary", library: loaded)), factory: Factory);
+            TreeReader.Read(tree, objectValue: new Holder((persister, _) => GamePersistence.ImageLibrary(persister, name: "ImageLibrary", library: loaded)), factory: Factory);
             Assert.Equal(viaStream.Count, loaded.Count);
         }
     }
@@ -131,7 +131,7 @@ public sealed class ResourcePayloadTests
     {
         using UnitIndexListCollection source = new();
         source.Units.LoadFromStream(new MemoryStream(Flat(-1, items: [198, 201, 199, -1, -1, -1, -1, -1, 203, 200])));
-        ObjectNode written = TreeWriter.Write(new Holder((persister, _) => PersistSupport.UnitIndexListCollection(persister, name: "Defenders", collection: source)), factory: Factory);
+        ObjectNode written = TreeWriter.Write(new Holder((persister, _) => GamePersistence.UnitIndexListCollection(persister, name: "Defenders", collection: source)), factory: Factory);
         byte[] payload = Saved(source.Units.SaveToStream);
         Assert.Equal(payload, Payload("StructureResource", property: "Defenders", tree: written));
         JsonObject document = DocumentBackend.Write(written, classValue: s_schema.Get("StructureResource"), s_schema, engine: "game");
@@ -139,7 +139,7 @@ public sealed class ResourcePayloadTests
         foreach (ObjectNode tree in Backends("StructureResource", tree: Stored("StructureResource", property: "Defenders", payload)))
         {
             using UnitIndexListCollection loaded = new();
-            TreeReader.Read(tree, objectValue: new Holder((persister, _) => PersistSupport.UnitIndexListCollection(persister, name: "Defenders", collection: loaded)), factory: Factory);
+            TreeReader.Read(tree, objectValue: new Holder((persister, _) => GamePersistence.UnitIndexListCollection(persister, name: "Defenders", collection: loaded)), factory: Factory);
             Assert.Equal(payload, Saved(loaded.Units.SaveToStream));
             Assert.Equal(3, loaded.GetCollectionCount(0));
             Assert.Equal(2, loaded.GetCollectionCount(1));

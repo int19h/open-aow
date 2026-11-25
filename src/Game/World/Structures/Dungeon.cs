@@ -1,8 +1,6 @@
 #nullable disable warnings
 // Translated from Dungeon.pas.
 using System.Globalization;
-using Aow.Engine;
-using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
@@ -162,7 +160,7 @@ public partial class Dungeon : ExplorationSite
                 _ = list.Add(collections.GetU(collection, index: i));
             }
 
-            _ = Int32List.FillWithRandomUnits(list, Prisoners.Units, level: 4, value: (int)_prisonersMode * 50, types: UnitTypes.Humanoid | UnitTypes.Creature | UnitTypes.Machine);
+            _ = RandomUnits.FillWithRandomUnits(list, Prisoners.Units, level: 4, value: (int)_prisonersMode * 50, types: UnitTypes.Humanoid | UnitTypes.Creature | UnitTypes.Machine);
         }
     }
 

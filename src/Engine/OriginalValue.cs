@@ -14,6 +14,14 @@ public interface IOriginalId<TSelf> : IOriginalValue where TSelf : struct, IOrig
     static abstract TSelf? FromOriginal(int value);
 
     static new abstract int NoneValue { get; }
+
+    /// <summary>
+    /// The stored none value of the type at the unsigned 16-bit width, when the type names one
+    /// that a present id also has. <see cref="PersistSupport"/> then stores and reads absence as
+    /// this value, so a present id of the same value loads as absent. Null for the other types,
+    /// whose stored none comes from <see cref="NoneValue"/>.
+    /// </summary>
+    static virtual int? StoredUInt16None => null;
 }
 
 public interface IOptionalOriginalValue

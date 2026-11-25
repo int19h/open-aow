@@ -113,7 +113,7 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
     }
 
     // PlayerC.PAS:1818
-    public override LibraryImage? GetCellImage()
+    public LibraryImage? GetCellImage()
     {
         _ = AddRef();
         LibraryImage? result = null;
@@ -132,7 +132,7 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
     }
 
     // PlayerC.PAS:1836
-    public override void SetCellImage(LibraryImage value)
+    public void SetCellImage(LibraryImage value)
     {
     }
 

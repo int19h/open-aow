@@ -1,6 +1,5 @@
 #nullable disable warnings
 // Translated from HSEngine.pas.
-using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
@@ -111,7 +110,7 @@ public class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:450
-    public override LibraryImage? GetCellImage()
+    public virtual LibraryImage? GetCellImage()
     {
         int i = 0;
         LibraryImage? result = null;
@@ -125,7 +124,7 @@ public class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:465
-    public override void SetCellImage(LibraryImage value) => ImageLibrary.SetImage(0, image: value);
+    public virtual void SetCellImage(LibraryImage value) => ImageLibrary.SetImage(0, image: value);
 
     // MAPOBJ.PAS:525
     // The user class is a map object. Another class throws, and a class id of zero stays null.
@@ -148,7 +147,7 @@ public class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:420
-    public override void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, Color bkColor, Color color)
+    public virtual void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, Color bkColor, Color color)
     {
         Rect drawRectangle = default;
         int i = 0;

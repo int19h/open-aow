@@ -1,13 +1,14 @@
 # OpenAoW analyzers
 
-Two Roslyn analyzers with code fixes check rules of AGENTS.md and of the design that the
-.editorconfig style rules do not cover. `Aow.Analyzers.csproj` builds them. `Tests/` holds their
+Three Roslyn analyzers check rules of AGENTS.md and of the design that the .editorconfig style
+rules do not cover. The first two come with code fixes. `Aow.Analyzers.csproj` builds them. `Tests/` holds their
 tests, which run with the product's `dotnet test OpenAow.slnx`.
 
 | Id | Rule | Severity | Fix |
 | --- | --- | --- | --- |
 | AOW0001 | Named arguments (issue 325) | warning | names the arguments of the call |
 | AOW0002 | Integer-to-enum conversions only in read and write code (issues 333 and 357) | warning | a constant cast becomes the enum member of that value |
+| AOW0003 | Engine code refers only to the engine, Aow.Rtl and Aow.Formats (issue 311) | warning | none |
 
 ## Where the analyzers live and how builds load them
 
@@ -166,3 +167,44 @@ The rule is at warning, so a new conversion outside read and write code fails th
 its member enters the allow list or the conversion goes. The fix replaces a cast of a constant
 with the one member of that value. A value that no member or several members have keeps its
 cast.
+
+## AOW0003: the engine boundary
+
+`src/Engine` compiles into `Aow.Game`, and the compiler does not keep it apart from the game
+(issue 311, decision of 2026-11-19). The analyzer does. The `aow_engine_boundary` option of
+.editorconfig marks the engine files: the section for `src/Engine` sets it, and its value names
+the product assemblies engine code refers to besides the engine files (`Aow.Rtl, Aow.Formats`).
+In a file that carries the option, every name is bound, and the analyzer reports a name that
+refers to a type outside the boundary, or to a member of such a type:
+
+- an engine type is a type of the compilation whose declarations all stand in engine files,
+- a type of an assembly the option names passes,
+- a type of an assembly outside the product passes. A product assembly is one named `Aow` or
+  starting with `Aow.`, so the BCL and the packages pass and `Aow.Graphics` does not.
+
+The analyzer binds written names: type names in declarations, base lists, casts and `typeof`,
+member names in calls and accesses, `var` (which binds to the type it stands for) and target-typed
+`new()`. A reference no name spells, such as the type of an expression passed on, is not one.
+Operators, indexers and implicit conversions a game type defines are not checked either: no name
+spells them at the use. Runtime type flow (`GetType`, `Activator`, the class registry) is outside
+the rule too. AOW0003 bounds named type references, not run-time reachability.
+Documentation comments are not checked.
+
+The allow list is `EngineBoundaryAllowList.csv` beside the analyzer project, passed to every
+product project as an additional file. Its header is `member,target`. Each line names one allowed
+reference by symbol: the documentation id of the engine member that holds it (as AOW0002 finds
+it: the method, property, field or type around the name, with lambdas and local functions
+belonging to their member) and the documentation id of the symbol the name refers to (a type, or
+a member of a type, as its definition). A field that holds a comma is quoted, CSV style. One line
+allows every occurrence of that reference in that member. A reference outside any member (a
+`using static` directive) has an empty member field. The diagnostic message carries the exact
+line to add.
+
+The list only shrinks. An entry that matches no reference of the compilation is reported at its
+line in the file, as stale, and the build fails until the line goes. A line that holds anything
+but the header or two fields is reported at its line too, as malformed. Only a compilation with
+engine files reports stale entries, so the other product projects stay silent. A new reference
+across the boundary adds its line only by a decision recorded in its issue.
+
+The list starts at the references that stay after the cuts of issue 311: the references to
+`GameEngine` itself, which the `IEngine` interface of issue 335's design takes over.

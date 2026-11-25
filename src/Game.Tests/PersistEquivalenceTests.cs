@@ -1692,7 +1692,7 @@ public sealed partial class PersistEquivalenceTests
     {
         public UnitIndexList Units { get; } = [];
 
-        public void Persist(IPersister persister) => PersistSupport.UnitIndexList(persister, name: "ItemIds", list: Units);
+        public void Persist(IPersister persister) => GamePersistence.UnitIndexList(persister, name: "ItemIds", list: Units);
     }
 
     private static byte[] Image(EngineObject? objectValue)

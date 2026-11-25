@@ -1,6 +1,5 @@
 #nullable disable warnings
 // Translated from AoWE.pas.
-using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Session;

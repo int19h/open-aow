@@ -2,7 +2,6 @@
 // Translated from City.pas.
 using System.Globalization;
 using Aow.Engine;
-using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
@@ -2415,7 +2414,7 @@ public partial class City : PlayerCropStructure
     {
         int saved = RandSeed;
         RandSeed = (HexX * 10) + StrategicMap.Current.InitialRandomSeed + HexY;
-        _ = Int32List.FillWithRandomUnits(GamePack.Current.RaceResources.GetRaceResource(Race).UnitIndexes, units.Units, level: 2, value: Size * 25, types: UnitTypes.Humanoid | UnitTypes.Creature);
+        _ = RandomUnits.FillWithRandomUnits(GamePack.Current.RaceResources.GetRaceResource(Race).UnitIndexes, units.Units, level: 2, value: Size * 25, types: UnitTypes.Humanoid | UnitTypes.Creature);
         // The source restores only after a successful fill.
         RandSeed = saved;
     }
