@@ -7,6 +7,7 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
+using Aow.Formats.Tree;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
@@ -410,25 +411,26 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     }
 
     // Army.PAS:6059
-    public void LoadCampaignMap(ProgressEvent? progress)
+    // A player-facing load passes a list for the objects the load goes on without (issue 384).
+    public void LoadCampaignMap(ProgressEvent? progress, ICollection<DroppedObject>? dropped = null)
     {
         if (Campaign is not null && Campaign.Stream is not null)
         {
             CloseHsm(null);
-            LoadHsmFromStream(Campaign.Stream, edit: false, progress);
+            LoadHsmFromStream(Campaign.Stream, edit: false, progress, dropped: dropped);
         }
     }
 
     // Army.PAS:6068
     // The preflight raises before the current campaign closes (own-formats.md 2.7).
-    public void LoadCampaign(string fileName) => LoadCampaign(fileName, tree: FileBoundary.OpenOrRaise(fileName, profile: GameProfile.Campaign));
+    public void LoadCampaign(string fileName, ICollection<DroppedObject>? dropped = null) => LoadCampaign(fileName, tree: FileBoundary.OpenOrRaise(fileName, profile: GameProfile.Campaign), dropped: dropped);
 
     // Loads a campaign file whose preflight has passed, from its tree.
-    public void LoadCampaign(string fileName, GameFileTree tree)
+    public void LoadCampaign(string fileName, GameFileTree tree, ICollection<DroppedObject>? dropped = null)
     {
         CloseCampaign();
         // The file stores a world map campaign, and the reader returns that class.
-        Campaign = RetrieveFromTree<WorldMapCampaign>(tree, progress: null);
+        Campaign = RetrieveFromTree<WorldMapCampaign>(tree, progress: null, dropped: dropped);
         TranslateEngineObjectFromFile(Campaign, fileName: $"{StartupDirectory}Dict\\Campaign.mld");
         Campaign.FileName = fileName;
     }

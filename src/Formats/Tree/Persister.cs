@@ -31,6 +31,17 @@ public interface IPersistableFactory
 public delegate void LoadErrorHandler(string message, out bool continueLoad);
 
 /// <summary>
+/// One object a load could not read. The load went on: it left a created object or a child out,
+/// or it left a fixed object as the failed read left it. A load records these only when its caller
+/// passes a list for them (issue 384).
+/// </summary>
+/// <param name="ClassName">The stored class of the object.</param>
+/// <param name="Path">The document path of the object, as <c>root.TransferSettings.Units[0]</c>.</param>
+/// <param name="Message">The message the load's handler received.</param>
+/// <param name="Error">The exception that ended the read of the object.</param>
+public sealed record DroppedObject(string ClassName, string Path, string Message, Exception Error);
+
+/// <summary>
 /// The children of one node, in stored order. A stored child has its owner, is not shared and
 /// is marked stored. The slot is the child's index. <see cref="Place"/> puts a loaded child
 /// back, at that index when <see cref="KeepIndex"/> is set and otherwise at the end.

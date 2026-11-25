@@ -209,6 +209,68 @@ public sealed class TreeTests : FormatsTest
         Assert.Equal(1, refused.Number);
     }
 
+    // Issue 384: a load with a dropped list names each object it goes on without, by class, path
+    // and message, and still goes on exactly as a load without the list.
+    [Fact]
+    public void ADroppedListNamesEachObjectTheLoadGoesOnWithout()
+    {
+        ObjectNode made = new(nameof(Inner), slot: null);
+        made.Add("N", new IntegerNode(4, signed: true, value: 2));
+        made.Add("Extra", new IntegerNode(4, signed: true, value: 1));
+        ObjectNode fixedNode = new(null, slot: null);
+        fixedNode.Add("N", new BooleanNode(true));
+        ObjectNode keptKid = new(nameof(Inner), slot: 0);
+        keptKid.Add("N", new IntegerNode(4, signed: true, value: 5));
+        ObjectNode failedKid = new(nameof(Inner), slot: 1);
+        failedKid.Add("N", new BooleanNode(false));
+        ObjectNode root = new(null, slot: null);
+        root.Add("Made", made);
+        root.Add("Fixed", fixedNode);
+        root.Add("Children", new ChildListNode([keptKid, failedKid]));
+        root.Add("Number", new IntegerNode(4, signed: true, value: 6));
+
+        List<DroppedObject> dropped = [];
+        Sample recorded = new() { Number = 1 };
+        Inner recordedFixed = recorded.Fixed;
+        TreeReader.Read(root, objectValue: recorded, factory: new TestFactory(), dropped: dropped);
+        Sample unrecorded = new() { Number = 1 };
+        TreeReader.Read(root, objectValue: unrecorded, factory: new TestFactory());
+
+        // The sample reads its children, then the created object, then the fixed one.
+        Assert.Equal(["root.Children[1]", "root.Made", "root.Fixed"], dropped.Select(static item => item.Path));
+        Assert.Equal([nameof(Inner), nameof(Inner), NameTable.Stored(typeof(Inner))], dropped.Select(static item => item.ClassName));
+        Assert.All(dropped, static item => Assert.Equal(item.Error.Message, item.Message));
+        Assert.Contains("Extra", dropped[1].Message, comparisonType: StringComparison.Ordinal);
+        Assert.Equal(Codes.Type, Assert.IsType<ConversionException>(dropped[2].Error).Diagnostic.Code);
+        foreach (Sample loaded in (Sample[])[recorded, unrecorded])
+        {
+            Assert.Null(loaded.Made);
+            Assert.Equal([5], loaded.Kids.Select(static kid => kid.Number));
+            Assert.Equal(6, loaded.Number);
+            // The failed fixed read leaves the instance and the number it had.
+            Assert.Equal(0, loaded.Fixed.Number);
+        }
+
+        Assert.Same(recordedFixed, recorded.Fixed);
+        AssertSame(unrecorded, recorded);
+
+        List<DroppedObject> stoppedList = [];
+        _ = Assert.Throws<ConversionException>(() =>
+            TreeReader.Read(root, objectValue: new Sample(), factory: new TestFactory(), onError: static (_, out cont) => cont = false, dropped: stoppedList));
+        Assert.Empty(stoppedList);
+
+        List<DroppedObject> clean = [];
+        TreeReader.Read(TreeWriter.Write(new Sample { Number = 3 }, factory: new TestFactory()), objectValue: new Sample(), factory: new TestFactory(), dropped: clean);
+        Assert.Empty(clean);
+
+        // A created root that fails is named at the root, by the class the tree stores.
+        List<DroppedObject> createdList = [];
+        Assert.Null(TreeReader.ReadCreated(made, className: nameof(Inner), factory: new TestFactory(), dropped: createdList));
+        DroppedObject createdRoot = Assert.Single(createdList);
+        Assert.Equal("root", createdRoot.Path);
+        Assert.Equal(nameof(Inner), createdRoot.ClassName);
+    }
+
     [Fact]
     public void AnUnknownMemberIsAnErrorWithItsPath()
     {

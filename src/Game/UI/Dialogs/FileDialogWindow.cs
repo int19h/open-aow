@@ -772,36 +772,40 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
             controller.UI.Engine.CloseHsm(null);
         }
 
-        controller.UI.Engine.LoadCampaign(name, tree: tree);
-        if (controller.UI.Engine.Campaign is not null)
+        // The campaign and its map are one load, so the player sees one message for both.
+        _ = DroppedObjectReport.Load(controller.UI, fileName: name, load: dropped =>
         {
-            if (controller.UI.Engine.Campaign.ScenarioStarted)
+            controller.UI.Engine.LoadCampaign(name, tree: tree, dropped: dropped);
+            if (controller.UI.Engine.Campaign is not null)
             {
-                string loading = controller.UI.Engine.TranslateResourceString(LayerText.LoadingText);
-                string fileName = ExtractFileName(name);
-                controller.UI.ProgressDialog.TitleLabel.Text = $"{loading} {fileName}...";
-                controller.UI.ProgressDialog.StatusLabel.Text = "";
-                controller.UI.ProgressDialog.ProgressBar.Position = 0;
-                controller.UI.ProgressDialog.ProgressBar.Max = 100;
-                controller.UI.ProgressDialog.Window.Visible = true;
-                if (!controller.UI.TitleScene.Window.Visible)
+                if (controller.UI.Engine.Campaign.ScenarioStarted)
                 {
-                    controller.UI.General.Manager.OverlayPriority = 5_000;
-                }
+                    string loading = controller.UI.Engine.TranslateResourceString(LayerText.LoadingText);
+                    string fileName = ExtractFileName(name);
+                    controller.UI.ProgressDialog.TitleLabel.Text = $"{loading} {fileName}...";
+                    controller.UI.ProgressDialog.StatusLabel.Text = "";
+                    controller.UI.ProgressDialog.ProgressBar.Position = 0;
+                    controller.UI.ProgressDialog.ProgressBar.Max = 100;
+                    controller.UI.ProgressDialog.Window.Visible = true;
+                    if (!controller.UI.TitleScene.Window.Visible)
+                    {
+                        controller.UI.General.Manager.OverlayPriority = 5_000;
+                    }
 
-                _ = AudioHost.SongPlayer.Stop(false);
-                AudioHost.SongPlayer.Songs.Clear();
-                _ = (AudioHost.SoundSystem?.FadeMusicVolume(0, speed: 1));
-                controller.UI.Engine.LoadCampaignMap((_, message, progression) => controller.MapProgress(message, progression));
-                controller.UI.General.Manager.OverlayPriority = 0;
-                controller.UI.ProgressDialog.Window.Visible = false;
+                    _ = AudioHost.SongPlayer.Stop(false);
+                    AudioHost.SongPlayer.Songs.Clear();
+                    _ = (AudioHost.SoundSystem?.FadeMusicVolume(0, speed: 1));
+                    controller.UI.Engine.LoadCampaignMap((_, message, progression) => controller.MapProgress(message, progression), dropped: dropped);
+                    controller.UI.General.Manager.OverlayPriority = 0;
+                    controller.UI.ProgressDialog.Window.Visible = false;
+                }
+                else
+                {
+                    controller.UI.TitleScene.HideScene();
+                    WorldMap.ShowCampaignMap(controller.UI.WorldMap);
+                }
             }
-            else
-            {
-                controller.UI.TitleScene.HideScene();
-                WorldMap.ShowCampaignMap(controller.UI.WorldMap);
-            }
-        }
+        });
     }
 
     private static void SaveGame(string name) => StrategicMap.Current.SaveGame(name);

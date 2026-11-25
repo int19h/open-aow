@@ -64,8 +64,9 @@ public partial class GameEngine : OwningNode
     // The preflight of the file boundary finishes before the current map is freed. A refused
     // file leaves the current game and the file as they were (own-formats.md 2.7 and 4.1). The map
     // loads through the tree of the validated document, with the editor's error handler when it
-    // loads for editing (persistence-tree.md 7).
-    public virtual void LoadHsm(string fileName, bool edit, ProgressEvent? progress, GameProfile profile)
+    // loads for editing (persistence-tree.md 7). A player-facing load passes a list for the objects
+    // the load goes on without (issue 384).
+    public virtual void LoadHsm(string fileName, bool edit, ProgressEvent? progress, GameProfile profile, ICollection<DroppedObject>? dropped = null)
     {
         GameFileTree? tree = FileBoundary.Open(fileName, profile: profile);
         if (tree == null)
@@ -93,7 +94,7 @@ public partial class GameEngine : OwningNode
             try
             {
                 _hexSpriteMap.SetProgressHandler(progress);
-                ReadTree(tree, objectValue: _hexSpriteMap, progress: progress, onError: EditorErrorHandler(_hexSpriteMap));
+                ReadTree(tree, objectValue: _hexSpriteMap, progress: progress, onError: EditorErrorHandler(_hexSpriteMap), dropped: dropped);
                 ActivateEngineObject(_hexSpriteMap);
                 _hexSpriteMap.SetProgressHandler(null);
                 OnHsmLoadedStore.Raise(_hexSpriteMap);
@@ -379,7 +380,8 @@ public partial class GameEngine : OwningNode
     // The stream holds an original map file (a campaign's map, a map a network host sent) or the
     // map's own document. An image inflates and the original backend reads its root. A document
     // is read through the document backend, which keeps port-only state. A network map is an image.
-    public void LoadHsmFromStream(Stream stream, bool edit, ProgressEvent? progress)
+    // A player-facing load passes a list for the objects the load goes on without (issue 384).
+    public void LoadHsmFromStream(Stream stream, bool edit, ProgressEvent? progress, ICollection<DroppedObject>? dropped = null)
     {
         if (_hexSpriteMap is not null)
         {
@@ -407,7 +409,7 @@ public partial class GameEngine : OwningNode
                 try
                 {
                     _hexSpriteMap.SetProgressHandler(progress);
-                    ReadTree(tree, objectValue: _hexSpriteMap, progress: progress, onError: EditorErrorHandler(_hexSpriteMap));
+                    ReadTree(tree, objectValue: _hexSpriteMap, progress: progress, onError: EditorErrorHandler(_hexSpriteMap), dropped: dropped);
                     ActivateEngineObject(_hexSpriteMap);
                     _hexSpriteMap.SetProgressHandler(null);
                     OnHsmLoadedStore.Raise(_hexSpriteMap);

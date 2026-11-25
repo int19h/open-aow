@@ -75,6 +75,19 @@ public static partial class HostLog
 
     public static void FallbackWithText(ILogger logger, Exception error, string text, string location) => Safe(() => FallbackWithTextCore(logger, error: error, text: text, location: location));
 
+    [LoggerMessage(EventId = 35514, Level = LogLevel.Warning, Message = "Load of {FileName} went on without {Count} objects that could not be read")]
+    private static partial void DroppedObjectsCore(ILogger logger, string fileName, int count);
+
+    /// <summary>A player-facing load went on without objects it could not read (issue 384).</summary>
+    public static void DroppedObjects(ILogger logger, string fileName, int count) => Safe(() => DroppedObjectsCore(logger, fileName: fileName, count: count));
+
+    [LoggerMessage(EventId = 35515, Level = LogLevel.Warning, Message = "Load of {FileName} could not read {ClassName} at {Path}: {Text}")]
+    private static partial void DroppedObjectCore(ILogger logger, Exception error, string fileName, string className, string path, string text);
+
+    /// <summary>One object a player-facing load went on without, with the exception that ended its read.</summary>
+    public static void DroppedObject(ILogger logger, Exception error, string fileName, string className, string path, string text)
+        => Safe(() => DroppedObjectCore(logger, error: error, fileName: fileName, className: className, path: path, text: text));
+
     private static void Safe(Action log)
     {
         try

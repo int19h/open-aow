@@ -248,7 +248,11 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
         hexSpriteMap?.Dispose();
     }
 
-    private static void LoadWorldCampaign(WorldMap dialog, string name) => dialog.UI.Engine.LoadCampaign(FileBoundary.ReadName($"{dialog.UI.Engine.StartupDirectory}Scenario\\Campaign\\{name}"));
+    private static void LoadWorldCampaign(WorldMap dialog, string name)
+    {
+        string fileName = FileBoundary.ReadName($"{dialog.UI.Engine.StartupDirectory}Scenario\\Campaign\\{name}");
+        _ = DroppedObjectReport.Load(dialog.UI, fileName: fileName, load: dropped => dialog.UI.Engine.LoadCampaign(fileName, dropped: dropped));
+    }
 
     private static void ParseFontText(string text, DelphiStringCollection strings, ImageLibraryFont font, int maxWidth)
     {

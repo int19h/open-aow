@@ -677,14 +677,17 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
         _ = AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
         _ = (AudioHost.SoundSystem?.FadeMusicVolume(0, speed: 1));
-        controller.UI.Engine.LoadHsm(fileName, edit: false, progress: (_, message, progression) => controller.MapProgress(message, progression), profile: GameProfile.WorldMap);
-        if (controller.UI.Engine.Demo && StrategicMap.Current is not null && !StrategicMap.Current.ShowAllPlayers)
+        _ = DroppedObjectReport.Load(controller.UI, fileName: fileName, load: dropped =>
         {
-            CloseGame(controller);
-        }
+            controller.UI.Engine.LoadHsm(fileName, edit: false, progress: (_, message, progression) => controller.MapProgress(message, progression), profile: GameProfile.WorldMap, dropped: dropped);
+            if (controller.UI.Engine.Demo && StrategicMap.Current is not null && !StrategicMap.Current.ShowAllPlayers)
+            {
+                CloseGame(controller);
+            }
 
-        controller.Manager.OverlayPriority = 0;
-        controller.UI.ProgressDialog.Window.Visible = false;
+            controller.Manager.OverlayPriority = 0;
+            controller.UI.ProgressDialog.Window.Visible = false;
+        });
     }
 
     private static void StartGame(General controller)
