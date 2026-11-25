@@ -1,20 +1,72 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 
+using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 namespace Aow.Headless;
 
-// The directed inputs mirror equip_test_items and cast_test_global in playtest.py.
-internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
+// The directed inputs mirror equip_test_items, cast_test_global, dispel_test_global
+// and end_test_global in playtest.py. One player can own more than one input. The
+// pending set is re-armed after each day save, and each input runs once on that
+// player's turn.
+internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, int dispel, string endEnchantment)
 {
     public List<object> ItemActions { get; } = [];
     public List<object> GlobalRequests { get; } = [];
+    public List<object> DispelRequests { get; } = [];
+    public List<object> EndRequests { get; } = [];
 
     private int _caster = -1;
-    private bool _pending;
+    private int _dispeller = -1;
+    private int _dispellerLevel;
+    private int _baseMana;
+    private int _researchCost;
+    private bool _pendingGlobal;
+    private bool _pendingDispel;
+    private bool _pendingEnd;
+    private bool _dispelled;
+    private bool _dispellerDead;
+    private int _dispelAttempts;
+    private int _castEnchantment;
+    private bool _watchMana;
+    private int _watchPlayer;
+    private int _manaBefore;
+    private int _manaDrop;
+    private int _watchEnchantment;
+    private int _castDay = -1;
+    private bool _drawFailed;
+    private bool _endQueued;
+    private bool _endRemoved;
+    private bool _casterDead;
+    private int _endQueuedDay = -1;
+    private int _endEnchantmentId = -1;
+
+    public object DispelRecord => dispel == 0 ? null : new
+    {
+        spell_id = dispel,
+        player = _dispeller,
+        level = _dispellerLevel,
+        base_mana = _baseMana,
+        research_cost = _researchCost,
+        global_magic_control_offset = "0x188",
+        dispelled = _dispelled,
+        draw_failed = _drawFailed,
+        requests = DispelRequests
+    };
+
+    public object EndRecord => endEnchantment is null ? null : new
+    {
+        mode = endEnchantment,
+        player = _caster,
+        done = _endQueued,
+        removed = _endRemoved,
+        enchantment_id = _endEnchantmentId,
+        requests = EndRequests
+    };
 
     public void Initial()
     {
@@ -23,25 +75,321 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
             EquipItems();
         }
 
+        if (spell != 0 || dispel != 0 || endEnchantment is not null)
+        {
+            _caster = SelectCaster();
+        }
+
         if (spell != 0)
         {
-            _caster = Enumerable.Range(1, count: map.Players.GetCount() - 1)
-                .Where(i => map.Players.GetPlayers(i).Leader is not null)
-                .OrderBy(i => (byte)map.Players.GetPlayers(i).Leader.Level).ThenBy(i => i).Last();
             _ = map.Players.GetPlayers(_caster).MagicControl.ExecuteSpellResearched(spell);
             CastGlobal();
         }
+
+        if (dispel != 0)
+        {
+            if (GamePack.Current is null || GamePack.Current.SpellControl[dispel] is not Spell spellObject)
+            {
+                throw new InvalidOperationException("Disjunction is not registered");
+            }
+
+            _dispeller = SelectDispeller();
+            _dispellerLevel = (byte)map.Players.GetPlayers(_dispeller).Leader.Level;
+            _baseMana = spellObject.BaseManaCost;
+            _researchCost = spellObject.ResearchCost;
+            _ = map.Players.GetPlayers(_dispeller).MagicControl.ExecuteSpellResearched(dispel);
+        }
     }
 
-    public void DaySaved() => _pending = spell != 0;
+    public void DaySaved()
+    {
+        // NewTurn adds income before the dispeller acts again. The day save is the
+        // last point where mana still equals the cast snapshot minus the drop.
+        if (_dispelled && HasEnchantment(_watchEnchantment))
+        {
+            throw new InvalidOperationException($"enchantment {_watchEnchantment} is active on day {map.Day} after dispel removed it");
+        }
+
+        if (_watchMana && map.Day > _castDay)
+        {
+            ObserveDispel();
+        }
+
+        if (_endQueued && !_endRemoved && map.Day > _endQueuedDay)
+        {
+            if (HasEnchantment(_endEnchantmentId))
+            {
+                throw new InvalidOperationException($"enchantment {_endEnchantmentId} is still active on day {map.Day} after {endEnchantment}");
+            }
+
+            _endRemoved = true;
+        }
+
+        _pendingGlobal = spell != 0;
+        _pendingDispel = dispel != 0 && !_dispelled && !_dispellerDead;
+        _pendingEnd = endEnchantment is not null && !_endQueued && !_casterDead;
+    }
 
     public void BeforeFrame()
     {
-        if (_pending && PlayerIdExtensions.ToOriginal(map.CurrentPlayer) == _caster)
+        int current = PlayerIdExtensions.ToOriginal(map.CurrentPlayer);
+        if (_pendingGlobal && current == _caster)
         {
-            _pending = false;
+            _pendingGlobal = false;
             CastGlobal();
         }
+
+        if (_pendingEnd && current == _caster)
+        {
+            _pendingEnd = false;
+            EndEnchantment();
+        }
+
+        if (_pendingDispel && current == _dispeller)
+        {
+            _pendingDispel = false;
+            Dispel();
+        }
+    }
+
+    public void AssertKnownResults(int turns)
+    {
+        if (turns <= 0)
+        {
+            return;
+        }
+
+        if (dispel != 0 && _dispelAttempts == 0)
+        {
+            throw new InvalidOperationException("dispel never cast");
+        }
+
+        if (endEnchantment is not null && !_endRemoved)
+        {
+            throw new InvalidOperationException(_endQueued
+                ? $"end enchantment did not remove enchantment {_endEnchantmentId}"
+                : "end enchantment was not accepted");
+        }
+    }
+
+    private void ObserveDispel()
+    {
+        _watchMana = false;
+        int after = map.Players.GetPlayers(_watchPlayer).MagicControl.Mana;
+        bool gone = !HasEnchantment(_watchEnchantment);
+        if (gone)
+        {
+            _dispelled = true;
+            _drawFailed = false;
+        }
+        else
+        {
+            _drawFailed = true;
+        }
+
+        DispelRequests.Add(new
+        {
+            observed = true,
+            mana_before = _manaBefore,
+            mana_after = after,
+            mana_drop = _manaDrop,
+            enchantment_gone = gone,
+            draw_failed = !gone
+        });
+        int expected = _manaBefore - _manaDrop;
+        if (after != expected)
+        {
+            throw new InvalidOperationException($"dispel mana is {after} on day {map.Day}, expected {expected} (before {_manaBefore}, drop {_manaDrop})");
+        }
+    }
+
+    private void Dispel()
+    {
+        Player player = map.Players.GetPlayers(_dispeller);
+        Leader hero = player.Leader;
+        if (hero is null || hero.HeroStatus.Contains(HeroStatuses.Died))
+        {
+            _dispellerDead = true;
+            DispelRequests.Add(new { dead = true });
+            return;
+        }
+
+        if (_castEnchantment != 0 && !HasEnchantment(_castEnchantment))
+        {
+            _dispelled = true;
+            DispelRequests.Add(new { enchantment_gone = true, enchantment_id = _castEnchantment });
+            return;
+        }
+
+        GlobalEnchantment target = ForeignEnchantment(_dispeller);
+        if (target is null)
+        {
+            DispelRequests.Add(new { waiting = true });
+            return;
+        }
+
+        Spell spellObject = GamePack.Current.SpellControl[dispel];
+        bool channelReady = hero.CastingSpellId == dispel && hero.CastingReady();
+        int manaBefore = player.MagicControl.Mana;
+        string reason = "";
+        bool canActivate = spellObject.CanActivate(hero, messageText: ref reason);
+        bool activateReason = reason.Length != 0;
+        bool canCast = false;
+        bool cast = false;
+        bool busy = player.GetBusy();
+        int dispelMana = -1;
+        if (canActivate)
+        {
+            DisjunctionSpellCaster caster = new(null)
+            {
+                Holder = spellObject.CreationHolder(),
+                CasterSpellId = dispel,
+                CasterSourceId = hero.UnitId
+            };
+            caster.SetEnchantmentId(target.EnchantmentId);
+            caster.SetDispelChance(75);
+            dispelMana = caster.GetMana();
+            reason = "";
+            canCast = caster.CanCast(ref reason);
+            if (canCast)
+            {
+                cast = caster.Cast();
+            }
+
+            _ = caster.Release();
+        }
+
+        if (cast)
+        {
+            _dispelAttempts += 1;
+            _castEnchantment = target.EnchantmentId;
+            _watchMana = true;
+            _watchPlayer = _dispeller;
+            _manaBefore = manaBefore;
+            _manaDrop = dispelMana + (channelReady ? 0 : spellObject.BaseManaCost);
+            _watchEnchantment = target.EnchantmentId;
+            _castDay = map.Day;
+        }
+
+        DispelRequests.Add(new
+        {
+            enchantment_id = target.EnchantmentId,
+            owner = PlayerIdExtensions.ToOriginal(target.PlayerIndex),
+            chance = 75,
+            mana_before = manaBefore,
+            base_mana = spellObject.BaseManaCost,
+            research_cost = spellObject.ResearchCost,
+            can_activate = canActivate,
+            activate_reason = activateReason,
+            dispel_mana = dispelMana,
+            can_cast = canCast,
+            cast_reason = reason.Length != 0,
+            player_busy = busy,
+            cast,
+            prepaid = cast && channelReady
+        });
+    }
+
+    private void EndEnchantment()
+    {
+        Player player = map.Players.GetPlayers(_caster);
+        Leader hero = player.Leader;
+        if (hero is null || hero.HeroStatus.Contains(HeroStatuses.Died))
+        {
+            _casterDead = true;
+            EndRequests.Add(new { dead = true });
+            return;
+        }
+
+        GlobalEnchantment enchantment = OwnedEnchantment(_caster);
+        if (enchantment is null)
+        {
+            EndRequests.Add(new { waiting = true });
+            return;
+        }
+
+        bool busy = player.GetBusy();
+        bool accepted = false;
+        if (!busy && endEnchantment == "remove")
+        {
+            accepted = map.GlobalMagicControl.RemoveEnchantment(PlayerId.FromOriginal((byte)_caster), enchantment: enchantment);
+        }
+
+        if (!busy && endEnchantment == "upkeep")
+        {
+            accepted = player.MagicControl.ChangePowerSettings(100);
+        }
+
+        if (accepted)
+        {
+            _endQueued = true;
+            _endQueuedDay = map.Day;
+            _endEnchantmentId = enchantment.EnchantmentId;
+        }
+
+        EndRequests.Add(new
+        {
+            mode = endEnchantment,
+            enchantment_id = enchantment.EnchantmentId,
+            player_busy = busy,
+            accepted,
+            mana = player.MagicControl.Mana,
+            research = player.MagicControl.ResearchPercentage
+        });
+    }
+
+    private int SelectCaster() => Enumerable.Range(1, count: map.Players.GetCount() - 1)
+        .Where(i => map.Players.GetPlayers(i).Leader is not null)
+        .OrderBy(i => (byte)map.Players.GetPlayers(i).Leader.Level).ThenBy(i => i).Last();
+
+    private int SelectDispeller() => Enumerable.Range(1, count: map.Players.GetCount() - 1)
+        .Where(i => i != _caster && map.Players.GetPlayers(i).Leader is Leader hero && !hero.HeroStatus.Contains(HeroStatuses.Died))
+        .OrderBy(i => (byte)map.Players.GetPlayers(i).Leader.Level).ThenBy(i => -i).Last();
+
+    private GlobalEnchantment ForeignEnchantment(int player)
+    {
+        PlayerId? id = PlayerId.FromOriginal((byte)player);
+        GlobalEnchantmentList list = map.GlobalMagicControl.Enchantments;
+        for (int i = 0; i < list.Count; i++)
+        {
+            GlobalEnchantment entry = list.GetEnchantments(i);
+            if (entry.PlayerIndex != id)
+            {
+                return entry;
+            }
+        }
+
+        return null;
+    }
+
+    private GlobalEnchantment OwnedEnchantment(int player)
+    {
+        PlayerId? id = PlayerId.FromOriginal((byte)player);
+        GlobalEnchantmentList list = map.GlobalMagicControl.Enchantments;
+        for (int i = 0; i < list.Count; i++)
+        {
+            GlobalEnchantment entry = list.GetEnchantments(i);
+            if (entry.PlayerIndex == id)
+            {
+                return entry;
+            }
+        }
+
+        return null;
+    }
+
+    private bool HasEnchantment(int id)
+    {
+        GlobalEnchantmentList list = map.GlobalMagicControl.Enchantments;
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list.GetEnchantments(i).EnchantmentId == id)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void CastGlobal()

@@ -53,7 +53,8 @@ internal static class Program
         long frames = 0;
         bool tactical = false, ended = false, complete = false;
         bool exerciseItems = false;
-        int tacticalBattles = 0, globalSpell = 0;
+        int tacticalBattles = 0, globalSpell = 0, dispel = 0;
+        string endEnchantment = null;
         DirectedInputs? directed = null;
         int viewportWidth = 1600, viewportHeight = 937, animationFps = 30;
         string? error = null, input = null;
@@ -94,6 +95,20 @@ internal static class Program
                     case "--exercise-items": exerciseItems = true; break;
                     case "--tactical-battles": tacticalBattles = int.Parse(Value()); break;
                     case "--global-spell": globalSpell = int.Parse(Value()); break;
+                    case "--dispel":
+                        dispel = int.Parse(Value());
+                        if (dispel != 51)
+                        {
+                            throw new ArgumentException("the dispel input casts Disjunction (spell 51)");
+                        }
+                        break;
+                    case "--end-enchantment":
+                        endEnchantment = Value();
+                        if (endEnchantment is not "remove" and not "upkeep")
+                        {
+                            throw new ArgumentException("--end-enchantment must be remove or upkeep");
+                        }
+                        break;
                     case "--trace-random": randomTracePath = Path.GetFullPath(Value()); break;
                     case "--trace-movement": traceMovement = true; break;
                     case "--file-log": fileLogPath = Path.GetFullPath(Value()); break;
@@ -108,7 +123,7 @@ internal static class Program
             }
             if (input is null || output is null || turns < 0)
             {
-                throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--tactical] [--file-log <path>]");
+                throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--tactical] [--global-spell <id>] [--dispel 51] [--end-enchantment remove|upkeep] [--file-log <path>]");
             }
 
             _ = Directory.CreateDirectory(output);
@@ -177,8 +192,8 @@ internal static class Program
             DelphiRandom.SuppressRandomize = true;
             HeadlessHooks.Tactical = tactical;
             HeadlessHooks.TacticalBattles = tacticalBattles;
-            directed = new(map, items: exerciseItems, spell: globalSpell);
-            if (globalSpell != 0)
+            directed = new(map, items: exerciseItems, spell: globalSpell, dispel: dispel, endEnchantment: endEnchantment);
+            if (globalSpell != 0 || dispel != 0 || endEnchantment != null)
             {
                 HeadlessHooks.BeforeAIPlayerProcess = directed.BeforeFrame;
             }
@@ -278,6 +293,7 @@ internal static class Program
                     throw new TimeoutException($"no day transition for five minutes at day {map.Day}, frame {frames}");
                 }
             }
+            directed?.AssertKnownResults(turns);
             complete = ended || saves.Count >= turns + 1;
             HostLog.Information(logger, text: $"complete: {complete}, day {day}, turns {day - firstDay}, frames {frames}, TODOs reached {todos.Count}, dialogs {host.DialogCount}, game ended {ended}");
         }
@@ -304,8 +320,12 @@ internal static class Program
                     tactical_battles = tacticalBattles,
                     exercise_items = exerciseItems,
                     global_spell = globalSpell,
+                    dispel_spell = dispel,
+                    end_enchantment_mode = endEnchantment,
                     item_exercise = directed?.ItemActions,
                     global_requests = directed?.GlobalRequests,
+                    dispel = directed?.DispelRecord,
+                    end_enchantment = directed?.EndRecord,
                     tactical_selections = HeadlessHooks.TacticalSelections,
                     tactical_executions = HeadlessHooks.TacticalExecutions,
                     complete,
