@@ -75,10 +75,19 @@ public class EngineObject : IDisposable, IPersistable, IOwned
         if (owner != _owner)
         {
             CheckOwner(owner);
+            if (owner is null)
+            {
+                RememberEngine();
+            }
+
             _ = (_owner?.RemoveChild(this));
 
             _owner = owner;
             _ = (_owner?.AddChild(this));
+            if (owner is not null)
+            {
+                RememberEngine();
+            }
         }
     }
 
@@ -95,7 +104,34 @@ public class EngineObject : IDisposable, IPersistable, IOwned
 
     // Engine.pas:2558. The original walks the owners only and reads the engine global where a node
     // has no owner.
-    public virtual GameEngine? GetEngine() => _owner is not null ? _owner.GetEngine() : Holder?.GetEngine();
+    // The owner chain wins when it reaches an engine. The holder is the fallback when that walk
+    // reaches none, including a child whose map has already detached. A walk that loops stops.
+    [ThreadStatic]
+    private static int s_engineDepth;
+
+    public virtual GameEngine? GetEngine()
+    {
+        if (s_engineDepth > 32)
+        {
+            return null;
+        }
+
+        s_engineDepth++;
+        try
+        {
+            return WalkEngine() as GameEngine;
+        }
+        finally
+        {
+            s_engineDepth--;
+        }
+    }
+
+    // The base walk, without this node's override. Remembering the engine during dispose uses this
+    // so an override that already dropped its own state is not called. A holder that is the engine
+    // answers itself. The result is typed as an engine object so no game type is named here.
+    private EngineObject? WalkEngine()
+        => _owner?.GetEngine() ?? (Holder is null || ReferenceEquals(Holder, this) ? null : Holder.GetEngine());
 
     // Engine.pas:2502
     public virtual int LastMessage
@@ -138,6 +174,10 @@ public class EngineObject : IDisposable, IPersistable, IOwned
         if (persister.Loading)
         {
             Clear();
+            if (GetEngine() is null && persister.Factory is IEnginePersistableFactory factory)
+            {
+                Holder ??= factory.Engine;
+            }
         }
 
         PersistFields(persister);
@@ -214,6 +254,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
 
         _owner = owner;
         _owner?.SetChild(index, child: this);
+        RememberEngine();
     }
 
     // Engine.pas:2436
@@ -244,7 +285,26 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     protected internal void SetOwnerWithoutNotify(CustomNode? value)
     {
         CheckOwner(value);
+        if (value is null)
+        {
+            RememberEngine();
+        }
+
         _owner = value;
+        if (value is not null)
+        {
+            RememberEngine();
+        }
+    }
+
+    // Keep the engine that this node can already reach, so a later break in the owner chain still
+    // finds it. An existing holder stays as construction or the load stored it.
+    private void RememberEngine()
+    {
+        if (Holder is null && WalkEngine() is { } engine)
+        {
+            Holder = engine;
+        }
     }
 
     /// <summary>

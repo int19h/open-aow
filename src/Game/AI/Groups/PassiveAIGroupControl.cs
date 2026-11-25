@@ -24,8 +24,8 @@ public class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                 _ = selector.Execute(Group, location.X, location.Y, L: location.MapLevel, units: null);
                 if (selector.Defenders.Count != Group.Units.Count && Group.Player != PlayerId.Independent)
                 {
-                    GroupBehavior randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
-                    AIGroup? group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: randomGroupBehavior);
+                    GroupBehavior randomGroupBehavior = GetEngine().StrategicMap.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
+                    AIGroup? group = GetEngine().StrategicMap.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: randomGroupBehavior);
                     for (int i = Group.Units.Count - 1; i >= 0; i--)
                     {
                         Troop? troop = Group.Units.GetUnit(i);
@@ -62,7 +62,7 @@ public class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(owner)
     // MainAG.pas:176
     public void CombinePassiveGroups()
     {
-        Player? player = StrategicMap.Current.Players.GetPlayers(Group.Player);
+        Player? player = GetEngine().StrategicMap.Players.GetPlayers(Group.Player);
         MapCoordinate location = Group.GetLocation();
         for (int i = player.AIGroups.Count - 1; i >= 0; i--)
         {

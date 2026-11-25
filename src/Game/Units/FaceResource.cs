@@ -6,8 +6,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Draw.Images;
 
-using Aow.Game.World.Map;
-
 using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Units;
@@ -77,7 +75,7 @@ public sealed class FaceResource(CustomNode owner) : EngineResource(owner)
     {
         ReleaseImageLibrary();
         _imageLibrary = !IsEmpty(_imageLibraryName)
-            ? GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName)
+            ? GetEngine().GamePack.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName)
             : null;
     }
 
@@ -88,7 +86,7 @@ public sealed class FaceResource(CustomNode owner) : EngineResource(owner)
         {
             if (!IsEmpty(_imageLibraryName))
             {
-                GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName);
+                GetEngine().GamePack.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName);
             }
 
             _imageLibrary = null;
@@ -101,14 +99,14 @@ public sealed class FaceResource(CustomNode owner) : EngineResource(owner)
         if (!IsEmpty(_imageLibraryName))
         {
             // { Original releases the old name even when this resource has no references. }
-            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName);
+            GetEngine().GamePack.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName);
             _imageLibrary = null;
         }
 
         _imageLibraryName = value;
         if (!IsEmpty(_imageLibraryName) && _references != 0)
         {
-            _imageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName);
+            _imageLibrary = GetEngine().GamePack.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName);
         }
     }
 

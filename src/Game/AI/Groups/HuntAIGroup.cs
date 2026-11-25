@@ -8,7 +8,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.AI.Groups;
 
@@ -39,7 +38,7 @@ public class HuntAIGroup(CustomNode owner) : AIGroup(owner), IAIGroupClass
         while (i != 0)
         {
             i -= 1;
-            Troop troop = StrategicMap.Current.UnitControl.FindUnit(TargetUnitIds.List[i]);
+            Troop troop = GetEngine().StrategicMap.UnitControl.FindUnit(TargetUnitIds.List[i]);
             // { Original bug: each entry overwrites the result, including earlier matches. }
             result = troop is not null && player == troop.Player;
         }

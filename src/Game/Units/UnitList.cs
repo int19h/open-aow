@@ -229,7 +229,7 @@ public class UnitList(CustomNode? owner) : ObservableNode(owner), IChildList<Tro
             if (!condition)
             {
                 Alignment alignment = units[i].GetAlignment();
-                condition = GamePack.Current.RaceResources.GetRaceResource(relation).Alignments.Contains(alignment.ToFlag());
+                condition = units.GetEngine().GamePack.RaceResources.GetRaceResource(relation).Alignments.Contains(alignment.ToFlag());
             }
 
             sameRace = condition;

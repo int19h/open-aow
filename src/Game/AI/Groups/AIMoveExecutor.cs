@@ -341,7 +341,7 @@ public sealed class AIMoveExecutor : EngineObject
                     }
                 }
 
-                StrategicMap.Current.TokenManager.GetTokenControl(_player).AddEvent(multiMove);
+                GetEngine().StrategicMap.TokenManager.GetTokenControl(_player).AddEvent(multiMove);
                 _ = multiMove.Release();
                 Moves.Clear();
             }
@@ -383,7 +383,7 @@ public sealed class AIMoveExecutor : EngineObject
                     DeactivateMoveExecutorControl();
                 }
 
-                timeLeft = StrategicMap.Current.AIExecutor.ProcessTimeLeft;
+                timeLeft = GetEngine().StrategicMap.AIExecutor.ProcessTimeLeft;
             }
 
             if (Control is null && ControlQueue.Count != 0 && Status == AIMoveExecutorStatus.Busy)
@@ -470,7 +470,7 @@ public sealed class AIMoveExecutor : EngineObject
         int capacity = Transporter.Troop.GetTransportCapacity();
         capacity = capacity > 4 ? capacity - 4 : 1;
 
-        ArmyHexSprite army = StrategicMap.Current.MapContainer.GetField(Transporter.Location.X, Transporter.Location.Y, Transporter.Location.MapLevel).GetArmyHexSprite();
+        ArmyHexSprite army = GetEngine().StrategicMap.MapContainer.GetField(Transporter.Location.X, Transporter.Location.Y, Transporter.Location.MapLevel).GetArmyHexSprite();
 
         int i = 0;
         Troop? troop;

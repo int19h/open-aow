@@ -6,7 +6,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using static Aow.Rtl.DelphiRounding;
 
@@ -140,7 +139,7 @@ public class AIGroupDefendTargetSelector : AIGroupTask
                 PathStep pathL = path[i];
                 PathStep pathY = path[i];
                 PathStep pathX = path[i];
-                StrategicMap.Current.RetrieveBattleFieldInfo(pathX.Location.X, pathY.Location.Y, pathL.Location.MapLevel, radius: _battleFieldRadius, ref info);
+                GetEngine().StrategicMap.RetrieveBattleFieldInfo(pathX.Location.X, pathY.Location.Y, pathL.Location.MapLevel, radius: _battleFieldRadius, ref info);
                 if (result < info.Strength)
                 {
                     result = info.Strength;
@@ -202,7 +201,7 @@ public class AIGroupDefendTargetSelector : AIGroupTask
         AITargetInfo targetInfo2 = _selector.TargetInfo;
         targetInfo2.IndependentRelation = (sbyte)control.Group.IndependentRelation;
         _selector.TargetInfo = targetInfo2;
-        switch (StrategicMap.Current.Players.GetPlayers(control.Group.Player).PlayerType)
+        switch (GetEngine().StrategicMap.Players.GetPlayers(control.Group.Player).PlayerType)
         {
             case PlayerType.Cpu2:
                 _mode |= Modes.CalculateMovePathBfs;

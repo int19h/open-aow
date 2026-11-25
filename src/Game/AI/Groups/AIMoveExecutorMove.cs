@@ -70,7 +70,7 @@ public sealed class AIMoveExecutorMove(CustomNode? owner) : AIMoveExecutorUnitLi
     // AIGroup.pas:4484
     public bool RetrieveArmy(out ArmyHexSprite? army, out int selection)
     {
-        army = StrategicMap.Current.MapContainer.GetField(Source.X, Source.Y, Source.MapLevel).GetArmyHexSprite();
+        army = GetEngine().StrategicMap.MapContainer.GetField(Source.X, Source.Y, Source.MapLevel).GetArmyHexSprite();
         if (army is not null)
         {
             selection = 0;

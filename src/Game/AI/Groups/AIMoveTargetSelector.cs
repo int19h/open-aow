@@ -182,7 +182,7 @@ public sealed class AIMoveTargetSelector : EngineObject
             int locationMapLevel = coordinate106.MapLevel;
             MapCoordinate location = new((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
             bool valid;
-            if (ListMovementGaps(StrategicMap.Current, path: target.MovePath, table: MovePointTable, starts: gaps, ends: null) != 0)
+            if (ListMovementGaps(GetEngine().StrategicMap, path: target.MovePath, table: MovePointTable, starts: gaps, ends: null) != 0)
             {
                 _settings.Reset();
                 _settings.Player = TargetInfo.Player;
@@ -204,7 +204,7 @@ public sealed class AIMoveTargetSelector : EngineObject
                     int item3 = gaps[i];
                     PathStep item4 = target.MovePath[item3];
                     _settings.SetDestinationPosition(item4.Location.X, item2.Location.Y, fMovePathItem.Location.MapLevel);
-                    valid = StrategicMap.Current.MoveControl.CanMove(_settings, mode: CanMoveModes.Fast) != -1;
+                    valid = GetEngine().StrategicMap.MoveControl.CanMove(_settings, mode: CanMoveModes.Fast) != -1;
                 }
             }
             else
@@ -258,15 +258,15 @@ public sealed class AIMoveTargetSelector : EngineObject
                 yield = false;
                 break;
             case 1:
-                _ = StrategicMap.Current.MoveControl.Activate(_settings);
+                _ = GetEngine().StrategicMap.MoveControl.Activate(_settings);
                 bool processing = true;
-                while (StrategicMap.Current.AIExecutor.ProcessTimeLeft > 0 && processing)
+                while (GetEngine().StrategicMap.AIExecutor.ProcessTimeLeft > 0 && processing)
                 {
-                    processing = StrategicMap.Current.MoveControl.Process();
+                    processing = GetEngine().StrategicMap.MoveControl.Process();
                 }
 
                 yield = processing;
-                StrategicMap.Current.MoveControl.Deactivate();
+                GetEngine().StrategicMap.MoveControl.Deactivate();
                 if (_settings.Status != MoveControlSettingsStatus.Processing)
                 {
                     _state = 2;
@@ -295,14 +295,15 @@ public sealed class AIMoveTargetSelector : EngineObject
                             if (Mode.Contains(AIMoveTargetSelectorModes.CreateMovePaths))
                             {
                                 target.MovePath = [];
-                                _ = StrategicMap.Current.MoveControl.Activate(_settings);
-                                StrategicMap.Current.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
+                                StrategicMap strategicMap = GetEngine().StrategicMap;
+                                _ = strategicMap.MoveControl.Activate(_settings);
+                                strategicMap.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
                                 if (target.MovePath.Count != 0)
                                 {
                                     _ = _bufferedTargets.AddChild(target);
                                 }
 
-                                StrategicMap.Current.MoveControl.Deactivate();
+                                GetEngine().StrategicMap.MoveControl.Deactivate();
                             }
                             else
                             {
@@ -369,12 +370,12 @@ public sealed class AIMoveTargetSelector : EngineObject
                 yield = false;
                 break;
             case 11:
-                _ = StrategicMap.Current.MoveControl.Activate(_settings);
-                while (StrategicMap.Current.MoveControl.Process() && StrategicMap.Current.AIExecutor.ProcessTimeLeft > 0)
+                _ = GetEngine().StrategicMap.MoveControl.Activate(_settings);
+                while (GetEngine().StrategicMap.MoveControl.Process() && GetEngine().StrategicMap.AIExecutor.ProcessTimeLeft > 0)
                 {
                 }
 
-                StrategicMap.Current.MoveControl.Deactivate();
+                GetEngine().StrategicMap.MoveControl.Deactivate();
                 if (_settings.Status != MoveControlSettingsStatus.Processing)
                 {
                     _state = 12;
@@ -401,9 +402,10 @@ public sealed class AIMoveTargetSelector : EngineObject
                             target.TransporterId = _transporter.UnitId;
                             target.Data = data;
                             target.MovePath = [];
-                            _ = StrategicMap.Current.MoveControl.Activate(_settings);
-                            StrategicMap.Current.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
-                            StrategicMap.Current.MoveControl.Deactivate();
+                            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                            _ = engineStrategicMap.MoveControl.Activate(_settings);
+                            engineStrategicMap.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
+                            GetEngine().StrategicMap.MoveControl.Deactivate();
                             _ = _bufferedTargets.AddChild(target);
                             _ = target.Release();
                             found = true;
@@ -441,7 +443,7 @@ public sealed class AIMoveTargetSelector : EngineObject
         try
         {
             bool yield = false;
-            while (!yield && _state != -1 && StrategicMap.Current.AIExecutor.ProcessTimeLeft > 0)
+            while (!yield && _state != -1 && GetEngine().StrategicMap.AIExecutor.ProcessTimeLeft > 0)
             {
                 yield = ProcessStates();
             }

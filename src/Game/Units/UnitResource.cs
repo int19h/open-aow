@@ -146,12 +146,13 @@ public class UnitResource : TroopResource
     public override bool DropUnit(int hexX, int hexY, int hexLevel)
     {
         sbyte player;
-        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
-            player = (sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetPlayer());
+            player = (sbyte)PlayerIdExtensions.ToOriginal(strategicMap.MapContainer.GetField(hexX, hexY, hexLevel).GetPlayer());
             if (player == -1)
             {
-                player = (sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.EditorPlayer);
+                player = (sbyte)PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.EditorPlayer);
             }
         }
         else
@@ -175,7 +176,7 @@ public class UnitResource : TroopResource
     // UnitRes.PAS:111
     public int GetTransportCapacity()
     {
-        int result = GamePack.Current.AbilityControl[50].GetLevel(Abilities[(int)Unit.Rank.None]).TruncateToByte();
+        int result = GetEngine().GamePack.AbilityControl[50].GetLevel(Abilities[(int)Unit.Rank.None]).TruncateToByte();
         return result < _transportCapacity ? _transportCapacity : result;
     }
 

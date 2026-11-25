@@ -42,7 +42,7 @@ public class AIGroupControlTargetList(CustomNode? owner) : ReferenceNode(owner),
     {
         bool result = true;
         int count = Count;
-        StrategicMap.Current.AIExecutor.UseProcessTime(count * 20);
+        GetEngine().StrategicMap.AIExecutor.UseProcessTime(count * 20);
         for (int i = Count - 1; i >= 0; i--)
         {
             AIGroupControlTarget target = this[i];

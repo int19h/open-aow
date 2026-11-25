@@ -12,8 +12,6 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 
-using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Units;
@@ -45,7 +43,7 @@ public class Unit(CustomNode? owner) : Troop(owner)
         if (persister.Loading)
         {
             short resourceIndex = unchecked((short)persister.UInt16("UnitResourceIndex", value: 0));
-            UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(resourceIndex);
+            UnitResource? resource = GetEngine().GamePack.UnitResources.GetUnitResource(resourceIndex);
             UnitResource = resource;
             if (resource is null)
             {
@@ -207,11 +205,11 @@ public class Unit(CustomNode? owner) : Troop(owner)
     {
         if (!GetAbilityEnabled(126))
         {
-            return GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitResource.UnitGraphicsResourceIndex).GetFaceImage();
+            return GetEngine().GamePack.UnitGraphicsResources.GetUnitGraphicsResource(UnitResource.UnitGraphicsResourceIndex).GetFaceImage();
         }
 
         int faceIndex = ((CosmagicSurgeryEnchantment)(object?)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
-        return GamePack.Current.FaceResources.GetFaceResource(faceIndex)?.GetCellImage();
+        return GetEngine().GamePack.FaceResources.GetFaceResource(faceIndex)?.GetCellImage();
     }
 
     // Unit.PAS:1917
@@ -249,7 +247,7 @@ public class Unit(CustomNode? owner) : Troop(owner)
     public override void NewDay()
     {
         base.NewDay();
-        if (StrategicMap.Current.Day == 1)
+        if (GetEngine().StrategicMap.Day == 1)
         {
             SetAbilityCount(0);
             for (int rankOrdinal = (int)Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
@@ -326,10 +324,10 @@ public class Unit(CustomNode? owner) : Troop(owner)
             switch (GetRank())
             {
                 case Rank.Silver:
-                    GamePack.Current.CombatImages[5].Show(X + 33, Y + 12, lockedSurface);
+                    GetEngine().GamePack.CombatImages[5].Show(X + 33, Y + 12, lockedSurface);
                     break;
                 case Rank.Gold:
-                    GamePack.Current.CombatImages[6].Show(X + 33, Y + 12, lockedSurface);
+                    GetEngine().GamePack.CombatImages[6].Show(X + 33, Y + 12, lockedSurface);
                     break;
                 case Rank.None:
                 default:

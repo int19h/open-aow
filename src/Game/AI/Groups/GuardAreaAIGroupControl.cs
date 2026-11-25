@@ -111,7 +111,7 @@ public class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                         settings.ArmyHexSprite = ArmyHexSprite;
                         settings.Selection = Selection;
                         settings.MovePointTable = MovePointTable;
-                        StrategicMap.Current.MoveControl.ProcessMove(settings);
+                        GetEngine().StrategicMap.MoveControl.ProcessMove(settings);
                         for (int i = Targets.Count - 1; i >= 0; i--)
                         {
                             if (settings.GetMovePointsMapCoordinate(Targets.GetTargets(i).Location) == 16777215)
@@ -146,7 +146,7 @@ public class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(owner)
             case 2:
                 if (Group.GuardLocation != Location)
                 {
-                    MapField mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Group.GuardLocation);
+                    MapField mapField = GetEngine().StrategicMap.MapContainer.GetFieldMapCoordinate(Group.GuardLocation);
                     if (mapField.GetPlayer() is null || mapField.GetPlayer() == Group.Player)
                     {
                         SetupME();

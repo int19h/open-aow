@@ -18,14 +18,15 @@ public class EndTurnAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner), I
     {
         if (!Control.Player.SingleProcessCycle)
         {
+            StrategicMap strategicMap = GetEngine().StrategicMap;
             EndTurnTokenEvent eventValue = new(null)
             {
                 Holder = CreationHolder(),
                 Player = Control.Player.PlayerIndex,
-                Day = StrategicMap.Current.Day,
+                Day = strategicMap.Day,
                 Mode = EndTurnTokenEventMode.EndTurn
             };
-            StrategicMap.Current.TokenManager.GetTokenControl(Control.Player.PlayerIndex).AddEvent(eventValue);
+            strategicMap.TokenManager.GetTokenControl(Control.Player.PlayerIndex).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }

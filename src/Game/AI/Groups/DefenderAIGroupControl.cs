@@ -3,7 +3,6 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.AI.Groups;
 
@@ -116,7 +115,7 @@ public class DefenderAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(o
 
                 break;
             case 6:
-                Player? player = StrategicMap.Current.Players.GetPlayers(Group.Player);
+                Player? player = GetEngine().StrategicMap.Players.GetPlayers(Group.Player);
                 if (player.PlayerType is PlayerType.Cpu3 or PlayerType.Cpu4 or PlayerType.Cpu5)
                 {
                     State = 0;

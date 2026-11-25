@@ -158,6 +158,9 @@ public sealed partial class RuleConstructionTests
             ((Troop)source).GroupId = 29;
             engine.StoreEngineObject(memory, objectValue: source, progress: null);
             memory.Position = 0;
+            // The load runs on this engine. Its pack is the pack the global already holds, so a
+            // pack read during the load sees that pack. The stored image is already written.
+            engine.GamePack = set;
             result = engine.RetrieveEngineObject(memory, progress: null);
             Troop loaded = Assert.IsAssignableFrom<Troop>(result);
             Assert.IsType(type, @object: loaded);

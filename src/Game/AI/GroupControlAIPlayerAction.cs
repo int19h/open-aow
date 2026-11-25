@@ -4,8 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Nodes;
 using Aow.Game.AI.Groups;
 using Aow.Game.Session;
-
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.AI;
@@ -32,7 +30,7 @@ public class GroupControlAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
         {
             bool busy = false;
             bool done = false;
-            while (!done && !busy && StrategicMap.Current.AIExecutor.ProcessTimeLeft > 0)
+            while (!done && !busy && GetEngine().StrategicMap.AIExecutor.ProcessTimeLeft > 0)
             {
                 if (_groupControl is null)
                 {

@@ -55,7 +55,7 @@ public sealed class AIMoveExecutorUnit(CustomNode? owner) : EngineObject(owner)
     // AIGroup.pas:4301
     public bool Validate()
     {
-        bool result = StrategicMap.Current.UnitControl.FindUnit(UnitId) == Troop;
+        bool result = GetEngine().StrategicMap.UnitControl.FindUnit(UnitId) == Troop;
         if (result && !Troop.UnitStatus.Contains(UnitStatuses.Killed))
         {
             if (Status == AIMoveExecutorUnitStatus.Moving)

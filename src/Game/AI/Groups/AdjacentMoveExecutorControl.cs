@@ -83,7 +83,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     settings.MovePointsMax = Executor.MovePointsMax;
                     settings.SetupArmy(armyHexSprite, selection: armySelection);
                     settings.SetDestinationPosition(Executor.Destination);
-                    StrategicMap.Current.MoveControl.ProcessMove(settings);
+                    GetEngine().StrategicMap.MoveControl.ProcessMove(settings);
                     AdjacentArmy adjacent = new(_adjacentArmies);
                     adjacent.Path.Assign(settings.Path);
                     adjacent.Moves = armyHexSprite.Army.Moves(armySelection);

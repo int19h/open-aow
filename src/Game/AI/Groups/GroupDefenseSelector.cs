@@ -44,8 +44,8 @@ public sealed class GroupDefenseSelector : IDisposable
     {
         bool result = false;
         MapCoordinate location = new((sbyte)X, (sbyte)Y, (sbyte)L);
-        DefensePriority priority = (DefensePriority)StrategicMap.Current.MapContainer.GetField(X, Y, L).GetDefensePriority();
-        Player? p = StrategicMap.Current.Players.GetPlayers(player);
+        DefensePriority priority = (DefensePriority)Creator.GetEngine().StrategicMap.MapContainer.GetField(X, Y, L).GetDefensePriority();
+        Player? p = Creator.GetEngine().StrategicMap.Players.GetPlayers(player);
         for (int i = p.AIGroups.Count - 1; i >= 0; i--)
         {
             AIGroup group = p.AIGroups.GetGroups(i);
@@ -108,7 +108,7 @@ public sealed class GroupDefenseSelector : IDisposable
     {
         DefenseRequirements strengths = default;
         Defenders.Clear();
-        MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(L);
+        MapLevel level = Creator.GetEngine().StrategicMap.MapContainer.GetMapLevel(L);
         DefenseLocation = MapCoordinate.None;
         UnitUserList candidates = new(null) { Holder = Creator.CreationHolder() };
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);
@@ -206,7 +206,7 @@ public sealed class GroupDefenseSelector : IDisposable
             result = Defenders.Count == 0;
         }
 
-        StrategicMap.Current.AIExecutor.UseProcessTime(30);
+        Creator.GetEngine().StrategicMap.AIExecutor.UseProcessTime(30);
         return result;
     }
 

@@ -99,7 +99,7 @@ public sealed class UnitControl(CustomNode? owner) : EngineObject(owner)
                     }
                     else
                     {
-                        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+                        if (GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
                         {
                             troop.UnitId = GetFreeId();
                             HashTables.Add(UnitTable, key: troop.UnitId, value: troop);

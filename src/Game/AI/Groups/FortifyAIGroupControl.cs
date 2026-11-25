@@ -129,7 +129,7 @@ public class FortifyAIGroupControl : AIGroupControl
                         if (Targets.GetTargets(i).Location != Location)
                         {
                             AIGroupControlTarget targetLocation = Targets.GetTargets(i);
-                            ArmyHexSprite army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(targetLocation.Location).GetArmyHexSprite();
+                            ArmyHexSprite army = GetEngine().StrategicMap.MapContainer.GetFieldMapCoordinate(targetLocation.Location).GetArmyHexSprite();
                             if (army is not null)
                             {
                                 int count = army.Army.Units.Count;
@@ -284,7 +284,7 @@ public class FortifyAIGroupControl : AIGroupControl
 
                 break;
             case 13:
-                city = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite<City>();
+                city = GetEngine().StrategicMap.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite<City>();
                 if (city is not null && city.ActiveAction == CityAction.Migrate)
                 {
                     defense = new AIGroupDefenseControl(null)
@@ -353,7 +353,7 @@ public class FortifyAIGroupControl : AIGroupControl
             case 17:
                 if (StrengthMax >= _enemyStrength)
                 {
-                    city = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite<City>();
+                    city = GetEngine().StrategicMap.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite<City>();
                     if (city is not null && city.ActiveAction == CityAction.Migrate)
                     {
                         defense = new AIGroupDefenseControl(null)
@@ -406,26 +406,26 @@ public class FortifyAIGroupControl : AIGroupControl
                     if (city.WallType == 0)
                     {
                         int fortifyCost = city.FortifyCost();
-                        if (StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.RequestExpense(fortifyCost, mana: 0))
+                        if (GetEngine().StrategicMap.Players.GetPlayers(Group.Player).AIBudget.RequestExpense(fortifyCost, mana: 0))
                         {
                             if (city.Fortify(false))
                             {
                                 int aCityFortifyCost = city.FortifyCost();
-                                _ = StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.ExpenseMade(aCityFortifyCost, mana: 0);
+                                _ = GetEngine().StrategicMap.Players.GetPlayers(Group.Player).AIBudget.ExpenseMade(aCityFortifyCost, mana: 0);
                             }
                         }
                     }
                     else
                     {
-                        if (city.WallType == 1 && StrategicMap.Current.Day > 29)
+                        if (city.WallType == 1 && GetEngine().StrategicMap.Day > 29)
                         {
                             int fortifyCost = city.FortifyCost();
-                            if (StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.RequestExpense(fortifyCost, mana: 0))
+                            if (GetEngine().StrategicMap.Players.GetPlayers(Group.Player).AIBudget.RequestExpense(fortifyCost, mana: 0))
                             {
                                 if (city.Fortify(false))
                                 {
                                     int aCityFortifyCost = city.FortifyCost();
-                                    _ = StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.ExpenseMade(aCityFortifyCost, mana: 0);
+                                    _ = GetEngine().StrategicMap.Players.GetPlayers(Group.Player).AIBudget.ExpenseMade(aCityFortifyCost, mana: 0);
                                 }
                             }
                         }
@@ -495,7 +495,7 @@ public class FortifyAIGroupControl : AIGroupControl
     public City? FortifyCity()
     {
         return _fortifyLocation != MapCoordinate.None
-            ? StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_fortifyLocation).FindNoneTransparentHexSprite<City>()
+            ? GetEngine().StrategicMap.MapContainer.GetFieldMapCoordinate(_fortifyLocation).FindNoneTransparentHexSprite<City>()
             : null;
     }
 
@@ -517,7 +517,7 @@ public class FortifyAIGroupControl : AIGroupControl
         settings.Selection = 0;
         int moveTypesToInt32 = (byte)MoveTypes.Flying;
         settings.MovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
-        StrategicMap.Current.MoveControl.ProcessMove(settings);
+        GetEngine().StrategicMap.MoveControl.ProcessMove(settings);
         BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, Group.Player, relation: Group.IndependentRelation, requests: BattleFieldInfoRequests.IgnorePassiveIndependents, damageTypes: AbilityRules.AllDamageTypes & ~DamageTypes.Wall);
         info.FriendlyRelations = DiplomaticRelations.None;
         query.Info = info;
@@ -546,9 +546,10 @@ public class FortifyAIGroupControl : AIGroupControl
     {
         _requiredStrength = _enemyStrength;
         int strength;
-        if (StrategicMap.Current.Day > 5)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Day > 5)
         {
-            strength = StrategicMap.Current.Day / 5 * 5_000;
+            strength = strategicMap.Day / 5 * 5_000;
             if (strength > 50_000)
             {
                 strength = 50_000;
@@ -560,12 +561,12 @@ public class FortifyAIGroupControl : AIGroupControl
             }
         }
 
-        if (_requiredStrength > 0 && StrategicMap.Current.Day < 10)
+        if (_requiredStrength > 0 && strategicMap.Day < 10)
         {
-            _requiredStrength = Round(_requiredStrength * StrategicMap.Current.Day * 0.1);
+            _requiredStrength = Round(_requiredStrength * strategicMap.Day * 0.1);
         }
 
-        PlayerStatistics statistics = StrategicMap.Current.Players.GetPlayers(Group.Player).Statistics;
+        PlayerStatistics statistics = GetEngine().StrategicMap.Players.GetPlayers(Group.Player).Statistics;
         if (statistics.TurnInfo.Count > 0)
         {
             int count = statistics.TurnInfo.Count;
@@ -582,9 +583,10 @@ public class FortifyAIGroupControl : AIGroupControl
                 strength = 50_000;
             }
 
-            if (StrategicMap.Current.Day < 10)
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+            if (engineStrategicMap.Day < 10)
             {
-                strength = Round(strength * StrategicMap.Current.Day * 0.1);
+                strength = Round(strength * engineStrategicMap.Day * 0.1);
             }
 
             if (strength > _requiredStrength)
@@ -621,7 +623,7 @@ public class FortifyAIGroupControl : AIGroupControl
 
             if (passive.Count != 0)
             {
-                AIGroup? group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: GroupBehavior.Passive);
+                AIGroup? group = GetEngine().StrategicMap.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: GroupBehavior.Passive);
                 _ = group.AddUnits(passive.Units);
                 _ = group.Release();
             }
@@ -640,7 +642,7 @@ public class FortifyAIGroupControl : AIGroupControl
         {
             i -= 1;
             Troop? troop = Group.Units.GetUnit(i);
-            result = troop.GetAbilityEnabled(52) && GamePack.Current.AbilityControl.GetAbility<SpellCastingAbility>(52).CanCastBreachWallSpell(troop);
+            result = troop.GetAbilityEnabled(52) && GetEngine().GamePack.AbilityControl.GetAbility<SpellCastingAbility>(52).CanCastBreachWallSpell(troop);
         }
 
         return result;

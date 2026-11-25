@@ -73,7 +73,7 @@ public sealed class ArmyView(CustomNode owner) : Army(owner)
                 Troop unit = army.Units.GetUnit(i);
                 int count = Units.Count;
                 MoraleValues[count - 1] = unit.MoraleValue;
-                for (int player = 1, lastPlayer = StrategicMap.Current.Players.GetCount() - 1; player <= lastPlayer; player++)
+                for (int player = 1, lastPlayer = GetEngine().StrategicMap.Players.GetCount() - 1; player <= lastPlayer; player++)
                 {
                     SetUnitConcealedForPlayer(value: army.GetUnitConcealedForPlayer(i, player: PlayerId.FromOriginal((sbyte)player)), index: Units.Count - 1, player: PlayerId.FromOriginal((sbyte)player));
                 }

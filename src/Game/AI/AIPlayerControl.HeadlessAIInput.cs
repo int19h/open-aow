@@ -3,8 +3,6 @@
 using Aow.Game.AI.Groups;
 using Aow.Game.Host;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.AI;
 
 public sealed partial class AIPlayerControl
@@ -13,7 +11,7 @@ public sealed partial class AIPlayerControl
     public bool Process(AIExecutor executor, bool tokenControlDone)
     {
         HeadlessHooks.BeforeAIPlayerProcess?.Invoke();
-        if (Player.GetBusy() || !StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex))
+        if (Player.GetBusy() || !GetEngine().StrategicMap.TokenManager.PlayerReady(Player.PlayerIndex))
         {
             return false;
         }
@@ -24,7 +22,7 @@ public sealed partial class AIPlayerControl
             case AIPlayerProcessPhase.Main:
                 done = false;
                 while (!done && Actions.Count != 0 && !Player.GetBusy() &&
-                    StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex))
+                    GetEngine().StrategicMap.TokenManager.PlayerReady(Player.PlayerIndex))
                 {
                     if (MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                     {
@@ -62,12 +60,12 @@ public sealed partial class AIPlayerControl
                     SetupProcessPhase(AIPlayerProcessPhase.Loop);
                 }
 
-                return !Player.GetBusy() && StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex);
+                return !Player.GetBusy() && GetEngine().StrategicMap.TokenManager.PlayerReady(Player.PlayerIndex);
             case AIPlayerProcessPhase.Loop:
                 done = false;
                 int index = 0;
                 while (!done && index < Actions.Count && !Player.GetBusy() &&
-                    StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex))
+                    GetEngine().StrategicMap.TokenManager.PlayerReady(Player.PlayerIndex))
                 {
                     if (MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                     {
@@ -105,7 +103,7 @@ public sealed partial class AIPlayerControl
                     }
                 }
                 return Actions.Count != 0 && !Player.GetBusy() &&
-                    StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex);
+                    GetEngine().StrategicMap.TokenManager.PlayerReady(Player.PlayerIndex);
             case AIPlayerProcessPhase.None:
             default: return false;
         }

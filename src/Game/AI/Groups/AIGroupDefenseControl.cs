@@ -4,8 +4,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Units;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.AI.Groups;
 
 // selector, custom state, mode, defend mode
@@ -72,7 +70,7 @@ public class AIGroupDefenseControl : AIGroupTask
                             AIGroup? group;
                             if (index == -1)
                             {
-                                group = StrategicMap.Current.AIGroupManager.CreateGroup(GroupControl.Group.Player, relation: GroupControl.Group.IndependentRelation, behavior: GroupBehavior.Passive);
+                                group = GetEngine().StrategicMap.AIGroupManager.CreateGroup(GroupControl.Group.Player, relation: GroupControl.Group.IndependentRelation, behavior: GroupBehavior.Passive);
                                 _ = group.AddUnits(_selector.Defenders.Units);
                                 _ = group.SetupTarget(GroupControl.Location, movePoints: 0, targetType: AIGroupTargetStatus.None, mode: 2, transporterId: -1, gold: 0, mana: 0);
                                 _ = group.Release();
