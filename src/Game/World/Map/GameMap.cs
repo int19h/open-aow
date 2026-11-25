@@ -158,9 +158,6 @@ public partial class GameMap : OwningNode
         EngineMessage.InitializeMessage(out EngineMessage message, messageId: 536936471, sender: this);
         SendMessage(ref message, sender: this);
         NewFrameEventsStore.Clear();
-        // Children and the dispose tail run after this map leaves its owner. The holder keeps the
-        // engine that still holds this map in its slot.
-        Holder ??= GetEngine();
         base.Dispose();
         HexSpriteChangedEventsStore.Clear();
         TerrainChangedEventsStore.Clear();

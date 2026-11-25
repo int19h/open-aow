@@ -89,7 +89,10 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         base.PersistFields(persister);
         Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Byte);
-        if (persister.Loading || GetEngine().StrategicMap is null || GetEngine().StrategicMap.ConnectionType != PlayerConnectionType.Network)
+        // An army that reaches no engine has no map, and writes the two fields as the original did
+        // when no map was set.
+        GameEngine engine = GetEngine();
+        if (persister.Loading || engine?.StrategicMap is null || engine.StrategicMap.ConnectionType != PlayerConnectionType.Network)
         {
             Destination = persister.Coordinate(name: "Destination", value: Destination, width: CoordinateWidth.Byte);
             UserMode = persister.Set("UserMode", value: UserMode);

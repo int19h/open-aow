@@ -91,9 +91,9 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                 MoveControlSettings settings = new(null) { Holder = CreationHolder() };
                 settings.SetupArmy(ArmyHexSprite, Selection);
                 settings.Mode |= MoveModes.AI;
-                StrategicMap strategicMap = GetEngine().StrategicMap;
                 // A human move is checked on explored terrain only. A CPU move is not. A driven
                 // human is checked the way a CPU seat is.
+                StrategicMap strategicMap = GetEngine().StrategicMap;
                 if (!HeadlessHooks.HandSeatToAI(strategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType) && strategicMap.ExplorationEnabled)
                 {
                     settings.Mode |= MoveModes.ExploredTerrainOnly;

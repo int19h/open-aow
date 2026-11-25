@@ -79,7 +79,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     // AIGroup.pas:72
     public override void Dispose()
     {
-        // A detached group can reach no engine. The original found no map then and skipped the check.
+        // A group that reaches no engine skips this check, which only raises and swallows an exception.
         StrategicMap strategicMap = GetEngine()?.StrategicMap;
         if (strategicMap is not null && strategicMap.UnitControl is null && Units.Count != 0)
         {

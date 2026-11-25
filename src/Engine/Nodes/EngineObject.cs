@@ -104,14 +104,27 @@ public class EngineObject : IDisposable, IPersistable, IOwned
 
     // Engine.pas:2558. The original walks the owners only and reads the engine global where a node
     // has no owner.
-    // The owner chain wins when it reaches an engine. The holder is the fallback when that walk
-    // reaches none, including a child whose map has already detached. A walk that loops stops.
+    // The walk tries, in order: the owner chain, the engine this node reached through its latest
+    // owner, and the holder it took at construction. A child whose map has already detached reaches
+    // the map's remembered engine through the map. A walk that loops stops.
     [ThreadStatic]
     private static int s_engineDepth;
 
+    // A walk through plain owners takes one step per node, and an override that calls the base walk
+    // takes two. The deepest chains in the tree run from a node on the map through its army or sprite,
+    // the map field, the map level, the map container and the map to the engine, about a dozen steps
+    // with the two-step overrides of the map level and the map container. The limit only stops a
+    // loop, so it leaves room for the deeper editor and UI chains of later slices.
+    private const int MaxEngineDepth = 128;
+
+    // The engine this node last reached through an owner. Every attach to an owner that reaches an
+    // engine refreshes it, and so does a detach while the owner still reaches one. A detach never
+    // clears it, so a node that left its owner still reaches the engine of its latest owner.
+    private GameEngine? _rememberedEngine;
+
     public virtual GameEngine? GetEngine()
     {
-        if (s_engineDepth > 32)
+        if (s_engineDepth > MaxEngineDepth)
         {
             return null;
         }
@@ -119,7 +132,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
         s_engineDepth++;
         try
         {
-            return WalkEngine() as GameEngine;
+            return WalkEngine();
         }
         finally
         {
@@ -127,11 +140,9 @@ public class EngineObject : IDisposable, IPersistable, IOwned
         }
     }
 
-    // The base walk, without this node's override. Remembering the engine during dispose uses this
-    // so an override that already dropped its own state is not called. A holder that is the engine
-    // answers itself. The result is typed as an engine object so no game type is named here.
-    private EngineObject? WalkEngine()
-        => _owner?.GetEngine() ?? (Holder is null || ReferenceEquals(Holder, this) ? null : Holder.GetEngine());
+    // The base walk, without this node's override. A holder that is the engine answers itself.
+    private GameEngine? WalkEngine()
+        => _owner?.GetEngine() ?? _rememberedEngine ?? (Holder is null || ReferenceEquals(Holder, this) ? null : Holder.GetEngine());
 
     // Engine.pas:2502
     public virtual int LastMessage
@@ -176,7 +187,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
             Clear();
             if (GetEngine() is null && persister.Factory is IEnginePersistableFactory factory)
             {
-                Holder ??= factory.Engine;
+                _rememberedEngine = factory.Engine;
             }
         }
 
@@ -297,13 +308,13 @@ public class EngineObject : IDisposable, IPersistable, IOwned
         }
     }
 
-    // Keep the engine that this node can already reach, so a later break in the owner chain still
-    // finds it. An existing holder stays as construction or the load stored it.
+    // Keep the engine the owner chain reaches now, so a later break in the chain still finds it. The
+    // holder keeps its construction meaning.
     private void RememberEngine()
     {
-        if (Holder is null && WalkEngine() is { } engine)
+        if (_owner?.GetEngine() is { } engine)
         {
-            Holder = engine;
+            _rememberedEngine = engine;
         }
     }
 

@@ -78,7 +78,7 @@ internal static class ConstructionSnapshot
     {
         if (expected is JsonObject left && actual is JsonObject right)
         {
-            static bool IsEngineLink(string key) => key is "EngineObject.ConstructionHolder" or "CombatMap._slotEngine";
+            static bool IsEngineLink(string key) => key is "EngineObject.ConstructionHolder" or "EngineObject._rememberedEngine" or "CombatMap._slotEngine";
             Assert.True(left.Select(pair => pair.Key).Order(StringComparer.Ordinal)
                 .SequenceEqual(right.Select(pair => pair.Key).Where(key => left.ContainsKey(key) || !IsEngineLink(key)).Order(StringComparer.Ordinal)), userMessage: $"{path} field names differ: expected {string.Join(", ", values: left.Select(pair => pair.Key))}, actual {string.Join(", ", values: right.Select(pair => pair.Key))}");
             foreach (KeyValuePair<string, JsonNode?> pair in left)
