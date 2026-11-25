@@ -321,8 +321,10 @@ public sealed class CombatUnitSelectionControl : MoveSelector
 
         moveSettings.PathMovePoints = 0;
         TacticalBattleUnitHexSprite? unitHexSprite = (TacticalBattleUnitHexSprite?)moveSettings.MoveObject;
+        // AoWTC.pas:2850 has mmClimbing. The shipped AoWTCPCK.dpl ORs the byte 01 at 0x41dc3c, which is
+        // mmWallCrushing, so the clicked wall hex is a valid destination for Wall Crushing (CityWall.CanMoveOn).
         _combatMoveSettings.MoveFlags = TacticalBattleUnitHexSprite is not null && (TacticalBattleUnitHexSprite.SelectedAbility == 117 || TacticalBattleUnitHexSprite.SelectedAbility == 65)
-            ? (CombatMoveModes)(byte)_pathInvalid | CombatMoveModes.Climbing
+            ? (CombatMoveModes)(byte)_pathInvalid | CombatMoveModes.WallCrushing
             : (CombatMoveModes)(byte)_pathInvalid;
 
         MoveControlSettings.Reset();
