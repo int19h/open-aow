@@ -109,32 +109,41 @@ internal sealed class RunFiles(string gameRoot, string runDirectory, string? inp
     public bool SetCurrentDirectory(string path) => _files.SetCurrentDirectory(path);
     public string ExpandPath(string path) => _files.ExpandPath(path);
 
+    // A world map writes autosave.oasg and a campaign writes autosave.oacg. Both, and the original
+    // extensions, belong to the day file of the run (own-formats.md 4.2).
+    internal static bool IsAutosaveFile(string fileName)
+    {
+        string name = DelphiPaths.ExtractFileName(fileName).ToString();
+        DocumentKind[] kinds = [DocumentKind.Save, DocumentKind.CampaignSave];
+        foreach (DocumentKind kind in kinds)
+        {
+            string[] extensions = [kind.OwnExtension, kind.OriginalExtension];
+            foreach (string extension in extensions)
+            {
+                string autosave = $"autosave{extension}";
+                if (name.Equals(autosave, comparisonType: StringComparison.OrdinalIgnoreCase)
+                    || name.Equals(Game.Saves.FileBoundary.TemporaryFor(autosave), comparisonType: StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     // The autosave and its replacement temporary go to the day file of the run.
     private string Target(string path)
     {
-        if (AutoSaveTarget is null)
+        if (AutoSaveTarget is null || !IsAutosaveFile(path))
         {
             return path;
         }
 
         string name = DelphiPaths.ExtractFileName(path).ToString();
-        // The autosave goes to the day file under either extension, the one this host writes and
-        // the original one (own-formats.md 4.2).
-        DocumentKind save = DocumentKind.Save;
-        foreach (string? extension in new[] { save.OwnExtension, save.OriginalExtension })
-        {
-            string autosave = $"autosave{extension}";
-            if (name.Equals(autosave, comparisonType: StringComparison.OrdinalIgnoreCase))
-            {
-                return AutoSaveTarget;
-            }
-
-            if (name.Equals(Game.Saves.FileBoundary.TemporaryFor(autosave), comparisonType: StringComparison.OrdinalIgnoreCase))
-            {
-                return Game.Saves.FileBoundary.TemporaryFor(AutoSaveTarget);
-            }
-        }
-        return path;
+        return name.EndsWith(value: ".openaow-tmp", comparisonType: StringComparison.OrdinalIgnoreCase)
+            ? Game.Saves.FileBoundary.TemporaryFor(AutoSaveTarget)
+            : AutoSaveTarget;
     }
 
     public Stream Open(string path, FileOpenMode mode)

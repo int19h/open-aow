@@ -7,6 +7,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Draw;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Units;
@@ -91,7 +92,9 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                 settings.SetupArmy(ArmyHexSprite, Selection);
                 settings.Mode |= MoveModes.AI;
                 StrategicMap strategicMap = GetEngine().StrategicMap;
-                if (strategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human && strategicMap.ExplorationEnabled)
+                // A human move is checked on explored terrain only. A CPU move is not. A driven
+                // human is checked the way a CPU seat is.
+                if (!HeadlessHooks.HandSeatToAI(strategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType) && strategicMap.ExplorationEnabled)
                 {
                     settings.Mode |= MoveModes.ExploredTerrainOnly;
                 }
@@ -117,7 +120,9 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
         }
 
         StrategicMap engineStrategicMap = GetEngine().StrategicMap;
-        if (!result && engineStrategicMap.Players.GetPlayers(_player).PlayerType != PlayerType.Human && engineStrategicMap.Players.GetPlayers(_player).AIControl.MoveExecutor.Status == AIMoveExecutorStatus.Busy)
+        // A rejected CPU move invalidates the executor so the group picks another. A driven human
+        // does the same. A human who plays the turn leaves the executor alone.
+        if (!result && HeadlessHooks.HandSeatToAI(engineStrategicMap.Players.GetPlayers(_player).PlayerType) && engineStrategicMap.Players.GetPlayers(_player).AIControl.MoveExecutor.Status == AIMoveExecutorStatus.Busy)
         {
             engineStrategicMap.Players.GetPlayers(_player).AIControl.MoveExecutor.InvalidateMove(ArmyHexSprite, Selection);
         }

@@ -12,6 +12,7 @@ using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Draw.Images;
 using Aow.Game.Events;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.Units;
@@ -1703,10 +1704,12 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     }
 
     // Player.PAS:1348
+    // A driven human keeps its type. While the host drives that seat, this check reads the CPU
+    // attack table, the same read a CPU seat makes. A negative index hits the table default.
     public bool ValidAttackRelation(PlayerId? player, int independentRelation)
     {
         Assert(PlayerIndex != PlayerId.Independent, message: "", file: "Player.PAS", line: 1390);
-        if (PlayerType is (>= PlayerType.Cpu1 and <= PlayerType.Cpu3) or PlayerType.Cpu4 or PlayerType.Cpu5)
+        if (PlayerType is (>= PlayerType.Cpu1 and <= PlayerType.Cpu3) or PlayerType.Cpu4 or PlayerType.Cpu5 || UsesCpuAttackTable())
         {
             return AIValidAttackPlayers[PlayerIdExtensions.ToOriginal(player)];
         }
@@ -1716,6 +1719,8 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
             return diplomaticRelation is DiplomaticRelation.War or DiplomaticRelation.Unknown;
         }
     }
+
+    private bool UsesCpuAttackTable() => PlayerType == PlayerType.Human && HeadlessHooks.DriveHumanSeats;
 
     // Player.PAS:1398
     public bool ChangePlayerSettings(string settings, string error)

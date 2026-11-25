@@ -1,17 +1,12 @@
 #nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Audio;
-
 using Aow.Game.Events;
-
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Magic.Spells;
-
 using Aow.Game.World.Map;
-
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.DelphiStrings;
 
@@ -79,7 +74,7 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
         }
 
         base.NewTurn(player);
-        if (StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+        if (HeadlessHooks.HandSeatToAI(StrategicMap.Current.Players.GetPlayers(player).PlayerType))
         {
             if (StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
             {
@@ -224,7 +219,7 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
             {
                 if (StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
                 {
-                    if (StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Human)
+                    if (HeadlessHooks.HandSeatToAI(StrategicMap.Current.Players.GetPlayers(i).PlayerType))
                     {
                         StrategicMap.Current.AIExecutor.DeactivatePlayer(PlayerId.FromOriginal((sbyte)i));
                     }
@@ -266,7 +261,7 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
             Player? player = StrategicMap.Current.Players.GetPlayers(i);
-            if (player.Status == PlayerStatus.Playing && player.PlayerType != PlayerType.Human)
+            if (player.Status == PlayerStatus.Playing && HeadlessHooks.HandSeatToAI(player.PlayerType))
             {
                 _ = StrategicMap.Current.AIExecutor.ActivatePlayer(PlayerId.FromOriginal((sbyte)i));
             }

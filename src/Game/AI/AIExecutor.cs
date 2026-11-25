@@ -85,6 +85,9 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
         _ => -1,
     };
 
+    // The host tests read which seats the executor is driving.
+    internal bool Drives(PlayerId? player) => _players.IndexOf((byte)PlayerIdExtensions.ToOriginal(player)) != -1;
+
     // AI.pas:617
     public bool ActivatePlayer(PlayerId? player)
     {
