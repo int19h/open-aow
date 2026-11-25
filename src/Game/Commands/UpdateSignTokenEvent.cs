@@ -36,12 +36,12 @@ public class UpdateSignTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Sign.pas:214
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        Sign sign = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Sign>(Sign.ClassId);
+        Sign sign = GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Sign>(Sign.ClassId);
         if (sign is not null)
         {
             sign.SetText(Text);
             sign.TextSeen.Clear();
-            sign.TextSeen[PlayerIdExtensions.ToOriginal(StrategicMap.Current.CurrentPlayer)] = true;
+            sign.TextSeen[PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.CurrentPlayer)] = true;
             return ExecuteResult.Done;
         }
         else

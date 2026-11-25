@@ -49,19 +49,22 @@ public class VortexTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(o
         if (value == 0)
         {
             _angle = 0;
-            Spell? spell = GamePack.Current.SpellControl[EventSpellId];
-            GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
-            _ = StrategicMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, radius: 2);
-            if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(Location.X, Location.Y, L: Location.MapLevel, radius: 2))
+            GamePack gamePack = GetEngine().GamePack;
+            Spell? spell = gamePack.SpellControl[EventSpellId];
+            gamePack.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
+            _ = GetEngine().StrategicMap.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, radius: 2);
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (source.Player == strategicMap.SeatedPlayer || strategicMap.Watching(Location.X, Location.Y, L: Location.MapLevel, radius: 2))
             {
-                _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);
+                _ = GetEngine().GamePack.SpellControl[EventSpellId].CastSounds.Play(0);
             }
 
             Animation animation = new(null, show: ShowAnimation) { Holder = CreationHolder() };
             _animation = animation;
             animation.AnimationLevel = 27;
-            animation.AnimationMap = StrategicMap.Current;
-            animation.Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16);
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+            animation.AnimationMap = engineStrategicMap;
+            animation.Tag = (engineStrategicMap.ViewWidth & 0xFFFF) | (engineStrategicMap.ViewHeight << 16);
             animation.Activate();
         }
         if (value == 80)
@@ -136,13 +139,14 @@ public class VortexTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(o
     // GlobalTargetSpells.pas:1945
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (StrategicMap.Current.ViewMapLevel == Location.MapLevel)
+        StrategicMap viewMapLevelStrategicMap = GetEngine().StrategicMap;
+        if (viewMapLevelStrategicMap.ViewMapLevel == Location.MapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out int pixelX, out int pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
             _angle = _angle + 20 + (_animation.FrameCounter / 5);
-            RandSeed = StrategicMap.Current.InitialRandomSeed;
+            RandSeed = viewMapLevelStrategicMap.InitialRandomSeed;
             for (int i = 0; i <= 200; i++)
             {
                 int direction = Random(360);
@@ -161,7 +165,7 @@ public class VortexTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(o
                     {
                         int x = Round((double)Math.Cos(angle) * radius) + xShift;
                         int y = Round((double)((double)Math.Sin(angle) * radius) / 1.75) + height;
-                        _ = GamePack.Current.SpellControl[70].CastImages.Show(0, pixelX + x, pixelY - y, frame: 0, lockedSurface);
+                        _ = GetEngine().GamePack.SpellControl[70].CastImages.Show(0, pixelX + x, pixelY - y, frame: 0, lockedSurface);
                         angle = (float)((double)0.035 + angle);
                     }
                 }

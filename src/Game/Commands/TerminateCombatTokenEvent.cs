@@ -4,8 +4,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Net;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Commands;
 
 public class TerminateCombatTokenEvent(CustomNode owner) : TokenEvent(owner)
@@ -17,7 +15,7 @@ public class TerminateCombatTokenEvent(CustomNode owner) : TokenEvent(owner)
     // CombatTE.pas:152
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        StrategicMap.Current.DestroyCombat();
+        GetEngine().StrategicMap.DestroyCombat();
         return ExecuteResult.Done;
     }
 }

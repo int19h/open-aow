@@ -57,19 +57,20 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode? owner) : CombatMoveTok
                         Unit.UnitHexSprite.CancelMove();
                         Unit.UnitHexSprite.Unselect();
                         Unit.UnitHexSprite.SelectedAbility = AbilityId;
-                        bool notExplorationEnabled = !CombatMap.Current.ExplorationEnabled;
+                        CombatMap combatMap = GetEngine().CombatMap;
+                        bool notExplorationEnabled = !combatMap.ExplorationEnabled;
                         if (!notExplorationEnabled)
                         {
                             int hexY = Unit.UnitHexSprite.HexY;
                             int hexX = Unit.UnitHexSprite.HexX;
-                            notExplorationEnabled = CombatMap.Current.MapContainer.GetField(hexX, hexY, 0).GetExplored(CombatMap.Current.SeatedPlayer);
+                            notExplorationEnabled = combatMap.MapContainer.GetField(hexX, hexY, 0).GetExplored(combatMap.SeatedPlayer);
                         }
 
                         if (notExplorationEnabled)
                         {
                             int hexY = Unit.UnitHexSprite.HexY;
                             int hexX = Unit.UnitHexSprite.HexX;
-                            CombatMap.Current.MakeVisible(hexX, hexY, 0, radius: 5);
+                            combatMap.MakeVisible(hexX, hexY, 0, radius: 5);
                         }
 
                         int fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
@@ -94,7 +95,8 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode? owner) : CombatMoveTok
                                 Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepUp);
                                 PathStep path = Path[0];
                                 PathStep path2 = Path[0];
-                                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(path2.Location.X, path.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
+                                CombatMap engineCombatMap = GetEngine().CombatMap;
+                                hexSprite = engineCombatMap.MapContainer.MapLevels[0].GetField(path2.Location.X, path.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                                 PreviousUnit = hexSprite?.Unit;
 
                                 if (PreviousUnit is not null && AbilityId != 117)
@@ -111,12 +113,12 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode? owner) : CombatMoveTok
                                     {
                                         PathStep path3 = Path[0];
                                         PathStep path4 = Path[0];
-                                        _wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path4.Location.X, path3.Location.Y).FindOwnedChild<CityWall>(CityWall.ClassId);
+                                        _wall = engineCombatMap.MapContainer.MapLevels[0].GetField(path4.Location.X, path3.Location.Y).FindOwnedChild<CityWall>(CityWall.ClassId);
                                         if (_wall is null)
                                         {
                                             PathStep path5 = Path[0];
                                             PathStep path6 = Path[0];
-                                            _wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path6.Location.X, path5.Location.Y).FindOwnedChild(2_229_510) as CityWall;
+                                            _wall = engineCombatMap.MapContainer.MapLevels[0].GetField(path6.Location.X, path5.Location.Y).FindOwnedChild(2_229_510) as CityWall;
                                         }
 
                                         if (_wall is null && AbilityId == 117)
@@ -163,7 +165,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode? owner) : CombatMoveTok
                         {
                             if (Unit.UnitHexSprite.ActionDone)
                             {
-                                _effect = CombatMap.Current.AddEffect(_effectType);
+                                _effect = GetEngine().CombatMap.AddEffect(_effectType);
                                 _effect.AbilityIndex = AbilityId;
                                 point = new Point3D();
                                 int hexY = PreviousUnit.UnitHexSprite.HexY;
@@ -185,14 +187,14 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode? owner) : CombatMoveTok
                                 {
                                     case 117:
                                         Step = TokenStep.End;
-                                        RandSeed = StrategicMap.Current.Random(16777215);
+                                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                                         int defense = _wall.GetDefense();
                                         int executeDamageRole = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[0], attackDefense: TacticalTables.TacticalBattleAttack[0] - defense);
                                         _wall.SetHitPoints(_wall.HitPoints - executeDamageRole);
                                         Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepBack);
                                         break;
                                     case 65:
-                                        _effect = CombatMap.Current.AddEffect(_effectType);
+                                        _effect = GetEngine().CombatMap.AddEffect(_effectType);
                                         _effect.AbilityIndex = AbilityId;
                                         point = new Point3D();
                                         PathStep path = Path[1];
@@ -243,7 +245,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode? owner) : CombatMoveTok
                                                 i = ((TacticalTables.RangedAttackDirection[Unit.UnitHexSprite.ActionFrame] + Unit.UnitHexSprite.Direction) % 6) + 1;
                                                 PathStep path = Path[1];
                                                 HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, hexNumber: i, ref x, ref y);
-                                                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
+                                                hexSprite = GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                                                 if (hexSprite is null || hexSprite == Unit.UnitHexSprite)
                                                 {
                                                     PreviousUnit = null;
@@ -256,14 +258,14 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode? owner) : CombatMoveTok
                                                     }
                                                     else
                                                     {
-                                                        RandSeed = StrategicMap.Current.Random(16777215);
+                                                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                                                         Strike = CombatObject.CreateStrikeCombatAction(Unit, target: hexSprite.Unit, defensive: true);
                                                         if (Strike.Damage > 0)
                                                         {
                                                             hexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                                             Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.RoundAttackHit);
                                                             TacticalBattleUnit.MakeHitBlood(hexSprite.Unit, Strike.Damage);
-                                                            CombatMap.Current.Combat.ExecuteCombatAction(Strike);
+                                                            GetEngine().CombatMap.Combat.ExecuteCombatAction(Strike);
                                                         }
                                                         else
                                                         {
@@ -295,12 +297,12 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode? owner) : CombatMoveTok
                                 {
                                     // GetAbility asserts on a negative id. The touch switch did nothing for one, so a negative id stays off that lookup.
                                     CombatAction? touchAction = AbilityId >= 0
-                                        ? GamePack.Current.AbilityControl[AbilityId]?.CreateTouchMoveCombatAction(Unit, target: PreviousUnit)
+                                        ? GetEngine().GamePack.AbilityControl[AbilityId]?.CreateTouchMoveCombatAction(Unit, target: PreviousUnit)
                                         : null;
                                     if (touchAction is not null)
                                     {
                                         _successful = touchAction.TouchSucceeded;
-                                        CombatMap.Current.Combat.ExecuteCombatAction(touchAction);
+                                        GetEngine().CombatMap.Combat.ExecuteCombatAction(touchAction);
                                         _ = touchAction.Release();
                                         if (touchAction is PossessCombatAction)
                                         {
@@ -328,7 +330,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode? owner) : CombatMoveTok
                                 {
                                     if (!_successful && PreviousUnit is not null && PreviousUnit.GetEnabled() && !PreviousUnit.GetLocked() && CombatObject.MeleeDamageTypes(PreviousUnit) != DamageTypes.None && PreviousUnit.Side != Unit.Side)
                                     {
-                                        RandSeed = StrategicMap.Current.Random(16777215);
+                                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                                         Strike = CombatObject.CreateStrikeCombatAction(PreviousUnit, target: Unit, defensive: true);
                                         if (Strike.Damage == 0)
                                         {
@@ -368,7 +370,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode? owner) : CombatMoveTok
                                                 {
                                                     PathStep path = Path[1];
                                                     HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, hexNumber: i, ref x, ref y);
-                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
+                                                    GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
                                                     EffectPaths.CreateFire(50, x, y, engine: GetEngine());
                                                 }
 
@@ -404,12 +406,12 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode? owner) : CombatMoveTok
                             HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out i, out x);
                             if ((Strike.DamageTypes & ~Strike.Effects) != DamageTypes.None)
                             {
-                                CombatEvents.MakeDamageEffectHexSpriteList(i + Unit.UnitHexSprite.OffsetX, x + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.DamageTypes & ~Strike.Effects, resisted: false);
+                                CombatEvents.MakeDamageEffectHexSpriteList(i + Unit.UnitHexSprite.OffsetX, x + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.DamageTypes & ~Strike.Effects, resisted: false, engine: GetEngine()!);
                             }
 
                             if (Strike.Effects != DamageTypes.None)
                             {
-                                CombatEvents.MakeDamageEffectHexSpriteList(i + Unit.UnitHexSprite.OffsetX, x + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.Effects, resisted: true);
+                                CombatEvents.MakeDamageEffectHexSpriteList(i + Unit.UnitHexSprite.OffsetX, x + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.Effects, resisted: true, engine: GetEngine()!);
                             }
 
                             Step = TokenStep.ExecuteEndStrike;
@@ -428,7 +430,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode? owner) : CombatMoveTok
                         {
                             if (Strike.Damage > 0)
                             {
-                                CombatMap.Current.Combat.ExecuteCombatAction(Strike);
+                                GetEngine().CombatMap.Combat.ExecuteCombatAction(Strike);
                             }
 
                             if (Unit.GetEnabled())
@@ -469,12 +471,13 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode? owner) : CombatMoveTok
                     Unit.UnitHexSprite.SelectedAbility = -1;
                     Unit.MovePoints = 0;
                     Unit.UnitHexSprite.Unselect();
-                    if (Unit.CombatPlayer == CombatMap.Current.CurrentCombatPlayer)
+                    CombatMap getPlayersCombatMap = GetEngine().CombatMap;
+                    if (Unit.CombatPlayer == getPlayersCombatMap.CurrentCombatPlayer)
                     {
                         int hexX = Unit.UnitHexSprite.HexX;
-                        CombatMap.Current.Players.GetPlayers(CombatMap.Current.CurrentCombatPlayer).LastX = hexX;
+                        getPlayersCombatMap.Players.GetPlayers(getPlayersCombatMap.CurrentCombatPlayer).LastX = hexX;
                         int hexY = Unit.UnitHexSprite.HexY;
-                        CombatMap.Current.Players.GetPlayers(CombatMap.Current.CurrentCombatPlayer).LastY = hexY;
+                        getPlayersCombatMap.Players.GetPlayers(getPlayersCombatMap.CurrentCombatPlayer).LastY = hexY;
                     }
                 }
             }

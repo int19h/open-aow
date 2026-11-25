@@ -62,7 +62,7 @@ public class UnitSpellTokenEvent : SpellTokenEvent
         {
             i -= 1;
             int item = TargetUnitIds[i];
-            Troop? target = StrategicMap.Current.UnitControl.FindUnit(item);
+            Troop? target = GetEngine().StrategicMap.UnitControl.FindUnit(item);
             if (target is not null)
             {
                 MapCoordinate coordinate13 = target.GetLocation();
@@ -72,9 +72,10 @@ public class UnitSpellTokenEvent : SpellTokenEvent
                 result = target.GetHitPoints() != 0 && (byte)PlayerIdExtensions.ToOriginal(target.Player) == (byte)PlayerIdExtensions.ToOriginal(TargetPlayer);
                 if (result)
                 {
-                    if (GamePack.Current.SpellControl.GetSpell<UnitSpell>(EventSpellId).TargetRange != -1)
+                    GamePack gamePack = GetEngine().GamePack;
+                    if (gamePack.SpellControl.GetSpell<UnitSpell>(EventSpellId).TargetRange != -1)
                     {
-                        result = HexGeometry.DeltaHexToRadius(x, y, targetX, targetY) <= GamePack.Current.SpellControl.GetSpell<UnitSpell>(EventSpellId).TargetRange;
+                        result = HexGeometry.DeltaHexToRadius(x, y, targetX, targetY) <= gamePack.SpellControl.GetSpell<UnitSpell>(EventSpellId).TargetRange;
                     }
                 }
 
@@ -99,14 +100,14 @@ public class UnitSpellTokenEvent : SpellTokenEvent
             int x = coordinate14.X;
             int y = coordinate14.Y;
             int l = coordinate14.MapLevel;
-            GamePack.Current.SpellControl[EventSpellId].PlayDefaultCastEffects(source.Player, x, y, layer: l.TruncateToSByte());
+            GetEngine().GamePack.SpellControl[EventSpellId].PlayDefaultCastEffects(source.Player, x, y, layer: l.TruncateToSByte());
             for (int i = 0, last = _targetUnits.GetCount() - 1; i <= last; i++)
             {
                 Troop? target = _targetUnits.GetUnit(i);
                 _ = target.AddRef();
-                if (GamePack.Current.SpellControl.GetSpell<UnitSpell>(EventSpellId).ExecuteSpell(source, target, mana: EventMana, data: SpellData))
+                if (GetEngine().GamePack.SpellControl.GetSpell<UnitSpell>(EventSpellId).ExecuteSpell(source, target, mana: EventMana, data: SpellData))
                 {
-                    GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
+                    GetEngine().GamePack.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
                     target.Changed();
                 }
 

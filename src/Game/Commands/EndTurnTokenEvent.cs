@@ -32,23 +32,25 @@ public class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         _ = base.Execute(tokenEvent);
-        if (StrategicMap.Current.Day == Day)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Day == Day)
         {
-            if (Mode == EndTurnTokenEventMode.EndTurn && !StrategicMap.Current.Players.GetPlayers(Player).SingleProcessCycle)
+            if (Mode == EndTurnTokenEventMode.EndTurn && !strategicMap.Players.GetPlayers(Player).SingleProcessCycle)
             {
-                StrategicMap.Current.PlayerControl.EndTurn(Player);
-                if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && StrategicMap.Current.Players.GetPlayers(Player).PlayerRace != -1)
+                strategicMap.PlayerControl.EndTurn(Player);
+                StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                if (engineStrategicMap.PlayMode == PlayMode.Simultaneous && engineStrategicMap.Players.GetPlayers(Player).PlayerRace != -1)
                 {
-                    Player players = StrategicMap.Current.Players.GetPlayers(Player);
+                    Player players = engineStrategicMap.Players.GetPlayers(Player);
                     string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[players.PlayerRace]);
                     string translatedText = AbilityRules.TranslateResourceString(GetEngine(), S: s_finishedTheirTurnText);
-                    StrategicMap.Current.ShowMessage($"{raceNamesPlural} {translatedText}");
+                    GetEngine().StrategicMap.ShowMessage($"{raceNamesPlural} {translatedText}");
                 }
             }
 
             if (Mode == EndTurnTokenEventMode.CancelEndTurn)
             {
-                StrategicMap.Current.Players.GetPlayers(Player).SetEndTurn(false);
+                GetEngine().StrategicMap.Players.GetPlayers(Player).SetEndTurn(false);
             }
 
             return ExecuteResult.Done;

@@ -5,7 +5,6 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Net;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
@@ -34,7 +33,7 @@ public class ChangePlayerMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         _ = base.Execute(tokenEvent);
         bool success = false;
-        PlayerMagicControl magic = StrategicMap.Current.Players.GetPlayers((sbyte)PlayerIdExtensions.ToOriginal(PlayerIndex)).MagicControl;
+        PlayerMagicControl magic = GetEngine().StrategicMap.Players.GetPlayers((sbyte)PlayerIdExtensions.ToOriginal(PlayerIndex)).MagicControl;
         switch (Mode)
         {
             case ChangePlayerMagicTokenEventMode.DispelEnchantment:

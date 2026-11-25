@@ -28,23 +28,23 @@ public class RaiseTerrainTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenE
     {
         _ = base.Process(source, value);
         RaiseTerrain(source);
-        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, L: Location.MapLevel, radius: 1);
-        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
+        _ = GetEngine().StrategicMap.ValidateTerrainObservation(source.Player, Location.X, Location.Y, L: Location.MapLevel, radius: 1);
+        GetEngine().GamePack.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
         return false;
     }
 
     // Mountain.pas:261
     public void RaiseTerrain(Troop caster)
     {
-        MapObjectResourceList resources = GamePack.Current.MapObjectResourceList;
-        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
+        MapObjectResourceList resources = GetEngine().GamePack.MapObjectResourceList;
+        MapLevel level = GetEngine().StrategicMap.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, radius: 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 MapField field = level.Field[walk.X, walk.Y];
-                if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(19).ValidTargetMapField(field))
+                if (GetEngine().GamePack.SpellControl.GetSpell<GlobalTargetSpell>(19).ValidTargetMapField(field))
                 {
                     bool found = false;
                     int i = resources.Count;
@@ -60,17 +60,17 @@ public class RaiseTerrainTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenE
                     {
                         field.RestoreTerrain();
                         RaisedMountain mountain = resource.CreateResourceUser<RaisedMountain>();
-                        mountain.Duration = (((StrategicMap.Current.Random(11) - 5) / 5) + 3).TruncateToSByte();
+                        mountain.Duration = (((GetEngine().StrategicMap.Random(11) - 5) / 5) + 3).TruncateToSByte();
                         mountain.Player = caster.Player;
                         mountain.OriginalOverlay = field.OverlayType;
-                        StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
-                        if (StrategicMap.Current.PlaceHex(mountain, walk.X, walk.Y, L: Location.MapLevel))
+                        GetEngine().StrategicMap.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
+                        if (GetEngine().StrategicMap.PlaceHex(mountain, walk.X, walk.Y, L: Location.MapLevel))
                         {
                             mountain.Mode |= RaisedMountainModes.Raising;
                             ImageSequenceAnimation animation = new(null, show: mountain.ShowRaiseTerrainAnimation, newFrame: mountain.NewFrameRaiseTerrainAnimation) { Holder = CreationHolder() };
-                            animation.SetImageSequence(GamePack.Current.SpellControl[19].CastImages.ImageSequences[0]);
-                            animation.FrameCounter = -StrategicMap.Current.Random(15);
-                            _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, L: Location.MapLevel);
+                            animation.SetImageSequence(GetEngine().GamePack.SpellControl[19].CastImages.ImageSequences[0]);
+                            animation.FrameCounter = -GetEngine().StrategicMap.Random(15);
+                            _ = GetEngine().StrategicMap.PlaceHex(animation, walk.X, walk.Y, L: Location.MapLevel);
                         }
                     }
                 }

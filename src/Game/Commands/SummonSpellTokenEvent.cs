@@ -45,7 +45,7 @@ public class SummonSpellTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
         {
             Unit u = new(null) { Holder = CreationHolder() };
             int unitIndex = UnitIndices[i];
-            u.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
+            u.SetUnitResource(GetEngine().GamePack.UnitResources.GetUnitResource(unitIndex));
             ArmyHexSprite? army = u.Place(x, y, l, source.Player, mode: UnitPlaceModes.ScanArea);
             if (army is not null)
             {
@@ -56,9 +56,9 @@ public class SummonSpellTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
                     if (u.ExpandAbility(155))
                     {
                         UnitEnchantment? enchantment = u.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
-                        enchantment.SetUpkeep(GamePack.Current.SpellControl[EventSpellId].ManaUpkeep);
+                        enchantment.SetUpkeep(GetEngine().GamePack.SpellControl[EventSpellId].ManaUpkeep);
                         enchantment.SetSource(source.Player);
-                        enchantment.DispelResistance = GamePack.Current.SpellControl.GetSpell<SummonSpell>(EventSpellId).GetDispelResistance(u).TruncateToSByte();
+                        enchantment.DispelResistance = GetEngine().GamePack.SpellControl.GetSpell<SummonSpell>(EventSpellId).GetDispelResistance(u).TruncateToSByte();
                         AIGroup? group = source.Group;
                         _ = (group?.AddUnit(u));
                     }
@@ -76,36 +76,41 @@ public class SummonSpellTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
 
         if (done)
         {
-            if (source.Player == StrategicMap.Current.SeatedPlayer)
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (source.Player == strategicMap.SeatedPlayer)
             {
-                StrategicMap.Current.MakeVisible(x, y, l, radius: 3);
+                strategicMap.MakeVisible(x, y, l, radius: 3);
             }
 
-            _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
-            if (StrategicMap.Current.Visible(x, y, l, radius: 0))
+            _ = GetEngine().StrategicMap.ValidateObservation(source.Player, x, y, l, radius: 0);
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+            if (engineStrategicMap.Visible(x, y, l, radius: 0))
             {
-                if (GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
+                GamePack gamePack = GetEngine().GamePack;
+                if (gamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
                 {
                     ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-                    animation.SetImageSequence(GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
-                    _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
+                    animation.SetImageSequence(gamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
+                    _ = engineStrategicMap.PlaceHex(animation, x, y, l);
                 }
 
-                if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(x, y, l, radius: 0))
+                StrategicMap watchingStrategicMap = GetEngine().StrategicMap;
+                if (source.Player == watchingStrategicMap.SeatedPlayer || watchingStrategicMap.Watching(x, y, l, radius: 0))
                 {
-                    _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);
+                    _ = GetEngine().GamePack.SpellControl[EventSpellId].CastSounds.Play(0);
                 }
             }
 
-            Spell? spell = GamePack.Current.SpellControl[EventSpellId];
-            GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
+            GamePack engineGamePack = GetEngine().GamePack;
+            Spell? spell = engineGamePack.SpellControl[EventSpellId];
+            engineGamePack.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
         }
         else
         {
-            if (source.Player == StrategicMap.Current.SeatedPlayer)
+            if (source.Player == GetEngine().StrategicMap.SeatedPlayer)
             {
                 string noSummonLocationFound = AbilityRules.TranslateResourceString(GetEngine(), S: s_noSummonLocationFoundText);
-                StrategicMap.Current.ShowMessage(noSummonLocationFound);
+                GetEngine().StrategicMap.ShowMessage(noSummonLocationFound);
             }
         }
 

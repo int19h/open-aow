@@ -34,13 +34,14 @@ public class DisbandUnitTokenEvent(CustomNode? owner) : TokenEvent(owner)
     // MoveT.PAS:3539
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        Troop? troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Troop? troop = strategicMap.UnitControl.FindUnit(UnitId);
         if (troop is not null && troop.Player == Player)
         {
             _ = troop.AddRef();
-            if (troop.GetRace() == 5 && PlayerIdExtensions.ToOriginal(troop.Player) > 0 && StrategicMap.Current.Players.GetPlayers(troop.Player).PlayerRace == 5 && (troop.GetAbilityEnabled(162) || troop.GetAbilityEnabled(164) || troop.GetAbilityEnabled(165)))
+            if (troop.GetRace() == 5 && PlayerIdExtensions.ToOriginal(troop.Player) > 0 && strategicMap.Players.GetPlayers(troop.Player).PlayerRace == 5 && (troop.GetAbilityEnabled(162) || troop.GetAbilityEnabled(164) || troop.GetAbilityEnabled(165)))
             {
-                StrategicMap.Current.Players.GetPlayers(troop.Player).HeroEmerging = true;
+                strategicMap.Players.GetPlayers(troop.Player).HeroEmerging = true;
             }
 
             if (!troop.GetAbilityEnabled(155))
@@ -49,7 +50,7 @@ public class DisbandUnitTokenEvent(CustomNode? owner) : TokenEvent(owner)
                 int x = coordinate5.X;
                 int y = coordinate5.Y;
                 int l = coordinate5.MapLevel;
-                PlayerStructure structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
+                PlayerStructure structure = strategicMap.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
                 ArmyHexSprite? armyHexSprite;
                 if (troop.Owner is not Army || troop.Owner.Count > 1 || (structure is not null && PlayerIdExtensions.ToOriginal(structure.Player) > 0))
                 {
@@ -68,7 +69,7 @@ public class DisbandUnitTokenEvent(CustomNode? owner) : TokenEvent(owner)
 
                 if (armyHexSprite is not null)
                 {
-                    int n = StrategicMap.Current.Random(10);
+                    int n = GetEngine().StrategicMap.Random(10);
                     GroupBehavior behavior = n == 0 ? GroupBehavior.GuardArea : n < 7 ? GroupBehavior.Scout : GroupBehavior.Raid;
 
                     int i = armyHexSprite.Army.Units.IndexOfBehavior(behavior);
@@ -92,12 +93,13 @@ public class DisbandUnitTokenEvent(CustomNode? owner) : TokenEvent(owner)
 
             troop.RemoveEnchantments();
             _ = troop.Release();
-            if (StrategicMap.Current.SeatedPlayer == Player)
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+            if (engineStrategicMap.SeatedPlayer == Player)
             {
-                StrategicMap.Current.SelectedArmy.Unselect();
+                engineStrategicMap.SelectedArmy.Unselect();
             }
 
-            StrategicMap.Current.Players.GetPlayers(Player).UpdateIncome();
+            GetEngine().StrategicMap.Players.GetPlayers(Player).UpdateIncome();
         }
 
         return ExecuteResult.Done;

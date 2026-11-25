@@ -5,7 +5,6 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Net;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
@@ -28,7 +27,7 @@ public class ChangePlayerSettingsTokenEvent(CustomNode owner) : TokenEvent(owner
     // MoveT.PAS:1898
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        StrategicMap.Current.Players.GetPlayers(Player).Settings = Settings;
+        GetEngine().StrategicMap.Players.GetPlayers(Player).Settings = Settings;
         return ExecuteResult.Done;
     }
 }

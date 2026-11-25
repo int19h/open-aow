@@ -67,8 +67,9 @@ public partial class ArmyCombatMoveTokenEvent
         }
 
         ArmyHexSprite.CancelMove();
-        StrategicMap.Current.LockGameOverEvent();
-        Battle combat = _combatType == CombatType.Fast ? StrategicMap.Current.CreateCombat(FastBattle.ClassId) : StrategicMap.Current.CreateCombat(TacticalBattle.ClassId);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.LockGameOverEvent();
+        Battle combat = _combatType == CombatType.Fast ? strategicMap.CreateCombat(FastBattle.ClassId) : GetEngine().StrategicMap.CreateCombat(TacticalBattle.ClassId);
 
         int hexY = ArmyHexSprite.HexY;
         int hexLevel = ArmyHexSprite.HexLevel;
@@ -108,17 +109,18 @@ public partial class ArmyCombatMoveTokenEvent
             if (combat is FastBattle)
             {
                 DistributeCombatEvent(combat.Logbook, execute: true);
-                if (StrategicMap.Current.RequestCombatType && PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == defender)
+                StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                if (engineStrategicMap.RequestCombatType && PlayerIdExtensions.ToOriginal(engineStrategicMap.SeatedPlayer) == defender)
                 {
                     UserEventLog log = new(null)
                     {
                         Holder = CreationHolder(),
                         Data = this
                     };
-                    StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: RestoreHotSeatModeCallback);
+                    engineStrategicMap.TriggerExecuteEventLog(log, immediate: false, done: RestoreHotSeatModeCallback);
                     _ = log.Release();
-                    StrategicMap.Current.AIExecutor.Lock();
-                    StrategicMap.Current.LockGameOverEvent();
+                    GetEngine().StrategicMap.AIExecutor.Lock();
+                    GetEngine().StrategicMap.LockGameOverEvent();
                     _combatMode = ArmyCombatMoveTokenEventMode.RestoringHotSeat;
                 }
             }
@@ -129,21 +131,22 @@ public partial class ArmyCombatMoveTokenEvent
                 PathStep item3 = Path[0];
                 PathStep item4 = Path[0];
                 PathStep item5 = Path[0];
-                condition = StrategicMap.Current.VisibleForPlayer(item5.Location.X, item4.Location.Y, item3.Location.MapLevel, player: StrategicMap.Current.SeatedPlayer);
+                StrategicMap visibleForPlayerStrategicMap = GetEngine().StrategicMap;
+                condition = visibleForPlayerStrategicMap.VisibleForPlayer(item5.Location.X, item4.Location.Y, item3.Location.MapLevel, player: visibleForPlayerStrategicMap.SeatedPlayer);
             }
 
             if (condition)
             {
                 ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-                animation.SetImageSequence(GamePack.Current.ImageSequences.ImageSequences[22]);
+                animation.SetImageSequence(GetEngine().GamePack.ImageSequences.ImageSequences[22]);
                 PathStep item3 = Path[0];
                 PathStep item4 = Path[0];
                 PathStep item5 = Path[0];
-                _ = StrategicMap.Current.PlaceHex(animation, item5.Location.X, item4.Location.Y, L: item3.Location.MapLevel);
+                _ = GetEngine().StrategicMap.PlaceHex(animation, item5.Location.X, item4.Location.Y, L: item3.Location.MapLevel);
             }
 
-            StrategicMap.Current.DestroyCombat();
-            StrategicMap.Current.UnlockGameOverEvent();
+            GetEngine().StrategicMap.DestroyCombat();
+            GetEngine().StrategicMap.UnlockGameOverEvent();
             ArmyHexSprite = GetMapField(Path[MoveIndex].Location).GetArmyHexSprite();
             if (ArmyHexSprite is not null && combatResult is CombatResult.CannotInflictDamage or (>= CombatResult.Undecided and <= CombatResult.Fled))
             {
@@ -182,11 +185,11 @@ public partial class ArmyCombatMoveTokenEvent
                         PathStep item3 = Path[MoveIndex];
                         PathStep item4 = Path[MoveIndex];
                         PathStep item5 = Path[MoveIndex];
-                        _ = armyHexSprite.PlacePrivate(StrategicMap.Current.MapContainer, item5.Location.X, item4.Location.Y, L: item3.Location.MapLevel);
+                        _ = armyHexSprite.PlacePrivate(GetEngine().StrategicMap.MapContainer, item5.Location.X, item4.Location.Y, L: item3.Location.MapLevel);
                         if (ArmyHexSprite.GetSelected())
                         {
-                            StrategicMap.Current.Selection.UnselectLocation();
-                            StrategicMap.Current.Selection.SelectLocationHexSprite(armyHexSprite);
+                            GetEngine().StrategicMap.Selection.UnselectLocation();
+                            GetEngine().StrategicMap.Selection.SelectLocationHexSprite(armyHexSprite);
                         }
                     }
 
@@ -223,7 +226,7 @@ public partial class ArmyCombatMoveTokenEvent
         }
         else
         {
-            StrategicMap.Current.UnlockGameOverEvent();
+            GetEngine().StrategicMap.UnlockGameOverEvent();
             ArmyHexSprite = null;
             FinishMove();
         }

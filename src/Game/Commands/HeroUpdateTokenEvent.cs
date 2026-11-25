@@ -34,7 +34,8 @@ public class HeroUpdateTokenEvent(CustomNode? owner) : TokenEvent(owner)
     public override ExecuteResult Execute(TokenExecutor? tokenEvent)
     {
         bool success = false;
-        Troop? troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Troop? troop = strategicMap.UnitControl.FindUnit(UnitId);
         if (troop is null)
         {
             // A missing id is a nil hero. The original reads FPlayer and faults.
@@ -43,7 +44,7 @@ public class HeroUpdateTokenEvent(CustomNode? owner) : TokenEvent(owner)
             _ = troop.Player;
         }
 
-        if (troop is Hero hero && ((StrategicMap.Current.Combat is null && StrategicMap.Current.CurrentPlayer == hero.Player) || (StrategicMap.Current.Combat is not null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == PlayerIdExtensions.ToOriginal(hero.Player))))
+        if (troop is Hero hero && ((strategicMap.Combat is null && strategicMap.CurrentPlayer == hero.Player) || (strategicMap.Combat is not null && strategicMap.Combat.CombatData.Players.GetPlayers((sbyte)strategicMap.Combat.CombatData.CurrentPlayer).Player == PlayerIdExtensions.ToOriginal(hero.Player))))
         {
             switch (Mode)
             {

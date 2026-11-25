@@ -5,7 +5,6 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Net;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
@@ -35,8 +34,8 @@ public class ChangeGlobalMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
         _ = base.Execute(tokenEvent);
         bool success = Mode switch
         {
-            ChangeGlobalMagicTokenEventMode.DispelEnchantment => StrategicMap.Current.GlobalMagicControl.ExecuteDispelEnchantment(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(PlayerIndex)), EnchantmentId),
-            ChangeGlobalMagicTokenEventMode.RemoveEnchantment => StrategicMap.Current.GlobalMagicControl.ExecuteRemoveEnchantment(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(PlayerIndex)), EnchantmentId),
+            ChangeGlobalMagicTokenEventMode.DispelEnchantment => GetEngine().StrategicMap.GlobalMagicControl.ExecuteDispelEnchantment(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(PlayerIndex)), EnchantmentId),
+            ChangeGlobalMagicTokenEventMode.RemoveEnchantment => GetEngine().StrategicMap.GlobalMagicControl.ExecuteRemoveEnchantment(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(PlayerIndex)), EnchantmentId),
             _ => false,
         };
         if (success)

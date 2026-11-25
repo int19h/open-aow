@@ -34,115 +34,119 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
         {
             case 0:
                 {
-                    for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+                    for (int i = 1, last = GetEngine().StrategicMap.Players.Count - 1; i <= last; i++)
                     {
-                        Player players = StrategicMap.Current.Players.GetPlayers(i);
-                        StrategicMap.Current.Players.GetPlayers(i).SetGems(players.Gems + 1_000);
+                        StrategicMap strategicMap = GetEngine().StrategicMap;
+                        Player players = strategicMap.Players.GetPlayers(i);
+                        strategicMap.Players.GetPlayers(i).SetGems(players.Gems + 1_000);
                     }
                 }
 
                 break;
             case 1:
                 {
-                    for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+                    for (int i = 1, last = GetEngine().StrategicMap.Players.Count - 1; i <= last; i++)
                     {
-                        Player players = StrategicMap.Current.Players.GetPlayers(i);
-                        StrategicMap.Current.Players.GetPlayers(i).MagicControl.SetMana(players.MagicControl.Mana + 1_000);
+                        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                        Player players = engineStrategicMap.Players.GetPlayers(i);
+                        engineStrategicMap.Players.GetPlayers(i).MagicControl.SetMana(players.MagicControl.Mana + 1_000);
                     }
                 }
 
                 break;
             case 2:
-                StrategicMap.Current.SetExplorationEnabled(!StrategicMap.Current.ExplorationEnabled);
-                if (StrategicMap.Current.ExplorationEnabled)
+                GetEngine().StrategicMap.SetExplorationEnabled(!GetEngine().StrategicMap.ExplorationEnabled);
+                if (GetEngine().StrategicMap.ExplorationEnabled)
                 {
                     string explorationEnabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_explorationEnabledText);
-                    StrategicMap.Current.ShowMessage(explorationEnabled);
+                    GetEngine().StrategicMap.ShowMessage(explorationEnabled);
                 }
                 else
                 {
                     string explorationDisabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_explorationDisabledText);
-                    StrategicMap.Current.ShowMessage(explorationDisabled);
+                    GetEngine().StrategicMap.ShowMessage(explorationDisabled);
                 }
 
                 break;
             case 3:
-                StrategicMap.Current.SetFogEnabled(!StrategicMap.Current.FogEnabled);
-                if (StrategicMap.Current.FogEnabled)
+                GetEngine().StrategicMap.SetFogEnabled(!GetEngine().StrategicMap.FogEnabled);
+                if (GetEngine().StrategicMap.FogEnabled)
                 {
                     string fogEnabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_fogEnabledText);
-                    StrategicMap.Current.ShowMessage(fogEnabled);
+                    GetEngine().StrategicMap.ShowMessage(fogEnabled);
                 }
                 else
                 {
                     string fogDisabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_fogDisabledText);
-                    StrategicMap.Current.ShowMessage(fogDisabled);
+                    GetEngine().StrategicMap.ShowMessage(fogDisabled);
                 }
 
                 break;
             case 4:
-                bool cheatEnabled = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
-                StrategicMap.Current.Players.GetPlayers(Player).MagicControl.CheatEnabled = !cheatEnabled;
-                if (StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
+                bool cheatEnabled = GetEngine().StrategicMap.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
+                GetEngine().StrategicMap.Players.GetPlayers(Player).MagicControl.CheatEnabled = !cheatEnabled;
+                if (GetEngine().StrategicMap.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
                 {
                     string spellCheatEnabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCheatEnabledText);
-                    StrategicMap.Current.ShowMessage(spellCheatEnabled);
+                    GetEngine().StrategicMap.ShowMessage(spellCheatEnabled);
                 }
                 else
                 {
                     string spellCheatDisabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCheatDisabledText);
-                    StrategicMap.Current.ShowMessage(spellCheatDisabled);
+                    GetEngine().StrategicMap.ShowMessage(spellCheatDisabled);
                 }
 
                 {
-                    foreach (Player? player in StrategicMap.Current.Players.Skip(1))
+                    foreach (Player? player in GetEngine().StrategicMap.Players.Skip(1))
                     {
-                        bool fMagicControlCheatEnabled = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
+                        bool fMagicControlCheatEnabled = GetEngine().StrategicMap.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
                         player.MagicControl.CheatEnabled = fMagicControlCheatEnabled;
                     }
                 }
 
                 break;
             case 5:
-                StrategicMap.Current.PlayerControl.GameOver(Player, status: GameOverStatus.Won);
+                GetEngine().StrategicMap.PlayerControl.GameOver(Player, status: GameOverStatus.Won);
                 break;
             case 6:
-                StrategicMap.Current.UnlimitedMoves = !StrategicMap.Current.UnlimitedMoves;
-                if (StrategicMap.Current.UnlimitedMoves)
+                GetEngine().StrategicMap.UnlimitedMoves = !GetEngine().StrategicMap.UnlimitedMoves;
+                if (GetEngine().StrategicMap.UnlimitedMoves)
                 {
                     string freeMovementEnabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_freeMovementEnabledText);
-                    StrategicMap.Current.ShowMessage(freeMovementEnabled);
+                    GetEngine().StrategicMap.ShowMessage(freeMovementEnabled);
                 }
                 else
                 {
                     string freeMovementDisabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_freeMovementDisabledText);
-                    StrategicMap.Current.ShowMessage(freeMovementDisabled);
+                    GetEngine().StrategicMap.ShowMessage(freeMovementDisabled);
                 }
 
                 break;
             case 7:
                 {
-                    for (int i = StrategicMap.Current.Players.GetPlayers(0).Structures.Count - 1; i >= 0; i--)
+                    for (int i = GetEngine().StrategicMap.Players.GetPlayers(0).Structures.Count - 1; i >= 0; i--)
                     {
-                        if (StrategicMap.Current.Players.GetPlayers(0).Structures.GetStructure(i).EngineClass.ClassId == World.Structures.City.ClassId)
+                        StrategicMap getStructureStrategicMap = GetEngine().StrategicMap;
+                        if (getStructureStrategicMap.Players.GetPlayers(0).Structures.GetStructure(i).EngineClass.ClassId == World.Structures.City.ClassId)
                         {
-                            StrategicMap.Current.Players.GetPlayers(0).Structures.GetStructure(i).SetPlayer(Player);
+                            getStructureStrategicMap.Players.GetPlayers(0).Structures.GetStructure(i).SetPlayer(Player);
                         }
                     }
                 }
 
                 break;
             case 8:
-                StrategicMap.Current.PlayerControl.GameOver(Player, status: GameOverStatus.Lost);
+                GetEngine().StrategicMap.PlayerControl.GameOver(Player, status: GameOverStatus.Lost);
                 break;
             case 9:
                 {
-                    foreach (Player? player in StrategicMap.Current.Players.Skip(1))
+                    foreach (Player? player in GetEngine().StrategicMap.Players.Skip(1))
                     {
                         player.MagicControl.Spells.Clear();
-                        for (int j = 1, lastJ = GamePack.Current.SpellControl.GetCount() - 1; j <= lastJ; j++)
+                        GamePack gamePack = GetEngine().GamePack;
+                        for (int j = 1, lastJ = gamePack.SpellControl.GetCount() - 1; j <= lastJ; j++)
                         {
-                            if (GamePack.Current.SpellControl[j] is not null)
+                            if (gamePack.SpellControl[j] is not null)
                             {
                                 _ = player.MagicControl.Spells.Add(j);
                             }
