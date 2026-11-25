@@ -9,33 +9,12 @@ namespace Aow.Engine.Nodes;
 // order of equal keys and the spare slot past Count stay as the original keeps them.
 public sealed class EngineObjectList : DelphiList<EngineObject>
 {
-    // Engine.pas:7146
-    public EngineObject? FindObject(int classId)
-    {
-        int i = 0;
-        bool found = false;
-        while (!found && i < Count)
-        {
-            found = List[i] is not null && classId == List[i].EngineClass.ClassId;
-            i += 1;
-        }
-
-        return found ? List[i - 1] : null;
-    }
+    // Engine.pas:7146. EngineClass caches its value on first read. The query reads the same
+    // children in the same order and stops at the first hit, so the same objects cache it.
+    public EngineObject? FindObject(int classId) => this.FirstOrDefault(child => child is not null && classId == child.EngineClass.ClassId);
 
     // Engine.pas:7161
-    public int FindObjectIndex(int classId)
-    {
-        int i = 0;
-        bool found = false;
-        while (!found && i < Count)
-        {
-            found = List[i] is not null && classId == List[i].EngineClass.ClassId;
-            i += 1;
-        }
-
-        return found ? i - 1 : -1;
-    }
+    public int FindObjectIndex(int classId) => this.FindIndex(child => child is not null && classId == child.EngineClass.ClassId);
 
     // Engine.pas:7176. The original tests List^[Count], one past the end, where it means List^[I].
     // That read is the spare slot or the item just deleted, and it fails when the list is full.

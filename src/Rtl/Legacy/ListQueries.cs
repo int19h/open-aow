@@ -60,6 +60,23 @@ public static class ListQueries
             return -1;
         }
 
+        /// <summary>The last index whose element matches, walking backwards from the end,
+        /// or -1. The state is an argument of the predicate, so a static predicate does not
+        /// allocate a closure.</summary>
+        public int FindLastIndex<TState>(TState state, Func<TState, T, bool> match)
+        {
+            ArgumentNullException.ThrowIfNull(match);
+            for (int i = list.Count - 1; i >= 0; i--)
+            {
+                if (match(state, list[i]))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
         /// <summary>The first matching index from startIndex on, walking backwards, or -1.
         /// A startIndex below zero or at or past the count throws, as List's ranged
         /// FindLastIndex does.</summary>

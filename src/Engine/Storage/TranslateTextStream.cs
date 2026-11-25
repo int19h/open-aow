@@ -17,15 +17,8 @@ public sealed class TranslateTextStream(GameEngine engine) : TranslateVisit(engi
     {
         if (lines.Count != 0)
         {
-            string text = "";
-            for (int i = 0, last = lines.Count - 1; i <= last; i++)
-            {
-                text += lines[i];
-                if (i != lines.Count - 1)
-                {
-                    text += "<eol>";
-                }
-            }
+            // The join puts <eol> between lines and not after the last, as the loop did.
+            string text = string.Join(separator: "<eol>", values: lines);
 
             text = FDictionary.Translate(text);
             lines.Clear();

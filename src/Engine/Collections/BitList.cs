@@ -124,35 +124,11 @@ public partial class BitList : Persistent, IReadOnlyList<bool>
         }
     }
 
-    // Engine.pas:4834
-    internal int GetBitsSet()
-    {
-        int result = 0;
-        for (int i = 0, last = _count - 1; i <= last; i++)
-        {
-            if (Get(i))
-            {
-                result += 1;
-            }
-        }
-
-        return result;
-    }
+    // Engine.pas:4834. The enumerator yields Get(i) for each slot, so the count is the loop's.
+    internal int GetBitsSet() => this.Count(static bit => bit);
 
     // Engine.pas:4843
-    internal int GetBitsCleared()
-    {
-        int result = 0;
-        for (int i = 0, last = _count - 1; i <= last; i++)
-        {
-            if (!Get(i))
-            {
-                result += 1;
-            }
-        }
-
-        return result;
-    }
+    internal int GetBitsCleared() => this.Count(static bit => !bit);
 
     // Engine.pas:4683
     // {Item}
@@ -248,17 +224,8 @@ public partial class BitList : Persistent, IReadOnlyList<bool>
     // Engine.pas:4641
     public bool First() => Get(0);
 
-    // Engine.pas:4688
-    public int IndexOf(bool item)
-    {
-        int result = 0;
-        while (result < _count && item != Get(result))
-        {
-            result += 1;
-        }
-
-        return result == _count ? -1 : result;
-    }
+    // Engine.pas:4688. Get(i) is the enumerated bit while i is in range.
+    public int IndexOf(bool item) => this.FindIndex(bit => bit == item);
 
     // Engine.pas:4695
     public void Insert(int index, bool item)

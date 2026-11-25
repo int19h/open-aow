@@ -197,17 +197,9 @@ public sealed class GroupDefenseSelector : IDisposable
         bool result;
         if (units is not null)
         {
-            result = true;
-            i = units.Count;
-            while (result && i != 0)
-            {
-                i -= 1;
-                Troop? unit = units.GetUnit(i);
-                if (Defenders.IndexOf(unit) != -1)
-                {
-                    result = false;
-                }
-            }
+            // GetUnit(i) is the enumerated troop while i is in range. IndexOf reads the defender list.
+            // FindLastIndex keeps the backward walk. The defender list is state, so the predicate allocates nothing.
+            result = units.FindLastIndex(Defenders, match: static (defenders, unit) => defenders.IndexOf(unit) != -1) < 0;
         }
         else
         {

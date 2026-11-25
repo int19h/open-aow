@@ -153,20 +153,7 @@ public class IvCustomTranslator(Component? owner = null) : Component(owner)
         return false;
     }
 
-    private static string Join(string[] values)
-    {
-        string result = "";
-        for (int index = 0; index < values.Length; index++)
-        {
-            if (index > 0)
-            {
-                result += "<eol>";
-            }
-
-            result += values[index];
-        }
-        return result;
-    }
+    private static string Join(string[] values) => string.Join(separator: "<eol>", value: values);
 
     private static string[] Split(string value)
     {

@@ -11,6 +11,7 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI.Groups;
@@ -82,13 +83,9 @@ public class FortifyAIGroupControl : AIGroupControl
                 State += 1;
                 break;
             case 1:
-                i = 0;
-                while (i < Targets.Count && Targets.GetTargets(i).Status.Contains(AIGroupTargetFlags.Done))
-                {
-                    i += 1;
-                }
-
-                if (i < Targets.Count)
+                // FindIndex returns -1 where the loop left the count. Status.Contains reads the set.
+                i = Targets.FindIndex(static target => !target.Status.Contains(AIGroupTargetFlags.Done));
+                if (i >= 0)
                 {
                     int surroundingEnemyStrength = GetSurroundingEnemyStrength(Targets.GetTargets(i).Location, radius: 70);
                     Targets.GetTargets(i).DataA = surroundingEnemyStrength;

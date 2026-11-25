@@ -93,13 +93,9 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 }
                 else
                 {
-                    i = _adjacentArmies.Count - 1;
-                    while (i >= 0 && _adjacentArmies.GetAdjacentArmies(i).Path.Count > 0)
-                    {
-                        i -= 1;
-                    }
-
-                    if (i == -1)
+                    // Path.Count is a field. FindLastIndex stops at the first empty path from the end.
+                    i = _adjacentArmies.FindLastIndex(static army => army.Path.Count == 0);
+                    if (i < 0)
                     {
                         State += 1;
                     }
@@ -156,13 +152,10 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     CreateMoveModes mode;
                     if (Executor.Moves.Count == 0)
                     {
-                        int index = 0;
-                        while (index < aiMoveExecutorArmyList.Count && aiMoveExecutorArmyList.GetArmies(index).GetUnits(0).TransporterId == 1)
-                        {
-                            index += 1;
-                        }
-
-                        if (index < aiMoveExecutorArmyList.Count)
+                        // GetArmies(index) is the enumerated army. TransporterId is a field.
+                        // FindIndex returns -1 where the loop left the count.
+                        int index = aiMoveExecutorArmyList.FindIndex(static army => army.GetUnits(0).TransporterId != 1);
+                        if (index >= 0)
                         {
                             foreach (AIMoveExecutorUnit unit in aiMoveExecutorArmyList.GetArmies(index).Reverse())
                             {
@@ -270,13 +263,9 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
             case 4:
                 if (Executor.Mode.Contains(AIMoveExecutorModes.Attack))
                 {
-                    i = _adjacentArmies.Count - 1;
-                    while (i >= 0 && _adjacentArmies.GetAdjacentArmies(i).Path.Count != 2)
-                    {
-                        i -= 1;
-                    }
-
-                    if (i != -1)
+                    // Path.Count is a field. FindLastIndex stops at the first path of length 2 from the end.
+                    i = _adjacentArmies.FindLastIndex(static army => army.Path.Count == 2);
+                    if (i >= 0)
                     {
                         State = 5;
                     }

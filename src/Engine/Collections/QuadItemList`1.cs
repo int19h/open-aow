@@ -1,4 +1,5 @@
 // Translated from Engine.pas.
+using Aow.Rtl;
 
 namespace Aow.Engine.Collections;
 
@@ -6,49 +7,14 @@ public sealed class QuadItemList<TA> : RecordList<QuadItem<TA>> where TA : class
 {
     public int AddABCD(TA A, int B, int C, int D) => Add(new QuadItem<TA> { First = A, Second = B, Third = C, Fourth = D });
 
-    public int IndexOfItemA(TA A)
-    {
-        int result = 0;
-        while (result < Count && !ReferenceEquals(List[result].First, A))
-        {
-            result += 1;
-        }
+    // In range the indexer returns List[i]. ReferenceEquals keeps the loop's test.
+    public int IndexOfItemA(TA A) => this.FindIndex(entry => ReferenceEquals(entry.First, A));
 
-        return result == Count ? -1 : result;
-    }
+    public int IndexOfItemB(int B) => this.FindIndex(entry => entry.Second == B);
 
-    public int IndexOfItemB(int B)
-    {
-        int result = 0;
-        while (result < Count && List[result].Second != B)
-        {
-            result += 1;
-        }
+    public int IndexOfItemC(int C) => this.FindIndex(entry => entry.Third == C);
 
-        return result == Count ? -1 : result;
-    }
-
-    public int IndexOfItemC(int C)
-    {
-        int result = 0;
-        while (result < Count && List[result].Third != C)
-        {
-            result += 1;
-        }
-
-        return result == Count ? -1 : result;
-    }
-
-    public int IndexOfItemD(int D)
-    {
-        int result = 0;
-        while (result < Count && List[result].Fourth != D)
-        {
-            result += 1;
-        }
-
-        return result == Count ? -1 : result;
-    }
+    public int IndexOfItemD(int D) => this.FindIndex(entry => entry.Fourth == D);
 
     public void SortAscendingItemB() => Sort(static (in item1, in item2) => item1.Second - item2.Second);
 

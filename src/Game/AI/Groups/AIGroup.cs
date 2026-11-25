@@ -436,35 +436,11 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         }
     }
 
-    // AIGroup.pas:194
-    public int GetMovePointsMin()
-    {
-        int result = 50;
-        foreach (Troop? troop in Units.Reverse())
-        {
-            if (result > troop.GetMovePoints())
-            {
-                result = troop.GetMovePoints();
-            }
-        }
-
-        return result;
-    }
+    // AIGroup.pas:194. The seed is the answer for an empty group and the cap. GetMovePoints returns a field.
+    public int GetMovePointsMin() => Units.Select(static troop => troop.GetMovePoints()).Prepend(50).Min();
 
     // AIGroup.pas:203
-    public int GetMovesMin()
-    {
-        int result = 50;
-        foreach (Troop? troop in Units.Reverse())
-        {
-            if (result > troop.Moves)
-            {
-                result = troop.Moves;
-            }
-        }
-
-        return result;
-    }
+    public int GetMovesMin() => Units.Select(static troop => troop.Moves).Prepend(50).Min();
 
     // AIGroup.pas:220
     public void ResetTargetExpense()

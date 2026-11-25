@@ -157,33 +157,18 @@ public static class NameTable
             if (rows is not null)
             {
                 string qualified = QualifiedName(defined);
-                bool listed = false;
-                foreach (NameRow row in rows)
-                {
-                    if (row.Current == qualified)
-                    {
-                        listed = true;
-                    }
-                }
-
-                if (!listed)
+                if (!rows.Any(row => row.Current == qualified))
                 {
                     continue;
                 }
             }
-            bool known = false;
-            foreach (Type match in matches)
+
+            if (matches.Contains(defined))
             {
-                if (match == defined)
-                {
-                    known = true;
-                }
+                continue;
             }
 
-            if (!known)
-            {
-                matches.Add(defined);
-            }
+            matches.Add(defined);
         }
         if (matches.Count == 1)
         {
@@ -615,11 +600,7 @@ public static class NameTable
                     continue;
                 }
 
-                HashSet<string> delphis = [];
-                foreach (string member in group.Value)
-                {
-                    _ = delphis.Add(delphiOf[member]);
-                }
+                HashSet<string> delphis = [.. group.Value.Select(member => delphiOf[member])];
 
                 if (delphis.Count < 2)
                 {

@@ -61,7 +61,24 @@ public sealed class ListQueriesTests
         IReadOnlyList<int> list = [1];
         _ = Assert.Throws<ArgumentNullException>(() => list.FindIndex(match: null!));
         _ = Assert.Throws<ArgumentNullException>(() => list.FindLastIndex(match: null!));
+        _ = Assert.Throws<ArgumentNullException>(() => list.FindLastIndex(state: 0, match: null!));
         _ = Assert.Throws<ArgumentNullException>(() => list.FindLast(match: null!));
+    }
+
+    [Fact]
+    public void FindLastIndexPassesStateAndWalksBackwards()
+    {
+        IReadOnlyList<int> list = [5, 7, 5, 7];
+        List<int> visited = [];
+        int found = list.FindLastIndex(5, match: (sought, item) =>
+        {
+            visited.Add(item);
+            return item == sought;
+        });
+        Assert.Equal(2, found);
+        Assert.Equal([7, 5], visited);
+        Assert.Equal(2, list.FindLastIndex(5, match: static (sought, item) => item == sought));
+        Assert.Equal(-1, list.FindLastIndex(9, match: static (sought, item) => item == sought));
     }
 
     [Fact]

@@ -1,6 +1,7 @@
 #nullable disable warnings
 using System.Collections;
 using Aow.Game.Magic.Abilities;
+using Aow.Rtl;
 
 namespace Aow.Game.AI;
 
@@ -35,7 +36,7 @@ public readonly struct AIRecruitmentGroupCollection : IReadOnlyList<AIRecruitmen
     // AIGroup.pas:800
     public AIRecruitmentGroup GetRecruitmentGroups(int index)
     {
-        Rtl.DelphiAssert.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 802);
+        DelphiAssert.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 802);
         return this[index];
     }
 
@@ -43,35 +44,11 @@ public readonly struct AIRecruitmentGroupCollection : IReadOnlyList<AIRecruitmen
     public void SortOnMovePoints() => Holder.SortChildren<AIRecruitmentGroup>(CompareMovePoints);
 
     // AIGroup.pas:861
-    public bool UnitExists(Troop troop)
-    {
-        bool result = false;
-        int index = Count;
-        while (!result && index != 0)
-        {
-            index -= 1;
-            result = this[index].Group.Units.IndexOf(troop) != -1;
-        }
+    // IndexOf reads the unit list. FindLastIndex keeps the backward walk.
+    public bool UnitExists(Troop troop) => this.FindLastIndex(group => group.Group.Units.IndexOf(troop) != -1) != -1;
 
-        return result;
-    }
-
-    // AIGroup.pas:874
-    public AIRecruitmentGroup? FindUnit(Troop troop)
-    {
-        AIRecruitmentGroup? result = null;
-        int index = Count;
-        while (result is null && index != 0)
-        {
-            index -= 1;
-            if (this[index].Group.Units.IndexOf(troop) != -1)
-            {
-                result = this[index];
-            }
-        }
-
-        return result;
-    }
+    // AIGroup.pas:874. FindLast keeps the last slot, which is the first hit of the backward walk.
+    public AIRecruitmentGroup? FindUnit(Troop troop) => this.FindLast(group => group.Group.Units.IndexOf(troop) != -1);
 
     private static int CompareMovePoints(AIRecruitmentGroup item1, AIRecruitmentGroup item2) => item2.MovePoints - item1.MovePoints;
 }

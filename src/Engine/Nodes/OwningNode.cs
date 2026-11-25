@@ -263,32 +263,11 @@ public class OwningNode : CustomNode
     }
 
     // Engine.pas:2998
-    public override EngineObject? FindChild(int classId)
-    {
-        int i = 0;
-        bool found = false;
-        EngineObject? c = null;
-        while (!found && i < _children.Count)
-        {
-            c = _children.List[i];
-            found = c is not null && classId == c.EngineClass.ClassId;
-            i += 1;
-        }
+    // In range the list indexer returns List[i]. EngineClass caches on the children the loop would cache.
+    public override EngineObject? FindChild(int classId) => _children.FirstOrDefault(child => child is not null && classId == child.EngineClass.ClassId);
 
-        return found ? c : null;
-    }
-
-    // Engine.pas:3016
-    public override int FindChildIndex(EngineObject? child)
-    {
-        int result = Count - 1;
-        while (result >= 0 && child != _children.List[result])
-        {
-            result -= 1;
-        }
-
-        return result;
-    }
+    // Engine.pas:3016. FindLastIndex walks the indexer from the last slot, as the loop does.
+    public override int FindChildIndex(EngineObject? child) => _children.FindLastIndex(candidate => candidate == child);
 
     // Engine.pas:2813
     public override void Dispose()

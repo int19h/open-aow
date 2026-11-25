@@ -176,41 +176,20 @@ public class DoubleItemList : Persistent, IReadOnlyList<DoubleItemList.DoubleIte
     // Engine.pas:5135
     public DoubleItem First() => Get(0);
 
-    // Engine.pas:5158. The Delphi compares the items as Comp, which is exact.
+    // Engine.pas:5158. The Delphi compares the items as Comp, which is exact. In range the
+    // indexer returns _list[i], and the record equality compares the same fields.
     public int IndexOf(in DoubleItem item)
     {
-        int result = 0;
-        while (result < _count && _list[result] != item)
-        {
-            result += 1;
-        }
-
-        return result == _count ? -1 : result;
+        // A lambda cannot capture the in parameter.
+        DoubleItem sought = item;
+        return this.FindIndex(entry => entry == sought);
     }
 
     // Engine.pas:5165
-    public int IndexOfItemA(int A)
-    {
-        int result = 0;
-        while (result < _count && _list[result].First != A)
-        {
-            result += 1;
-        }
-
-        return result == _count ? -1 : result;
-    }
+    public int IndexOfItemA(int A) => this.FindIndex(entry => entry.First == A);
 
     // Engine.pas:5172
-    public int IndexOfItemB(int B)
-    {
-        int result = 0;
-        while (result < _count && _list[result].Second != B)
-        {
-            result += 1;
-        }
-
-        return result == _count ? -1 : result;
-    }
+    public int IndexOfItemB(int B) => this.FindIndex(entry => entry.Second == B);
 
     // Engine.pas:5179
     public void Insert(int index, in DoubleItem item)
@@ -307,18 +286,9 @@ public class DoubleItemList : Persistent, IReadOnlyList<DoubleItemList.DoubleIte
         int result;
         if (_count != 0)
         {
-            int total = 0;
+            // The draw below stays a loop. The weights are a checked sum (decision 1).
+            int total = this.Sum(entry => Math.Max(entry.First + bonus, val2: 0));
             int chance;
-            for (int i = _count - 1; i >= 0; i--)
-            {
-                chance = _list[i].First + bonus;
-                if (chance < 0)
-                {
-                    chance = 0;
-                }
-
-                total += chance;
-            }
 
             int r = Random(total);
             total = 0;
@@ -349,16 +319,9 @@ public class DoubleItemList : Persistent, IReadOnlyList<DoubleItemList.DoubleIte
         int result;
         if (_count != 0)
         {
-            int total = 0;
+            // The draw below stays a loop. A non-positive weight adds nothing, as the loop did.
+            int total = this.Sum(entry => Math.Max(entry.Second + bonus, val2: 0));
             int chance;
-            for (int i = _count - 1; i >= 0; i--)
-            {
-                chance = _list[i].Second + bonus;
-                if (chance > 0)
-                {
-                    total += chance;
-                }
-            }
 
             int r = Random(total);
             result = 0;

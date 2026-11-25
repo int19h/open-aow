@@ -30,18 +30,8 @@ public class ResourceCollection(CustomNode? owner) : EngineNode(owner), IChildLi
     }
 
     // Engine.pas:8582
-    public EngineResource? FindResource(int id)
-    {
-        bool found = false;
-        int i = 0;
-        while (!found && i != Count)
-        {
-            found = GetChild(i) is not null && id == this[i].ResourceId;
-            i += 1;
-        }
-
-        return found ? this[i - 1] : null;
-    }
+    // The enumerator yields this[i], and a null child casts to null. ResourceId is a field.
+    public EngineResource? FindResource(int id) => this.FirstOrDefault(resource => resource is not null && id == resource.ResourceId);
 
     // The id selects the resource. A resource of another class throws, the same way the call site did.
     public T FindResource<T>(int id) where T : EngineResource => (T)FindResource(id);

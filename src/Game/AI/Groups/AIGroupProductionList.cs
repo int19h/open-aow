@@ -26,12 +26,8 @@ public sealed class AIGroupProductionList(CustomNode owner) : OwningNode(owner),
     public AIGroupProduction GetProductions(int index) => this[index];
 
     // AIGroup.pas:6
-    public int GetStrengthMax(DamageTypes damageTypes)
-    {
-        int result = 0;
-        result = this.Sum(item => item.Troop.GetStrengthMax(damageTypes));
-        return result;
-    }
+    // AIGroup.pas:6. GetProductions(i) is the child, and the sum reads each troop's strength.
+    public int GetStrengthMax(DamageTypes damageTypes) => this.Sum(production => production.Troop.GetStrengthMax(damageTypes));
 
     // AIGroup.pas:15
     public void Add(ProductionControl control, Troop troop)

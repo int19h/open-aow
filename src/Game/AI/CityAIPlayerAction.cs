@@ -131,19 +131,9 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     public void ValidateResearchBudget(AIBudget budget)
     {
         Player player = Control.Player;
-        int count = 0;
-        int total = 0;
-        foreach (PlayerStructure structure in player.Structures.Reverse())
-        {
-            if (structure is City city)
-            {
-                total += 1;
-                if (ValidResearchBudgetCity(city))
-                {
-                    count += 1;
-                }
-            }
-        }
+        // GetProduceUnitLevelMax and the city fields only read, so the totals do not depend on direction.
+        int total = player.Structures.Count(static structure => structure is City);
+        int count = player.Structures.Count(structure => structure is City city && ValidResearchBudgetCity(city));
 
         if (count == 0)
         {
@@ -320,17 +310,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     public void ValidateUpgradeBudget(AIBudget budget)
     {
         Player player = Control.Player;
-        int count = 0;
-        foreach (PlayerStructure structure in player.Structures.Reverse())
-        {
-            if (structure is City city)
-            {
-                if (ValidUpgradeBudgetCity(city))
-                {
-                    count += 1;
-                }
-            }
-        }
+        int count = player.Structures.Count(structure => structure is City city && ValidUpgradeBudgetCity(city));
 
         if (count == 0)
         {
@@ -435,17 +415,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     public void ValidateFortifyBudget(AIBudget budget)
     {
         Player player = Control.Player;
-        int count = 0;
-        foreach (PlayerStructure structure in player.Structures.Reverse())
-        {
-            if (structure is City city)
-            {
-                if (ValidFortifyBudgetCity(city))
-                {
-                    count += 1;
-                }
-            }
-        }
+        int count = player.Structures.Count(structure => structure is City city && ValidFortifyBudgetCity(city));
 
         if (count == 0)
         {
@@ -473,22 +443,8 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     }
 
     // City.pas:3087
-    public int UpgradeableCities()
-    {
-        int count = 0;
-        foreach (PlayerStructure structure in Control.Player.Structures.Reverse())
-        {
-            if (structure is City city)
-            {
-                if (city.Size > city.UpgradeLevel)
-                {
-                    count += 1;
-                }
-            }
-        }
-
-        return count;
-    }
+    // Size and UpgradeLevel are fields.
+    public int UpgradeableCities() => Control.Player.Structures.Count(static structure => structure is City city && city.Size > city.UpgradeLevel);
 
     // City.pas:3102
     public void UpdateStatistics()

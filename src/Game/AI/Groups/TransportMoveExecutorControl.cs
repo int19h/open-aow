@@ -421,23 +421,9 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
     }
 
     // AIGroup.pas:5525
-    public bool TransportDone()
-    {
-        AIMoveExecutor executor = Executor;
-        int i = executor.Units.Count;
-        bool done = true;
-        while (i != 0 && done)
-        {
-            i -= 1;
-            AIMoveExecutorUnit units = executor.Units.GetUnits(i);
-            if (units.TransportStatus is not (>= AIMoveExecutorTransportStatus.Arriving and <= AIMoveExecutorTransportStatus.Done))
-            {
-                done = false;
-            }
-        }
-
-        return done;
-    }
+    // GetUnits(i) is the enumerated unit. TransportStatus is a field. An empty list stays done.
+    // FindLastIndex keeps the backward walk. A static predicate allocates nothing.
+    public bool TransportDone() => Executor.Units.FindLastIndex(static unit => unit.TransportStatus is not (>= AIMoveExecutorTransportStatus.Arriving and <= AIMoveExecutorTransportStatus.Done)) < 0;
 
     // AIGroup.pas:5553
     public void DumpTransportUnits(AIMoveExecutorArmy army)

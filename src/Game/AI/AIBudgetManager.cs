@@ -76,53 +76,23 @@ public sealed class AIBudgetManager : EngineObject
         }
     }
 
-    // AI.pas:1740
-    public int GetBudgetGoldUpkeep()
-    {
-        int result = 0;
-        result = Budgets.Reverse().Sum(item => item.GoldUpkeep);
-        return result;
-    }
+    // AI.pas:1740. GoldUpkeep is a field. Sum reads every budget, so the direction does not change the total.
+    public int GetBudgetGoldUpkeep() => Budgets.Sum(static budget => budget.GoldUpkeep);
 
     // AI.pas:1749
-    public int GetBudgetManaUpkeep()
-    {
-        int result = 0;
-        result = Budgets.Reverse().Sum(item => item.ManaUpkeep);
-        return result;
-    }
+    public int GetBudgetManaUpkeep() => Budgets.Sum(static budget => budget.ManaUpkeep);
 
     // AI.pas:1758
-    public int GetReservedBudgetGold()
-    {
-        int result = 0;
-        result = Budgets.Reverse().Sum(item => item.Gold);
-        return result;
-    }
+    public int GetReservedBudgetGold() => Budgets.Sum(static budget => budget.Gold);
 
     // AI.pas:1767
-    public int GetReservedBudgetMana()
-    {
-        int result = 0;
-        result = Budgets.Reverse().Sum(item => item.Mana);
-        return result;
-    }
+    public int GetReservedBudgetMana() => Budgets.Sum(static budget => budget.Mana);
 
     // AI.pas:1776
-    public int GetRequiredBudgetDayGold()
-    {
-        int result = 0;
-        result = Budgets.Reverse().Sum(item => item.DayGold);
-        return result;
-    }
+    public int GetRequiredBudgetDayGold() => Budgets.Sum(static budget => budget.DayGold);
 
     // AI.pas:1785
-    public int GetRequiredBudgetDayMana()
-    {
-        int result = 0;
-        result = Budgets.Reverse().Sum(item => item.DayMana);
-        return result;
-    }
+    public int GetRequiredBudgetDayMana() => Budgets.Sum(static budget => budget.DayMana);
 
     // AI.pas:1794
     public void UpdateBudgetDayRequirements()
@@ -149,29 +119,11 @@ public sealed class AIBudgetManager : EngineObject
         }
     }
 
-    // AI.pas:1825
-    public int GetGroupsGoldBudget()
-    {
-        int result = 0;
-        for (int i = Player.AIGroups.Count - 1; i >= 0; i--)
-        {
-            result += Player.AIGroups.GetGroups(i).GetGoldBudget();
-        }
-
-        return result;
-    }
+    // AI.pas:1825. GetGroups(i) is the child the list enumerates. GetGoldBudget returns a field.
+    public int GetGroupsGoldBudget() => Player.AIGroups.Sum(static group => group.GetGoldBudget());
 
     // AI.pas:1837
-    public int GetGroupsManaBudget()
-    {
-        int result = 0;
-        for (int i = Player.AIGroups.Count - 1; i >= 0; i--)
-        {
-            result += Player.AIGroups.GetGroups(i).GetManaBudget();
-        }
-
-        return result;
-    }
+    public int GetGroupsManaBudget() => Player.AIGroups.Sum(static group => group.GetManaBudget());
 
     // AI.pas:1849
     public void ReserveForBudgets(int gold, int mana)

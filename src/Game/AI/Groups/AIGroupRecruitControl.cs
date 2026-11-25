@@ -114,26 +114,12 @@ public class AIGroupRecruitControl : AIGroupTask
     public void SetRecruitStrength(DamageType damageType, int value) => _recruitStrengths[(int)damageType] = value;
 
     // AIGroup.pas:2102
-    public int GetRecruitMoveDays()
+    // GetUnit(i) is the enumerated troop. FindUnit and Moves only read. A non-positive day stays -1.
+    public int GetRecruitMoveDays() => Units.Select(troop =>
     {
-        int result = -1;
-        for (int i = 0, last = Units.Count - 1; i <= last; i++)
-        {
-            Troop? troop = Units.GetUnit(i);
-            AIRecruitmentGroup group = _control.RecruitmentGroups.FindUnit(troop);
-            if (group is not null && Units.GetUnit(i).Moves != 0)
-            {
-                int moves = Units.GetUnit(i).Moves;
-                int days = (group.MovePoints - 1) / moves;
-                if (days > result)
-                {
-                    result = days;
-                }
-            }
-        }
-
-        return result;
-    }
+        AIRecruitmentGroup group = _control.RecruitmentGroups.FindUnit(troop);
+        return group is not null && troop.Moves != 0 ? Math.Max((group.MovePoints - 1) / troop.Moves, val2: -1) : -1;
+    }).DefaultIfEmpty(-1).Max();
 
     // AIGroup.pas:2119
     public bool UsefulRecruitUnit(Troop? troop)

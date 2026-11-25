@@ -277,19 +277,8 @@ public sealed class AIMoveExecutor : EngineObject
     }
 
     // AIGroup.pas:6161
-    public bool GetTransporting()
-    {
-        bool transporting = false;
-        int i = Units.Count;
-        while (!transporting && i != 0)
-        {
-            i -= 1;
-            AIMoveExecutorUnit units = Units.GetUnits(i);
-            transporting = units.TransportStatus is AIMoveExecutorTransportStatus.Boarding or AIMoveExecutorTransportStatus.Transporting;
-        }
-
-        return transporting;
-    }
+    // GetUnits(i) is the enumerated unit. TransportStatus is a field. FindLastIndex keeps the backward walk.
+    public bool GetTransporting() => Units.FindLastIndex(static unit => unit.TransportStatus is AIMoveExecutorTransportStatus.Boarding or AIMoveExecutorTransportStatus.Transporting) != -1;
 
     // AIGroup.pas:6176
     public void UpdateMoveResult()

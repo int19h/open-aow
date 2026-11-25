@@ -1,4 +1,6 @@
 // Translated from Engine.pas.
+using Aow.Rtl;
+
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Engine.Collections;
@@ -7,27 +9,10 @@ public sealed class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : c
 {
     public int AddAbility(TA a, int b) => Add(new DoubleItem<TA> { First = a, Second = b });
 
-    public int IndexOfItemA(TA A)
-    {
-        int result = 0;
-        while (result < Count && !ReferenceEquals(List[result].First, A))
-        {
-            result += 1;
-        }
+    // In range the indexer returns List[i]. ReferenceEquals keeps the loop's test.
+    public int IndexOfItemA(TA A) => this.FindIndex(entry => ReferenceEquals(entry.First, A));
 
-        return result == Count ? -1 : result;
-    }
-
-    public int IndexOfItemB(int B)
-    {
-        int result = 0;
-        while (result < Count && List[result].Second != B)
-        {
-            result += 1;
-        }
-
-        return result == Count ? -1 : result;
-    }
+    public int IndexOfItemB(int B) => this.FindIndex(entry => entry.Second == B);
 
     public void SortAscendingItemB() => Sort(static (in item1, in item2) => item1.Second - item2.Second);
 
@@ -39,16 +24,9 @@ public sealed class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : c
         int result;
         if (Count != 0)
         {
-            int total = 0;
+            // The draw below stays a loop. A non-positive weight adds nothing, as the loop did.
+            int total = this.Sum(entry => Math.Max(entry.Second + bonus, val2: 0));
             int chance;
-            for (int i = Count - 1; i >= 0; i--)
-            {
-                chance = List[i].Second + bonus;
-                if (chance > 0)
-                {
-                    total += chance;
-                }
-            }
 
             int r = Random(total);
             result = 0;
