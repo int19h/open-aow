@@ -13,8 +13,6 @@ internal sealed record ScenarioOffer(int Id, int Index, string FileName, string 
 /// </summary>
 internal static class ScenarioOffers
 {
-    public const string BetweenMaps = "between-maps";
-
     public static IReadOnlyList<int> OfferedIds(int first, int second, int third)
     {
         List<int> ids = [];

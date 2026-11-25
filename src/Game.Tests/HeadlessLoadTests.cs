@@ -1,3 +1,5 @@
+using System.Text.Json;
+using Aow.Formats.Tree;
 using Aow.Game.Host;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
@@ -34,10 +36,14 @@ public sealed class HeadlessLoadTests
     [Fact]
     public void ADroppedChildIsAPartialLoadAndATransferThenFails()
     {
-        Assert.Equal(RunOutcome.Played, RunOutcome.Name(droppedChildren: false, betweenMaps: false));
-        Assert.Equal(RunOutcome.BetweenMaps, RunOutcome.Name(droppedChildren: false, betweenMaps: true));
-        Assert.Equal(RunOutcome.PartialLoad, RunOutcome.Name(droppedChildren: true, betweenMaps: false));
-        Assert.Equal(RunOutcome.PartialLoad, RunOutcome.Name(droppedChildren: true, betweenMaps: true));
+        Assert.Null(RunOutcome.Name(complete: false, droppedChildren: false, betweenMaps: false));
+        Assert.Equal(RunOutcome.Played, RunOutcome.Name(complete: true, droppedChildren: false, betweenMaps: false));
+        Assert.Equal(RunOutcome.BetweenMaps, RunOutcome.Name(complete: true, droppedChildren: false, betweenMaps: true));
+        Assert.Equal(RunOutcome.BetweenMaps, RunOutcome.Name(complete: false, droppedChildren: false, betweenMaps: true));
+        Assert.Equal(RunOutcome.PartialLoad, RunOutcome.Name(complete: true, droppedChildren: true, betweenMaps: false));
+        Assert.Equal(RunOutcome.PartialLoad, RunOutcome.Name(complete: true, droppedChildren: true, betweenMaps: true));
+        Assert.Equal(RunOutcome.PartialLoad, RunOutcome.Name(complete: false, droppedChildren: true, betweenMaps: false));
+        Assert.Equal(RunOutcome.PartialLoad, RunOutcome.Name(complete: false, droppedChildren: true, betweenMaps: true));
         Assert.True(RunOutcome.Succeeds(complete: true, failed: false, transfer: false, droppedChildren: true));
         Assert.False(RunOutcome.Succeeds(complete: true, failed: false, transfer: true, droppedChildren: true));
         Assert.True(RunOutcome.Succeeds(complete: true, failed: false, transfer: true, droppedChildren: false));
@@ -46,13 +52,34 @@ public sealed class HeadlessLoadTests
     [Fact]
     public void AnEarlyEndNamesTheResult()
     {
-        Assert.Null(RunEnd.Describe(ended: false, result: StrategicMapGameResult.None, day: 9, dayLimit: 20, won: 0, lost: 1));
-        Assert.Equal("turn-limit", RunEnd.Describe(ended: true, result: StrategicMapGameResult.Failed, day: 20, dayLimit: 20, won: 0, lost: 2));
-        Assert.Equal("allied-victory", RunEnd.Describe(ended: true, result: StrategicMapGameResult.Succeeded, day: 59, dayLimit: 0, won: 2, lost: 3));
-        Assert.Equal("win", RunEnd.Describe(ended: true, result: StrategicMapGameResult.Succeeded, day: 12, dayLimit: 0, won: 1, lost: 1));
-        Assert.Equal("win", RunEnd.Describe(ended: true, result: StrategicMapGameResult.None, day: 12, dayLimit: 0, won: 1, lost: 1));
-        Assert.Equal("loss", RunEnd.Describe(ended: true, result: StrategicMapGameResult.Failed, day: 9, dayLimit: 0, won: 0, lost: 1));
-        Assert.Equal("loss", RunEnd.Describe(ended: true, result: StrategicMapGameResult.None, day: 9, dayLimit: 0, won: 0, lost: 1));
+        Assert.Null(RunEnd.Describe(ended: false, result: StrategicMapGameResult.None, day: 9, dayLimit: 20, wonCount: 0, lostCount: 1));
+        Assert.Equal("turn-limit", RunEnd.Describe(ended: true, result: StrategicMapGameResult.Failed, day: 20, dayLimit: 20, wonCount: 0, lostCount: 2));
+        Assert.Equal("win", RunEnd.Describe(ended: true, result: StrategicMapGameResult.Failed, day: 20, dayLimit: 20, wonCount: 1, lostCount: 2));
+        Assert.Equal("allied-victory", RunEnd.Describe(ended: true, result: StrategicMapGameResult.Succeeded, day: 59, dayLimit: 0, wonCount: 2, lostCount: 3));
+        Assert.Equal("win", RunEnd.Describe(ended: true, result: StrategicMapGameResult.Succeeded, day: 12, dayLimit: 0, wonCount: 1, lostCount: 1));
+        Assert.Equal("win", RunEnd.Describe(ended: true, result: StrategicMapGameResult.Succeeded, day: 20, dayLimit: 20, wonCount: 0, lostCount: 0));
+        Assert.Equal("win", RunEnd.Describe(ended: true, result: StrategicMapGameResult.Succeeded, day: 12, dayLimit: 0, wonCount: 0, lostCount: 0));
+        Assert.Equal("win", RunEnd.Describe(ended: true, result: StrategicMapGameResult.None, day: 12, dayLimit: 0, wonCount: 1, lostCount: 1));
+        Assert.Equal("loss", RunEnd.Describe(ended: true, result: StrategicMapGameResult.Failed, day: 9, dayLimit: 0, wonCount: 0, lostCount: 1));
+        Assert.Equal("loss", RunEnd.Describe(ended: true, result: StrategicMapGameResult.None, day: 9, dayLimit: 0, wonCount: 0, lostCount: 1));
+    }
+
+    [Fact]
+    public void ADroppedChildIsStoredAsClassPathAndMessage()
+    {
+        DroppedObject[] dropped =
+        [
+            new(ClassName: "Unit", Path: "root/Units/0", Message: "missing resource", Error: new InvalidOperationException("missing resource")),
+        ];
+
+        IReadOnlyList<DroppedObject> none = [];
+        Assert.Empty(DroppedObjects.Record(none));
+        JsonElement row = JsonSerializer.SerializeToElement(DroppedObjects.Record(dropped)[0]);
+
+        Assert.Equal("Unit", row.GetProperty("class").GetString());
+        Assert.Equal("root/Units/0", row.GetProperty("path").GetString());
+        Assert.Equal("missing resource", row.GetProperty("message").GetString());
+        Assert.Equal(3, row.EnumerateObject().Count());
     }
 
     [Fact]

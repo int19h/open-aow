@@ -1,8 +1,18 @@
+using System.Reflection;
 using Aow.Engine;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Game.AI.Groups;
+using Aow.Game.Audio;
+using Aow.Game.Commands;
+using Aow.Game.Draw;
+using Aow.Game.Host;
 using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.UI.Dialogs;
+using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 using Aow.Headless;
 
 namespace Aow.Game.Tests;
@@ -136,6 +146,285 @@ public sealed class HeadlessSeatTests
         }
     }
 
+    [Fact]
+    public void ADrivenHumanReadsTheCpuAttackTableAndARealHumanReadsDiplomacy()
+    {
+        Assert.False(HeadlessHooks.DriveHumanSeats);
+        using SeatMap seats = new();
+        Player human = seats.Player(1);
+        human.DiplomaticRelations.SetDiplomaticRelation(PlayerId.Player2, value: DiplomaticRelation.Peace);
+        BitList attacks = human.AIValidAttackPlayers ?? throw new InvalidOperationException("The attack table is missing.");
+        attacks[PlayerIdExtensions.ToOriginal(PlayerId.Player2)] = true;
+
+        Assert.False(human.ValidAttackRelation(PlayerId.Player2, independentRelation: 0));
+        Assert.Equal(PlayerType.Human, human.PlayerType);
+
+        HeadlessHooks.DriveHumanSeats = true;
+        try
+        {
+            Assert.True(human.ValidAttackRelation(PlayerId.Player2, independentRelation: 0));
+            Assert.Equal(PlayerType.Human, human.PlayerType);
+        }
+        finally
+        {
+            HeadlessHooks.DriveHumanSeats = false;
+        }
+    }
+
+    [Fact]
+    public void ADrivenHumanPathsInAiModeAndARealHumanDoesNot()
+    {
+        Assert.False(HeadlessHooks.DriveHumanSeats);
+        using SeatMap seats = new();
+        seats.InstallGrid(1, 1);
+        ArmyHexSprite sprite = new(seats.Field(0, 0));
+        try
+        {
+            Army army = sprite.Army ?? throw new InvalidOperationException("The army is missing.");
+            army.Player = PlayerId.Player1;
+            Assert.False(AiPath(sprite));
+            Assert.Equal(PlayerType.Human, seats.Player(1).PlayerType);
+
+            HeadlessHooks.DriveHumanSeats = true;
+            try
+            {
+                Assert.True(AiPath(sprite));
+                Assert.Equal(PlayerType.Human, seats.Player(1).PlayerType);
+            }
+            finally
+            {
+                HeadlessHooks.DriveHumanSeats = false;
+            }
+        }
+        finally
+        {
+            sprite.Dispose();
+        }
+    }
+
+    [Fact]
+    public void ADrivenHumanSkipsExploredTerrainAndInvalidatesARejectedMove()
+    {
+        Assert.False(HeadlessHooks.DriveHumanSeats);
+        using SeatMap seats = new();
+        seats.InstallGrid(2, 1);
+        ArmyHexSprite sprite = new(seats.Field(0, 0));
+        MoveArmyTokenEvent token = new(null) { Holder = EngineFixture.Engine };
+        RecordingMoveControl recording = new(seats.Map);
+        MoveControl? previous = null;
+        try
+        {
+            previous = InstallMoveControl(seats.Map, replacement: recording);
+            Army army = sprite.Army ?? throw new InvalidOperationException("The army is missing.");
+            army.Player = PlayerId.Player1;
+            seats.Map.ExplorationEnabled = true;
+            AIMoveExecutor executor = seats.Player(1).AIControl.MoveExecutor ?? throw new InvalidOperationException("The move executor is missing.");
+            executor.Status = AIMoveExecutorStatus.Busy;
+            MovePath path = [];
+            _ = path.AddMapCoordinate(0, 0, mapLevel: 0);
+            _ = path.AddMapCoordinate(1, 0, mapLevel: 0);
+            _ = path.AddMapCoordinate(0, 0, mapLevel: 0);
+            Assert.True(token.Setup(sprite, selection: 0, path: path, mode: ArmyMoveModes.None));
+
+            Assert.False(token.Validate());
+            Assert.True(recording.Seen.Contains(MoveModes.AI));
+            Assert.True(recording.Seen.Contains(MoveModes.ExploredTerrainOnly));
+            Assert.Equal(AIMoveExecutorStatus.Busy, executor.Status);
+            Assert.Equal(PlayerType.Human, seats.Player(1).PlayerType);
+
+            HeadlessHooks.DriveHumanSeats = true;
+            try
+            {
+                Assert.False(token.Validate());
+                Assert.True(recording.Seen.Contains(MoveModes.AI));
+                Assert.False(recording.Seen.Contains(MoveModes.ExploredTerrainOnly));
+                Assert.Equal(AIMoveExecutorStatus.Invalidated, executor.Status);
+                Assert.Equal(PlayerType.Human, seats.Player(1).PlayerType);
+            }
+            finally
+            {
+                HeadlessHooks.DriveHumanSeats = false;
+            }
+        }
+        finally
+        {
+            if (previous is not null)
+            {
+                _ = InstallMoveControl(seats.Map, replacement: previous);
+            }
+
+            recording.Dispose();
+            _ = token.Release();
+            sprite.Dispose();
+        }
+    }
+
+    [Fact]
+    public void ADrivenHumanKeepsAFogAttackAndARealHumanWalks()
+    {
+        Assert.False(HeadlessHooks.DriveHumanSeats);
+        using SeatMap seats = new();
+        seats.InstallGrid(2, 1);
+        seats.Tokens().Initialize(seats.Map.PlayerCommunicator);
+        ArmyHexSprite enemy = new(seats.Field(0, 0));
+        ArmyHexSprite mover = new(seats.Field(1, 0));
+        try
+        {
+            Army moverArmy = mover.Army ?? throw new InvalidOperationException("The army is missing.");
+            moverArmy.Player = PlayerId.Player1;
+            MovePath path = [];
+            _ = path.AddMapCoordinate(0, 0, mapLevel: 0);
+            _ = path.AddMapCoordinate(1, 0, mapLevel: 0);
+
+            Assert.True(ArmyHexSprite.MoveArmy(mover, selection: 0, path: path, mode: ArmyMoveModes.None, force: true));
+            _ = Assert.IsType<ArmyDefaultMoveTokenEvent>(LastToken(seats, player: PlayerId.Player1));
+            Assert.Equal(PlayerType.Human, seats.Player(1).PlayerType);
+
+            HeadlessHooks.DriveHumanSeats = true;
+            try
+            {
+                Assert.True(ArmyHexSprite.MoveArmy(mover, selection: 0, path: path, mode: ArmyMoveModes.None, force: true));
+                _ = Assert.IsType<ArmyCombatMoveTokenEvent>(LastToken(seats, player: PlayerId.Player1));
+                Assert.Equal(PlayerType.Human, seats.Player(1).PlayerType);
+            }
+            finally
+            {
+                HeadlessHooks.DriveHumanSeats = false;
+            }
+        }
+        finally
+        {
+            mover.Dispose();
+            enemy.Dispose();
+        }
+    }
+
+    [Fact]
+    public void ADrivenHumanTurnActivatesTheSeatAndTheEndDeactivatesIt()
+    {
+        Assert.False(HeadlessHooks.DriveHumanSeats);
+        using SeatMap seats = new();
+        using QuietTurn turn = new();
+        seats.InstallEmptyContainer();
+        seats.Tokens().Initialize(seats.Map.PlayerCommunicator);
+        seats.Map.Day = 2;
+        seats.Map.DayLimit = 0;
+        seats.Map.RequestCombatType = false;
+        seats.PlayingHumans();
+        seats.Player(2).PlayerType = PlayerType.Cpu1;
+        _ = seats.Map.TurnOrder.Add(1);
+        _ = seats.Map.TurnOrder.Add(2);
+        seats.Map.CurrentPlayer = PlayerId.Player1;
+        seats.Map.SynchronizeBegin();
+        seats.Map.SetupPlayerControl(PlayMode.Turn, connection: PlayerConnectionType.Local);
+        PlayerControl control = seats.Map.PlayerControl;
+
+        control.NewTurn(PlayerId.Player1);
+        Assert.False(seats.Map.AIExecutor.Drives(PlayerId.Player1));
+        control.EndTurn(PlayerId.Player1);
+        Assert.False(seats.Map.AIExecutor.Drives(PlayerId.Player1));
+        Assert.True(seats.Map.AIExecutor.Drives(PlayerId.Player2));
+        Assert.Equal(PlayerType.Human, seats.Player(1).PlayerType);
+
+        HeadlessHooks.DriveHumanSeats = true;
+        try
+        {
+            control.NewTurn(PlayerId.Player1);
+            Assert.True(seats.Map.AIExecutor.Drives(PlayerId.Player1));
+            control.EndTurn(PlayerId.Player1);
+            Assert.False(seats.Map.AIExecutor.Drives(PlayerId.Player1));
+            Assert.True(seats.Map.AIExecutor.Drives(PlayerId.Player2));
+            Assert.Equal(PlayerType.Human, seats.Player(1).PlayerType);
+        }
+        finally
+        {
+            HeadlessHooks.DriveHumanSeats = false;
+        }
+    }
+
+    [Fact]
+    public void ADrivenHumanDayActivatesTheSeatAndTheDayEndDeactivatesIt()
+    {
+        Assert.False(HeadlessHooks.DriveHumanSeats);
+        using SeatMap seats = new();
+        using QuietTurn turn = new();
+        seats.InstallEmptyContainer();
+        seats.Tokens().Initialize(seats.Map.PlayerCommunicator);
+        seats.Map.Day = 2;
+        seats.Map.DayLimit = 0;
+        seats.Player(0).Status = PlayerStatus.Playing;
+        seats.Player(1).Status = PlayerStatus.Playing;
+        seats.Player(2).Status = PlayerStatus.Idle;
+        seats.Map.Players.Update();
+        seats.Map.SynchronizeBegin();
+        seats.Map.SetupPlayerControl(PlayMode.Simultaneous, connection: PlayerConnectionType.Local);
+        PlayerControl control = seats.Map.PlayerControl;
+
+        control.NewTurn(PlayerId.Player1);
+        Assert.False(seats.Map.AIExecutor.Drives(PlayerId.Player1));
+        Assert.Equal(PlayerType.Human, seats.Player(1).PlayerType);
+
+        HeadlessHooks.DriveHumanSeats = true;
+        try
+        {
+            control.NewTurn(PlayerId.Player1);
+            Assert.True(seats.Map.AIExecutor.Drives(PlayerId.Player1));
+            Assert.Equal(PlayerId.Player1, seats.Map.AIExecutor.Player);
+            control.EndTurn(PlayerId.Player1);
+            Assert.True(seats.Map.AIExecutor.Drives(PlayerId.Player1));
+            Assert.Equal(PlayerId.Independent, seats.Map.AIExecutor.Player);
+            Assert.Equal(PlayerType.Human, seats.Player(1).PlayerType);
+        }
+        finally
+        {
+            HeadlessHooks.DriveHumanSeats = false;
+        }
+    }
+
+    private static bool AiPath(ArmyHexSprite sprite)
+    {
+        MoveControlSettings settings = new(null) { Holder = EngineFixture.Engine };
+        try
+        {
+            settings.SetupArmy(sprite, selection: 0);
+            return settings.Mode.Contains(MoveModes.AI);
+        }
+        finally
+        {
+            _ = settings.Release();
+        }
+    }
+
+    private static TokenEvent LastToken(SeatMap seats, PlayerId? player)
+    {
+        TokenControl control = seats.Tokens().GetTokenControl(player) ?? throw new InvalidOperationException("The token control is missing.");
+        TokenEventList events = control.Events;
+        return events.GetEvent(events.GetCount() - 1);
+    }
+
+    private static MoveControl InstallMoveControl(StrategicMap map, MoveControl replacement)
+    {
+        const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        FieldInfo? field = null;
+        foreach (FieldInfo candidate in map.GetType().GetFields(flags))
+        {
+            if (candidate.FieldType == typeof(MoveControl))
+            {
+                field = candidate;
+                break;
+            }
+        }
+
+        if (field is null)
+        {
+            throw new InvalidOperationException("The move control field is missing.");
+        }
+
+        MoveControl previous = (MoveControl)(field.GetValue(map) ?? throw new InvalidOperationException("The move control is missing."));
+        field.SetValue(map, value: replacement);
+        return previous;
+    }
+
     private static void WriteCampaign(GameEngine engine, string path, bool started, int scenarioId)
     {
         engine.CloseCampaign();
@@ -189,10 +478,67 @@ public sealed class HeadlessSeatTests
             Map.Players.Update();
         }
 
+        internal void InstallEmptyContainer() => Map.MapContainer = new MapContainer(null) { Holder = EngineFixture.Engine };
+
+        internal void InstallGrid(int width, int height)
+        {
+            MapContainer container = new(null) { Holder = EngineFixture.Engine, Map = Map };
+            MapLevel level = new(container);
+            level.CreateMapFieldList(width, height);
+            container.Width = width;
+            container.Height = height;
+            container.LevelCount = 1;
+            Map.MapContainer = container;
+            // The level learns its map from the same activation message a real load sends.
+            EngineMessage.InitializeMessage(out EngineMessage message, messageId: 0x2000_0008, sender: Map);
+            message.Payload = EngineFixture.Engine;
+            level.MessageProc(ref message, sender: Map);
+        }
+
+        internal TokenManager Tokens() => Map.TokenManager ?? throw new InvalidOperationException("The token manager is missing.");
+
+        internal MapField Field(int x, int y)
+        {
+            MapContainer container = Map.MapContainer ?? throw new InvalidOperationException("The map has no container.");
+            return container.GetField(x, y, 0);
+        }
+
         public void Dispose()
         {
             _restore.Dispose();
             Map.Dispose();
+        }
+    }
+
+    /// <summary>Turns autosave off and clears the sound system for one turn or day.</summary>
+    private sealed class QuietTurn : IDisposable
+    {
+        private readonly bool _previousAutoSave;
+        private readonly SoundSystem? _previousSound;
+
+        public QuietTurn()
+        {
+            _previousAutoSave = EngineFixture.Engine.Registry.GetAutoSave();
+            _previousSound = AudioHost.SoundSystem;
+            AudioHost.SoundSystem = null;
+            EngineFixture.Engine.Registry.SetAutoSave(false);
+        }
+
+        public void Dispose()
+        {
+            AudioHost.SoundSystem = _previousSound;
+            EngineFixture.Engine.Registry.SetAutoSave(_previousAutoSave);
+        }
+    }
+
+    private sealed class RecordingMoveControl(GameMap owner) : MoveControl(owner)
+    {
+        internal MoveModes Seen { get; private set; }
+
+        public override void ProcessMove(MoveControlSettings settings)
+        {
+            Seen = settings.Mode;
+            settings.SetupMovePointData(4, 4, levelCount: 1);
         }
     }
 }
