@@ -155,7 +155,7 @@ public sealed partial class ChatWindow : ILayoutModule
         PlayerList.BorderWidth = 8;
         PlayerList.BorderHeight = 2;
         PlayerList.Selected = -1;
-        PlayerList.ItemDrawing += (_, e) => PlayerListPreDrawItem(default, drawItem: e.Item, lockedSurface: default);
+        PlayerList.ItemDrawing += (_, e) => PlayerListPreDrawItem(e.Rectangle, drawItem: e.Item, lockedSurface: e.Surface);
         PlayerList.TextColor = new Color(160, 169, 143);
         PlayerList.TextSelectedColor = Color.White;
         PlayerList.ImageLibraryIndexFrame = 113;

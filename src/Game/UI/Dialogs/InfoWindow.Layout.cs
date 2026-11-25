@@ -2206,7 +2206,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ItemBagList.BorderWidth = 6;
         ItemBagList.BorderHeight = 3;
         ItemBagList.Selected = -1;
-        ItemBagList.ItemDrawn += (_, e) => ItembagLBDrawItem(e.Rectangle, drawItem: default, e.Surface);
+        ItemBagList.ItemDrawn += (_, e) => ItembagLBDrawItem(e.Rectangle, drawItem: e.Item, e.Surface);
         ItemBagList.TextColor = new Color(160, 169, 143);
         ItemBagList.TextSelectedColor = Color.Black;
         ItemBagList.ImageLibraryIndexFrame = 40;
