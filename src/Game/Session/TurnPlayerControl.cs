@@ -2,15 +2,11 @@
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Audio;
-
 using Aow.Game.Events;
-
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Magic.Spells;
-
 using Aow.Game.World.Map;
 using static Aow.Rtl.DelphiStrings;
 
@@ -124,6 +120,13 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
         }
         else
         {
+            // A driven human keeps the new-turn sound and the day-one book. The executor call is
+            // the one a CPU seat gets above.
+            if (HeadlessHooks.DriveHumanSeats)
+            {
+                _ = StrategicMap.Current.AIExecutor.ActivatePlayer(player);
+            }
+
             _ = AudioPlayback.PlaySample("SFX\\EVENTS\\NEWTURN.WAV");
             if (StrategicMap.Current.Day == 1 && (StrategicMap.Current.RequestCombatType || player == StrategicMap.Current.SeatedPlayer))
             {
@@ -280,7 +283,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
 
         if (player == StrategicMap.Current.CurrentPlayer)
         {
-            if (StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+            if (HeadlessHooks.HandSeatToAI(StrategicMap.Current.Players.GetPlayers(player).PlayerType))
             {
                 StrategicMap.Current.AIExecutor.DeactivatePlayer(player);
             }
@@ -393,7 +396,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
             }
         }
 
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PlayerType != PlayerType.Human)
+        if (HeadlessHooks.HandSeatToAI(StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PlayerType))
         {
             _ = StrategicMap.Current.AIExecutor.ActivatePlayer(StrategicMap.Current.CurrentPlayer);
         }

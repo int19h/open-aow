@@ -2,6 +2,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
+using Aow.Game.Host;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
@@ -144,6 +145,8 @@ public partial class MoveControlSettings : EngineObject
         => SetDestinationPosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // MoveT.PAS:162
+    // A CPU seat paths with the AI move mode. A driven human keeps its type and takes that same
+    // mode while the host plays the seat. A human who plays the turn paths without it.
     public void SetupArmy(ArmyHexSprite? army, int selection)
     {
         ArmyHexSprite = army;
@@ -154,7 +157,7 @@ public partial class MoveControlSettings : EngineObject
         _ = MovePointTable;
         MovePointTable movePointTable = army.Army.CreateMovePointTable(selection);
         MovePointTable = movePointTable;
-        if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
+        if (HeadlessHooks.HandSeatToAI(StrategicMap.Current.Players.GetPlayers(Player).PlayerType))
         {
             Mode |= MoveModes.AI;
         }

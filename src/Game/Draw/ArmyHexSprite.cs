@@ -8,6 +8,7 @@ using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Draw.Animations;
 using Aow.Game.Events;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
@@ -834,7 +835,9 @@ public partial class ArmyHexSprite : UnitHexSprite
                     action = MoveAction.Normal;
                 }
 
-                bool condition = action == MoveAction.Attack && StrategicMap.Current.Players.GetPlayers(army.Army.Player).PlayerType == PlayerType.Human;
+                // A human attack into fog becomes a plain move. A CPU attack stays an attack. A driven
+                // human keeps the attack, the same action a CPU seat issues.
+                bool condition = action == MoveAction.Attack && !HeadlessHooks.HandSeatToAI(StrategicMap.Current.Players.GetPlayers(army.Army.Player).PlayerType);
                 if (condition)
                 {
                     PathStep item = path[0];

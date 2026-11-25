@@ -8,4 +8,7 @@
     <ProjectReference Include="../Game/Aow.Game.csproj" />
     <ProjectReference Include="../Platform/Aow.Platform.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Aow.Game.Tests" />
+  </ItemGroup>
 </Project>
