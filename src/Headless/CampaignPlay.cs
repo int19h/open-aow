@@ -1,5 +1,6 @@
 using Aow.Engine;
 using Aow.Formats;
+using Aow.Formats.Tree;
 using Aow.Game;
 using Aow.Game.Saves;
 using Aow.Game.Session;
@@ -36,7 +37,7 @@ internal static class CampaignPlay
     ]);
 
     /// <summary>Loads the named next node and applies the transfer. Returns the scenario file name.</summary>
-    public static string StartNext(GameEngine engine, string name)
+    public static string StartNext(GameEngine engine, string name, ICollection<DroppedObject>? dropped = null)
     {
         Campaign campaign = engine.Campaign ?? throw new InvalidDataException("The campaign did not load.");
         ScenarioOffer offer = ScenarioOffers.Select(ScenarioOffers.From(campaign), name);
@@ -48,7 +49,7 @@ internal static class CampaignPlay
         campaign.TransferSettings.AutoSelect();
         campaign.StartScenario(offer.Index, progress: null);
         _ = RtlHost.Files.SetCurrentDirectory(directory);
-        engine.LoadHsm(FileBoundary.ReadName(offer.FileName), edit: false, progress: null, profile: GameProfile.WorldMap);
+        engine.LoadHsm(FileBoundary.ReadName(offer.FileName), edit: false, progress: null, profile: GameProfile.WorldMap, dropped: dropped);
         campaign.SetupScenario();
         return offer.FileName;
     }

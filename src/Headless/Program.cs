@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using Aow.Engine.Nodes;
 using Aow.Formats;
+using Aow.Formats.Tree;
 using Aow.Game;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
@@ -46,7 +47,8 @@ internal static class Program
         SortedSet<string> todos = [with(StringComparer.Ordinal)];
         HashSet<string> exceptions = [];
         SortedSet<string> runtimeErrors = [with(StringComparer.Ordinal)];
-        SortedSet<string> loadExceptions = [with(StringComparer.Ordinal)];
+        SortedSet<string> loadWindowExceptions = [with(StringComparer.Ordinal)];
+        List<DroppedObject> dropped = [];
         bool gameplay = false;
         bool writeManifest = false;
         int turns = 0, seed = 123456789, firstDay = 0, day = 0;
@@ -165,14 +167,16 @@ internal static class Program
                 }
             }
 
-            // Every loader uses this rule. A child that fails during a load is dropped and the load
-            // continues. The run records that as a partial load. A transfer fails when the list is
-            // not empty. Play after a partial load still exits 0 when the turn loop finishes.
+            // The dropped list is the partial-load evidence. Each entry is one child the loader
+            // dropped, with its class, path and message. AcceptLoad copies the first-chance
+            // exceptions from the load window into the diagnostic set and clears them, so a
+            // handled load exception does not fail the turn loop. That diagnostic set does not
+            // decide the outcome. An exception after the load still fails the loop.
             void AcceptLoad()
             {
                 foreach (string detail in runtimeErrors)
                 {
-                    _ = loadExceptions.Add(detail);
+                    _ = loadWindowExceptions.Add(detail);
                 }
 
                 runtimeErrors.Clear();
@@ -188,7 +192,7 @@ internal static class Program
             if (kind == SaveKind.Campaign)
             {
                 CampaignPlay.Register(engine);
-                engine.LoadCampaign(input);
+                engine.LoadCampaign(input, dropped: dropped);
                 AcceptLoad();
                 if (engine.Campaign is not Campaign campaign)
                 {
@@ -198,7 +202,7 @@ internal static class Program
                 switch (CampaignPlay.Choose(campaign.ScenarioStarted, nextScenario: nextScenario))
                 {
                     case CampaignStep.PlayEmbeddedMap:
-                        engine.LoadCampaignMap(null);
+                        engine.LoadCampaignMap(null, dropped: dropped);
                         AcceptLoad();
                         break;
                     case CampaignStep.BetweenMaps:
@@ -210,7 +214,7 @@ internal static class Program
                         HostLog.Information(logger, text: $"campaign is between maps. Offered: {string.Join(separator: ", ", values: offeredScenarios)}");
                         break;
                     case CampaignStep.StartNext:
-                        _ = CampaignPlay.StartNext(engine, name: nextScenario);
+                        _ = CampaignPlay.StartNext(engine, name: nextScenario, dropped: dropped);
                         AcceptLoad();
                         break;
                     default:
@@ -219,7 +223,7 @@ internal static class Program
             }
             else
             {
-                engine.LoadHsm(input, edit: false, progress: null, profile: GameProfile.WorldMap);
+                engine.LoadHsm(input, edit: false, progress: null, profile: GameProfile.WorldMap, dropped: dropped);
                 AcceptLoad();
             }
 
@@ -344,22 +348,11 @@ internal static class Program
         }
         finally
         {
+            outcome = RunOutcome.Name(complete, droppedChildren: dropped.Count != 0, betweenMaps: betweenMaps);
+
             if (playedMap is not null)
             {
                 end = RunEnd.Capture(playedMap, ended);
-            }
-
-            if (loadExceptions.Count != 0)
-            {
-                outcome = RunOutcome.PartialLoad;
-            }
-            else if (betweenMaps)
-            {
-                outcome = RunOutcome.BetweenMaps;
-            }
-            else if (complete)
-            {
-                outcome = RunOutcome.Played;
             }
 
             if (writeManifest && output is not null && Directory.Exists(output))
@@ -408,7 +401,8 @@ internal static class Program
                     frames,
                     saves,
                     reached_todos = todos,
-                    load_exceptions = loadExceptions,
+                    dropped_objects = DroppedObjects.Record(dropped),
+                    load_window_exceptions = loadWindowExceptions,
                     gameplay_exceptions = runtimeErrors,
                     error
                 }, options: new JsonSerializerOptions { WriteIndented = true }) + "\n");
@@ -426,7 +420,7 @@ internal static class Program
             HeadlessHooks.MoveLine = null;
             randomTrace?.Dispose();
         }
-        return RunOutcome.Succeeds(complete, failed: error is not null, transfer: nextScenario is not null, droppedChildren: loadExceptions.Count != 0) ? 0 : 1;
+        return RunOutcome.Succeeds(complete, failed: error is not null, transfer: nextScenario is not null, droppedChildren: dropped.Count != 0) ? 0 : 1;
     }
 
     private static string LogDirectory(string[] arguments)

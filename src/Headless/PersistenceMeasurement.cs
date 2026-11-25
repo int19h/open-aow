@@ -1,7 +1,9 @@
 using System.Diagnostics;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Aow.Engine;
 using Aow.Formats;
+using Aow.Formats.Tree;
 using Aow.Game;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
@@ -50,19 +52,23 @@ internal static class PersistenceMeasurement
         string saved = kind == "set"
             ? Path.Combine(host.GameRoot, "Release", $"Release{extension}")
             : Path.Combine(host.GameRoot, "Save", $"measure{extension}");
+        // Each load phase keeps its own dropped-child list. A scenario set load has no list,
+        // so its record leaves the field out.
+        List<DroppedObject> originalDropped = [];
+        List<DroppedObject> ownDropped = [];
         Stopwatch watch = Stopwatch.StartNew();
         switch (kind)
         {
             case "map":
-                engine.LoadHsm(Path.GetFullPath(file), edit: false, progress: null, profile: GameProfile.WorldMap);
+                engine.LoadHsm(Path.GetFullPath(file), edit: false, progress: null, profile: GameProfile.WorldMap, dropped: originalDropped);
                 Require(engine.HexSpriteMap is not null, step: "original load");
                 break;
             case "set":
                 engine.LoadHss(Path.GetFullPath(file), edit: false, progress: null, profile: GameProfile.ScenarioSet);
                 break;
             default:
-                engine.LoadCampaign(Path.GetFullPath(file));
-                engine.LoadHsm(Path.GetFullPath(map ?? throw new ArgumentException("a campaign needs --map")), edit: false, progress: null, profile: GameProfile.WorldMap);
+                engine.LoadCampaign(Path.GetFullPath(file), dropped: originalDropped);
+                engine.LoadHsm(Path.GetFullPath(map ?? throw new ArgumentException("a campaign needs --map")), edit: false, progress: null, profile: GameProfile.WorldMap, dropped: originalDropped);
                 Require(engine.Campaign is not null && engine.HexSpriteMap is not null, step: "original load");
                 break;
         }
@@ -86,15 +92,15 @@ internal static class PersistenceMeasurement
         switch (kind)
         {
             case "map":
-                engine.LoadHsm(saved, edit: false, progress: null, profile: GameProfile.WorldMap);
+                engine.LoadHsm(saved, edit: false, progress: null, profile: GameProfile.WorldMap, dropped: ownDropped);
                 Require(engine.HexSpriteMap is not null, step: "own load");
                 break;
             case "set":
                 engine.LoadHss(saved, edit: false, progress: null, profile: GameProfile.ScenarioSet);
                 break;
             default:
-                engine.LoadCampaign(saved);
-                engine.LoadCampaignMap(null);
+                engine.LoadCampaign(saved, dropped: ownDropped);
+                engine.LoadCampaignMap(null, dropped: ownDropped);
                 Require(engine.Campaign is not null && engine.HexSpriteMap is not null, step: "own load");
                 break;
         }
@@ -105,17 +111,27 @@ internal static class PersistenceMeasurement
         long original = new FileInfo(Path.GetFullPath(file)).Length;
         long own = host.Files.FileExists(saved) ? ReadLength(host, path: saved) : 0;
         string name = Path.GetFileName(file);
-        File.WriteAllText(Path.Combine(output, "persistence.json"), contents: JsonSerializer.Serialize(new
+        JsonObject record = new()
         {
-            file = name,
-            kind,
-            original_bytes = original,
-            own_bytes = own,
-            original_load_ms = originalLoad,
-            save_ms = save,
-            own_load_ms = ownLoad,
-            peak_mib = peak,
-        }, options: new JsonSerializerOptions { WriteIndented = true }) + "\n");
+            ["file"] = name,
+            ["kind"] = kind,
+            ["original_bytes"] = original,
+            ["own_bytes"] = own,
+            ["original_load_ms"] = originalLoad,
+            ["save_ms"] = save,
+            ["own_load_ms"] = ownLoad,
+            ["peak_mib"] = peak,
+        };
+        if (kind is "map" or "campaign")
+        {
+            record["dropped_objects"] = JsonSerializer.SerializeToNode(new
+            {
+                original = DroppedObjects.Record(originalDropped),
+                own = DroppedObjects.Record(ownDropped),
+            });
+        }
+
+        File.WriteAllText(Path.Combine(output, "persistence.json"), contents: record.ToJsonString(new JsonSerializerOptions { WriteIndented = true }) + "\n");
         HostLog.Information(RtlHost.LoggerFactory.CreateLogger("OpenAoW.Headless.Persistence"), text: $"persistence {name}: original load {originalLoad:F0} ms, save {save:F0} ms, own load {ownLoad:F0} ms, peak {peak:F1} MiB, {original} original bytes, {own} own bytes");
         return 0;
     }
