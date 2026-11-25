@@ -18,11 +18,12 @@ public class TacticalBattleEndCombatTokenEvent(CustomNode owner) : TokenEvent(ow
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         _ = base.Execute(tokenEvent);
-        for (int i = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; i <= last; i++)
+        for (int i = 0, last = GetEngine().CombatMap.Combat.CombatData.GetCount() - 1; i <= last; i++)
         {
-            if (CombatMap.Current.Combat.CombatData.GetObjects(i) is not null && CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i).CombatPlayer == CombatMap.Current.CurrentCombatPlayer)
+            CombatMap combatMap = GetEngine().CombatMap;
+            if (combatMap.Combat.CombatData.GetObjects(i) is not null && combatMap.Combat.CombatData.GetObjects(i) is CombatUnit && combatMap.Combat.CombatData.GetObjects(i).GetEnabled() && combatMap.Combat.CombatData.GetObjects(i).CombatPlayer == combatMap.CurrentCombatPlayer)
             {
-                CombatMap.Current.Combat.CombatData.GetObjects(i).Surrender();
+                combatMap.Combat.CombatData.GetObjects(i).Surrender();
             }
         }
 

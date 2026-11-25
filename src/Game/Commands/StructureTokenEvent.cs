@@ -47,14 +47,14 @@ public class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         return tokenEvent.ExecuteCount != 0 || Validate()
-            ? StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Structure>(_structureClassId).ExecuteTokenEvent(this, executor: tokenEvent)
+            ? GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Structure>(_structureClassId).ExecuteTokenEvent(this, executor: tokenEvent)
             : ExecuteResult.DoneHalt;
     }
 
     // Structur.PAS:3065
     public override bool Validate()
     {
-        MapField mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+        MapField mapField = GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
         Structure structure = mapField.FindOwnedChild<Structure>(_structureClassId);
         return structure is not null && structure.EngineClass.ClassId == _structureClassId && mapField.GetPlayer() == Player;
     }
@@ -67,11 +67,12 @@ public class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
             Location = Location with { Y = (sbyte)y };
         }
         Location = Location with { MapLevel = (sbyte)mapLevel };
-        MapField mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        MapField mapField = strategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
         Structure structure = mapField.FindOwnedChild<Structure>(classId);
         Assert(classId == structure.EngineClass.ClassId, message: "Invalid position (StructureTE)", file: "Structur.PAS", line: 3045);
         _structureClassId = classId;
         _razed = structure.GetRazed();
-        Player = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetPlayer();
+        Player = strategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetPlayer();
     }
 }

@@ -32,24 +32,25 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode? owner) : CombatMoveTo
                     {
                         result = MoveStatus.Moving;
                         Unit.UnitHexSprite.CancelMove();
-                        bool notExplorationEnabled = !CombatMap.Current.ExplorationEnabled;
+                        CombatMap combatMap = GetEngine().CombatMap;
+                        bool notExplorationEnabled = !combatMap.ExplorationEnabled;
                         if (!notExplorationEnabled)
                         {
                             int hexY = Unit.UnitHexSprite.HexY;
                             int hexX = Unit.UnitHexSprite.HexX;
-                            notExplorationEnabled = CombatMap.Current.MapContainer.GetField(hexX, hexY, 0).GetExplored(CombatMap.Current.SeatedPlayer);
+                            notExplorationEnabled = combatMap.MapContainer.GetField(hexX, hexY, 0).GetExplored(combatMap.SeatedPlayer);
                         }
 
                         if (notExplorationEnabled)
                         {
                             int hexY = Unit.UnitHexSprite.HexY;
                             int hexX = Unit.UnitHexSprite.HexX;
-                            CombatMap.Current.MakeVisible(hexX, hexY, 0, radius: 5);
+                            combatMap.MakeVisible(hexX, hexY, 0, radius: 5);
                         }
 
                         PathStep pathY = Path[0];
                         PathStep pathX = Path[0];
-                        TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(pathX.Location.X, pathY.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
+                        TacticalBattleUnitHexSprite hexSprite = GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(pathX.Location.X, pathY.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                         PreviousUnit = hexSprite?.Unit;
 
                         if (PreviousUnit is null)
@@ -121,14 +122,18 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode? owner) : CombatMoveTo
                                 TacticalBattleUnit.MakeHitBlood(Unit, Strike.Damage);
                                 int hexY = Unit.UnitHexSprite.HexY;
                                 HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out x, out y);
-                                if ((Strike.DamageTypes & ~Strike.Effects) != DamageTypes.None)
+                                if ((Strike.DamageTypes & ~Strike.Effects) != DamageTypes.None || Strike.Effects != DamageTypes.None)
                                 {
-                                    CombatEvents.MakeDamageEffectHexSpriteList(x + Unit.UnitHexSprite.OffsetX, y + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.DamageTypes & ~Strike.Effects, resisted: false);
-                                }
+                                    GameEngine engine = GetEngine() ?? throw new InvalidOperationException("A melee move token has no engine.");
+                                    if ((Strike.DamageTypes & ~Strike.Effects) != DamageTypes.None)
+                                    {
+                                        CombatEvents.MakeDamageEffectHexSpriteList(x + Unit.UnitHexSprite.OffsetX, y + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.DamageTypes & ~Strike.Effects, resisted: false, engine: engine);
+                                    }
 
-                                if (Strike.Effects != DamageTypes.None)
-                                {
-                                    CombatEvents.MakeDamageEffectHexSpriteList(x + Unit.UnitHexSprite.OffsetX, y + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.Effects, resisted: true);
+                                    if (Strike.Effects != DamageTypes.None)
+                                    {
+                                        CombatEvents.MakeDamageEffectHexSpriteList(x + Unit.UnitHexSprite.OffsetX, y + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.Effects, resisted: true, engine: engine);
+                                    }
                                 }
                             }
 
@@ -145,14 +150,18 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode? owner) : CombatMoveTo
                                     TacticalBattleUnit.MakeHitBlood(PreviousUnit, Strike.Damage);
                                     int hexY = PreviousUnit.UnitHexSprite.HexY;
                                     HexGeometry.HexToPixel(PreviousUnit.UnitHexSprite.HexX, hexY, out x, out y);
-                                    if ((Strike.DamageTypes & ~Strike.Effects) != DamageTypes.None)
+                                    if ((Strike.DamageTypes & ~Strike.Effects) != DamageTypes.None || Strike.Effects != DamageTypes.None)
                                     {
-                                        CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: Strike.DamageTypes & ~Strike.Effects, resisted: false);
-                                    }
+                                        GameEngine engine = GetEngine() ?? throw new InvalidOperationException("A melee move token has no engine.");
+                                        if ((Strike.DamageTypes & ~Strike.Effects) != DamageTypes.None)
+                                        {
+                                            CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: Strike.DamageTypes & ~Strike.Effects, resisted: false, engine: engine);
+                                        }
 
-                                    if (Strike.Effects != DamageTypes.None)
-                                    {
-                                        CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: Strike.Effects, resisted: true);
+                                        if (Strike.Effects != DamageTypes.None)
+                                        {
+                                            CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: Strike.Effects, resisted: true, engine: engine);
+                                        }
                                     }
                                 }
 
@@ -178,7 +187,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode? owner) : CombatMoveTo
                             strike = _meleeRound.GetMeleeStrike(_strikeIndex - 1);
                             if (strike.Side == CombatSideIndex.Attacker && PreviousUnit.UnitHexSprite.ActionDone)
                             {
-                                CombatMap.Current.Combat.ExecuteCombatAction(Strike);
+                                GetEngine().CombatMap.Combat.ExecuteCombatAction(Strike);
                                 if (!PreviousUnit.GetEnabled())
                                 {
                                     Step = TokenStep.End;
@@ -193,7 +202,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode? owner) : CombatMoveTo
                             {
                                 if (Unit.UnitHexSprite.ActionDone)
                                 {
-                                    CombatMap.Current.Combat.ExecuteCombatAction(Strike);
+                                    GetEngine().CombatMap.Combat.ExecuteCombatAction(Strike);
                                     if (Unit.GetEnabled())
                                     {
                                         NextStrike();
@@ -233,12 +242,13 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode? owner) : CombatMoveTo
                 {
                     Unit.MovePoints = 0;
                     Unit.UnitHexSprite.Unselect();
-                    if (Unit.CombatPlayer == CombatMap.Current.CurrentCombatPlayer)
+                    CombatMap engineCombatMap = GetEngine().CombatMap;
+                    if (Unit.CombatPlayer == engineCombatMap.CurrentCombatPlayer)
                     {
                         int hexX = Unit.UnitHexSprite.HexX;
-                        CombatMap.Current.Players.GetPlayers(CombatMap.Current.CurrentCombatPlayer).LastX = hexX;
+                        engineCombatMap.Players.GetPlayers(engineCombatMap.CurrentCombatPlayer).LastX = hexX;
                         int hexY = Unit.UnitHexSprite.HexY;
-                        CombatMap.Current.Players.GetPlayers(CombatMap.Current.CurrentCombatPlayer).LastY = hexY;
+                        engineCombatMap.Players.GetPlayers(engineCombatMap.CurrentCombatPlayer).LastY = hexY;
                     }
                 }
             }
@@ -283,7 +293,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode? owner) : CombatMoveTo
     {
         _ = (Strike?.Release());
 
-        RandSeed = StrategicMap.Current.Random(16777215);
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
         Strike = _meleeRound.CreateStrikeCombatAction(_strikeIndex);
         MeleeRound.Strike strike = _meleeRound.GetMeleeStrike(_strikeIndex);
         if (strike.Side == CombatSideIndex.Attacker)

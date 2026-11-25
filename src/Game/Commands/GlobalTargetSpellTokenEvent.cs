@@ -34,13 +34,14 @@ public class GlobalTargetSpellTokenEvent(CustomNode? owner) : SpellTokenEvent(ow
     // GlobalTargetSpells.pas:419
     public void PlayDefaultEffects(int X, int Y, int layer)
     {
-        if (GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
+        GamePack gamePack = GetEngine().GamePack;
+        if (gamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
         {
             ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-            animation.SetImageSequence(GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
-            _ = StrategicMap.Current.PlaceHex(animation, X, Y, L: layer);
+            animation.SetImageSequence(gamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
+            _ = GetEngine().StrategicMap.PlaceHex(animation, X, Y, L: layer);
         }
 
-        _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);
+        _ = GetEngine().GamePack.SpellControl[EventSpellId].CastSounds.Play(0);
     }
 }

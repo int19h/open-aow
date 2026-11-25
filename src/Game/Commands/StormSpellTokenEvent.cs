@@ -33,9 +33,9 @@ public class StormSpellTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
         _ = base.Process(source, value);
         if (value == 0)
         {
-            _storm = GamePack.Current.SpellControl.GetSpell<StormSpell>(EventSpellId).CreateStorm();
+            _storm = GetEngine().GamePack.SpellControl.GetSpell<StormSpell>(EventSpellId).CreateStorm();
             _storm.InitializeStorm(source.Player, Location.X, Location.Y, L: Location.MapLevel);
-            GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
+            GetEngine().GamePack.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
         }
         if (!_storm.UpdateStorm())
         {

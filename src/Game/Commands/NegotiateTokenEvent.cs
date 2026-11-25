@@ -80,7 +80,7 @@ public class NegotiateTokenEvent(CustomNode? owner) : TokenEvent(owner)
             param[0] = this;
             message.Param = param;
             message.Result = 0;
-            StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).SendMapFieldMessage(ref message);
+            GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).SendMapFieldMessage(ref message);
         }
 
         return ExecuteResult.Done;
@@ -102,22 +102,24 @@ public class NegotiateTokenEvent(CustomNode? owner) : TokenEvent(owner)
             result = true;
         }
 
-        return result && Location.X != -1 && (byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetPlayer()) == (byte)PlayerIdExtensions.ToOriginal(_ownerPlayer);
+        return result && Location.X != -1 && (byte)PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetPlayer()) == (byte)PlayerIdExtensions.ToOriginal(_ownerPlayer);
     }
 
     // Diplomacy.pas:192
     public virtual void Accept()
     {
-        if (StrategicMap.Current.Players.GetPlayers(Player).Gems >= Gold)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Players.GetPlayers(Player).Gems >= Gold)
         {
-            Player? players = StrategicMap.Current.Players.GetPlayers(Player);
-            StrategicMap.Current.Players.GetPlayers(Player).SetGems(players.Gems - Gold);
+            Player? players = strategicMap.Players.GetPlayers(Player);
+            strategicMap.Players.GetPlayers(Player).SetGems(players.Gems - Gold);
             if (EventLogId != -1)
             {
-                EventLog? log = StrategicMap.Current.Players.GetPlayers(Player).EventLogbook.FindId(EventLogId);
+                StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                EventLog? log = engineStrategicMap.Players.GetPlayers(Player).EventLogbook.FindId(EventLogId);
                 if (log is not null)
                 {
-                    StrategicMap.Current.Players.GetPlayers(Player).EventLogbook.RemoveEvent(log);
+                    engineStrategicMap.Players.GetPlayers(Player).EventLogbook.RemoveEvent(log);
                 }
             }
 
@@ -128,7 +130,7 @@ public class NegotiateTokenEvent(CustomNode? owner) : TokenEvent(owner)
                 _ = path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
                 path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
                 MoveArmyTokenEvent? move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, action: MoveAction.Combine, mode: ArmyMoveModes.SelectEndLocation);
-                _ = StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
+                _ = GetEngine().StrategicMap.TokenManager.TokenExecutor.InsertExecuteEvent(move);
                 // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
                 _ = move.Release();
                 path?.Dispose();
@@ -146,7 +148,7 @@ public class NegotiateTokenEvent(CustomNode? owner) : TokenEvent(owner)
             _ = path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
             path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
             MoveArmyTokenEvent? move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, action: MoveAction.Attack, mode: ArmyMoveModes.SelectEndLocation);
-            _ = StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
+            _ = GetEngine().StrategicMap.TokenManager.TokenExecutor.InsertExecuteEvent(move);
             // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
             _ = move.Release();
             path?.Dispose();

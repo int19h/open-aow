@@ -5,7 +5,6 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Net;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
@@ -27,7 +26,7 @@ public class GameOverTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:3240
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        StrategicMap.Current.PlayerControl.GameOver(Player, status: GameOverStatus);
+        GetEngine().StrategicMap.PlayerControl.GameOver(Player, status: GameOverStatus);
         return ExecuteResult.Done;
     }
 }

@@ -27,34 +27,36 @@ public class CombatFlowControlTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:3603
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
+        StrategicMap strategicMap = GetEngine().StrategicMap;
         if (Mode.Contains(CombatFlowControlModes.SetAutoSwitch))
         {
-            StrategicMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = false;
+            strategicMap.TokenManager.TokenExecutor.HoldTacticalBattle = false;
         }
 
         if (Mode.Contains(CombatFlowControlModes.LockAIExecutor))
         {
-            StrategicMap.Current.AIExecutor.Lock();
+            strategicMap.AIExecutor.Lock();
         }
 
         if (Mode.Contains(CombatFlowControlModes.UnlockAIExecutor))
         {
-            StrategicMap.Current.AIExecutor.Unlock();
+            strategicMap.AIExecutor.Unlock();
         }
 
         if (Mode.Contains(CombatFlowControlModes.ActivateTacticalBattle))
         {
-            StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(Player);
+            strategicMap.TokenManager.TokenExecutor.ActivateTacticalBattle(Player);
         }
 
+        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
         if (Mode.Contains(CombatFlowControlModes.EnableTurnTimer))
         {
-            StrategicMap.Current.EnableTurnTimer();
+            engineStrategicMap.EnableTurnTimer();
         }
 
         if (Mode.Contains(CombatFlowControlModes.DisableTurnTimer))
         {
-            StrategicMap.Current.DisableTurnTimer();
+            engineStrategicMap.DisableTurnTimer();
         }
 
         return ExecuteResult.Done;

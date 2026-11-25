@@ -6,8 +6,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Net;
 
-using Aow.Game.World.Map;
-
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Commands;
@@ -23,37 +21,41 @@ public class TacticalBattleEndTurnTokenEvent(CustomNode owner) : TokenEvent(owne
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         _ = base.Execute(tokenEvent);
-        RandSeed = StrategicMap.Current.Random(16777215);
-        int turnIndex = CombatMap.Current.Combat.CombatData.TurnOrder.IndexOf((byte)CombatMap.Current.CurrentCombatPlayer);
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
+        CombatMap combatMap = GetEngine().CombatMap;
+        int turnIndex = combatMap.Combat.CombatData.TurnOrder.IndexOf((byte)combatMap.CurrentCombatPlayer);
         bool found = false;
         while (!found)
         {
             turnIndex++;
-            if (CombatMap.Current.Combat.CombatData.TurnOrder.Count <= turnIndex)
+            CombatMap engineCombatMap = GetEngine().CombatMap;
+            if (engineCombatMap.Combat.CombatData.TurnOrder.Count <= turnIndex)
             {
                 turnIndex = 0;
-                CombatMap.Current.Combat.NewRound();
+                engineCombatMap.Combat.NewRound();
             }
 
-            for (int i = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; i <= last; i++)
+            CombatMap getCountCombatMap = GetEngine().CombatMap;
+            for (int i = 0, last = getCountCombatMap.Combat.CombatData.GetCount() - 1; i <= last; i++)
             {
-                bool condition = CombatMap.Current.Combat.CombatData.GetObjects(i) is not null and CombatUnit;
+                bool condition = getCountCombatMap.Combat.CombatData.GetObjects(i) is not null and CombatUnit;
                 if (condition)
                 {
-                    CombatObject combatObject = CombatMap.Current.Combat.CombatData.GetObjects(i);
-                    int turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[turnIndex];
+                    CombatObject combatObject = getCountCombatMap.Combat.CombatData.GetObjects(i);
+                    int turnOrder = getCountCombatMap.Combat.CombatData.TurnOrder[turnIndex];
                     condition = combatObject.CombatPlayer == turnOrder;
                 }
 
-                if (condition && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled())
+                if (condition && getCountCombatMap.Combat.CombatData.GetObjects(i).GetEnabled())
                 {
                     found = true;
                 }
             }
         }
 
-        int turnOrder2 = CombatMap.Current.Combat.CombatData.TurnOrder[turnIndex];
-        CombatMap.Current.NewTurn((sbyte)turnOrder2);
+        CombatMap newTurnCombatMap = GetEngine().CombatMap;
+        int turnOrder2 = newTurnCombatMap.Combat.CombatData.TurnOrder[turnIndex];
+        newTurnCombatMap.NewTurn((sbyte)turnOrder2);
         return ExecuteResult.Done;
     }
 }

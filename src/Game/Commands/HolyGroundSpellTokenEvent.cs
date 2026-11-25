@@ -26,40 +26,40 @@ public class HolyGroundSpellTokenEvent(CustomNode? owner) : GlobalTargetSpellTok
     {
         _ = base.Process(source, value);
         CreateHolyGround(source);
-        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, L: Location.MapLevel, radius: 1);
-        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
+        _ = GetEngine().StrategicMap.ValidateTerrainObservation(source.Player, Location.X, Location.Y, L: Location.MapLevel, radius: 1);
+        GetEngine().GamePack.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
         return false;
     }
 
     // HolyG.pas:285
     public void CreateHolyGround(Troop caster)
     {
-        MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(Location.MapLevel);
+        MapLevel level = GetEngine().StrategicMap.MapContainer.GetMapLevel(Location.MapLevel);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, radius: 0);
-        HolyGround.Resource resource = GamePack.Current.MapObjectResourceList.FindChild<HolyGround.Resource>(HolyGround.Resource.ClassId);
+        HolyGround.Resource resource = GetEngine().GamePack.MapObjectResourceList.FindChild<HolyGround.Resource>(HolyGround.Resource.ClassId);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 MapField field = level.Field[walk.X, walk.Y];
-                if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(13).ValidTargetMapField(field))
+                if (GetEngine().GamePack.SpellControl.GetSpell<GlobalTargetSpell>(13).ValidTargetMapField(field))
                 {
                     if (field.GetArmyHexSprite() is null)
                     {
                         field.RestoreTerrain();
                         HolyGround ground = resource.CreateResourceUser<HolyGround>();
-                        ground.Duration = (((StrategicMap.Current.Random(11) - 5) / 5) + 3).TruncateToSByte();
+                        ground.Duration = (((GetEngine().StrategicMap.Random(11) - 5) / 5) + 3).TruncateToSByte();
                         ground.Player = caster.Player;
                         ground.OriginalOverlay = field.OverlayType;
-                        StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
-                        if (StrategicMap.Current.PlaceHex(ground, walk.X, walk.Y, L: Location.MapLevel))
+                        GetEngine().StrategicMap.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
+                        if (GetEngine().StrategicMap.PlaceHex(ground, walk.X, walk.Y, L: Location.MapLevel))
                         {
                             ground.Mode = HolySummonings.Summoning;
                             ImageSequenceAnimation animation = new(null, show: ground.ShowSummonAnimation, newFrame: ground.NewFrameSummonAnimation) { Holder = CreationHolder() };
-                            animation.SetImageSequence(GamePack.Current.SpellControl[13].CastImages.ImageSequences[0]);
-                            animation.FrameCounter = -StrategicMap.Current.Random(15);
+                            animation.SetImageSequence(GetEngine().GamePack.SpellControl[13].CastImages.ImageSequences[0]);
+                            animation.FrameCounter = -GetEngine().StrategicMap.Random(15);
                             animation.Tag = PlayerIdExtensions.ToOriginal(caster.Player);
-                            _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, L: Location.MapLevel);
+                            _ = GetEngine().StrategicMap.PlaceHex(animation, walk.X, walk.Y, L: Location.MapLevel);
                         }
                         else
                         {

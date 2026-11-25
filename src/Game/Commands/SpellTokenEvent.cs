@@ -42,7 +42,7 @@ public class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
     }
 
     // NetworkE.pas:230
-    public Troop Source => StrategicMap.Current.UnitControl.FindUnit(EventSourceId);
+    public Troop Source => GetEngine().StrategicMap.UnitControl.FindUnit(EventSourceId);
 
     public virtual bool Validate(Hero source)
     {
@@ -50,7 +50,7 @@ public class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
         return (byte)PlayerIdExtensions.ToOriginal(source.Player) == (byte)PlayerIdExtensions.ToOriginal(EventPlayerIndex) && source.CanCastSpellInstantly(EventSpellId, mana: EventMana, ref reason);
     }
 
-    public virtual bool Process(Troop source, int value) => GamePack.Current.SpellControl[EventSpellId].ExecuteTokenEvent(this, source, executeCount: value);
+    public virtual bool Process(Troop source, int value) => GetEngine().GamePack.SpellControl[EventSpellId].ExecuteTokenEvent(this, source, executeCount: value);
 
     public virtual void PlayDefaultCastEffects(int unused1, int unused2)
     {
@@ -58,7 +58,7 @@ public class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
         int x = coordinate10.X;
         int y = coordinate10.Y;
         int l = coordinate10.MapLevel;
-        Spell spell = GamePack.Current.SpellControl[EventSpellId];
+        Spell spell = GetEngine().GamePack.SpellControl[EventSpellId];
         spell.PlayDefaultCastEffects(Source.Player, x, y, layer: l.TruncateToSByte());
     }
 
@@ -66,7 +66,7 @@ public class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         _ = base.Execute(executor);
         // ExecuteCount binds tighter than the null test. A non-hero with a later count still reaches Process.
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(EventSourceId);
+        Troop source = GetEngine().StrategicMap.UnitControl.FindUnit(EventSourceId);
         return source is null
             ? ExecuteResult.DoneHalt
             : executor.ExecuteCount == 0 && (source is not Hero hero || !Validate(hero))

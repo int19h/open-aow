@@ -6,7 +6,6 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.Commands;
@@ -56,7 +55,7 @@ public class HeroUpgradeTokenEvent : TokenEvent
     public override ExecuteResult Execute(TokenExecutor? tokenEvent)
     {
         ExecuteResult result = base.Execute(tokenEvent);
-        Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+        Hero hero = GetEngine().StrategicMap.UnitControl.FindUnit<Hero>(UnitId);
         if (hero is not null && hero.GetHitPoints() != 0 && hero.Player == Player)
         {
             hero.SetUnitAttack((hero.UnitAttack + Attack).TruncateToSByte());

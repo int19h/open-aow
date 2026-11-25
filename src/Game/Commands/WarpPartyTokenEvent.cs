@@ -47,7 +47,7 @@ public class WarpPartyTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
             int selection = default;
             ArmyHexSprite? army = default;
             _ = ArmyId.RetrieveArmy(ref army, ref selection);
-            return GamePack.Current.SpellControl.GetSpell<WarpParty>(EventSpellId).ValidTarget(army, WarpLocation.X, WarpLocation.Y, layer: WarpLocation.MapLevel);
+            return GetEngine().GamePack.SpellControl.GetSpell<WarpParty>(EventSpellId).ValidTarget(army, WarpLocation.X, WarpLocation.Y, layer: WarpLocation.MapLevel);
         }
 
         return result;
@@ -64,41 +64,48 @@ public class WarpPartyTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
         int y = coordinate15.Y;
         int layer = coordinate15.MapLevel;
         _ = ArmyId.RetrieveArmy(ref army, ref selection);
-        MapField field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(WarpLocation);
+        MapField field = GetEngine().StrategicMap.MapContainer.GetFieldMapCoordinate(WarpLocation);
         _ = army.MoveTo(field, moveCost: 0);
-        bool showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(x, y, layer, player: StrategicMap.Current.SeatedPlayer);
-        bool showTarget = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(field.HexX, field.HexY, field.HexLevel, player: StrategicMap.Current.SeatedPlayer);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        bool showSource = strategicMap.SeatedPlayer == source.Player || strategicMap.VisibleForPlayer(x, y, layer, player: strategicMap.SeatedPlayer);
+        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+        bool showTarget = engineStrategicMap.SeatedPlayer == source.Player || engineStrategicMap.VisibleForPlayer(field.HexX, field.HexY, field.HexLevel, player: engineStrategicMap.SeatedPlayer);
         ImageSequenceAnimation animation;
-        if (showSource && GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
+        GamePack gamePack = GetEngine().GamePack;
+        if (showSource && gamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
         {
             animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
-            animation.SetImageSequence(GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
-            _ = StrategicMap.Current.PlaceHex(animation, x, y, L: layer);
+            animation.SetImageSequence(gamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
+            _ = GetEngine().StrategicMap.PlaceHex(animation, x, y, L: layer);
         }
 
-        if (showTarget && GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
+        GamePack engineGamePack = GetEngine().GamePack;
+        if (showTarget && engineGamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
         {
             animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
-            animation.SetImageSequence(GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
-            _ = StrategicMap.Current.PlaceHex(animation, field.HexX, field.HexY, L: field.HexLevel);
+            animation.SetImageSequence(engineGamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
+            _ = GetEngine().StrategicMap.PlaceHex(animation, field.HexX, field.HexY, L: field.HexLevel);
         }
 
-        if (source.Player == StrategicMap.Current.SeatedPlayer)
+        StrategicMap centerViewToStrategicMap = GetEngine().StrategicMap;
+        if (source.Player == centerViewToStrategicMap.SeatedPlayer)
         {
-            StrategicMap.Current.CenterViewTo(field.HexX, field.HexY, field.HexLevel);
+            centerViewToStrategicMap.CenterViewTo(field.HexX, field.HexY, field.HexLevel);
         }
         else
         {
-            _ = StrategicMap.Current.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, radius: 0);
+            _ = GetEngine().StrategicMap.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, radius: 0);
         }
 
-        if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(x, y, L: layer, radius: 0) || StrategicMap.Current.Watching(field.HexX, field.HexY, L: field.HexLevel, radius: 0))
+        StrategicMap watchingStrategicMap = GetEngine().StrategicMap;
+        if (source.Player == watchingStrategicMap.SeatedPlayer || watchingStrategicMap.Watching(x, y, L: layer, radius: 0) || watchingStrategicMap.Watching(field.HexX, field.HexY, L: field.HexLevel, radius: 0))
         {
-            _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);
+            _ = GetEngine().GamePack.SpellControl[EventSpellId].CastSounds.Play(0);
         }
 
-        Spell? spell = GamePack.Current.SpellControl[EventSpellId];
-        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
+        GamePack castingDoneGamePack = GetEngine().GamePack;
+        Spell? spell = castingDoneGamePack.SpellControl[EventSpellId];
+        castingDoneGamePack.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
         return false;
     }
 }

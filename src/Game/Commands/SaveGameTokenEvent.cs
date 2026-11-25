@@ -6,7 +6,6 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiPaths;
 
@@ -30,23 +29,23 @@ public class SaveGameTokenEvent(CustomNode? owner) : TokenEvent(owner)
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         _ = base.Execute(tokenEvent);
-        if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == tokenEvent.ActiveTacticalBattleIndex)
+        if (PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.SeatedPlayer) == tokenEvent.ActiveTacticalBattleIndex)
         {
             if (tokenEvent.ExecuteCount == 0)
             {
                 string fileName = ExtractFileName(FileName);
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_savingGameFormat), arguments: [fileName]);
-                StrategicMap.Current.ShowMessage(format);
+                GetEngine().StrategicMap.ShowMessage(format);
                 return ExecuteResult.Retry;
             }
             else
             {
                 string fileName = ExtractFileName(FileName);
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.GameSavedFormat), arguments: [fileName]);
-                StrategicMap.Current.ShowMessage(format);
+                GetEngine().StrategicMap.ShowMessage(format);
                 try
                 {
-                    StrategicMap.Current.DisableTurnTimer();
+                    GetEngine().StrategicMap.DisableTurnTimer();
                     if (GetEngine().Campaign is not null)
                     {
                         GetEngine().SaveCampaign(FileName);
@@ -55,17 +54,17 @@ public class SaveGameTokenEvent(CustomNode? owner) : TokenEvent(owner)
                     else
                     {
                         GetEngine().SaveHsm(FileName, progress: null, profile: GameProfile.WorldMap);
-                        StrategicMap.Current.FileName = FileName;
+                        GetEngine().StrategicMap.FileName = FileName;
                     }
 
-                    StrategicMap.Current.EnableTurnTimer();
+                    GetEngine().StrategicMap.EnableTurnTimer();
                 }
                 catch (Exception error)
                 {
                     // { Original leaves the turn timer disabled after a save failure. }
                     HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
                     string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_errorSavingFormat), arguments: [FileName]);
-                    StrategicMap.Current.ShowMessage(formattedText);
+                    GetEngine().StrategicMap.ShowMessage(formattedText);
                 }
 
                 return ExecuteResult.Done;

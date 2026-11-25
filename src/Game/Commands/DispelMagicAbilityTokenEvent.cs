@@ -38,9 +38,10 @@ public class DispelMagicAbilityTokenEvent(CustomNode? owner) : TokenEvent(owner)
     {
         _ = base.Execute(tokenEvent);
         EnchantmentList enchantments = new(null) { Holder = CreationHolder() };
-        Troop? source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
-        Troop? target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
-        DispelMagicAbility ability = GamePack.Current.AbilityControl.GetAbility<DispelMagicAbility>(60);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Troop? source = strategicMap.UnitControl.FindUnit(SourceId);
+        Troop? target = strategicMap.UnitControl.FindUnit(TargetId);
+        DispelMagicAbility ability = GetEngine().GamePack.AbilityControl.GetAbility<DispelMagicAbility>(60);
         bool success = source is not null && (byte)PlayerIdExtensions.ToOriginal(source.Player) == (byte)PlayerIdExtensions.ToOriginal(SourcePlayer) && target is not null && (byte)PlayerIdExtensions.ToOriginal(target.Player) == (byte)PlayerIdExtensions.ToOriginal(TargetPlayer);
         success = success && ability.GetEnabled(source);
         if (success)
@@ -57,24 +58,24 @@ public class DispelMagicAbilityTokenEvent(CustomNode? owner) : TokenEvent(owner)
             for (int i = enchantments.GetCount() - 1; i >= 0; i--)
             {
                 int chance = enchantments.GetEnchantments(i).DispelChance(mana);
-                if (chance > StrategicMap.Current.Random(100))
+                if (chance > GetEngine().StrategicMap.Random(100))
                 {
                     count += 1;
                     _ = enchantments.GetEnchantments(i).Dispel();
                 }
             }
 
-            if (source.Player == StrategicMap.Current.SeatedPlayer)
+            if (source.Player == GetEngine().StrategicMap.SeatedPlayer)
             {
                 if (count > 0)
                 {
                     string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SpellsSuccessfullyDispelledFormat), arguments: [count.ToString(CultureInfo.InvariantCulture)]);
-                    StrategicMap.Current.ShowMessage(format);
+                    GetEngine().StrategicMap.ShowMessage(format);
                 }
                 else
                 {
                     string dispelMagicFailed = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DispelMagicFailedText);
-                    StrategicMap.Current.ShowMessage(dispelMagicFailed);
+                    GetEngine().StrategicMap.ShowMessage(dispelMagicFailed);
                 }
             }
 
@@ -83,15 +84,17 @@ public class DispelMagicAbilityTokenEvent(CustomNode? owner) : TokenEvent(owner)
             int x = coordinate8.X;
             int y = coordinate8.Y;
             int l = coordinate8.MapLevel;
-            _ = StrategicMap.Current.ValidateObservation(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(SourcePlayer)), x, y, l, radius: 0);
-            if (StrategicMap.Current.Visible(x, y, l, radius: 0))
+            _ = GetEngine().StrategicMap.ValidateObservation(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(SourcePlayer)), x, y, l, radius: 0);
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+            if (engineStrategicMap.Visible(x, y, l, radius: 0))
             {
                 ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(ability.ImageSequences.GetImageSequence(0));
-                _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
+                _ = engineStrategicMap.PlaceHex(animation, x, y, l);
             }
 
-            if ((byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == (byte)PlayerIdExtensions.ToOriginal(SourcePlayer) || StrategicMap.Current.Watching(x, y, l, radius: 0))
+            StrategicMap toOriginalStrategicMap = GetEngine().StrategicMap;
+            if ((byte)PlayerIdExtensions.ToOriginal(toOriginalStrategicMap.SeatedPlayer) == (byte)PlayerIdExtensions.ToOriginal(SourcePlayer) || toOriginalStrategicMap.Watching(x, y, l, radius: 0))
             {
                 _ = ability.SfxLibrary.Play(0);
             }

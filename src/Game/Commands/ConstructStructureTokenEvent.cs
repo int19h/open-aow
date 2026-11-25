@@ -35,8 +35,8 @@ public class ConstructStructureTokenEvent(CustomNode? owner) : TokenEvent(owner)
     {
         string reason = "";
         _ = base.Execute(tokenEvent);
-        Troop? troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        StructureConstructionControl control = GamePack.Current.AbilityControl.GetAbility<ConstructAbility>(125).ConstructionControls.FindId<StructureConstructionControl>(ControlId);
+        Troop? troop = GetEngine().StrategicMap.UnitControl.FindUnit(UnitId);
+        StructureConstructionControl control = GetEngine().GamePack.AbilityControl.GetAbility<ConstructAbility>(125).ConstructionControls.FindId<StructureConstructionControl>(ControlId);
         if (control is not null && troop is not null && troop.Player == Player && control.CanConstruct(troop, ref reason))
         {
             StructureResource? resource = control.StructureResource(troop);
@@ -46,13 +46,13 @@ public class ConstructStructureTokenEvent(CustomNode? owner) : TokenEvent(owner)
                 int x = coordinate4.X;
                 int y = coordinate4.Y;
                 int l = coordinate4.MapLevel;
-                MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(l);
+                MapLevel level = GetEngine().StrategicMap.MapContainer.GetMapLevel(l);
                 HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 0);
                 while (walk.HexNumber < resource.TerrainList.Count)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && level.Width > walk.X && level.Height > walk.Y && resource.TerrainList.GetUsed(walk.HexNumber))
                     {
-                        StrategicMap.Current.ClearTerrain(walk.X, walk.Y, l, radius: 0, terrainType: -1);
+                        GetEngine().StrategicMap.ClearTerrain(walk.X, walk.Y, l, radius: 0, terrainType: -1);
                     }
 
                     HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -61,13 +61,14 @@ public class ConstructStructureTokenEvent(CustomNode? owner) : TokenEvent(owner)
                 bool locked = troop.Owner is not IHeroHolder;
                 ObservableNode? owner = locked ? troop.OwnerUnits.Holder : null;
                 using ObservableNode.UpdateBatch batch = locked ? owner.BeginUpdate() : default;
-                Structure structure = resource.PlaceResourceUser<Structure>(StrategicMap.Current, hexX: x, hexY: y, hexLevel: l);
+                Structure structure = resource.PlaceResourceUser<Structure>(GetEngine().StrategicMap, hexX: x, hexY: y, hexLevel: l);
                 if (structure is not null)
                 {
                     control.GetInfo(troop, out string text, out int gold, out int days);
                     _ = structure.ExecuteBuild(troop, days);
-                    Player? players = StrategicMap.Current.Players.GetPlayers(troop.Player);
-                    StrategicMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - gold);
+                    StrategicMap strategicMap = GetEngine().StrategicMap;
+                    Player? players = strategicMap.Players.GetPlayers(troop.Player);
+                    strategicMap.Players.GetPlayers(troop.Player).SetGems(players.Gems - gold);
                     troop.Killed();
                     return ExecuteResult.Done;
                 }

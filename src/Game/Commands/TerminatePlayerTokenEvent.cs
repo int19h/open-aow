@@ -30,34 +30,36 @@ public class TerminatePlayerTokenEvent(CustomNode? owner) : TokenEvent(owner)
     // MoveT.PAS:3255
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        StrategicMap.Current.Players.GetPlayers(Player).PlayerType = PlayerType.Cpu3;
-        RemotePlayerCommunicationControl? remotePlayerCommunicationControl = (RemotePlayerCommunicationControl?)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.Players.GetPlayers(Player).PlayerType = PlayerType.Cpu3;
+        RemotePlayerCommunicationControl? remotePlayerCommunicationControl = (RemotePlayerCommunicationControl?)strategicMap.PlayerCommunicator.PlayerCommunicationControl;
         remotePlayerCommunicationControl.SetConnectionMode(PlayerIdExtensions.ToOriginal(Player), mode: ConnectionMode.Global);
         remotePlayerCommunicationControl.SetSystemId(PlayerIdExtensions.ToOriginal(Player), systemId: 0);
 
-        if (!StrategicMap.Current.Players.GetPlayers(Player).SingleProcessCycle)
+        if (!strategicMap.Players.GetPlayers(Player).SingleProcessCycle)
         {
-            StrategicMap.Current.PlayerControl.EndTurn(Player);
+            strategicMap.PlayerControl.EndTurn(Player);
         }
 
-        StrategicMap.Current.Players.Update();
-        if (StrategicMap.Current.SeatedPlayer != Player)
+        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+        engineStrategicMap.Players.Update();
+        if (engineStrategicMap.SeatedPlayer != Player)
         {
             MessageEventLog log = new(null, holder: CreationHolder())
             {
                 Buttons = MessageEventLogButtons.Ok,
                 Layout = MessageEventLogLayout.Normal
             };
-            string name = StrategicMap.Current.Players.GetPlayers(Player).GetName();
+            string name = GetEngine().StrategicMap.Players.GetPlayers(Player).GetName();
             string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_leftGameFormat), arguments: [name]);
             _ = log.Message.Add(format);
             // { Append the departure message, as in the original. }
-            StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: null);
+            GetEngine().StrategicMap.TriggerExecuteEventLog(log, immediate: false, done: null);
             _ = log.Release();
         }
         else
         {
-            StrategicMap.Current.ExecuteExitGame();
+            GetEngine().StrategicMap.ExecuteExitGame();
             ExitCallback?.Invoke(ExitMode, Exited: true);
         }
 

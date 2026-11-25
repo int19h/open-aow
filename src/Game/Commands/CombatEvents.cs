@@ -9,14 +9,14 @@ namespace Aow.Game.Commands;
 
 internal static class CombatEvents
 {
-    internal static void MakeDamageEffectHexSpriteList(int X, int Y, DamageTypes damageTypes, bool resisted)
+    internal static void MakeDamageEffectHexSpriteList(int X, int Y, DamageTypes damageTypes, bool resisted, GameEngine engine)
     {
         void MakeEffect(BattleEffectType effectType)
         {
             int count = Random(5) + 8;
             for (int i = 1; i <= count - 1; i++)
             {
-                BattleEffectSprite effect = CombatMap.Current.AddEffect(effectType);
+                BattleEffectSprite effect = engine.CombatMap.AddEffect(effectType);
                 float speed = (float)((Random(10) + 10) * 0.1);
                 float gravity = (float)0.5;
                 float vz = resisted || effectType == BattleEffectType.DamMagic ? (float)((Random(50) + 50) * 0.1) : (float)((Random(25) + 25) * 0.1);

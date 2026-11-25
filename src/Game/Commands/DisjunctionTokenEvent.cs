@@ -34,12 +34,13 @@ public class DisjunctionTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
     public override bool Validate(Hero source)
     {
         bool result = base.Validate(source);
-        int index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        int index = strategicMap.GlobalMagicControl.IndexOfId(EnchantmentId);
         result = result && index != -1;
         if (result)
         {
-            GlobalEnchantment globalEnchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
-            int mana = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + source.CastingProgress;
+            GlobalEnchantment globalEnchantment = strategicMap.GlobalMagicControl.Enchantments.GetEnchantments(index);
+            int mana = strategicMap.Players.GetPlayers(source.Player).MagicControl.Mana + source.CastingProgress;
             int requiredMana = Round((double)(globalEnchantment.DispelMana * 0.02) * DispelChance) + EventMana;
             return requiredMana <= mana;
         }
@@ -51,43 +52,45 @@ public class DisjunctionTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
     public override bool Process(Troop source, int value)
     {
         _ = base.Process(source, value);
-        int index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
-        GlobalEnchantment enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
+        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+        int index = engineStrategicMap.GlobalMagicControl.IndexOfId(EnchantmentId);
+        GlobalEnchantment enchantment = engineStrategicMap.GlobalMagicControl.Enchantments.GetEnchantments(index);
         MapCoordinate coordinate7 = source.GetLocation();
         int x = coordinate7.X;
         int y = coordinate7.Y;
         int layer = coordinate7.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, radius: 0);
+        _ = engineStrategicMap.ValidateObservation(source.Player, x, y, layer, radius: 0);
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-        twinkle.Setup(GamePack.Current.SpellControl[51].CastImages.ImageSequences[0], mode: TwinkleModes.Expand | TwinkleModes.Explode, count: EventMana + 50, radius: 192, duration: 50, startDelay: 30);
-        _ = StrategicMap.Current.PlaceHex(twinkle, x, y, L: layer);
-        _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);
+        twinkle.Setup(GetEngine().GamePack.SpellControl[51].CastImages.ImageSequences[0], mode: TwinkleModes.Expand | TwinkleModes.Explode, count: EventMana + 50, radius: 192, duration: 50, startDelay: 30);
+        _ = GetEngine().StrategicMap.PlaceHex(twinkle, x, y, L: layer);
+        _ = GetEngine().GamePack.SpellControl[EventSpellId].CastSounds.Play(0);
         int mana = Round((double)(enchantment.DispelMana * 0.02) * DispelChance);
-        Player? player = StrategicMap.Current.Players.GetPlayers(source.Player);
-        StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.SetMana(player.MagicControl.Mana - mana);
-        if (StrategicMap.Current.Random(100) < DispelChance)
+        StrategicMap getPlayersStrategicMap = GetEngine().StrategicMap;
+        Player? player = getPlayersStrategicMap.Players.GetPlayers(source.Player);
+        getPlayersStrategicMap.Players.GetPlayers(source.Player).MagicControl.SetMana(player.MagicControl.Mana - mana);
+        if (GetEngine().StrategicMap.Random(100) < DispelChance)
         {
-            if (StrategicMap.Current.SeatedPlayer == source.Player)
+            if (GetEngine().StrategicMap.SeatedPlayer == source.Player)
             {
                 string name = enchantment.GetName();
                 string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_successfullyDispelledFormat), args: [name]);
-                StrategicMap.Current.ShowMessage(format);
+                GetEngine().StrategicMap.ShowMessage(format);
             }
 
-            _ = StrategicMap.Current.GlobalMagicControl.ExecuteDispelEnchantment(source.Player, EnchantmentId);
+            _ = GetEngine().StrategicMap.GlobalMagicControl.ExecuteDispelEnchantment(source.Player, EnchantmentId);
         }
         else
         {
-            if (StrategicMap.Current.SeatedPlayer == source.Player)
+            if (GetEngine().StrategicMap.SeatedPlayer == source.Player)
             {
                 // { Original formats this message with an unused enchantment-name argument. }
                 string name = enchantment.GetName();
                 string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DispelMagicFailedText), args: [name]);
-                StrategicMap.Current.ShowMessage(format);
+                GetEngine().StrategicMap.ShowMessage(format);
             }
         }
 
-        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
+        GetEngine().GamePack.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
         return false;
     }
 

@@ -68,7 +68,7 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
             {
                 _status = MoveStatus.Moving;
                 InitializeMove();
-                _ = StrategicMap.Current.Random(1_048_575);
+                _ = GetEngine().StrategicMap.Random(1_048_575);
                 _status = Path.Count switch
                 {
                     >= 0 and <= 1 => MoveStatus.Done,
@@ -108,7 +108,7 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
     }
 
     // MoveT.PAS:1970
-    public virtual MapField GetMapField(MapCoordinate location) => StrategicMap.Current.MapContainer.GetField(location.X, location.Y, location.MapLevel);
+    public virtual MapField GetMapField(MapCoordinate location) => GetEngine().StrategicMap.MapContainer.GetField(location.X, location.Y, location.MapLevel);
 
     // MoveT.PAS:2019
     public virtual MoveStatus ProcessMove() => MoveIndex == 1 ? LastMove() : MoveIndex > 1 && MoveIndex < Path.Count ? DefaultMove() : MoveStatus.Done;

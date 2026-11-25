@@ -115,7 +115,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetMapField(Path[0].Location).GetPlayer());
             if (PlayerIdExtensions.ToOriginal(ArmyHexSprite.Army.Player) != player)
             {
-                return StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).GameOverStatus == GameOverStatus.None;
+                return GetEngine().StrategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).GameOverStatus == GameOverStatus.None;
             }
         }
 
@@ -172,7 +172,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
         bool condition = result && PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player) > 0 && PlayerIdExtensions.ToOriginal(TargetPlayer) > 0;
         if (condition)
         {
-            DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).DiplomaticRelations.GetDiplomaticRelation(TargetPlayer);
+            DiplomaticRelation diplomaticRelation = GetEngine().StrategicMap.Players.GetPlayers(armyHexSprite.Army.Player).DiplomaticRelations.GetDiplomaticRelation(TargetPlayer);
             condition = diplomaticRelation is DiplomaticRelation.Peace or DiplomaticRelation.Alliance;
         }
 
@@ -193,13 +193,14 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                     Holder = CreationHolder(),
                     Mode = CombatFlowControlModes.UnlockAIExecutor | CombatFlowControlModes.ActivateTacticalBattle | CombatFlowControlModes.EnableTurnTimer
                 };
-                if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                if (strategicMap.PlayMode == PlayMode.Simultaneous)
                 {
                     flow.Mode |= CombatFlowControlModes.SetAutoSwitch;
                 }
 
                 flow.Player = request.AttackerPlayer;
-                StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(flow);
+                strategicMap.TokenManager.GetTokenControl(strategicMap.SeatedPlayer).AddEvent(flow);
                 _ = flow.Release();
                 ArmyHexSprite? armyHexSprite = ArmyHexSprite;
                 int selection = Selection;
@@ -223,7 +224,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                     {
                         // { created combat move }
                         move._combatType = request.CombatType;
-                        StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(move);
+                        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                        engineStrategicMap.TokenManager.GetTokenControl(engineStrategicMap.SeatedPlayer).AddEvent(move);
                         _ = move.Release();
                     }
                     else
@@ -234,14 +236,15 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
             }
             else
             {
-                if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
+                StrategicMap addEventStrategicMap = GetEngine().StrategicMap;
+                if (addEventStrategicMap.PlayMode == PlayMode.Simultaneous)
                 {
                     flow = new CombatFlowControlTokenEvent(null)
                     {
                         Holder = CreationHolder(),
                         Mode = CombatFlowControlModes.SetAutoSwitch | CombatFlowControlModes.UnlockAIExecutor | CombatFlowControlModes.EnableTurnTimer
                     };
-                    StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(flow);
+                    addEventStrategicMap.TokenManager.GetTokenControl(addEventStrategicMap.SeatedPlayer).AddEvent(flow);
                     _ = flow.Release();
                 }
             }
@@ -255,43 +258,46 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
     // MoveT.PAS:2568
     public void RestoreHotSeatMode()
     {
-        StrategicMap.Current.SetSeatedPlayer(null);
+        GetEngine().StrategicMap.SetSeatedPlayer(null);
+        StrategicMap currentPlayerStrategicMap = GetEngine().StrategicMap;
         NewTurnEventLog log = new(null)
         {
             Holder = CreationHolder(),
-            TurnPlayer = StrategicMap.Current.CurrentPlayer,
+            TurnPlayer = currentPlayerStrategicMap.CurrentPlayer,
             Mode = NewTurnEventLogMode.Dialog,
             DialogStyle = NewTurnEventLogDialogStyles.None
         };
-        if (StrategicMap.Current.CurrentPlayer == PlayerId.Independent)
+        if (currentPlayerStrategicMap.CurrentPlayer == PlayerId.Independent)
         {
             log.Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_independentsAreMovingText);
         }
         else
         {
-            string name = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).GetName();
+            StrategicMap getNameStrategicMap = GetEngine().StrategicMap;
+            string name = getNameStrategicMap.Players.GetPlayers(getNameStrategicMap.CurrentPlayer).GetName();
             log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_playerIsMovingFormat), arguments: [name]);
         }
 
-        StrategicMap.Current.TriggerExecuteEventLog(log, immediate: true, done: null);
+        GetEngine().StrategicMap.TriggerExecuteEventLog(log, immediate: true, done: null);
         _ = log.Release();
     }
 
     // MoveT.PAS:2584
     public void RestoreHotSeatModeCallback(EventLog log)
     {
-        StrategicMap.Current.SynchronizeBegin();
+        GetEngine().StrategicMap.SynchronizeBegin();
         RestoreHotSeatMode();
-        StrategicMap.Current.AIExecutor.Unlock();
-        StrategicMap.Current.UnlockGameOverEvent();
+        StrategicMap unlockStrategicMap = GetEngine().StrategicMap;
+        unlockStrategicMap.AIExecutor.Unlock();
+        unlockStrategicMap.UnlockGameOverEvent();
         _combatMode = ArmyCombatMoveTokenEventMode.Moving;
-        StrategicMap.Current.SynchronizeEnd();
+        GetEngine().StrategicMap.SynchronizeEnd();
     }
 
     // MoveT.PAS:2594
     public void ShowHotSeatPlayerCallback(NewTurnEventLog log)
     {
-        StrategicMap.Current.SetSeatedPlayer(log.TurnPlayer);
+        GetEngine().StrategicMap.SetSeatedPlayer(log.TurnPlayer);
         if (_combatMode == ArmyCombatMoveTokenEventMode.SetupHotSeat)
         {
             _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
@@ -305,7 +311,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
         MapField field = GetMapField(Path[0].Location);
         if (_combatType == CombatType.None)
         {
-            if (StrategicMap.Current.RequestCombatType && StrategicMap.Current.ConnectionType == PlayerConnectionType.Local)
+            StrategicMap getPlayersStrategicMap = GetEngine().StrategicMap;
+            if (getPlayersStrategicMap.RequestCombatType && getPlayersStrategicMap.ConnectionType == PlayerConnectionType.Local)
             {
                 if (GetEngine().Registry.GetCombatResolveMode() == GameSettings.CombatResolveMode.AlwaysFastBattle)
                 {
@@ -316,14 +323,14 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                 {
                     if (GetEngine().Registry.GetCombatResolveMode() == GameSettings.CombatResolveMode.AlwaysTacticalBattle)
                     {
-                        bool condition = StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human;
+                        bool condition = getPlayersStrategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human;
                         if (!condition)
                         {
                             bool test = PlayerIdExtensions.ToOriginal(field.GetPlayer()) > 0;
                             if (test)
                             {
                                 sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
-                                test = StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human;
+                                test = GetEngine().StrategicMap.Players.GetPlayers(player).PlayerType == PlayerType.Human;
                             }
 
                             condition = test;
@@ -349,7 +356,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
             }
             else
             {
-                if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && ((!StrategicMap.Current.RequestCombatType && StrategicMap.Current.Players.LocalPlayers.Count == 1) || (StrategicMap.Current.RequestCombatType && StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human)))
+                StrategicMap connectionTypeStrategicMap = GetEngine().StrategicMap;
+                if (connectionTypeStrategicMap.ConnectionType == PlayerConnectionType.Local && ((!connectionTypeStrategicMap.RequestCombatType && connectionTypeStrategicMap.Players.LocalPlayers.Count == 1) || (connectionTypeStrategicMap.RequestCombatType && connectionTypeStrategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human)))
                 {
                     if (GetEngine().Registry.GetCombatResolveMode() == GameSettings.CombatResolveMode.AlwaysFastBattle)
                     {
@@ -360,14 +368,14 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                     {
                         if (GetEngine().Registry.GetCombatResolveMode() == GameSettings.CombatResolveMode.AlwaysTacticalBattle)
                         {
-                            bool condition = StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human;
+                            bool condition = connectionTypeStrategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human;
                             if (!condition)
                             {
                                 bool test = PlayerIdExtensions.ToOriginal(field.GetPlayer()) > 0;
                                 if (test)
                                 {
                                     sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
-                                    test = StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human;
+                                    test = GetEngine().StrategicMap.Players.GetPlayers(player).PlayerType == PlayerType.Human;
                                 }
 
                                 condition = test;
@@ -393,11 +401,12 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                 }
                 else
                 {
-                    bool condition = StrategicMap.Current.ConnectionType == PlayerConnectionType.Email && StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human && PlayerIdExtensions.ToOriginal(field.GetPlayer()) >= 0;
+                    StrategicMap playersStrategicMap = GetEngine().StrategicMap;
+                    bool condition = playersStrategicMap.ConnectionType == PlayerConnectionType.Email && playersStrategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human && PlayerIdExtensions.ToOriginal(field.GetPlayer()) >= 0;
                     if (condition)
                     {
                         sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
-                        condition = StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human;
+                        condition = GetEngine().StrategicMap.Players.GetPlayers(player).PlayerType != PlayerType.Human;
                     }
 
                     if (condition)
@@ -411,14 +420,14 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                         {
                             if (GetEngine().Registry.GetCombatResolveMode() == GameSettings.CombatResolveMode.AlwaysTacticalBattle)
                             {
-                                bool test = StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human;
+                                bool test = GetEngine().StrategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human;
                                 if (!test)
                                 {
                                     bool passed = PlayerIdExtensions.ToOriginal(field.GetPlayer()) > 0;
                                     if (passed)
                                     {
                                         sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
-                                        passed = StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human;
+                                        passed = GetEngine().StrategicMap.Players.GetPlayers(player).PlayerType == PlayerType.Human;
                                     }
 
                                     test = passed;
@@ -445,16 +454,17 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                     else
                     {
                         // { Original tests connection type here, not play mode. }
-                        if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network)
+                        StrategicMap setupCombatStrategicMap = GetEngine().StrategicMap;
+                        if (setupCombatStrategicMap.ConnectionType == PlayerConnectionType.Network)
                         {
-                            bool test = StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human;
+                            bool test = setupCombatStrategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human;
                             if (!test)
                             {
                                 bool passed = PlayerIdExtensions.ToOriginal(field.GetPlayer()) > 0;
                                 if (passed)
                                 {
                                     sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
-                                    passed = StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human;
+                                    passed = GetEngine().StrategicMap.Players.GetPlayers(player).PlayerType == PlayerType.Human;
                                 }
 
                                 test = passed;
@@ -462,7 +472,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
 
                             if (test)
                             {
-                                switch (StrategicMap.Current.VictoryMode)
+                                StrategicMap victoryModeStrategicMap = GetEngine().StrategicMap;
+                                switch (victoryModeStrategicMap.VictoryMode)
                                 {
                                     case 0:
                                         _combatType = CombatType.Fast;
@@ -472,11 +483,11 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                                         _combatMode = ArmyCombatMoveTokenEventMode.RequestingCombatType;
                                         break;
                                     case 1:
-                                        bool passed = StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human && PlayerIdExtensions.ToOriginal(field.GetPlayer()) > 0;
+                                        bool passed = victoryModeStrategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human && PlayerIdExtensions.ToOriginal(field.GetPlayer()) > 0;
                                         if (passed)
                                         {
                                             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
-                                            passed = StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human;
+                                            passed = GetEngine().StrategicMap.Players.GetPlayers(player).PlayerType == PlayerType.Human;
                                         }
 
                                         if (passed)
@@ -560,21 +571,24 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
 
         // { Original uses connection type here too. }
         CombatTypeRequestEventLog request;
-        if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network && _combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType)
+        StrategicMap disableTurnTimerStrategicMap = GetEngine().StrategicMap;
+        if (disableTurnTimerStrategicMap.ConnectionType == PlayerConnectionType.Network && _combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType)
         {
-            StrategicMap.Current.DisableTurnTimer();
-            StrategicMap.Current.AIExecutor.Lock();
-            sbyte player2 = StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human
+            disableTurnTimerStrategicMap.DisableTurnTimer();
+            disableTurnTimerStrategicMap.AIExecutor.Lock();
+            sbyte player2 = disableTurnTimerStrategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human
                 ? (sbyte)PlayerIdExtensions.ToOriginal(ArmyHexSprite.Army.Player) : (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
 
-            if (StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player2)).Local())
+            StrategicMap localStrategicMap = GetEngine().StrategicMap;
+            if (localStrategicMap.TokenManager.GetTokenControl(PlayerId.FromOriginal(player2)).Local())
             {
-                StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player2)).ClearEvents();
+                localStrategicMap.TokenManager.GetTokenControl(PlayerId.FromOriginal(player2)).ClearEvents();
             }
 
-            StrategicMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
-            StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(player2);
-            if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == player2)
+            StrategicMap activateTacticalBattleStrategicMap = GetEngine().StrategicMap;
+            activateTacticalBattleStrategicMap.TokenManager.TokenExecutor.HoldTacticalBattle = true;
+            activateTacticalBattleStrategicMap.TokenManager.TokenExecutor.ActivateTacticalBattle(player2);
+            if (PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.SeatedPlayer) == player2)
             {
                 request = new CombatTypeRequestEventLog(null)
                 {
@@ -588,17 +602,18 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                 request.ArmyId = ArmyHexSprite.Army.CreateId(Selection);
                 if (GetEngine().Registry.GetCombatResolveMode() == GameSettings.CombatResolveMode.Choose)
                 {
-                    if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) != request.AttackerPlayer)
+                    StrategicMap toOriginalStrategicMap = GetEngine().StrategicMap;
+                    if (PlayerIdExtensions.ToOriginal(toOriginalStrategicMap.SeatedPlayer) != request.AttackerPlayer)
                     {
                         int hexLevel = ArmyHexSprite.HexLevel;
                         int hexY = ArmyHexSprite.HexY;
                         int hexX = ArmyHexSprite.HexX;
-                        StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
+                        toOriginalStrategicMap.CenterViewTo(hexX, hexY, hexLevel);
                     }
 
                     FinishMove();
                     ArmyHexSprite = null;
-                    StrategicMap.Current.TriggerTypedExecuteEventLog(request, immediate: false, done: RequestCombatTypeCallback);
+                    GetEngine().StrategicMap.TriggerTypedExecuteEventLog(request, immediate: false, done: RequestCombatTypeCallback);
                 }
                 else
                 {
@@ -628,7 +643,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
         }
 
         NewTurnEventLog log;
-        if (_combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType && StrategicMap.Current.RequestCombatType && StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType != PlayerType.Human)
+        StrategicMap requestCombatTypeStrategicMap = GetEngine().StrategicMap;
+        if (_combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType && requestCombatTypeStrategicMap.RequestCombatType && requestCombatTypeStrategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType != PlayerType.Human)
         {
             log = new NewTurnEventLog(null)
             {
@@ -638,12 +654,13 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                 DialogStyle = NewTurnEventLogDialogStyles.Closeable,
                 Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_youAreBeingAttackedText)
             };
-            StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ShowHotSeatPlayerCallback);
+            GetEngine().StrategicMap.TriggerTypedExecuteEventLog(log, immediate: false, done: ShowHotSeatPlayerCallback);
             _ = log.Release();
         }
         else
         {
-            if (_combatMode == ArmyCombatMoveTokenEventMode.SetupReady && _combatType == CombatType.Tactical && StrategicMap.Current.RequestCombatType && StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType != PlayerType.Human)
+            StrategicMap setupCombatGetPlayersStrategicMap = GetEngine().StrategicMap;
+            if (_combatMode == ArmyCombatMoveTokenEventMode.SetupReady && _combatType == CombatType.Tactical && setupCombatGetPlayersStrategicMap.RequestCombatType && setupCombatGetPlayersStrategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType != PlayerType.Human)
             {
                 _combatMode = ArmyCombatMoveTokenEventMode.SetupHotSeat;
                 log = new NewTurnEventLog(null)
@@ -654,7 +671,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                     DialogStyle = NewTurnEventLogDialogStyles.Closeable,
                     Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_youAreBeingAttackedText)
                 };
-                StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ShowHotSeatPlayerCallback);
+                GetEngine().StrategicMap.TriggerTypedExecuteEventLog(log, immediate: false, done: ShowHotSeatPlayerCallback);
                 _ = log.Release();
             }
         }
@@ -669,15 +686,16 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                 DefenderPlayer = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer()),
                 Location = new MapCoordinate((sbyte)field.HexX, (sbyte)field.HexY, (sbyte)field.HexLevel)
             };
-            if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) != request.AttackerPlayer)
+            StrategicMap centerViewToStrategicMap = GetEngine().StrategicMap;
+            if (PlayerIdExtensions.ToOriginal(centerViewToStrategicMap.SeatedPlayer) != request.AttackerPlayer)
             {
                 int hexLevel = ArmyHexSprite.HexLevel;
                 int hexY = ArmyHexSprite.HexY;
                 int hexX = ArmyHexSprite.HexX;
-                StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
+                centerViewToStrategicMap.CenterViewTo(hexX, hexY, hexLevel);
             }
 
-            StrategicMap.Current.TriggerTypedExecuteEventLog(request, immediate: false, done: RequestCombatTypeCallback);
+            GetEngine().StrategicMap.TriggerTypedExecuteEventLog(request, immediate: false, done: RequestCombatTypeCallback);
             _ = request.Release();
         }
     }
@@ -690,7 +708,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
             ArmyHexSprite armyHexSprite;
             if (combat.CombatResult == CombatResult.Victory)
             {
-                armyHexSprite = StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).GetArmyHexSprite();
+                StrategicMap getArmyHexSpriteStrategicMap = GetEngine().StrategicMap;
+                armyHexSprite = getArmyHexSpriteStrategicMap.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).GetArmyHexSprite();
                 if (armyHexSprite is not null)
                 {
                     Army? army = armyHexSprite.Army;
@@ -708,7 +727,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
 
                     if (selection != 0)
                     {
-                        MapField field = StrategicMap.Current.MapContainer.GetField(combat.CombatData.Location.X, combat.CombatData.Location.Y, combat.CombatData.Location.MapLevel);
+                        MapField field = getArmyHexSpriteStrategicMap.MapContainer.GetField(combat.CombatData.Location.X, combat.CombatData.Location.Y, combat.CombatData.Location.MapLevel);
                         MoveArmyTokenEvent? move;
                         if (field.GetPlayer() == armyHexSprite.Army.Player)
                         {
@@ -724,7 +743,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
 
                         if (move is not null)
                         {
-                            StrategicMap.Current.TokenManager.TokenExecutor.AddSystemEvent(move);
+                            GetEngine().StrategicMap.TokenManager.TokenExecutor.AddSystemEvent(move);
                             _ = move.Release();
                         }
                     }
@@ -732,7 +751,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
             }
             else
             {
-                armyHexSprite = StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).GetArmyHexSprite();
+                StrategicMap getFieldStrategicMap = GetEngine().StrategicMap;
+                armyHexSprite = getFieldStrategicMap.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).GetArmyHexSprite();
                 if (armyHexSprite is not null)
                 {
                     foreach (Troop? troop in armyHexSprite.Army.Units.Reverse())
@@ -740,21 +760,22 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                         troop.UnitStatus &= ~UnitStatuses.Moving;
                     }
 
-                    if (armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
+                    if (armyHexSprite.Army.Player == getFieldStrategicMap.SeatedPlayer)
                     {
-                        StrategicMap.Current.SelectedArmy.Select(armyHexSprite);
+                        getFieldStrategicMap.SelectedArmy.Select(armyHexSprite);
                     }
                 }
             }
 
-            if (StrategicMap.Current.RequestCombatType && combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer).Player != PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer))
+            StrategicMap seatedPlayerStrategicMap = GetEngine().StrategicMap;
+            if (seatedPlayerStrategicMap.RequestCombatType && combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer).Player != PlayerIdExtensions.ToOriginal(seatedPlayerStrategicMap.SeatedPlayer))
             {
                 RestoreHotSeatMode();
             }
 
-            StrategicMap.Current.SynchronizeBegin();
+            GetEngine().StrategicMap.SynchronizeBegin();
             DistributeCombatEvent(combat.Logbook, execute: false);
-            StrategicMap.Current.SynchronizeEnd();
+            GetEngine().StrategicMap.SynchronizeEnd();
         }
     }
 
@@ -784,14 +805,15 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
     {
         CombatData fFinalData = logbook.FinalData;
         int i = 1;
-        for (int number = StrategicMap.Current.Players.GetCount() - 1; i <= number; i++)
+        for (int number = logbook.GetEngine().StrategicMap.Players.GetCount() - 1; i <= number; i++)
         {
-            if (StrategicMap.Current.VisibleForPlayer(fFinalData.Location.X, fFinalData.Location.Y, fFinalData.Location.MapLevel, player: PlayerId.FromOriginal((sbyte)i)) || logbook.InitialData.Players.IndexOfPlayer((byte)i) != -1)
+            if (logbook.GetEngine().StrategicMap.VisibleForPlayer(fFinalData.Location.X, fFinalData.Location.Y, fFinalData.Location.MapLevel, player: PlayerId.FromOriginal((sbyte)i)) || logbook.InitialData.Players.IndexOfPlayer((byte)i) != -1)
             {
                 CombatEventLog combatEventLog = new(null) { Holder = logbook };
                 combatEventLog.SetCombatLogbook(logbook);
-                StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(combatEventLog);
-                if (execute && i == PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) && StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human && logbook.FinalData.CombatResult != 6)
+                logbook.GetEngine().StrategicMap.Players.GetPlayers(i).EventLogbook.AddEvent(combatEventLog);
+                StrategicMap logbookStrategicMap = logbook.GetEngine().StrategicMap;
+                if (execute && i == PlayerIdExtensions.ToOriginal(logbookStrategicMap.SeatedPlayer) && logbookStrategicMap.Players.GetPlayers(i).PlayerType == PlayerType.Human && logbook.FinalData.CombatResult != 6)
                 {
                     _ = combatEventLog.Execute(mode: false, trigger: ExecuteTrigger.Event, done: null);
                 }
@@ -829,7 +851,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
         _ = moveControlSettings.MovePointTable;
         MovePointTable movePointTable = army.Army.CreateMovePointTable(selection);
         moveControlSettings.MovePointTable = movePointTable;
-        StrategicMap.Current.MoveControl.ProcessMove(moveControlSettings);
+        army.GetEngine().StrategicMap.MoveControl.ProcessMove(moveControlSettings);
         return moveControlSettings;
     }
 }

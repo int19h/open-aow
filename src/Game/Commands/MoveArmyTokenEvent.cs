@@ -90,14 +90,15 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                 MoveControlSettings settings = new(null) { Holder = CreationHolder() };
                 settings.SetupArmy(ArmyHexSprite, Selection);
                 settings.Mode |= MoveModes.AI;
-                if (StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human && StrategicMap.Current.ExplorationEnabled)
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                if (strategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human && strategicMap.ExplorationEnabled)
                 {
                     settings.Mode |= MoveModes.ExploredTerrainOnly;
                 }
 
-                result = result && StrategicMap.Current.MoveControl.ValidPath(settings, Path);
+                result = result && strategicMap.MoveControl.ValidPath(settings, Path);
                 result = result && ArmyHexSprite.Army.Player == _player;
-                sbyte targetPlayer = (sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.MapContainer.GetField(Target.X, Target.Y, Target.MapLevel).GetPlayer());
+                sbyte targetPlayer = (sbyte)PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.MapContainer.GetField(Target.X, Target.Y, Target.MapLevel).GetPlayer());
                 result = result && (targetPlayer == PlayerIdExtensions.ToOriginal(TargetPlayer) || targetPlayer == PlayerIdExtensions.ToOriginal(ArmyHexSprite.Army.Player));
                 if (Mode.Contains(ArmyMoveModes.BuildRoads))
                 {
@@ -105,7 +106,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                     if (condition)
                     {
                         int movePoints = ArmyHexSprite.Army.MovePoints(Selection);
-                        condition = AbilityRules.RoadConstructionCost(_player, Path, movePoints) <= StrategicMap.Current.Players.GetPlayers(_player).Gems;
+                        condition = AbilityRules.RoadConstructionCost(_player, Path, movePoints) <= GetEngine().StrategicMap.Players.GetPlayers(_player).Gems;
                     }
 
                     result = condition;
@@ -115,9 +116,10 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
             }
         }
 
-        if (!result && StrategicMap.Current.Players.GetPlayers(_player).PlayerType != PlayerType.Human && StrategicMap.Current.Players.GetPlayers(_player).AIControl.MoveExecutor.Status == AIMoveExecutorStatus.Busy)
+        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+        if (!result && engineStrategicMap.Players.GetPlayers(_player).PlayerType != PlayerType.Human && engineStrategicMap.Players.GetPlayers(_player).AIControl.MoveExecutor.Status == AIMoveExecutorStatus.Busy)
         {
-            StrategicMap.Current.Players.GetPlayers(_player).AIControl.MoveExecutor.InvalidateMove(ArmyHexSprite, Selection);
+            engineStrategicMap.Players.GetPlayers(_player).AIControl.MoveExecutor.InvalidateMove(ArmyHexSprite, Selection);
         }
 
         return result;
@@ -139,13 +141,13 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
             PathStep item = Path[last];
             PathStep fPathItem = Path[last];
             PathStep item2 = Path[last];
-            _ = armyHexSprite.PlacePrivate(StrategicMap.Current.MapContainer, item2.Location.X, fPathItem.Location.Y, L: item.Location.MapLevel);
+            _ = armyHexSprite.PlacePrivate(GetEngine().StrategicMap.MapContainer, item2.Location.X, fPathItem.Location.Y, L: item.Location.MapLevel);
             ArmyHexSprite.Army.ResetDestinationPosition();
             if (ArmyHexSprite.GetSelected())
             {
-                StrategicMap.Current.Selection.UnselectLocation();
-                StrategicMap.Current.Selection.SelectLocationHexSprite(armyHexSprite);
-                StrategicMap.Current.SelectedArmy.DeactivateMoveSelection();
+                GetEngine().StrategicMap.Selection.UnselectLocation();
+                GetEngine().StrategicMap.Selection.SelectLocationHexSprite(armyHexSprite);
+                GetEngine().StrategicMap.SelectedArmy.DeactivateMoveSelection();
             }
 
             ArmyHexSprite = armyHexSprite;
@@ -155,7 +157,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
         {
             if (ArmyHexSprite.GetSelected())
             {
-                StrategicMap.Current.SelectedArmy.DeactivateMoveSelection();
+                GetEngine().StrategicMap.SelectedArmy.DeactivateMoveSelection();
             }
         }
 
@@ -185,8 +187,8 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                 ArmyHexSprite = armyHexSprite;
                 if (selected)
                 {
-                    StrategicMap.Current.SelectedArmy.Select(armyHexSprite);
-                    StrategicMap.Current.SelectedArmy.DeactivateMoveSelection();
+                    GetEngine().StrategicMap.SelectedArmy.Select(armyHexSprite);
+                    GetEngine().StrategicMap.SelectedArmy.DeactivateMoveSelection();
                 }
             }
 
@@ -196,14 +198,14 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
             ArmyHexSprite.CancelMove();
             if (selected)
             {
-                StrategicMap.Current.SelectedArmy.ActivateMoveSelection();
-                StrategicMap.Current.SelectedArmy.Update();
+                GetEngine().StrategicMap.SelectedArmy.ActivateMoveSelection();
+                GetEngine().StrategicMap.SelectedArmy.Update();
                 if (Mode.Contains(ArmyMoveModes.SelectEndLocation))
                 {
                     int hexLevel = ArmyHexSprite.HexLevel;
                     int hexY = ArmyHexSprite.HexY;
                     int hexX = ArmyHexSprite.HexX;
-                    StrategicMap.Current.Selection.SelectLocationHex(hexX, hexY, hexLevel);
+                    GetEngine().StrategicMap.Selection.SelectLocationHex(hexX, hexY, hexLevel);
                 }
             }
         }
@@ -229,13 +231,14 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
             if (Animating())
             {
                 UpdateAnimation();
-                bool condition = ArmyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer;
+                StrategicMap watchingStrategicMap = GetEngine().StrategicMap;
+                bool condition = ArmyHexSprite.Army.Player == watchingStrategicMap.SeatedPlayer;
                 if (!condition)
                 {
                     int hexLevel = ArmyHexSprite.HexLevel;
                     int hexY = ArmyHexSprite.HexY;
                     int hexX = ArmyHexSprite.HexX;
-                    condition = StrategicMap.Current.Watching(hexX, hexY, L: hexLevel, radius: 0);
+                    condition = watchingStrategicMap.Watching(hexX, hexY, L: hexLevel, radius: 0);
                 }
 
                 if (condition)
@@ -261,7 +264,8 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     // MoveT.PAS:2342
     public virtual void SetupNextMove()
     {
-        if ((MoveVisible(MoveIndex) || _animate) && (Path[MoveIndex].Location.MapLevel == StrategicMap.Current.ViewMapLevel || StrategicMap.Current.ShowIndependentMoves))
+        StrategicMap viewMapLevelStrategicMap = GetEngine().StrategicMap;
+        if ((MoveVisible(MoveIndex) || _animate) && (Path[MoveIndex].Location.MapLevel == viewMapLevelStrategicMap.ViewMapLevel || viewMapLevelStrategicMap.ShowIndependentMoves))
         {
             _animate = true;
             int direction = GetDirection(MoveIndex);
@@ -280,7 +284,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
             if (ObserveMove(MoveIndex - 1))
             {
                 MapField field = GetMapField(Path[MoveIndex - 1].Location);
-                _ = StrategicMap.Current.ValidateObservation(ArmyHexSprite.Army.Player, field.HexX, field.HexY, field.HexLevel, radius: 0);
+                _ = GetEngine().StrategicMap.ValidateObservation(ArmyHexSprite.Army.Player, field.HexX, field.HexY, field.HexLevel, radius: 0);
             }
         }
     }
@@ -308,7 +312,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
                     else
                     {
                         // { Original queries the moving player toward the other army. }
-                        if (StrategicMap.Current.Players.GetDiplomaticRelation(ArmyHexSprite.Army.Player, otherPlayer: armyHexSprite.Army.Player) != DiplomaticRelation.Alliance)
+                        if (GetEngine().StrategicMap.Players.GetDiplomaticRelation(ArmyHexSprite.Army.Player, otherPlayer: armyHexSprite.Army.Player) != DiplomaticRelation.Alliance)
                         {
                             stop = true;
                         }
@@ -409,8 +413,9 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     public bool ObserveMove(int index)
     {
         bool visible = MoveVisible(index);
-        bool result = visible && StrategicMap.Current.ShowIndependentMoves && (StrategicMap.Current.SeatedPlayer != ArmyHexSprite.Army.Player || StrategicMap.Current.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer)).PlayerType != PlayerType.Human);
-        if (result && StrategicMap.Current.TokenManager.TokenExecutor.ExecutingTokenEvent is MultiMoveTokenEvent eventValue && eventValue.Simultaneous)
+        StrategicMap getPlayersStrategicMap = GetEngine().StrategicMap;
+        bool result = visible && getPlayersStrategicMap.ShowIndependentMoves && (getPlayersStrategicMap.SeatedPlayer != ArmyHexSprite.Army.Player || getPlayersStrategicMap.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(getPlayersStrategicMap.SeatedPlayer)).PlayerType != PlayerType.Human);
+        if (result && getPlayersStrategicMap.TokenManager.TokenExecutor.ExecutingTokenEvent is MultiMoveTokenEvent eventValue && eventValue.Simultaneous)
         {
             visible = this == eventValue.Events[0];
             return visible;
@@ -423,12 +428,13 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
     public bool MoveVisible(int index)
     {
         bool result;
-        if (StrategicMap.Current.SeatedPlayer is not null)
+        StrategicMap visibleStrategicMap = GetEngine().StrategicMap;
+        if (visibleStrategicMap.SeatedPlayer is not null)
         {
             PathStep item = Path[index];
             PathStep fPathItem = Path[index];
             PathStep item2 = Path[index];
-            result = StrategicMap.Current.Visible(item2.Location.X, fPathItem.Location.Y, L: item.Location.MapLevel, radius: 0);
+            result = visibleStrategicMap.Visible(item2.Location.X, fPathItem.Location.Y, L: item.Location.MapLevel, radius: 0);
             if (result && ArmyHexSprite.Army.Status.Contains(ArmyStatuses.FullyConcealed))
             {
                 return false;

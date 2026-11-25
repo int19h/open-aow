@@ -24,7 +24,7 @@ public class ArmyNegotiateMoveTokenEvent(CustomNode? owner) : MoveArmyTokenEvent
     {
         // { Matches: Assign inherited Validate to Result before the conjunction. }
         bool result = base.Validate();
-        return result && StrategicMap.Current.MapContainer.GetField(Target.X, Target.Y, Target.MapLevel).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate;
+        return result && GetEngine().StrategicMap.MapContainer.GetField(Target.X, Target.Y, Target.MapLevel).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate;
     }
 
     // MoveT.PAS:2442
@@ -110,9 +110,10 @@ public class ArmyNegotiateMoveTokenEvent(CustomNode? owner) : MoveArmyTokenEvent
     private static void NegotiateArmy(PlayerId? player, ArmyHexSprite armyHexSprite, int selection, int X, int Y, int L, int movePoints)
     {
         MapFieldMessage message = default;
-        if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
+        StrategicMap strategicMap = armyHexSprite.GetEngine().StrategicMap;
+        if (strategicMap.Players.GetPlayers(player).PlayerType == PlayerType.Human)
         {
-            if (player == StrategicMap.Current.SeatedPlayer)
+            if (player == strategicMap.SeatedPlayer)
             {
                 NegotiateRequestEventLog negotiateRequestEventLog = new(null)
                 {
@@ -130,7 +131,7 @@ public class ArmyNegotiateMoveTokenEvent(CustomNode? owner) : MoveArmyTokenEvent
                 param2[1] = (MsgArg)0;
                 message.Param = param2;
                 message.Result = (MsgArg)0;
-                StrategicMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
+                strategicMap.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
                 if (message.Param[1].Int != 0)
                 {
                     _ = negotiateRequestEventLog.Execute(mode: true, trigger: ExecuteTrigger.Event, done: null);
@@ -138,7 +139,7 @@ public class ArmyNegotiateMoveTokenEvent(CustomNode? owner) : MoveArmyTokenEvent
                 _ = negotiateRequestEventLog.Release();
             }
         }
-        else if (StrategicMap.Current.Players.GetPlayers(player).GetLocal())
+        else if (armyHexSprite.GetEngine().StrategicMap.Players.GetPlayers(player).GetLocal())
         {
             NegotiateRequestEventLog negotiateRequestEventLog = new(null)
             {
@@ -156,9 +157,9 @@ public class ArmyNegotiateMoveTokenEvent(CustomNode? owner) : MoveArmyTokenEvent
             param4[1] = (MsgArg)0;
             message.Param = param4;
             message.Result = (MsgArg)0;
-            StrategicMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
+            armyHexSprite.GetEngine().StrategicMap.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
             string errorText = "";
-            _ = message.Param[1].Int != 0 && StrategicMap.Current.Players.GetPlayers(player).Gems >= negotiateRequestEventLog.Gold
+            _ = message.Param[1].Int != 0 && armyHexSprite.GetEngine().StrategicMap.Players.GetPlayers(player).Gems >= negotiateRequestEventLog.Gold
                 ? negotiateRequestEventLog.Accept(ref errorText)
                 : negotiateRequestEventLog.Reject(ref errorText);
             _ = negotiateRequestEventLog.Release();
