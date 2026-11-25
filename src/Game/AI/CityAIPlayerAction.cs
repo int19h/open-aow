@@ -3,7 +3,6 @@
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
@@ -82,7 +81,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             }
             else
             {
-                if (StrategicMap.Current.Day > 5)
+                if (GetEngine().StrategicMap.Day > 5)
                 {
                     fortifyBudget = new AICityFortifyBudget(null)
                     {
@@ -179,7 +178,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
                     int unitIndex = city.Production.UnitProductions.GetItem(j).UnitIndex;
                     if (unitIndex != -1)
                     {
-                        valid = valid || (GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level == city.UpgradeLevel && !city.Production.UnitProductions.GetItem(j).Researched && city.ResearchCost(j) <= researchBudget.Gold + upgradeBudget.Gold);
+                        valid = valid || (GetEngine().GamePack.UnitResources.GetUnitResource(unitIndex).Level == city.UpgradeLevel && !city.Production.UnitProductions.GetItem(j).Researched && city.ResearchCost(j) <= researchBudget.Gold + upgradeBudget.Gold);
                     }
                 }
 
@@ -201,9 +200,9 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
                 index += 1;
             }
 
-            index = StrategicMap.Current.Random(index + 1);
+            index = GetEngine().StrategicMap.Random(index + 1);
             city = cities[index].First;
-            RandSeed = StrategicMap.Current.Random(16777215);
+            RandSeed = GetEngine().StrategicMap.Random(16777215);
             index = cities[index].First.Production.FindOptimalResearchProduction(null, gold: researchBudget.Gold + upgradeBudget.Gold);
             if (index != -1)
             {
@@ -342,7 +341,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     {
         string reason = "";
         bool result2 = city.CanFortify(false, ref reason);
-        result2 = (result2 && city.WallType == 0) || (city.WallType == 1 && city.Size > 2 && city.UpgradeLevel > 1 && StrategicMap.Current.Day >= 30);
+        result2 = (result2 && city.WallType == 0) || (city.WallType == 1 && city.Size > 2 && city.UpgradeLevel > 1 && GetEngine().StrategicMap.Day >= 30);
         bool result = result2;
         if (result)
         {
@@ -361,7 +360,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     }
 
     // City.pas:3009
-    public bool ValidFortifyBudgetCity(City city) => city.WallType == 0 || (city.WallType == 1 && city.Size > 2 && city.UpgradeLevel > 1 && StrategicMap.Current.Day >= 30);
+    public bool ValidFortifyBudgetCity(City city) => city.WallType == 0 || (city.WallType == 1 && city.Size > 2 && city.UpgradeLevel > 1 && GetEngine().StrategicMap.Day >= 30);
 
     // City.pas:3015
     public bool FortifyCity(AIBudget budget)

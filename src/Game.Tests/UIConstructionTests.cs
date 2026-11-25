@@ -129,7 +129,7 @@ public sealed class UIConstructionTests
             {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, comparer: StringComparer.Ordinal))
                 {
-                    if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "Holder" or "Creator")
+                    if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "Holder" or "_rememberedEngine" or "Creator")
                     {
                         continue; // the descriptor cache and the link to the engine are not constructor state
                     }

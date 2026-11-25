@@ -55,7 +55,7 @@ public sealed class AIGroupControlTarget(CustomNode owner) : EngineObject(owner)
     public bool Validate(AIGroupControl control)
     {
         int x = Location.X;
-        return x != -1 && StrategicMap.Current.MapContainer.GetField(x, Location.Y, Location.MapLevel).GetAITarget(control, Info, data: out _);
+        return x != -1 && GetEngine().StrategicMap.MapContainer.GetField(x, Location.Y, Location.MapLevel).GetAITarget(control, Info, data: out _);
     }
 
     // AIGroup.pas:666

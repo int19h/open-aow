@@ -40,7 +40,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
                     Player player = Control.Player;
                     if (player.PlayerIndex != PlayerId.Independent)
                     {
-                        if (FindAvailableTransporter() is null && !ProducingTransporter() && StrategicMap.Current.Day > 5)
+                        if (FindAvailableTransporter() is null && !ProducingTransporter() && GetEngine().StrategicMap.Day > 5)
                         {
                             AIBudget budget = player.AIBudget.Budgets.FindChild<AIBudget>(AITransporterBudget.ClassId);
                             if (budget is null)
@@ -128,7 +128,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
                         i += 1;
                     }
 
-                    i = StrategicMap.Current.Random(i + 1);
+                    i = GetEngine().StrategicMap.Random(i + 1);
                     QuadItem<ProductionControl> item = _productions[i];
                     _ = ExecuteProduce(_productions[i].First, index: item.Second);
                     _productions.Delete(i);
@@ -227,7 +227,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
     // AI.pas:1290
     public int TransporterPriority(int unitIndex)
     {
-        UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
+        UnitResource? resource = GetEngine().GamePack.UnitResources.GetUnitResource(unitIndex);
         int result;
         if (resource is not null && resource.GetTransportCapacity() != 0)
         {
@@ -268,7 +268,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
                         if (control.UnitProductions.GetItem(j).UnitIndex != -1 && !control.UnitProductions.GetItem(j).Researched)
                         {
                             UnitProduction? unitProduction = control.UnitProductions.GetItem(j);
-                            UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                            UnitResource? resource = GetEngine().GamePack.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                             if (resource.GetTransportCapacity() != 0)
                             {
                                 int unitResearchMana = control.UnitResearchMana(j);
@@ -279,7 +279,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
                                     int x = coordinate2.X;
                                     int y = coordinate2.Y;
                                     int l = coordinate2.MapLevel;
-                                    PlayerStructure structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
+                                    PlayerStructure structure = GetEngine().StrategicMap.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
                                     int priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                     if (priority != -1)
                                     {
@@ -341,7 +341,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
                         if (control.UnitProductions.GetItem(j).UnitIndex != -1 && control.UnitProductions.GetItem(j).Researched)
                         {
                             UnitProduction? unitProduction = control.UnitProductions.GetItem(j);
-                            UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                            UnitResource? resource = GetEngine().GamePack.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                             if (resource.GetTransportCapacity() != 0)
                             {
                                 int unitProductionMana = control.UnitProductionMana(j);
@@ -358,7 +358,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
                                         int x = coordinate3.X;
                                         int y = coordinate3.Y;
                                         int l = coordinate3.MapLevel;
-                                        PlayerStructure structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
+                                        PlayerStructure structure = GetEngine().StrategicMap.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
                                         int priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                         if (priority != -1)
                                         {
@@ -450,7 +450,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
                 if (control.UnitProductions.GetItem(j).UnitIndex != -1 && control.UnitProductions.GetItem(j).Researched)
                 {
                     UnitProduction? unitProduction = control.UnitProductions.GetItem(j);
-                    UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                    UnitResource? resource = GetEngine().GamePack.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                     result = result || resource.GetTransportCapacity() != 0;
                 }
             }
@@ -496,7 +496,7 @@ public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner
                 if (control.Queue.GetItem(0).Order is ResearchSpell)
                 {
                     UnitProduction? unitProduction = control.UnitProductions.GetItem(control.Settings.UnitProductionIndex);
-                    UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                    UnitResource? resource = GetEngine().GamePack.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                     if (resource is not null)
                     {
                         result = resource.GetTransportCapacity() != 0;

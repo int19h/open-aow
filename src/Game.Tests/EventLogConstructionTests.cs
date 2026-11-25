@@ -159,12 +159,18 @@ public sealed class EventLogConstructionTests
                         Assert.NotNull(value);
                         actual.Add($"{name}.map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, (value ?? owner?.Last)?.RefCount }));
                         EngineFixture.Engine.Dictionary = fixture.Dictionary;
-                        EngineFixture.SetMap(EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = HexSpriteMapStatuses.Destroying; }));
+                        StrategicMap destroying = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = HexSpriteMapStatuses.Destroying; });
+                        EngineFixture.SetMap(destroying);
+                        // Route 3 builds the log on the fixture's own engine. That engine holds the
+                        // same destroying map the global holds, so disposal reads that map.
+                        fixture.Engine.StrategicMap = destroying;
                         if (owner is not null)
                         {
                             _ = (value?.AddRef());
                         }
 
+                        // A log built with no holder still disposes against the fixture map.
+                        value?.Holder = EngineFixture.Engine;
                         value?.Dispose();
                         owner?.Dispose();
                     }

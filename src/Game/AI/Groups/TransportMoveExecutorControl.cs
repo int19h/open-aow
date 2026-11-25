@@ -44,7 +44,7 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
                         _ = MoveControl.CanMove(settings);
                         if (MoveControl.Status != AIMoveControlStatus.Processing)
                         {
-                            timeLeft = StrategicMap.Current.AIExecutor.ProcessTimeLeft;
+                            timeLeft = GetEngine().StrategicMap.AIExecutor.ProcessTimeLeft;
                         }
 
                         _ = settings.Release();
@@ -237,7 +237,7 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
                                 army.SetStatus(255, status: AIMoveExecutorUnitStatus.Done);
                             }
 
-                            timeLeft = StrategicMap.Current.AIExecutor.ProcessTimeLeft;
+                            timeLeft = GetEngine().StrategicMap.AIExecutor.ProcessTimeLeft;
                         }
                     }
 
@@ -362,12 +362,12 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
         }
 
         AIMoveExecutorUnit? aiMoveExecutorUnit = Executor.Transporter;
-        ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(aiMoveExecutorUnit.Location.X, aiMoveExecutorUnit.Location.Y, aiMoveExecutorUnit.Location.MapLevel).GetArmyHexSprite();
+        ArmyHexSprite armyHexSprite = GetEngine().StrategicMap.MapContainer.GetField(aiMoveExecutorUnit.Location.X, aiMoveExecutorUnit.Location.Y, aiMoveExecutorUnit.Location.MapLevel).GetArmyHexSprite();
 
         MoveControlSettings settings = new(null) { Holder = CreationHolder() };
         settings.SetupArmy(armyHexSprite, selection: 255);
         settings.SetDestinationPosition(X, Y, L);
-        StrategicMap.Current.MoveControl.ProcessMove(settings);
+        GetEngine().StrategicMap.MoveControl.ProcessMove(settings);
         if (settings.Path.Count != 0)
         {
             int movePoints = armyHexSprite.Army.MovePoints(255);
@@ -456,7 +456,7 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
             settings.SetupArmy(armyHexSprite, selection);
             settings.MovePointsMax = armyHexSprite.Army.Moves(selection);
             settings.Mode |= MoveModes.LogProcessedMapFields;
-            StrategicMap.Current.MoveControl.ProcessMove(settings);
+            GetEngine().StrategicMap.MoveControl.ProcessMove(settings);
             DelphiList<MapField> fields = settings.ProcessedMapFields;
             found = false;
             i = 0;
@@ -504,7 +504,7 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
             settings.SetupArmy(armyHexSprite, selection);
             settings.MovePointsMax = armyHexSprite.Army.Moves(selection);
             settings.Mode |= MoveModes.LogProcessedMapFields;
-            StrategicMap.Current.MoveControl.ProcessMove(settings);
+            GetEngine().StrategicMap.MoveControl.ProcessMove(settings);
             field = null;
             DelphiList<MapField> otherFields = settings.ProcessedMapFields;
             found = false;
@@ -589,7 +589,7 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
                 settings.SetupArmy(armyHexSprite, selection);
                 settings.SetSourcePosition(_meetingPoint.Location);
                 settings.SetDestinationPosition(Executor.Destination);
-                StrategicMap.Current.MoveControl.ProcessMove(settings);
+                GetEngine().StrategicMap.MoveControl.ProcessMove(settings);
                 if (settings.Path.Count > 4)
                 {
                     _meetingPoint = settings.Path[^2];

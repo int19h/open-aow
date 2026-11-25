@@ -3,7 +3,6 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.AI.Groups;
 
@@ -68,7 +67,7 @@ public class SkirmishAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(o
 
                 break;
             case 5:
-                Player? player = StrategicMap.Current.Players.GetPlayers(Group.Player);
+                Player? player = GetEngine().StrategicMap.Players.GetPlayers(Group.Player);
                 if (player.PlayerType is PlayerType.Cpu3 or PlayerType.Cpu4 or PlayerType.Cpu5)
                 {
                     State = 0;
@@ -85,8 +84,8 @@ public class SkirmishAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(o
                     _ = Group.DeleteUnit(Group.Transporter);
                 }
 
-                GroupBehavior randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
-                AIGroup? group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: 0, behavior: randomGroupBehavior);
+                GroupBehavior randomGroupBehavior = GetEngine().StrategicMap.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
+                AIGroup? group = GetEngine().StrategicMap.AIGroupManager.CreateGroup(Group.Player, relation: 0, behavior: randomGroupBehavior);
                 _ = group.AddUnits(Group.Units);
                 _ = group.Release();
                 Done();

@@ -30,23 +30,24 @@ public partial class UnitSpellCaster : SpellCaster
     // Spells.PAS:947
     public override bool CanCast(ref string reason)
     {
-        Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(CasterSourceId);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Hero hero = strategicMap.UnitControl.FindUnit<Hero>(CasterSourceId);
         bool result;
         if (hero is not null && !hero.UnitStatus.Contains(UnitStatuses.Killed))
         {
             if (SelectionMask != 0)
             {
-                if (!StrategicMap.Current.Players.GetPlayers(hero.Player).MagicControl.GetCheatEnabled())
+                if (!strategicMap.Players.GetPlayers(hero.Player).MagicControl.GetCheatEnabled())
                 {
                     int mana = GetRequiredMana();
                     if (hero.CastingReady() && hero.CastingSpellId == CasterSpellId)
                     {
-                        mana -= GamePack.Current.SpellControl[CasterSpellId].BaseManaCost;
+                        mana -= GetEngine().GamePack.SpellControl[CasterSpellId].BaseManaCost;
                     }
 
                     if (mana <= hero.GetCastingPoints())
                     {
-                        if (mana <= StrategicMap.Current.Players.GetPlayers(hero.Player).MagicControl.Mana)
+                        if (mana <= strategicMap.Players.GetPlayers(hero.Player).MagicControl.Mana)
                         {
                             return true;
                         }
@@ -88,7 +89,7 @@ public partial class UnitSpellCaster : SpellCaster
         string reason = "";
         if (CanCast(ref reason))
         {
-            Troop? source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+            Troop? source = GetEngine().StrategicMap.UnitControl.FindUnit(CasterSourceId);
             if (source is not null)
             {
                 UnitUserList targets = new(null) { Holder = CreationHolder() };
@@ -100,7 +101,7 @@ public partial class UnitSpellCaster : SpellCaster
                     }
                 }
 
-                result = GamePack.Current.SpellControl.GetSpell<UnitSpell>(CasterSpellId).CastSpell(source, targets);
+                result = GetEngine().GamePack.SpellControl.GetSpell<UnitSpell>(CasterSpellId).CastSpell(source, targets);
                 targets?.Dispose();
             }
             else
@@ -137,7 +138,7 @@ public partial class UnitSpellCaster : SpellCaster
     // Spells.PAS:1085
     public bool Valid()
     {
-        Troop source = StrategicMap.Current.UnitControl.FindUnit<Troop>(CasterSourceId);
+        Troop source = GetEngine().StrategicMap.UnitControl.FindUnit<Troop>(CasterSourceId);
         return source is not null && (((byte)source.UnitStatus) & 16) == 0;
     }
 
@@ -145,8 +146,8 @@ public partial class UnitSpellCaster : SpellCaster
     public void SetSelection(int selection)
     {
         int value = selection;
-        Troop? source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
-        value = GamePack.Current.SpellControl.GetSpell<UnitSpell>(CasterSpellId).ValidateUnitSelection(source, targets: TargetUnits, selection: value);
+        Troop? source = GetEngine().StrategicMap.UnitControl.FindUnit(CasterSourceId);
+        value = GetEngine().GamePack.SpellControl.GetSpell<UnitSpell>(CasterSpellId).ValidateUnitSelection(source, targets: TargetUnits, selection: value);
         SelectionMask = value;
     }
 }

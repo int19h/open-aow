@@ -45,8 +45,8 @@ public partial class AIMoveExecutorControl : EngineObject
         {
             settings.MovePointsMax = army.MovePoints(255);
             settings.SetupArmy(armyHexSprite, selection: armySelection);
-            StrategicMap.Current.MoveControl.ProcessMove(settings);
-            MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(mapLevel);
+            GetEngine().StrategicMap.MoveControl.ProcessMove(settings);
+            MapLevel level = GetEngine().StrategicMap.MapContainer.GetMapLevel(mapLevel);
             RecordList<SurroundCandidate> candidates = [];
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 1);
             while (walk.Radius <= 1)
@@ -54,7 +54,7 @@ public partial class AIMoveExecutorControl : EngineObject
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
                     points = settings.GetMovePoints(walk.X, walk.Y, mapLevel);
-                    MapField mapField = StrategicMap.Current.MapContainer.GetField(walk.X, walk.Y, mapLevel);
+                    MapField mapField = GetEngine().StrategicMap.MapContainer.GetField(walk.X, walk.Y, mapLevel);
                     if (points != 16777215 && (mapField.GetPlayer() is null || mapField.GetPlayer() == army.Player))
                     {
                         if (CanMoveTo(army, selection, walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), mapLevel) == selection)
@@ -74,7 +74,7 @@ public partial class AIMoveExecutorControl : EngineObject
                 x = location.X;
                 y = location.Y;
                 mapLevel = location.MapLevel;
-                StrategicMap.Current.MoveControl.CalculatePath(settings, settings.Path, x, y, L: mapLevel);
+                GetEngine().StrategicMap.MoveControl.CalculatePath(settings, settings.Path, x, y, L: mapLevel);
             }
         }
         else
@@ -82,7 +82,7 @@ public partial class AIMoveExecutorControl : EngineObject
             settings.MovePointsMax = Executor.MovePointsMax;
             settings.SetupArmy(armyHexSprite, selection: armySelection);
             settings.SetDestinationPosition(x, y, mapLevel);
-            StrategicMap.Current.MoveControl.ProcessMove(settings);
+            GetEngine().StrategicMap.MoveControl.ProcessMove(settings);
         }
         byte moveResult;
         if (settings.Path.Count != 0)
@@ -169,7 +169,7 @@ public partial class AIMoveExecutorControl : EngineObject
         int transporterCount = 0;
         int capacity = 8;
         bool allowed = true;
-        MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, mapLevel);
+        MapField mapField = GetEngine().StrategicMap.MapContainer.GetField(x, y, mapLevel);
         ArmyHexSprite armyHexSprite = mapField.GetArmyHexSprite();
         int result = 0;
         int i;
@@ -307,7 +307,7 @@ public partial class AIMoveExecutorControl : EngineObject
         while (MoveControl.Status != AIMoveControlStatus.Processing && timeLeft > 0 && Executor.Status == AIMoveExecutorStatus.Busy && Executor.State == 0 && State != -1)
         {
             CalculateMoves();
-            timeLeft = StrategicMap.Current.AIExecutor.ProcessTimeLeft;
+            timeLeft = GetEngine().StrategicMap.AIExecutor.ProcessTimeLeft;
         }
 
         return State != -1;

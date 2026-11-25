@@ -26,9 +26,10 @@ public class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
         _ = base.Activate();
         if (PlayerIdExtensions.ToOriginal(Control.Player.PlayerIndex) > 0)
         {
-            for (int i = 0, last = StrategicMap.Current.StructureControl.GetCount() - 1; i <= last; i++)
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            for (int i = 0, last = strategicMap.StructureControl.GetCount() - 1; i <= last; i++)
             {
-                Structure structure = StrategicMap.Current.StructureControl[i];
+                Structure structure = strategicMap.StructureControl[i];
                 _ = _structureIds.Add(structure.StructureId);
             }
 
@@ -44,10 +45,10 @@ public class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
     public override bool Process()
     {
         bool waiting = false;
-        while (!waiting && _structureIds.Count != 0 && StrategicMap.Current.AIExecutor.ProcessTimeLeft > 0 && !Control.Player.GetBusy())
+        while (!waiting && _structureIds.Count != 0 && GetEngine().StrategicMap.AIExecutor.ProcessTimeLeft > 0 && !Control.Player.GetBusy())
         {
             int item = _structureIds[^1];
-            Structure structure = StrategicMap.Current.StructureControl.FindId(item);
+            Structure structure = GetEngine().StrategicMap.StructureControl.FindId(item);
             if (structure is not null)
             {
                 waiting = structure.ExecuteAI(Control.Player.PlayerIndex, Phase);

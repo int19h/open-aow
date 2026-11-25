@@ -172,7 +172,7 @@ public sealed class HeroControl : EngineObject
         for (int i = _heroes.GetCount() - 1; i >= 0; i--)
         {
             Hero hero = _heroes[i];
-            if (hero is not null && hero.LibraryId != -1 && GamePack.Current.HeroLibraries.FindHero(hero.LibraryName, hero.LibraryId) is null)
+            if (hero is not null && hero.LibraryId != -1 && GetEngine().GamePack.HeroLibraries.FindHero(hero.LibraryName, hero.LibraryId) is null)
             {
                 if (hero.Owner is null)
                 {
@@ -242,7 +242,7 @@ public sealed class HeroControl : EngineObject
     // Hero.PAS:2528
     public void NotifyHeroChanged(Hero hero)
     {
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
+        if (!GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
             _onHeroChangedStore.Raise(hero);
         }

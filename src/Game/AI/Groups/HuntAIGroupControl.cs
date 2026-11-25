@@ -19,7 +19,7 @@ public class HuntAIGroupControl(CustomNode owner) : AIGroupControl(owner)
     // AIGroup.pas:1479
     public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
-        MapField field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location);
+        MapField field = GetEngine().StrategicMap.MapContainer.GetFieldMapCoordinate(target.Location);
         if (field.GetPlayer() != Group.Player)
         {
             ArmyHexSprite army = field.GetArmyHexSprite();
@@ -58,7 +58,7 @@ public class HuntAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                     for (int i = group.TargetUnitIds.Count - 1; i >= 0; i--)
                     {
                         int item = group.TargetUnitIds[i];
-                        Troop? troop = StrategicMap.Current.UnitControl.FindUnit(item);
+                        Troop? troop = GetEngine().StrategicMap.UnitControl.FindUnit(item);
                         if (troop is null || troop.Player == PlayerId.Independent)
                         {
                             group.TargetUnitIds.Delete(i);
@@ -79,7 +79,7 @@ public class HuntAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                 }
                 else
                 {
-                    AIGroup? newGroup = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: GroupBehavior.Patrol);
+                    AIGroup? newGroup = GetEngine().StrategicMap.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: GroupBehavior.Patrol);
                     _ = newGroup.AddUnits(Group.Units);
                     _ = newGroup.Release();
                     Done();

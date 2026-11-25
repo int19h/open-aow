@@ -9,8 +9,6 @@ using Aow.Game.Magic.Spells;
 
 using Aow.Game.Session;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.AI;
 
 public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
@@ -65,7 +63,7 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         Player player = Control.Player;
         if (player.PlayerIndex != PlayerId.Independent)
         {
-            while (_state != -1 && StrategicMap.Current.AIExecutor.ProcessTimeLeft > 0 && !player.GetBusy())
+            while (_state != -1 && GetEngine().StrategicMap.AIExecutor.ProcessTimeLeft > 0 && !player.GetBusy())
             {
                 ProcessStates();
             }
@@ -123,12 +121,12 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                 {
                     done = false;
                     int item = _pendingHeroes[0];
-                    hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(item);
+                    hero = GetEngine().StrategicMap.UnitControl.FindUnit<Hero>(item);
                     if (hero is not null && hero.Owner is not null && (((byte)hero.UnitStatus) & 16) == 0)
                     {
                         if (hero.CastingSpellId != 0)
                         {
-                            done = GamePack.Current.SpellControl[hero.CastingSpellId].AIExecuteCastSpellAction(hero);
+                            done = GetEngine().GamePack.SpellControl[hero.CastingSpellId].AIExecuteCastSpellAction(hero);
                         }
 
                         if (!done)
@@ -165,7 +163,7 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                 if (_pendingHeroes.Count != 0)
                 {
                     int item = _pendingHeroes[0];
-                    hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(item);
+                    hero = GetEngine().StrategicMap.UnitControl.FindUnit<Hero>(item);
                     if (hero is not null && (((byte)hero.UnitStatus) & 16) == 0)
                     {
                         PrefetchCastSpellActions(hero);
@@ -205,13 +203,13 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                             i += 1;
                         }
 
-                        int index = StrategicMap.Current.Random(i);
+                        int index = GetEngine().StrategicMap.Random(i);
                         AICastSpellAction castSpellActions2 = _castSpellActions.GetCastSpellActions(index);
-                        hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(castSpellActions2.SourceUnitId);
+                        hero = GetEngine().StrategicMap.UnitControl.FindUnit<Hero>(castSpellActions2.SourceUnitId);
                         if (hero is not null && (((byte)hero.UnitStatus) & 16) == 0)
                         {
                             AICastSpellAction castSpellActions = _castSpellActions.GetCastSpellActions(index);
-                            if (GamePack.Current.SpellControl[castSpellActions.SpellId].AIExecuteCastSpellAction(hero))
+                            if (GetEngine().GamePack.SpellControl[castSpellActions.SpellId].AIExecuteCastSpellAction(hero))
                             {
                                 _ = _castingHeroes.Add(hero.UnitId);
                                 _ = _idleHeroes.Remove(hero.UnitId);

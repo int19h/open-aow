@@ -40,10 +40,10 @@ public class FireBarrierTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEve
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 MapField mapField = level.Field[walk.X, walk.Y];
-                GamePack engineGamePack = GetEngine().GamePack;
-                if (((GlobalTargetSpell)(object)engineGamePack.SpellControl[11]).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
+                GamePack gamePack = GetEngine().GamePack;
+                if (((GlobalTargetSpell)(object)gamePack.SpellControl[11]).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
                 {
-                    Fire fire = engineGamePack.FireControl.PlaceFire(walk.X, walk.Y, L: Location.MapLevel, fireType: FireType.Large);
+                    Fire fire = gamePack.FireControl.PlaceFire(walk.X, walk.Y, L: Location.MapLevel, fireType: FireType.Large);
                     if (fire is not null)
                     {
                         fire.SetupExplosion(Random(35));

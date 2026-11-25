@@ -38,23 +38,24 @@ public class UnitEnchantment : Enchantment
     // AoWAb.PAS:804
     public override string GetName()
     {
-        if (StrategicMap.Current is not null)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap is not null)
         {
-            Troop? source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+            Troop? source = strategicMap.UnitControl.FindUnit(UnitId);
             return source is not null
-                ? GamePack.Current.AbilityControl[EnchantmentAbilityId].GetName(source)
-                : GamePack.Current.AbilityControl[EnchantmentAbilityId].GetName(null);
+                ? GetEngine().GamePack.AbilityControl[EnchantmentAbilityId].GetName(source)
+                : GetEngine().GamePack.AbilityControl[EnchantmentAbilityId].GetName(null);
         }
         else
         {
-            return GamePack.Current.AbilityControl[EnchantmentAbilityId].GetName(null);
+            return GetEngine().GamePack.AbilityControl[EnchantmentAbilityId].GetName(null);
         }
     }
 
     // AoWAb.PAS:831
     public override string GetBinding()
     {
-        Troop? source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop? source = GetEngine().StrategicMap.UnitControl.FindUnit(UnitId);
         return source is not null ? source.GetName() : "";
     }
 
@@ -63,9 +64,9 @@ public class UnitEnchantment : Enchantment
     {
         get
         {
-            Troop? source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+            Troop? source = GetEngine().StrategicMap.UnitControl.FindUnit(UnitId);
             return source is not null
-                ? GamePack.Current.AbilityControl.GetAbility<UnitEnchantmentAbility>(EnchantmentAbilityId).GetAIUpkeepPriority(source)
+                ? GetEngine().GamePack.AbilityControl.GetAbility<UnitEnchantmentAbility>(EnchantmentAbilityId).GetAIUpkeepPriority(source)
                 : 0;
         }
     }
@@ -73,14 +74,14 @@ public class UnitEnchantment : Enchantment
     // AoWAb.PAS:859
     public override MapCoordinate GetLocation()
     {
-        Troop? source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop? source = GetEngine().StrategicMap.UnitControl.FindUnit(UnitId);
         return source is not null ? source.GetLocation() : MapCoordinate.None;
     }
 
     // AoWAb.PAS:874
     public override bool Dispel()
     {
-        Troop? source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop? source = GetEngine().StrategicMap.UnitControl.FindUnit(UnitId);
         return source is not null && source.RemoveAbility(EnchantmentAbilityId);
     }
 
@@ -93,19 +94,20 @@ public class UnitEnchantment : Enchantment
         int hexLevel = coordinate28.MapLevel;
         if (hexX != -1)
         {
-            if (StrategicMap.Current.Visible(hexX, hexY, L: hexLevel, radius: 0))
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (strategicMap.Visible(hexX, hexY, L: hexLevel, radius: 0))
             {
-                ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetArmyHexSprite();
+                ArmyHexSprite armyHexSprite = strategicMap.MapContainer.GetField(hexX, hexY, hexLevel).GetArmyHexSprite();
                 if (armyHexSprite is not null)
                 {
-                    StrategicMap.Current.Select(armyHexSprite, center: true);
+                    strategicMap.Select(armyHexSprite, center: true);
                 }
             }
             else
             {
                 string binding = GetBinding();
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsOutOfSightFormat), arguments: [binding]);
-                StrategicMap.Current.ShowMessage(format);
+                GetEngine().StrategicMap.ShowMessage(format);
             }
         }
     }

@@ -7,8 +7,6 @@ using Aow.Game.Magic.Spells;
 
 using Aow.Game.Session;
 
-using Aow.Game.World.Map;
-
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.AI;
@@ -40,7 +38,7 @@ public class ResearchSpellAIPlayerAction(CustomNode owner) : AIPlayerAction(owne
 
             if (choices.Count != 0)
             {
-                RandSeed = StrategicMap.Current.Random(16777215);
+                RandSeed = GetEngine().StrategicMap.Random(16777215);
                 int index = choices.RandomChanceItemB(0);
                 DoubleItemList.DoubleItem item = choices[index];
                 _ = Control.Player.MagicControl.ExecuteResearchSpell(item.First);

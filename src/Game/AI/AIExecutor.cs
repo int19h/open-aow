@@ -95,7 +95,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
         {
             _ = _players.Add(PlayerIdExtensions.ToOriginal(player).TruncateToByte());
             Status |= AIExecutorStatuses.Enabled;
-            StrategicMap.Current.Players.GetPlayers(player).AIControl.Activate(this);
+            GetEngine().StrategicMap.Players.GetPlayers(player).AIControl.Activate(this);
             Player ??= player;
 
             return true;
@@ -112,7 +112,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
         if (_players.IndexOf((byte)PlayerIdExtensions.ToOriginal(player)) != -1)
         {
             _ = _players.Remove(PlayerIdExtensions.ToOriginal(player).TruncateToByte());
-            StrategicMap.Current.Players.GetPlayers(player).AIControl.Deactivate();
+            GetEngine().StrategicMap.Players.GetPlayers(player).AIControl.Deactivate();
             if (_players.Count == 0)
             {
                 Player = null;
@@ -124,10 +124,11 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     // AI.pas:644
     public void TokenControlDoneEvent(object sender)
     {
-        if (Status.Contains(AIExecutorStatuses.Enabled) && StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
+        if (Status.Contains(AIExecutorStatuses.Enabled) && GetEngine().StrategicMap.PlayMode == PlayMode.Simultaneous)
         {
             _tokenControlDone = true;
-            if (StrategicMap.Current.CurrentPlayer == PlayerId.Independent && StrategicMap.Current.CombatMap is null)
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (strategicMap.CurrentPlayer == PlayerId.Independent && strategicMap.CombatMap is null)
             {
                 CaptureTokenCycles(5);
             }
@@ -149,7 +150,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     {
         Assert(!Status.Contains(AIExecutorStatuses.TokenLocked), message: "", file: "AI.pas", line: 937);
         Status |= AIExecutorStatuses.TokenLocked;
-        StrategicMap.Current.TokenManager.TokenExecutor.Lock();
+        GetEngine().StrategicMap.TokenManager.TokenExecutor.Lock();
         _tokenCycle = 0;
         _tokenCycles = cycles;
     }
@@ -159,7 +160,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     {
         Assert(Status.Contains(AIExecutorStatuses.TokenLocked), message: "", file: "AI.pas", line: 947);
         Status &= ~AIExecutorStatuses.TokenLocked;
-        StrategicMap.Current.TokenManager.TokenExecutor.Unlock();
+        GetEngine().StrategicMap.TokenManager.TokenExecutor.Unlock();
     }
 
     // AI.pas:952
@@ -168,19 +169,20 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
         if (Status.Contains(AIExecutorStatuses.Enabled) && LockCount == 0)
         {
             Status |= AIExecutorStatuses.Executing;
-            StrategicMap.Current.SynchronizeBegin();
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            strategicMap.SynchronizeBegin();
             _processTimeUsed = 0;
             _processStarted = _processTimeMode == AIExecutorProcessTimeMode.Dynamic ? PixelFormats.ElapsedMilliseconds : 0;
 
             try
             {
-                switch (StrategicMap.Current.PlayMode)
+                switch (strategicMap.PlayMode)
                 {
                     case PlayMode.Turn:
-                        if (!StrategicMap.Current.Players.GetPlayers(Player).GetBusy() && StrategicMap.Current.TokenManager.PlayerReady(Player))
+                        if (!strategicMap.Players.GetPlayers(Player).GetBusy() && strategicMap.TokenManager.PlayerReady(Player))
                         {
                             ProcessCycles += 1;
-                            _ = StrategicMap.Current.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
+                            _ = strategicMap.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
                             _tokenControlDone = false;
                         }
 
@@ -193,7 +195,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
                             int i = 0;
                             while (!done && ProcessTimeLeft > 0 && Status.Contains(AIExecutorStatuses.Enabled) && i < _players.Count)
                             {
-                                done = StrategicMap.Current.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
+                                done = GetEngine().StrategicMap.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
                                 if (done)
                                 {
                                     _playerProcessCycles += 1;
@@ -205,7 +207,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
                                 }
 
                                 _tokenControlDone = false;
-                                if (!done || StrategicMap.Current.Players.GetPlayers(Player).AIControl.GetProcessCyclesMax() <= _playerProcessCycles)
+                                if (!done || GetEngine().StrategicMap.Players.GetPlayers(Player).AIControl.GetProcessCyclesMax() <= _playerProcessCycles)
                                 {
                                     int index = _players.IndexOf((byte)PlayerIdExtensions.ToOriginal(Player));
                                     index += 1;
@@ -239,7 +241,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
                 ShowMessage("AI ERROR");
             }
 
-            StrategicMap.Current.SynchronizeEnd();
+            GetEngine().StrategicMap.SynchronizeEnd();
             Status &= ~AIExecutorStatuses.Executing;
         }
     }

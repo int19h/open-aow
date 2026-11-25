@@ -71,19 +71,17 @@ public class WarpPartyTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
         StrategicMap engineStrategicMap = GetEngine().StrategicMap;
         bool showTarget = engineStrategicMap.SeatedPlayer == source.Player || engineStrategicMap.VisibleForPlayer(field.HexX, field.HexY, field.HexLevel, player: engineStrategicMap.SeatedPlayer);
         ImageSequenceAnimation animation;
-        GamePack gamePack = GetEngine().GamePack;
-        if (showSource && gamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
+        if (showSource && GetEngine().GamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
         {
             animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
-            animation.SetImageSequence(gamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
+            animation.SetImageSequence(GetEngine().GamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
             _ = GetEngine().StrategicMap.PlaceHex(animation, x, y, L: layer);
         }
 
-        GamePack engineGamePack = GetEngine().GamePack;
-        if (showTarget && engineGamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
+        if (showTarget && GetEngine().GamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
         {
             animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
-            animation.SetImageSequence(engineGamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
+            animation.SetImageSequence(GetEngine().GamePack.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
             _ = GetEngine().StrategicMap.PlaceHex(animation, field.HexX, field.HexY, L: field.HexLevel);
         }
 
@@ -103,9 +101,9 @@ public class WarpPartyTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
             _ = GetEngine().GamePack.SpellControl[EventSpellId].CastSounds.Play(0);
         }
 
-        GamePack castingDoneGamePack = GetEngine().GamePack;
-        Spell? spell = castingDoneGamePack.SpellControl[EventSpellId];
-        castingDoneGamePack.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
+        GamePack gamePack = GetEngine().GamePack;
+        Spell? spell = gamePack.SpellControl[EventSpellId];
+        gamePack.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
         return false;
     }
 }

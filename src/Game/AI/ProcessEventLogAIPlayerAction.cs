@@ -6,8 +6,6 @@ using Aow.Game.Events;
 
 using Aow.Game.Session;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.AI;
 
 // log index
@@ -24,7 +22,7 @@ public class ProcessEventLogAIPlayerAction(CustomNode owner) : AIPlayerAction(ow
         {
             if (_logIndex == -1)
             {
-                _logIndex = Control.Player.EventLogbook.FindFirstLog(EndTurnEventLog.ClassId, player: Control.Player.PlayerIndex, day: StrategicMap.Current.Day - 1) + 1;
+                _logIndex = Control.Player.EventLogbook.FindFirstLog(EndTurnEventLog.ClassId, player: Control.Player.PlayerIndex, day: GetEngine().StrategicMap.Day - 1) + 1;
             }
             else
             {

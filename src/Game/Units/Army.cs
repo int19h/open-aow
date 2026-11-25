@@ -73,9 +73,10 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:336
     public override void Dispose()
     {
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (!strategicMap.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
-            StrategicMap.Current.NotifyArmyDestroyed(this);
+            strategicMap.NotifyArmyDestroyed(this);
         }
 
         _update = null;
@@ -88,7 +89,10 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         base.PersistFields(persister);
         Player = persister.OptionalPlayer(name: "Player", value: Player, width: IdWidth.UnsignedByte, fallback: 0);
         Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Byte);
-        if (persister.Loading || StrategicMap.Current is null || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
+        // An army that reaches no engine has no map, and writes the two fields as the original did
+        // when no map was set.
+        GameEngine engine = GetEngine();
+        if (persister.Loading || engine?.StrategicMap is null || engine.StrategicMap.ConnectionType != PlayerConnectionType.Network)
         {
             Destination = persister.Coordinate(name: "Destination", value: Destination, width: CoordinateWidth.Byte);
             UserMode = persister.Set("UserMode", value: UserMode);
@@ -128,7 +132,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         }
         else
         {
-            if (message.MessageId == 537001990 && StrategicMap.Current.SeatedPlayer is not null)
+            if (message.MessageId == 537001990 && GetEngine().StrategicMap.SeatedPlayer is not null)
             {
                 UpdateUnfog();
                 UpdateConcealment();
@@ -139,7 +143,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 {
                     UpdateVisibilityRanges();
                     UpdateExploration();
-                    if (StrategicMap.Current.SeatedPlayer is not null)
+                    if (GetEngine().StrategicMap.SeatedPlayer is not null)
                     {
                         UpdateUnfog();
                         UpdateConcealment();
@@ -288,7 +292,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             if (result && !hasTransporter && Location.X != -1 && Location.X != 0 && !Mode.Contains(ArmyModes.DisableTerrainValidation))
             {
                 // { Original skips terrain validation on the zero X column. }
-                MapField field = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+                MapField field = GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
                 result = troop.ValidTerrain(field.TerrainType, field.OverlayType);
             }
 
@@ -356,7 +360,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         if (player is not null)
         {
             result = true;
-            MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
+            MapLevel level = GetEngine().StrategicMap.MapContainer.MapLevels[Location.MapLevel];
             message.MessageId = 4363;
             message.Result = 0;
             MapFieldMessageParameters param = message.Param;
@@ -575,7 +579,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:473
     public void SetBehavior(int selection, GroupBehavior behavior)
     {
-        AIGroup? group = StrategicMap.Current.AIGroupManager.CreateGroup(Player, relation: IndependentRelation, behavior);
+        AIGroup? group = GetEngine().StrategicMap.AIGroupManager.CreateGroup(Player, relation: IndependentRelation, behavior);
         if (group is not null)
         {
             for (int i = 0, last = Units.Count - 1; i <= last; i++)
@@ -633,11 +637,11 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             GroupBehavior behavior = OldAIBehavior;
             if (behavior == GroupBehavior.None)
             {
-                behavior = Player == PlayerId.Independent && StrategicMap.Current.IndependentAIMode != StrategicMapIndependentAIMode.Off
-                    ? Location.X != -1 && StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) is null
+                behavior = Player == PlayerId.Independent && GetEngine().StrategicMap.IndependentAIMode != StrategicMapIndependentAIMode.Off
+                    ? Location.X != -1 && GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) is null
                         ? IndependentRelation >= 0 ? GroupBehavior.Patrol : GroupBehavior.GuardArea
                         : GroupBehavior.Passive
-                    : StrategicMap.Current.Players.GetPlayers(Player).AIControl.GetRandomGroupBehavior();
+                    : GetEngine().StrategicMap.Players.GetPlayers(Player).AIControl.GetRandomGroupBehavior();
             }
 
             SetBehavior(selection, behavior);
@@ -667,9 +671,9 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             }
             else
             {
-                if (Player == PlayerId.Independent && StrategicMap.Current.IndependentAIMode != StrategicMapIndependentAIMode.Off && Location.X != -1)
+                if (Player == PlayerId.Independent && GetEngine().StrategicMap.IndependentAIMode != StrategicMapIndependentAIMode.Off && Location.X != -1)
                 {
-                    if (StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) is null)
+                    if (GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) is null)
                     {
                         behavior = IndependentRelation >= 0 ? GroupBehavior.Patrol : GroupBehavior.GuardArea;
                     }
@@ -720,7 +724,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         int x = coordinate26.X;
         int y = coordinate26.Y;
         int l = coordinate26.MapLevel;
-        return x != -1 ? StrategicMap.Current.MapContainer.GetField(x, y, l).GetArmyHexSprite() : null;
+        return x != -1 ? GetEngine().StrategicMap.MapContainer.GetField(x, y, l).GetArmyHexSprite() : null;
     }
 
     // Army.PAS:591
@@ -741,7 +745,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
 
             if (Status.Contains(ArmyStatuses.Activated) && Location.X != -1)
             {
-                StrategicMap.Current.ScannerIconsChangedRadius(Location.X, Location.Y, Location.MapLevel, radius: 0);
+                GetEngine().StrategicMap.ScannerIconsChangedRadius(Location.X, Location.Y, Location.MapLevel, radius: 0);
             }
         }
     }
@@ -754,7 +758,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     {
         if (Status.Contains(ArmyStatuses.Activated))
         {
-            bool concealed = ConcealedUnits != 0 && StrategicMap.Current.SeatedPlayer != Player && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && GetConcealedForPlayer(StrategicMap.Current.SeatedPlayer);
+            bool concealed = ConcealedUnits != 0 && GetEngine().StrategicMap.SeatedPlayer != Player && !GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting) && GetConcealedForPlayer(GetEngine().StrategicMap.SeatedPlayer);
 
             Leader? leader = Leader(255);
             bool showCrown = leader is not null;
@@ -871,7 +875,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         {
             ConcealedUnits = 0;
             int i = Units.Count;
-            MapField field = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+            MapField field = GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
             while (i != 0)
             {
                 i -= 1;
@@ -897,8 +901,9 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         if (previous != upkeep && Status.Contains(ArmyStatuses.Activated))
         {
             int delta = upkeep - previous;
-            Player? players = StrategicMap.Current.Players.GetPlayers(Player);
-            StrategicMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + delta);
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            Player? players = strategicMap.Players.GetPlayers(Player);
+            strategicMap.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + delta);
         }
 
         _upkeep = upkeep;
@@ -928,7 +933,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
 
         if (selection != 0)
         {
-            if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && StrategicMap.Current.Day != 0)
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (!strategicMap.Status.Contains(HexSpriteMapStatuses.Editting) && strategicMap.Day != 0)
             {
                 using (BeginUpdate())
                 {
@@ -997,7 +1003,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:790
     public void Validate()
     {
-        StrategicMap.Current.LockGameOverEvent();
+        GetEngine().StrategicMap.LockGameOverEvent();
         using (BeginUpdate())
         {
             for (int i = Units.Count - 1; i >= 0; i--)
@@ -1008,7 +1014,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                     if (troop.GetAbilityEnabled(107))
                     {
                         Unit newUnit = new(null) { Holder = CreationHolder() };
-                        newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(152));
+                        newUnit.SetUnitResource(GetEngine().GamePack.UnitResources.GetUnitResource(152));
                         troop.Killed();
                         _ = AddUnit(newUnit);
                     }
@@ -1019,7 +1025,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 }
             }
         }
-        StrategicMap.Current.UnlockGameOverEvent();
+        GetEngine().StrategicMap.UnlockGameOverEvent();
     }
 
     // Army.PAS:812
@@ -1034,7 +1040,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             _ = (sbyte)troop.UpdateMoraleValue();
             if (troop.GetAbilityEnabled(46) || troop.GetAbilityLevel(46) > 0)
             {
-                GamePack.Current.AbilityControl.GetAbility<LeadershipAbility>(46).ResetExternalSource(troop);
+                GetEngine().GamePack.AbilityControl.GetAbility<LeadershipAbility>(46).ResetExternalSource(troop);
                 int unitLevel = troop.GetAbilityLevel(46);
                 if (unitLevel > level)
                 {
@@ -1055,7 +1061,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 troop = Units[i];
                 if (troop.GetAbilityLevel(46) < level)
                 {
-                    GamePack.Current.AbilityControl.GetAbility<LeadershipAbility>(46).SetExternalSource(troop, level: level.TruncateToByte(), sourceName);
+                    GetEngine().GamePack.AbilityControl.GetAbility<LeadershipAbility>(46).SetExternalSource(troop, level: level.TruncateToByte(), sourceName);
                 }
             }
         }
@@ -1075,9 +1081,10 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             UpdateConcealment();
             UpdateFormation();
             UpdateIndependentRelation();
-            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && Location.X != -1)
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (strategicMap.Status.Contains(HexSpriteMapStatuses.Editting) && Location.X != -1)
             {
-                StrategicMap.Current.ScannerIconsChangedRadius(Location.X, Location.Y, Location.MapLevel, radius: 0);
+                strategicMap.ScannerIconsChangedRadius(Location.X, Location.Y, Location.MapLevel, radius: 0);
             }
 
             UnlockChanged();
@@ -1090,7 +1097,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     {
         if (UpdateCount == 0 && Status.Contains(ArmyStatuses.Activated))
         {
-            StrategicMap.Current.NotifyArmyChanged(this);
+            GetEngine().StrategicMap.NotifyArmyChanged(this);
             _update?.Invoke(this);
         }
     }
@@ -1117,7 +1124,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         _upkeep = 0;
         if (Player is not null)
         {
-            _ = StrategicMap.Current.Players.GetPlayers(Player).Armies.AddChild(this);
+            _ = GetEngine().StrategicMap.Players.GetPlayers(Player).Armies.AddChild(this);
         }
 
         // { Original treats X = 0 as an unset location. }
@@ -1136,7 +1143,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         {
             if (_unfogRange != 0)
             {
-                _ = StrategicMap.Current.FogArea(Location.X, Location.Y, Location.MapLevel, range: _unfogRange);
+                _ = GetEngine().StrategicMap.FogArea(Location.X, Location.Y, Location.MapLevel, range: _unfogRange);
                 _unfogRange = 0;
             }
 
@@ -1151,9 +1158,10 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
 
             if (Player is not null)
             {
-                _ = StrategicMap.Current.Players.GetPlayers(Player).Armies.RemoveChild(this);
-                Player? players = StrategicMap.Current.Players.GetPlayers(Player);
-                StrategicMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - _upkeep);
+                _ = GetEngine().StrategicMap.Players.GetPlayers(Player).Armies.RemoveChild(this);
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                Player? players = strategicMap.Players.GetPlayers(Player);
+                strategicMap.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - _upkeep);
             }
 
             Status &= ~ArmyStatuses.Activated;
@@ -1203,7 +1211,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:1244
     public bool GetUnitConcealed(int index)
     {
-        MapField field = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+        MapField field = GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
         return Units[index].ConcealedOnMapField(field);
     }
 
@@ -1217,7 +1225,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:1298
     public void SetPlayer(PlayerId? player)
     {
-        if (StrategicMap.Current.Players.GetPlayers(player) is null)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Players.GetPlayers(player) is null)
         {
             player = PlayerId.Independent;
         }
@@ -1230,17 +1239,18 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 {
                     if (Player is not null)
                     {
-                        Player? players = StrategicMap.Current.Players.GetPlayers(Player);
-                        StrategicMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - _upkeep);
-                        _ = StrategicMap.Current.Players.GetPlayers(Player).Armies.RemoveChild(this);
+                        Player? players = strategicMap.Players.GetPlayers(Player);
+                        strategicMap.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - _upkeep);
+                        _ = GetEngine().StrategicMap.Players.GetPlayers(Player).Armies.RemoveChild(this);
                     }
 
                     Player = player;
                     if (Player is not null)
                     {
-                        Player? players = StrategicMap.Current.Players.GetPlayers(Player);
-                        StrategicMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + _upkeep);
-                        _ = StrategicMap.Current.Players.GetPlayers(Player).Armies.AddChild(this);
+                        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                        Player? players = engineStrategicMap.Players.GetPlayers(Player);
+                        engineStrategicMap.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + _upkeep);
+                        _ = GetEngine().StrategicMap.Players.GetPlayers(Player).Armies.AddChild(this);
                     }
 
                     for (int i = Units.Count - 1; i >= 0; i--)
@@ -1250,12 +1260,12 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
 
                     if (Location.X != -1)
                     {
-                        StrategicMap.Current.ScannerIconsChangedRadius(Location.X, Location.Y, Location.MapLevel, radius: 0);
+                        GetEngine().StrategicMap.ScannerIconsChangedRadius(Location.X, Location.Y, Location.MapLevel, radius: 0);
                     }
 
-                    if (PlayerIdExtensions.ToOriginal(Player) > 0 && StrategicMap.Current.Day > 0)
+                    if (PlayerIdExtensions.ToOriginal(Player) > 0 && GetEngine().StrategicMap.Day > 0)
                     {
-                        if (StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+                        if (GetEngine().StrategicMap.Players.GetPlayers(player).PlayerType != PlayerType.Human)
                         {
                             SetBehavior(255, behavior: GroupBehavior.Passive);
                         }
@@ -1586,7 +1596,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:1529
     public bool CanPlace(int X, int Y, int L)
     {
-        MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
+        MapField field = GetEngine().StrategicMap.MapContainer.GetField(X, Y, L);
         bool result = ValidTerrain(field.TerrainType, field.OverlayType);
         if (!Status.Contains(ArmyStatuses.Activated))
         {
@@ -1741,7 +1751,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         int result;
         if (Location.X != -1)
         {
-            MapField field = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+            MapField field = GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
             int i = 0;
             result = 0;
             while (i != Units.Count)
@@ -1799,7 +1809,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             int range = _unfogRange;
             if (range != 0)
             {
-                _ = StrategicMap.Current.FogArea(Location.X, Location.Y, Location.MapLevel, range);
+                _ = GetEngine().StrategicMap.FogArea(Location.X, Location.Y, Location.MapLevel, range);
                 _unfogRange = 0;
             }
         }
@@ -1810,12 +1820,12 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     {
         if (Status.Contains(ArmyStatuses.Activated))
         {
-            for (int player = 1, last = StrategicMap.Current.Players.GetCount() - 1; player <= last; player++)
+            for (int player = 1, last = GetEngine().StrategicMap.Players.GetCount() - 1; player <= last; player++)
             {
-                if (player == PlayerIdExtensions.ToOriginal(Player) || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)player)) == DiplomaticRelation.Alliance)
+                if (player == PlayerIdExtensions.ToOriginal(Player) || GetEngine().StrategicMap.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)player)) == DiplomaticRelation.Alliance)
                 {
                     int visibilityRange = VisibilityRange();
-                    _ = StrategicMap.Current.ExploreArea(Location.X, Location.Y, Location.MapLevel, player: PlayerId.FromOriginal((sbyte)player), range: visibilityRange);
+                    _ = GetEngine().StrategicMap.ExploreArea(Location.X, Location.Y, Location.MapLevel, player: PlayerId.FromOriginal((sbyte)player), range: visibilityRange);
                 }
             }
         }
@@ -1826,7 +1836,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     {
         if (Status.Contains(ArmyStatuses.Activated))
         {
-            int range = StrategicMap.Current.SeatedPlayer is not null && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(StrategicMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance)
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            int range = strategicMap.SeatedPlayer is not null && (strategicMap.SeatedPlayer == Player || strategicMap.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(strategicMap.SeatedPlayer) == DiplomaticRelation.Alliance)
                 ? VisibilityRange()
                 : 0;
 
@@ -1834,7 +1845,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             {
                 if (_unfogRange != 0)
                 {
-                    _ = StrategicMap.Current.FogArea(Location.X, Location.Y, Location.MapLevel, range: _unfogRange);
+                    _ = strategicMap.FogArea(Location.X, Location.Y, Location.MapLevel, range: _unfogRange);
                 }
 
                 _unfogRange = range.TruncateToByte();
@@ -1842,7 +1853,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 {
                     if (_unfogRange != 0)
                     {
-                        _ = StrategicMap.Current.UnFogArea(Location.X, Location.Y, Location.MapLevel, range: _unfogRange);
+                        _ = GetEngine().StrategicMap.UnFogArea(Location.X, Location.Y, Location.MapLevel, range: _unfogRange);
                     }
                 }
                 else
@@ -2148,7 +2159,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 int race3 = -1;
                 for (int j = races.Count - 1; j >= 0; j--)
                 {
-                    if (races.List[j] is not null && GamePack.Current.RaceResources.GetRaceResource(j).Alignments.Contains(alignment.ToFlag()))
+                    if (races.List[j] is not null && GetEngine().GamePack.RaceResources.GetRaceResource(j).Alignments.Contains(alignment.ToFlag()))
                     {
                         // { Original chooses the largest compatible race group. }
                         if (race3 == -1 || races.List[race3].Units.Count <= races.List[j].Units.Count)
@@ -2257,7 +2268,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 {
                     race = IndependentRelation;
                     IndependentRelation = -1;
-                    IndependentRelation = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetIndependentRelation().TruncateToSByte();
+                    IndependentRelation = GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetIndependentRelation().TruncateToSByte();
                     if (IndependentRelation >= 0)
                     {
                         race = IndependentRelation;
@@ -2290,7 +2301,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 if (!condition)
                 {
                     Alignment alignment = Units[i].GetAlignment();
-                    condition = GamePack.Current.RaceResources.GetRaceResource(race).Alignments.Contains(alignment.ToFlag());
+                    condition = GetEngine().GamePack.RaceResources.GetRaceResource(race).Alignments.Contains(alignment.ToFlag());
                 }
 
                 valid = condition;
@@ -2328,7 +2339,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:2091
     public void Desert(int selection)
     {
-        StrategicMap.Current.LockGameOverEvent();
+        GetEngine().StrategicMap.LockGameOverEvent();
         DelphiList<Troop> units = [];
         int count = SelectionCount(selection);
         ArmyInfoEventLog log = new(null) { Holder = CreationHolder() };
@@ -2337,16 +2348,17 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         log.Player = Player;
         log.Title = AbilityRules.TranslateResourceString(GetEngine(), S: s_desertionText);
         log.Triggers = ExecuteTriggers.User;
-        if (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.Rebellion))
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.Rebellion))
         {
             log.Triggers |= ExecuteTriggers.Event;
-            if (StrategicMap.Current.RequestCombatType)
+            if (strategicMap.RequestCombatType)
             {
                 log.Triggers |= ExecuteTriggers.NewTurn;
             }
         }
 
-        if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.Rebellion))
+        if (strategicMap.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.Rebellion))
         {
             log.Triggers |= ExecuteTriggers.Event | ExecuteTriggers.NewTurn;
         }
@@ -2356,7 +2368,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             ? AbilityRules.TranslateResourceString(GetEngine(), S: s_oneUnitDesertedText)
             : AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_unitsDesertedFormat), arguments: [count.ToString(CultureInfo.InvariantCulture)]);
 
-        if (StrategicMap.Current.Players.GetPlayers(Player).Gems == 0 && StrategicMap.Current.Players.GetPlayers(Player).GetUpkeep() > StrategicMap.Current.Players.GetPlayers(Player).Income)
+        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+        if (engineStrategicMap.Players.GetPlayers(Player).Gems == 0 && engineStrategicMap.Players.GetPlayers(Player).GetUpkeep() > engineStrategicMap.Players.GetPlayers(Player).Income)
         {
             if (count == 1)
             {
@@ -2437,7 +2450,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         }
 
         armies?.Dispose();
-        StrategicMap.Current.UnlockGameOverEvent();
+        GetEngine().StrategicMap.UnlockGameOverEvent();
     }
 
     // Army.PAS:2155
@@ -2493,7 +2506,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             {
                 int chance = status == PartyStatus.Unrest ? 10 : 50;
 
-                if (chance > StrategicMap.Current.Random(100))
+                if (chance > GetEngine().StrategicMap.Random(100))
                 {
                     int selection = 0;
                     foreach (Troop troop in Units.Reverse())
@@ -2568,7 +2581,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     {
         if (player == Player)
         {
-            if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
+            if (GetEngine().StrategicMap.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
             {
                 UpdateGroupBehavior();
             }
@@ -2578,16 +2591,17 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:2245
     public void NewDay()
     {
-        if (StrategicMap.Current.Day == 1)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Day == 1)
         {
             ResetDestinationPosition();
             if (Location.X != -1 && PlayerIdExtensions.ToOriginal(Player) > 0)
             {
                 int visibilityRange = VisibilityRange();
-                _ = StrategicMap.Current.ExploreArea(Location.X, Location.Y, Location.MapLevel, Player, range: visibilityRange);
+                _ = strategicMap.ExploreArea(Location.X, Location.Y, Location.MapLevel, Player, range: visibilityRange);
                 int visibilityRange2 = VisibilityRange();
                 int trueVisionRange = TrueVisionRange();
-                StrategicMap.Current.UpdatePlayerSeen(Player, Location.X, Location.Y, L: Location.MapLevel, sightRadius: visibilityRange2, radius: trueVisionRange);
+                GetEngine().StrategicMap.UpdatePlayerSeen(Player, Location.X, Location.Y, L: Location.MapLevel, sightRadius: visibilityRange2, radius: trueVisionRange);
             }
 
             InitializeGroupBehavior();
@@ -2602,7 +2616,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     {
         if (player != Player)
         {
-            if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
+            if (GetEngine().StrategicMap.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
                 if (!Status.Contains(ArmyStatuses.FullyConcealed))
                 {
@@ -2728,7 +2742,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                             if (joinCount == 1)
                             {
                                 log.Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_oneUnitJoinedText);
-                                string name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
+                                string name = GetEngine().StrategicMap.Players.GetPlayers(offer.Player).GetName();
                                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_unitJoinedForcesFormat), arguments: [name]);
                                 log.Messages.Text = format;
                             }
@@ -2736,7 +2750,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                             {
                                 log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_unitsJoinedFormat), arguments: [joinCount.ToString(CultureInfo.InvariantCulture)]);
                                 int selectionCount = SelectionCount(selection);
-                                string name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
+                                string name = GetEngine().StrategicMap.Players.GetPlayers(offer.Player).GetName();
                                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_unitsJoinedForcesFormat), arguments: [selectionCount, name]);
                                 log.Messages.Text = format;
                             }
@@ -2744,7 +2758,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                         else
                         {
                             log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_joinedFormat), arguments: [hero.HeroName]);
-                            string name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
+                            string name = GetEngine().StrategicMap.Players.GetPlayers(offer.Player).GetName();
                             string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_joinedForcesFormat), arguments: [hero.HeroName, name]);
                             log.Messages.Text = format;
                         }
@@ -2845,7 +2859,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:2468
     public void TriggerFireDamage()
     {
-        RandSeed = StrategicMap.Current.Random(16777215);
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
         ArmyEventLog log = new(null)
         {
             Holder = CreationHolder(),
@@ -2965,7 +2979,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:2538
     public void IncomingStorm(StormType storm, int distance, PlayerId? player)
     {
-        RandSeed = StrategicMap.Current.Random(16777215);
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
         ArmyEventLog log = new(null)
         {
             Holder = CreationHolder(),
@@ -3132,7 +3146,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             return false;
         }
 
-        MapField field = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+        MapField field = GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
         return Units.GetUnit(index).ConcealedOnMapField(field) && GetConcealedForPlayer(player);
     }
 

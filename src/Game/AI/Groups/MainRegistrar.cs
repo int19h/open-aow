@@ -11,9 +11,10 @@ public sealed class MainRegistrar
     // MainAG.pas:115
     public static void MapLoaded(GameMap sender)
     {
-        if (sender == StrategicMap.Current)
+        StrategicMap strategicMap = sender.GetEngine().StrategicMap;
+        if (sender == strategicMap)
         {
-            StrategicMap.Current.AIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<PassiveAIGroup>(), AIGroupClass.Of<SuicidalAIGroup>(), AIGroupClass.Of<FortifyAIGroup>(), AIGroupClass.Of<TransportAIGroup>()]);
+            strategicMap.AIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<PassiveAIGroup>(), AIGroupClass.Of<SuicidalAIGroup>(), AIGroupClass.Of<FortifyAIGroup>(), AIGroupClass.Of<TransportAIGroup>()]);
         }
     }
 

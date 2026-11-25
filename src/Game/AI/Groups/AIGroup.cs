@@ -79,7 +79,9 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     // AIGroup.pas:72
     public override void Dispose()
     {
-        if (StrategicMap.Current is not null && StrategicMap.Current.UnitControl is null && Units.Count != 0)
+        // A group that reaches no engine skips this check, which only raises and swallows an exception.
+        StrategicMap strategicMap = GetEngine()?.StrategicMap;
+        if (strategicMap is not null && strategicMap.UnitControl is null && Units.Count != 0)
         {
             // { Original diagnostic raises and immediately swallows its exception. }
             try
@@ -454,7 +456,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     {
         if (GoldBudget > 0 || ManaBudget > 0)
         {
-            _ = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.ReturnExpense(GoldBudget, mana: ManaBudget);
+            _ = GetEngine().StrategicMap.Players.GetPlayers(Player).AIBudget.ReturnExpense(GoldBudget, mana: ManaBudget);
             GoldBudget = 0;
             ManaBudget = 0;
         }
@@ -465,8 +467,9 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     {
         int g = gold - GoldBudget;
         int m = mana - ManaBudget;
-        Player? players = StrategicMap.Current.Players.GetPlayers(Player);
-        return StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(g, mana: m, budget: players.AIBudget.DefaultBudget, usePool: true);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Player? players = strategicMap.Players.GetPlayers(Player);
+        return strategicMap.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(g, mana: m, budget: players.AIBudget.DefaultBudget, usePool: true);
     }
 
     // AIGroup.pas:243
@@ -476,8 +479,9 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         if (RequestTargetExpense(gold, mana))
         {
             ReturnTargetExpense();
-            Player? players = StrategicMap.Current.Players.GetPlayers(Player);
-            result = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(gold, mana, budget: players.AIBudget.DefaultBudget, mode: AIBudgetManager.ExpenseMode.PoolThenBudget);
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            Player? players = strategicMap.Players.GetPlayers(Player);
+            result = strategicMap.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(gold, mana, budget: players.AIBudget.DefaultBudget, mode: AIBudgetManager.ExpenseMode.PoolThenBudget);
             if (result)
             {
                 GoldBudget = gold;
@@ -522,7 +526,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
 
         if (location != MapCoordinate.None && transporterId != -1)
         {
-            AddTransporter(StrategicMap.Current.UnitControl.FindUnit(transporterId));
+            AddTransporter(GetEngine().StrategicMap.UnitControl.FindUnit(transporterId));
         }
         else
         {
@@ -565,7 +569,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
 
         if (target is not null && target.TransporterId != -1)
         {
-            AddTransporter(StrategicMap.Current.UnitControl.FindUnit(target.TransporterId));
+            AddTransporter(GetEngine().StrategicMap.UnitControl.FindUnit(target.TransporterId));
         }
         else
         {
@@ -657,7 +661,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Player);
         if (player != -1)
         {
-            _ = StrategicMap.Current.Players.GetPlayers(player).AIGroups.AddChild(this);
+            _ = GetEngine().StrategicMap.Players.GetPlayers(player).AIGroups.AddChild(this);
         }
 
         Leader = Units.FindId(LeaderId);
@@ -677,7 +681,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Player);
         if (player != -1)
         {
-            _ = StrategicMap.Current.Players.GetPlayers(player).AIGroups.RemoveChild(this);
+            _ = GetEngine().StrategicMap.Players.GetPlayers(player).AIGroups.RemoveChild(this);
         }
     }
 
@@ -688,13 +692,13 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         {
             if (Status.Contains(AIGroupStatuses.Activated) && Player is not null)
             {
-                _ = StrategicMap.Current.Players.GetPlayers(Player).AIGroups.RemoveChild(this);
+                _ = GetEngine().StrategicMap.Players.GetPlayers(Player).AIGroups.RemoveChild(this);
             }
 
             Player = player;
             if (Status.Contains(AIGroupStatuses.Activated) && Player is not null)
             {
-                _ = StrategicMap.Current.Players.GetPlayers(Player).AIGroups.AddChild(this);
+                _ = GetEngine().StrategicMap.Players.GetPlayers(Player).AIGroups.AddChild(this);
             }
         }
     }

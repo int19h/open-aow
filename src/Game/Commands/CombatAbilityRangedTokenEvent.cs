@@ -101,7 +101,6 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                                 combatMap.MakeVisible(hexX, hexY, 0, radius: 2);
                             }
 
-                            GamePack gamePack = GetEngine().GamePack;
                             switch (_effectType)
                             {
                                 case BattleEffectType.Breath:
@@ -177,12 +176,12 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                                     if (AbilityId == 52)
                                     {
                                         SpellCombatInfo info = default;
-                                        gamePack.SpellControl[SpellId].GetCombatInfo(_unit.Troop, ref info);
+                                        GetEngine().GamePack.SpellControl[SpellId].GetCombatInfo(_unit.Troop, ref info);
                                         _strikeCount = info.RepeatCount;
                                     }
                                     else
                                     {
-                                        _strikeCount = gamePack.AbilityControl.GetAbility<RangedAttackAbility>(AbilityId).GetAttackRepeatRangedAttack(_unit.Troop);
+                                        _strikeCount = GetEngine().GamePack.AbilityControl.GetAbility<RangedAttackAbility>(AbilityId).GetAttackRepeatRangedAttack(_unit.Troop);
                                     }
 
                                     break;
@@ -191,7 +190,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                             switch (_effectType)
                             {
                                 case BattleEffectType.Tremors:
-                                    _sound = gamePack.SpellControl[SpellId].CastSounds.Play(0, volume: 64, looped: true, delay: 0, panning: SamplePanning.Center, callback: null);
+                                    _sound = GetEngine().GamePack.SpellControl[SpellId].CastSounds.Play(0, volume: 64, looped: true, delay: 0, panning: SamplePanning.Center, callback: null);
                                     NextStrike();
                                     break;
                                 case BattleEffectType.ScreenSwarm:
@@ -573,13 +572,12 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                                                                     CombatObject combatObject = GetEngine().CombatMap.Combat.CombatData.GetObjects(i);
                                                                     ExclusiveCombatSpellCombatAction exclusive = GetEngine().GamePack.SpellControl[SpellId].CreateCombatAction<ExclusiveCombatSpellCombatAction>(_unit, target: combatObject, chargeMana: false);
                                                                     CombatAction action = exclusive;
-                                                                    CombatMap setActionCombatMap = GetEngine().CombatMap;
                                                                     if (exclusive.Succeeded)
                                                                     {
-                                                                        setActionCombatMap.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
+                                                                        GetEngine().CombatMap.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                                                     }
 
-                                                                    setActionCombatMap.Combat.ExecuteCombatAction(action);
+                                                                    GetEngine().CombatMap.Combat.ExecuteCombatAction(action);
                                                                     _ = action.Release();
                                                                 }
                                                             }
@@ -706,14 +704,15 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                                                                             if (!effect.Target.GetEnabled())
                                                                             {
                                                                                 i = 0;
-                                                                                int last = GetEngine().CombatMap.Effects.Count - 1;
+                                                                                CombatMap effectsCombatMap = GetEngine().CombatMap;
+                                                                                int last = effectsCombatMap.Effects.Count - 1;
                                                                                 for (; i <= last; i += 1)
                                                                                 {
                                                                                     if (i != effectIndex)
                                                                                     {
-                                                                                        if (GetEngine().CombatMap.Effects[i].Target == effect.Target)
+                                                                                        if (effectsCombatMap.Effects[i].Target == effect.Target)
                                                                                         {
-                                                                                            GetEngine().CombatMap.Effects[i].Target = null;
+                                                                                            effectsCombatMap.Effects[i].Target = null;
                                                                                         }
                                                                                     }
                                                                                 }
@@ -978,15 +977,15 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
         {
             TacticalBattleUnit? result = null;
             int bestDistance = 6;
-            CombatMap getObjectsCombatMap = GetEngine().CombatMap;
-            for (int i2 = 0, last = getObjectsCombatMap.Combat.CombatData.GetCount() - 1; i2 <= last; i2++)
+            CombatMap combatMap = GetEngine().CombatMap;
+            for (int i2 = 0, last = combatMap.Combat.CombatData.GetCount() - 1; i2 <= last; i2++)
             {
-                if (getObjectsCombatMap.Combat.CombatData.GetObjects(i2) is CombatUnit && getObjectsCombatMap.Combat.CombatData.GetObjects(i2).GetEnabled() && getObjectsCombatMap.Combat.CombatData.GetObjects(i2).Side != _unit.Side)
+                if (combatMap.Combat.CombatData.GetObjects(i2) is CombatUnit && combatMap.Combat.CombatData.GetObjects(i2).GetEnabled() && combatMap.Combat.CombatData.GetObjects(i2).Side != _unit.Side)
                 {
                     bool available = true;
                     foreach (TacticalBattleUnit? unit in used)
                     {
-                        if (getObjectsCombatMap.Combat.CombatData.GetObjects(i2) == unit)
+                        if (combatMap.Combat.CombatData.GetObjects(i2) == unit)
                         {
                             available = false;
                         }
@@ -994,11 +993,11 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
 
                     if (available)
                     {
-                        int hexY = getObjectsCombatMap.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2).UnitHexSprite.HexY;
-                        int distance = HexGeometry.DeltaHexToRadius(X, Y, getObjectsCombatMap.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2).UnitHexSprite.HexX, hexY);
+                        int hexY = combatMap.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2).UnitHexSprite.HexY;
+                        int distance = HexGeometry.DeltaHexToRadius(X, Y, combatMap.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2).UnitHexSprite.HexX, hexY);
                         if (distance < bestDistance)
                         {
-                            result = getObjectsCombatMap.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2);
+                            result = combatMap.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2);
                             bestDistance = distance;
                         }
                     }
@@ -1015,19 +1014,19 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
             List<int> weights = [];
             int total = 0;
             int i2 = 0;
-            CombatMap getEnabledCombatMap = GetEngine().CombatMap;
-            int last = getEnabledCombatMap.Combat.CombatData.GetCount() - 1;
+            CombatMap engineCombatMap = GetEngine().CombatMap;
+            int last = engineCombatMap.Combat.CombatData.GetCount() - 1;
             for (; i2 <= last; i2 += 1)
             {
-                if (getEnabledCombatMap.Combat.CombatData.GetObjects(i2) is CombatUnit && getEnabledCombatMap.Combat.CombatData.GetObjects(i2).GetEnabled() && getEnabledCombatMap.Combat.CombatData.GetObjects(i2) != target)
+                if (engineCombatMap.Combat.CombatData.GetObjects(i2) is CombatUnit && engineCombatMap.Combat.CombatData.GetObjects(i2).GetEnabled() && engineCombatMap.Combat.CombatData.GetObjects(i2) != target)
                 {
-                    int hexY = getEnabledCombatMap.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2).UnitHexSprite.HexY;
-                    int hexX = getEnabledCombatMap.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2).UnitHexSprite.HexX;
+                    int hexY = engineCombatMap.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2).UnitHexSprite.HexY;
+                    int hexX = engineCombatMap.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2).UnitHexSprite.HexX;
                     int distance = HexGeometry.DeltaHexToRadius(TargetX, TargetY, hexX, hexY);
                     if (distance < 13)
                     {
                         total += 13 - distance;
-                        _ = used.Add(getEnabledCombatMap.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2));
+                        _ = used.Add(engineCombatMap.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2));
                         weights.Add(13 - distance);
                     }
                 }
@@ -1244,11 +1243,12 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                     bool condition = j is > 5 and < 60 && k is > 5 and < 53 && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(TacticalBattleUnitHexSprite.ClassId) is null;
                     if (condition)
                     {
-                        bool test = GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).OverlayType != 8;
+                        CombatMap getFieldCombatMap = GetEngine().CombatMap;
+                        bool test = getFieldCombatMap.MapContainer.MapLevels[0].GetField(j, k).OverlayType != 8;
                         if (!test)
                         {
-                            MapField fieldValue = GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k);
-                            MapField fieldValue2 = GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(TargetX, TargetY);
+                            MapField fieldValue = getFieldCombatMap.MapContainer.MapLevels[0].GetField(j, k);
+                            MapField fieldValue2 = getFieldCombatMap.MapContainer.MapLevels[0].GetField(TargetX, TargetY);
                             test = fieldValue.OverlayType == fieldValue2.OverlayType;
                         }
 
@@ -1258,11 +1258,12 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                     bool passed = condition && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).TerrainType != 15 && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).TerrainType != 7;
                     if (passed)
                     {
-                        bool test = GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).TerrainType is not 0 and not 10 and not 9;
+                        CombatMap mapContainerCombatMap = GetEngine().CombatMap;
+                        bool test = mapContainerCombatMap.MapContainer.MapLevels[0].GetField(j, k).TerrainType is not 0 and not 10 and not 9;
                         if (!test)
                         {
-                            MapField fieldValue = GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k);
-                            MapField fieldValue2 = GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(TargetX, TargetY);
+                            MapField fieldValue = mapContainerCombatMap.MapContainer.MapLevels[0].GetField(j, k);
+                            MapField fieldValue2 = mapContainerCombatMap.MapContainer.MapLevels[0].GetField(TargetX, TargetY);
                             test = fieldValue.TerrainType == fieldValue2.TerrainType;
                         }
 
@@ -1672,18 +1673,17 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                     {
                         Point3D? path = effect.Path[obstacle.PathIndex];
                         HexGeometry.PixelToHex(effect.Path[obstacle.PathIndex].X, vertical: path.Y, out j, out k);
-                        CombatMap findOwnedChildCombatMap = GetEngine().CombatMap;
                         HexSprite? hitObject = effect.EffectType == BattleEffectType.Breath
                             ? null
-                            : findOwnedChildCombatMap.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(TacticalBattleUnitHexSprite.ClassId);
+                            : GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(TacticalBattleUnitHexSprite.ClassId);
 
-                        hitObject ??= findOwnedChildCombatMap.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(World.Hexes.CombatTerrain.ClassId);
+                        hitObject ??= GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(World.Hexes.CombatTerrain.ClassId);
 
-                        hitObject ??= findOwnedChildCombatMap.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(World.Terrain.CityWall.ClassId);
+                        hitObject ??= GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(World.Terrain.CityWall.ClassId);
 
-                        hitObject ??= findOwnedChildCombatMap.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(2_229_510);
+                        hitObject ??= GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(2_229_510);
 
-                        if (hitObject is not null || findOwnedChildCombatMap.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 15 || findOwnedChildCombatMap.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 7 || findOwnedChildCombatMap.MapContainer.MapLevels[0].GetField(j, k).OverlayType == 8)
+                        if (hitObject is not null || GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 15 || GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 7 || GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).OverlayType == 8)
                         {
                             j = obstacle.PathIndex + 1;
                             int last = effect.Path.Count - 1;

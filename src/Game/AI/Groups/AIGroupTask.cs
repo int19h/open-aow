@@ -4,8 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Aow.Engine.Nodes;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.AI.Groups;
 
 // references, cycles, control, status, state
@@ -79,7 +77,7 @@ public class AIGroupTask(CustomNode? owner) : EngineObject(owner)
             Validate();
             bool busy = false;
             int i = 0;
-            while (!busy && State != -1 && (i == 0 || StrategicMap.Current.AIExecutor.ProcessTimeLeft > 0))
+            while (!busy && State != -1 && (i == 0 || GetEngine().StrategicMap.AIExecutor.ProcessTimeLeft > 0))
             {
                 i += 1;
                 busy = Process();

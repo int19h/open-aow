@@ -49,7 +49,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
     // IndependentAG.pas:426
     public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
-        MapField mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location);
+        MapField mapField = GetEngine().StrategicMap.MapContainer.GetFieldMapCoordinate(target.Location);
         if (mapField.GetPlayer() != Group.Player)
         {
             SetupCP(target);
@@ -153,7 +153,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 
                 break;
             case 6:
-                if (StrategicMap.Current.Random(3) != 0 && Group.PatrolTo.X != -1)
+                if (GetEngine().StrategicMap.Random(3) != 0 && Group.PatrolTo.X != -1)
                 {
                     State += 1;
                     SetupME();
@@ -179,7 +179,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                 settings.ArmyHexSprite = ArmyHexSprite;
                 settings.Selection = Selection;
                 settings.MovePointTable = MovePointTable;
-                StrategicMap.Current.MoveControl.ProcessMove(settings);
+                GetEngine().StrategicMap.MoveControl.ProcessMove(settings);
                 if (settings.Path.Count == 0)
                 {
                     Group.PatrolFrom = MapCoordinate.None;
@@ -216,7 +216,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
         settings.ArmyHexSprite = ArmyHexSprite;
         settings.Selection = Selection;
         settings.MovePointTable = MovePointTable;
-        StrategicMap.Current.MoveControl.ProcessMove(settings);
+        GetEngine().StrategicMap.MoveControl.ProcessMove(settings);
         DelphiList<MapField> fields = settings.ProcessedMapFields;
         for (int i = 0; i < HexDirectionSlotCount; i++)
         {
@@ -274,7 +274,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
             lists[i] = newList;
         }
 
-        mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(group.PatrolFrom);
+        mapField = GetEngine().StrategicMap.MapContainer.GetFieldMapCoordinate(group.PatrolFrom);
         if (mapField.GetPlayer() is null)
         {
             _ = lists[0].AddAbility(mapField, 0);
@@ -312,9 +312,9 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
         if (choices.Count != 0)
         {
             group.PreviousHeading = (sbyte)lastHeading;
-            heading = choices[StrategicMap.Current.Random(choices.Count)];
+            heading = choices[GetEngine().StrategicMap.Random(choices.Count)];
             DoubleItemList<MapField> selectedList = lists[heading];
-            int random = StrategicMap.Current.Random(selectedList.Count);
+            int random = GetEngine().StrategicMap.Random(selectedList.Count);
             mapField = selectedList.List[random].First;
             MapCoordinate mapCoordinate = mapField.MapCoordinate;
             group.PatrolTo = mapCoordinate;

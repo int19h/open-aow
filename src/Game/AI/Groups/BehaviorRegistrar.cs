@@ -10,9 +10,10 @@ public sealed class BehaviorRegistrar
     // BehaviorAG.pas:136
     public static void MapLoaded(GameMap sender)
     {
-        if (sender == StrategicMap.Current)
+        StrategicMap strategicMap = sender.GetEngine().StrategicMap;
+        if (sender == strategicMap)
         {
-            StrategicMap.Current.AIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<DefenderAIGroup>(), AIGroupClass.Of<AggressorAIGroup>(), AIGroupClass.Of<ExpanderAIGroup>(), AIGroupClass.Of<ScorcherAIGroup>(), AIGroupClass.Of<NormalAIGroup>(), AIGroupClass.Of<SkirmishAIGroup>()]);
+            strategicMap.AIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<DefenderAIGroup>(), AIGroupClass.Of<AggressorAIGroup>(), AIGroupClass.Of<ExpanderAIGroup>(), AIGroupClass.Of<ScorcherAIGroup>(), AIGroupClass.Of<NormalAIGroup>(), AIGroupClass.Of<SkirmishAIGroup>()]);
         }
     }
 

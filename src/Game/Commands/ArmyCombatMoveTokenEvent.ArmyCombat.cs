@@ -119,8 +119,9 @@ public partial class ArmyCombatMoveTokenEvent
                     };
                     engineStrategicMap.TriggerExecuteEventLog(log, immediate: false, done: RestoreHotSeatModeCallback);
                     _ = log.Release();
-                    GetEngine().StrategicMap.AIExecutor.Lock();
-                    GetEngine().StrategicMap.LockGameOverEvent();
+                    StrategicMap lockStrategicMap = GetEngine().StrategicMap;
+                    lockStrategicMap.AIExecutor.Lock();
+                    lockStrategicMap.LockGameOverEvent();
                     _combatMode = ArmyCombatMoveTokenEventMode.RestoringHotSeat;
                 }
             }

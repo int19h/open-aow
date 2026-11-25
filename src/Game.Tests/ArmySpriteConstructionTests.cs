@@ -60,8 +60,12 @@ public sealed class ArmySpriteConstructionTests
                 }
                 Assert.NotNull(value);
                 actual.Add($"owner{owned}.route{route}", JsonSerializer.Serialize(new { State = state, owner?.Events, owner?.Members.Count, DestroyEntries = destroyEntries }));
-                EngineFixture.SetMap(EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = HexSpriteMapStatuses.Destroying; }));
+                StrategicMap destroying = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = HexSpriteMapStatuses.Destroying; });
+                EngineFixture.SetMap(destroying);
+                // The sprite's army keeps the engine that created it. That engine holds this map too.
+                fixture.Engine.StrategicMap = destroying;
                 value?.SetOwner(null!);
+                value?.Holder = EngineFixture.Engine;
                 value?.Dispose();
             }
         }
@@ -96,7 +100,9 @@ public sealed class ArmySpriteConstructionTests
         }
         finally
         {
-            EngineFixture.SetMap(EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = HexSpriteMapStatuses.Destroying; }));
+            StrategicMap destroying = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = HexSpriteMapStatuses.Destroying; });
+            EngineFixture.SetMap(destroying);
+            fixture.Engine.StrategicMap = destroying;
             loaded?.Dispose();
             source.Dispose();
         }

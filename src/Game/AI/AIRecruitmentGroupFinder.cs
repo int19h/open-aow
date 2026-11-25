@@ -5,8 +5,6 @@ using Aow.Game.AI.Groups;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
-
-using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 namespace Aow.Game.AI;
@@ -83,7 +81,7 @@ public class AIRecruitmentGroupFinder : AIGroupTask
     // AIGroup.pas:1998
     public void RecruitGroupFoundEvent(MoveTarget target, ref bool searchDone)
     {
-        ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetArmyHexSprite();
+        ArmyHexSprite armyHexSprite = GetEngine().StrategicMap.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetArmyHexSprite();
         if (armyHexSprite is not null)
         {
             for (int i = armyHexSprite.Army.Units.Count - 1; i >= 0; i--)

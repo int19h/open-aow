@@ -7,8 +7,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Draw.Images;
 
-using Aow.Game.World.Map;
-
 using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Units;
@@ -82,7 +80,7 @@ public sealed class ItemGraphics(CustomNode? owner) : EngineResource(owner)
     {
         ReleaseImageLibrary();
         _imageLibrary = !IsEmpty(ImageLibraryName)
-            ? GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: ImageLibraryName)
+            ? GetEngine().GamePack.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: ImageLibraryName)
             : null;
     }
 
@@ -93,7 +91,7 @@ public sealed class ItemGraphics(CustomNode? owner) : EngineResource(owner)
         {
             if (!IsEmpty(ImageLibraryName))
             {
-                GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: ImageLibraryName);
+                GetEngine().GamePack.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: ImageLibraryName);
             }
 
             _imageLibrary = null;
@@ -105,14 +103,14 @@ public sealed class ItemGraphics(CustomNode? owner) : EngineResource(owner)
     {
         if (!IsEmpty(ImageLibraryName))
         {
-            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: ImageLibraryName);
+            GetEngine().GamePack.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: ImageLibraryName);
             _imageLibrary = null;
         }
 
         ImageLibraryName = value;
         if (!IsEmpty(ImageLibraryName) && _refCount != 0)
         {
-            _imageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: ImageLibraryName);
+            _imageLibrary = GetEngine().GamePack.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: ImageLibraryName);
         }
     }
 

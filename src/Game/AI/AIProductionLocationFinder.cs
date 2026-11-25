@@ -3,8 +3,6 @@
 using Aow.Engine.Nodes;
 using Aow.Game.AI.Groups;
 using Aow.Game.Magic.Abilities;
-
-using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 
@@ -93,7 +91,7 @@ public class AIProductionLocationFinder : AIGroupTask
     // AIGroup.pas:2320
     public void ProductionLocationFoundEvent(MoveTarget target, ref bool searchDone)
     {
-        ProductionControl? control = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetProductionControl();
+        ProductionControl? control = GetEngine().StrategicMap.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetProductionControl();
         if (_control.ProductionLocations.IndexOfPC(control) == -1)
         {
             AIGroupProductionLocation location = new(null)

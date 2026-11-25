@@ -19,7 +19,6 @@ using Aow.Game.Session;
 
 using Aow.Game.World;
 using Aow.Game.World.Hexes;
-using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 using Aow.Game.World.Terrain;
@@ -55,7 +54,7 @@ internal static class GameClasses
         engine.RegisterEngineClasses([EngineClass.Of<Mine>(), EngineClass.Of<Mine.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<Tower>(), EngineClass.Of<Tower.Resource>()]);
         TowerConstructionControl towerConstructionControl = new(null) { Holder = engine };
-        GamePack.Current.AbilityControl.GetAbility<ConstructAbility>(125).RegisterConstructionControl(towerConstructionControl);
+        engine.GamePack.AbilityControl.GetAbility<ConstructAbility>(125).RegisterConstructionControl(towerConstructionControl);
         engine.RegisterEngineClasses([EngineClass.Of<PoisonPlant>(), EngineClass.Of<PoisonPlant.Resource>(), EngineClass.Of<PoisonPlantSpellTokenEvent>()]);
         PoisonPlantSpell poisonPlantSpell = new(null, holder: engine);
         engine.GamePack.SpellControl.RegisterSpell(poisonPlantSpell);
@@ -75,7 +74,7 @@ internal static class GameClasses
         engine.RegisterEngineClasses([EngineClass.Of<Pyramid>(), EngineClass.Of<Pyramid.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<Shipyard>(), EngineClass.Of<Shipyard.Resource>()]);
         ShipyardConstructionControl shipyardConstructionControl = new(null) { Holder = engine };
-        GamePack.Current.AbilityControl.GetAbility<ConstructAbility>(125).RegisterConstructionControl(shipyardConstructionControl);
+        engine.GamePack.AbilityControl.GetAbility<ConstructAbility>(125).RegisterConstructionControl(shipyardConstructionControl);
         engine.RegisterEngineClasses([EngineClass.Of<HolyGround>(), EngineClass.Of<HolyGround.Resource>(), EngineClass.Of<HolyGroundSpellTokenEvent>()]);
         HolyGroundSpell holyGroundSpell = new(null, holder: engine);
         engine.GamePack.SpellControl.RegisterSpell(holyGroundSpell);

@@ -13,6 +13,7 @@ M:Aow.Engine.Nodes.EngineObject.Copy``1(Aow.Game.GameEngine)~``0,T:Aow.Game.Game
 M:Aow.Engine.Nodes.EngineObject.Editor~Aow.Engine.Nodes.EditorClass,P:Aow.Game.GameEngine.Editors
 M:Aow.Engine.Nodes.EngineObject.Editor~Aow.Engine.Nodes.EditorClass,T:Aow.Game.GameEngine
 M:Aow.Engine.Nodes.EngineObject.GetEngine~Aow.Game.GameEngine,T:Aow.Game.GameEngine
+M:Aow.Engine.Nodes.EngineObject.WalkEngine~Aow.Game.GameEngine,T:Aow.Game.GameEngine
 "M:Aow.Engine.Nodes.EngineObjectEditor.Edit(Aow.Engine.Nodes.EngineObject,Aow.Game.GameEngine,System.Action{Aow.Engine.Nodes.EditResult,Aow.Engine.Nodes.EngineObject})",T:Aow.Game.GameEngine
 "M:Aow.Engine.Nodes.EngineObjectEditor.UpdateMultiPopupMenu(Aow.Engine.Nodes.EngineObject,Aow.Game.GameEngine,Aow.Engine.Nodes.EngineObjectEditor.EditModes@,Aow.Rtl.PopupMenu,Aow.Engine.Nodes.EngineObjectList)",T:Aow.Game.GameEngine
 "M:Aow.Engine.Nodes.EngineObjectEditor.UpdatePopupMenu(Aow.Engine.Nodes.EngineObject,Aow.Game.GameEngine,Aow.Engine.Nodes.EngineObjectEditor.EditModes@,Aow.Rtl.PopupMenu)",T:Aow.Game.GameEngine
@@ -28,5 +29,6 @@ P:Aow.Engine.Storage.TranslateVisit.Engine,T:Aow.Game.GameEngine
 T:Aow.Engine.EnginePersistableFactory,T:Aow.Game.GameEngine
 T:Aow.Engine.Nodes.EditorClass,T:Aow.Game.GameEngine
 T:Aow.Engine.Nodes.EngineNode,T:Aow.Game.GameEngine
+T:Aow.Engine.Nodes.EngineObject,T:Aow.Game.GameEngine
 T:Aow.Engine.Storage.TranslateTextStream,T:Aow.Game.GameEngine
 T:Aow.Engine.Storage.TranslateVisit,T:Aow.Game.GameEngine

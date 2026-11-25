@@ -52,22 +52,22 @@ public class DisjunctionTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
     public override bool Process(Troop source, int value)
     {
         _ = base.Process(source, value);
-        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
-        int index = engineStrategicMap.GlobalMagicControl.IndexOfId(EnchantmentId);
-        GlobalEnchantment enchantment = engineStrategicMap.GlobalMagicControl.Enchantments.GetEnchantments(index);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        int index = strategicMap.GlobalMagicControl.IndexOfId(EnchantmentId);
+        GlobalEnchantment enchantment = strategicMap.GlobalMagicControl.Enchantments.GetEnchantments(index);
         MapCoordinate coordinate7 = source.GetLocation();
         int x = coordinate7.X;
         int y = coordinate7.Y;
         int layer = coordinate7.MapLevel;
-        _ = engineStrategicMap.ValidateObservation(source.Player, x, y, layer, radius: 0);
+        _ = strategicMap.ValidateObservation(source.Player, x, y, layer, radius: 0);
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
         twinkle.Setup(GetEngine().GamePack.SpellControl[51].CastImages.ImageSequences[0], mode: TwinkleModes.Expand | TwinkleModes.Explode, count: EventMana + 50, radius: 192, duration: 50, startDelay: 30);
         _ = GetEngine().StrategicMap.PlaceHex(twinkle, x, y, L: layer);
         _ = GetEngine().GamePack.SpellControl[EventSpellId].CastSounds.Play(0);
         int mana = Round((double)(enchantment.DispelMana * 0.02) * DispelChance);
-        StrategicMap getPlayersStrategicMap = GetEngine().StrategicMap;
-        Player? player = getPlayersStrategicMap.Players.GetPlayers(source.Player);
-        getPlayersStrategicMap.Players.GetPlayers(source.Player).MagicControl.SetMana(player.MagicControl.Mana - mana);
+        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+        Player? player = engineStrategicMap.Players.GetPlayers(source.Player);
+        engineStrategicMap.Players.GetPlayers(source.Player).MagicControl.SetMana(player.MagicControl.Mana - mana);
         if (GetEngine().StrategicMap.Random(100) < DispelChance)
         {
             if (GetEngine().StrategicMap.SeatedPlayer == source.Player)

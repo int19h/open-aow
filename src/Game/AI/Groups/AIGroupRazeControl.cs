@@ -39,11 +39,12 @@ public class AIGroupRazeControl(CustomNode? owner) : AIGroupTask(owner)
     {
         if (State == 0)
         {
-            Structure structure = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_control.Location).FindNoneTransparentHexSprite<Structure>();
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            Structure structure = strategicMap.MapContainer.GetFieldMapCoordinate(_control.Location).FindNoneTransparentHexSprite<Structure>();
             if (structure is not null && structure.Razeable)
             {
                 BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, _control.Group.Player, relation: _control.Group.IndependentRelation, requests: BattleFieldInfoRequests.IgnoreIndependents, _damageTypes);
-                StrategicMap.Current.RetrieveBattleFieldInfo(_control.Location.X, _control.Location.Y, _control.Location.MapLevel, radius: 15, ref info);
+                strategicMap.RetrieveBattleFieldInfo(_control.Location.X, _control.Location.Y, _control.Location.MapLevel, radius: 15, ref info);
                 bool result = structure is City city ? ValidateRazeCity(city, info) : ValidateRazeStructure(structure, info);
 
                 if (result)
@@ -85,7 +86,7 @@ public class AIGroupRazeControl(CustomNode? owner) : AIGroupTask(owner)
     public bool ValidateRazeCity(City city, in BattleFieldInfo info)
     {
         bool result;
-        switch (StrategicMap.Current.Races.GetRace(city.Race).GetPlayerRelation(_control.Group.Player))
+        switch (GetEngine().StrategicMap.Races.GetRace(city.Race).GetPlayerRelation(_control.Group.Player))
         {
             case Session.Status.Hostile:
             case Session.Status.Wary:

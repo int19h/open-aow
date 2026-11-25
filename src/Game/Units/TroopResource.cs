@@ -45,14 +45,14 @@ public class TroopResource(CustomNode? owner) : EngineResource(owner)
     // UnitRes.PAS:19
     public virtual LibraryImage? GetPreviewImage()
     {
-        UnitGraphicsResource? resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
+        UnitGraphicsResource? resource = GetEngine().GamePack.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
         return resource?.GetCellImage();
     }
 
     // UnitRes.PAS:9
     public virtual LibraryImage? GetFace()
     {
-        UnitGraphicsResource? resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
+        UnitGraphicsResource? resource = GetEngine().GamePack.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
         return resource?.GetFaceImage();
     }
 

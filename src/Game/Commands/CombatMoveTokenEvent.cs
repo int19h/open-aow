@@ -345,10 +345,10 @@ public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
 
             if (result == MoveStatus.Done)
             {
-                CombatMap engineCombatMap = GetEngine().CombatMap;
-                if (Unit.GetEnabled() && Unit.CombatPlayer == engineCombatMap.CurrentCombatPlayer)
+                if (Unit.GetEnabled() && Unit.CombatPlayer == GetEngine().CombatMap.CurrentCombatPlayer)
                 {
                     int hexX = Unit.UnitHexSprite.HexX;
+                    CombatMap engineCombatMap = GetEngine().CombatMap;
                     engineCombatMap.Players.GetPlayers(engineCombatMap.CurrentCombatPlayer).LastX = hexX;
                     int hexY = Unit.UnitHexSprite.HexY;
                     engineCombatMap.Players.GetPlayers(engineCombatMap.CurrentCombatPlayer).LastY = hexY;
@@ -413,14 +413,14 @@ public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
             }
             else
             {
-                CombatMap exploreAreaCombatMap = GetEngine().CombatMap;
-                if (exploreAreaCombatMap.ExplorationEnabled)
+                CombatMap combatMap = GetEngine().CombatMap;
+                if (combatMap.ExplorationEnabled)
                 {
                     sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Unit.GetPlayer());
                     int visibilityRange = Unit.GetVisibilityRange();
                     int hexY = Unit.UnitHexSprite.HexY;
                     int hexX = Unit.UnitHexSprite.HexX;
-                    _ = exploreAreaCombatMap.ExploreArea(hexX, hexY, 0, player: PlayerId.FromOriginal(player), range: visibilityRange);
+                    _ = combatMap.ExploreArea(hexX, hexY, 0, player: PlayerId.FromOriginal(player), range: visibilityRange);
                     int fUnitVisibilityRange = Unit.GetVisibilityRange();
                     int fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
                     int fUnitHexSpriteHexX = Unit.UnitHexSprite.HexX;

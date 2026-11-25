@@ -8,8 +8,6 @@ using Aow.Game.Combat;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
-
-using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using static Aow.Rtl.DelphiRounding;
@@ -69,7 +67,7 @@ public class AIGroupRecruitControl : AIGroupTask
         switch (State)
         {
             case 0:
-                StrategicMap.Current.AIExecutor.UseProcessTime(500);
+                GetEngine().StrategicMap.AIExecutor.UseProcessTime(500);
                 int i = 0;
                 _ = _control.RecruitmentGroups.Validate(_control);
                 while (!Complete && i != _control.RecruitmentGroups.Count)

@@ -35,10 +35,11 @@ public class HeroPowerSource(CustomNode? owner) : PowerSource(owner)
         int l = coordinate27.MapLevel;
         if (x != -1)
         {
-            ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(x, y, l).GetArmyHexSprite();
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            ArmyHexSprite armyHexSprite = strategicMap.MapContainer.GetField(x, y, l).GetArmyHexSprite();
             if (armyHexSprite is not null)
             {
-                StrategicMap.Current.Select(armyHexSprite, center: true);
+                strategicMap.Select(armyHexSprite, center: true);
             }
         }
     }

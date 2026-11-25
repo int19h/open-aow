@@ -148,7 +148,7 @@ public sealed partial class RuleConstructionTests
             {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, comparer: StringComparer.Ordinal))
                 {
-                    if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "_actionClass" or "ActionClass" or "_groupClass" or "GroupClass" or "Holder" or "Creator")
+                    if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "_actionClass" or "ActionClass" or "_groupClass" or "GroupClass" or "Holder" or "_rememberedEngine" or "Creator")
                     {
                         continue; // the descriptor caches and the link to the engine are not constructor state
                     }
@@ -338,6 +338,21 @@ public sealed partial class RuleConstructionTests
             {
                 try
                 {
+                    // Route 0 leaves the player on an owner that reaches no engine. Route 2 leaves
+                    // it on an engine whose map slot is empty. Disposal reads the fixture map.
+                    if (value is Player player)
+                    {
+                        GameEngine? reached = player.GetEngine();
+                        if (reached is null)
+                        {
+                            player.Holder = EngineFixture.Engine;
+                        }
+                        else
+                        {
+                            reached.StrategicMap ??= EngineFixture.Engine.StrategicMap;
+                        }
+                    }
+
                     (value as IDisposable)?.Dispose();
                 }
                 catch (Exception error)
@@ -365,6 +380,9 @@ public sealed partial class RuleConstructionTests
             Assert.Null(value.Owner);
             Assert.Same(EngineClass.Of(type), value.EngineClass);
             string state = Snapshot(value);
+            // A null owner has no chain. The fixture holder is the engine whose map is current, so
+            // disposal reads that map. The snapshot above is the pre-disposal state.
+            value.Holder = EngineFixture.Engine;
             try
             {
                 value.Dispose();
@@ -459,6 +477,8 @@ public sealed partial class RuleConstructionTests
             }
 
             value.SetOwner(null);
+            // Detached from the recorder, the object keeps the fixture engine that holds the current map.
+            value.Holder = EngineFixture.Engine;
             value.Dispose();
             Assert.Empty(owner.Members);
             Assert.Equal(1, owner.Removals);

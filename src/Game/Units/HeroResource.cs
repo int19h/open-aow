@@ -5,8 +5,6 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
-
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.Units;
@@ -89,7 +87,7 @@ public class HeroResource : TroopResource
         {
             if (Abilities.GetAbilitySetAt(i))
             {
-                result += GamePack.Current.AbilityControl[i].GetSkillPoints(Abilities);
+                result += GetEngine().GamePack.AbilityControl[i].GetSkillPoints(Abilities);
             }
         }
 

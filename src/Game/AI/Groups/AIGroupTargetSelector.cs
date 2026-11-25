@@ -152,7 +152,7 @@ public class AIGroupTargetSelector : AIGroupTask
                 bool test = target.TargetGold <= 0;
                 if (!test)
                 {
-                    Player? players = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+                    Player? players = GetEngine().StrategicMap.Players.GetPlayers(GroupControl.Group.Player);
                     int targetGold = target.TargetGold;
                     test = players.Gems >= targetGold;
                 }
@@ -167,7 +167,7 @@ public class AIGroupTargetSelector : AIGroupTask
                 bool test = target.TargetMana <= 0;
                 if (!test)
                 {
-                    Player? players = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+                    Player? players = GetEngine().StrategicMap.Players.GetPlayers(GroupControl.Group.Player);
                     int targetMana = target.TargetMana;
                     test = players.MagicControl.Mana >= targetMana;
                 }
@@ -232,7 +232,7 @@ public class AIGroupTargetSelector : AIGroupTask
                         _priority = _target.DataA;
                         int strength = GetRequiredStrength(_target);
                         int superiority = GetRequiredCombatPredictorSuperiority(_target);
-                        StrategicMap.Current.AIExecutor.UseProcessTime(100);
+                        GetEngine().StrategicMap.AIExecutor.UseProcessTime(100);
                         busy = GroupControl.StrengthMax < strength;
                         if (!busy)
                         {
@@ -530,7 +530,7 @@ public class AIGroupTargetSelector : AIGroupTask
                     {
                         if (_target.TransporterId != -1)
                         {
-                            Troop? troop = StrategicMap.Current.UnitControl.FindUnit(_target.TransporterId);
+                            Troop? troop = GetEngine().StrategicMap.UnitControl.FindUnit(_target.TransporterId);
                             GroupControl.Group.AddTransporter(troop);
                         }
                         else
@@ -640,7 +640,7 @@ public class AIGroupTargetSelector : AIGroupTask
                         {
                             AIGroup group = GroupControl.Group;
                             GroupBehavior behavior = group.GroupClass.Behavior;
-                            AIGroup? aiGroup = StrategicMap.Current.AIGroupManager.CreateGroup(group.Player, relation: group.IndependentRelation, behavior);
+                            AIGroup? aiGroup = GetEngine().StrategicMap.AIGroupManager.CreateGroup(group.Player, relation: group.IndependentRelation, behavior);
 
                             _ = aiGroup.AddUnits(required.Units);
                             _ = aiGroup.SetupTarget(_nextTarget, targetType: AIGroupTargetStatus.Execute, mode: 0);
@@ -690,7 +690,7 @@ public class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3067
     public bool TargetOverlapFound(AIGroupControlTarget? target, AIGroup? ignoreGroup)
     {
-        Player? player = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+        Player? player = GetEngine().StrategicMap.Players.GetPlayers(GroupControl.Group.Player);
         // GetGroups(i) is the enumerated group. The fields and the radius are reads.
         // FindLastIndex keeps the backward walk. The sought pair is state, so the predicate allocates nothing.
         OverlapSought sought = new(Target: target, IgnoreGroup: ignoreGroup);
@@ -704,7 +704,7 @@ public class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3088
     public bool ValidateTargetOverlap(AIGroup group, AIGroupControlTarget target)
     {
-        Player? player = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+        Player? player = GetEngine().StrategicMap.Players.GetPlayers(GroupControl.Group.Player);
         int i = player.AIGroups.Count;
         bool result = true;
         while (i != 0 && result)
@@ -871,7 +871,7 @@ public class AIGroupTargetSelector : AIGroupTask
     public bool Setup(AIGroupControl control)
     {
         Reset();
-        _validTargetLimit = (int)StrategicMap.Current.Players.GetPlayers(control.Group.Player).PlayerType switch
+        _validTargetLimit = (int)GetEngine().StrategicMap.Players.GetPlayers(control.Group.Player).PlayerType switch
         {
             (int)PlayerType.Cpu1 => 5,
             (int)PlayerType.Cpu2 => 7,
@@ -927,9 +927,9 @@ public class AIGroupTargetSelector : AIGroupTask
         {
             BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, GroupControl.Group.Player, relation: GroupControl.Group.IndependentRelation, requests: BattleFieldInfoRequests.None, _damageTypes);
             info.FriendlyRelations = DiplomaticRelations.None;
-            StrategicMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, radius: 1, ref info);
+            GetEngine().StrategicMap.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, radius: 1, ref info);
             result = Round((double)GetRequiredSuperiority(target) * info.Strength);
-            StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetDefenseRequirements(GroupControl.Group.Player, requirements: out DefenseRequirements strengths);
+            GetEngine().StrategicMap.MapContainer.GetFieldMapCoordinate(target.Location).GetDefenseRequirements(GroupControl.Group.Player, requirements: out DefenseRequirements strengths);
             Array10<int> damageStrengths = strengths.DamageStrengths;
             result += StrengthInfoMax(damageStrengths) / 2;
         }
@@ -959,7 +959,7 @@ public class AIGroupTargetSelector : AIGroupTask
             BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, GroupControl.Group.Player, relation: GroupControl.Group.IndependentRelation, requests: BattleFieldInfoRequests.None, _damageTypes);
             info.Units = GroupControl.Group.Units;
             info.Requests |= BattleFieldInfoRequests.IgnorePassiveIndependents;
-            StrategicMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, radius: _battleFieldRadius, ref info);
+            GetEngine().StrategicMap.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, radius: _battleFieldRadius, ref info);
             result = Round((double)GetRequiredBattleFieldSuperiority(target) * (info.Strength - info.FriendlyStrength));
         }
         else
@@ -985,7 +985,7 @@ public class AIGroupTargetSelector : AIGroupTask
             result = battleFieldStrength;
         }
 
-        StrategicMap.Current.AIExecutor.UseProcessTime(250);
+        GetEngine().StrategicMap.AIExecutor.UseProcessTime(250);
         return result;
     }
 
@@ -996,7 +996,7 @@ public class AIGroupTargetSelector : AIGroupTask
         UnitUserList requiredUnits = new(null) { Holder = CreationHolder() };
         UnitUserList optionalUnits = new(null) { Holder = CreationHolder() };
         predictor.AddUnits(units);
-        if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(GroupControl.Group.Player) != MoveAction.Negotiate)
+        if (GetEngine().StrategicMap.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(GroupControl.Group.Player) != MoveAction.Negotiate)
         {
             predictor.InitializeAdjacentOpponents((byte)PlayerIdExtensions.ToOriginal(GroupControl.Group.Player), relation: GroupControl.Group.IndependentRelation.TruncateToByte(), target.Location.X, target.Location.Y, L: target.Location.MapLevel);
         }

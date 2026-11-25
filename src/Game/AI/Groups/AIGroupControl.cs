@@ -133,7 +133,7 @@ public class AIGroupControl : EngineObject
             Location = new MapCoordinate((sbyte)locationX, (sbyte)locationY, (sbyte)locationMapLevel);
             if (Location.X != -1)
             {
-                ArmyHexSprite = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).GetArmyHexSprite();
+                ArmyHexSprite = GetEngine().StrategicMap.MapContainer.GetFieldMapCoordinate(Location).GetArmyHexSprite();
                 _ = Army;
                 _ = (byte)Selection;
                 _ = RetrieveGroupArmy(Location.X, Location.Y, L: Location.MapLevel, out Army army, out int selection);
@@ -184,7 +184,7 @@ public class AIGroupControl : EngineObject
             if (found)
             {
                 GroupBehavior behavior = Group.GroupClass.Behavior;
-                AIGroup? group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior);
+                AIGroup? group = GetEngine().StrategicMap.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior);
                 group.Status |= AIGroupStatuses.Split;
                 i = Group.Units.Count - 1;
                 for (; i >= 0; i -= 1)
@@ -220,8 +220,9 @@ public class AIGroupControl : EngineObject
     public virtual void Activate()
     {
         State = 0;
-        MoveExecutor = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.MoveExecutor;
-        StrategicMap.Current.AIExecutor.UseProcessTime(100);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        MoveExecutor = strategicMap.Players.GetPlayers(Group.Player).AIControl.MoveExecutor;
+        strategicMap.AIExecutor.UseProcessTime(100);
         _status |= Statuses.Activated;
     }
 
@@ -273,7 +274,7 @@ public class AIGroupControl : EngineObject
     // AIGroup.pas:1124
     public virtual void ExecuteME(int X, int Y, int L)
     {
-        MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
+        MapField field = GetEngine().StrategicMap.MapContainer.GetField(X, Y, L);
         if (field.GetPlayer() is not null && field.GetPlayer() != Group.Player)
         {
             MoveExecutor.Mode |= AIMoveExecutorModes.Adjacent | AIMoveExecutorModes.Attack;
@@ -352,7 +353,7 @@ public class AIGroupControl : EngineObject
     // AIGroup.pas:1040
     public bool RetrieveGroupArmy(int X, int Y, int L, out Army? army, out int selection)
     {
-        ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
+        ArmyHexSprite armyHexSprite = GetEngine().StrategicMap.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
         if (armyHexSprite is not null)
         {
             army = armyHexSprite.Army;
@@ -370,7 +371,7 @@ public class AIGroupControl : EngineObject
     // AIGroup.pas:1059
     public void CombineIdleGroups()
     {
-        Player? player = StrategicMap.Current.Players.GetPlayers(Group.Player);
+        Player? player = GetEngine().StrategicMap.Players.GetPlayers(Group.Player);
         for (int i = player.AIGroups.Count - 1; i >= 0; i--)
         {
             AIGroup group = player.AIGroups.GetGroups(i);
@@ -425,7 +426,7 @@ public class AIGroupControl : EngineObject
     public void SetupCP(AIGroupControlTarget target)
     {
         ResetCP();
-        if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(Group.Player) != MoveAction.Negotiate)
+        if (GetEngine().StrategicMap.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(Group.Player) != MoveAction.Negotiate)
         {
             CombatPredictor.InitializeAdjacentOpponents((byte)PlayerIdExtensions.ToOriginal(Group.Player), relation: Group.IndependentRelation.TruncateToByte(), target.Location.X, target.Location.Y, L: target.Location.MapLevel);
         }
@@ -470,7 +471,7 @@ public class AIGroupControl : EngineObject
             try
             {
                 bool busy = false;
-                while (!busy && !Group.Status.Contains(AIGroupStatuses.Done) && StrategicMap.Current.AIExecutor.ProcessTimeLeft >= 0 && MoveExecutor.Status != AIMoveExecutorStatus.Busy)
+                while (!busy && !Group.Status.Contains(AIGroupStatuses.Done) && GetEngine().StrategicMap.AIExecutor.ProcessTimeLeft >= 0 && MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                 {
                     if (_aiGroupTask is not null)
                     {
@@ -478,7 +479,7 @@ public class AIGroupControl : EngineObject
                         if (!busy)
                         {
                             DeactivatePlugin();
-                            if (StrategicMap.Current.AIExecutor.ProcessTimeLeft >= 0 && !Group.Status.Contains(AIGroupStatuses.Done))
+                            if (GetEngine().StrategicMap.AIExecutor.ProcessTimeLeft >= 0 && !Group.Status.Contains(AIGroupStatuses.Done))
                             {
                                 MainProcessStates(looped);
                             }
@@ -509,7 +510,7 @@ public class AIGroupControl : EngineObject
     public Troop? FindAvailableTransporter()
     {
         DoubleItemList<Troop> list = [];
-        Player? player = StrategicMap.Current.Players.GetPlayers(Group.Player);
+        Player? player = GetEngine().StrategicMap.Players.GetPlayers(Group.Player);
         for (int i = 0, last = player.Armies.Count - 1; i <= last; i++)
         {
             Troop? troop = player.Armies.GetArmy(i).Transporter(255);

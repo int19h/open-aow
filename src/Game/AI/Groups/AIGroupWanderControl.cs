@@ -56,7 +56,7 @@ public class AIGroupWanderControl : AIGroupTask
                     moveControlSettings.Selection = control.Selection;
                     moveControlSettings.MovePointTable = control.MovePointTable;
                     moveControlSettings.Mode |= MoveModes.LogProcessedMapFields;
-                    StrategicMap.Current.MoveControl.ProcessMove(_moveSettings);
+                    GetEngine().StrategicMap.MoveControl.ProcessMove(_moveSettings);
                 }
 
                 {
@@ -109,7 +109,7 @@ public class AIGroupWanderControl : AIGroupTask
                     i = 0;
                     while (fields.Count != 0 && field is null)
                     {
-                        i = StrategicMap.Current.Random(Round(fields.Count * 0.1) + 1);
+                        i = GetEngine().StrategicMap.Random(Round(fields.Count * 0.1) + 1);
                         field = fields[i].First;
                         if (field.GetPlayer() is not null)
                         {

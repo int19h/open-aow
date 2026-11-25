@@ -61,7 +61,7 @@ public class AIGroupCooperationControl : AIGroupTask
         switch (State)
         {
             case 0:
-                StrategicMap.Current.AIExecutor.UseProcessTime(500);
+                GetEngine().StrategicMap.AIExecutor.UseProcessTime(500);
                 _ = _control.RecruitmentGroups.Validate(_control);
                 int i = 0;
                 while (!Complete && i != _control.RecruitmentGroups.Count)

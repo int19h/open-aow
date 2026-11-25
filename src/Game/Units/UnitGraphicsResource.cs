@@ -109,7 +109,7 @@ public sealed class UnitGraphicsResource : EngineResource
     public override int Release()
     {
         _refCount -= 1;
-        if (_refCount == 0 && !GamePack.Current.Status.Contains(HexSpriteSetStatuses.Editting) && (StrategicMap.Current is null || !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting)))
+        if (_refCount == 0 && !GetEngine().GamePack.Status.Contains(HexSpriteSetStatuses.Editting) && (GetEngine().StrategicMap is null || !GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting)))
         {
             ReleaseImageLibrary();
         }
