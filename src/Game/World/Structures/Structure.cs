@@ -678,7 +678,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
                 _ = indexes.Add(unitIndexListCollection.GetU(collection, index: i));
             }
 
-            _ = Int32List.FillWithRandomUnits(indexes, units.Units, level: 4, value: Resource.RazeDefenderBudget, types: UnitTypes.Humanoid | UnitTypes.Creature | UnitTypes.Machine);
+            _ = RandomUnits.FillWithRandomUnits(indexes, units.Units, level: 4, value: Resource.RazeDefenderBudget, types: UnitTypes.Humanoid | UnitTypes.Creature | UnitTypes.Machine);
             while (units.Count > 8)
             {
                 _ = units.DeleteUnit(units.GetUnit(units.Count - 1));

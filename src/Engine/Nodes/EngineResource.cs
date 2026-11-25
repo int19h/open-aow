@@ -2,11 +2,6 @@
 // Translated from Engine.pas.
 using Aow.Formats.Tree;
 
-using Aow.Game.Draw.Images;
-using Aow.Graphics;
-
-using Aow.Rtl;
-
 namespace Aow.Engine.Nodes;
 
 // FResourceList, FResourceID, FEditID (the edit id of the resource grid that placed it),
@@ -38,14 +33,6 @@ public class EngineResource(CustomNode? owner) : EngineObject(owner)
         ResourceList = owner;
     }
 
-    // Engine.pas:8533
-    public virtual LibraryImage? GetCellImage() => null;
-
-    // Engine.pas:8538
-    public virtual void SetCellImage(LibraryImage value)
-    {
-    }
-
     // Engine.pas:8550
     public virtual int ResourceUserClassId() => 0;
 
@@ -60,18 +47,10 @@ public class EngineResource(CustomNode? owner) : EngineObject(owner)
     // class id returns null, as CreateResourceUser does.
     public T CreateResourceUser<T>() where T : EngineObject => (T)CreateResourceUser();
 
-    // Engine.pas:8525
-    public virtual void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, Color bkColor, Color color)
-    {
-        Rect r = default;
-        LibraryDrawing.BlitLibraryImage(canvas, image: GetCellImage(), rectangle, mode, scaleX, scaleY, bkColor, color, selected: false, drawRectangle: in r);
-    }
-
     public CustomNode? ResourceList { get; private set; }
     public int EditId { get; set; }
     public int EditIndex { get; set; }
     public int ResourceId { get; set; }
-    public LibraryImage? CellImage => GetCellImage();
 
     // Engine.pas:8508
     public virtual string ResourceEditName() => GetType().Name;

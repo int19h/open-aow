@@ -304,6 +304,9 @@ public sealed partial class CombatPredictorUnit : IDisposable
         }
     }
 
+    // CombatPredictor.pas:213
+    private static int CompareRoundTargets(in QuadItem<CombatPredictorUnit> item1, in QuadItem<CombatPredictorUnit> item2) => item1.Fourth - item2.Fourth;
+
     // CombatPredictor.pas:216
     public void SortRoundTargets()
     {
@@ -316,7 +319,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
             RoundTargets.List[i].Fourth = priority;
         }
 
-        RoundTargets.Sort(QuadItem<CombatPredictorUnit>.CompareRoundTargets);
+        RoundTargets.Sort(CompareRoundTargets);
     }
 
     // CombatPredictor.pas:231

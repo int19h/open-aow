@@ -1,6 +1,5 @@
 #nullable disable warnings
 // Translated from ExploreS.pas.
-using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Combat;
@@ -344,7 +343,7 @@ public partial class ExplorationSite : Structure
 
             try
             {
-                _ = Int32List.FillWithRandomUnits(list, _defenders.Units, level: 4, value: (int)_defendersMode * 50, types: UnitTypes.Humanoid | UnitTypes.Creature | UnitTypes.Machine);
+                _ = RandomUnits.FillWithRandomUnits(list, _defenders.Units, level: 4, value: (int)_defendersMode * 50, types: UnitTypes.Humanoid | UnitTypes.Creature | UnitTypes.Machine);
             }
             catch (Exception error)
             {

@@ -349,6 +349,10 @@ dotnet_diagnostic.IDE2006.severity = warning
 dotnet_diagnostic.AOW0001.severity = warning
 dotnet_diagnostic.AOW0002.severity = warning
 aow_read_write_namespaces = Aow.Formats, Aow.Platform
+# AOW0003 keeps the engine code inside its boundary (issue 311). The section for src/Engine
+# below marks the engine files with aow_engine_boundary. The allow list
+# (analyzers/EngineBoundaryAllowList.csv) names the references across the boundary that stay.
+dotnet_diagnostic.AOW0003.severity = warning
 
 # Exclusions. Severity none. The reason for each one is in style1-status.md, as
 # amended by the decisions of 2026-11-15 (IDE2003 stays off).
@@ -399,6 +403,11 @@ dotnet_diagnostic.IDE0240.severity = none
 dotnet_diagnostic.IDE0241.severity = none
 dotnet_diagnostic.IDE0370.severity = none
 dotnet_diagnostic.IDE0080.severity = none
+
+# AOW0003. The engine files. Engine code refers to engine types, to the assemblies named here
+# and to assemblies outside the product.
+[{src/Engine/*.cs,src/Engine/**/*.cs}]
+aow_engine_boundary = Aow.Rtl, Aow.Formats
 
 # AOW0002. A test builds enum values from numbers on purpose, out-of-range ones included.
 [{src/*.Tests/*.cs,src/*.Tests/**/*.cs}]

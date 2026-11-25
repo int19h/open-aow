@@ -128,7 +128,7 @@ public sealed class UnitGraphicsResource : EngineResource
     }
 
     // UnitHS.PAS:88
-    public override LibraryImage? GetCellImage()
+    public LibraryImage? GetCellImage()
     {
         _ = AddRef();
         LibraryImage? result = Sequences.GetImageSequence(2)?.GetPreviewImage() ?? Sequences.GetPreviewImage();

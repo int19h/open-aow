@@ -108,6 +108,45 @@ internal static partial class Harness
         return [.. diagnostics.OrderBy(diagnostic => diagnostic.Location.SourceSpan.Start)];
     }
 
+    /// <summary>
+    /// The AOW0003 diagnostics of a compilation of several files. A file whose path starts with
+    /// <c>Engine/</c> carries the boundary option with the value <paramref name="boundary"/>.
+    /// Each source of <paramref name="assemblies"/> compiles to a referenced assembly of its name.
+    /// </summary>
+    public static async Task<ImmutableArray<Diagnostic>> BoundaryDiagnosticsAsync(
+        ImmutableArray<(string Path, string Source)> documents,
+        string boundary,
+        string? allowList = null,
+        ImmutableArray<(string Name, string Source)> assemblies = default)
+    {
+        List<MetadataReference> references = [.. s_references];
+        foreach ((string name, string source) in assemblies.IsDefault ? [] : assemblies)
+        {
+            CSharpCompilation library = CSharpCompilation.Create(
+                name,
+                syntaxTrees: [CSharpSyntaxTree.ParseText(source, options: new CSharpParseOptions(LanguageVersion.Preview))],
+                references: s_references,
+                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+            using MemoryStream image = new();
+            Assert.True(library.Emit(image).Success);
+            references.Add(MetadataReference.CreateFromImage(image.ToArray()));
+        }
+        CSharpCompilation compilation = CSharpCompilation.Create(
+            "Sample",
+            syntaxTrees: [.. documents.Select(document => CSharpSyntaxTree.ParseText(document.Source, options: new CSharpParseOptions(LanguageVersion.Preview), path: document.Path))],
+            references: references,
+            options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, nullableContextOptions: NullableContextOptions.Enable));
+        Assert.Empty(compilation.GetDiagnostics().Where(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error));
+        ImmutableArray<AdditionalText> files = allowList is null
+            ? []
+            : [new MemoryAdditionalText(EngineBoundaryRules.AllowListFileName, text: SourceText.From(allowList))];
+        Dictionary<string, string> engineOptions = new() { [EngineBoundaryRules.BoundaryOption] = boundary };
+        AnalyzerOptions analyzerOptions = new(additionalFiles: files, optionsProvider: new PathOptionsProvider(engineOptions));
+        CompilationWithAnalyzers withAnalyzers = compilation.WithAnalyzers([new EngineBoundaryAnalyzer()], options: analyzerOptions);
+        ImmutableArray<Diagnostic> diagnostics = await withAnalyzers.GetAnalyzerDiagnosticsAsync();
+        return [.. diagnostics.OrderBy(diagnostic => diagnostic.Location.SourceTree?.FilePath ?? diagnostic.Location.GetLineSpan().Path, comparer: StringComparer.Ordinal).ThenBy(diagnostic => diagnostic.Location.SourceSpan.Start)];
+    }
+
     private static Document CreateDocument(string source)
     {
         AdhocWorkspace workspace = new();
@@ -147,6 +186,20 @@ internal static partial class Harness
         public override AnalyzerConfigOptions GetOptions(SyntaxTree tree) => _options;
 
         public override AnalyzerConfigOptions GetOptions(AdditionalText textFile) => _options;
+    }
+
+    // The engine options for a tree whose path starts with Engine/, and none for the others.
+    private sealed class PathOptionsProvider(Dictionary<string, string> engineValues) : AnalyzerConfigOptionsProvider
+    {
+        private readonly Options _engineOptions = new(engineValues);
+        private readonly Options _otherOptions = new([]);
+
+        public override AnalyzerConfigOptions GlobalOptions => _otherOptions;
+
+        public override AnalyzerConfigOptions GetOptions(SyntaxTree tree)
+            => tree.FilePath.StartsWith("Engine/", comparisonType: StringComparison.Ordinal) ? _engineOptions : _otherOptions;
+
+        public override AnalyzerConfigOptions GetOptions(AdditionalText textFile) => _otherOptions;
     }
 
     private sealed class MemoryAdditionalText(string path, SourceText text) : AdditionalText

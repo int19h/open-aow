@@ -10,6 +10,9 @@ public readonly partial record struct AbilityId(int Value) : IOptionalOriginalId
     public static int NoneValue => -1;
     int IOriginalValue.NoneValue => NoneValue;
 
+    /// <summary>The census stores ability absence as 65535. A present 65535 collides and loads as null through OptionalId. Required Id refuses that stored value.</summary>
+    public static int? StoredUInt16None => 65_535;
+
     public static AbilityId FromInt32(int value) => new(value);
     /// <summary>Reads the integer message form. Stored forms go through <see cref="PersistSupport"/>.</summary>
     public static AbilityId? FromOriginal(int value) => value == NoneValue ? null : FromInt32(value);

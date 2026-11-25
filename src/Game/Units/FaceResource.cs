@@ -61,7 +61,7 @@ public sealed class FaceResource(CustomNode owner) : EngineResource(owner)
     }
 
     // Ability.PAS:496
-    public override LibraryImage? GetCellImage()
+    public LibraryImage? GetCellImage()
     {
         _ = AddRef();
         LibraryImage? result = _imageLibrary[_imageIndex];

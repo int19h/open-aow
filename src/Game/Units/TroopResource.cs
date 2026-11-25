@@ -37,7 +37,7 @@ public class TroopResource(CustomNode? owner) : EngineResource(owner)
     }
 
     // UnitRes.PAS:29
-    public override LibraryImage? GetCellImage() => GetPreviewImage();
+    public virtual LibraryImage? GetCellImage() => GetPreviewImage();
 
     // UnitRes.PAS:44
     public virtual bool DropUnit(int hexX, int hexY, int hexLevel) => false;
