@@ -7,7 +7,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 using Aow.Graphics;
 using Aow.Rtl;
 
@@ -95,7 +94,7 @@ public sealed partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
         _ = _eventLog.AddRef();
         Event = request.UnitSelector;
         _ = Event.AddRef();
-        Troop? u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
+        Troop? u = UI.Engine.StrategicMap.UnitControl.FindUnit(Event.SourceUnitId);
         if (u is not null)
         {
             SourcePanel.Visible = true;
@@ -139,7 +138,7 @@ public sealed partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
         }
         else
         {
-            StrategicMap.Current.ShowWarning(reason);
+            UI.Engine.StrategicMap.ShowWarning(reason);
         }
     }
 
@@ -202,7 +201,7 @@ public sealed partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
         Rect r = default;
         if (Event is not null)
         {
-            Troop? u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
+            Troop? u = UI.Engine.StrategicMap.UnitControl.FindUnit(Event.SourceUnitId);
             if (u is not null)
             {
                 r.Left = SourceFace.WinLeft + SourcePanel.AbsoluteLeft;

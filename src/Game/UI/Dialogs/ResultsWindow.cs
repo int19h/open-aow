@@ -72,7 +72,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
         for (int i = 0, last = Players.Count - 1; i <= last; i++)
         {
             byte player = Players[i];
-            PlayerStatistics stats = StrategicMap.Current.Players.GetPlayers(player).Statistics;
+            PlayerStatistics stats = UI.Engine.StrategicMap.Players.GetPlayers(player).Statistics;
             int count = stats.TurnInfo.GetCount();
             if (_maxTurns < count)
             {
@@ -211,13 +211,14 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     public void DrawGold(PlayerId player, in Rect R, in LockedSurface surface)
     {
         Int32List values = [];
-        TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        TurnInfo info = strategicMap.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
             _ = values.Add(info.GetTurnInfo(i).Gold);
         }
 
-        Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        Player? playerLocal = strategicMap.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxGold, R, surface);
         KeyMaximumLabel.Text = _maxGold.ToString(CultureInfo.InvariantCulture);
     }
@@ -226,13 +227,14 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     public void DrawMana(PlayerId player, in Rect R, in LockedSurface surface)
     {
         Int32List values = [];
-        TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        TurnInfo info = strategicMap.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
             _ = values.Add(info.GetTurnInfo(i).Mana);
         }
 
-        Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        Player? playerLocal = strategicMap.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxMana, R, surface);
         KeyMaximumLabel.Text = _maxMana.ToString(CultureInfo.InvariantCulture);
     }
@@ -241,13 +243,14 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     public void DrawHeroes(PlayerId player, in Rect R, in LockedSurface surface)
     {
         Int32List values = [];
-        TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        TurnInfo info = strategicMap.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
             _ = values.Add(info.GetTurnInfo(i).Heroes);
         }
 
-        Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        Player? playerLocal = strategicMap.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxHeroes, R, surface);
         KeyMaximumLabel.Text = _maxHeroes.ToString(CultureInfo.InvariantCulture);
     }
@@ -256,13 +259,14 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     public void DrawArmies(PlayerId player, in Rect R, in LockedSurface surface)
     {
         Int32List values = [];
-        TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        TurnInfo info = strategicMap.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
             _ = values.Add(info.GetTurnInfo(i).ArmyStrength);
         }
 
-        Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        Player? playerLocal = strategicMap.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxArmies, R, surface);
         KeyMaximumLabel.Text = _maxArmies.ToString(CultureInfo.InvariantCulture);
     }
@@ -271,13 +275,14 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     public void DrawStructures(PlayerId player, in Rect R, in LockedSurface surface)
     {
         Int32List values = [];
-        TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        TurnInfo info = strategicMap.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
             _ = values.Add(info.GetTurnInfo(i).Structures);
         }
 
-        Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        Player? playerLocal = strategicMap.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxStructures, R, surface);
         KeyMaximumLabel.Text = _maxStructures.ToString(CultureInfo.InvariantCulture);
     }
@@ -286,13 +291,14 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     public void DrawStrength(PlayerId player, in Rect R, in LockedSurface surface)
     {
         Int32List values = [];
-        TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        TurnInfo info = strategicMap.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
             _ = values.Add(info.GetTurnInfo(i).Superiority);
         }
 
-        Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        Player? playerLocal = strategicMap.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxStrength, R, surface);
         // { Original strength graph labels the structures maximum. }
         KeyMaximumLabel.Text = _maxStructures.ToString(CultureInfo.InvariantCulture);
@@ -333,7 +339,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         UI.ResultsWindow.ResultsPanel.Visible = false;
         AudioPlayback.FadeMusicVolume(UI.SoundDialog.MusicVolumeSlider.Position, speed: 2);
-        if (StrategicMap.Current.GameStatus == StrategicMapGameStatus.Terminated)
+        if (UI.Engine.StrategicMap.GameStatus == StrategicMapGameStatus.Terminated)
         {
             if (UI.Engine.Campaign is null)
             {
@@ -379,14 +385,14 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
         {
             Rect r = new(component.WinLeft + ResultsPanel.AbsoluteLeft + 1, component.WinTop + ResultsPanel.AbsoluteTop + 1, component.WinLeft + component.WinWidth + ResultsPanel.AbsoluteLeft - 1, component.WinTop + component.WinHeight + ResultsPanel.AbsoluteTop - 1);
             byte player = Players[slot];
-            if (StrategicMap.Current.Players.GetPlayers(player).GetFace() is not null)
+            if (UI.Engine.StrategicMap.Players.GetPlayers(player).GetFace() is not null)
             {
                 byte player2 = Players[slot];
-                StrategicMap.Current.Players.GetPlayers(player2).Leader.ShowFace(r, lockedSurface: surface);
+                UI.Engine.StrategicMap.Players.GetPlayers(player2).Leader.ShowFace(r, lockedSurface: surface);
             }
 
             byte player3 = Players[slot];
-            Player? playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player3);
+            Player? playerPlayerRace = UI.Engine.StrategicMap.Players.GetPlayers(player3);
             UI.Graphics.RelationWindow[playerPlayerRace.PlayerRace + 16].ShowClipped(component.WinLeft + ResultsPanel.AbsoluteLeft, component.WinTop + ResultsPanel.AbsoluteTop, lockedSurface: surface);
         }
     }
@@ -400,7 +406,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
             if (Players.Count > slot)
             {
                 byte player = Players[slot];
-                string nameEx = StrategicMap.Current.Players.GetPlayers(player).GetNameWithRace();
+                string nameEx = UI.Engine.StrategicMap.Players.GetPlayers(player).GetNameWithRace();
                 SideLabel.Text = nameEx;
             }
 

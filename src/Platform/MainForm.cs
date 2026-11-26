@@ -231,7 +231,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         AudioPlayback.ProcessSound();
         try
         {
-            StrategicMap.Current?.NewFrame();
+            UI.Engine.StrategicMap?.NewFrame();
         }
         catch (Exception error)
         {
@@ -243,10 +243,11 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             int x = -1, y = -1;
             Display.GetMousePosition(ref x, ref y);
             Rect rectangle = GetCursorRectangle(x, y);
-            FCursorChanged |= (StrategicMap.Current is not null && StrategicMap.Current.Mouse.CursorVisible) ||
+            StrategicMap strategicMap = UI.Engine.StrategicMap;
+            FCursorChanged |= (strategicMap is not null && strategicMap.Mouse.CursorVisible) ||
                 FLastCursorRectangle.Left != rectangle.Left || FLastCursorRectangle.Top != rectangle.Top ||
                 FLastCursorRectangle.Right != rectangle.Right || FLastCursorRectangle.Bottom != rectangle.Bottom;
-            if (StrategicMap.Current is not null)
+            if (strategicMap is not null)
             {
                 ScrollMap(x, y);
             }
@@ -275,7 +276,8 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             FLastCursorRectangle = rectangle;
             UI.DebugWindow.ShowFrameRate(Display.CurrentFrameRate);
         }
-        if (StrategicMap.Current is not null && StrategicMap.Current.ExitPending)
+        StrategicMap engineStrategicMap = UI.Engine.StrategicMap;
+        if (engineStrategicMap is not null && engineStrategicMap.ExitPending)
         {
             UI.General.ReturnToTitle();
         }
@@ -283,7 +285,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         VideoDialog.ApplyVideoSettings(UI.VideoDialog);
     }
 
-    private int CursorIndex => FCursor == 9999 && StrategicMap.Current is not null ? StrategicMap.Current.Mouse.Cursor : FCursor;
+    private int CursorIndex => FCursor == 9999 && UI.Engine.StrategicMap is not null ? UI.Engine.StrategicMap.Mouse.Cursor : FCursor;
 
     public Rect GetCursorRectangle(int x, int y)
     {
@@ -308,12 +310,12 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             _ = _cursorBounds.Union(right: bounds, result: out _cursorBounds);
         }
         _cursorBounds = default;
-        if (StrategicMap.Current is not null)
+        if (UI.Engine.StrategicMap is not null)
         {
             Include(FCursorImage, -15, -20);
             if (CursorIndex != 1)
             {
-                Include(GamePack.Current.CursorImages[CursorIndex], -25, -25);
+                Include(UI.Engine.GamePack.CursorImages[CursorIndex], -25, -25);
             }
         }
         else if (FCursor != 1 && UI.Graphics.Cursors.ImageExist(FCursor))
@@ -334,21 +336,22 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             return;
         }
 
-        if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Activated))
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap is not null && strategicMap.Status.Contains(HexSpriteMapStatuses.Activated))
         {
             FCursorImage?.Show(x - 15, y - 20, lockedSurface: surface);
-            LibraryImage? image = CursorIndex != 1 ? GamePack.Current.CursorImages[CursorIndex] : null;
+            LibraryImage? image = CursorIndex != 1 ? UI.Engine.GamePack.CursorImages[CursorIndex] : null;
             if (image is null)
             {
                 return;
             }
 
-            if (StrategicMap.Current.SeatedPlayer is not null && StrategicMap.Current.CombatMap is null)
+            if (strategicMap.SeatedPlayer is not null && strategicMap.CombatMap is null)
             {
-                Player? player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+                Player? player = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer);
                 if (player.GetBusy() && player.GameOverStatus == GameOverStatus.None)
                 {
-                    image.ShowBlended(x - 25, y - 25, lockedSurface: surface, table: GraphicsState.AlphaBlendTable.GetLookupTables(Math.Abs(((StrategicMap.Current.Frame << 2) % 100) - 50) + 30));
+                    image.ShowBlended(x - 25, y - 25, lockedSurface: surface, table: GraphicsState.AlphaBlendTable.GetLookupTables(Math.Abs(((strategicMap.Frame << 2) % 100) - 50) + 30));
                     FCursorChanged = true;
                     return;
                 }
@@ -400,7 +403,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     {
         Display.MouseButtons = shift;
         UI.General.Manager.CheckMouseUp(button, shift, x, y);
-        if (StrategicMap.Current?.Mouse is GameMapMouse mouse)
+        if (UI.Engine.StrategicMap?.Mouse is GameMapMouse mouse)
         {
             mouse.ResetRectangleSelection();
         }
@@ -422,7 +425,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             return;
         }
         UI.General.Manager.CheckKeyDown(ref key, shift);
-        if (key == 112 && StrategicMap.Current is not null && StrategicMap.Current.GameType == GameType.Tutorial)
+        if (key == 112 && UI.Engine.StrategicMap is not null && UI.Engine.StrategicMap.GameType == GameType.Tutorial)
         {
             TutorialWindow.ShowTutorialMessage(UI.TutorialWindow);
         }
@@ -432,9 +435,10 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     public void DoubleClick()
     {
-        if (StrategicMap.Current is not null && !General.HasModalWindow(UI.General))
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap is not null && !General.HasModalWindow(UI.General))
         {
-            StrategicMap.Current.Mouse.DoubleClick();
+            strategicMap.Mouse.DoubleClick();
         }
     }
 
@@ -450,18 +454,19 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     public bool CloseRequested()
     {
-        if (StrategicMap.Current is null)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap is null)
         {
             return IsClosed = true;
         }
 
-        if (StrategicMap.Current.CombatMap is null)
+        if (strategicMap.CombatMap is null)
         {
-            StrategicMap.Current.ExitGame(ExitGameMode.Terminate, (_, exited) => IsClosed |= exited);
-            return IsClosed |= StrategicMap.Current.ExitPending;
+            strategicMap.ExitGame(ExitGameMode.Terminate, (_, exited) => IsClosed |= exited);
+            return IsClosed |= UI.Engine.StrategicMap.ExitPending;
         }
         UI.ConfirmationDialog.Confirm(UI.Engine.TranslateResourceString(PlayerControl.ConfirmText), text: UI.Engine.TranslateResourceString(PopupWindows.QuitCombatText),
-            onConfirmed: PopupWindows.SurrenderCombat);
+            onConfirmed: UI.PopupWindows.SurrenderCombat);
         return false;
     }
 

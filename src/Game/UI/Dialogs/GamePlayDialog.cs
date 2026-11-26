@@ -54,7 +54,7 @@ public sealed partial class GamePlayDialog(UIContext ui) : UIModule(ui)
                     Title = UI.Engine.TranslateResourceString(s_passwordConfirmationText),
                     Prompt = UI.Engine.TranslateResourceString(s_reenterNewPasswordText)
                 };
-                StrategicMap.Current.TriggerTypedExecuteEventLog(password, immediate: true, done: PasswordConfirmed);
+                UI.Engine.StrategicMap.TriggerTypedExecuteEventLog(password, immediate: true, done: PasswordConfirmed);
                 _ = password.Release();
             }
             else
@@ -134,20 +134,22 @@ public sealed partial class GamePlayDialog(UIContext ui) : UIModule(ui)
         Simultaneous6CheckBox.Checked = events.Contains(WindowPopupEvents.PartyDamage);
         Simultaneous7CheckBox.Checked = events.Contains(WindowPopupEvents.HeroUpgrade);
         Simultaneous8CheckBox.Checked = events.Contains(WindowPopupEvents.HeroJoin);
-        Player? player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        Player? player = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer);
         PasswordEdit.Text = player.Settings;
     }
 
     // AoWGamePlayDlg.pas:133
     public void ChangePasswordBtnClick()
     {
-        if (StrategicMap.Current.PlayMode != PlayMode.Turn || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network || StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap.PlayMode != PlayMode.Turn || strategicMap.ConnectionType != PlayerConnectionType.Network || strategicMap.CurrentPlayer == strategicMap.SeatedPlayer)
         {
             PasswordEventLog log = new(null, holder: UI.Engine)
             {
                 Prompt = UI.Engine.TranslateResourceString(s_enterNewPasswordText)
             };
-            StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: true, done: PasswordEntered);
+            UI.Engine.StrategicMap.TriggerTypedExecuteEventLog(log, immediate: true, done: PasswordEntered);
             _ = log.Release();
         }
     }
@@ -156,16 +158,17 @@ public sealed partial class GamePlayDialog(UIContext ui) : UIModule(ui)
     public void OKBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Settings != PasswordEdit.Text)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).Settings != PasswordEdit.Text)
         {
-            if (StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
+            if (strategicMap.ConnectionType != PlayerConnectionType.Network)
             {
-                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Settings = PasswordEdit.Text;
+                strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).Settings = PasswordEdit.Text;
             }
             else
             {
                 string error = "";
-                if (!StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, error))
+                if (!strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, error))
                 {
                     MessageDialog.ResetMessageDialog(UI.MessageDialog);
                     _ = UI.MessageDialog.MessageMemo.Items.Add("");

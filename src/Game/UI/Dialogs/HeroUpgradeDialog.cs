@@ -77,7 +77,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     // AoWHeroUpgradeDlg.pas:280
     public bool ValidateHero()
     {
-        _hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(_referencedHero.UnitId);
+        _hero = UI.Engine.StrategicMap.UnitControl.FindUnit<Hero>(_referencedHero.UnitId);
         bool result = _hero is not null;
         if (!result)
         {
@@ -178,9 +178,9 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         AvailableAbilitiesList.Items.Clear();
         AvailableAbilitiesCostList.Items.Clear();
         Ability? ability;
-        for (int i = 1, last = GamePack.Current.AbilityControl.GetCount() - 1; i <= last; i++)
+        for (int i = 1, last = UI.Engine.GamePack.AbilityControl.GetCount() - 1; i <= last; i++)
         {
-            ability = GamePack.Current.AbilityControl[i];
+            ability = UI.Engine.GamePack.AbilityControl[i];
             if (ability is not null && ability.CanExpand(_editedHero) && ability.SelectionTypes.Contains(AbilitySelectionTypes.HeroUpgrade))
             {
                 string expandName = ability.ExpandName(_editedHero);
@@ -196,7 +196,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         {
             if (_editedHero.GetInherentAbility(i))
             {
-                ability = GamePack.Current.AbilityControl[i];
+                ability = UI.Engine.GamePack.AbilityControl[i];
                 string name = ability.GetName(_editedHero);
                 string cost;
                 if (_hero.GetOwnAbilityEnabled(i) && _hero.GetInherentAbilityLevel(i) == _editedHero.GetInherentAbilityLevel(i))
@@ -237,7 +237,11 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWHeroUpgradeDlg.pas:212
-    public bool CanAddAbility(int abilityId) => GamePack.Current.AbilityControl[abilityId].CanExpand(_editedHero) && GamePack.Current.AbilityControl[abilityId].ExpandCost(_editedHero) <= _editedHero.GetSkillPoints();
+    public bool CanAddAbility(int abilityId)
+    {
+        GamePack gamePack = UI.Engine.GamePack;
+        return gamePack.AbilityControl[abilityId].CanExpand(_editedHero) && gamePack.AbilityControl[abilityId].ExpandCost(_editedHero) <= _editedHero.GetSkillPoints();
+    }
 
     // AoWHeroUpgradeDlg.pas:302
     public void CloseClick()
@@ -486,7 +490,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     {
         if (ValidateHero())
         {
-            if (!StrategicMap.Current.Players.GetPlayers(_hero.Player).GetBusy())
+            if (!UI.Engine.StrategicMap.Players.GetPlayers(_hero.Player).GetBusy())
             {
                 HeroUpgradeTokenEvent eventValue = new(null) { Holder = UI.Engine };
                 eventValue.Setup(_hero);
@@ -497,7 +501,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
                 eventValue.Hits = (_editedHero.UnitHits - _hero.UnitHits).TruncateToSByte();
                 eventValue.Moves = (_editedHero.UnitMoves - _hero.UnitMoves).TruncateToSByte();
                 eventValue.Abilities.AssignAbility(_editedHero);
-                StrategicMap.Current.TokenManager.GetTokenControl(_hero.Player).AddEvent(eventValue);
+                UI.Engine.StrategicMap.TokenManager.GetTokenControl(_hero.Player).AddEvent(eventValue);
                 _ = eventValue.Release();
                 Window.Visible = false;
             }
@@ -513,7 +517,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && AvailableAbilitiesList.Selected != -1)
         {
             object? objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
-            Ability? ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+            Ability? ability = UI.Engine.GamePack.AbilityControl[ObjectToInt(objectValue)];
             if (ability is not null)
             {
                 InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);
@@ -527,7 +531,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && SelectedAbilitiesList.Selected != -1)
         {
             object? objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
-            Ability? ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+            Ability? ability = UI.Engine.GamePack.AbilityControl[ObjectToInt(objectValue)];
             if (ability is not null)
             {
                 InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);

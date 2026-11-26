@@ -657,7 +657,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
 
     private static void LoadGame(General controller, string fileName)
     {
-        if (StrategicMap.Current is not null)
+        if (controller.UI.Engine.StrategicMap is not null)
         {
             controller.UI.Engine.CloseHsm(null);
         }
@@ -680,7 +680,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
         _ = DroppedObjectReport.Load(controller.UI, fileName: fileName, load: dropped =>
         {
             controller.UI.Engine.LoadHsm(fileName, edit: false, progress: (_, message, progression) => controller.MapProgress(message, progression), profile: GameProfile.WorldMap, dropped: dropped);
-            if (controller.UI.Engine.Demo && StrategicMap.Current is not null && !StrategicMap.Current.ShowAllPlayers)
+            if (controller.UI.Engine.Demo && controller.UI.Engine.StrategicMap is not null && !controller.UI.Engine.StrategicMap.ShowAllPlayers)
             {
                 CloseGame(controller);
             }
@@ -694,19 +694,20 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
     {
         controller.WindowsHidden = false;
         AudioHost.SongPlayer.Songs.Clear();
-        if (StrategicMap.Current.GameSongs.Songs.Count != 0)
+        StrategicMap strategicMap = controller.UI.Engine.StrategicMap;
+        if (strategicMap.GameSongs.Songs.Count != 0)
         {
-            AudioHost.SongPlayer.Songs.AddStrings(StrategicMap.Current.GameSongs.Songs);
+            AudioHost.SongPlayer.Songs.AddStrings(strategicMap.GameSongs.Songs);
         }
         else
         {
-            if (StrategicMap.Current.StartupSongs.Songs.Count != 0)
+            if (controller.UI.Engine.StrategicMap.StartupSongs.Songs.Count != 0)
             {
-                for (int i = 0, last = StrategicMap.Current.StartupSongs.Songs.Count - 1; i <= last; i++)
+                for (int i = 0, last = controller.UI.Engine.StrategicMap.StartupSongs.Songs.Count - 1; i <= last; i++)
                 {
-                    if (CompareText(b: controller.UI.Engine.TranslateResourceString(s_fileNotFoundText), a: StrategicMap.Current.StartupSongs.SongNames[i]) != 0)
+                    if (CompareText(b: controller.UI.Engine.TranslateResourceString(s_fileNotFoundText), a: controller.UI.Engine.StrategicMap.StartupSongs.SongNames[i]) != 0)
                     {
-                        string song = StrategicMap.Current.StartupSongs.Songs[i];
+                        string song = controller.UI.Engine.StrategicMap.StartupSongs.Songs[i];
                         _ = AudioHost.SongPlayer.Songs.Add(song);
                     }
                 }
@@ -733,9 +734,10 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
         controller.UI.TaskBar.TaskWindow.Visible = true;
         controller.UI.MapWindow.MainWindow.Visible = true;
         controller.UI.ScannerWindow.MainWindow.Visible = true;
-        controller.UI.MapWindow.MapViewer.SetHexSpriteMap(StrategicMap.Current);
-        controller.UI.ScannerWindow.Scanner.SetMap(StrategicMap.Current);
-        MapLevel mapLevel = StrategicMap.Current.MapContainer.MapLevels[0];
+        controller.UI.MapWindow.MapViewer.SetHexSpriteMap(controller.UI.Engine.StrategicMap);
+        StrategicMap engineStrategicMap = controller.UI.Engine.StrategicMap;
+        controller.UI.ScannerWindow.Scanner.SetMap(engineStrategicMap);
+        MapLevel mapLevel = engineStrategicMap.MapContainer.MapLevels[0];
         controller.UI.ScannerWindow.Scanner.SetLevel(mapLevel);
         controller.UI.TaskBar.WorldTurnButton.ButtonChecked = false;
         controller.UI.TaskBar.ChatButton.Visible = controller.UI.SetupEvents.DirectPlay.Connected;
@@ -746,13 +748,13 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
         controller.UI.ScannerWindow.ScannerTabs.Items.Clear();
         string surface = controller.UI.Engine.TranslateResourceString(s_surfaceText);
         _ = controller.UI.ScannerWindow.ScannerTabs.Items.Add(surface);
-        if (StrategicMap.Current.MapContainer.LevelCount > 1)
+        if (controller.UI.Engine.StrategicMap.MapContainer.LevelCount > 1)
         {
             string caverns = controller.UI.Engine.TranslateResourceString(s_cavernsText);
             _ = controller.UI.ScannerWindow.ScannerTabs.Items.Add(caverns);
         }
 
-        if (StrategicMap.Current.MapContainer.LevelCount > 2)
+        if (controller.UI.Engine.StrategicMap.MapContainer.LevelCount > 2)
         {
             string depths = controller.UI.Engine.TranslateResourceString(s_depthsText);
             _ = controller.UI.ScannerWindow.ScannerTabs.Items.Add(depths);
@@ -765,22 +767,24 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
         controller.UI.ScannerWindow.Scanner.SetTLeft(-1);
         controller.UI.ScannerWindow.Scanner.SetTTop(-1);
         controller.UI.ScannerWindow.Scanner.UpdateStep = -1;
-        controller.UI.ScannerWindow.Scanner.SetMap(StrategicMap.Current);
-        MapLevel mapLevel2 = StrategicMap.Current.MapContainer.MapLevels[0];
+        StrategicMap setMapStrategicMap = controller.UI.Engine.StrategicMap;
+        controller.UI.ScannerWindow.Scanner.SetMap(setMapStrategicMap);
+        MapLevel mapLevel2 = setMapStrategicMap.MapContainer.MapLevels[0];
         controller.UI.ScannerWindow.Scanner.SetLevel(mapLevel2);
-        controller.UI.MapWindow.MapViewer.SetHexSpriteMap(StrategicMap.Current);
+        controller.UI.MapWindow.MapViewer.SetHexSpriteMap(setMapStrategicMap);
         controller.UI.MapWindow.MapViewer.SceneWidth = controller.UI.MapWindow.MainWindow.WinWidth - 24;
         controller.UI.MapWindow.MapViewer.SceneHeight = controller.UI.MapWindow.MainWindow.WinHeight - 24;
-        StrategicMap.Current.Activate();
+        controller.UI.Engine.StrategicMap.Activate();
         controller.UI.ControlWindow.MainWindow.Visible = false;
         controller.UI.MapEvents.TheMapArmyDeselected();
         controller.UI.MapEvents.TheMapStructureDeselected();
         controller.UI.TaskBar.TBWorldUpdate();
         controller.UI.PlayerInfoWindow.UpdatePlayer();
-        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Activated))
+        StrategicMap containsStrategicMap = controller.UI.Engine.StrategicMap;
+        if (containsStrategicMap.Status.Contains(HexSpriteMapStatuses.Activated))
         {
             TurnButton turnButton = controller.UI.TaskBar.WorldTurnButton;
-            if (StrategicMap.Current.SeatedPlayer is null)
+            if (containsStrategicMap.SeatedPlayer is null)
             {
                 turnButton.CurrentPlayer = 12;
                 turnButton.LastPlayer = 12;
@@ -789,7 +793,8 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
             }
             else
             {
-                turnButton.LastPlayer = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
+                StrategicMap getPlayersStrategicMap = controller.UI.Engine.StrategicMap;
+                turnButton.LastPlayer = getPlayersStrategicMap.Players.GetPlayers(getPlayersStrategicMap.SeatedPlayer).PlayerRace;
                 if (turnButton.LastPlayer == -1)
                 {
                     turnButton.LastPlayer = 12;
@@ -797,7 +802,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
 
                 turnButton.CurrentPlayer = turnButton.LastPlayer;
                 turnButton.AnimationFrame = turnButton.LastPlayer * 7;
-                controller.UI.TaskBar.AutoCombatCheckBox.Visible = StrategicMap.Current.PlayMode == PlayMode.Simultaneous;
+                controller.UI.TaskBar.AutoCombatCheckBox.Visible = getPlayersStrategicMap.PlayMode == PlayMode.Simultaneous;
             }
         }
 

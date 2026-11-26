@@ -29,7 +29,8 @@ public sealed partial class PowerDialog(UIContext ui) : UIModule(ui)
     public void Execute()
     {
         Window.Visible = true;
-        PlayerMagicControl control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        PlayerMagicControl control = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).MagicControl;
         PowerSlider.Position = control.ResearchPercentage;
         int netPower = control.GetNetPower();
         PowerLabel.Text = netPower.ToString(CultureInfo.InvariantCulture);
@@ -39,16 +40,18 @@ public sealed partial class PowerDialog(UIContext ui) : UIModule(ui)
     // AoWPowerDlg.pas:80
     public void UpdatePower()
     {
-        int manaPower = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.GetNetPower();
-        int pointsLeft = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchPointsLeft;
-        int upkeep = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.GetManaUpkeep();
-        int spellId = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId;
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        int manaPower = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).MagicControl.GetNetPower();
+        int pointsLeft = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).MagicControl.ResearchPointsLeft;
+        int upkeep = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).MagicControl.GetManaUpkeep();
+        int spellId = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).MagicControl.ResearchSpellId;
         int researchPower = Round((double)(PowerSlider.Position * manaPower) / 100);
         manaPower -= researchPower;
         if (spellId != 0)
         {
-            int turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchTurns(researchPower, points: pointsLeft);
-            Spell? spell = GamePack.Current.SpellControl[spellId];
+            StrategicMap engineStrategicMap = UI.Engine.StrategicMap;
+            int turns = engineStrategicMap.Players.GetPlayers(engineStrategicMap.SeatedPlayer).MagicControl.ResearchTurns(researchPower, points: pointsLeft);
+            Spell? spell = UI.Engine.GamePack.SpellControl[spellId];
             SpellNameLabel.Text = spell.SpellName;
             string formatTurnsString = FormatTurnsString(UI.Engine, turns: turns);
             ResearchLeftLabel.Text = formatTurnsString;
@@ -80,7 +83,8 @@ public sealed partial class PowerDialog(UIContext ui) : UIModule(ui)
     public void SetBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ChangePowerSettings(PowerSlider.Position))
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).MagicControl.ChangePowerSettings(PowerSlider.Position))
         {
             Window.Visible = false;
         }

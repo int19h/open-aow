@@ -8,7 +8,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiAssert;
@@ -146,62 +145,62 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
 
         if (HasWall(1, 6))
         {
-            GamePack.Current.CombatImages[image].Show(X + 180, Y + 218 - 50, lockedSurface: surface);
+            UI.Engine.GamePack.CombatImages[image].Show(X + 180, Y + 218 - 50, lockedSurface: surface);
         }
 
         if (HasWall(1, 2))
         {
-            GamePack.Current.CombatImages[image].Show(X + 372, Y + 218 - 50, lockedSurface: surface);
+            UI.Engine.GamePack.CombatImages[image].Show(X + 372, Y + 218 - 50, lockedSurface: surface);
         }
 
         if (HasWall(0, 1))
         {
-            GamePack.Current.CombatImages[image + 4].Show(X + 180, Y + 218, lockedSurface: surface);
+            UI.Engine.GamePack.CombatImages[image + 4].Show(X + 180, Y + 218, lockedSurface: surface);
         }
 
         if (HasWall(0, 6))
         {
-            GamePack.Current.CombatImages[image + 5].Show(X + 180, Y + 218, lockedSurface: surface);
+            UI.Engine.GamePack.CombatImages[image + 5].Show(X + 180, Y + 218, lockedSurface: surface);
         }
 
         if (HasWall(0, 2))
         {
-            GamePack.Current.CombatImages[image + 5].Show(X + 372, Y + 218, lockedSurface: surface);
+            UI.Engine.GamePack.CombatImages[image + 5].Show(X + 372, Y + 218, lockedSurface: surface);
         }
 
         if (HasWall(5, 6))
         {
-            GamePack.Current.CombatImages[image + 3].Show(X + 0, Y + 275, lockedSurface: surface);
+            UI.Engine.GamePack.CombatImages[image + 3].Show(X + 0, Y + 275, lockedSurface: surface);
         }
 
         if (HasWall(2, 3))
         {
-            GamePack.Current.CombatImages[image + 2].Show(X + 374, Y + 275, lockedSurface: surface);
+            UI.Engine.GamePack.CombatImages[image + 2].Show(X + 374, Y + 275, lockedSurface: surface);
         }
 
         if (HasWall(0, 5))
         {
-            GamePack.Current.CombatImages[image + 5].Show(X + 180, Y + 275, lockedSurface: surface);
+            UI.Engine.GamePack.CombatImages[image + 5].Show(X + 180, Y + 275, lockedSurface: surface);
         }
 
         if (HasWall(0, 3))
         {
-            GamePack.Current.CombatImages[image + 5].Show(X + 372, Y + 275, lockedSurface: surface);
+            UI.Engine.GamePack.CombatImages[image + 5].Show(X + 372, Y + 275, lockedSurface: surface);
         }
 
         if (HasWall(0, 4))
         {
-            GamePack.Current.CombatImages[image + 4].Show(X + 180, Y + 332, lockedSurface: surface);
+            UI.Engine.GamePack.CombatImages[image + 4].Show(X + 180, Y + 332, lockedSurface: surface);
         }
 
         if (HasWall(4, 5))
         {
-            GamePack.Current.CombatImages[image + 1].Show(X + 180, Y + 342, lockedSurface: surface);
+            UI.Engine.GamePack.CombatImages[image + 1].Show(X + 180, Y + 342, lockedSurface: surface);
         }
 
         if (HasWall(4, 3))
         {
-            GamePack.Current.CombatImages[image + 1].Show(X + 372, Y + 342, lockedSurface: surface);
+            UI.Engine.GamePack.CombatImages[image + 1].Show(X + 372, Y + 342, lockedSurface: surface);
         }
 
         CombatData combatData = _viewer.Combat.CombatData;
@@ -254,7 +253,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                             int glow = _phaseFrame / 2;
                             glow = Math.Abs(((glow + 7) % 15) - 7);
                             GetPartyPosition(i, ref pixelX, ref pixelY);
-                            GamePack.Current.CombatImages[glow + 100].ShowClipped(pixelX + X - 10, pixelY + Y - 9, lockedSurface: surface);
+                            UI.Engine.GamePack.CombatImages[glow + 100].ShowClipped(pixelX + X - 10, pixelY + Y - 9, lockedSurface: surface);
                         }
                     }
                 }
@@ -274,7 +273,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         else
         {
             CombatPlayer player = data.Players.GetPlayers(data.AttackerPlayer);
-            left = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
+            left = UI.Engine.StrategicMap.Players.GetPlayers(player.Player).PlayerRace;
         }
 
         int leftOpacity = data.CurrentPlayer == 255 || data.Players.GetPlayers((sbyte)data.CurrentPlayer).SideIndex != 0 ? 60 : 100;
@@ -292,7 +291,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         else
         {
             CombatPlayer player = data.Players.GetPlayers(data.DefenderPlayer);
-            right = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
+            right = UI.Engine.StrategicMap.Players.GetPlayers(player.Player).PlayerRace;
         }
 
         int rightOpacity = data.CurrentPlayer == 255 || data.Players.GetPlayers((sbyte)data.CurrentPlayer).SideIndex != 1 ? 60 : 100;
@@ -618,7 +617,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
             if (party is not null)
             {
                 sbyte playerIndex = combat.CombatData.Players.GetPlayers((sbyte)party.PlayerIndex).Player;
-                int partyRace = playerIndex != 0 ? StrategicMap.Current.Players.GetPlayers(playerIndex).PlayerRace : 12;
+                int partyRace = playerIndex != 0 ? dialog.UI.Engine.StrategicMap.Players.GetPlayers(playerIndex).PlayerRace : 12;
 
                 image.CurrentImage = partyRace + 21;
                 image.Visible = true;
@@ -641,8 +640,8 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
             else
             {
                 CombatPlayer player = combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer);
-                raceIndex = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
-                RaceResource? raceResource = GamePack.Current.RaceResources.GetRaceResource(raceIndex);
+                raceIndex = dialog.UI.Engine.StrategicMap.Players.GetPlayers(player.Player).PlayerRace;
+                RaceResource? raceResource = dialog.UI.Engine.GamePack.RaceResources.GetRaceResource(raceIndex);
                 dialog.LeftSideLabel.Text = raceResource.RaceName;
             }
 
@@ -654,8 +653,8 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
             else
             {
                 CombatPlayer player = combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer);
-                raceIndex = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
-                RaceResource? raceResource = GamePack.Current.RaceResources.GetRaceResource(raceIndex);
+                raceIndex = dialog.UI.Engine.StrategicMap.Players.GetPlayers(player.Player).PlayerRace;
+                RaceResource? raceResource = dialog.UI.Engine.GamePack.RaceResources.GetRaceResource(raceIndex);
                 dialog.RightSideLabel.Text = raceResource.RaceName;
             }
         }

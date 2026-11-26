@@ -6,7 +6,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiStrings;
@@ -113,7 +112,7 @@ public sealed partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
         if (i < EmailAddresses.Count)
         {
             object? objectValue = EmailAddresses.Objects[i];
-            RaceResource? r = GamePack.Current.RaceResources.GetRaceResource(ObjectToInt(objectValue));
+            RaceResource? r = UI.Engine.GamePack.RaceResources.GetRaceResource(ObjectToInt(objectValue));
             _ = r.AddRef();
             r.ImageLibrary[38].Show(panel.AbsoluteLeft, panel.AbsoluteTop, lockedSurface);
             _ = r.Release();

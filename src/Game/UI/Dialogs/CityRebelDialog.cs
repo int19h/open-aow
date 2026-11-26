@@ -3,7 +3,6 @@
 using Aow.Game.Events;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 
 using Aow.Rtl;
 
@@ -42,7 +41,7 @@ public sealed partial class CityRebelDialog(UIContext ui) : UIModule(ui)
     {
         UI.General.PlayButtonSound(0);
         CityRebellionEventLog? cityRebellionEventLog = _event;
-        StrategicMap.Current.CenterViewTo(cityRebellionEventLog.Location.X, cityRebellionEventLog.Location.Y, cityRebellionEventLog.Location.MapLevel);
+        UI.Engine.StrategicMap.CenterViewTo(cityRebellionEventLog.Location.X, cityRebellionEventLog.Location.Y, cityRebellionEventLog.Location.MapLevel);
     }
 
     // AoWCityRebelDlg.pas:72

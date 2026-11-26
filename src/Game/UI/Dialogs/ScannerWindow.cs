@@ -20,21 +20,22 @@ public sealed partial class ScannerWindow(UIContext ui) : UIModule(ui)
     // AoWSWindow.pas:51
     public void ScannerTabChange()
     {
-        if (StrategicMap.Current is not null)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap is not null)
         {
             switch (ScannerTabs.Selected)
             {
                 case 0:
                     Scanner.UpdateStep = -1;
-                    StrategicMap.Current.ViewLevel(0);
+                    strategicMap.ViewLevel(0);
                     break;
                 case 1:
                     Scanner.UpdateStep = -1;
-                    StrategicMap.Current.ViewLevel(1);
+                    UI.Engine.StrategicMap.ViewLevel(1);
                     break;
                 case 2:
                     Scanner.UpdateStep = -1;
-                    StrategicMap.Current.ViewLevel(2);
+                    UI.Engine.StrategicMap.ViewLevel(2);
                     break;
                 default:
                     break;
@@ -103,7 +104,7 @@ public sealed partial class ScannerWindow(UIContext ui) : UIModule(ui)
     {
         UI.MapWindow.MapViewer.SceneX = (UI.ScannerWindow.Scanner.TLeft + 6) * 33;
         UI.MapWindow.MapViewer.SceneY = (UI.ScannerWindow.Scanner.TTop + 6) * 33;
-        if (StrategicMap.Current.SeatedPlayer is not null)
+        if (UI.Engine.StrategicMap.SeatedPlayer is not null)
         {
             UI.ScannerWindow.Scanner.SetTWidth(UI.MapWindow.MapViewer.SceneWidth / 32);
             UI.ScannerWindow.Scanner.SetTHeight(UI.MapWindow.MapViewer.SceneHeight / 32);

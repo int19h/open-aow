@@ -34,8 +34,9 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
         UI.General.Manager.OverlayPriority = 0;
         if (_newTurn is null)
         {
-            StrategicMap.Current.SetSeatedPlayer(StrategicMap.Current.CurrentPlayer);
-            if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) > -1)
+            StrategicMap strategicMap = UI.Engine.StrategicMap;
+            strategicMap.SetSeatedPlayer(strategicMap.CurrentPlayer);
+            if (PlayerIdExtensions.ToOriginal(UI.Engine.StrategicMap.SeatedPlayer) > -1)
             {
                 UI.PlayerInfoWindow.UpdateEvents();
             }
@@ -63,11 +64,11 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
                 _newTurn = eventValue;
                 _ = _newTurn.AddRef();
                 TurnMessageLabel.Text = eventValue.Text;
-                string name = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer).GetName();
+                string name = UI.Engine.StrategicMap.Players.GetPlayers(eventValue.TurnPlayer).GetName();
                 PlayerNameLabel.Text = name;
                 if (eventValue.TurnPlayer != PlayerId.Independent)
                 {
-                    Player? player = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer);
+                    Player? player = UI.Engine.StrategicMap.Players.GetPlayers(eventValue.TurnPlayer);
                     string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
                     PlayerRaceLabel.Text = raceNamesPlural;
                 }
@@ -76,11 +77,11 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
                     PlayerRaceLabel.Text = "";
                 }
 
-                int day2 = StrategicMap.Current.Day > 0 ? StrategicMap.Current.Day : 1;
+                int day2 = UI.Engine.StrategicMap.Day > 0 ? UI.Engine.StrategicMap.Day : 1;
 
                 string day = UI.Engine.TranslateResourceString(GameText.DayText);
                 TurnLabel.Text = $"{day} {day2.ToString(CultureInfo.InvariantCulture)}";
-                int race = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer).PlayerRace;
+                int race = UI.Engine.StrategicMap.Players.GetPlayers(eventValue.TurnPlayer).PlayerRace;
                 if (race == -1)
                 {
                     race = 12;
@@ -113,7 +114,7 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
     // AoWNewTurnDialog.pas:106
     public void NewTDlgMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
-        if (CombatMap.Current is null && _newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyles.Closeable))
+        if (UI.Engine.CombatMap is null && _newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyles.Closeable))
         {
             Window.Visible = false;
         }
@@ -132,20 +133,23 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
     public void FaceFramePreDraw(LockedSurface surface)
     {
         Rect r;
-        if (CombatMap.Current is not null)
+        CombatMap combatMap = UI.Engine.CombatMap;
+        if (combatMap is not null)
         {
-            if (StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader is not null)
+            StrategicMap strategicMap = UI.Engine.StrategicMap;
+            if (strategicMap.Players.GetPlayers(combatMap.SeatedPlayer).Leader is not null)
             {
                 r = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
-                StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader.ShowFace(r, lockedSurface: surface);
+                strategicMap.Players.GetPlayers(combatMap.SeatedPlayer).Leader.ShowFace(r, lockedSurface: surface);
             }
         }
         else
         {
-            if (StrategicMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader is not null)
+            StrategicMap engineStrategicMap = UI.Engine.StrategicMap;
+            if (engineStrategicMap.Players.GetPlayers(_newTurn.TurnPlayer).Leader is not null)
             {
                 r = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
-                StrategicMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader.ShowFace(r, lockedSurface: surface);
+                engineStrategicMap.Players.GetPlayers(_newTurn.TurnPlayer).Leader.ShowFace(r, lockedSurface: surface);
             }
         }
     }

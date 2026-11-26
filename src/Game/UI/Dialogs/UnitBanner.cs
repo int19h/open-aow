@@ -4,7 +4,6 @@ using System.Globalization;
 using Aow.Game.Combat;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
 
@@ -54,7 +53,7 @@ public sealed partial class UnitBanner(UIContext ui) : UIModule(ui)
             for (int i = 0, last = UI.General.Abilities.Count - 1; i <= last; i++)
             {
                 CombatAbilityRef a = UI.General.Abilities[i];
-                string name2 = GamePack.Current.AbilityControl[a.Ability].GetName(UI.General.SelectedUnit);
+                string name2 = UI.Engine.GamePack.AbilityControl[a.Ability].GetName(UI.General.SelectedUnit);
                 _ = AbilityList.Items.Add(name2);
             }
 
@@ -100,7 +99,7 @@ public sealed partial class UnitBanner(UIContext ui) : UIModule(ui)
             {
                 CombatAbilityRef ability = UI.General.Abilities[AbilityList.Selected];
                 string reason = "";
-                _ = GamePack.Current.AbilityControl[ability.Ability].Activate(UI.General.SelectedUnit, ref reason);
+                _ = UI.Engine.GamePack.AbilityControl[ability.Ability].Activate(UI.General.SelectedUnit, ref reason);
                 BannerMenu.Visible = false;
             }
             else

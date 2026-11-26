@@ -8,7 +8,6 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 using Aow.Graphics;
 using Aow.Rtl;
 
@@ -96,7 +95,7 @@ public sealed partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
         }
         else
         {
-            StrategicMap.Current.ShowMessage(reason);
+            UI.Engine.StrategicMap.ShowMessage(reason);
         }
     }
 
@@ -104,7 +103,7 @@ public sealed partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
     public void FaceFramePreDraw(LockedSurface surface)
     {
         Rect r = default;
-        Troop? u = StrategicMap.Current.UnitControl.FindUnit(Caster.CasterSourceId);
+        Troop? u = UI.Engine.StrategicMap.UnitControl.FindUnit(Caster.CasterSourceId);
         if (u is not null)
         {
             if (u.GetFace() is not null)
@@ -130,7 +129,7 @@ public sealed partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
         Rect r = default;
         if (Caster is not null)
         {
-            Spell? spell = GamePack.Current.SpellControl[Caster.CasterSpellId];
+            Spell? spell = UI.Engine.GamePack.SpellControl[Caster.CasterSpellId];
             if (spell is not null)
             {
                 r.Left = SpellFrame.WinLeft + TopPanel.AbsoluteLeft;

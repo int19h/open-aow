@@ -27,8 +27,8 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
     {
         _ = StopSong();
         _ = AudioHost.SongPlayer.Resume();
-        UI.MapWindow.MapViewer.HexSpriteMap = StrategicMap.Current;
-        UI.ScannerWindow.Scanner.SetMap(StrategicMap.Current);
+        UI.MapWindow.MapViewer.HexSpriteMap = UI.Engine.StrategicMap;
+        UI.ScannerWindow.Scanner.SetMap(UI.Engine.StrategicMap);
         UI.ScannerWindow.Scanner.PreviousWidth = 0;
         UI.ScannerWindow.Scanner.Incremental = false;
         UI.ScannerWindow.Scanner.Sized = false;
@@ -90,15 +90,16 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
         UI.General.Manager.Aligned = false;
         UI.TaskBar.WorldPanel.Visible = true;
         UI.TaskBar.CombatPanel.Visible = false;
-        Player? player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        Player? player = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer);
         UI.TaskBar.WorldTurnButton.ButtonChecked = player.SingleProcessCycle;
         UI.CombatScanner.CombatScannerWindow.Visible = false;
         UI.CombatUnitInfo.MainWindow.Visible = false;
         UI.CombatScanner.Scanner.SetMap(null);
         UI.General.Manager.OverlayPriority = 0;
-        UI.MapEvents.TheMapGemsChanged((sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer));
-        UI.MapEvents.TheMapIncomeChanged((sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer));
-        UI.MapEvents.TheMapPlayerMagicChanged((sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer));
+        UI.MapEvents.TheMapGemsChanged((sbyte)PlayerIdExtensions.ToOriginal(UI.Engine.StrategicMap.SeatedPlayer));
+        UI.MapEvents.TheMapIncomeChanged((sbyte)PlayerIdExtensions.ToOriginal(UI.Engine.StrategicMap.SeatedPlayer));
+        UI.MapEvents.TheMapPlayerMagicChanged((sbyte)PlayerIdExtensions.ToOriginal(UI.Engine.StrategicMap.SeatedPlayer));
     }
 
     // aowTCMapEvents.pas:157
@@ -157,15 +158,16 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
     // aowTCMapEvents.pas:199
     public void CombatMapSeatedPlayerChanged(sbyte player)
     {
-        UI.MapWindow.MainWindow.Visible = CombatMap.Current.PlaySounds;
-        UI.CombatScanner.CombatScannerWindow.Visible = CombatMap.Current.PlaySounds;
-        if (CombatMap.Current.SeatedCombatPlayer == -1)
+        UI.MapWindow.MainWindow.Visible = UI.Engine.CombatMap.PlaySounds;
+        UI.CombatScanner.CombatScannerWindow.Visible = UI.Engine.CombatMap.PlaySounds;
+        CombatMap combatMap = UI.Engine.CombatMap;
+        if (combatMap.SeatedCombatPlayer == -1)
         {
             UI.TaskBar.AutoCombatCheckBox.Checked = false;
         }
         else
         {
-            TacticalBattlePlayer playerLocal = CombatMap.Current.Players.GetPlayers(CombatMap.Current.SeatedCombatPlayer);
+            TacticalBattlePlayer playerLocal = combatMap.Players.GetPlayers(combatMap.SeatedCombatPlayer);
             UI.TaskBar.AutoCombatCheckBox.Checked = playerLocal.Auto;
         }
 
@@ -219,7 +221,7 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
     // aowTCMapEvents.pas:240
     public void CombatMapTurnChanged()
     {
-        Player? player = StrategicMap.Current.Players.GetPlayers(CombatMap.Current.CurrentPlayer);
+        Player? player = UI.Engine.StrategicMap.Players.GetPlayers(UI.Engine.CombatMap.CurrentPlayer);
         UI.TaskBar.CombatTurnButton.CurrentPlayer = player.PlayerRace;
         if (UI.TaskBar.CombatTurnButton.CurrentPlayer == -1)
         {
@@ -307,8 +309,9 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     window.CombatAbilityPanel.Visible = true;
                     window.TargetSelectPanel.Visible = false;
                     SpellCombatInfo info = default;
-                    GamePack.Current.SpellControl[window.UI.General.CombatUnit.SelectedSpell].GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref info);
-                    Spell? spell = GamePack.Current.SpellControl[window.UI.General.CombatUnit.SelectedSpell];
+                    GamePack gamePack = window.UI.Engine.GamePack;
+                    gamePack.SpellControl[window.UI.General.CombatUnit.SelectedSpell].GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref info);
+                    Spell? spell = gamePack.SpellControl[window.UI.General.CombatUnit.SelectedSpell];
                     window.AbilityNameLabel.Text = spell.SpellName;
                     window.AbilityAttackLabel.Text = info.Attack > 0 ? ((int)info.Attack).ToString(CultureInfo.InvariantCulture) : "-";
                     window.AbilityDamageLabel.Text = info.Damage > 0 ? ((int)info.Damage).ToString(CultureInfo.InvariantCulture) : "-";
@@ -374,8 +377,9 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     window.CombatAbilityPanel.Visible = true;
                     window.TargetSelectPanel.Visible = false;
                     AbilityCombatInfo abilityCombatInfo = default;
-                    GamePack.Current.AbilityControl[window.UI.General.CombatUnit.SelectedAbility].GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, info: ref abilityCombatInfo);
-                    string name = GamePack.Current.AbilityControl[window.UI.General.CombatUnit.SelectedAbility].GetName(window.UI.General.CombatUnit.Unit.Troop);
+                    GamePack engineGamePack = window.UI.Engine.GamePack;
+                    engineGamePack.AbilityControl[window.UI.General.CombatUnit.SelectedAbility].GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, info: ref abilityCombatInfo);
+                    string name = engineGamePack.AbilityControl[window.UI.General.CombatUnit.SelectedAbility].GetName(window.UI.General.CombatUnit.Unit.Troop);
                     window.AbilityNameLabel.Text = name;
                     window.AbilityAttackLabel.Text = abilityCombatInfo.Attack > 0 ? ((int)abilityCombatInfo.Attack).ToString(CultureInfo.InvariantCulture) : "-";
                     window.AbilityDamageLabel.Text = abilityCombatInfo.Damage > 0 ? ((int)abilityCombatInfo.Damage).ToString(CultureInfo.InvariantCulture) : "-";

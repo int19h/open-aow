@@ -142,9 +142,10 @@ public sealed class MapControl : Component
         {
             _engine.HexSpriteMapLoaded += engine_HexSpriteMapLoaded;
             _engine.HexSpriteMapClosing += engine_HexSpriteMapClosing;
-            if (StrategicMap.Current is not null)
+            StrategicMap strategicMap = _engine.StrategicMap;
+            if (strategicMap is not null)
             {
-                LinkToHsm(StrategicMap.Current);
+                LinkToHsm(strategicMap);
             }
         }
     }
@@ -287,7 +288,7 @@ public sealed class MapControl : Component
         HexSprite? hexSprite;
         if (ArmyDoubleClicked is not null)
         {
-            hexSprite = StrategicMap.Current.Selection.FindClass(typeof(ArmyHexSprite));
+            hexSprite = _engine.StrategicMap.Selection.FindClass(typeof(ArmyHexSprite));
             if (hexSprite is ArmyHexSprite armyHexSprite)
             {
                 ArmyDoubleClicked(this, e: new MapObjectEventArgs(armyHexSprite.Army));
@@ -296,7 +297,7 @@ public sealed class MapControl : Component
 
         if (StructureDoubleClicked is not null)
         {
-            hexSprite = StrategicMap.Current.Selection.FindClass(typeof(Structure));
+            hexSprite = _engine.StrategicMap.Selection.FindClass(typeof(Structure));
             if (hexSprite is Structure structure)
             {
                 StructureDoubleClicked(structure);
@@ -358,8 +359,9 @@ public sealed class MapControl : Component
     {
         try
         {
-            HexSpriteSelection selection = StrategicMap.Current.Selection;
-            if (ArmySelected is not null && selection.EventHexSprite is ArmyHexSprite armyHexSprite && StrategicMap.Current.SelectedArmy.ArmyHexSprite is not null)
+            StrategicMap strategicMap = _engine.StrategicMap;
+            HexSpriteSelection selection = strategicMap.Selection;
+            if (ArmySelected is not null && selection.EventHexSprite is ArmyHexSprite armyHexSprite && strategicMap.SelectedArmy.ArmyHexSprite is not null)
             {
                 ArmySelected(armyHexSprite.Army);
             }
@@ -385,7 +387,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            HexSpriteSelection selection = StrategicMap.Current.Selection;
+            HexSpriteSelection selection = _engine.StrategicMap.Selection;
             if (ArmyDeselected is not null && selection.EventHexSprite is ArmyHexSprite armyHexSprite)
             {
                 ArmyDeselected(armyHexSprite.Army);
@@ -412,7 +414,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            CurrentPlayerChanged?.Invoke(this, e: new PlayerEventArgs((sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.CurrentPlayer)));
+            CurrentPlayerChanged?.Invoke(this, e: new PlayerEventArgs((sbyte)PlayerIdExtensions.ToOriginal(_engine.StrategicMap.CurrentPlayer)));
         }
         catch
         {
@@ -453,7 +455,7 @@ public sealed class MapControl : Component
         {
             if (TurnEnded is not null)
             {
-                Player? listed = StrategicMap.Current.Players.GetPlayers(player);
+                Player? listed = _engine.StrategicMap.Players.GetPlayers(player);
                 TurnEnded(player, Automatic: !listed.SingleProcessCycle);
             }
         }
@@ -468,7 +470,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            SeatedPlayerChanged?.Invoke((sbyte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer));
+            SeatedPlayerChanged?.Invoke((sbyte)PlayerIdExtensions.ToOriginal(_engine.StrategicMap.SeatedPlayer));
         }
         catch
         {
@@ -564,7 +566,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            DayChanged?.Invoke(StrategicMap.Current.Day);
+            DayChanged?.Invoke(_engine.StrategicMap.Day);
         }
         catch
         {
@@ -707,7 +709,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            GameEnded?.Invoke(this, e: new PlayerEventArgs((sbyte)StrategicMap.Current.GameResult));
+            GameEnded?.Invoke(this, e: new PlayerEventArgs((sbyte)_engine.StrategicMap.GameResult));
         }
         catch
         {
@@ -773,7 +775,7 @@ public sealed class MapControl : Component
         TargetSelectionControl control = (TargetSelectionControl)sender!;
         try
         {
-            if (TargetSelectionChanged is not null && control is not null && (((int)StrategicMap.Current.TargetSelection.TargetMode) & 8) != 0)
+            if (TargetSelectionChanged is not null && control is not null && (((int)_engine.StrategicMap.TargetSelection.TargetMode) & 8) != 0)
             {
                 TargetSelectionChanged(control, e.Change);
             }

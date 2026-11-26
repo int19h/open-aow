@@ -224,12 +224,12 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
             case 0:
                 LoadWorldCampaign(dialog.UI.WorldMap, name: "Keepers.cam");
                 dialog.CharacterGenerationPanel.ImageLibraryIndexTexture = 10;
-                GamePack.Current.TextControl.RetrieveText(10, text: (DelphiStringCollection)(object)value);
+                dialog.UI.Engine.GamePack.TextControl.RetrieveText(10, text: (DelphiStringCollection)(object)value);
                 break;
             case 1:
                 LoadWorldCampaign(dialog.UI.WorldMap, name: "Storm.cam");
                 dialog.CharacterGenerationPanel.ImageLibraryIndexTexture = 11;
-                GamePack.Current.TextControl.RetrieveText(11, text: (DelphiStringCollection)(object)value);
+                dialog.UI.Engine.GamePack.TextControl.RetrieveText(11, text: (DelphiStringCollection)(object)value);
                 break;
             default:
                 break;

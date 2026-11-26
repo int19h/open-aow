@@ -307,15 +307,16 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     {
         AvailableAbilitiesList.Items.Clear();
         AvailableAbilitiesCostList.Items.Clear();
-        for (int i = 0, last = GamePack.Current.AbilityControl.GetCount() - 1; i <= last; i++)
+        for (int i = 0, last = UI.Engine.GamePack.AbilityControl.GetCount() - 1; i <= last; i++)
         {
-            if (GamePack.Current.AbilityControl[i] is not null && (GamePack.Current.AbilityControl[i].SelectionTypes & (AbilitySelectionTypes.CustomizeLeader | AbilitySelectionTypes.HeroUpgrade)) != AbilitySelectionTypes.None)
+            GamePack gamePack = UI.Engine.GamePack;
+            if (gamePack.AbilityControl[i] is not null && (gamePack.AbilityControl[i].SelectionTypes & (AbilitySelectionTypes.CustomizeLeader | AbilitySelectionTypes.HeroUpgrade)) != AbilitySelectionTypes.None)
             {
-                if (GamePack.Current.AbilityControl[i].CanExpand(Leader))
+                if (gamePack.AbilityControl[i].CanExpand(Leader))
                 {
-                    string expandName = GamePack.Current.AbilityControl[i].ExpandName(Leader);
+                    string expandName = gamePack.AbilityControl[i].ExpandName(Leader);
                     _ = AvailableAbilitiesList.Items.AddObject(expandName, item: IntToObject(i));
-                    int expandCost = GamePack.Current.AbilityControl[i].ExpandCost(Leader);
+                    int expandCost = UI.Engine.GamePack.AbilityControl[i].ExpandCost(Leader);
                     _ = AvailableAbilitiesCostList.Items.Add(expandCost.ToString(CultureInfo.InvariantCulture));
                 }
             }
@@ -325,10 +326,11 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         SelectedAbilitiesCostList.Items.Clear();
         for (int i = 0, last = Leader.OwnAbilityCount - 1; i <= last; i++)
         {
-            Ability? ability = GamePack.Current.AbilityControl[i];
+            GamePack engineGamePack = UI.Engine.GamePack;
+            Ability? ability = engineGamePack.AbilityControl[i];
             if (Leader.GetAbilitySetAt(i) && (Leader.HeroResource.Abilities.GetAbilitySetAt(i) || (ability.SelectionTypes & (AbilitySelectionTypes.CustomizeLeader | AbilitySelectionTypes.HeroUpgrade)) != AbilitySelectionTypes.None))
             {
-                string name = GamePack.Current.AbilityControl[i].GetName(Leader);
+                string name = engineGamePack.AbilityControl[i].GetName(Leader);
                 string cost;
                 if (Leader.HeroResource.Abilities.GetAbilitySetAt(i) && Leader.HeroResource.Abilities.GetOwnAbilityLevel(i) == Leader.GetAbilityLevel(i))
                 {
@@ -368,7 +370,11 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWLeaderSetup.pas:846
-    public bool CanAddAbility(int abilityId) => GamePack.Current.AbilityControl[abilityId].CanExpand(Leader) && GamePack.Current.AbilityControl[abilityId].ExpandCost(Leader) <= Leader.GetSkillPoints();
+    public bool CanAddAbility(int abilityId)
+    {
+        GamePack gamePack = UI.Engine.GamePack;
+        return gamePack.AbilityControl[abilityId].CanExpand(Leader) && gamePack.AbilityControl[abilityId].ExpandCost(Leader) <= Leader.GetSkillPoints();
+    }
 
     // AoWLeaderSetup.pas:913
     public void SetPhase(int value)
@@ -635,13 +641,13 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         while (offset < 0)
         {
             offset += 1;
-            index = GamePack.Current.FaceResources.PreviousFace(index);
+            index = UI.Engine.GamePack.FaceResources.PreviousFace(index);
         }
 
         while (offset > 0)
         {
             offset -= 1;
-            index = GamePack.Current.FaceResources.NextFace(index);
+            index = UI.Engine.GamePack.FaceResources.NextFace(index);
         }
 
         Frame image = sender;
@@ -649,7 +655,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
 
         if (setup.OriginalLeader.GetFace() is not null)
         {
-            FaceResource? face = GamePack.Current.FaceResources.GetFaceResource(index);
+            FaceResource? face = UI.Engine.GamePack.FaceResources.GetFaceResource(index);
             _ = face.AddRef();
             face.FaceImage.ShowStretched(r, lockedSurface);
             _ = face.Release();
@@ -660,7 +666,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void FacePrevBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        int previousFace = GamePack.Current.FaceResources.PreviousFace(Leader.FaceIndex);
+        int previousFace = UI.Engine.GamePack.FaceResources.PreviousFace(Leader.FaceIndex);
         Leader.SetFaceIndex(previousFace);
         UI.TitleWindow.MainWindow.IsDrawn = false;
     }
@@ -669,7 +675,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void FaceNextBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        int nextFace = GamePack.Current.FaceResources.NextFace(Leader.FaceIndex);
+        int nextFace = UI.Engine.GamePack.FaceResources.NextFace(Leader.FaceIndex);
         Leader.SetFaceIndex(nextFace);
         UI.TitleWindow.MainWindow.IsDrawn = false;
     }
@@ -1139,7 +1145,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && SelectedAbilitiesList.Selected != -1)
         {
             object? objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
-            Ability? ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+            Ability? ability = UI.Engine.GamePack.AbilityControl[ObjectToInt(objectValue)];
             if (ability is not null)
             {
                 InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);
@@ -1153,7 +1159,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && AvailableAbilitiesList.Selected != -1)
         {
             object? objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
-            Ability? ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+            Ability? ability = UI.Engine.GamePack.AbilityControl[ObjectToInt(objectValue)];
             if (ability is not null)
             {
                 InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);

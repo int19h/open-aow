@@ -35,8 +35,9 @@ public sealed partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
     {
         if (_event is not null)
         {
-            ArmyHexSprite army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_event.Location).GetArmyHexSprite();
-            if (army is not null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
+            StrategicMap strategicMap = UI.Engine.StrategicMap;
+            ArmyHexSprite army = strategicMap.MapContainer.GetFieldMapCoordinate(_event.Location).GetArmyHexSprite();
+            if (army is not null && army.Army.Player == strategicMap.SeatedPlayer)
             {
                 return army.Army.Hero(255, types: RosterTables.AllHeroTypes);
             }
@@ -81,7 +82,7 @@ public sealed partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
             if (slot + _itemOffset < eventValue.ItemIds.Count)
             {
                 int itemId = _event.ItemIds[slot + _itemOffset];
-                Item? item = StrategicMap.Current.ItemControl.FindItem(itemId);
+                Item? item = UI.Engine.StrategicMap.ItemControl.FindItem(itemId);
                 item?.Show(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, surface: lockedSurface);
             }
         }
@@ -96,17 +97,17 @@ public sealed partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
             UI.General.SelectedUnit = hero;
             UI.UnitWindow.ShowUnit();
             UI.UnitWindow.UnitTabs.Selected = 2;
-            if (StrategicMap.Current.GameType == GameType.Tutorial)
+            if (UI.Engine.StrategicMap.GameType == GameType.Tutorial)
             {
                 TutorialMessageEventLog eventValue = new(null, holder: UI.Engine)
                 {
                     HelpFileName = UI.Engine.TranslateResourceString(GameText.TutorialText)
                 };
-                if (StrategicMap.Current.TextControl.FindId(55) is not null)
+                if (UI.Engine.StrategicMap.TextControl.FindId(55) is not null)
                 {
-                    TextControlItem? id = StrategicMap.Current.TextControl.FindId(55);
+                    TextControlItem? id = UI.Engine.StrategicMap.TextControl.FindId(55);
                     eventValue.Message.Assign(id.Text);
-                    StrategicMap.Current.TriggerExecuteEventLog(eventValue, immediate: true, done: null);
+                    UI.Engine.StrategicMap.TriggerExecuteEventLog(eventValue, immediate: true, done: null);
                 }
 
                 _ = eventValue.Release();
@@ -126,7 +127,7 @@ public sealed partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
             if (_itemOffset + slot < _event.ItemIds.Count)
             {
                 int itemId = _event.ItemIds[_itemOffset + slot];
-                Item? item = StrategicMap.Current.ItemControl.FindItem(itemId);
+                Item? item = UI.Engine.StrategicMap.ItemControl.FindItem(itemId);
                 if (item is not null)
                 {
                     box.PopupMenu = UI.ItemBanner.BannerMenu;
@@ -186,7 +187,7 @@ public sealed partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
             dialog.PickupPanel.Visible = true;
         }
 
-        StrategicMap.Current.TutorialControl.ShowMessage(54, immediate: true, onceOnly: true);
+        dialog.UI.Engine.StrategicMap.TutorialControl.ShowMessage(54, immediate: true, onceOnly: true);
         dialog.Window.IsDrawn = false;
         dialog.Window.Visible = true;
     }

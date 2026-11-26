@@ -2,7 +2,6 @@
 
 using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -16,7 +15,7 @@ public sealed partial class CombatScanner(UIContext ui) : UIModule(ui)
     {
         UI.MapWindow.MapViewer.SceneX = (Scanner.TLeft + 6) * 33;
         UI.MapWindow.MapViewer.SceneY = (Scanner.TTop + 6) * 33;
-        if (StrategicMap.Current.SeatedPlayer is not null)
+        if (UI.Engine.StrategicMap.SeatedPlayer is not null)
         {
             Scanner.SetTWidth(UI.MapWindow.MapViewer.SceneWidth / 32);
             Scanner.SetTHeight(UI.MapWindow.MapViewer.SceneHeight / 32);

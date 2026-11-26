@@ -4,7 +4,6 @@ using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -13,7 +12,7 @@ public sealed partial class UnitWindow
     // AoWUnitWindow.pas:773. The cursor belongs to the rewritten main form.
     public void Gnd1Change(CheckBox check)
     {
-        if (UI.General.SelectedUnit is not Hero hero || StrategicMap.Current.Players.GetPlayers(hero.Player).GetBusy() || !check.Checked)
+        if (UI.General.SelectedUnit is not Hero hero || UI.Engine.StrategicMap.Players.GetPlayers(hero.Player).GetBusy() || !check.Checked)
         {
             return;
         }

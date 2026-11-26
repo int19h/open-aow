@@ -5,7 +5,6 @@ using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
@@ -28,7 +27,7 @@ public sealed partial class ItemBanner(UIContext ui) : UIModule(ui)
     // AoWItemBanner.pas:46
     public void IBannerPopupShow()
     {
-        Item? item = StrategicMap.Current.ItemControl.FindItem(ItemId);
+        Item? item = UI.Engine.StrategicMap.ItemControl.FindItem(ItemId);
         if (item is not null)
         {
             ItemNameLabel.Text = item.OwnerName;
@@ -122,7 +121,7 @@ public sealed partial class ItemBanner(UIContext ui) : UIModule(ui)
             {
                 if (item.GetOwnAbilityEnabled(x))
                 {
-                    string name = GamePack.Current.AbilityControl[x].GetName(item);
+                    string name = UI.Engine.GamePack.AbilityControl[x].GetName(item);
                     _ = AbilityList.Items.AddObject(name, item: IntToObject(x));
                 }
             }
@@ -148,7 +147,7 @@ public sealed partial class ItemBanner(UIContext ui) : UIModule(ui)
     // AoWItemBanner.pas:145
     public void DrawBoxPreDraw(LockedSurface lockedSurface)
     {
-        Item? item = StrategicMap.Current.ItemControl.FindItem(ItemId);
+        Item? item = UI.Engine.StrategicMap.ItemControl.FindItem(ItemId);
         item?.Show(ItemView.WinLeft, ItemView.WinTop, surface: lockedSurface);
     }
 

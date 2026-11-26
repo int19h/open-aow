@@ -33,7 +33,8 @@ public sealed class TutorialControl(CustomNode? owner) : EngineObject(owner)
     // AoWHSMap.PAS:16
     public void ShowMessage(int id, bool immediate, bool onceOnly)
     {
-        if (StrategicMap.Current.GameType == GameType.Tutorial && StrategicMap.Current.TextControl.FindId(id) is not null)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.GameType == GameType.Tutorial && strategicMap.TextControl.FindId(id) is not null)
         {
             if (onceOnly && _shownMessages.IndexOf(id) != -1)
             {
@@ -41,9 +42,9 @@ public sealed class TutorialControl(CustomNode? owner) : EngineObject(owner)
             }
 
             TutorialMessageEventLog log = new(null, holder: CreationHolder());
-            TextControlItem? idLocal = StrategicMap.Current.TextControl.FindId(id);
+            TextControlItem? idLocal = GetEngine().StrategicMap.TextControl.FindId(id);
             log.Message.Assign(idLocal.Text);
-            StrategicMap.Current.TriggerExecuteEventLog(log, immediate, done: null);
+            GetEngine().StrategicMap.TriggerExecuteEventLog(log, immediate, done: null);
             _ = log.Release();
             _ = _shownMessages.Add(id);
         }

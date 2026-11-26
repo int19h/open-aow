@@ -202,7 +202,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            Selected?.Invoke(CombatMap.Current.Selection.EventHexSprite);
+            Selected?.Invoke(_engine.CombatMap.Selection.EventHexSprite);
         }
         catch
         {
@@ -215,7 +215,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            Deselected?.Invoke(CombatMap.Current.Selection.EventHexSprite);
+            Deselected?.Invoke(_engine.CombatMap.Selection.EventHexSprite);
         }
         catch
         {
@@ -228,7 +228,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            MouseOverTargetChanged?.Invoke(CombatMap.Current.UnitSelection.MouseOverTarget);
+            MouseOverTargetChanged?.Invoke(_engine.CombatMap.UnitSelection.MouseOverTarget);
         }
         catch
         {
@@ -243,7 +243,7 @@ public sealed class CombatMapControl : Component
         {
             if (UnitChanged is not null)
             {
-                TacticalBattleUnitHexSprite? tacticalBattleUnitHexSprite = CombatMap.Current.UnitSelection.TacticalBattleUnitHexSprite;
+                TacticalBattleUnitHexSprite? tacticalBattleUnitHexSprite = _engine.CombatMap.UnitSelection.TacticalBattleUnitHexSprite;
                 UnitChanged(tacticalBattleUnitHexSprite);
             }
         }
@@ -258,7 +258,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            PlayerChanged?.Invoke(this, e: new PlayerEventArgs((sbyte)PlayerIdExtensions.ToOriginal(CombatMap.Current.CurrentPlayer)));
+            PlayerChanged?.Invoke(this, e: new PlayerEventArgs((sbyte)PlayerIdExtensions.ToOriginal(_engine.CombatMap.CurrentPlayer)));
         }
         catch
         {
@@ -271,7 +271,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            SeatedPlayerChanged?.Invoke((sbyte)PlayerIdExtensions.ToOriginal(CombatMap.Current.SeatedPlayer));
+            SeatedPlayerChanged?.Invoke((sbyte)PlayerIdExtensions.ToOriginal(_engine.CombatMap.SeatedPlayer));
         }
         catch
         {
@@ -324,7 +324,7 @@ public sealed class CombatMapControl : Component
         try
         {
             // { The original passes the seated player as the turn number. }
-            TurnChanged?.Invoke(PlayerIdExtensions.ToOriginal(CombatMap.Current.SeatedPlayer));
+            TurnChanged?.Invoke(PlayerIdExtensions.ToOriginal(_engine.CombatMap.SeatedPlayer));
         }
         catch
         {

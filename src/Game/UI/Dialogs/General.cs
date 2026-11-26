@@ -382,7 +382,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
                 {
                     Ability = i
                 };
-                if (UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && (GamePack.Current.AbilityControl[i].GetControlType(UI.General.SelectedUnit) & AbilityControlTypes.Action) != AbilityControlTypes.None)
+                if (UI.General.SelectedUnit.Player == UI.Engine.StrategicMap.SeatedPlayer && (UI.Engine.GamePack.AbilityControl[i].GetControlType(UI.General.SelectedUnit) & AbilityControlTypes.Action) != AbilityControlTypes.None)
                 {
                     Abilities.Insert(ActiveAbilityCount, item: a);
                     ActiveAbilityCount += 1;
@@ -492,9 +492,10 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
             : (UI.General.Manager.WinHeight - UI.TaskBar.TaskWindow.WinHeight) / 2;
 
         scanner.WinWidth = scanner.WinHeight * 200 / 216;
-        if (StrategicMap.Current is not null)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap is not null)
         {
-            scanner.Visible = StrategicMap.Current.CombatMap is null && UI.MapWindow.MainWindow.Visible;
+            scanner.Visible = strategicMap.CombatMap is null && UI.MapWindow.MainWindow.Visible;
         }
 
         Window playerInfo = UI.PlayerInfoWindow.MainWindow;
@@ -504,9 +505,10 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
 
         playerInfo.WinWidth = scanner.WinWidth;
         playerInfo.WinHeight = scanner.WinHeight;
-        if (StrategicMap.Current is not null)
+        StrategicMap engineStrategicMap = UI.Engine.StrategicMap;
+        if (engineStrategicMap is not null)
         {
-            playerInfo.Visible = StrategicMap.Current.CombatMap is null && UI.MapWindow.MainWindow.Visible;
+            playerInfo.Visible = engineStrategicMap.CombatMap is null && UI.MapWindow.MainWindow.Visible;
         }
 
         Window controls = UI.ControlWindow.MainWindow;
@@ -587,9 +589,10 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
 
         tacticalBattleScanner.WinHeight = (UI.General.Manager.WinHeight - UI.TaskBar.TaskWindow.WinHeight) * 170 / 432;
         tacticalBattleScanner.WinWidth = tacticalBattleScanner.WinHeight * 150 / 170;
-        if (StrategicMap.Current is not null)
+        StrategicMap combatMapStrategicMap = UI.Engine.StrategicMap;
+        if (combatMapStrategicMap is not null)
         {
-            tacticalBattleScanner.Visible = StrategicMap.Current.CombatMap is not null && UI.MapWindow.MainWindow.Visible;
+            tacticalBattleScanner.Visible = combatMapStrategicMap.CombatMap is not null && UI.MapWindow.MainWindow.Visible;
         }
 
         Window tacticalBattleUnit = UI.CombatUnitInfo.MainWindow;
@@ -615,9 +618,10 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
         UI.MapWindow.MapAlignWidth = AlignWidth.Both;
         Rect rectangle2 = new(0, 0, tacticalBattleScanner.WinWidth, UI.TaskBar.TaskWindow.WinHeight);
         UI.MapWindow.MapRectangle = rectangle2;
-        if (StrategicMap.Current is not null)
+        StrategicMap resetLayoutStrategicMap = UI.Engine.StrategicMap;
+        if (resetLayoutStrategicMap is not null)
         {
-            UI.MapWindow.MainWindow.Alignment.RightOffset = StrategicMap.Current.CombatMap is null
+            UI.MapWindow.MainWindow.Alignment.RightOffset = resetLayoutStrategicMap.CombatMap is null
                 ? scanner.WinWidth
                 : tacticalBattleScanner.WinWidth;
         }
@@ -640,16 +644,18 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
         if (UI.Engine.Debug)
         {
             string s;
-            if (StrategicMap.Current is not null && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Players.LocalPlayers.Count == 1) && (byte)key is >= 49 and <= 57 && CombatMap.Current is null && StrategicMap.Current.Players.GetCount() > key - 48 && UI.Engine.Registry.GetDebugMode())
+            StrategicMap strategicMap = UI.Engine.StrategicMap;
+            if (strategicMap is not null && (strategicMap.PlayMode != PlayMode.Simultaneous || strategicMap.Players.LocalPlayers.Count == 1) && (byte)key is >= 49 and <= 57 && UI.Engine.CombatMap is null && strategicMap.Players.GetCount() > key - 48 && UI.Engine.Registry.GetDebugMode())
             {
-                Player? player = StrategicMap.Current.Players.GetPlayers(key - 48);
+                Player? player = strategicMap.Players.GetPlayers(key - 48);
                 player.PlayerType = player.PlayerType == PlayerType.Cpu5 ? PlayerType.Human : (PlayerType)((int)player.PlayerType + 1);
 
                 string playerType = UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player.PlayerType]);
                 s = $"Player {(key - 48).ToString(CultureInfo.InvariantCulture)} set to: {playerType}";
-                StrategicMap.Current.ShowMessage(s);
-                StrategicMap.Current.Players.Update();
-                StrategicMap.Current.RequestCombatType = StrategicMap.Current.Players.LocalHumanPlayers.Count > 1;
+                UI.Engine.StrategicMap.ShowMessage(s);
+                StrategicMap engineStrategicMap = UI.Engine.StrategicMap;
+                engineStrategicMap.Players.Update();
+                engineStrategicMap.RequestCombatType = engineStrategicMap.Players.LocalHumanPlayers.Count > 1;
             }
 
             switch (key)
@@ -847,7 +853,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
 
     internal static void LoadGame(General controller, string name)
     {
-        if (StrategicMap.Current is not null)
+        if (controller.UI.Engine.StrategicMap is not null)
         {
             controller.UI.Engine.CloseHsm(null);
         }
@@ -870,7 +876,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
         _ = DroppedObjectReport.Load(controller.UI, fileName: name, load: dropped =>
         {
             controller.UI.Engine.LoadHsm(name, edit: false, progress: (_, message, progression) => controller.MapProgress(message, progression), profile: GameProfile.WorldMap, dropped: dropped);
-            if (controller.UI.Engine.Demo && StrategicMap.Current is not null && !StrategicMap.Current.ShowAllPlayers)
+            if (controller.UI.Engine.Demo && controller.UI.Engine.StrategicMap is not null && !controller.UI.Engine.StrategicMap.ShowAllPlayers)
             {
                 controller.ReturnToTitle();
             }
@@ -884,17 +890,18 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
     {
         controller.WindowsHidden = false;
         AudioHost.SongPlayer.Songs.Clear();
-        if (StrategicMap.Current.GameSongs.Songs.Count != 0)
+        StrategicMap strategicMap = controller.UI.Engine.StrategicMap;
+        if (strategicMap.GameSongs.Songs.Count != 0)
         {
-            AudioHost.SongPlayer.Songs.AddStrings(StrategicMap.Current.GameSongs.Songs);
+            AudioHost.SongPlayer.Songs.AddStrings(strategicMap.GameSongs.Songs);
         }
-        else if (StrategicMap.Current.StartupSongs.Songs.Count != 0)
+        else if (controller.UI.Engine.StrategicMap.StartupSongs.Songs.Count != 0)
         {
-            for (int i = 0; i < StrategicMap.Current.StartupSongs.Songs.Count; i++)
+            for (int i = 0; i < controller.UI.Engine.StrategicMap.StartupSongs.Songs.Count; i++)
             {
-                if (CompareText(StrategicMap.Current.StartupSongs.SongNames[i], controller.UI.Engine.TranslateResourceString(LayerText.FileNotFoundText)) != 0)
+                if (CompareText(controller.UI.Engine.StrategicMap.StartupSongs.SongNames[i], controller.UI.Engine.TranslateResourceString(LayerText.FileNotFoundText)) != 0)
                 {
-                    _ = AudioHost.SongPlayer.Songs.Add(StrategicMap.Current.StartupSongs.Songs[i]);
+                    _ = AudioHost.SongPlayer.Songs.Add(controller.UI.Engine.StrategicMap.StartupSongs.Songs[i]);
                 }
             }
         }
@@ -918,10 +925,11 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
         controller.UI.TaskBar.TaskWindow.Visible = true;
         controller.UI.MapWindow.MainWindow.Visible = true;
         controller.UI.ScannerWindow.MainWindow.Visible = true;
-        controller.UI.MapWindow.MapViewer.HexSpriteMap = StrategicMap.Current;
+        controller.UI.MapWindow.MapViewer.HexSpriteMap = controller.UI.Engine.StrategicMap;
         Scanner scanner = controller.UI.ScannerWindow.Scanner;
-        scanner.SetMap(StrategicMap.Current);
-        scanner.SetLevel(StrategicMap.Current.MapContainer.GetMapLevel(0));
+        StrategicMap engineStrategicMap = controller.UI.Engine.StrategicMap;
+        scanner.SetMap(engineStrategicMap);
+        scanner.SetLevel(engineStrategicMap.MapContainer.GetMapLevel(0));
         controller.UI.TaskBar.WorldTurnButton.ButtonChecked = false;
         controller.UI.TaskBar.ChatButton.Visible = controller.UI.SetupEvents.DirectPlay.Connected;
         controller.UI.General.Manager.Aligned = false;
@@ -931,12 +939,12 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
         TabPanel tabs = controller.UI.ScannerWindow.ScannerTabs;
         tabs.Items.Clear();
         _ = tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.SurfaceText));
-        if (StrategicMap.Current.MapContainer.LevelCount > 1)
+        if (controller.UI.Engine.StrategicMap.MapContainer.LevelCount > 1)
         {
             _ = tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.CavernsText));
         }
 
-        if (StrategicMap.Current.MapContainer.LevelCount > 2)
+        if (controller.UI.Engine.StrategicMap.MapContainer.LevelCount > 2)
         {
             _ = tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.DepthsText));
         }
@@ -948,24 +956,26 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
         scanner.SetTLeft(-1);
         scanner.SetTTop(-1);
         scanner.UpdateStep = -1;
-        scanner.SetMap(StrategicMap.Current);
-        scanner.SetLevel(StrategicMap.Current.MapContainer.GetMapLevel(0));
-        controller.UI.MapWindow.MapViewer.HexSpriteMap = StrategicMap.Current;
+        StrategicMap setMapStrategicMap = controller.UI.Engine.StrategicMap;
+        scanner.SetMap(setMapStrategicMap);
+        scanner.SetLevel(setMapStrategicMap.MapContainer.GetMapLevel(0));
+        controller.UI.MapWindow.MapViewer.HexSpriteMap = setMapStrategicMap;
         controller.UI.MapWindow.MapViewer.SceneWidth = controller.UI.MapWindow.MainWindow.WinWidth - 24;
         controller.UI.MapWindow.MapViewer.SceneHeight = controller.UI.MapWindow.MainWindow.WinHeight - 24;
-        StrategicMap.Current.Activate();
+        controller.UI.Engine.StrategicMap.Activate();
         controller.UI.RealmWindow.Window.Visible = false;
         controller.UI.MapEvents.TheMapArmyDeselected();
         controller.UI.MapEvents.TheMapStructureDeselected();
         // The original call at targets the indicator sizing routine
         controller.UI.TaskBar.UpdatePlayerIndicator();
         controller.UI.PlayerInfoWindow.UpdatePlayer();
-        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Activated))
+        StrategicMap containsStrategicMap = controller.UI.Engine.StrategicMap;
+        if (containsStrategicMap.Status.Contains(HexSpriteMapStatuses.Activated))
         {
             TurnButton turn = controller.UI.TaskBar.WorldTurnButton;
-            if (StrategicMap.Current.SeatedPlayer is not null)
+            if (containsStrategicMap.SeatedPlayer is not null)
             {
-                turn.LastPlayer = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
+                turn.LastPlayer = containsStrategicMap.Players.GetPlayers(containsStrategicMap.SeatedPlayer).PlayerRace;
                 if (turn.LastPlayer == -1)
                 {
                     turn.LastPlayer = 12;
@@ -973,7 +983,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
 
                 turn.CurrentPlayer = turn.LastPlayer;
                 turn.AnimationFrame = turn.CurrentPlayer * 7;
-                controller.UI.TaskBar.CurrentPlayerImage.Visible = StrategicMap.Current.PlayMode == PlayMode.Turn;
+                controller.UI.TaskBar.CurrentPlayerImage.Visible = containsStrategicMap.PlayMode == PlayMode.Turn;
             }
             else
             {

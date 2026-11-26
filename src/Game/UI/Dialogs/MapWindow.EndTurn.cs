@@ -1,4 +1,3 @@
-using Aow.Game.Combat;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -13,12 +12,13 @@ public sealed partial class MapWindow
 {
     private void PressEndTurnShortcut(int key, ShiftStates shift)
     {
-        if (StrategicMap.Current is null || CombatMap.Current is not null)
+        StrategicMap? strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap is null || UI.Engine.CombatMap is not null)
         {
             return;
         }
 
-        HexSpriteMapKeyboard keyboard = StrategicMap.Current.Keyboard;
+        HexSpriteMapKeyboard keyboard = strategicMap.Keyboard;
         if (keyboard.LockCount != 0 || keyboard.Mode != HexSpriteMapKeyboardMode.Default)
         {
             return;

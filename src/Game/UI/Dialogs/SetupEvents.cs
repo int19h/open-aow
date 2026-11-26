@@ -38,14 +38,15 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui), ISetupHost
         UI.ChatWindow.PlayerList.Items.Clear();
         string allPlayers = UI.Engine.TranslateResourceString(s_allPlayersText);
         _ = UI.ChatWindow.PlayerList.Items.AddObject(allPlayers, item: null);
-        if (StrategicMap.Current is not null)
+        if (UI.Engine.StrategicMap is not null)
         {
-            for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+            for (int i = 1, last = UI.Engine.StrategicMap.Players.Count - 1; i <= last; i++)
             {
-                if (i != PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) && StrategicMap.Current.Players.GetPlayers(i).Status != PlayerStatus.Terminated && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[i].ConnectionMode == ConnectionMode.Remote)
+                StrategicMap strategicMap = UI.Engine.StrategicMap;
+                if (i != PlayerIdExtensions.ToOriginal(strategicMap.SeatedPlayer) && strategicMap.Players.GetPlayers(i).Status != PlayerStatus.Terminated && strategicMap.PlayerCommunicator.PlayerCommunicationControl.Players[i].ConnectionMode == ConnectionMode.Remote)
                 {
-                    PlayerCommunicationSettings? player = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[i];
-                    Player? playerLeader = StrategicMap.Current.Players.GetPlayers(i);
+                    PlayerCommunicationSettings? player = strategicMap.PlayerCommunicator.PlayerCommunicationControl.Players[i];
+                    Player? playerLeader = strategicMap.Players.GetPlayers(i);
                     _ = UI.ChatWindow.PlayerList.Items.AddObject(playerLeader.Leader.HeroName, item: IntToObject(player.SystemId));
                     UI.ChatWindow.PlayerList.Selected = 0;
                 }
@@ -178,7 +179,7 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui), ISetupHost
             {
                 UI.Engine.LoadHsmFromStream(SetupControl.Stream, edit: false, progress: (_, message, progression) => UI.General.MapProgress(message, progression), dropped: dropped);
                 string fileName2 = ExtractFileName(fileName);
-                StrategicMap.Current.FileName = $"{UI.Engine.StartupDirectory}Scenario\\{fileName2}";
+                UI.Engine.StrategicMap.FileName = $"{UI.Engine.StartupDirectory}Scenario\\{fileName2}";
             }
             else
             {
@@ -207,9 +208,10 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui), ISetupHost
             SetupControl.DataReceived(data, size, senderId: fromId);
         }
 
-        if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Activated))
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap is not null && strategicMap.Status.Contains(HexSpriteMapStatuses.Activated))
         {
-            if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl remote)
+            if (strategicMap.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl remote)
             {
                 remote.DataReceived(data, size, systemId: fromId);
             }
@@ -248,7 +250,7 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui), ISetupHost
     }
 
     // aowSetupEvents.pas:291
-    public void DPlayMessageError() => StrategicMap.Current?.PlayerConnectionLost();
+    public void DPlayMessageError() => UI.Engine.StrategicMap?.PlayerConnectionLost();
 
     // aowSetupEvents.pas:299
     public void DPlayDestroyPlayer(int id, int numberPlayers)
@@ -261,16 +263,17 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui), ISetupHost
             }
         }
 
-        if (StrategicMap.Current is not null && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is not null)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap is not null && strategicMap.PlayerCommunicator.PlayerCommunicationControl is not null)
         {
-            sbyte player = (sbyte)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(id);
+            sbyte player = (sbyte)strategicMap.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(id);
             if (player != -1)
             {
-                if (StrategicMap.Current.Players.GetPlayers(player) is not null)
+                if (strategicMap.Players.GetPlayers(player) is not null)
                 {
-                    if (StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
+                    if (strategicMap.Players.GetPlayers(player).Status == PlayerStatus.Playing)
                     {
-                        StrategicMap.Current.PlayerDisconnected(PlayerId.FromOriginal(player));
+                        strategicMap.PlayerDisconnected(PlayerId.FromOriginal(player));
                     }
 
                     UpdateChatPlayers();

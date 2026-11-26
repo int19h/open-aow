@@ -65,7 +65,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
     public void WorldTurnButtonAnimationDone()
     {
         WorldTurnButton.Checked = false;
-        CombatMap.Current?.EndTurnPending = true;
+        UI.Engine.CombatMap?.EndTurnPending = true;
     }
 
     // AoWTBWindow.pas:128
@@ -104,7 +104,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
     public void TBNextButtonClick()
     {
         UI.General.PlayButtonSound(0);
-        _ = StrategicMap.Current.SelectNextArmy();
+        _ = UI.Engine.StrategicMap.SelectNextArmy();
     }
 
     // AoWTBWindow.pas:159
@@ -144,14 +144,15 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
     // AoWTBWindow.pas:188
     public void TurnButtonChange()
     {
-        if (!StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).SingleProcessCycle)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (!strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).SingleProcessCycle)
         {
-            bool endTurn = StrategicMap.Current.EndTurn();
+            bool endTurn = strategicMap.EndTurn();
             WorldTurnButton.Checked = endTurn;
         }
         else
         {
-            bool cancelEndTurn = StrategicMap.Current.CancelEndTurn();
+            bool cancelEndTurn = UI.Engine.StrategicMap.CancelEndTurn();
             WorldTurnButton.Checked = !cancelEndTurn;
         }
     }
@@ -159,23 +160,24 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
     // AoWTBWindow.pas:195
     public void PIndDraw(LockedSurface surface)
     {
-        if (StrategicMap.Current is not null)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap is not null)
         {
             int position = 0;
-            for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
+            for (int i = 0, last = strategicMap.Players.GetCount() - 1; i <= last; i++)
             {
-                if (StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
+                if (strategicMap.Players.GetPlayers(i).Status == PlayerStatus.Playing)
                 {
-                    int race = StrategicMap.Current.Players.GetPlayers(i).PlayerRace;
+                    int race = strategicMap.Players.GetPlayers(i).PlayerRace;
                     if (race == -1)
                     {
                         race = 12;
                     }
 
                     UI.Graphics.TaskBar[race + 32].ShowClipped(PlayerIndicatorFrame.WinLeft + 3 + (position * 5), PlayerIndicatorFrame.WinTop + 2, lockedSurface: surface);
-                    if (StrategicMap.Current.PlayMode == PlayMode.Turn)
+                    if (strategicMap.PlayMode == PlayMode.Turn)
                     {
-                        if (i == PlayerIdExtensions.ToOriginal(StrategicMap.Current.CurrentPlayer))
+                        if (i == PlayerIdExtensions.ToOriginal(strategicMap.CurrentPlayer))
                         {
                             CurrentPlayerImage.WinLeft = PlayerIndicatorFrame.WinLeft + 2 + (position * 5);
                             CurrentPlayerImage.WinTop = PlayerIndicatorFrame.WinTop + 11;
@@ -183,7 +185,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
                     }
                     else
                     {
-                        if (StrategicMap.Current.Players.GetPlayers(i).SingleProcessCycle)
+                        if (strategicMap.Players.GetPlayers(i).SingleProcessCycle)
                         {
                             UI.Graphics.TaskBar[50].ShowClipped(PlayerIndicatorFrame.WinLeft + 2 + (position * 5), PlayerIndicatorFrame.WinTop + 11, lockedSurface: surface);
                         }
@@ -218,12 +220,12 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
     {
         if (CombatTurnButton.Checked)
         {
-            bool endTurn = CombatMap.Current.EndTurn(false);
+            bool endTurn = UI.Engine.CombatMap.EndTurn(false);
             CombatTurnButton.Checked = endTurn;
         }
         else
         {
-            CombatMap.Current.CancelEndTurn();
+            UI.Engine.CombatMap.CancelEndTurn();
         }
     }
 
@@ -232,25 +234,26 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
     {
         UI.General.Manager.OverlayPriority = 0;
         CombatTurnButton.Checked = false;
-        CombatMap.Current.EndTurnPending = true;
+        UI.Engine.CombatMap.EndTurnPending = true;
     }
 
     // AoWTBWindow.pas:244
     public void TCPIndDraw(LockedSurface surface)
     {
         int position = 0;
-        for (int i = 0, last = CombatMap.Current.Combat.CombatData.TurnOrder.Count - 1; i <= last; i++)
+        CombatMap combatMap = UI.Engine.CombatMap;
+        for (int i = 0, last = combatMap.Combat.CombatData.TurnOrder.Count - 1; i <= last; i++)
         {
-            int turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[i];
-            TacticalBattlePlayer player = CombatMap.Current.Players.GetPlayers((sbyte)turnOrder);
-            int race = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
+            int turnOrder = combatMap.Combat.CombatData.TurnOrder[i];
+            TacticalBattlePlayer player = combatMap.Players.GetPlayers((sbyte)turnOrder);
+            int race = UI.Engine.StrategicMap.Players.GetPlayers(player.Player).PlayerRace;
             if (race == -1)
             {
                 race = 12;
             }
 
             UI.Graphics.TaskBar[race + 32].ShowClipped(CombatPlayerIndicatorFrame.WinLeft + 3 + (position * 5), CombatPlayerIndicatorFrame.WinTop + 2, lockedSurface: surface);
-            if (CombatMap.Current.Combat.CombatData.TurnOrder[i] == CombatMap.Current.CurrentCombatPlayer)
+            if (combatMap.Combat.CombatData.TurnOrder[i] == combatMap.CurrentCombatPlayer)
             {
                 CombatCurrentPlayerImage.WinLeft = CombatPlayerIndicatorFrame.WinLeft + 2 + (position * 5);
                 CombatCurrentPlayerImage.WinTop = CombatPlayerIndicatorFrame.WinTop + 11;
@@ -289,23 +292,24 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
     public void TCNextBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        CombatMap.Current.SelectNextUnit(true);
+        UI.Engine.CombatMap.SelectNextUnit(true);
     }
 
     // AoWTBWindow.pas:285
     public void TBWorldUpdate()
     {
-        if (WorldPanel.Visible && StrategicMap.Current is not null)
+        if (WorldPanel.Visible && UI.Engine.StrategicMap is not null)
         {
             WorldClockDelay = (WorldClockDelay - 1).TruncateToInt16();
             if (WorldClockDelay < 0)
             {
                 int minute;
-                if (StrategicMap.Current.TurnTime != 0)
+                StrategicMap strategicMap = UI.Engine.StrategicMap;
+                if (strategicMap.TurnTime != 0)
                 {
                     WorldClockDelay = 10;
-                    minute = (StrategicMap.Current.TurnTimeLeft / 60_000).TruncateToUInt16();
-                    int second = (StrategicMap.Current.TurnTimeLeft % 60_000 / 1_000).TruncateToUInt16();
+                    minute = (strategicMap.TurnTimeLeft / 60_000).TruncateToUInt16();
+                    int second = (strategicMap.TurnTimeLeft % 60_000 / 1_000).TruncateToUInt16();
                     WorldTimeLabel.TextColor = minute == 0 && second is > 0 and <= 10 ? Color.Red : Color.Black;
 
                     WorldTimeLabel.Text = $"{minute.ToString(CultureInfo.InvariantCulture)}:";
@@ -347,7 +351,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
     // AoWTBWindow.pas:317
     public void TBCombatUpdate()
     {
-        if (CombatPanel.Visible && CombatMap.Current is not null)
+        if (CombatPanel.Visible && UI.Engine.CombatMap is not null)
         {
             _combatClockDelay = (_combatClockDelay - 1).TruncateToInt16();
             if (_combatClockDelay < 0)
@@ -412,7 +416,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
         }
         else
         {
-            UI.RelationWindow.ShowRelations(StrategicMap.Current.SeatedPlayer);
+            UI.RelationWindow.ShowRelations(UI.Engine.StrategicMap.SeatedPlayer);
         }
     }
 
@@ -450,9 +454,10 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
     // AoWTBWindow.pas:377
     public void AutoCombatCheckBoxChange()
     {
-        if (CombatMap.Current.SeatedCombatPlayer > -1)
+        CombatMap combatMap = UI.Engine.CombatMap;
+        if (combatMap.SeatedCombatPlayer > -1)
         {
-            CombatMap.Current.Players.GetPlayers(CombatMap.Current.SeatedCombatPlayer).SetAuto(AutoCombatCheckBox.Checked);
+            combatMap.Players.GetPlayers(combatMap.SeatedCombatPlayer).SetAuto(AutoCombatCheckBox.Checked);
         }
     }
 

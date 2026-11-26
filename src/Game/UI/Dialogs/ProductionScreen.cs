@@ -107,7 +107,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
         for (int i = _images.Count - 1; i >= 0; i--)
         {
             int image = _images[i];
-            _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).Release();
+            _ = UI.Engine.GamePack.UnitGraphicsResources.GetUnitGraphicsResource(image).Release();
         }
 
         _images.Clear();
@@ -116,8 +116,9 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:608
     public void LoadUnitImages(int index)
     {
-        int graphics = GamePack.Current.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
-        _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
+        GamePack gamePack = UI.Engine.GamePack;
+        int graphics = gamePack.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
+        _ = gamePack.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
         _ = _images.Add(graphics);
     }
 
@@ -239,7 +240,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     {
         if (Window.Visible && sender == _place)
         {
-            if (_place.Player == StrategicMap.Current.SeatedPlayer)
+            if (_place.Player == UI.Engine.StrategicMap.SeatedPlayer)
             {
                 UpdateInfo();
             }
@@ -709,7 +710,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                             }
                             else
                             {
-                                StrategicMap.Current.ShowWarning(reason);
+                                UI.Engine.StrategicMap.ShowWarning(reason);
                             }
                         }
                         else
@@ -721,7 +722,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                             }
                             else
                             {
-                                StrategicMap.Current.ShowWarning(reason);
+                                UI.Engine.StrategicMap.ShowWarning(reason);
                             }
                         }
 
@@ -734,19 +735,19 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                         }
                         else
                         {
-                            StrategicMap.Current.ShowWarning(reason);
+                            UI.Engine.StrategicMap.ShowWarning(reason);
                         }
 
                         break;
                     case 5:
-                        if (_place.CanRaze(StrategicMap.Current.SeatedPlayer, ref reason))
+                        if (_place.CanRaze(UI.Engine.StrategicMap.SeatedPlayer, ref reason))
                         {
-                            _ = _place.Raze(StrategicMap.Current.SeatedPlayer);
+                            _ = _place.Raze(UI.Engine.StrategicMap.SeatedPlayer);
                             Window.Visible = false;
                         }
                         else
                         {
-                            StrategicMap.Current.ShowWarning(reason);
+                            UI.Engine.StrategicMap.ShowWarning(reason);
                         }
 
                         break;
@@ -785,7 +786,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                             }
                             else
                             {
-                                StrategicMap.Current.ShowWarning(reason);
+                                UI.Engine.StrategicMap.ShowWarning(reason);
                             }
                         }
                         else
@@ -796,7 +797,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                             }
                             else
                             {
-                                StrategicMap.Current.ShowWarning(reason);
+                                UI.Engine.StrategicMap.ShowWarning(reason);
                             }
                         }
 
@@ -808,7 +809,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                         }
                         else
                         {
-                            StrategicMap.Current.ShowWarning(reason);
+                            UI.Engine.StrategicMap.ShowWarning(reason);
                         }
 
                         break;
@@ -826,7 +827,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     }
                     else
                     {
-                        StrategicMap.Current.ShowWarning(reason);
+                        UI.Engine.StrategicMap.ShowWarning(reason);
                     }
                 }
 
@@ -1029,7 +1030,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
         CombatMap? preview = _preview;
         preview?.NewFrame();
 
-        MapView.IsDrawn = MapView.IsDrawn && (StrategicMap.Current.Frame & 1) != 0;
+        MapView.IsDrawn = MapView.IsDrawn && (UI.Engine.StrategicMap.Frame & 1) != 0;
     }
 
     // AoWProdScreen.pas:530
@@ -1041,7 +1042,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && UnitAbilitiesList.Selected > -1)
         {
             object? objectValue = UnitAbilitiesList.Items.Objects[UnitAbilitiesList.Selected];
-            Ability? a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+            Ability? a = UI.Engine.GamePack.AbilityControl[ObjectToInt(objectValue)];
             if (a is not null)
             {
                 InfoBanner.SetInfoBanner(caption: a.GetName(null), banner: UI.InfoBanner, description: a.Description);
@@ -1052,17 +1053,20 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:546
     public void PPrevClick()
     {
-        int start = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.FindChildIndex(_place);
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        int start = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).Structures.FindChildIndex(_place);
         int index = start;
         index -= 1;
         if (index < 0)
         {
-            index = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount() - 1;
+            StrategicMap engineStrategicMap = UI.Engine.StrategicMap;
+            index = engineStrategicMap.Players.GetPlayers(engineStrategicMap.SeatedPlayer).Structures.GetCount() - 1;
         }
 
         while (index != start)
         {
-            PlayerStructure s = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
+            StrategicMap getStructureStrategicMap = UI.Engine.StrategicMap;
+            PlayerStructure s = getStructureStrategicMap.Players.GetPlayers(getStructureStrategicMap.SeatedPlayer).Structures.GetStructure(index);
             if (s is ProductionPlace place && place.GetMagicSphere() == MagicSphere.None)
             {
                 index = start + 1;
@@ -1072,7 +1076,8 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
             index += -1;
             if (index < 0)
             {
-                index = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount() - 1;
+                StrategicMap getCountStrategicMap = UI.Engine.StrategicMap;
+                index = getCountStrategicMap.Players.GetPlayers(getCountStrategicMap.SeatedPlayer).Structures.GetCount() - 1;
             }
         }
     }
@@ -1080,16 +1085,19 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:568
     public void PNextClick()
     {
-        int start = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.FindChildIndex(_place);
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        int start = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).Structures.FindChildIndex(_place);
         int index = start + 1;
-        if (index >= StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount())
+        StrategicMap engineStrategicMap = UI.Engine.StrategicMap;
+        if (index >= engineStrategicMap.Players.GetPlayers(engineStrategicMap.SeatedPlayer).Structures.GetCount())
         {
             index = 0;
         }
 
         while (index != start)
         {
-            PlayerStructure s = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
+            StrategicMap getStructureStrategicMap = UI.Engine.StrategicMap;
+            PlayerStructure s = getStructureStrategicMap.Players.GetPlayers(getStructureStrategicMap.SeatedPlayer).Structures.GetStructure(index);
             if (s is ProductionPlace place && place.GetMagicSphere() == MagicSphere.None)
             {
                 index = start - 1;
@@ -1097,7 +1105,8 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
             }
 
             index += 1;
-            if (index >= StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount())
+            StrategicMap getCountStrategicMap = UI.Engine.StrategicMap;
+            if (index >= getCountStrategicMap.Players.GetPlayers(getCountStrategicMap.SeatedPlayer).Structures.GetCount())
             {
                 index = 0;
             }

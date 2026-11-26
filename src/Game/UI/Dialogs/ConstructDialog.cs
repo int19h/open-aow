@@ -4,7 +4,6 @@ using System.Globalization;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 
@@ -42,11 +41,11 @@ public sealed partial class ConstructDialog(UIContext ui) : UIModule(ui)
     public void UpdateConstructions()
     {
         Window.IsDrawn = false;
-        Troop? u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
+        Troop? u = UI.Engine.StrategicMap.UnitControl.FindUnit(_request.UnitId);
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();
         ConstructionTurnsList.Items.Clear();
-        ConstructionControlList controls = GamePack.Current.AbilityControl.GetAbility<ConstructAbility>(125).ConstructionControls;
+        ConstructionControlList controls = UI.Engine.GamePack.AbilityControl.GetAbility<ConstructAbility>(125).ConstructionControls;
         for (int i = 0, last = controls.Count - 1; i <= last; i++)
         {
             ConstructionControl control = controls.GetConstructionControl(i);
@@ -104,7 +103,7 @@ public sealed partial class ConstructDialog(UIContext ui) : UIModule(ui)
 
         if (condition)
         {
-            Troop? u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
+            Troop? u = UI.Engine.StrategicMap.UnitControl.FindUnit(_request.UnitId);
             ConstructionControl? control = ConstructionList.Items.Objects[ConstructionList.Selected];
             string reason = "";
             if (control.CanConstruct(u, ref reason))
@@ -116,7 +115,7 @@ public sealed partial class ConstructDialog(UIContext ui) : UIModule(ui)
             }
             else
             {
-                StrategicMap.Current.ShowWarning(reason);
+                UI.Engine.StrategicMap.ShowWarning(reason);
             }
         }
     }

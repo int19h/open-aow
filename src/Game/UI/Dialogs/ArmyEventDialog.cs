@@ -10,7 +10,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiAssert;
@@ -66,14 +65,14 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
                 {
                     byte unit5 = _units[index];
                     int unitGraphicsResourceIndex = eventValue.ArmyView.Units.GetUnit(unit5).UnitGraphicsResourceIndex;
-                    UnitGraphicsResource? unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
+                    UnitGraphicsResource? unitGraphicsResource = UI.Engine.GamePack.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
                     _ = unitGraphicsResource.SfxLibraries[3].Play(0);
                 }
                 else
                 {
                     byte unit5 = _units[index];
                     int unitGraphicsResourceIndex = eventValue.ArmyView.Units.GetUnit(unit5).UnitGraphicsResourceIndex;
-                    UnitGraphicsResource? unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
+                    UnitGraphicsResource? unitGraphicsResource = UI.Engine.GamePack.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
                     _ = unitGraphicsResource.SfxLibraries[4].Play(0);
                 }
             }
@@ -117,7 +116,7 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
             int resource = _event.ArmyView.Units.GetUnit(unit).UnitGraphicsResourceIndex;
             if (resource != -1)
             {
-                _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resource).Release();
+                _ = UI.Engine.GamePack.UnitGraphicsResources.GetUnitGraphicsResource(resource).Release();
             }
         }
 
@@ -187,13 +186,13 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
         dialog._units.Clear();
         for (int i = 0, last = army.Units.Count - 1; i <= last; i++)
         {
-            if (!army.GetUnitConcealedForPlayer(i, player: StrategicMap.Current.SeatedPlayer) || log.DamageValues[i] != 0)
+            if (!army.GetUnitConcealedForPlayer(i, player: dialog.UI.Engine.StrategicMap.SeatedPlayer) || log.DamageValues[i] != 0)
             {
                 _ = dialog._units.Add(i.TruncateToByte());
                 int image = log.ArmyView.Units.GetUnit(i).UnitGraphicsResourceIndex;
                 if (image != -1)
                 {
-                    _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).AddRef();
+                    _ = dialog.UI.Engine.GamePack.UnitGraphicsResources.GetUnitGraphicsResource(image).AddRef();
                 }
             }
         }
