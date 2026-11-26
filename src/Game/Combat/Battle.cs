@@ -222,9 +222,9 @@ public class Battle : EngineObject
         data.AttackerPlayer = (sbyte)AddCombatPlayer(attackerPlayer, independentRelation: attackerRelation.TruncateToByte(), side: CombatSideIndex.Attacker);
         data.DefenderPlayer = (sbyte)AddCombatPlayer(defenderPlayer, independentRelation: defenderRelation, side: CombatSideIndex.Defender);
         MapField fieldValue = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel);
-        data.TerrainAndOverlayTypes[0] = (byte)fieldValue.TerrainType;
+        data.TerrainAndOverlayTypes[0] = (byte)fieldValue.TerrainNumber;
         MapField mapContainerField = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel);
-        data.TerrainAndOverlayTypes[1] = (byte)mapContainerField.OverlayType;
+        data.TerrainAndOverlayTypes[1] = (byte)mapContainerField.OverlayType.ToOriginal();
         return true;
     }
 

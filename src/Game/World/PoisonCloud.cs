@@ -91,7 +91,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
             base.MapFieldMessageProc(ref message);
         }
 
-        if (base.Resource.TerrainList.Terrain[message.HexNumber] >= -1)
+        if (base.Resource.TerrainList.Terrain[message.HexNumber].IsCovered)
         {
             if (message.MessageId == 4418)
             {
@@ -121,7 +121,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     }
 
     // PoisonC.pas:119
-    public override int CanMoveOver(in HexSpriteSenderInfo info) => base.Resource.TerrainList.Terrain[info.HexNumber] >= -1 ? !CanDoDamage(((MoveControl)info.Sender).Settings.Units) ? 1 : 0 : 1;
+    public override int CanMoveOver(in HexSpriteSenderInfo info) => base.Resource.TerrainList.Terrain[info.HexNumber].IsCovered ? !CanDoDamage(((MoveControl)info.Sender).Settings.Units) ? 1 : 0 : 1;
 
     // PoisonC.pas:198
     public override void Activate()
@@ -136,7 +136,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     // PoisonC.pas:83
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (base.Resource.TerrainList.Terrain[info.HexNumber] >= -1)
+        if (base.Resource.TerrainList.Terrain[info.HexNumber].IsCovered)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOverFlag;
         }
@@ -149,7 +149,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         {
             HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
             int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
-            return hexNumber < base.Resource.TerrainList.Count && base.Resource.TerrainList.Terrain[hexNumber] >= -1;
+            return hexNumber < base.Resource.TerrainList.Count && base.Resource.TerrainList.Terrain[hexNumber].IsCovered;
         }
         else
         {
@@ -164,7 +164,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
         while (walk.HexNumber != count)
         {
-            if (GetTerrain(walk.HexNumber) >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
+            if (GetTerrain(walk.HexNumber).IsCovered && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 level.GetField(walk.X, walk.Y).UpdateMapField();
             }
@@ -215,7 +215,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         ref HexNumberWalkData walk = ref hexNumberWalkData;
         while (base.Resource.TerrainList.Count > walk.HexNumber)
         {
-            if (base.Resource.TerrainList.GetTerrain(walk.HexNumber) >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
+            if (base.Resource.TerrainList.GetTerrain(walk.HexNumber).IsCovered && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
             {
                 MapFieldMessageParameters param3 = message.Param;
                 param3[1] = walk.Radius;

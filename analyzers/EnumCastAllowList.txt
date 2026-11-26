@@ -131,7 +131,11 @@ M:Aow.Game.Units.UnitTypeConversions.<G>$285AA75683558D828475A8C1CD18FE78.ToUnit
 M:Aow.Game.Units.UnitTypeConversions.<G>$6B5F6652558ACAC4DE36017D44833FC7.ToFlag~Aow.Game.Units.UnitTypes
 M:Aow.Game.World.Map.MapField.GetMoveAction(System.Nullable{Aow.Game.Session.PlayerId})~Aow.Game.World.Movement.MoveAction
 M:Aow.Game.World.Map.MapField.GetWallType~Aow.Game.Combat.WallType
+M:Aow.Game.World.Map.OverlayCellConversions.<G>$402DE8865E11A561AF3EB29AF9ED9B77.FromOriginal(System.Int32)~Aow.Game.World.Map.FootprintCell{Aow.Game.World.Map.OverlayType}
+M:Aow.Game.World.Map.OverlayTypeConversions.<G>$D88A1712CA5ADB6947CE40915561F3FC.FromOriginal(System.Int32)~System.Nullable{Aow.Game.World.Map.OverlayType}
 M:Aow.Game.World.Map.StrategicMap.Activate
+M:Aow.Game.World.Map.TerrainCellConversions.<G>$2C405E1B5077E1CE8B857BDCF6B1B0A4.FromOriginal(System.Int32)~Aow.Game.World.Map.FootprintCell{Aow.Game.World.Map.TerrainType}
+M:Aow.Game.World.Map.TerrainTypeConversions.<G>$169BC290C5396F646DCDEE849FA5B86E.FromOriginal(System.Int32)~System.Nullable{Aow.Game.World.Map.TerrainType}
 M:Aow.Game.World.Map.TerrainTypeConversions.<G>$169BC290C5396F646DCDEE849FA5B86E.ToFlag~Aow.Game.World.Map.TerrainTypes
 M:Aow.Game.World.Map.TerrainTypeConversions.<G>$892AD3A3CCF220E58774366B7B18E55B.ToTerrainType~Aow.Game.World.Map.TerrainType
 M:Aow.Game.World.Movement.MoveTypeConversions.<G>$A4F96E34E7E51C657978C760DF61ACC7.ToMoveType~Aow.Game.World.Movement.MoveType

@@ -105,7 +105,7 @@ public class WarpParty : Spell
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 field = level.GetField(walk.X, walk.Y);
-                if (table[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] != -1)
+                if (table[field.TerrainNumber][field.OverlayType.ToOriginal() - MovementTables.FirstOverlay] != -1)
                 {
                     _ = candidates.Add(field);
                 }
@@ -127,7 +127,7 @@ public class WarpParty : Spell
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                     {
                         field = level.GetField(walk.X, walk.Y);
-                        if (table[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] != -1)
+                        if (table[field.TerrainNumber][field.OverlayType.ToOriginal() - MovementTables.FirstOverlay] != -1)
                         {
                             _ = candidates.Add(field);
                         }

@@ -29,7 +29,7 @@ public class CombatImageLibraryTerrain(CustomNode? owner) : ImageLibraryTerrainM
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 135169)
         {
-            if (Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
+            if (Resource.TerrainList.GetTerrain(message.HexNumber).Value is not null)
             {
                 // Defense lives on the combat resource. Another resource throws, as the old cast did.
                 CombatImageLibraryTerrainResource combatResource = GetResource<CombatImageLibraryTerrainResource>();

@@ -38,10 +38,10 @@ public partial class MapObject(CustomNode? owner) : HexSprite(owner)
     }
 
     // MAPOBJ.PAS:138
-    public override int GetTerrain(int index)
+    public override FootprintCell<TerrainType> GetTerrain(int index)
     {
-        int result = _resource.TerrainList.GetTerrain(index);
-        return Status.Contains(MapObjectStatuses.EditMode) && result >= 0 ? -1 : result;
+        FootprintCell<TerrainType> result = _resource.TerrainList.GetTerrain(index);
+        return Status.Contains(MapObjectStatuses.EditMode) && result.Value is not null ? FootprintCell<TerrainType>.Keep : result;
     }
 
     // MAPOBJ.PAS:145
@@ -51,10 +51,10 @@ public partial class MapObject(CustomNode? owner) : HexSprite(owner)
     public override int TerrainCount => _resource.TerrainList.Count;
 
     // MAPOBJ.PAS:155
-    public override int GetOverlay(int index)
+    public override FootprintCell<OverlayType> GetOverlay(int index)
     {
-        int result = _resource.TerrainList.GetOverlay(index);
-        return Status.Contains(MapObjectStatuses.EditMode) && result >= 0 ? -1 : result;
+        FootprintCell<OverlayType> result = _resource.TerrainList.GetOverlay(index);
+        return Status.Contains(MapObjectStatuses.EditMode) && result.Value is not null ? FootprintCell<OverlayType>.Keep : result;
     }
 
     // MAPOBJ.PAS:162
@@ -164,7 +164,7 @@ public partial class MapObject(CustomNode? owner) : HexSprite(owner)
     public override bool PlaceOnMap()
     {
         Connect();
-        if (_resource.TerrainList.GetTerrain(0) >= 0 || _resource.TerrainList.GetOverlay(0) >= 0)
+        if (_resource.TerrainList.GetTerrain(0).Value is not null || _resource.TerrainList.GetOverlay(0).Value is not null)
         {
             Owner.UpdateTerrain();
         }
@@ -195,7 +195,7 @@ public partial class MapObject(CustomNode? owner) : HexSprite(owner)
                 Disconnect();
                 if (!mapField.Owner.Map.Status.Contains(HexSpriteMapStatuses.Destroying))
                 {
-                    if (GetTerrain(0) >= 0 || GetOverlay(0) >= 0)
+                    if (GetTerrain(0).Value is not null || GetOverlay(0).Value is not null)
                     {
                         mapField.UpdateTerrain();
                     }
@@ -302,7 +302,7 @@ public partial class MapObject(CustomNode? owner) : HexSprite(owner)
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 16)
         {
-            if (GetTerrain(message.HexNumber) >= 0 || message.HexNumber == 0)
+            if (GetTerrain(message.HexNumber).Value is not null || message.HexNumber == 0)
             {
                 Dispose();
             }
@@ -330,7 +330,7 @@ public partial class MapObject(CustomNode? owner) : HexSprite(owner)
     }
 
     // MAPOBJ.PAS:126
-    public override bool CanSelect(int pixelX, int pixelY) => _resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatuses.Editting) && _resource.TerrainList.Count != 0 && (_resource.TerrainList.GetTerrain(0) >= 0 || _resource.TerrainList.GetOverlay(0) >= 0);
+    public override bool CanSelect(int pixelX, int pixelY) => _resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatuses.Editting) && _resource.TerrainList.Count != 0 && (_resource.TerrainList.GetTerrain(0).Value is not null || _resource.TerrainList.GetOverlay(0).Value is not null);
 
     // MAPOBJ.PAS:172
     public override void Select() => Status |= MapObjectStatuses.Selected;

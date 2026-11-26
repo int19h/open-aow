@@ -192,21 +192,15 @@ public partial class MapField
 
     public void Initialize()
     {
-        int overlay = -1, terrain = -1;
+        OverlayType? overlay = null;
+        TerrainType? terrain = null;
         for (int i = StoredCount - 1; i >= 0; i--)
         {
-            if (terrain < 0)
-            {
-                terrain = _hexSpriteList[i].GetTerrain(_directions[i]);
-            }
-
-            if (overlay < 0)
-            {
-                overlay = _hexSpriteList[i].GetOverlay(_directions[i]);
-            }
+            terrain ??= _hexSpriteList[i].GetTerrain(_directions[i]).Value;
+            overlay ??= _hexSpriteList[i].GetOverlay(_directions[i]).Value;
         }
-        OverlayType = Math.Max((sbyte)overlay, (sbyte)-1);
-        TerrainType = Math.Max((sbyte)terrain, (sbyte)-1);
+        OverlayType = overlay;
+        TerrainType = terrain;
         HexSpriteTerrainInfo info = new() { MapField = this, TerrainType = TerrainType, OverlayType = OverlayType };
         for (int i = StoredCount - 1; i >= 0; i--)
         {
@@ -246,26 +240,22 @@ public partial class MapField
         return null;
     }
 
-    public HexSprite? GetMaxLevelNoneTransparentHexSprite() => FindTop((sprite, hexNumber) => sprite.GetTerrain(hexNumber) >= 0 || sprite.GetOverlay(hexNumber) >= 0);
-    public HexSprite? GetMaxLevelTerrainHexSprite() => FindTop((sprite, hexNumber) => sprite.GetTerrain(hexNumber) >= 0);
-    public HexSprite? GetMaxLevelOverlayHexSprite() => FindTop((sprite, hexNumber) => sprite.GetOverlay(hexNumber) >= 0);
+    public HexSprite? GetMaxLevelNoneTransparentHexSprite() => FindTop((sprite, hexNumber) => sprite.GetTerrain(hexNumber).Value is not null || sprite.GetOverlay(hexNumber).Value is not null);
+    public HexSprite? GetMaxLevelTerrainHexSprite() => FindTop((sprite, hexNumber) => sprite.GetTerrain(hexNumber).Value is not null);
+    public HexSprite? GetMaxLevelOverlayHexSprite() => FindTop((sprite, hexNumber) => sprite.GetOverlay(hexNumber).Value is not null);
 
-    private (sbyte Terrain, sbyte Overlay) ReadTerrain()
+    // The terrain and the overlay of the topmost sprites that give one. A sprite that answers outside or
+    // keep leaves the search going.
+    private (TerrainType? Terrain, OverlayType? Overlay) ReadTerrain()
     {
-        int terrain = -1, overlay = -1;
+        TerrainType? terrain = null;
+        OverlayType? overlay = null;
         for (int i = StoredCount - 1; i >= 0; i--)
         {
-            if (terrain < 0)
-            {
-                terrain = _hexSpriteList[i].GetTerrain(_directions[i]);
-            }
-
-            if (overlay < 0)
-            {
-                overlay = _hexSpriteList[i].GetOverlay(_directions[i]);
-            }
+            terrain ??= _hexSpriteList[i].GetTerrain(_directions[i]).Value;
+            overlay ??= _hexSpriteList[i].GetOverlay(_directions[i]).Value;
         }
-        return (Math.Max((sbyte)terrain, (sbyte)-1), Math.Max((sbyte)overlay, (sbyte)-1));
+        return (terrain, overlay);
     }
 
     public void UpdateTerrain()
@@ -275,7 +265,7 @@ public partial class MapField
             return;
         }
 
-        (sbyte terrain, sbyte overlay) = ReadTerrain();
+        (TerrainType? terrain, OverlayType? overlay) = ReadTerrain();
         if (terrain == TerrainType && overlay == OverlayType)
         {
             return;
@@ -293,19 +283,18 @@ public partial class MapField
             return;
         }
 
-        int terrain = -1;
-        for (int i = StoredCount - 1; i >= 0 && terrain < 0; i--)
+        TerrainType? terrain = null;
+        for (int i = StoredCount - 1; i >= 0 && terrain is null; i--)
         {
-            terrain = _hexSpriteList[i].GetTerrain(_directions[i]);
+            terrain = _hexSpriteList[i].GetTerrain(_directions[i]).Value;
         }
 
-        terrain = Math.Max((sbyte)terrain, (sbyte)-1);
         if (terrain == TerrainType)
         {
             return;
         }
 
-        TerrainType = (sbyte)terrain;
+        TerrainType = terrain;
         TerrainChanged();
     }
 
@@ -316,19 +305,18 @@ public partial class MapField
             return;
         }
 
-        int overlay = -1;
-        for (int i = StoredCount - 1; i >= 0 && overlay < 0; i--)
+        OverlayType? overlay = null;
+        for (int i = StoredCount - 1; i >= 0 && overlay is null; i--)
         {
-            overlay = _hexSpriteList[i].GetOverlay(_directions[i]);
+            overlay = _hexSpriteList[i].GetOverlay(_directions[i]).Value;
         }
 
-        overlay = Math.Max((sbyte)overlay, (sbyte)-1);
         if (overlay == OverlayType)
         {
             return;
         }
 
-        OverlayType = (sbyte)overlay;
+        OverlayType = overlay;
         TerrainChanged();
     }
 
@@ -347,8 +335,8 @@ public partial class MapField
             info.HexNumber = (sbyte)_directions[i];
             _hexSpriteList[i].ChangeTerrain(info);
         }
-        TerrainType = -1;
-        OverlayType = -1;
+        TerrainType = null;
+        OverlayType = null;
         (TerrainType, OverlayType) = ReadTerrain();
         Status &= ~locked;
         info.TerrainType = TerrainType;
@@ -390,33 +378,36 @@ public partial class MapField
         return true;
     }
 
-    public bool CanChangeTerrain(EngineObject sender, int terrain, int overlay)
+    // Asks the sprites whether the field can take a footprint's answers. A covered hexagon that keeps
+    // the field's value changes nothing.
+    public bool CanChangeTerrain(EngineObject sender, FootprintCell<TerrainType> terrain, FootprintCell<OverlayType> overlay)
     {
         if (Status.Contains(MapFieldStatuses.TerrainLocked))
         {
             return false;
         }
 
-        int oldTerrain = TerrainType, oldOverlay = OverlayType;
-        if (terrain >= 0)
+        TerrainType? oldTerrain = TerrainType;
+        OverlayType? oldOverlay = OverlayType;
+        if (terrain.Value is { } newTerrain)
         {
-            TerrainType = (sbyte)terrain;
+            TerrainType = newTerrain;
         }
 
-        if (overlay >= 0)
+        if (overlay.Value is { } newOverlay)
         {
-            OverlayType = (sbyte)overlay;
+            OverlayType = newOverlay;
         }
 
         bool result = CanChangeTerrain(sender);
-        if (terrain >= 0)
+        if (terrain.Value is not null)
         {
-            TerrainType = (sbyte)oldTerrain;
+            TerrainType = oldTerrain;
         }
 
-        if (overlay >= 0)
+        if (overlay.Value is not null)
         {
-            OverlayType = (sbyte)oldOverlay;
+            OverlayType = oldOverlay;
         }
 
         return result;
@@ -485,7 +476,7 @@ public partial class MapField
     {
         for (int i = 0; i < StoredCount; i++)
         {
-            if (type.IsInstanceOfType(_hexSpriteList[i]) && _hexSpriteList[i].GetTerrain(_directions[i]) >= 0)
+            if (type.IsInstanceOfType(_hexSpriteList[i]) && _hexSpriteList[i].GetTerrain(_directions[i]).Value is not null)
             {
                 return _hexSpriteList[i];
             }
@@ -501,7 +492,7 @@ public partial class MapField
     {
         for (int i = 0; i < StoredCount; i++)
         {
-            if (_hexSpriteList[i].EngineClass.ClassId == classId && _hexSpriteList[i].GetTerrain(_directions[i]) >= 0)
+            if (_hexSpriteList[i].EngineClass.ClassId == classId && _hexSpriteList[i].GetTerrain(_directions[i]).Value is not null)
             {
                 return _hexSpriteList[i];
             }

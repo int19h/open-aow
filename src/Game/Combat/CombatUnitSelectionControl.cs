@@ -364,7 +364,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
                     PathStep path = MoveControlSettings.Path[i];
                     PathStep path2 = MoveControlSettings.Path[i];
                     MapField mapField = CombatMap.Current.MapContainer.MapLevels[0].Field[path2.Location.X, path.Location.Y];
-                    moveSettings.Path.List[i] = moveSettings.Path.List[i] with { MoveCost = MoveControlSettings.MovePointTable[mapField.TerrainType][-1 - MovementTables.FirstOverlay] };
+                    moveSettings.Path.List[i] = moveSettings.Path.List[i] with { MoveCost = MoveControlSettings.MovePointTable[mapField.TerrainNumber][-1 - MovementTables.FirstOverlay] };
                 }
                 else
                 {
@@ -374,7 +374,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
                     PathStep path3 = MoveControlSettings.Path[i];
                     PathStep path4 = MoveControlSettings.Path[i];
                     MapField fieldItem = CombatMap.Current.MapContainer.MapLevels[0].Field[path4.Location.X, path3.Location.Y];
-                    moveSettings.Path.List[i] = moveSettings.Path.List[i] with { MoveCost = MoveControlSettings.MovePointTable[fieldItem.TerrainType][item.OverlayType - MovementTables.FirstOverlay] };
+                    moveSettings.Path.List[i] = moveSettings.Path.List[i] with { MoveCost = MoveControlSettings.MovePointTable[fieldItem.TerrainNumber][item.OverlayType.ToOriginal() - MovementTables.FirstOverlay] };
                 }
             }
 
@@ -549,7 +549,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
                 }
             }
 
-            cost = MoveControlSettings.MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay];
+            cost = MoveControlSettings.MovePointTable[field.TerrainNumber][field.OverlayType.ToOriginal() - MovementTables.FirstOverlay];
             if (unitHexSprite.Unit.MovePoints == 0)
             {
                 cost = 0;
@@ -768,7 +768,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
 
         Obstacles.Clear();
         TacticalBattleUnitHexSprite? unitHexSprite = TacticalBattleUnitHexSprite;
-        if (CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 15)
+        if (CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].Terrain != TerrainType.Border)
         {
             int range;
             if (unitHexSprite.SelectedAbility == 52)

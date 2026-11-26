@@ -18,7 +18,7 @@ public sealed class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSpr
     public new const int ClassId = 2_228_489;
 
     // AoWTC.pas:4097
-    public override int GetOverlay(int hexNumber) => 11;
+    public override FootprintCell<OverlayType> GetOverlay(int hexNumber) => OverlayType.Ooze;
 
     // AoWTC.pas:4121
     public override int Level => 26;
@@ -32,7 +32,7 @@ public sealed class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSpr
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         pixelXSurface = x - pixelXSurface - 16;
         pixelYSurface = y - 48 - pixelYSurface;
-        ImageSequence sequence = Owner.TerrainType switch
+        ImageSequence sequence = Owner.TerrainNumber switch
         {
             3 or 6 or 13 => GamePack.Current.ImageSequences.ImageSequences[26],
             12 => GamePack.Current.ImageSequences.ImageSequences[27],

@@ -21,14 +21,14 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
     // CombatHex.pas:174
     public override void TerrainChanged(in HexSpriteTerrainInfo message)
     {
-        if (message.TerrainType is (sbyte)TerrainType.Water or (sbyte)TerrainType.Ice or (sbyte)TerrainType.Cost)
+        if (message.Terrain is TerrainType.Water or TerrainType.Ice or TerrainType.Coast)
         {
-            if (message.TerrainType != 14)
+            if (message.Terrain != TerrainType.Coast)
             {
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                _ = base.Resource.Engine.GamePack.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
+                _ = base.Resource.Engine.GamePack.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: message.TerrainNumber);
             }
             else
             {
@@ -65,7 +65,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
     // CombatHex.pas:148
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (Owner.OverlayType != 4)
+        if (Owner.OverlayType != OverlayType.Road)
         {
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             pixelX = pixelX - pixelXSurface - 8;
@@ -111,8 +111,8 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
         HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: TransitionNeighbours[side - 1], ref x, ref y);
         if (x >= 0 && y >= 0 && x < mapLevel.Width && y < mapLevel.Height)
         {
-            int neighbourTerrain = mapLevel.GetField(x, y).TerrainType;
-            int terrainType = base.Resource.TerrainList.GetTerrain(0);
+            int neighbourTerrain = mapLevel.GetField(x, y).TerrainNumber;
+            int terrainType = base.Resource.TerrainList.GetTerrain(0).ToOriginal();
             int imageIndex = -1;
             if (neighbourTerrain != terrainType && neighbourTerrain != 7)
             {
@@ -214,7 +214,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
             bool condition = message.MessageId != 65556;
             if (!condition)
             {
-                int terrain = TerrainList.GetTerrain(0);
+                int terrain = TerrainList.GetTerrain(0).ToOriginal();
                 condition = (byte)terrain is not (0 or 6);
             }
 

@@ -28,7 +28,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
     public override void Dispose() => base.Dispose();
 
     // HxBridge.pas:100
-    public override int GetTerrain(int index) => index == 0 ? _terrain : -2;
+    public override FootprintCell<TerrainType> GetTerrain(int index) => index == 0 ? FootprintCell<TerrainType>.FromOriginal(_terrain) : FootprintCell<TerrainType>.Outside;
 
     // HxBridge.pas:89
     public override int Level => 26;
@@ -114,7 +114,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
                     int sideB = _sideB[i];
                     HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: sideB, ref hexX, ref hexY);
                     mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
-                    ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: mapField, movePoints: ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
+                    ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: mapField, movePoints: ((MoveControl)info.Sender).MovePointTable[mapField.TerrainNumber][mapField.OverlayType.ToOriginal() - MovementTables.FirstOverlay]);
                 }
             }
             else
@@ -126,7 +126,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
                         int sideA = _sideA[i];
                         HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: sideA, ref hexX, ref hexY);
                         mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
-                        ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: mapField, movePoints: ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
+                        ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: mapField, movePoints: ((MoveControl)info.Sender).MovePointTable[mapField.TerrainNumber][mapField.OverlayType.ToOriginal() - MovementTables.FirstOverlay]);
                     }
                 }
             }
@@ -153,7 +153,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
     public override bool LinkToResource(GameEngine engine)
     {
         bool result = base.LinkToResource(engine);
-        _terrain = base.Resource.TerrainList.Terrain[0];
+        _terrain = base.Resource.TerrainList.Terrain[0].ToOriginal();
         return result;
     }
 
@@ -174,7 +174,8 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
         CustomNode previous = Owner;
         Owner = mapField;
         Status |= MapObjectStatuses.PlacedOnMap;
-        _terrain = mapField.TerrainType;
+        // A field without a terrain yet gives -1, as the original reads it (HxBridge.pas:209).
+        _terrain = mapField.TryGetTerrain(out TerrainType terrain) ? terrain.ToOriginal() : -1;
         // { Original bug: refresh the old owner's owner as a map field. }
         // FOwner lives on TEObject, so the old owner has it. A nil owner or a non-field owner is undefined in the original, so skip it.
         if (previous?.Owner is MapField field)
@@ -232,12 +233,12 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
         HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, hexNumber: direction + 1, ref hexX, ref hexY);
         if (hexX >= 0 && hexY >= 0 && hexX < level.Width && hexY < level.Height)
         {
-            if (Land(level.GetField(hexX, hexY).TerrainType))
+            if (Land(level.GetField(hexX, hexY)))
             {
                 HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, hexNumber: direction + 4, ref hexX, ref hexY);
                 if (hexX >= 0 && hexY >= 0 && hexX < level.Width && hexY < level.Height)
                 {
-                    return Land(level.GetField(hexX, hexY).TerrainType);
+                    return Land(level.GetField(hexX, hexY));
                 }
             }
         }
@@ -262,25 +263,25 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
             {
                 case 0:
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 2, ref x, ref y);
-                    if (!Land(level.GetField(x, y).TerrainType))
+                    if (!Land(level.GetField(x, y)))
                     {
                         _ = _sideB.Add(2);
                     }
 
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 3, ref x, ref y);
-                    if (!Land(level.GetField(x, y).TerrainType))
+                    if (!Land(level.GetField(x, y)))
                     {
                         _ = _sideB.Add(3);
                     }
 
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 5, ref x, ref y);
-                    if (!Land(level.GetField(x, y).TerrainType))
+                    if (!Land(level.GetField(x, y)))
                     {
                         _ = _sideA.Add(5);
                     }
 
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 6, ref x, ref y);
-                    if (!Land(level.GetField(x, y).TerrainType))
+                    if (!Land(level.GetField(x, y)))
                     {
                         _ = _sideA.Add(6);
                     }
@@ -288,25 +289,25 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
                     break;
                 case 1:
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 3, ref x, ref y);
-                    if (!Land(level.GetField(x, y).TerrainType))
+                    if (!Land(level.GetField(x, y)))
                     {
                         _ = _sideB.Add(3);
                     }
 
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 4, ref x, ref y);
-                    if (!Land(level.GetField(x, y).TerrainType))
+                    if (!Land(level.GetField(x, y)))
                     {
                         _ = _sideB.Add(4);
                     }
 
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 6, ref x, ref y);
-                    if (!Land(level.GetField(x, y).TerrainType))
+                    if (!Land(level.GetField(x, y)))
                     {
                         _ = _sideA.Add(6);
                     }
 
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 1, ref x, ref y);
-                    if (!Land(level.GetField(x, y).TerrainType))
+                    if (!Land(level.GetField(x, y)))
                     {
                         _ = _sideA.Add(1);
                     }
@@ -314,25 +315,25 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
                     break;
                 case 2:
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 1, ref x, ref y);
-                    if (!Land(level.GetField(x, y).TerrainType))
+                    if (!Land(level.GetField(x, y)))
                     {
                         _ = _sideB.Add(1);
                     }
 
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 2, ref x, ref y);
-                    if (!Land(level.GetField(x, y).TerrainType))
+                    if (!Land(level.GetField(x, y)))
                     {
                         _ = _sideB.Add(2);
                     }
 
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 4, ref x, ref y);
-                    if (!Land(level.GetField(x, y).TerrainType))
+                    if (!Land(level.GetField(x, y)))
                     {
                         _ = _sideA.Add(4);
                     }
 
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 5, ref x, ref y);
-                    if (!Land(level.GetField(x, y).TerrainType))
+                    if (!Land(level.GetField(x, y)))
                     {
                         _ = _sideA.Add(5);
                     }
@@ -345,6 +346,10 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
     }
 
     private static bool Land(int terrain) => (byte)terrain is not (0 or 6 or 9 or 10 or 13);
+
+    // The land test of a field. A field without a terrain yet reads -1, which counts as land, as in the
+    // original (HxBridge.pas:229): a bridge beside such a field in play stays valid.
+    private static bool Land(MapField field) => Land(field.TryGetTerrain(out TerrainType terrain) ? terrain.ToOriginal() : -1);
 
     public new class Resource : AbstractRoadResource
     {

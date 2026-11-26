@@ -57,7 +57,7 @@ public class CombatRoad(CustomNode owner) : AbstractRoad(owner)
     public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
 
     // CombatRoad.pas:57
-    public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel) => hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount && !(mapContainer.GetField(hexX, hexY, hexLevel).OverlayType == 4 || mapContainer.GetField(hexX, hexY, hexLevel).TerrainType == 15);
+    public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel) => hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount && !(mapContainer.GetField(hexX, hexY, hexLevel).OverlayType == OverlayType.Road || mapContainer.GetField(hexX, hexY, hexLevel).Terrain == TerrainType.Border);
 
     // CombatRoad.pas:66
     public override bool PlaceHex(MapContainer? mapContainer, int hexX, int hexY, int hexLevel)
@@ -87,8 +87,8 @@ public class CombatRoad(CustomNode owner) : AbstractRoad(owner)
         HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber, ref x, ref y);
         if (x >= 0 && y >= 0 && x < mapLevel.Width && y < mapLevel.Height)
         {
-            int overlay = mapLevel.GetField(x, y).OverlayType;
-            if (overlay != 4)
+            OverlayType? overlay = mapLevel.GetField(x, y).OverlayType;
+            if (overlay != OverlayType.Road)
             {
                 switch (hexNumber)
                 {

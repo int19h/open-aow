@@ -55,7 +55,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
 
         if (message.MessageId == 4608)
         {
-            if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
+            if (base.Resource.TerrainList.Terrain[message.HexNumber].Value is not null)
             {
                 AITargetQuery? query = message.Param[0].As<AITargetQuery>();
                 CrystalAIInfo info = new() { Player = query.Info.Player.GetValueOrDefault(), OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };

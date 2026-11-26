@@ -307,7 +307,7 @@ public sealed class OfflineStubTests
         SetField(level, "Width", 2);
         int[] overlaid = [0, 4, 3];
         MapField[] fields = [.. Enumerable.Range(0, count: 6).Select(i => new MapField(null)
-        { Holder = EngineFixture.Engine, HexX = i % 2, HexY = (i / 2).TruncateToSByte(), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) })];
+        { Holder = EngineFixture.Engine, HexX = i % 2, HexY = (i / 2).TruncateToSByte(), OverlayType = OverlayType.FromOriginal((sbyte)(overlaid.Contains(i) ? 4 : 0)) })];
         SetField(level, "_fields", fields);
         MapContainer container = new(null) { Holder = EngineFixture.Engine };
         EngineObjectList levels = [];

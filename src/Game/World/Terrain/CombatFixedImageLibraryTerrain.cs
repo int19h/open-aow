@@ -15,12 +15,12 @@ public class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatImageLibra
     // CombatILTer.pas:197
     public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
     {
-        if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (base.Resource.TerrainList.GetTerrain(info.HexNumber).Value is not null)
         {
-            bool validTerrainType = ValidTerrainType(info.MapField.TerrainType);
+            bool validTerrainType = ValidTerrainType(info.MapField.TerrainNumber);
             if (validTerrainType)
             {
-                validTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: base.Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY) == info.MapField.TerrainType;
+                validTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: base.Resource.TerrainList.GetTerrain(info.HexNumber).ToOriginal(), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY) == info.MapField.TerrainNumber;
             }
 
             return validTerrainType;
@@ -34,12 +34,12 @@ public class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatImageLibra
     // CombatILTer.pas:206
     public override void ChangeTerrain(in HexSpriteTerrainInfo info)
     {
-        if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (base.Resource.TerrainList.GetTerrain(info.HexNumber).Value is not null)
         {
-            if (ValidTerrainType(info.TerrainType))
+            if (ValidTerrainType(info.TerrainNumber))
             {
-                TerrainType = info.TerrainType;
-                ImageIndex = GetTerrainTypeImage(info.TerrainType);
+                TerrainType = info.TerrainNumber;
+                ImageIndex = GetTerrainTypeImage(info.TerrainNumber);
             }
         }
     }
@@ -47,12 +47,12 @@ public class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatImageLibra
     // CombatILTer.pas:216
     public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (base.Resource.TerrainList.GetTerrain(info.HexNumber).Value is not null)
         {
-            if (ValidTerrainType(info.TerrainType))
+            if (ValidTerrainType(info.TerrainNumber))
             {
-                TerrainType = info.TerrainType;
-                ImageIndex = GetTerrainTypeImage(info.TerrainType);
+                TerrainType = info.TerrainNumber;
+                ImageIndex = GetTerrainTypeImage(info.TerrainNumber);
             }
             else
             {

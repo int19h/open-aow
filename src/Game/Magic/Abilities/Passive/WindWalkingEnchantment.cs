@@ -31,7 +31,7 @@ public class WindWalkingEnchantment : UnitEnchantmentAbility
             if (x != -1)
             {
                 MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);
-                army.ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
+                army.ValidateTerrain(terrainType: mapField.TerrainNumber, overlayType: mapField.OverlayType.ToOriginal());
             }
         }
 

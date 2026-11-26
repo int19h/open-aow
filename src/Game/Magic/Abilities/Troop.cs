@@ -529,7 +529,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 int hexLevel = coordinate45.MapLevel;
                 if (hexX != -1)
                 {
-                    int rawTerrain = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).TerrainType.TruncateToByte();
+                    int rawTerrain = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).TerrainNumber.TruncateToByte();
                     int raceIndex = race;
                     TerrainType terrainType = (TerrainType)rawTerrain;
                     if (City.RaceTerrain[raceIndex].Penalty.Contains(terrainType.ToFlag()))
@@ -616,7 +616,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:1100
     public virtual void MovedTo(MapField? oldField, MapField newField, int maxCost)
     {
-        int cost = MovePointCost(newField.TerrainType, newField.OverlayType);
+        int cost = MovePointCost(terrainType: newField.TerrainNumber, overlayType: newField.OverlayType.ToOriginal());
         if (cost < 0)
         {
             cost = maxCost;
@@ -641,7 +641,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             }
         }
 
-        if (newField.TerrainType == (int)TerrainType.Earth)
+        if (newField.Terrain == TerrainType.Earth)
         {
             _ = StrategicMap.Current.ChangeTerrain(null, newField.HexX, newField.HexY, L: newField.HexLevel, radius: 0, terrainType: (int)TerrainType.Dirt);
         }
@@ -1185,7 +1185,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (hexX != -1)
         {
             MapField mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-            return !ValidTerrain(mapField.TerrainType, mapField.OverlayType);
+            return !ValidTerrain(terrainType: mapField.TerrainNumber, overlayType: mapField.OverlayType.ToOriginal());
         }
         else
         {
@@ -1313,7 +1313,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             if (walk.X >= 0 && walk.X < level.Width && walk.Y >= 0 && walk.Y < level.Height)
             {
                 MapField field = level.GetField(walk.X, walk.Y);
-                if (field.TerrainType != (int)TerrainType.Border)
+                if (field.Terrain != TerrainType.Border)
                 {
                     for (int player = 1, last = StrategicMap.Current.Players.Count - 1; player <= last; player++)
                     {
@@ -1380,7 +1380,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:1066
     public void PathOfFrostTerrainChanged(MapField mapField, sbyte originalTerrainType, sbyte originalOverlayType)
     {
-        if (mapField.TerrainType is (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundIce && (byte)originalTerrainType is not (6 or 13))
+        if (mapField.Terrain is TerrainType.Ice or TerrainType.UndergroundIce && (byte)originalTerrainType is not (6 or 13))
         {
             FrozenWaterHexSprite ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
             if (ice is null)
@@ -1404,7 +1404,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (hexX > -1)
         {
             MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-            if (field.TerrainType is (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundIce)
+            if (field.Terrain is TerrainType.Ice or TerrainType.UndergroundIce)
             {
                 FrozenWaterHexSprite ice = field.FindOwnedHexSprite<FrozenWaterHexSprite>();
                 if (ice is not null)
@@ -1423,10 +1423,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (!GetAbilityEnabled(54) && !field.GetConcealmentActive())
         {
             result = GetAbilityEnabled(139) && field.HexLevel != 0;
-            if (field.OverlayType != 1 || !(GetAbilityEnabled(145) || GetAbilityEnabled(162)))
+            if (field.OverlayType != OverlayType.DenseVegetation || !(GetAbilityEnabled(145) || GetAbilityEnabled(162)))
             {
                 // { Original terrain branches overwrite the underground concealment result. }
-                switch ((short)field.TerrainType)
+                switch ((short)field.TerrainNumber)
                 {
                     case 1:
                         return GetAbilityEnabled(140);
@@ -1472,8 +1472,8 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             if (hexX != -1)
             {
                 MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-                int terrain = field.TerrainType;
-                int overlay = field.OverlayType;
+                int terrain = field.TerrainNumber;
+                int overlay = field.OverlayType.ToOriginal();
                 moves &= ~MoveTypes.Flying;
                 int moveTypesToInt32 = (byte)moves;
                 doubleDamage = MovementTables.MovePointTables[moveTypesToInt32][terrain][overlay - MovementTables.FirstOverlay] == 0;
@@ -1739,6 +1739,8 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
         if (X >= 0 && Y >= 0 && X < StrategicMap.Current.MapContainer.Width && Y < StrategicMap.Current.MapContainer.Height)
         {
+            // A field without a terrain yet passes -1 to the terrain test, as the original does (Unit.PAS:1428):
+            // city defenders are placed on such fields in play.
             MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
             sbyte fieldPlayer = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
             if (mode.Contains(UnitPlaceModes.NeglectEmptyPlayerLocation) || fieldPlayer == PlayerIdExtensions.ToOriginal(player) || fieldPlayer == -1 || player is null)
@@ -1746,7 +1748,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
                 return armyHexSprite is not null
                     ? !mode.Contains(UnitPlaceModes.CreateNewArmy) && (player is null || armyHexSprite.Army.Player == player) && armyHexSprite.Army.CanAddUnit(this)
-                    : ValidTerrain(field.TerrainType, field.OverlayType);
+                    : ValidTerrain(terrainType: field.TryGetTerrain(out TerrainType terrain) ? terrain.ToOriginal() : -1, overlayType: field.OverlayType.ToOriginal());
             }
             else
             {

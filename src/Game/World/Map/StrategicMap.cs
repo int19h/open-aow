@@ -2417,7 +2417,7 @@ public sealed partial class StrategicMap : GameMap
             for (int i = 0, last = resources.Count - 1; i <= last; i++)
             {
                 MapObjectResource resource = resources[i];
-                if (resource.EngineClass.ClassId == Hexes.TerrainMapObjectResource.ClassId && resource.TerrainList.UsedTerrain() == 1 && resource.TerrainList.Terrain[0] == terrainType && resource.TerrainList.Overlay[0] == overlayType)
+                if (resource.EngineClass.ClassId == Hexes.TerrainMapObjectResource.ClassId && resource.TerrainList.UsedTerrain() == 1 && resource.TerrainList.Terrain[0].ToOriginal() == terrainType && resource.TerrainList.Overlay[0].ToOriginal() == overlayType)
                 {
                     _ = candidates.Add(resource);
                 }

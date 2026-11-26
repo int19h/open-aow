@@ -52,7 +52,7 @@ public class House(CustomNode owner) : CombatStructure(owner)
             sequence = GamePack.Current.ImageSequences.GetImageSequence(50);
             int hexY = HexY;
             int hexX = HexX;
-            terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType switch
+            terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainNumber switch
             {
                 3 => 1,
                 5 or 7 or 12 => 2,
@@ -77,7 +77,7 @@ public class House(CustomNode owner) : CombatStructure(owner)
         {
             int hexY = HexY;
             int hexX = HexX;
-            terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType switch
+            terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainNumber switch
             {
                 3 => 20,
                 5 or 7 or 12 => 40,

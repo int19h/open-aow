@@ -65,7 +65,7 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
 
                     int hexY = UnitHexSprite.HexY;
                     HexGeometry.CenterHexNumberToHex(UnitHexSprite.HexX, hexY, hexNumber: direction, ref x2, ref y2);
-                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2].TerrainType is not 0 and not 9)
+                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2].Terrain is not TerrainType.Water and not TerrainType.Lava)
                     {
                         TacticalBattleBloodHexSprite blood = new(CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2]);
                         blood.Activate();
@@ -125,12 +125,12 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
                 {
                     int hexY = UnitHexSprite.HexY;
                     int hexX = UnitHexSprite.HexX;
-                    bool condition = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].TerrainType != 0;
+                    bool condition = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].Terrain != TerrainType.Water;
                     if (condition)
                     {
                         int fUnitHexSpriteHexY = UnitHexSprite.HexY;
                         int fUnitHexSpriteHexX = UnitHexSprite.HexX;
-                        condition = CombatMap.Current.MapContainer.MapLevels[0].Field[fUnitHexSpriteHexX, fUnitHexSpriteHexY].TerrainType != 9;
+                        condition = CombatMap.Current.MapContainer.MapLevels[0].Field[fUnitHexSpriteHexX, fUnitHexSpriteHexY].Terrain != TerrainType.Lava;
                     }
 
                     if (condition)

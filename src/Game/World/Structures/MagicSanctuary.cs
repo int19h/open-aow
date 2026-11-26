@@ -38,7 +38,7 @@ public class MagicSanctuary : Structure
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
         base.MapFieldMessageProc(ref message);
-        if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
+        if (base.Resource.TerrainList.GetTerrain(message.HexNumber).Value is not null)
         {
             if (message.MessageId == 4393)
             {

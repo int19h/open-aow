@@ -103,7 +103,7 @@ public sealed class RandomBattleMapGenerator : IDisposable
         {
             HexGeometry.CenterHexNumberToHex(X, Y, hexNumber: i, ref j, ref k);
             MapField mapField = StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k];
-            _terrain[i] = mapField.TerrainType;
+            _terrain[i] = mapField.TerrainNumber;
             int combatTerrainTag = StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k].GetCombatTerrainTag();
             _tags[i] = (sbyte)combatTerrainTag;
         }
@@ -300,14 +300,14 @@ public sealed class RandomBattleMapGenerator : IDisposable
                 }
             }
 
-            if (StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].OverlayType == 4)
+            if (StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].OverlayType == OverlayType.Road)
             {
                 i = 0;
                 for (; i <= 6; i += 1)
                 {
                     HexGeometry.CenterHexNumberToHex(X, Y, hexNumber: i, ref j, ref k);
                     MapField item = StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k];
-                    weights[i] = item.OverlayType;
+                    weights[i] = item.OverlayType.ToOriginal();
                 }
 
                 for (int row = 6; row <= 52; row++)
@@ -625,11 +625,11 @@ public sealed class RandomBattleMapGenerator : IDisposable
                         j = terrainBuffer[(row * 65) + column];
                         if (j == 17)
                         {
-                            CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].TerrainType = 7;
+                            CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].SetTerrain(TerrainType.Earth);
                         }
                         else
                         {
-                            CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].TerrainType = _terrain[i - 1];
+                            CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].SetTerrain(TerrainType.FromOriginal(_terrain[i - 1]));
                             if (j is > 0 and < 19)
                             {
                                 if (_resources[(_terrain[i - 1] * 19) + j].Count > 0)
@@ -956,7 +956,7 @@ public sealed class RandomBattleMapGenerator : IDisposable
         do
         {
             HexGeometry.CenterHexNumberToHex(x, y, hexNumber, ref hexX, ref hexY);
-            slot = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].OverlayType;
+            slot = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].OverlayType.ToOriginal();
             targetHexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
             hexNumber += 1;
         }

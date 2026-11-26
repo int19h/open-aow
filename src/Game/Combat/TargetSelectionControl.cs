@@ -128,7 +128,7 @@ public sealed class TargetSelectionControl : IDisposable
             }
 
             MapField mapField = StrategicMap.Current.MapContainer.GetField(X, Y, L);
-            result = result && mapField.TerrainType != 15;
+            result = result && mapField.Terrain != TerrainType.Border;
             if (result && _validateTarget is not null)
             {
                 _validateTarget(this, (sbyte)X, (sbyte)Y, Lt: (sbyte)L, Valid: ref result);

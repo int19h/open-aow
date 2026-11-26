@@ -53,9 +53,9 @@ public class UnholyGroundSpell : GlobalTargetSpell
     // UnHolyG.pas:368
     public override bool ValidTargetSelectionMapField(MapField field)
     {
-        bool result = base.ValidTargetMapField(field) && field.TerrainType is (>= (sbyte)TerrainType.Grass and <= (sbyte)TerrainType.Wasteland) or (sbyte)TerrainType.Dirt;
+        bool result = base.ValidTargetMapField(field) && field.Terrain is (>= TerrainType.Grass and <= TerrainType.Wasteland) or TerrainType.Dirt;
         // { Original precedence accepts these overlays without the terrain test. }
-        result = (result && field.OverlayType == -1) || (byte)field.OverlayType is (>= 1 and <= 4) or 9;
+        result = (result && field.OverlayType is null) || field.OverlayType is (>= OverlayType.DenseVegetation and <= OverlayType.Road) or OverlayType.LightVegetation;
         result = result && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
         if (result)
         {
@@ -72,9 +72,9 @@ public class UnholyGroundSpell : GlobalTargetSpell
     // UnHolyG.pas:360
     public override bool ValidTargetMapField(MapField field)
     {
-        bool result = base.ValidTargetMapField(field) && field.TerrainType is (>= (sbyte)TerrainType.Grass and <= (sbyte)TerrainType.Wasteland) or (sbyte)TerrainType.Dirt;
+        bool result = base.ValidTargetMapField(field) && field.Terrain is (>= TerrainType.Grass and <= TerrainType.Wasteland) or TerrainType.Dirt;
         // { Original precedence accepts these overlays without the terrain test. }
-        result = (result && field.OverlayType == -1) || (byte)field.OverlayType is (>= 1 and <= 4) or 9;
+        result = (result && field.OverlayType is null) || field.OverlayType is (>= OverlayType.DenseVegetation and <= OverlayType.Road) or OverlayType.LightVegetation;
         return result && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
     }
 

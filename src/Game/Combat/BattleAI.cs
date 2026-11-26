@@ -301,7 +301,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                         PathStep path5 = path[i];
                         PathStep path6 = path[i];
                         MapField fieldItem = CombatMap.Current.MapContainer.MapLevels[0].Field[path6.Location.X, path5.Location.Y];
-                        path.List[i] = path.List[i] with { MoveCost = moveControlSettings.MovePointTable[fieldItem.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay] };
+                        path.List[i] = path.List[i] with { MoveCost = moveControlSettings.MovePointTable[fieldItem.TerrainNumber][mapField.OverlayType.ToOriginal() - MovementTables.FirstOverlay] };
                         if (wall is not null)
                         {
                             // { The wall lookup uses the current path point and the no-overlay column. }
@@ -310,7 +310,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                 PathStep pathY = path[i];
                                 PathStep pathX = path[i];
                                 MapField item = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, pathY.Location.Y];
-                                path.List[i] = path.List[i] with { MoveCost = moveControlSettings.MovePointTable[item.TerrainType][-1 - MovementTables.FirstOverlay] };
+                                path.List[i] = path.List[i] with { MoveCost = moveControlSettings.MovePointTable[item.TerrainNumber][-1 - MovementTables.FirstOverlay] };
                             }
                             else
                             {
@@ -319,7 +319,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     PathStep pathY = path[i];
                                     PathStep pathX = path[i];
                                     MapField item2 = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, pathY.Location.Y];
-                                    path.List[i] = path.List[i] with { MoveCost = moveControlSettings.MovePointTable[item2.TerrainType][-1 - MovementTables.FirstOverlay] };
+                                    path.List[i] = path.List[i] with { MoveCost = moveControlSettings.MovePointTable[item2.TerrainNumber][-1 - MovementTables.FirstOverlay] };
                                 }
                                 else
                                 {
@@ -357,7 +357,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                             PathStep pathY = path[i];
                             PathStep pathX = path[i];
                             MapField item2 = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, pathY.Location.Y];
-                            path.List[i] = path.List[i] with { MoveCost = moveControlSettings.MovePointTable[item2.TerrainType][-1 - MovementTables.FirstOverlay] };
+                            path.List[i] = path.List[i] with { MoveCost = moveControlSettings.MovePointTable[item2.TerrainNumber][-1 - MovementTables.FirstOverlay] };
                         }
                     }
 

@@ -250,7 +250,7 @@ public sealed class ClassFamilyTests
         {
             for (int x = 0; x < 3; x++)
             {
-                level.GetField(x, y).TerrainType = 3;
+                level.GetField(x, y).SetTerrain(TerrainType.Snow);
             }
         }
 

@@ -42,10 +42,10 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
     // AoWHex.pas:119
     public override void ChangeTerrain(in HexSpriteTerrainInfo message)
     {
-        if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
+        if (message.HexNumber == 0 && (GetTerrain(0) is not { IsCovered: true } terrainCell || terrainCell.Value != message.Terrain))
         {
             int classId = base.Resource.EngineClass.ClassId;
-            MapObjectResource r = GamePack.Current.HexControl.GetRandomResource(message.TerrainType, classId);
+            MapObjectResource r = GamePack.Current.HexControl.GetRandomResource(terrainType: message.TerrainNumber, classId);
             if (r is not null)
             {
                 SetResource(r);
@@ -57,7 +57,7 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                _ = base.Resource.Engine.GamePack.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
+                _ = base.Resource.Engine.GamePack.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: message.TerrainNumber);
             }
         }
     }
@@ -65,14 +65,14 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
     // AoWHex.pas:139
     public override void TerrainChanged(in HexSpriteTerrainInfo message)
     {
-        if (message.TerrainType is (sbyte)TerrainType.Water or (sbyte)TerrainType.Ice or (sbyte)TerrainType.Cost)
+        if (message.Terrain is TerrainType.Water or TerrainType.Ice or TerrainType.Coast)
         {
-            if (message.TerrainType != 14)
+            if (message.Terrain != TerrainType.Coast)
             {
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                _ = base.Resource.Engine.GamePack.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
+                _ = base.Resource.Engine.GamePack.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: message.TerrainNumber);
             }
             else
             {
@@ -119,8 +119,10 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
         HexGeometry.TranslateHex(0, 0, Owner.HexX, Owner.HexY, nHexX, nHexY, out nHexX, out nHexY);
         if (nHexX >= 0 && nHexY >= 0 && mapLevel.Width > nHexX && mapLevel.Height > nHexY)
         {
-            int neighbourTerrain = mapLevel.GetField(nHexX, nHexY).TerrainType;
-            int ownTerrain = GetTerrain(0);
+            // A neighbour without a terrain yet reads -1, as in the original, so the test below skips it
+            // while the map is set up (AoWHex.pas:150).
+            int neighbourTerrain = mapLevel.GetField(nHexX, nHexY).TryGetTerrain(out TerrainType neighbour) ? neighbour.ToOriginal() : -1;
+            int ownTerrain = GetTerrain(0).ToOriginal();
             if (ownTerrain != neighbourTerrain && ownTerrain >= 0 && neighbourTerrain is >= 0 and not 8 and not 7 and not 15 && ownTerrain != 15)
             {
                 if (ownTerrain == 9)
@@ -266,7 +268,7 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
         {
             if (message.MessageId == 65556)
             {
-                int terrain = TerrainList.Terrain[0];
+                int terrain = TerrainList.Terrain[0].ToOriginal();
                 if ((byte)terrain is 0 or 6)
                 {
                     return;

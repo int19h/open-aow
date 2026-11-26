@@ -125,7 +125,7 @@ public static class GamePersistence
             list.Pack();
             for (int i = 0; i < list.Count; i++)
             {
-                pairs.Add((list.GetTerrain(i), list.GetOverlay(i)));
+                pairs.Add(list.GetStoredPair(i));
             }
 
             persister.SBytePairs(name, pairs: pairs);

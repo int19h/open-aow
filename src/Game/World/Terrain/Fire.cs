@@ -74,10 +74,10 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Structur.PAS:3411
-    public override int GetTerrain(int index)
+    public override FootprintCell<TerrainType> GetTerrain(int index)
     {
-        int result = base.Resource.TerrainList.GetTerrain(index);
-        return result >= 0 ? -1 : result;
+        FootprintCell<TerrainType> result = base.Resource.TerrainList.GetTerrain(index);
+        return result.Value is not null ? FootprintCell<TerrainType>.Keep : result;
     }
 
     // Structur.PAS:3417
@@ -147,13 +147,13 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             base.MapFieldMessageProc(ref message);
         }
 
-        if (message.MessageId == 4418 && base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
+        if (message.MessageId == 4418 && base.Resource.TerrainList.GetTerrain(message.HexNumber).Value is not null)
         {
             ArmyPlaced(message.Param[0].As<ArmyHexSprite>());
             return;
         }
 
-        if (message.MessageId == 4384 && base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
+        if (message.MessageId == 4384 && base.Resource.TerrainList.GetTerrain(message.HexNumber).Value is not null)
         {
             if (!message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageTypes.Fire))
             {
@@ -165,7 +165,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // Structur.PAS:3570
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        return base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0
+        return base.Resource.TerrainList.GetTerrain(info.HexNumber).Value is not null
             ? !CanDoDamage(((MoveControl)info.Sender).Settings.Units) ? 1 : 0
             : 1;
     }
@@ -173,7 +173,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // Structur.PAS:3564
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (base.Resource.TerrainList.GetTerrain(info.HexNumber).Value is not null)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOverFlag;
         }
@@ -226,11 +226,12 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
         while (walk.HexNumber < terrains.Count)
         {
-            if (base.Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
+            if (base.Resource.TerrainList.GetTerrain(walk.HexNumber).Value is not null && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                int terrainType = mapLevel.GetField(walk.X, walk.Y).TerrainType;
-                if (terrainType >= 0)
+                // A field without a terrain yet does not count (MAPOBJ.PAS:1146 skips the -1).
+                if (mapLevel.GetField(walk.X, walk.Y).TryGetTerrain(out TerrainType fieldTerrain))
                 {
+                    int terrainType = fieldTerrain.ToOriginal();
                     counts[terrainType] = (byte)(counts[terrainType] + 1);
                     if (counts[terrainType] > counts[result])
                     {

@@ -39,7 +39,7 @@ public class Terrain(CustomNode owner) : TerrainMapObject(owner)
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 4386)
         {
-            if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
+            if (base.Resource.TerrainList.Terrain[message.HexNumber].Value is not null)
             {
                 message.Result = GetResource<Resource>().MapFieldResponse;
                 return;
@@ -49,7 +49,7 @@ public class Terrain(CustomNode owner) : TerrainMapObject(owner)
         {
             if (message.MessageId == 4357)
             {
-                if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
+                if (base.Resource.TerrainList.Terrain[message.HexNumber].Value is not null)
                 {
                     ValidateDenseVegetationBurned(message.Param[0].As<Fire>());
                 }
@@ -86,7 +86,7 @@ public class Terrain(CustomNode owner) : TerrainMapObject(owner)
     // AoWTer.pas:45. Message $1105 carries a TFire whose byte $1E is FAge.
     public void ValidateDenseVegetationBurned(Fire? info)
     {
-        if (info.Age < 2 || base.Resource.TerrainList.Overlay[0] != 1)
+        if (info.Age < 2 || base.Resource.TerrainList.Overlay[0].Value != OverlayType.DenseVegetation)
         {
             return;
         }

@@ -69,7 +69,7 @@ public class EnchantedRoads : GlobalEnchantmentSpell
             for (int y = map.ViewHexY; y <= maxY; y++, pixelY += 32)
             {
                 MapField field = level.GetField(x, y);
-                if (field.OverlayType == 4 && map.SeatedPlayer is not null && field.GetExplored(map.SeatedPlayer))
+                if (field.OverlayType == OverlayType.Road && map.SeatedPlayer is not null && field.GetExplored(map.SeatedPlayer))
                 {
                     _ = CastImages.Show(0, pixelX, pixelY, frame: animation.FrameCounter - ((field.HexX + (field.HexY * 8) + field.FogCount) & 0xF), lockedSurface: surface);
                 }

@@ -476,7 +476,7 @@ public sealed class CombatPredictor : IDisposable
                             for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
                             {
                                 Troop? u = armyHexSprite.Army.Units.GetUnit(i);
-                                if (u.ValidTerrain(field.TerrainType, field.OverlayType))
+                                if (u.ValidTerrain(terrainType: field.TerrainNumber, overlayType: field.OverlayType.ToOriginal()))
                                 {
                                     _ = AddUnit(u, side: ((int)side).TruncateToByte(), behindWall: (WallType)message.Result.Int != WallType.None ? 1 : 0);
                                 }
@@ -533,7 +533,7 @@ public sealed class CombatPredictor : IDisposable
                             for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
                             {
                                 Troop? u = armyHexSprite.Army.Units.GetUnit(i);
-                                if (u.ValidTerrain(field.TerrainType, field.OverlayType))
+                                if (u.ValidTerrain(terrainType: field.TerrainNumber, overlayType: field.OverlayType.ToOriginal()))
                                 {
                                     _ = AddUnit(u, side: ((int)side).TruncateToByte(), behindWall: (WallType)message.Result.Int != WallType.None ? 1 : 0);
                                 }

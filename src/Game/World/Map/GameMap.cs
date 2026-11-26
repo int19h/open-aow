@@ -423,6 +423,9 @@ public partial class GameMap : OwningNode
     //   into its Left (original slip). }
     public virtual int ChangeTerrain(EngineObject? mapObject, int X, int Y, int L, int radius, int terrainType)
     {
+        // The terrain is -1 (no terrain) or 0 to 15, checked here before the lock or any field changes.
+        ArgumentOutOfRangeException.ThrowIfLessThan(terrainType, other: -1);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(terrainType, other: 15);
         Rect r = default;
         LockTerrainChangedEvent();
         SByteList list = [];
@@ -435,8 +438,8 @@ public partial class GameMap : OwningNode
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 mapField = mapLevel.GetField(walk.X, walk.Y);
-                list[walk.HexNumber] = mapField.TerrainType;
-                mapField.TerrainType = (sbyte)terrainType;
+                list[walk.HexNumber] = mapField.Terrain.ToOriginal();
+                mapField.SetTerrain(TerrainType.FromOriginal((sbyte)terrainType));
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -450,7 +453,7 @@ public partial class GameMap : OwningNode
                 mapField = mapLevel.GetField(walk.X, walk.Y);
                 if (!mapField.CanChangeTerrain(mapObject))
                 {
-                    mapField.TerrainType = list[walk.HexNumber];
+                    mapField.SetTerrain(TerrainType.FromOriginal(list[walk.HexNumber]));
                     list[walk.HexNumber] = -127;
                 }
             }
@@ -463,7 +466,7 @@ public partial class GameMap : OwningNode
         {
             if (list[walk.HexNumber] != -127 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                mapLevel.GetField(walk.X, walk.Y).TerrainType = (sbyte)terrainType;
+                mapLevel.GetField(walk.X, walk.Y).SetTerrain(TerrainType.FromOriginal((sbyte)terrainType));
                 mapLevel.GetField(walk.X, walk.Y).TerrainChanged();
                 count += 1;
             }
@@ -510,12 +513,14 @@ public partial class GameMap : OwningNode
         Rect r = default;
         if (changeTerrainProc is not null)
         {
-            LockTerrainChangedEvent();
             SByteList orgList = [];
             SByteList newList = [];
             BitList changed = [];
             MapLevel mapLevel = MapContainer.GetMapLevel(L);
             int count = 0;
+            // Every callback answers first, and each answer is checked against the contract of
+            // ChangeTerrainProc before the lock is taken or any field changes. A callback reads its own field
+            // only, so asking all of them before the fields change keeps their answers.
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);
             MapField mapField;
             while (walk.Radius <= radius)
@@ -523,15 +528,32 @@ public partial class GameMap : OwningNode
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     mapField = mapLevel.GetField(walk.X, walk.Y);
-                    sbyte terrainType = mapField.TerrainType;
-                    sbyte overlayType = mapField.OverlayType;
+                    sbyte terrainType = mapField.Terrain.ToOriginal();
+                    sbyte overlayType = mapField.OverlayType.ToOriginal();
                     orgList[walk.HexNumber * 2] = terrainType;
                     orgList[(walk.HexNumber * 2) + 1] = overlayType;
                     changeTerrainProc(mapField, ref terrainType, overlayType);
-                    mapField.TerrainType = terrainType;
-                    mapField.OverlayType = overlayType;
+                    if (terrainType is < -1 or > 15)
+                    {
+                        throw new InvalidOperationException($"A terrain change callback answered terrain {terrainType}, outside -1 to 15.");
+                    }
+
                     newList[walk.HexNumber * 2] = terrainType;
                     newList[(walk.HexNumber * 2) + 1] = overlayType;
+                }
+
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
+            }
+
+            LockTerrainChangedEvent();
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, radius: 0);
+            while (walk.Radius <= radius)
+            {
+                if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
+                {
+                    mapField = mapLevel.GetField(walk.X, walk.Y);
+                    mapField.SetTerrain(TerrainType.FromOriginal(newList[walk.HexNumber * 2]));
+                    mapField.OverlayType = OverlayType.FromOriginal(newList[(walk.HexNumber * 2) + 1]);
                 }
 
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -545,8 +567,8 @@ public partial class GameMap : OwningNode
                     mapField = mapLevel.GetField(walk.X, walk.Y);
                     if (!mapField.CanChangeTerrain(mapObject))
                     {
-                        mapField.TerrainType = orgList[walk.HexNumber * 2];
-                        mapField.OverlayType = orgList[(walk.HexNumber * 2) + 1];
+                        mapField.SetTerrain(TerrainType.FromOriginal(orgList[walk.HexNumber * 2]));
+                        mapField.OverlayType = OverlayType.FromOriginal(orgList[(walk.HexNumber * 2) + 1]);
                         changed[walk.HexNumber] = false;
                     }
                     else
@@ -566,9 +588,9 @@ public partial class GameMap : OwningNode
                     if (changed[walk.HexNumber])
                     {
                         int item = newList[walk.HexNumber * 2];
-                        mapLevel.GetField(walk.X, walk.Y).TerrainType = (sbyte)item;
+                        mapLevel.GetField(walk.X, walk.Y).SetTerrain(TerrainType.FromOriginal((sbyte)item));
                         int newListItem = newList[(walk.HexNumber * 2) + 1];
-                        mapLevel.GetField(walk.X, walk.Y).OverlayType = (sbyte)newListItem;
+                        mapLevel.GetField(walk.X, walk.Y).OverlayType = OverlayType.FromOriginal((sbyte)newListItem);
                         mapLevel.GetField(walk.X, walk.Y).TerrainChanged();
                         count += 1;
                     }
@@ -1638,7 +1660,7 @@ public partial class GameMap : OwningNode
             pixelY = pixelY - ViewPixelY - 4 + 4;
             for (int y = ViewHexY; y <= maxY; y++, pixelY += 32)
             {
-                if (level.GetField(x, y).TerrainType != 15)
+                if (level.GetField(x, y).Terrain != TerrainType.Border)
                 {
                     GamePack.Current.FlagControl.Flags[7].Show(pixelX, pixelY, lockedSurface: surface);
                 }

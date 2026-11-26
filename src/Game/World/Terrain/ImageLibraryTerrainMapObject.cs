@@ -22,24 +22,24 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
     public new const int ClassId = 131_462;
 
     // ILTer.pas:164
-    public override int GetTerrain(int index)
+    public override FootprintCell<TerrainType> GetTerrain(int index)
     {
-        int result = Resource.TerrainList.GetTerrain(index);
-        return result >= 0 ? TerrainType : result;
+        FootprintCell<TerrainType> result = Resource.TerrainList.GetTerrain(index);
+        return result.Value is not null ? FootprintCell<TerrainType>.FromOriginal(TerrainType) : result;
     }
 
     // ILTer.pas:131
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, defaultValue: TerrainType.TruncateToSByte()) == info.MapField.TerrainType;
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => Resource.TerrainList.GetTerrain(info.HexNumber).Value is null || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, defaultValue: TerrainType.TruncateToSByte()) == info.MapField.TerrainNumber;
 
     // ILTer.pas:152
     public override void ChangeTerrain(in HexSpriteTerrainInfo info)
     {
-        if (Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (Resource.TerrainList.GetTerrain(info.HexNumber).Value is not null)
         {
-            if (ValidTerrainType(info.TerrainType))
+            if (ValidTerrainType(info.TerrainNumber))
             {
-                TerrainType = info.TerrainType;
-                ImageIndex = GetTerrainTypeImage(info.TerrainType);
+                TerrainType = info.TerrainNumber;
+                ImageIndex = GetTerrainTypeImage(info.TerrainNumber);
             }
             else
             {
@@ -51,12 +51,12 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
     // ILTer.pas:140
     public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        if (Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (Resource.TerrainList.GetTerrain(info.HexNumber).Value is not null)
         {
-            if (ValidTerrainType(info.TerrainType))
+            if (ValidTerrainType(info.TerrainNumber))
             {
-                TerrainType = info.TerrainType;
-                ImageIndex = GetTerrainTypeImage(info.TerrainType);
+                TerrainType = info.TerrainNumber;
+                ImageIndex = GetTerrainTypeImage(info.TerrainNumber);
             }
             else
             {
@@ -113,9 +113,9 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
         while (canPlaceHere && walk.HexNumber < count)
         {
-            int terrainType = GetTerrain(walk.HexNumber);
-            int overlay = GetOverlay(walk.HexNumber);
-            if ((terrainType >= 0 || overlay >= 0) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapContainer.Width && walk.Y < mapContainer.Height)
+            FootprintCell<TerrainType> terrainType = GetTerrain(walk.HexNumber);
+            FootprintCell<OverlayType> overlay = GetOverlay(walk.HexNumber);
+            if ((terrainType.Value is not null || overlay.Value is not null) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapContainer.Width && walk.Y < mapContainer.Height)
             {
                 HexSprite hexSprite = mapContainer.GetField(walk.X, walk.Y, hexLevel).GetMaxLevelNoneTransparentHexSprite();
                 canPlaceHere = hexSprite is null || CanPlaceOnHexSprite(hexSprite);
@@ -130,7 +130,7 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
             terrainList.Assign(Resource.TerrainList);
             for (int i = 0, last = terrainList.Count - 1; i <= last; i++)
             {
-                if (terrainList.GetTerrain(i) >= 0)
+                if (terrainList.GetTerrain(i).Value is not null)
                 {
                     terrainList.SetTerrain(i, value: TerrainType);
                 }

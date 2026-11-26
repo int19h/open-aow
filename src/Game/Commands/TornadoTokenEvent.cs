@@ -80,7 +80,7 @@ public class TornadoTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(
                 int selection = default;
                 ArmyHexSprite? army = default;
                 _ = ArmyId.RetrieveArmy(ref army, ref selection);
-                bool exposed = !((byte)mapField.OverlayType == 1 || mapField.FindNoneTransparentHexSprite(typeof(Structure)) is not null);
+                bool exposed = !(mapField.OverlayType == OverlayType.DenseVegetation || mapField.FindNoneTransparentHexSprite(typeof(Structure)) is not null);
                 Troop? troopObject;
                 for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
                 {

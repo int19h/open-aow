@@ -376,7 +376,7 @@ public sealed class Scanner(Component owner) : Control(owner)
     public int GetTerrain(int X, int Y)
     {
         return StrategicMap.Current.CombatMap is not null
-            ? Level.GetField(X + 8, Y + 6).TerrainType.TruncateToByte() : Level.GetField(X + 6, Y + 6).TerrainType.TruncateToByte();
+            ? Level.GetField(X + 8, Y + 6).TerrainNumber.TruncateToByte() : Level.GetField(X + 6, Y + 6).TerrainNumber.TruncateToByte();
     }
 
     // Scanner.pas:223
@@ -396,9 +396,9 @@ public sealed class Scanner(Component owner) : Control(owner)
                 10 => 3,
                 11 or 12 => 6,
                 13 => 2,
-                _ => Level.GetField(X + 8, Y + 6).OverlayType,
+                _ => Level.GetField(X + 8, Y + 6).OverlayType.ToOriginal(),
             }
-            : Level.GetField(X + 6, Y + 6).OverlayType;
+            : Level.GetField(X + 6, Y + 6).OverlayType.ToOriginal();
     }
 
     // Scanner.pas:243

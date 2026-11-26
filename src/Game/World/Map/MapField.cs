@@ -25,8 +25,8 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
     public MapField(CustomNode? owner) : base(owner)
     {
-        TerrainType = -1;
-        OverlayType = -1;
+        TerrainType = null;
+        OverlayType = null;
         Status = MapFieldStatuses.None;
         Resize(3);
     }
@@ -306,8 +306,30 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public int HexY { get => Location.Y; set => Location = Location with { Y = (sbyte)value }; }
     public int HexLevel { get => Location.MapLevel; set => Location = Location with { MapLevel = (sbyte)value }; }
     public MapCoordinate Location { get; private set; }
-    public sbyte TerrainType { get; set; }
-    public sbyte OverlayType { get; set; }
+    // The terrain of the field. Reading it before a sprite gives the field a terrain throws.
+    public TerrainType Terrain => TerrainType ?? throw new InvalidOperationException("The field has no terrain yet.");
+
+    // The terrain of the field, or false while no sprite gives the field a terrain yet.
+    public bool TryGetTerrain(out TerrainType terrain)
+    {
+        terrain = TerrainType.GetValueOrDefault();
+        return TerrainType is not null;
+    }
+
+    // The original terrain number, -1 while the field has no terrain yet, as the original reads it. A bridge
+    // for the numeric callers (move tables, ValidTerrain, MovePointCost and the rest): the boundary-parameters
+    // sub-pass of issue 331 replaces each read with a typed parameter that chooses Terrain or TryGetTerrain.
+    public sbyte TerrainNumber => TerrainType.ToOriginal();
+
+    // Sets the terrain, or clears it with null as the original -1.
+    internal void SetTerrain(TerrainType? terrain) => TerrainType = terrain;
+
+    // The terrain storage: null while no sprite of the field gives a terrain yet, the original -1
+    // (HSEngine.pas:1901 sets it at creation, 2468 clears it before the re-read, 2477 floors the read at
+    // -1). Only the field reads it. Game code reads Terrain, code that can see a field before it is set up
+    // reads TryGetTerrain, and numeric code reads TerrainNumber.
+    private TerrainType? TerrainType { get; set; }
+    public OverlayType? OverlayType { get; set; }
 
     public override void SendMessage(ref EngineMessage message, EngineObject? sender)
     {
@@ -600,13 +622,13 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     internal static int IgnitionChance(MapField mapField)
     {
         int result;
-        if (mapField.TerrainType is (>= (sbyte)Map.TerrainType.Grass and <= (sbyte)Map.TerrainType.Wasteland) or (sbyte)Map.TerrainType.Dirt && mapField.FindOwnedChild(Terrain.Fire.ClassId) is null && !mapField.GetMagicShieldActive())
+        if (mapField.TerrainType is (>= Map.TerrainType.Grass and <= Map.TerrainType.Wasteland) or Map.TerrainType.Dirt && mapField.FindOwnedChild(World.Terrain.Fire.ClassId) is null && !mapField.GetMagicShieldActive())
         {
-            result = mapField.OverlayType == 1
-                ? mapField.TerrainType == 3 ? 40 : mapField.TerrainType == 2 ? 80 : 60
-                : mapField.OverlayType == 3
-                    ? mapField.TerrainType == 3 ? 10 : mapField.TerrainType == 2 ? 30 : 20
-                    : mapField.TerrainType == 3 ? 1 : 5;
+            result = mapField.OverlayType == Map.OverlayType.DenseVegetation
+                ? mapField.TerrainType == Map.TerrainType.Snow ? 40 : mapField.TerrainType == Map.TerrainType.Desert ? 80 : 60
+                : mapField.OverlayType == Map.OverlayType.Vegetation
+                    ? mapField.TerrainType == Map.TerrainType.Snow ? 10 : mapField.TerrainType == Map.TerrainType.Desert ? 30 : 20
+                    : mapField.TerrainType == Map.TerrainType.Snow ? 1 : 5;
 
             if (mapField.FindNoneTransparentHexSprite(typeof(Structure)) is not null)
             {

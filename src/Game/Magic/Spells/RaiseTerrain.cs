@@ -53,7 +53,7 @@ public class RaiseTerrain : GlobalTargetSpell
     // Mountain.pas:347
     public override bool ValidTargetSelectionMapField(MapField field)
     {
-        bool valid = base.ValidTargetSelectionMapField(field) && field.TerrainType is not ((sbyte)TerrainType.Water or (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundWater or (sbyte)TerrainType.UndergroundIce) && (byte)field.OverlayType != 0 && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
+        bool valid = base.ValidTargetSelectionMapField(field) && field.Terrain is not (TerrainType.Water or TerrainType.Ice or TerrainType.UndergroundWater or TerrainType.UndergroundIce) && field.OverlayType != OverlayType.Mountain && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
         if (valid)
         {
             ArmyHexSprite army = field.GetArmyHexSprite();
@@ -67,7 +67,7 @@ public class RaiseTerrain : GlobalTargetSpell
     }
 
     // Mountain.pas:338
-    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && field.TerrainType is not ((sbyte)TerrainType.Water or (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundWater or (sbyte)TerrainType.UndergroundIce) && (byte)field.OverlayType != 0 && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
+    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && field.Terrain is not (TerrainType.Water or TerrainType.Ice or TerrainType.UndergroundWater or TerrainType.UndergroundIce) && field.OverlayType != OverlayType.Mountain && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
 
     private static readonly string s_raiseTerrainText = "Raise Terrain";
 }

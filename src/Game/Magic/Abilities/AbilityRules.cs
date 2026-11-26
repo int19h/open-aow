@@ -565,8 +565,8 @@ public static class AbilityRules
     internal static bool CanConstructRoad(PlayerId? player, MapField field)
     {
         bool result = player == field.GetPlayer() || field.GetPlayer() is null;
-        result = result && field.TerrainType is >= (sbyte)TerrainType.Grass and <= (sbyte)TerrainType.Wasteland;
-        result = result && (byte)field.OverlayType is not (0 or 2 or 4 or 5);
+        result = result && field.Terrain is >= TerrainType.Grass and <= TerrainType.Wasteland;
+        result = result && field.OverlayType is not (OverlayType.Mountain or OverlayType.Hill or OverlayType.Road or OverlayType.Bridge);
         // Original shared helper
         return result && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
     }

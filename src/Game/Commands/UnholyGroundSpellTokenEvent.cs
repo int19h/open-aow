@@ -51,7 +51,7 @@ public class UnholyGroundSpellTokenEvent(CustomNode? owner) : GlobalTargetSpellT
                     UnholyGround ground = resource.CreateResourceUser<UnholyGround>();
                     ground.Duration = (3 + ((GetEngine().StrategicMap.Random(11) - 5) / 5)).TruncateToSByte();
                     ground.Player = source.Player;
-                    ground.OriginalOverlay = mapField.OverlayType;
+                    ground.OriginalOverlay = mapField.OverlayType.ToOriginal();
                     GetEngine().StrategicMap.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
                     if (GetEngine().StrategicMap.PlaceHex(ground, walk.X, walk.Y, L: Location.MapLevel))
                     {

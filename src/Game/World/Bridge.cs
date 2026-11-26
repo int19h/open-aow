@@ -64,9 +64,10 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
             if (hexX >= 0 && hexY >= 0 && level.Width > hexX && level.Height > hexY)
             {
                 MapField mapField = level.GetField(hexX, hexY);
-                int terrainType = mapField.TerrainType;
+                // A neighbour without a terrain yet reads -1, as in the original, while the map is set up.
+                int terrainType = mapField.TryGetTerrain(out TerrainType terrain) ? terrain.ToOriginal() : -1;
                 bool hasRoad = mapField.FindHexSprite(typeof(AbstractRoad)) is not null;
-                bool isShore = terrainType != 0 && base.Resource.TerrainList.GetTerrain(0) != terrainType && mapField.FindHexSprite(typeof(BorderHex)) is null;
+                bool isShore = terrainType != 0 && base.Resource.TerrainList.GetTerrain(0).ToOriginal() != terrainType && mapField.FindHexSprite(typeof(BorderHex)) is null;
                 if (hasRoad)
                 {
                     sides[hexNumber - 1] = 1;

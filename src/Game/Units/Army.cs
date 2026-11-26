@@ -293,7 +293,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             {
                 // { Original skips terrain validation on the zero X column. }
                 MapField field = GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
-                result = troop.ValidTerrain(field.TerrainType, field.OverlayType);
+                result = troop.ValidTerrain(terrainType: field.TerrainNumber, overlayType: field.OverlayType.ToOriginal());
             }
 
             if (result && troop.GetTransporter())
@@ -954,7 +954,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                     {
                         switch (terrainType)
                         {
-                            case (sbyte)TerrainType.Laval:
+                            case (sbyte)TerrainType.Lava:
                                 log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: s_unitsBurnedText);
                                 string unitsBurned = AbilityRules.TranslateResourceString(GetEngine(), S: s_unitsBurnedText);
                                 _ = log.ArmyMessages.Add(unitsBurned);
@@ -1597,7 +1597,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     public bool CanPlace(int X, int Y, int L)
     {
         MapField field = GetEngine().StrategicMap.MapContainer.GetField(X, Y, L);
-        bool result = ValidTerrain(field.TerrainType, field.OverlayType);
+        bool result = ValidTerrain(terrainType: field.TerrainNumber, overlayType: field.OverlayType.ToOriginal());
         if (!Status.Contains(ArmyStatuses.Activated))
         {
             int i = 0;
@@ -1756,7 +1756,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             result = 0;
             while (i != Units.Count)
             {
-                if (!Units[i].ValidTerrain(field.TerrainType, field.OverlayType))
+                if (!Units[i].ValidTerrain(terrainType: field.TerrainNumber, overlayType: field.OverlayType.ToOriginal()))
                 {
                     result = (result + (1 << i)).TruncateToByte();
                 }

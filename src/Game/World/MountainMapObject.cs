@@ -13,10 +13,10 @@ public class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
     public new const int ClassId = 131_432;
 
     // Mountain.pas:104
-    public override int GetOverlay(int index)
+    public override FootprintCell<OverlayType> GetOverlay(int index)
     {
-        int result = ((MapObject)this).Resource.TerrainList.Overlay[index];
-        return result >= 0 ? 0 : result;
+        FootprintCell<OverlayType> result = ((MapObject)this).Resource.TerrainList.Overlay[index];
+        return result.Value is not null ? OverlayType.Mountain : result;
     }
 
     // Mountain.pas:110
@@ -32,7 +32,7 @@ public class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
         TerrainList list = ((MapObject)this).Resource.TerrainList;
         while (valid && i < list.Count)
         {
-            if (list.Terrain[i] >= 0 || list.Overlay[i] >= 0)
+            if (list.Terrain[i].Value is not null || list.Overlay[i].Value is not null)
             {
                 HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: i, ref x, ref y);
                 if (x >= 0 && y >= 0 && x < mapContainer.Width && y < mapContainer.Height)
@@ -40,7 +40,7 @@ public class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
                     MapField mapField = mapContainer.GetField(x, y, hexLevel);
                     HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
                     valid = hexSprite is not null && hexSprite.EngineClass.ClassId == ClassId
-                        ? ValidMountainOverlap(mapField, overlay: list.Overlay[i])
+                        ? ValidMountainOverlap(mapField, overlay: list.Overlay[i].ToOriginal())
                         : hexSprite is null || hexSprite.Level < 10;
                 }
             }
@@ -62,8 +62,8 @@ public class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
             if (hexSprite.EngineClass.ClassId == ClassId)
             {
                 int hexNumberOfHexSprite = mapField.GetHexNumberOfHexSprite(hexSprite);
-                int otherOverlay = hexSprite.Resource.TerrainList.Overlay[hexNumberOfHexSprite];
-                valid = !((otherOverlay == 0 && overlay == 0) || (otherOverlay == 1 && overlay == 1));
+                FootprintCell<OverlayType> otherOverlay = hexSprite.Resource.TerrainList.Overlay[hexNumberOfHexSprite];
+                valid = !((otherOverlay.Value == OverlayType.Mountain && overlay == 0) || (otherOverlay.Value == OverlayType.DenseVegetation && overlay == 1));
             }
 
             i += 1;

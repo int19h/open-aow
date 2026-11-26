@@ -41,7 +41,7 @@ public class LevelTerrainTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenE
                 if (((GlobalTargetSpell)(object?)GetEngine().GamePack.SpellControl[18]).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
                 {
                     GetEngine().StrategicMap.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
-                    if (mapField.TerrainType == (int)TerrainType.Earth)
+                    if (mapField.Terrain == TerrainType.Earth)
                     {
                         _ = GetEngine().StrategicMap.ChangeTerrain(null, walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: (int)TerrainType.Dirt);
                     }

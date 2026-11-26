@@ -2803,13 +2803,13 @@ member,TAoWLanguage.alGerman,Aow.Game.GameSettings.Language.German
 member,TAoWLanguage.alItalian,Aow.Game.GameSettings.Language.Italian
 member,TAoWLanguage.alSpanish,Aow.Game.GameSettings.Language.Spanish
 member,TAoWTerrainType.ttBorder,Aow.Game.World.Map.TerrainType.Border
-member,TAoWTerrainType.ttCost,Aow.Game.World.Map.TerrainType.Cost
+member,TAoWTerrainType.ttCost,Aow.Game.World.Map.TerrainType.Coast
 member,TAoWTerrainType.ttDesert,Aow.Game.World.Map.TerrainType.Desert
 member,TAoWTerrainType.ttDirt,Aow.Game.World.Map.TerrainType.Dirt
 member,TAoWTerrainType.ttEarth,Aow.Game.World.Map.TerrainType.Earth
 member,TAoWTerrainType.ttGrass,Aow.Game.World.Map.TerrainType.Grass
 member,TAoWTerrainType.ttIce,Aow.Game.World.Map.TerrainType.Ice
-member,TAoWTerrainType.ttLaval,Aow.Game.World.Map.TerrainType.Laval
+member,TAoWTerrainType.ttLaval,Aow.Game.World.Map.TerrainType.Lava
 member,TAoWTerrainType.ttReserved,Aow.Game.World.Map.TerrainType.Reserved
 member,TAoWTerrainType.ttRock,Aow.Game.World.Map.TerrainType.Rock
 member,TAoWTerrainType.ttSnow,Aow.Game.World.Map.TerrainType.Snow

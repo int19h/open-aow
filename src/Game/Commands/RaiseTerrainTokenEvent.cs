@@ -62,7 +62,7 @@ public class RaiseTerrainTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenE
                         RaisedMountain mountain = resource.CreateResourceUser<RaisedMountain>();
                         mountain.Duration = (((GetEngine().StrategicMap.Random(11) - 5) / 5) + 3).TruncateToSByte();
                         mountain.Player = caster.Player;
-                        mountain.OriginalOverlay = field.OverlayType;
+                        mountain.OriginalOverlay = field.OverlayType.ToOriginal();
                         GetEngine().StrategicMap.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
                         if (GetEngine().StrategicMap.PlaceHex(mountain, walk.X, walk.Y, L: Location.MapLevel))
                         {

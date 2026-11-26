@@ -55,7 +55,7 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     {
         if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
         {
-            if (base.Resource.TerrainList.GetOverlay(info.HexNumber) == 8)
+            if (base.Resource.TerrainList.GetOverlay(info.HexNumber).Value == OverlayType.Obstacle)
             {
                 moveResult.Code = -1;
                 moveResult.Done = true;

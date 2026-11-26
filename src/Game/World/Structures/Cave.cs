@@ -68,10 +68,12 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     }
 
     // Cave.pas:273
-    public override int GetOverlay(int index)
+    public override FootprintCell<OverlayType> GetOverlay(int index)
     {
-        int result = base.Resource.TerrainList.Terrain[index];
-        return result >= 0 ? -1 : result;
+        // The overlay answer follows the terrain list's coverage: keep wherever the terrain list covers
+        // the hexagon, outside elsewhere.
+        FootprintCell<TerrainType> terrain = base.Resource.TerrainList.Terrain[index];
+        return terrain.IsCovered ? FootprintCell<OverlayType>.Keep : FootprintCell<OverlayType>.Outside;
     }
 
     // Cave.pas:257
@@ -87,7 +89,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
             };
 
             // { Original dereferences the destination even for an idle entrance. }
-            ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: field, movePoints: ((MoveControl)info.Sender).MovePointTable.AtOffset(1 + (16 * field.TerrainType) + field.OverlayType));
+            ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: field, movePoints: ((MoveControl)info.Sender).MovePointTable.AtOffset(1 + (16 * field.TerrainNumber) + field.OverlayType.ToOriginal()));
         }
     }
 
@@ -237,7 +239,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         int hexY = HexY;
         int hexX = HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
-        return army.MoveOnMovePoints(selection, field.TerrainType, field.OverlayType).TruncateToSByte();
+        return army.MoveOnMovePoints(selection, terrainType: field.TerrainNumber, overlayType: field.OverlayType.ToOriginal()).TruncateToSByte();
     }
 
     // Cave.pas:300
@@ -252,7 +254,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         for (int i = 0, last = units.Count - 1; i <= last; i++)
         {
             Troop? troop = units.GetUnit(i);
-            if (troop.MovePointCost(field.TerrainType, field.OverlayType) <= troop.GetMovePoints())
+            if (troop.MovePointCost(terrainType: field.TerrainNumber, overlayType: field.OverlayType.ToOriginal()) <= troop.GetMovePoints())
             {
                 result = (result + (1 << i)).TruncateToByte();
             }

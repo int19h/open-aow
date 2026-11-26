@@ -122,17 +122,19 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1281
-    public override int GetTerrain(int index)
+    public override FootprintCell<TerrainType> GetTerrain(int index)
     {
-        int result = Resource.TerrainList.Terrain[index];
-        return result >= 0 ? TerrainType : result;
+        FootprintCell<TerrainType> result = Resource.TerrainList.Terrain[index];
+        return result.Value is not null ? FootprintCell<TerrainType>.FromOriginal(TerrainType) : result;
     }
 
     // Structur.PAS:1275
-    public override int GetOverlay(int index)
+    public override FootprintCell<OverlayType> GetOverlay(int index)
     {
-        int result = Resource.TerrainList.Terrain[index];
-        return result >= 0 ? 7 : result;
+        // The overlay answer follows the terrain list: a structure where the terrain has a value, and the
+        // terrain answer's keep or outside elsewhere.
+        FootprintCell<TerrainType> terrain = Resource.TerrainList.Terrain[index];
+        return terrain.Value is not null ? OverlayType.Structure : terrain.IsCovered ? FootprintCell<OverlayType>.Keep : FootprintCell<OverlayType>.Outside;
     }
 
     // Structur.PAS:1287
@@ -141,11 +143,11 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     // Structur.PAS:1297
     public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        if (Resource.TerrainList.Terrain[info.HexNumber] >= 0)
+        if (Resource.TerrainList.Terrain[info.HexNumber].Value is not null)
         {
             if (Resource.TerrainBound)
             {
-                TerrainType = info.TerrainType;
+                TerrainType = info.TerrainNumber;
                 ImageIndex = GetTerrainTypeImage(TerrainType);
             }
             else
@@ -189,7 +191,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
         base.MapFieldMessageProc(ref message);
-        if (Resource.TerrainList.Terrain[message.HexNumber] >= 0)
+        if (Resource.TerrainList.Terrain[message.HexNumber].Value is not null)
         {
             if (message.MessageId == 4358)
             {
@@ -265,7 +267,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
                                             {
                                                 if (message.MessageId == 4364 && message.HexNumber == 0)
                                                 {
-                                                    if (Resource.TerrainList.Terrain[message.HexNumber] >= 0 && (!StrategicMap.Current.FogEnabled || !Fogged))
+                                                    if (Resource.TerrainList.Terrain[message.HexNumber].Value is not null && (!StrategicMap.Current.FogEnabled || !Fogged))
                                                     {
                                                         MapFieldMessageParameters param2 = message.Param;
                                                         param2[0] = param2[0].Int + 3584;
@@ -305,7 +307,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     // Structur.PAS:1886
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (Resource.TerrainList.Terrain[info.HexNumber] >= 0)
+        if (Resource.TerrainList.Terrain[info.HexNumber].Value is not null)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.AITargetFlag;
         }
@@ -318,7 +320,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         {
             HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int x, out int y);
             int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, x, y);
-            return hexNumber < Resource.TerrainList.Count && (Resource.TerrainList.Terrain[hexNumber] >= 0 || Resource.TerrainList.Overlay[hexNumber] >= 0);
+            return hexNumber < Resource.TerrainList.Count && (Resource.TerrainList.Terrain[hexNumber].Value is not null || Resource.TerrainList.Overlay[hexNumber].Value is not null);
         }
         else
         {
@@ -861,7 +863,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
         while (walk.HexNumber < count)
         {
-            if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
+            if (Resource.TerrainList.Terrain[walk.HexNumber].Value is not null && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 ArmyHexSprite army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                 if (army is not null)
@@ -889,7 +891,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
             while (walk.HexNumber < count)
             {
-                if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
+                if (Resource.TerrainList.Terrain[walk.HexNumber].Value is not null && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
                     EngineObject? army = level.GetField(walk.X, walk.Y).FindOwnedChild(ArmyHexSprite.ClassId);
                     if (army is not null)
@@ -1083,7 +1085,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
             while (walk.HexNumber < count && Fogged)
             {
-                if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
+                if (Resource.TerrainList.Terrain[walk.HexNumber].Value is not null && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
                     MapField fieldValue = level.GetField(walk.X, walk.Y);
                     Fogged = fieldValue.FogCount == 0;

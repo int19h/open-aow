@@ -76,7 +76,7 @@ public class FreezeWaterTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEv
     // GlobalTargetSpells.pas:661
     public void TerrainChanged(MapField mapField, sbyte originalTerrainType, sbyte originalOverlayType)
     {
-        if (mapField.TerrainType is (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundIce && (byte)originalTerrainType is not (6 or 13))
+        if (mapField.Terrain is TerrainType.Ice or TerrainType.UndergroundIce && (byte)originalTerrainType is not (6 or 13))
         {
             FrozenWaterHexSprite ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
             if (ice is null)

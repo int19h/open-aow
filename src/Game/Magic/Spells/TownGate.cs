@@ -185,7 +185,7 @@ public class TownGate : CityTargetSpell
 
         if (result)
         {
-            result = army.Army.ValidTerrain(selection, field.TerrainType, field.OverlayType);
+            result = army.Army.ValidTerrain(selection, terrainType: field.TerrainNumber, overlayType: field.OverlayType.ToOriginal());
             // { CanAddUnitSelection returns arOK (zero) when the destination accepts the selection. }
             return result && (field.GetArmyHexSprite() is null || field.GetArmyHexSprite().Army.CanAddUnitSelection(army.Army.Units, selection) == AddUnitsResult.Ok);
         }

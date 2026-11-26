@@ -83,7 +83,7 @@ public class FireMastery : GlobalEnchantmentSpell
             for (int y = map.ViewHexY; y <= maxY; y++, pixelY += 32)
             {
                 MapField field = level.GetField(x, y);
-                if (field.TerrainType is 7 or 8 or 15 || map.SeatedPlayer is null || (map.ExplorationEnabled && !field.GetExplored(map.SeatedPlayer)))
+                if (field.Terrain is TerrainType.Earth or TerrainType.Rock or TerrainType.Border || map.SeatedPlayer is null || (map.ExplorationEnabled && !field.GetExplored(map.SeatedPlayer)))
                 {
                     continue;
                 }

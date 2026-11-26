@@ -181,8 +181,8 @@ public partial class MoveControl(GameMap owner) : IDisposable
     // MoveT.PAS:299
     public int DefaultMoveOnMovePointProc(MapField? mapField, int moveOverCode)
     {
-        int overlay = mapField.OverlayType;
-        int points = MovePointTable[mapField.TerrainType][overlay - MovementTables.FirstOverlay];
+        int overlay = mapField.OverlayType.ToOriginal();
+        int points = MovePointTable[mapField.TerrainNumber][overlay - MovementTables.FirstOverlay];
         if ((mapField.FieldFlags & MapField.MoveOnFlag) != 0)
         {
             points = mapField.CanMoveOn(this, defaultCode: points, moveOverCode);
@@ -419,7 +419,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
         int points;
         if ((mapField.FieldFlags & _exploredMask) != 0)
         {
-            points = MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay];
+            points = MovePointTable[mapField.TerrainNumber][mapField.OverlayType.ToOriginal() - MovementTables.FirstOverlay];
             if ((mapField.FieldFlags & MapField.MoveOnFlag) != 0)
             {
                 points = mapField.CanMoveOn(this, defaultCode: points, moveOverCode);

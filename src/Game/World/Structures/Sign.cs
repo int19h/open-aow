@@ -47,7 +47,7 @@ public partial class Sign(CustomNode? owner) : Structure(owner)
     }
 
     // Sign.pas:102
-    public override int GetOverlay(int index) => -1;
+    public override FootprintCell<OverlayType> GetOverlay(int index) => FootprintCell<OverlayType>.Keep;
 
     // Sign.pas:119
     public override void Select()

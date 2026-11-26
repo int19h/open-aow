@@ -25,10 +25,10 @@ public class AbstractRoad(CustomNode owner) : MapObject(owner)
     // MAPOBJ.PAS:848
     public override void ChangeTerrain(in HexSpriteTerrainInfo message)
     {
-        if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
+        if (message.HexNumber == 0 && (GetTerrain(0) is not { IsCovered: true } terrainCell || terrainCell.Value != message.Terrain))
         {
             int classId = Resource.EngineClass.ClassId;
-            MapObjectResource r = Resource.TerrainControl.GetRandomResource(message.TerrainType, classId);
+            MapObjectResource r = Resource.TerrainControl.GetRandomResource(terrainType: message.TerrainNumber, classId);
             if (r is not null)
             {
                 SetResource(r);
@@ -43,7 +43,7 @@ public class AbstractRoad(CustomNode owner) : MapObject(owner)
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                if (Resource.TerrainControl.Place(Owner.Owner.Owner, hexX, hexY, L: hexLevel, message.TerrainType) is null)
+                if (Resource.TerrainControl.Place(Owner.Owner.Owner, hexX, hexY, L: hexLevel, terrainType: message.TerrainNumber) is null)
                 {
                     Dispose();
                 }
@@ -64,8 +64,8 @@ public class AbstractRoad(CustomNode owner) : MapObject(owner)
         if (condition)
         {
             MapField fieldValue = mapContainer.GetField(hexX, hexY, hexLevel);
-            int terrain = Resource.TerrainList.GetTerrain(0);
-            condition = fieldValue.TerrainType == terrain;
+            FootprintCell<TerrainType> terrain = Resource.TerrainList.GetTerrain(0);
+            condition = terrain is { IsCovered: true } terrainCell && terrainCell.Value == fieldValue.Terrain;
         }
         if (condition)
         {

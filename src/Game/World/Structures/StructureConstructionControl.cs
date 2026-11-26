@@ -61,8 +61,8 @@ public class StructureConstructionControl(CustomNode owner) : ConstructionContro
                     MapField mapField = level.GetField(walk.X, walk.Y);
                     result = mapField.GetPlayer() is null || mapField.GetPlayer() == troop.Player;
                     result = result && mapField.FindNoneTransparentHexSprite(typeof(Structure)) is null;
-                    result = result && (byte)mapField.OverlayType is not (0 or 2);
-                    result = result && mapField.TerrainType is (>= (sbyte)TerrainType.Grass and <= (sbyte)TerrainType.Wasteland) or (sbyte)TerrainType.Dirt;
+                    result = result && mapField.OverlayType is not (OverlayType.Mountain or OverlayType.Hill);
+                    result = result && mapField.Terrain is (>= TerrainType.Grass and <= TerrainType.Wasteland) or TerrainType.Dirt;
                 }
             }
             else

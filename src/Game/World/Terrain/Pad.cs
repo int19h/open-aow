@@ -63,7 +63,7 @@ public class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
             _padSize = 0;
             for (int i = 0, last = TerrainList.Count - 1; i <= last; i++)
             {
-                if (TerrainList.GetTerrain(i) >= -1)
+                if (TerrainList.GetTerrain(i).IsCovered)
                 {
                     _padSize = (_padSize + 1).TruncateToByte();
                 }

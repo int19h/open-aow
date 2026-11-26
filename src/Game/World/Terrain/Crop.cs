@@ -41,12 +41,12 @@ public class Crop(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
 
         if (Status.Contains(MapObjectStatuses.Activated))
         {
-            if (ValidTerrainType(info.TerrainType))
+            if (ValidTerrainType(info.TerrainNumber))
             {
-                TerrainType = info.TerrainType;
-                ImageIndex = GetTerrainTypeImage(info.TerrainType);
+                TerrainType = info.TerrainNumber;
+                ImageIndex = GetTerrainTypeImage(info.TerrainNumber);
                 HexSprite? hexSprite = info.MapField.GetMaxLevelNoneTransparentHexSprite();
-                if ((hexSprite is not null && hexSprite.Level > Level && hexSprite is not AbstractRoad) || (info.OverlayType is >= 0 and not 4))
+                if ((hexSprite is not null && hexSprite.Level > Level && hexSprite is not AbstractRoad) || (info.OverlayType is not null and not OverlayType.Road))
                 {
                     Dispose();
                 }
@@ -58,7 +58,7 @@ public class Crop(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
         }
         else
         {
-            TerrainType = info.TerrainType;
+            TerrainType = info.TerrainNumber;
         }
     }
 

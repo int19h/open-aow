@@ -79,7 +79,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     public override bool GetSelected() => Army.Status.Contains(ArmyStatuses.Selected);
 
     // Army.PAS:3060
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => info.HexNumber != 0 || (info.MapField.TerrainType == 0 && info.Sender is not null && (((EngineObject)info.Sender).EngineClass.ClassId == FireStorm.ClassId || ((EngineObject)info.Sender).EngineClass.ClassId == FrozenWaterHexSprite.ClassId)) || Army.ValidTerrain(info.MapField.TerrainType, info.MapField.OverlayType);
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => info.HexNumber != 0 || (info.MapField.Terrain == TerrainType.Water && info.Sender is not null && (((EngineObject)info.Sender).EngineClass.ClassId == FireStorm.ClassId || ((EngineObject)info.Sender).EngineClass.ClassId == FrozenWaterHexSprite.ClassId)) || Army.ValidTerrain(terrainType: info.MapField.TerrainNumber, overlayType: info.MapField.OverlayType.ToOriginal());
 
     // Army.PAS:3069
     public override void TerrainChanged(in HexSpriteTerrainInfo info)
@@ -89,7 +89,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         {
             using (Army.BeginUpdate())
             {
-                Army.ValidateTerrain(info.TerrainType, info.OverlayType);
+                Army.ValidateTerrain(terrainType: info.TerrainNumber, overlayType: info.OverlayType.ToOriginal());
             }
         }
     }
@@ -381,7 +381,7 @@ public partial class ArmyHexSprite : UnitHexSprite
             : 2
             : 0
             : StrategicMap.Current.Players.GetDiplomaticRelation(((MoveControl)info.Sender).Player, otherPlayer: Army.Player) == DiplomaticRelation.Alliance
-                    ? info.MapField.OverlayType != 7 || info.MapField.FindNoneTransparentHexSprite(typeof(PlayerStructure)) is null ? 2 : 0
+                    ? info.MapField.OverlayType != OverlayType.Structure || info.MapField.FindNoneTransparentHexSprite(typeof(PlayerStructure)) is null ? 2 : 0
                     : 0
             : 1;
     }
@@ -615,7 +615,7 @@ public partial class ArmyHexSprite : UnitHexSprite
             HexGeometry.CenterHexNumberToHex(HexX, hexY, hexNumber: direction, ref x, ref y);
             if (x >= 0 && y >= 0 && x < level.Width && y < level.Height)
             {
-                if (level.GetField(x, y).TerrainType == 7)
+                if (level.GetField(x, y).Terrain == TerrainType.Earth)
                 {
                     if (GamePack.Current.AbilityControl[42].ImageSequences.GetImageSequence(0) is not null)
                     {

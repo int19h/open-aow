@@ -272,7 +272,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
                                                                     {
                                                                         if (message.MessageId == 200708 && message.HexNumber == 0)
                                                                         {
-                                                                            if (!Unit.Troop.GetMoveTypes().Contains(MoveTypes.Flying) && Owner.TerrainType != 0 && Owner.TerrainType != 9)
+                                                                            if (!Unit.Troop.GetMoveTypes().Contains(MoveTypes.Flying) && Owner.Terrain != TerrainType.Water && Owner.Terrain != TerrainType.Lava)
                                                                             {
                                                                                 RandSeed = StrategicMap.Current.Random(16777215);
                                                                                 spellDamage = GamePack.Current.SpellControl[112].CreateCombatAction<DamageCombatAction>(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
@@ -391,7 +391,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
             HexGeometry.CenterHexNumberToHex(HexX, hexY, info.HexNumber, ref x, ref y);
             if (moveResult.Code < 30)
             {
-                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][info.MapField.OverlayType - MovementTables.FirstOverlay];
+                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainNumber][info.MapField.OverlayType.ToOriginal() - MovementTables.FirstOverlay];
             }
 
             if (moveResult.Code <= -1)
