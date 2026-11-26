@@ -16,6 +16,7 @@ using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Events;
+using Aow.Game.Host;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
@@ -958,7 +959,11 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:2615
-    public void StartLoadedMap() => PlayerControl.StartLoadedMap();
+    public void StartLoadedMap()
+    {
+        HeadlessHooks.BeforeStartLoadedMap?.Invoke(this);
+        PlayerControl.StartLoadedMap();
+    }
 
     // AoWHSMap.PAS:1996
     public void TriggerExecuteEventLog(EventLog log, bool immediate, ExecuteDoneEvent? done)

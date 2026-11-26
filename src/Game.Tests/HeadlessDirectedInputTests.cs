@@ -7,8 +7,9 @@ namespace Aow.Game.Tests;
 /// Issue 344, the host options of the leader-death and campaign transfer inputs. The leader
 /// attack names a player and a unit, as leader_target.py prints them. The campaign seat type is a
 /// stored CPU player type (Player.PAS TPlayerType), never Human, Independent or Free. The rule
-/// that the seat type needs a campaign transfer sits in Program and runs in the oracle's
-/// campaign_transfer scenario, because a Program test needs a full host run.
+/// that the seat type needs a campaign transfer or a campaign victory sits in Program and runs in
+/// the oracle's campaign_transfer and campaign_victory scenarios, because a Program test needs a
+/// full host run.
 /// </summary>
 public sealed class HeadlessDirectedInputTests
 {

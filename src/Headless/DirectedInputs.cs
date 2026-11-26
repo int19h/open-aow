@@ -78,6 +78,7 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
     {
         player = target.Player,
         target_unit = target.UnitId,
+        whole_army = target.WholeArmy,
         done = _attackDone,
         attacking_leader_died = _attackerDied,
         leader_deaths = LeaderDeaths(),
@@ -327,7 +328,7 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
     }
 
     // MoveT.PAS:3181 MoveArmyXYL, the map UI's move order, with the selection bit of the
-    // leader's slot. It plans the path and queues the move token, an attack when the
+    // leader's slot, or the bits of every slot for the whole army. It plans the path and queues the move token, an attack when the
     // target is in reach. The input stops when the leader is dead or the target is gone.
     private void AttackWithLeader(LeaderAttackTarget target)
     {
@@ -369,13 +370,15 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
         MapCoordinate here = army.Location;
         MapCoordinate there = targetArmy.Location;
         bool busy = player.GetBusy();
-        bool moved = sprite is not null && slot < 8 && !busy
-            && ArmyHexSprite.MoveArmyMapCoordinate(sprite, selection: 1 << slot, there.X, there.Y, L: there.MapLevel, force: false);
+        int selection = target.WholeArmy ? (1 << army.Units.Count) - 1 : 1 << slot;
+        bool moved = sprite is not null && slot < 8 && army.Units.Count <= 8 && !busy
+            && ArmyHexSprite.MoveArmyMapCoordinate(sprite, selection: selection, there.X, there.Y, L: there.MapLevel, force: false);
         AttackRequests.Add(new
         {
             leader = hero.UnitId,
             level = (byte)hero.Level,
             slot,
+            selection,
             army_units = army.Units.Count,
             from = new[] { here.X, here.Y, here.MapLevel },
             to = new[] { there.X, there.Y, there.MapLevel },
@@ -609,18 +612,22 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
     }
 }
 
-/// <summary>The leader to send and the unit whose army it attacks, as leader_target.py prints them.</summary>
-internal readonly record struct LeaderAttackTarget(int Player, int UnitId)
+/// <summary>
+/// The leader to send and the unit whose army it attacks, as leader_target.py prints them. With
+/// <see cref="WholeArmy"/> (PLAYER:UNIT:army) the leader's whole army moves, not the leader alone.
+/// </summary>
+internal readonly record struct LeaderAttackTarget(int Player, int UnitId, bool WholeArmy = false)
 {
     public static LeaderAttackTarget Parse(string text)
     {
         string[] parts = text.Split(':');
-        return parts.Length == 2
+        return parts.Length is 2 or 3
+            && (parts.Length == 2 || parts[2] == "army")
             && int.TryParse(parts[0], style: System.Globalization.NumberStyles.None, provider: System.Globalization.CultureInfo.InvariantCulture, result: out int player)
             && int.TryParse(parts[1], style: System.Globalization.NumberStyles.None, provider: System.Globalization.CultureInfo.InvariantCulture, result: out int unitId)
             && player > 0
             && unitId > 0
-            ? new LeaderAttackTarget(player, UnitId: unitId)
-            : throw new ArgumentException("--leader-attack takes PLAYER:UNIT");
+            ? new LeaderAttackTarget(player, UnitId: unitId, WholeArmy: parts.Length == 3)
+            : throw new ArgumentException("--leader-attack takes PLAYER:UNIT or PLAYER:UNIT:army");
     }
 }

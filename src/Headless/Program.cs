@@ -60,6 +60,8 @@ internal static class Program
         LeaderAttackTarget? leaderAttack = null;
         PlayerType? campaignSeatType = null;
         int campaignSeat = -1;
+        bool campaignVictoryRequested = false;
+        CampaignVictory? campaignVictory = null;
         DirectedInputs? directed = null;
         bool pbem = false;
         PbemOrder? pbemAttack = null;
@@ -94,6 +96,7 @@ internal static class Program
             endEnchantment = request.EndEnchantment;
             leaderAttack = request.LeaderAttack;
             campaignSeatType = request.CampaignSeatType;
+            campaignVictoryRequested = request.CampaignVictory;
             string randomTracePath = request.RandomTracePath;
             string fileLogPath = request.FileLogPath;
             bool traceMovement = request.TraceMovement;
@@ -198,9 +201,14 @@ internal static class Program
                 throw new ArgumentException("--next-scenario applies to a campaign save.");
             }
 
-            if (campaignSeatType is not null && nextScenario is null)
+            if (campaignSeatType is not null && nextScenario is null && !campaignVictoryRequested)
             {
-                throw new ArgumentException("--campaign-seat-type applies to a campaign transfer (--next-scenario).");
+                throw new ArgumentException("--campaign-seat-type applies to a campaign transfer (--next-scenario) or a campaign victory (--campaign-victory).");
+            }
+
+            if (campaignVictoryRequested && (kind != SaveKind.Campaign || nextScenario is not null))
+            {
+                throw new ArgumentException("--campaign-victory applies to a campaign save of a started map.");
             }
 
             if (pbem && (kind != SaveKind.WorldMap || cpuHumans))
@@ -229,6 +237,13 @@ internal static class Program
                     case CampaignStep.PlayEmbeddedMap:
                         engine.LoadCampaignMap(null, dropped: dropped);
                         AcceptLoad();
+                        if (campaignVictoryRequested)
+                        {
+                            campaignVictory = new(engine, seatType: campaignSeatType ?? throw new ArgumentException("--campaign-victory needs --campaign-seat-type."));
+                            HeadlessHooks.BeforeStartLoadedMap = campaignVictory.BeforeStartLoadedMap;
+                            HeadlessHooks.BeforeSetGameOverStatus = campaignVictory.BeforeSetGameOverStatus;
+                        }
+
                         break;
                     case CampaignStep.BetweenMaps:
                         play = false;
@@ -378,22 +393,31 @@ internal static class Program
                     HostLog.Information(logger, text: $"game ended on day {map.Day}: {name}, frame {frames}");
                 }
                 HeadlessHooks.AfterNewDay = Save;
-                HexSpriteMapViewer CreateViewer()
+                // AoWWinMan.StartGame gives the map viewer the map and its scene size before
+                // map.Activate (AoWWinMan.pas:587 to 615), on every path that starts play: a map or
+                // campaign load (AoWFileDialog.pas:148 and 160), the world map's next scenario
+                // (AoWWorldMap.pas:333) and a PBEM turn (AoWPOP3Dlg.pas:162). A seat that the
+                // activation seats and whose view it resets centres that viewer
+                // (THSMapViewer.CenterScene, HSEngine.pas). A PBEM turn also takes the stored scene
+                // position and the frame rate before the activation, as the native game has them
+                // before the load. The other runs take them after the first save, as before.
+                HexSpriteMapViewer viewer = new(null)
+                {
+                    HexSpriteMap = map,
+                    SceneWidth = pbemTurn is null ? viewportWidth : viewportWidth + SideWindowsLayout.SideWindowsWidth,
+                    SceneHeight = viewportHeight
+                };
+                void PlaceScene()
                 {
                     map.UpdateFPS(animationFps);
-                    HexSpriteMapViewer created = new(null)
-                    {
-                        HexSpriteMap = map,
-                        SceneWidth = pbemTurn is null ? viewportWidth : viewportWidth + SideWindowsLayout.SideWindowsWidth,
-                        SceneHeight = viewportHeight
-                    };
-                    created.ChangeScene(map.ViewPixelX, map.ViewPixelY, lHitPoints: map.ViewMapLevel);
-                    return created;
+                    viewer.ChangeScene(map.ViewPixelX, map.ViewPixelY, lHitPoints: map.ViewMapLevel);
                 }
 
-                // A PBEM turn seats its human during the activation, and the seat's view centres on
-                // the map window (ResetSeatedPlayerView), which the native game has before the load.
-                HexSpriteMapViewer? viewer = pbemTurn is null ? null : CreateViewer();
+                if (pbemTurn is not null)
+                {
+                    PlaceScene();
+                }
+
                 HostLog.Information(logger, text: "activating map");
                 map.Activate();
                 if (cpuHumans)
@@ -409,7 +433,11 @@ internal static class Program
                     Save(map.PlayerControl);
                 }
 
-                viewer ??= CreateViewer();
+                if (pbemTurn is null)
+                {
+                    PlaceScene();
+                }
+
                 TacticalInput.Install(map, viewer);
                 Stopwatch watchdog = Stopwatch.StartNew();
                 int previous = day;
@@ -449,6 +477,23 @@ internal static class Program
                     }
                 }
                 directed?.AssertKnownResults(turns);
+                campaignVictory?.Finish();
+                if (campaignVictory?.FinishedName is { } finishedName)
+                {
+                    // FinishScenario saved the campaign in the run's Save folder. The native harness
+                    // copies the same file as finished-day-NN.acg (playtest.py).
+                    string name = $"finished-day-{campaignVictory.Day:D2}.acg";
+                    string file = Path.Combine(output, name);
+                    using (Stream source = RtlHost.Files.Open($"{engine.StartupDirectory}Save\\{finishedName}", mode: FileOpenMode.Read))
+                    using (FileStream target = File.Create(file))
+                    {
+                        source.CopyTo(target);
+                    }
+
+                    saves.Add(new { day = campaignVictory.Day, file = name, saved_as = finishedName, sha256 = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(file))) });
+                    HostLog.Information(logger, text: $"campaign seat {campaignVictory.Seat} won on day {campaignVictory.Day}: {finishedName} as {name}");
+                }
+
                 complete = pbemTurn is null ? ended || saves.Count >= turns + 1 : pbemTurn.IsHandedOff;
 
                 HostLog.Information(logger, text: $"complete: {complete}, day {day}, turns {day - firstDay}, frames {frames}, TODOs reached {todos.Count}, dialogs {host.DialogCount}, game ended {ended}");
@@ -486,9 +531,17 @@ internal static class Program
                     global_spell = globalSpell,
                     dispel_spell = dispel,
                     end_enchantment_mode = endEnchantment,
-                    leader_attack_target = leaderAttack is { } attack ? $"{attack.Player}:{attack.UnitId}" : null,
+                    leader_attack_target = leaderAttack is { } attack ? $"{attack.Player}:{attack.UnitId}{(attack.WholeArmy ? ":army" : "")}" : null,
                     campaign_seat_type = campaignSeatType is { } seat ? (int?)(byte)seat : null,
                     campaign_seat = campaignSeat,
+                    campaign_victory = campaignVictory is { } victory ? new
+                    {
+                        seat = victory.Seat,
+                        seat_type = (int)(byte)victory.SeatType,
+                        day = victory.Day,
+                        finished = victory.FinishedName,
+                        finish = victory.Finished,
+                    } : null,
                     cpu_humans = cpuHumans,
                     next_scenario = nextScenario,
                     pbem = pbemTurn?.Record,
@@ -533,6 +586,8 @@ internal static class Program
             HeadlessHooks.DriveHumanSeats = false;
             HeadlessHooks.BeforeMove = null;
             HeadlessHooks.BeforeAIPlayerProcess = null;
+            HeadlessHooks.BeforeSetGameOverStatus = null;
+            HeadlessHooks.BeforeStartLoadedMap = null;
             DelphiList<EngineObject>.TraceSort = null;
             HeadlessHooks.ProcessCost = null;
             HeadlessHooks.MoveLine = null;

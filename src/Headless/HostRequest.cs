@@ -40,6 +40,9 @@ internal sealed record HostRequest
     /// <summary>The CPU player type the campaign seat plays as after the transfer. Null keeps the human seat.</summary>
     public PlayerType? CampaignSeatType { get; init; }
 
+    /// <summary>The campaign seat of a started campaign map turns human at its victory (CampaignVictory).</summary>
+    public bool CampaignVictory { get; init; }
+
     public string? RandomTracePath { get; init; }
 
     public string? FileLogPath { get; init; }
@@ -155,6 +158,9 @@ internal sealed record HostRequest
                     };
                     request = request with { CampaignSeatType = seatType };
                     break;
+                case "--campaign-victory":
+                    request = request with { CampaignVictory = true };
+                    break;
                 case "--trace-random":
                     request = request with { RandomTracePath = Path.GetFullPath(Value()) };
                     break;
@@ -199,7 +205,7 @@ internal sealed record HostRequest
         }
 
         return request.Input.Length == 0 || request.Output.Length == 0 || request.Turns < 0
-            ? throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--cpu-humans] [--next-scenario <node>] [--tactical] [--global-spell <id>] [--dispel 51] [--end-enchantment remove|upkeep] [--leader-attack <player>:<unit>] [--campaign-seat-type <cpu type>] [--pbem [--pbem-attack <unit>:<target>]] [--file-log <path>]")
+            ? throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--cpu-humans] [--next-scenario <node>] [--tactical] [--global-spell <id>] [--dispel 51] [--end-enchantment remove|upkeep] [--leader-attack <player>:<unit>[:army]] [--campaign-seat-type <cpu type>] [--campaign-victory] [--pbem [--pbem-attack <unit>:<target>]] [--file-log <path>]")
             : request;
     }
 }

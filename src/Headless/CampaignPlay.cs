@@ -56,11 +56,25 @@ internal static class CampaignPlay
     }
 
     /// <summary>
+    /// The campaign seat, as SetupScenario and FinishScenario find it (Diplomacy.pas:2343 and
+    /// :2416): from the last player down to player 1, stopping at the first human or at player 1.
+    /// </summary>
+    public static int CampaignSeat(StrategicMap map)
+    {
+        int seat = map.Players.Count - 1;
+        while (seat > 1 && map.Players.GetPlayers(seat)?.PlayerType != PlayerType.Human)
+        {
+            seat--;
+        }
+
+        return seat;
+    }
+
+    /// <summary>
     /// The oracle's all-CPU transfer run (issue 344): after SetupScenario the campaign seat plays as
-    /// the given CPU type. The scan is the one SetupScenario and FinishScenario make
-    /// (Diplomacy.pas:2343): from the last player down to player 1, stopping at the first human or
-    /// at player 1. The stopped seat has to be human, else the call throws. PlayerList.Update then
-    /// rebuilds the local and active lists (Player.PAS:1498). Returns the seat index.
+    /// the given CPU type. The seat is <see cref="CampaignSeat"/>, and it has to be human, else the
+    /// call throws. PlayerList.Update then rebuilds the local and active lists (Player.PAS:1498).
+    /// Returns the seat index.
     /// </summary>
     public static int SeatAsCpu(GameEngine engine, PlayerType seatType)
     {
@@ -69,12 +83,7 @@ internal static class CampaignPlay
             throw new InvalidDataException("The next scenario did not load.");
         }
 
-        int seat = map.Players.Count - 1;
-        while (seat > 1 && map.Players.GetPlayers(seat)?.PlayerType != PlayerType.Human)
-        {
-            seat--;
-        }
-
+        int seat = CampaignSeat(map);
         Player player = map.Players.GetPlayers(seat) ?? throw new InvalidDataException("The scenario has no campaign seat.");
         if (player.PlayerType != PlayerType.Human)
         {
