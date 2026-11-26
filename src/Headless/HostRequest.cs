@@ -1,4 +1,5 @@
 using System.Globalization;
+using Aow.Game.Session;
 
 namespace Aow.Headless;
 
@@ -32,6 +33,12 @@ internal sealed record HostRequest
     public int Dispel { get; init; }
 
     public string? EndEnchantment { get; init; }
+
+    /// <summary>The leader the directed input sends alone against the army of a unit (leader_target.py).</summary>
+    public LeaderAttackTarget? LeaderAttack { get; init; }
+
+    /// <summary>The CPU player type the campaign seat plays as after the transfer. Null keeps the human seat.</summary>
+    public PlayerType? CampaignSeatType { get; init; }
 
     public string? RandomTracePath { get; init; }
 
@@ -123,6 +130,22 @@ internal sealed record HostRequest
 
                     request = request with { EndEnchantment = endEnchantment };
                     break;
+                case "--leader-attack":
+                    request = request with { LeaderAttack = LeaderAttackTarget.Parse(Value()) };
+                    break;
+                case "--campaign-seat-type":
+                    // The stored TPlayerType values of the CPU levels (Player.PAS).
+                    PlayerType seatType = Value() switch
+                    {
+                        "1" => PlayerType.Cpu1,
+                        "2" => PlayerType.Cpu2,
+                        "3" => PlayerType.Cpu3,
+                        "6" => PlayerType.Cpu4,
+                        "7" => PlayerType.Cpu5,
+                        _ => throw new ArgumentException("--campaign-seat-type takes a CPU player type (1, 2, 3, 6 or 7)"),
+                    };
+                    request = request with { CampaignSeatType = seatType };
+                    break;
                 case "--trace-random":
                     request = request with { RandomTracePath = Path.GetFullPath(Value()) };
                     break;
@@ -161,7 +184,7 @@ internal sealed record HostRequest
         }
 
         return request.Input.Length == 0 || request.Output.Length == 0 || request.Turns < 0
-            ? throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--cpu-humans] [--next-scenario <node>] [--tactical] [--global-spell <id>] [--dispel 51] [--end-enchantment remove|upkeep] [--file-log <path>]")
+            ? throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--cpu-humans] [--next-scenario <node>] [--tactical] [--global-spell <id>] [--dispel 51] [--end-enchantment remove|upkeep] [--leader-attack <player>:<unit>] [--campaign-seat-type <cpu type>] [--file-log <path>]")
             : request;
     }
 }

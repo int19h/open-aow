@@ -57,6 +57,9 @@ internal static class Program
         bool exerciseItems = false;
         int tacticalBattles = 0, globalSpell = 0, dispel = 0;
         string endEnchantment = null;
+        LeaderAttackTarget? leaderAttack = null;
+        PlayerType? campaignSeatType = null;
+        int campaignSeat = -1;
         DirectedInputs? directed = null;
         int viewportWidth = 1600, viewportHeight = 937, animationFps = 30;
         string? error = null, input = null;
@@ -86,6 +89,8 @@ internal static class Program
             globalSpell = request.GlobalSpell;
             dispel = request.Dispel;
             endEnchantment = request.EndEnchantment;
+            leaderAttack = request.LeaderAttack;
+            campaignSeatType = request.CampaignSeatType;
             string randomTracePath = request.RandomTracePath;
             string fileLogPath = request.FileLogPath;
             bool traceMovement = request.TraceMovement;
@@ -188,6 +193,11 @@ internal static class Program
                 throw new ArgumentException("--next-scenario applies to a campaign save.");
             }
 
+            if (campaignSeatType is not null && nextScenario is null)
+            {
+                throw new ArgumentException("--campaign-seat-type applies to a campaign transfer (--next-scenario).");
+            }
+
             bool play = true;
             if (kind == SaveKind.Campaign)
             {
@@ -216,6 +226,11 @@ internal static class Program
                     case CampaignStep.StartNext:
                         _ = CampaignPlay.StartNext(engine, name: nextScenario, dropped: dropped);
                         AcceptLoad();
+                        if (campaignSeatType is { } seatType)
+                        {
+                            campaignSeat = CampaignPlay.SeatAsCpu(engine, seatType: seatType);
+                        }
+
                         break;
                     default:
                         throw new InvalidOperationException("Unknown campaign step.");
@@ -241,13 +256,23 @@ internal static class Program
                 DelphiRandom.SuppressRandomize = true;
                 HeadlessHooks.Tactical = tactical;
                 HeadlessHooks.TacticalBattles = tacticalBattles;
-                directed = new(map, items: exerciseItems, spell: globalSpell, dispel: dispel, endEnchantment: endEnchantment);
-                if (globalSpell != 0 || dispel != 0 || endEnchantment != null)
+                directed = new(map, items: exerciseItems, spell: globalSpell, dispel: dispel, endEnchantment: endEnchantment, leaderAttack: leaderAttack);
+                if (directed.HasTurnInputs)
                 {
                     HeadlessHooks.BeforeAIPlayerProcess = directed.BeforeFrame;
                 }
 
-                map.GameEnded += _ => ended = true;
+                map.GameEnded += _ =>
+                {
+                    // The native harness stops at TriggerGameTerminatedEvent and saves once more as
+                    // final-day-NN (playtest.py). The port saves at the same event.
+                    if (!ended && saves.Count != 0)
+                    {
+                        FinalSave(map.PlayerControl);
+                    }
+
+                    ended = true;
+                };
                 map.ExecutingEventLog += notification =>
                 {
                     ExecuteEventLogInfo info = notification.Info;
@@ -268,7 +293,7 @@ internal static class Program
                         firstDay = day;
                         directed.Initial();
                     }
-                    string name = $"day-{day:D2}.asg";
+                    string name = $"day-{day:D2}{DayExtension(map)}";
                     host.FilesForRun.AutoSaveTarget = Path.Combine(output, name);
                     control.AutoSave();
                     randomTrace?.Save(map.Day);
@@ -283,6 +308,21 @@ internal static class Program
 
                     saves.Add(new { day, file = name, sha256 = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(file))) });
                     HostLog.Information(logger, text: $"day {day}: {name}, frame {frames}, viewport {map.ViewWidth}x{map.ViewHeight}");
+                }
+                void FinalSave(PlayerControl control)
+                {
+                    string name = $"final-day-{map.Day:D2}{DayExtension(map)}";
+                    string file = Path.Combine(output, name);
+                    host.FilesForRun.AutoSaveTarget = file;
+                    control.AutoSave();
+                    host.FilesForRun.AutoSaveTarget = null;
+                    if (!File.Exists(file))
+                    {
+                        throw new IOException($"AutoSave did not write {name}");
+                    }
+
+                    saves.Add(new { day = map.Day, file = name, sha256 = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(file))) });
+                    HostLog.Information(logger, text: $"game ended on day {map.Day}: {name}, frame {frames}");
                 }
                 HeadlessHooks.AfterNewDay = Save;
                 HostLog.Information(logger, text: "activating map");
@@ -373,6 +413,9 @@ internal static class Program
                     global_spell = globalSpell,
                     dispel_spell = dispel,
                     end_enchantment_mode = endEnchantment,
+                    leader_attack_target = leaderAttack is { } attack ? $"{attack.Player}:{attack.UnitId}" : null,
+                    campaign_seat_type = campaignSeatType is { } seat ? (int?)(byte)seat : null,
+                    campaign_seat = campaignSeat,
                     cpu_humans = cpuHumans,
                     next_scenario = nextScenario,
                     outcome,
@@ -392,6 +435,7 @@ internal static class Program
                     global_requests = directed?.GlobalRequests,
                     dispel = directed?.DispelRecord,
                     end_enchantment = directed?.EndRecord,
+                    leader_attack = directed?.AttackRecord,
                     tactical_selections = HeadlessHooks.TacticalSelections,
                     tactical_executions = HeadlessHooks.TacticalExecutions,
                     complete,
@@ -422,6 +466,10 @@ internal static class Program
         }
         return RunOutcome.Succeeds(complete, failed: error is not null, transfer: nextScenario is not null, droppedChildren: dropped.Count != 0) ? 0 : 1;
     }
+
+    // A campaign map's AutoSave writes the campaign (PlayerC.PAS:133), and the native harness
+    // names those days .acg.
+    private static string DayExtension(StrategicMap map) => map.GameType == GameType.Campaign ? ".acg" : ".asg";
 
     private static string LogDirectory(string[] arguments)
     {
