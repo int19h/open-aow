@@ -58,6 +58,15 @@ internal sealed record HostRequest
     /// <summary>The next scenario node of a campaign that is between maps.</summary>
     public string? NextScenario { get; init; }
 
+    /// <summary>
+    /// The run plays one human turn of a play by email game and ends at the send of the next
+    /// seat's turn file (PbemTurn). The turn limit does not apply.
+    /// </summary>
+    public bool Pbem { get; init; }
+
+    /// <summary>The PBEM seat's directed order before it ends its turn. Null for a plain handoff.</summary>
+    public PbemOrder? PbemAttack { get; init; }
+
     public static HostRequest Parse(string[] arguments)
     {
         HostRequest request = new()
@@ -169,6 +178,12 @@ internal sealed record HostRequest
                 case "--cpu-humans":
                     request = request with { CpuHumans = true };
                     break;
+                case "--pbem":
+                    request = request with { Pbem = true };
+                    break;
+                case "--pbem-attack":
+                    request = request with { PbemAttack = PbemOrder.Parse(Value()) };
+                    break;
                 case "--next-scenario":
                     string nextScenario = Value();
                     if (nextScenario.Length == 0)
@@ -184,7 +199,7 @@ internal sealed record HostRequest
         }
 
         return request.Input.Length == 0 || request.Output.Length == 0 || request.Turns < 0
-            ? throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--cpu-humans] [--next-scenario <node>] [--tactical] [--global-spell <id>] [--dispel 51] [--end-enchantment remove|upkeep] [--leader-attack <player>:<unit>] [--campaign-seat-type <cpu type>] [--file-log <path>]")
+            ? throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--cpu-humans] [--next-scenario <node>] [--tactical] [--global-spell <id>] [--dispel 51] [--end-enchantment remove|upkeep] [--leader-attack <player>:<unit>] [--campaign-seat-type <cpu type>] [--pbem [--pbem-attack <unit>:<target>]] [--file-log <path>]")
             : request;
     }
 }

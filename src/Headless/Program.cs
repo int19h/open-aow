@@ -61,6 +61,9 @@ internal static class Program
         PlayerType? campaignSeatType = null;
         int campaignSeat = -1;
         DirectedInputs? directed = null;
+        bool pbem = false;
+        PbemOrder? pbemAttack = null;
+        PbemTurn? pbemTurn = null;
         int viewportWidth = 1600, viewportHeight = 937, animationFps = 30;
         string? error = null, input = null;
         string movementSpeed = "normal";
@@ -99,6 +102,8 @@ internal static class Program
             viewportHeight = request.ViewportHeight;
             cpuHumans = request.CpuHumans;
             nextScenario = request.NextScenario;
+            pbem = request.Pbem;
+            pbemAttack = request.PbemAttack;
             HeadlessHooks.DriveHumanSeats = cpuHumans;
 
             _ = Directory.CreateDirectory(output);
@@ -198,6 +203,16 @@ internal static class Program
                 throw new ArgumentException("--campaign-seat-type applies to a campaign transfer (--next-scenario).");
             }
 
+            if (pbem && (kind != SaveKind.WorldMap || cpuHumans))
+            {
+                throw new ArgumentException("--pbem plays a world map save with its human seats.");
+            }
+
+            if (pbemAttack is not null && !pbem)
+            {
+                throw new ArgumentException("--pbem-attack applies to a PBEM turn (--pbem).");
+            }
+
             bool play = true;
             if (kind == SaveKind.Campaign)
             {
@@ -262,6 +277,17 @@ internal static class Program
                     HeadlessHooks.BeforeAIPlayerProcess = directed.BeforeFrame;
                 }
 
+                if (pbem)
+                {
+                    // Refused before the activation: any other game never raises the send dialog.
+                    if (PbemTurn.Refusal(map.ConnectionType, mode: map.PlayMode, control: map.PlayerControl?.GetType(), current: map.Players.GetPlayers(map.CurrentPlayer)?.PlayerType) is { } refusal)
+                    {
+                        throw new ArgumentException(refusal);
+                    }
+
+                    pbemTurn = new(map, order: pbemAttack);
+                }
+
                 map.GameEnded += _ =>
                 {
                     // The native harness stops at TriggerGameTerminatedEvent and saves once more as
@@ -276,6 +302,16 @@ internal static class Program
                 map.ExecutingEventLog += notification =>
                 {
                     ExecuteEventLogInfo info = notification.Info;
+                    if (pbemTurn?.TryHandOff(info.Log, saveHandoff: () => SaveAs("pbem-handoff.asg", control: map.PlayerControl)) == true)
+                    {
+                        return;
+                    }
+
+                    if (!info.Immediate)
+                    {
+                        pbemTurn?.EventLogShown(info.Log);
+                    }
+
                     if (info.Log is MessageEventLog message)
                     {
                         bool yes = message.Buttons is MessageEventLogButtons.YesNo or MessageEventLogButtons.YesNoCancel;
@@ -309,6 +345,23 @@ internal static class Program
                     saves.Add(new { day, file = name, sha256 = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(file))) });
                     HostLog.Information(logger, text: $"day {day}: {name}, frame {frames}, viewport {map.ViewWidth}x{map.ViewHeight}");
                 }
+                // A PBEM turn's loaded state and the next seat's turn file, written by AutoSave as the
+                // native harness writes them (playtest.py run-pbem).
+                void SaveAs(string name, PlayerControl control)
+                {
+                    CheckTodos();
+                    string file = Path.Combine(output, name);
+                    host.FilesForRun.AutoSaveTarget = file;
+                    control.AutoSave();
+                    host.FilesForRun.AutoSaveTarget = null;
+                    if (!File.Exists(file))
+                    {
+                        throw new IOException($"AutoSave did not write {name}");
+                    }
+
+                    saves.Add(new { day = map.Day, file = name, sha256 = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(file))) });
+                    HostLog.Information(logger, text: $"PBEM save on day {map.Day}: {name}, frame {frames}");
+                }
                 void FinalSave(PlayerControl control)
                 {
                     string name = $"final-day-{map.Day:D2}{DayExtension(map)}";
@@ -325,6 +378,22 @@ internal static class Program
                     HostLog.Information(logger, text: $"game ended on day {map.Day}: {name}, frame {frames}");
                 }
                 HeadlessHooks.AfterNewDay = Save;
+                HexSpriteMapViewer CreateViewer()
+                {
+                    map.UpdateFPS(animationFps);
+                    HexSpriteMapViewer created = new(null)
+                    {
+                        HexSpriteMap = map,
+                        SceneWidth = pbemTurn is null ? viewportWidth : viewportWidth + SideWindowsLayout.SideWindowsWidth,
+                        SceneHeight = viewportHeight
+                    };
+                    created.ChangeScene(map.ViewPixelX, map.ViewPixelY, lHitPoints: map.ViewMapLevel);
+                    return created;
+                }
+
+                // A PBEM turn seats its human during the activation, and the seat's view centres on
+                // the map window (ResetSeatedPlayerView), which the native game has before the load.
+                HexSpriteMapViewer? viewer = pbemTurn is null ? null : CreateViewer();
                 HostLog.Information(logger, text: "activating map");
                 map.Activate();
                 if (cpuHumans)
@@ -334,23 +403,17 @@ internal static class Program
 
                 HostLog.Information(logger, text: "map activated");
                 CheckTodos();
-                if (saves.Count == 0)
+                // A PBEM turn saves at its own points. The loaded state is the first one.
+                if (saves.Count == 0 && pbemTurn is null)
                 {
                     Save(map.PlayerControl);
                 }
 
-                map.UpdateFPS(animationFps);
-                HexSpriteMapViewer viewer = new(null)
-                {
-                    HexSpriteMap = map,
-                    SceneWidth = viewportWidth,
-                    SceneHeight = viewportHeight
-                };
-                viewer.ChangeScene(map.ViewPixelX, map.ViewPixelY, lHitPoints: map.ViewMapLevel);
+                viewer ??= CreateViewer();
                 TacticalInput.Install(map, viewer);
                 Stopwatch watchdog = Stopwatch.StartNew();
                 int previous = day;
-                while (!ended && map.Day < firstDay + turns)
+                while (!ended && (pbemTurn is null ? map.Day < firstDay + turns : !pbemTurn.IsHandedOff))
                 {
                     frames++;
                     if (frames <= 3 || frames % 1000000 == 0)
@@ -363,6 +426,16 @@ internal static class Program
                         HostLog.Information(logger, text: $"combat frame {tacticalMap.Frame}, status {(ulong)tacticalMap.Status:X}, player {tacticalMap.CurrentCombatPlayer}, end pending {tacticalMap.EndTurnPending}, AI {tacticalMap.AI.Status}, effects {tacticalMap.Effects.Count}, result {tacticalMap.Combat.CombatResult}");
                     }
 
+                    // The native frame draws the scene (THSMapViewer.ShowScene), which hands the map the
+                    // viewer's size. The headless host draws nothing, so a new width goes to the map here.
+                    pbemTurn?.Layout.Observe(frames, isHumanSeated: map.SeatedPlayer is { } seated && map.Players.GetPlayers(seated)?.PlayerType == PlayerType.Human);
+                    if (pbemTurn?.Layout.Width(viewportWidth) is int width && width != viewer.SceneWidth)
+                    {
+                        viewer.SceneWidth = width;
+                        viewer.ChangeScene(map.ViewPixelX, map.ViewPixelY, lHitPoints: map.ViewMapLevel);
+                    }
+
+                    pbemTurn?.BeforeFrame(frames, saveLoaded: () => SaveAs("pbem-loaded.asg", control: map.PlayerControl));
                     map.NewFrame();
                     CheckTodos();
                     if (day != previous)
@@ -376,7 +449,7 @@ internal static class Program
                     }
                 }
                 directed?.AssertKnownResults(turns);
-                complete = ended || saves.Count >= turns + 1;
+                complete = pbemTurn is null ? ended || saves.Count >= turns + 1 : pbemTurn.IsHandedOff;
 
                 HostLog.Information(logger, text: $"complete: {complete}, day {day}, turns {day - firstDay}, frames {frames}, TODOs reached {todos.Count}, dialogs {host.DialogCount}, game ended {ended}");
             }
@@ -418,6 +491,7 @@ internal static class Program
                     campaign_seat = campaignSeat,
                     cpu_humans = cpuHumans,
                     next_scenario = nextScenario,
+                    pbem = pbemTurn?.Record,
                     outcome,
                     between_maps = betweenMaps,
                     game_result = end?.GameResult,
