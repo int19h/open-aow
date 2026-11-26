@@ -190,6 +190,8 @@ internal sealed class FrameFixture
                 form.UI.FileDialogWindow.Directory = $"{Path.Combine(gameRoot, saveDirectory).Replace('/', '\\')}\\";
             }
 
+            // The native capture seats this combat slot after tactical setup (frames.py seated_combat).
+            sbyte seatedCombatPlayer = fixture._values.TryGetValue("seated_combat", out string? seatedText) ? sbyte.Parse(seatedText, provider: CultureInfo.InvariantCulture) : (sbyte)0;
             FrameFixtureInputs.TacticalInitialized = () =>
             {
                 if (StrategicMap.Current?.CombatMap is not CombatMap combat)
@@ -198,7 +200,7 @@ internal sealed class FrameFixture
                 }
 
                 combat.PlaySounds = true;
-                combat.SetSeatedCombatPlayer(0);
+                combat.SetSeatedCombatPlayer(seatedCombatPlayer);
                 form.UI.ChatWindow.MinClick();
                 tacticalReady = true;
             };

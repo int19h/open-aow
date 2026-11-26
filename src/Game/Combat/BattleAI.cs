@@ -1913,6 +1913,12 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
         detourPathPathStepList?.Dispose();
     }
 
+    // AoWTC.pas:2073, AoWTC.pas:2095, AoWTC.pas:2121, AoWTC.pas:2132. The original compares
+    // the moved unit's combat slot with the seated game player number. The port compares the
+    // combat slot with the seated combat slot, so the camera follows the seated player's own
+    // units when the computer moves them.
+    internal static bool CameraFollowsAIUnit(TacticalBattleUnit unit) => unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer;
+
     // AoWTC.pas:1628
     public void EvalBattle()
     {
@@ -2863,7 +2869,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                         // { Original repeats X. }
                                                         Creator.GetEngine().OutputDebugString($"AI moves to X: {move.X.ToString(CultureInfo.InvariantCulture)} Y: {move.X.ToString(CultureInfo.InvariantCulture)}");
                                                         moved = TacticalBattleUnit.MoveCombatUnit(move.UnitHexSprite.Unit, path: pathStepList);
-                                                        if (move.UnitHexSprite.Unit.CombatPlayer == PlayerIdExtensions.ToOriginal(CombatMap.Current.SeatedPlayer))
+                                                        if (CameraFollowsAIUnit(move.UnitHexSprite.Unit))
                                                         {
                                                             int unitHexSpriteHexY = move.UnitHexSprite.HexY;
                                                             int hexX = move.UnitHexSprite.HexX;
@@ -2905,7 +2911,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                 // { Original repeats X in the debug text. }
                                                 Creator.GetEngine().OutputDebugString($"AI touches at X: {move.X.ToString(CultureInfo.InvariantCulture)} Y: {move.X.ToString(CultureInfo.InvariantCulture)}");
                                                 moved = move.UnitHexSprite.MeleeMoveTacticalBattle(pathStepList);
-                                                if (move.UnitHexSprite.Unit.CombatPlayer == PlayerIdExtensions.ToOriginal(CombatMap.Current.SeatedPlayer))
+                                                if (CameraFollowsAIUnit(move.UnitHexSprite.Unit))
                                                 {
                                                     int hexY = move.UnitHexSprite.HexY;
                                                     int hexX = move.UnitHexSprite.HexX;
@@ -2948,7 +2954,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                 // { Original repeats X in the debug text. }
                                                 Creator.GetEngine().OutputDebugString($"AI melees at X: {move.X.ToString(CultureInfo.InvariantCulture)} Y: {move.X.ToString(CultureInfo.InvariantCulture)}");
                                                 moved = move.UnitHexSprite.AbilityTouchMoveTacticalBattle(pathStepList);
-                                                if (move.UnitHexSprite.Unit.CombatPlayer == PlayerIdExtensions.ToOriginal(CombatMap.Current.SeatedPlayer))
+                                                if (CameraFollowsAIUnit(move.UnitHexSprite.Unit))
                                                 {
                                                     int hexY = move.UnitHexSprite.HexY;
                                                     int hexX = move.UnitHexSprite.HexX;
@@ -2966,7 +2972,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     // { Original repeats X in the debug text. }
                                     Creator.GetEngine().OutputDebugString($"AI ranged at X: {move.X.ToString(CultureInfo.InvariantCulture)} Y: {move.X.ToString(CultureInfo.InvariantCulture)}");
                                     moved = move.UnitHexSprite.AbilityRangedTacticalBattle(move.X, move.Y);
-                                    if (move.UnitHexSprite.Unit.CombatPlayer == PlayerIdExtensions.ToOriginal(CombatMap.Current.SeatedPlayer))
+                                    if (CameraFollowsAIUnit(move.UnitHexSprite.Unit))
                                     {
                                         int hexY = move.UnitHexSprite.HexY;
                                         int hexX = move.UnitHexSprite.HexX;
