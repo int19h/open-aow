@@ -620,6 +620,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     // Player.PAS:425
     public void SetGameOverStatus(GameOverStatus value)
     {
+        HeadlessHooks.BeforeSetGameOverStatus?.Invoke(this, value);
         if (value != GameOverStatus && GameOverStatus == GameOverStatus.None)
         {
             GameOverStatus = value;

@@ -69,6 +69,109 @@ public sealed class HeadlessSeatTests
     }
 
     [Fact]
+    public void TheLoadedMapHookRunsBeforeThePlayerControlAndANullHookIsSkipped()
+    {
+        // A bare map has no token executor for the turn control to activate, so the player control
+        // fails after it starts. The hook has to run before that, and a null hook has to reach it too.
+        using SeatMap seats = new();
+        seats.Map.SetupPlayerControl(PlayMode.Turn, connection: PlayerConnectionType.Local);
+        seats.Map.CurrentPlayer = PlayerId.Player1;
+        seats.PlayingHumans();
+        List<string> calls = [];
+        HeadlessHooks.BeforeStartLoadedMap = map =>
+        {
+            Assert.Same(seats.Map, map);
+            calls.Add("hook");
+        };
+        Exception? hooked;
+        try
+        {
+            hooked = Record.Exception(seats.Map.StartLoadedMap);
+        }
+        finally
+        {
+            HeadlessHooks.BeforeStartLoadedMap = null;
+        }
+
+        Assert.Equal(["hook"], calls);
+        AssertPlayerControlRan(hooked);
+        AssertPlayerControlRan(Record.Exception(seats.Map.StartLoadedMap));
+        Assert.Equal(["hook"], calls);
+    }
+
+    private static void AssertPlayerControlRan(Exception? error)
+    {
+        if (error is not null)
+        {
+            Assert.Contains($"{nameof(TurnPlayerControl)}.{nameof(TurnPlayerControl.StartLoadedMap)}", error.StackTrace);
+            Assert.DoesNotContain(nameof(HeadlessHooks), error.StackTrace);
+        }
+    }
+
+    [Fact]
+    public void TheVictorySeatPlaysAsCpuAndTurnsHumanAtItsWinOnly()
+    {
+        using SeatMap seats = new();
+        seats.PlayingHumans();
+        seats.Player(2).PlayerType = PlayerType.Cpu1;
+        for (int i = 3; i < seats.Map.Players.Count; i++)
+        {
+            if (seats.Map.Players.GetPlayers(i) is { } other)
+            {
+                other.PlayerType = PlayerType.Cpu1;
+            }
+        }
+
+        seats.Map.Players.Update();
+        CampaignVictory victory = new(EngineFixture.Engine, seatType: PlayerType.Cpu5);
+
+        victory.BeforeStartLoadedMap(seats.Map);
+
+        Assert.Equal(1, victory.Seat);
+        Assert.Equal(PlayerType.Cpu5, seats.Player(1).PlayerType);
+        // Only the type changes. The lists keep the seat from activation, so it is seated as the human.
+        Assert.Equal((byte)1, Assert.Single(seats.Map.Players.LocalHumanPlayers));
+
+        victory.BeforeSetGameOverStatus(seats.Player(1), status: GameOverStatus.Lost);
+        victory.BeforeSetGameOverStatus(seats.Player(2), status: GameOverStatus.Won);
+        Assert.Null(victory.Day);
+        Assert.Equal(PlayerType.Cpu5, seats.Player(1).PlayerType);
+
+        seats.Map.Players.Update();
+        Assert.Empty(seats.Map.Players.LocalHumanPlayers);
+        victory.BeforeSetGameOverStatus(seats.Player(1), status: GameOverStatus.Won);
+
+        Assert.Equal(seats.Map.Day, victory.Day);
+        Assert.Equal(PlayerType.Human, seats.Player(1).PlayerType);
+        Assert.Equal((byte)1, Assert.Single(seats.Map.Players.LocalHumanPlayers));
+        // No campaign is loaded, so no finished save is recorded.
+        victory.Finish();
+        Assert.Null(victory.FinishedName);
+        Assert.Null(victory.Finished);
+    }
+
+    [Fact]
+    public void TheVictoryRefusesASeatThatIsNotHuman()
+    {
+        using SeatMap seats = new();
+        seats.PlayingHumans();
+        for (int i = 1; i < seats.Map.Players.Count; i++)
+        {
+            if (seats.Map.Players.GetPlayers(i) is { } player)
+            {
+                player.PlayerType = PlayerType.Cpu2;
+            }
+        }
+
+        CampaignVictory victory = new(EngineFixture.Engine, seatType: PlayerType.Cpu5);
+
+        InvalidDataException error = Assert.Throws<InvalidDataException>(() => victory.BeforeStartLoadedMap(seats.Map));
+        Assert.Contains("not the human campaign seat", error.Message);
+        Assert.Equal(-1, victory.Seat);
+        Assert.Equal(PlayerType.Cpu2, seats.Player(1).PlayerType);
+    }
+
+    [Fact]
     public void AStartedAndAFinishedCampaignChooseFromTheDocument()
     {
         GameEngine engine = EngineFixture.Engine;

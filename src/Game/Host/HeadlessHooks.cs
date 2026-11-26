@@ -27,6 +27,24 @@ public static class HeadlessHooks
     /// </summary>
     public static bool HandSeatToAI(PlayerType type) => type != PlayerType.Human || DriveHumanSeats;
 
+    /// <summary>
+    /// Called first in <see cref="Player.SetGameOverStatus"/> with the player and the requested
+    /// status, before the game tests or changes anything (Player.PAS:425). The oracle's campaign
+    /// victory run (issue 344) turns the campaign seat human here at its victory, so the game's
+    /// own campaign branch runs FinishScenario and the transfer Retrieve. The native harness
+    /// does the same at a breakpoint on the entry of TPlayer.SetGameOverStatus.
+    /// </summary>
+    public static Action<Player, GameOverStatus>? BeforeSetGameOverStatus { get; set; }
+
+    /// <summary>
+    /// Called first in <see cref="StrategicMap.StartLoadedMap"/>, after activation rebuilt the
+    /// player lists and before the player control seats the first local human (AoWHSMap.PAS:2615,
+    /// PlayerC.PAS:779). The oracle's campaign victory run (issue 344) makes the campaign seat a CPU
+    /// player here, so the seat is still seated as the local human and plays its turn as the AI. The
+    /// native harness does the same at a breakpoint on the entry of TAoWHSMap.StartLoadedMap.
+    /// </summary>
+    public static Action<StrategicMap>? BeforeStartLoadedMap { get; set; }
+
     public static Action<PlayerControl>? AfterNewDay { get; set; }
     public static Action? BeforeAIPlayerProcess { get; set; }
     public static Action<int, int>? ProcessCost { get; set; }
