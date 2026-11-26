@@ -34,15 +34,14 @@ internal static class LocalizationFrameChecks
 
             dictionary.Close();
         }
-        List<object> coverage = [];
         ImageLibraryFont[] fonts = [ ui.Fonts.Age8, ui.Fonts.Age10, ui.Fonts.Age16Shadow,
             ui.Fonts.Age10Shadow, ui.Fonts.Age8Shadow, ui.Fonts.Age14Gold, ui.Fonts.Age15WhiteOnGrey,
             ui.Fonts.Age15BlackOnBrown, ui.Fonts.Age10List, ui.Fonts.Age10Bold, ui.Fonts.Age10BoldShadow ];
-        foreach (ImageLibraryFont? font in fonts)
+        List<object> coverage = [.. fonts.Select(font =>
         {
             byte[] missing = [.. germanBytes.Where(code => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0)];
-            coverage.Add(new { font = font.Name, missing = missing.Select(b => (int)b).ToArray() });
-        }
+            return (object)new { font = font.Name, missing = missing.Select(static glyph => (int)glyph).ToArray() };
+        })];
         string undead = ui.Engine.TranslateResourceString("Undead(plural)");
         bool undeadEqual = language != 1 || undead == "Undead";
         string mapCaption = ui.ScannerWindow.TitleLabel.Text;
@@ -69,14 +68,9 @@ internal static class LocalizationFrameChecks
                     continue;
                 }
 
-                List<string> texts = [control.Text];
-                if (ItemsOf(control) is DelphiStringCollection items)
-                {
-                    for (int item = 0; item < items.Count; item++)
-                    {
-                        texts.Add(items[item]);
-                    }
-                }
+                List<string> texts = ItemsOf(control) is DelphiStringCollection items
+                    ? [control.Text, .. items]
+                    : [control.Text];
 
                 foreach (string text in texts)
                 {
@@ -117,7 +111,7 @@ internal static class LocalizationFrameChecks
             undead_equal = undeadEqual,
             map_caption = mapCaption,
             file_dialog_title = dialogTitle,
-            file_dialog_title_bytes = Cp1252.Encode(dialogTitle).ToArray().Select(b => (int)b).ToArray(),
+            file_dialog_title_bytes = Cp1252.Encode(dialogTitle).ToArray().Select(static b => (int)b).ToArray(),
             fixture_glyphs_equal = true,
             required_glyphs = required,
             absent_glyphs = absent,

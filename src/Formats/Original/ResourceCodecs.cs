@@ -1053,10 +1053,7 @@ internal sealed class ImageSequencesCodec : PropertyCodec
                 if (layer.Frames is { } frames)
                 {
                     JsonArray items = new();
-                    foreach (int frame in frames.Items)
-                    {
-                        _ = items.Add(new JsonInteger(frame));
-                    }
+                    items.Items.AddRange(frames.Items.Select(static frame => new JsonInteger(frame)));
 
                     _ = item.Add("Frames", new JsonObject().Add("default", new JsonInteger(frames.Default)).Add("items", items));
                 }
@@ -1095,10 +1092,7 @@ internal sealed class ImageSequencesCodec : PropertyCodec
                     }
 
                     List<SequenceLayer> layers = [with(chain.Items.Count)];
-                    for (int k = 0; k < chain.Items.Count; k++)
-                    {
-                        layers.Add(Layer(context, value: chain.Items[k], path: at.Item(k)));
-                    }
+                    layers.AddRange(chain.Items.Select((value, index) => Layer(context, value: value, path: at.Item(index))));
 
                     entries.Add(layers);
                     break;

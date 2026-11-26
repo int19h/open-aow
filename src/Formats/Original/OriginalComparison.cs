@@ -1012,12 +1012,11 @@ internal static class OriginalComparison
         int expBase = expTable.DataBase;
         int expLen = exportedEnd - expBase;
         int[] expBounds = [.. expTable.Entries.Select(e => e.Offset).Append(expLen).Distinct().Order()];
-        List<EntrySlice> expOrdered = [with(expTable.Entries.Count)];
-        foreach (TableEntry entry in expTable.Entries.OrderBy(e => e.Offset).ThenBy(e => e.Index))
+        List<EntrySlice> expOrdered = [.. expTable.Entries.OrderBy(static entry => entry.Offset).ThenBy(static entry => entry.Index).Select(entry =>
         {
             int next = expBounds[Array.BinarySearch(expBounds, value: entry.Offset) + 1];
-            expOrdered.Add(new EntrySlice(entry, Property: property, Start: expBase + entry.Offset, End: expBase + next));
-        }
+            return new EntrySlice(entry, Property: property, Start: expBase + entry.Offset, End: expBase + next);
+        })];
 
         for (int i = 0; i < origOrdered.Count; i++)
         {

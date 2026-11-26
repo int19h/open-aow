@@ -371,15 +371,10 @@ public static partial class Fixtures
     private static JsonArray FirstFields(JsonObject document)
     {
         JsonObject root = Root(document);
-        foreach (JsonValue child in Arr(root["Children"]).Items)
-        {
-            if (Object(child)["$class"] is JsonString { Value: "MapContainer" })
-            {
-                return Arr(Object(Arr(Object(child)["Children"]).Items[0])["Fields"]);
-            }
-        }
-
-        throw new InvalidOperationException("No map container.");
+        JsonValue? container = Arr(root["Children"]).Items.FirstOrDefault(static child => Object(child)["$class"] is JsonString { Value: "MapContainer" });
+        return container is null
+            ? throw new InvalidOperationException("No map container.")
+            : Arr(Object(Arr(Object(container)["Children"]).Items[0])["Fields"]);
     }
 
     private static Outcome ExpectAny(params Action[] actions)

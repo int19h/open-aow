@@ -282,11 +282,7 @@ internal static class ObjectImage
     /// <summary>Writes the canonical property table followed by the encoded data.</summary>
     public static void Place(EncodeContext context, ObjectWriter writer, DocumentNodePath path, ByteBuffer output)
     {
-        List<(int, int)> entries = [with(writer.Items.Count)];
-        foreach (EncodedItem item in writer.Items)
-        {
-            entries.Add((item.Id, item.Start));
-        }
+        List<(int Id, int Offset)> entries = [.. writer.Items.Select(static item => (item.Id, item.Start))];
 
         PropertyTable.WriteCanonical(output, entries, path, context);
         output.Bytes(writer.Data.Span);

@@ -332,11 +332,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
     internal static JsonArray Document(IReadOnlyList<int> indices)
     {
         JsonArray array = new();
-        foreach (int index in indices)
-        {
-            _ = array.Add(new JsonInteger(index));
-        }
-
+        array.Items.AddRange(indices.Select(static index => new JsonInteger(index)));
         return array;
     }
 
