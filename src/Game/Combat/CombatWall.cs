@@ -41,17 +41,9 @@ public class CombatWall : CombatObject
     {
         if (TargetPriorityInvalid)
         {
-            int count = 0;
-            for (int i = TargetedBy.Count - 1; i >= 0; i--)
-            {
-                if (TargetedBy.List[i].Second == 0)
-                {
-                    count += 1;
-                }
-            }
-
+            int count = TargetedBy.Count(static entry => entry.Second == 0);
             TargetPriority = 0;
-            TargetPriority = Combat.Sides[(int)CombatSideIndex.Defender].Reverse().Sum(item => item.IncomingCombatValue - item.IncomingWallCombatValue);
+            TargetPriority = Combat.Sides[(int)CombatSideIndex.Defender].Sum(static item => item.IncomingCombatValue - item.IncomingWallCombatValue);
             TargetPriority = (count + 2) * TargetPriority;
             TargetPriorityInvalid = false;
         }

@@ -4,6 +4,7 @@ using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -33,49 +34,15 @@ public sealed class CombatSide(CustomNode? owner) : OwningNode(owner), IChildLis
     public T GetObjects<T>(int index) where T : CombatObject => (T)GetObjects(index);
 
     // Combat.pas:6011
-    public int IndexOfId(int id)
-    {
-        for (int result = Count - 1; result >= 0; result--)
-        {
-            if (this[result].Id == id)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfId(int id) => this.FindLastIndex(id, match: static (sought, combatObject) => combatObject.Id == sought);
 
     // Combat.pas:6018
-    public int GetDestroyedObjects()
-    {
-        int result = 0;
-        for (int i = Count - 1; i >= 0; i--)
-        {
-            if (this[i].Status.Contains(CombatObjectStatuses.Destroyed))
-            {
-                result += 1;
-            }
-        }
-
-        return result;
-    }
+    public int GetDestroyedObjects() => this.Count(static combatObject => combatObject.Status.Contains(CombatObjectStatuses.Destroyed));
 
     // Combat.pas:6026
-    public int GetUndestroyedConquerObjects()
-    {
-        int result = 0;
-        for (int i = Count - 1; i >= 0; i--)
-        {
-            CombatObject objectValue = this[i];
-            if (((CombatObjectStatuses.Destroyed | CombatObjectStatuses.Fled) & objectValue.Status) == CombatObjectStatuses.None && objectValue.ControlMode.Contains(CombatObjectControlModes.ConquerObject))
-            {
-                result += 1;
-            }
-        }
-
-        return result;
-    }
+    public int GetUndestroyedConquerObjects() => this.Count(static combatObject =>
+        ((CombatObjectStatuses.Destroyed | CombatObjectStatuses.Fled) & combatObject.Status) == CombatObjectStatuses.None
+        && combatObject.ControlMode.Contains(CombatObjectControlModes.ConquerObject));
 
     // Combat.pas:6038
     public void OutputDebugInfo()

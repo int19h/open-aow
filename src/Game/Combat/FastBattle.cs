@@ -4,6 +4,7 @@ using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
+using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -108,47 +109,21 @@ public sealed class FastBattle(CustomNode owner) : Battle(owner)
     public bool AttackerCanCrushWall()
     {
         CombatSide side = Sides[(int)CombatSideIndex.Attacker];
-        int i = side.Count;
-        bool canCrush = false;
-        while (i != 0 && !canCrush)
-        {
-            i -= 1;
-            canCrush = !side.GetObjects(i).Status.Contains(CombatObjectStatuses.Destroyed) && side.GetObjects(i).WallCombatFeatures().Contains(WallCombatFeatures.WallBreaching);
-        }
-
-        return canCrush;
+        return side.FindLastIndex(static combatObject => !combatObject.Status.Contains(CombatObjectStatuses.Destroyed) && combatObject.WallCombatFeatures().Contains(WallCombatFeatures.WallBreaching)) != -1;
     }
 
     // AIGroup.pas:7226
     public int GetAttackerBallisticCombatValue()
     {
-        int combatValue = 0;
         CombatSide side = Sides[(int)CombatSideIndex.Attacker];
-        for (int i = 0, last = side.Count - 1; i <= last; i++)
-        {
-            if (!side.GetObjects(i).Status.Contains(CombatObjectStatuses.Destroyed) && side.GetObjects(i).SupportCombatMode(CombatModes.MediumRange | CombatModes.LongRange))
-            {
-                combatValue += side.GetObjects(i).CombatValue;
-            }
-        }
-
-        return combatValue;
+        return side.Sum(static combatObject => !combatObject.Status.Contains(CombatObjectStatuses.Destroyed) && combatObject.SupportCombatMode(CombatModes.MediumRange | CombatModes.LongRange) ? combatObject.CombatValue : 0);
     }
 
     // AIGroup.pas:7241
     public int GetDefenderBallisticCombatValue()
     {
-        int combatValue = 0;
         CombatSide side = Sides[(int)CombatSideIndex.Defender];
-        for (int i = 0, last = side.Count - 1; i <= last; i++)
-        {
-            if (!side.GetObjects(i).Status.Contains(CombatObjectStatuses.Destroyed) && side.GetObjects(i).SupportCombatMode(CombatModes.MediumRange | CombatModes.LongRange))
-            {
-                combatValue += side.GetObjects(i).CombatValue;
-            }
-        }
-
-        return combatValue;
+        return side.Sum(static combatObject => !combatObject.Status.Contains(CombatObjectStatuses.Destroyed) && combatObject.SupportCombatMode(CombatModes.MediumRange | CombatModes.LongRange) ? combatObject.CombatValue : 0);
     }
 
     // AIGroup.pas:7256

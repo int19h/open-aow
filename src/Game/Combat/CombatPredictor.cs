@@ -210,26 +210,14 @@ public sealed class CombatPredictor : IDisposable
     // CombatPredictor.pas:398
     public bool CanPassWall()
     {
-        bool result;
         try
         {
-            result = false;
-            int i = _allUnits.Count;
-            while (!result && i != 0)
-            {
-                i -= 1;
-                if (_allUnits.GetUnits(i).Troop is not null)
-                {
-                    result = _allUnits.GetUnits(i).Troop.GetWallCombatFeatures().Contains(WallCombatFeatures.WallPassing);
-                }
-            }
+            return _allUnits.FindLastIndex(static unit => unit.Troop is not null && unit.Troop.GetWallCombatFeatures().Contains(WallCombatFeatures.WallPassing)) != -1;
         }
         catch
         {
             return false;
         }
-
-        return result;
     }
 
     // CombatPredictor.pas:415
@@ -819,25 +807,13 @@ public sealed class CombatPredictor : IDisposable
         u.Setup(troop, predictor: (CombatPredictor)(object)this, side: 0);
         CombatPredictorUnit? wall = _wall;
         int result;
-        CombatPredictorUnit target;
         int i;
         bool useful;
         if (wall is not null && wall.HitPoints > 0)
         {
             u.UpdateWallTargets();
             result = u.WallCombatValue;
-            useful = false;
-            i = u.WallTargets.Count;
-            while (i != 0 && !useful)
-            {
-                i -= 1;
-                if (u.WallTargets.List[i].Second > 0)
-                {
-                    target = u.WallTargets.List[i].First;
-                    useful = target == _wall && target.HitPoints > 0;
-                }
-            }
-
+            useful = u.WallTargets.FindLastIndex(_wall, match: static (wall, entry) => entry.Second > 0 && entry.First == wall && entry.First.HitPoints > 0) != -1;
             if (useful)
             {
                 result |= 0b1000_0000_0000_0000_0000_0000;
@@ -855,17 +831,8 @@ public sealed class CombatPredictor : IDisposable
                 allDead = Sides[0].GetUnits(i).Status.Contains(CombatPredictorUnitStatuses.Destroyed);
             }
 
-            useful = false;
-            i = u.Targets.Count;
-            while (i != 0 && !useful)
-            {
-                i -= 1;
-                if (u.Targets.List[i].Second > 0)
-                {
-                    target = u.Targets.List[i].First;
-                    useful = target != _wall && (target.HitPoints > 0 || Result == 3 || allDead);
-                }
-            }
+            (CombatPredictorUnit soughtWall, int resultCode, bool dead) state = (_wall, Result, allDead);
+            useful = u.Targets.FindLastIndex(state, match: static (sought, entry) => entry.Second > 0 && entry.First != sought.soughtWall && (entry.First.HitPoints > 0 || sought.resultCode == 3 || sought.dead)) != -1;
 
             if (useful)
             {

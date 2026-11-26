@@ -122,23 +122,9 @@ public class HighPrayer : CombatSpell
     // CombatSpells.pas:1067
     public override void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
-        int value = 0;
         CombatSideIndex side = source.Side;
         CombatSide combatSide = source.Combat.Sides[(int)side];
-        for (int i = combatSide.GetCount() - 1; i >= 0; i--)
-        {
-            CombatObject ally = combatSide.GetObjects(i);
-            if (ally.CombatValue != 0 && ally is CombatUnit)
-            {
-                int healing = ally.GetHits() - ally.HitPoints;
-                if (healing > 5)
-                {
-                    healing = 5;
-                }
-
-                value += healing * 100;
-            }
-        }
+        int value = combatSide.Sum(static ally => ally.CombatValue != 0 && ally is CombatUnit ? Math.Min(ally.GetHits() - ally.HitPoints, val2: 5) * 100 : 0);
 
         if (value != 0)
         {

@@ -3,6 +3,7 @@
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Game.World.Map;
+using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.Combat;
@@ -63,12 +64,7 @@ public sealed partial class CombatData : EngineObject
     }
 
     // Combat2.pas:212
-    public bool GetSideLeaderInvolved(int side)
-    {
-        bool result = false;
-        result = InvolvedLeaders.Any(item => Players.GetPlayers((sbyte)item).SideIndex == side);
-        return result;
-    }
+    public bool GetSideLeaderInvolved(int side) => InvolvedLeaders.FindLastIndex(leader => Players.GetPlayers((sbyte)leader).SideIndex == side) != -1;
 
     // Combat2.pas:231
     public int GetCount() => CombatObjects.Count;

@@ -240,17 +240,7 @@ public class Battle : EngineObject
     {
         LockExecuted();
         Status |= CombatStatuses.Executing;
-        int wallType = 0;
-        int j = 0;
-        while (wallType == 0 && j != CombatData.Parties.Count)
-        {
-            if (CombatData.Parties.GetParty((byte)j) is not null)
-            {
-                wallType = CombatData.Parties.GetParty((byte)j).Wall;
-            }
-
-            j += 1;
-        }
+        int wallType = CombatData.Parties.FirstOrDefault(static candidate => candidate is not null && candidate.Wall != 0)?.Wall ?? 0;
 
         if (wallType != 0)
         {
@@ -340,12 +330,7 @@ public class Battle : EngineObject
             while (armyIndex != 0 && !alive)
             {
                 armyIndex -= 1;
-                int unitIndex = player.Armies.GetArmy(armyIndex).Units.Count;
-                while (!alive && unitIndex != 0)
-                {
-                    unitIndex -= 1;
-                    alive = player.Armies.GetArmy(armyIndex).Units.GetUnit(unitIndex).GetHitPoints() != 0;
-                }
+                alive = player.Armies.GetArmy(armyIndex).Units.FindLastIndex(static troop => troop.GetHitPoints() != 0) != -1;
             }
 
             Logbook.PlayerEliminated = !alive;

@@ -288,21 +288,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
     }
 
     // CombatPredictor.pas:201
-    public void UpdateRoundTargetPriority()
-    {
-        if (Enabled != 0)
-        {
-            _targetPriority = 0;
-            for (int i = RoundTargets.Count - 1; i >= 0; i--)
-            {
-                _targetPriority += RoundTargets.List[i].First._ineffectiveAttackers;
-            }
-        }
-        else
-        {
-            _targetPriority = 0;
-        }
-    }
+    public void UpdateRoundTargetPriority() => _targetPriority = Enabled != 0 ? RoundTargets.Sum(static entry => entry.First._ineffectiveAttackers) : 0;
 
     // CombatPredictor.pas:213
     private static int CompareRoundTargets(in QuadItem<CombatPredictorUnit> item1, in QuadItem<CombatPredictorUnit> item2) => item1.Fourth - item2.Fourth;

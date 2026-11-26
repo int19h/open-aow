@@ -107,18 +107,8 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
         if (TargetPriorityInvalid)
         {
             TargetPriority = 0;
-            int count = 0;
-            int i = TargetedBy.Count - 1;
-            for (; i >= 0; i -= 1)
-            {
-                if (TargetedBy.List[i].Second == 0)
-                {
-                    count += 1;
-                }
-            }
-
-            i = Targets.Count - 1;
-            for (; i >= 0; i -= 1)
+            int count = TargetedBy.Count(static entry => entry.Second == 0);
+            for (int i = Targets.Count - 1; i >= 0; i -= 1)
             {
                 int combatValue = Targets.List[i].Second;
                 if (combatValue != 0)
@@ -130,9 +120,9 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
             }
 
             TargetPriority = (count + 2) * TargetPriority;
-            i = TargetedBy.Count;
+            int targetedByCount = TargetedBy.Count;
             // { Original bug: the normalized priority is stored in FTargetStrength. }
-            TargetStrength = i != 0 ? TargetPriority / i : 0;
+            TargetStrength = targetedByCount != 0 ? TargetPriority / targetedByCount : 0;
 
             TargetPriorityInvalid = false;
         }
@@ -145,11 +135,7 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
     {
         if (TargetStrengthInvalid)
         {
-            TargetStrength = 0;
-            for (int i = Targets.Count - 1; i >= 0; i--)
-            {
-                TargetStrength += Targets.List[i].Fourth;
-            }
+            TargetStrength = Targets.Sum(static entry => entry.Fourth);
 
             if (TargetStrength != 0)
             {

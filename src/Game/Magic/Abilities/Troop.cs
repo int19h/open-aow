@@ -963,13 +963,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public void UpdateEnchanted()
     {
         AbilityTypeList list = GamePack.Current.AbilityControl.AbilitiesByType[4];
-        bool enchanted = false;
-        int i = list.Count;
-        while (!enchanted && i != 0)
-        {
-            i -= 1;
-            enchanted = GetAbilityEnabled(list.GetAbility(i).AbilityId);
-        }
+        bool enchanted = list.FindLastIndex(ability => GetAbilityEnabled(ability.AbilityId)) != -1;
 
         UnitStatus = enchanted
             ? UnitStatus | UnitStatuses.Enchanted
@@ -1058,16 +1052,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public bool CanDispelEnchantment(PlayerId? player)
     {
         AbilityTypeList list = GamePack.Current.AbilityControl.AbilitiesByType[4];
-        int i = list.Count;
-        bool result = false;
-        while (!result && i != 0)
-        {
-            i -= 1;
-            UnitEnchantment? enchantment = AbilityToEnchantment(list.GetAbility(i).AbilityId);
-            result = enchantment is not null && PlayerIdExtensions.ToOriginal(player) != enchantment.Source;
-        }
-
-        return result;
+        return list.FindLastIndex(ability => AbilityToEnchantment(ability.AbilityId) is UnitEnchantment enchantment && PlayerIdExtensions.ToOriginal(player) != enchantment.Source) != -1;
     }
 
     // Unit.PAS:481
