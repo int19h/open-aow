@@ -150,14 +150,7 @@ public sealed class AbilityControl : EngineObject
     // Ability.PAS:2148
     public void ListAbilityInfo(DelphiStringCollection text, bool sortByName, AbilityInfoModes mode)
     {
-        DelphiList<Ability> list = [];
-        for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
-        {
-            if (Abilities[i] is not null)
-            {
-                _ = list.Add(Abilities[i]);
-            }
-        }
+        DelphiList<Ability> list = [.. Abilities.Where(ability => ability is not null)];
 
         if (sortByName)
         {

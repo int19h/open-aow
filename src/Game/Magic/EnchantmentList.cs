@@ -1,6 +1,7 @@
 #nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
+using Aow.Rtl;
 
 namespace Aow.Game.Magic;
 
@@ -19,20 +20,7 @@ public sealed class EnchantmentList(CustomNode? owner) : OwningNode(owner), IChi
     public Enchantment GetEnchantments(int index) => this[index];
 
     // Spells.PAS:1764
-    public int IndexOfId(int id)
-    {
-        int result = GetCount();
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].EnchantmentId == id)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfId(int id) => this.FindLastIndex(id, match: static (sought, enchantment) => enchantment.EnchantmentId == sought);
 
     // Spells.PAS:1774
     public Enchantment? FindId(int id)

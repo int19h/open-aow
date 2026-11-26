@@ -155,16 +155,7 @@ public class FastBattleUnit(CustomNode? owner) : CombatUnit(owner)
                 if (Combat.CombatData.WallType == 0 || Combat.CombatData.WallBreached)
                 {
                     TargetPriority = 0;
-                    count = 0;
-                    i = TargetedBy.Count - 1;
-                    for (; i >= 0; i -= 1)
-                    {
-                        if (TargetedBy.List[i].Second == 0)
-                        {
-                            count += 1;
-                        }
-                    }
-
+                    count = TargetedBy.Count(static entry => entry.Second == 0);
                     i = Targets.Count - 1;
                     for (; i >= 0; i -= 1)
                     {
@@ -185,16 +176,7 @@ public class FastBattleUnit(CustomNode? owner) : CombatUnit(owner)
                 else
                 {
                     TargetPriority = 0;
-                    count = 0;
-                    i = TargetedBy.Count - 1;
-                    for (; i >= 0; i -= 1)
-                    {
-                        if (TargetedBy.List[i].Third == 0)
-                        {
-                            count += 1;
-                        }
-                    }
-
+                    count = TargetedBy.Count(static entry => entry.Third == 0);
                     i = Targets.Count - 1;
                     for (; i >= 0; i -= 1)
                     {

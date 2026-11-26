@@ -283,20 +283,14 @@ public class Leader(CustomNode? owner) : Hero(owner)
     // Hero.PAS:2870
     public bool DeleteSphere(MagicSphere sphere)
     {
-        int i = _spheres.Count;
-        bool result = false;
-        while (!result && i != 0)
-        {
-            i -= 1;
-            result = _spheres[i] == (byte)sphere;
-        }
-
-        if (result)
+        int i = _spheres.FindLastIndex(sphere, match: static (sought, stored) => stored == (byte)sought);
+        if (i >= 0)
         {
             _spheres.Delete(i);
+            return true;
         }
 
-        return result;
+        return false;
     }
 
     // Hero.PAS:2883

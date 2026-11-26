@@ -113,11 +113,9 @@ public sealed partial class TacticalBattle(CustomNode? owner) : Battle(owner)
     {
         CombatSide side = Sides[(int)CombatSideIndex.Attacker];
         bool result = CombatData.Parties.GetParty(0).Wall == 0;
-        int i = side.GetCount();
-        while (!result && i > 0)
+        if (!result)
         {
-            i -= 1;
-            result = (side.GetObjects(i).WallCombatFeatures() & (WallCombatFeatures.WallBreaching | WallCombatFeatures.WallPassing)) != WallCombatFeatures.None;
+            result = side.FindLastIndex(static combatObject => (combatObject.WallCombatFeatures() & (WallCombatFeatures.WallBreaching | WallCombatFeatures.WallPassing)) != WallCombatFeatures.None) != -1;
         }
 
         return result;

@@ -156,19 +156,7 @@ public sealed class GlobalMagicControl : EngineObject
     }
 
     // Spells.PAS:2700
-    public int GetEnchantmentUpkeep(PlayerId? player)
-    {
-        int result = 0;
-        for (int i = Enchantments.GetCount() - 1; i >= 0; i--)
-        {
-            if (player == Enchantments.GetEnchantments(i).PlayerIndex)
-            {
-                result += Enchantments.GetEnchantments(i).GetUpkeep();
-            }
-        }
-
-        return result;
-    }
+    public int GetEnchantmentUpkeep(PlayerId? player) => Enchantments.Sum(enchantment => player == enchantment.PlayerIndex ? enchantment.GetUpkeep() : 0);
 
     // Spells.PAS:2702
     public void UpdateActiveEnchantments()
@@ -182,20 +170,7 @@ public sealed class GlobalMagicControl : EngineObject
     }
 
     // Spells.PAS:2704
-    public int IndexOfId(int id)
-    {
-        int i = Enchantments.GetCount();
-        while (i != 0)
-        {
-            i -= 1;
-            if (id == Enchantments.GetEnchantments(i).EnchantmentId)
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfId(int id) => Enchantments.FindLastIndex(id, match: static (sought, enchantment) => sought == enchantment.EnchantmentId);
 
     // Spells.PAS:2706
     public bool ValidateEnchantmentId(GlobalEnchantment enchantment)

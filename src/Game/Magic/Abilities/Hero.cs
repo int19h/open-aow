@@ -1602,16 +1602,8 @@ public partial class Hero : Troop
     {
         if (Race != value)
         {
-            bool found = false;
-            int index = GamePack.Current.HeroResources.GetCount();
-            while (!found && index != 0)
-            {
-                index -= 1;
-                HeroResource? resource = GamePack.Current.HeroResources.GetHeroResource(index);
-                found = resource is not null && resource.Race == value && HeroType == resource.HeroType;
-            }
-
-            if (found)
+            int index = GamePack.Current.HeroResources.FindLastIndex<HeroResource>(resource => resource is not null && resource.Race == value && HeroType == resource.HeroType);
+            if (index >= 0)
             {
                 SetHeroResourceIndex(index);
             }
