@@ -4,6 +4,8 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Draw.Images;
 
+using Aow.Rtl;
+
 namespace Aow.Game.Units;
 
 public sealed class FaceResourceList : ResourceCollection, IChildList<FaceResource>
@@ -21,20 +23,7 @@ public sealed class FaceResourceList : ResourceCollection, IChildList<FaceResour
 
     // Ability.PAS:526
     public int IndexOfFaceImage(LibraryImage image)
-    {
-        int result = GetCount();
-        while (result != 0)
-        {
-            result -= 1;
-            FaceResource face = this[result];
-            if (face is not null && face.FaceImage == image)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+        => ((IReadOnlyList<FaceResource>)this).FindLastIndex(image, match: static (sought, face) => face is not null && face.FaceImage == sought);
 
     // Ability.PAS:540
     public FaceResource? GetFaceResource(int index) => index < Count && index >= 0 ? this[index] : null;

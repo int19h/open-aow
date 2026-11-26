@@ -62,6 +62,8 @@ public sealed class ListQueriesTests
         _ = Assert.Throws<ArgumentNullException>(() => list.FindIndex(match: null!));
         _ = Assert.Throws<ArgumentNullException>(() => list.FindLastIndex(match: null!));
         _ = Assert.Throws<ArgumentNullException>(() => list.FindLastIndex(state: 0, match: null!));
+        _ = Assert.Throws<ArgumentNullException>(() => list.FindIndex(state: 0, match: null!));
+        _ = Assert.Throws<ArgumentNullException>(() => list.Find(state: 0, match: null!));
         _ = Assert.Throws<ArgumentNullException>(() => list.FindLast(match: null!));
     }
 
@@ -79,6 +81,34 @@ public sealed class ListQueriesTests
         Assert.Equal([7, 5], visited);
         Assert.Equal(2, list.FindLastIndex(5, match: static (sought, item) => item == sought));
         Assert.Equal(-1, list.FindLastIndex(9, match: static (sought, item) => item == sought));
+    }
+
+    [Fact]
+    public void FindIndexPassesStateAndWalksForwards()
+    {
+        IReadOnlyList<int> list = [7, 5, 7, 5];
+        List<int> visited = [];
+        int found = list.FindIndex(5, match: (sought, item) =>
+        {
+            visited.Add(item);
+            return item == sought;
+        });
+        Assert.Equal(1, found);
+        Assert.Equal([7, 5], visited);
+        Assert.Equal(-1, list.FindIndex(9, match: static (sought, item) => item == sought));
+        IReadOnlyList<int> empty = [];
+        Assert.Equal(-1, empty.FindIndex(5, match: static (sought, item) => item == sought));
+    }
+
+    [Fact]
+    public void FindPassesStateAndReturnsTheFirstMatchOrTheDefault()
+    {
+        IReadOnlyList<string?> list = ["ab", null, "ac"];
+        Assert.Equal("ab", list.Find('a', match: static (sought, item) => item is not null && item[0] == sought));
+        Assert.Null(list.Find('z', match: static (sought, item) => item is not null && item[0] == sought));
+        CountingList counting = new(5, 7, 5);
+        Assert.Equal(7, counting.Find(7, match: static (sought, item) => item == sought));
+        Assert.Equal(2, counting.Reads);
     }
 
     [Fact]

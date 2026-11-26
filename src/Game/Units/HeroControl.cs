@@ -136,20 +136,8 @@ public sealed class HeroControl : EngineObject
 
     // Hero.PAS:2470
     public int IndexOfLibrary(string libraryName, int libraryId)
-    {
-        int result = _heroes.GetCount();
-        while (result != 0)
-        {
-            result -= 1;
-            Hero hero = _heroes[result];
-            if (hero.LibraryId == libraryId && CompareText(hero.GetLibraryName(), libraryName) == 0)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+        => _heroes.FindLastIndex((libraryName, libraryId), match: static (sought, hero) =>
+            hero.LibraryId == sought.libraryId && CompareText(hero.GetLibraryName(), sought.libraryName) == 0);
 
     // Hero.PAS:2483
     public void ValidateLibraryHeroes()
@@ -255,19 +243,10 @@ public sealed class HeroControl : EngineObject
 
     // Hero.PAS:2545
     public int GetMinFreeHeroLevel()
-    {
-        int result = 30;
-        for (int i = _heroes.Count - 1; i >= 0; i--)
-        {
-            Hero hero = _heroes[i];
-            if (!hero.HeroStatus.Contains(HeroStatuses.Died) && PlayerIdExtensions.ToOriginal(hero.Player) <= 0 && result > hero.GetLevel())
-            {
-                result = hero.GetLevel();
-            }
-        }
-
-        return result;
-    }
+        => _heroes.Where(static hero => !hero.HeroStatus.Contains(HeroStatuses.Died) && PlayerIdExtensions.ToOriginal(hero.Player) <= 0)
+            .Select(static hero => hero.GetLevel())
+            .Prepend(30)
+            .Min();
 
     // Hero.PAS:2557
     public void ListDeadHeroes(HeroList list)

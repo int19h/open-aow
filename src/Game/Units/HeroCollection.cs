@@ -5,6 +5,8 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
 
+using Aow.Rtl;
+
 namespace Aow.Game.Units;
 
 /// <summary>
@@ -44,20 +46,5 @@ public readonly struct HeroCollection : IReadOnlyList<Hero>
     public Hero? GetHero(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Hero.PAS:2395
-    public Hero? FindHero(int id)
-    {
-        int i = 0;
-        Hero? result = null;
-        while (i != Count && result is null)
-        {
-            if (id == this[i].UnitId)
-            {
-                result = this[i];
-            }
-
-            i += 1;
-        }
-
-        return result;
-    }
+    public Hero? FindHero(int id) => this.Find(id, match: static (sought, hero) => sought == hero.UnitId);
 }

@@ -134,22 +134,15 @@ public sealed class ItemLibrary(CustomNode? owner) : ObservableNode(owner), IChi
     // Army.PAS:4897
     public int CreateUniqueLibraryId()
     {
-        int i;
         do
         {
-            i = 0;
             _lastId += 1;
             if (_lastId > 268435455)
             {
                 _lastId = 0;
             }
-
-            while (i != Items.Count && Items[i].LibraryId != _lastId)
-            {
-                i += 1;
-            }
         }
-        while (!(i == Items.Count));
+        while (Items.FindIndex(_lastId, match: static (sought, item) => item.LibraryId == sought) >= 0);
         return _lastId;
     }
 

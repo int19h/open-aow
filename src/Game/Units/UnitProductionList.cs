@@ -4,6 +4,8 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
 
+using Aow.Rtl;
+
 namespace Aow.Game.Units;
 
 public sealed class UnitProductionList(CustomNode? owner) : OwningNode(owner), IChildList<UnitProduction>
@@ -31,19 +33,7 @@ public sealed class UnitProductionList(CustomNode? owner) : OwningNode(owner), I
 
     // Structur.PAS:29
     public int IndexOf(int index)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (index == GetItem(result).UnitIndex)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+        => this.FindLastIndex(index, match: static (sought, production) => sought == production.UnitIndex);
 
     // Structur.PAS:55
     public void SortOnLevel() => SortChildren<UnitProduction>(CompareUnitProductionLevel);

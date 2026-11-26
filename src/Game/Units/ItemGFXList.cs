@@ -2,6 +2,8 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
+using Aow.Rtl;
+
 namespace Aow.Game.Units;
 
 // inherited children, engine, control style
@@ -23,21 +25,7 @@ public sealed class ItemGFXList : ResourceCollection, IChildList<ItemGraphics>
 
     // Army.PAS:5189
     public int FindItemTypeGraphics(ItemType itemType)
-    {
-        int result = -1;
-        int i = 0;
-        while (result == -1 && i != Count)
-        {
-            if (GetChild(i) is not null && this[i].ItemType == itemType)
-            {
-                result = i;
-            }
-
-            i += 1;
-        }
-
-        return result;
-    }
+        => ((IReadOnlyList<ItemGraphics>)this).FindIndex(itemType, match: static (sought, graphics) => graphics is not null && graphics.ItemType == sought);
 
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => ((IEnumerable<ItemGraphics>)this).GetEnumerator();
 }

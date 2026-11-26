@@ -22,6 +22,41 @@ public static class ListQueries
             return -1;
         }
 
+        /// <summary>The first index whose element matches, walking forwards, or -1. The state
+        /// is an argument of the predicate, so a static predicate does not allocate a
+        /// closure.</summary>
+        public int FindIndex<TState>(TState state, Func<TState, T, bool> match)
+        {
+            ArgumentNullException.ThrowIfNull(match);
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (match(state, list[i]))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        /// <summary>The first matching element, walking forwards, or the default. A hit reads
+        /// its element once. The state is an argument of the predicate, so a static predicate
+        /// does not allocate a closure.</summary>
+        public T? Find<TState>(TState state, Func<TState, T, bool> match)
+        {
+            ArgumentNullException.ThrowIfNull(match);
+            for (int i = 0; i < list.Count; i++)
+            {
+                T element = list[i];
+                if (match(state, element))
+                {
+                    return element;
+                }
+            }
+
+            return default;
+        }
+
         /// <summary>The first matching index from startIndex on, walking forwards, or -1.
         /// A startIndex equal to the count finds nothing. A startIndex below zero or
         /// past the count throws, as List's ranged FindIndex does.</summary>

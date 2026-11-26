@@ -603,12 +603,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     }
 
     // Player.PAS:412
-    public int GetUnitCount()
-    {
-        int result = 0;
-        result = Armies.Reverse().Sum(item => item.Units.Count);
-        return result;
-    }
+    public int GetUnitCount() => Armies.Sum(static army => army.Units.Count);
 
     // Player.PAS:420
     public void SetPlayerIndex(PlayerId? value)
@@ -1462,29 +1457,11 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     }
 
     // Player.PAS:1175
-    public int CaptureLocationsLeft()
-    {
-        int result = 0;
-        foreach (PlayerStructure playerStructure in _victoryLocations)
-        {
-            if (playerStructure.Player != PlayerIndex)
-            {
-                bool condition = PlayerIdExtensions.ToOriginal(playerStructure.Player) > 0;
-                if (condition)
-                {
-                    PlayerStructure structure = playerStructure;
-                    condition = StrategicMap.Current.Players.GetDiplomaticRelation(structure.Player, otherPlayer: PlayerIndex) == DiplomaticRelation.Alliance;
-                }
-
-                if (!(condition && StrategicMap.Current.AlliedVictory))
-                {
-                    result += 1;
-                }
-            }
-        }
-
-        return result;
-    }
+    public int CaptureLocationsLeft() => _victoryLocations.Count(structure =>
+        structure.Player != PlayerIndex
+        && !(PlayerIdExtensions.ToOriginal(structure.Player) > 0
+            && StrategicMap.Current.Players.GetDiplomaticRelation(structure.Player, otherPlayer: PlayerIndex) == DiplomaticRelation.Alliance
+            && StrategicMap.Current.AlliedVictory));
 
     // Player.PAS:1188
     public DiplomaticAction? CreateDiplomaticAction(DiplomaticProposal proposal, PlayerId? target, PlayerId? other)

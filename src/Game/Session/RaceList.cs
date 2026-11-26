@@ -30,31 +30,12 @@ public class RaceList : ControlStyleNode, IChildList<Race>
     public Race? GetRace(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Ability.PAS:385
-    public int GetEnabledRaces()
-    {
-        int result = 0;
-        for (int i = 0, last = Count - 1; i <= last; i++)
-        {
-            if (GetChild(i) is not null && this[i].Enabled)
-            {
-                result += 1;
-            }
-        }
-
-        return result;
-    }
+    public int GetEnabledRaces() => this.Count(static race => race is not null && race.Enabled);
 
     // Ability.PAS:394
     public int GetRandomRace()
     {
-        DelphiList<Race> races = [];
-        for (int i = 0, last = Count - 1; i <= last; i++)
-        {
-            if (GetChild(i) is not null && this[i].Enabled)
-            {
-                _ = races.Add(this[i]);
-            }
-        }
+        DelphiList<Race> races = [.. this.Where(static race => race is not null && race.Enabled)];
 
         int result;
         if (races.Count != 0)

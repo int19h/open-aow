@@ -261,23 +261,8 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     public byte NumberOfPlayers => (byte)(Count - 1);
 
     // Player.PAS:1622
-    public int RaceToPlayer(int race)
-    {
-        int result = -1;
-        int i = 1;
-        // { Original uses <> Count and assumes at least the independent player exists. }
-        while (result == -1 && i != Count)
-        {
-            if (this[i].PlayerRace == race)
-            {
-                result = i;
-            }
-
-            i += 1;
-        }
-
-        return result;
-    }
+    // { Original uses <> Count and assumes at least the independent player exists. }
+    public int RaceToPlayer(int race) => this.FindIndex(startIndex: 1, match: player => player.PlayerRace == race);
 
     // Player.PAS:1636
     public void SetNumberOfPlayers(byte value)
@@ -404,21 +389,9 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     }
 
     // Player.PAS:1737
+    // { The search index is the function result. }
     public int IndexOfPlayerType(PlayerType playerType)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (GetPlayers(result).PlayerType == playerType)
-            {
-                // { The search index is the function result. }
-                return result;
-            }
-        }
-
-        return -1;
-    }
+        => this.FindLastIndex(playerType, match: static (sought, player) => player.PlayerType == sought);
 
     // intf_P1_03.inc:319
     public void Update()

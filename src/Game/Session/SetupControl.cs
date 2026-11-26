@@ -449,21 +449,19 @@ public sealed class SetupControl : Component
     // AoWSetup.pas:689
     public bool ValidateSendMap()
     {
-        int i = Settings.Count;
-        int remoteId = 0;
-        while (i != 0 && remoteId == 0)
+        int i = Settings.FindLastIndex(setting =>
         {
-            i -= 1;
-            if (Settings.GetSettings(i).Behavior.PlayerType == 0 && GetRemote() && Settings.GetSettings(i).Behavior.Flags != RemotePlayer.RemoteId)
+            if (setting.Behavior.PlayerType != 0 || !GetRemote() || setting.Behavior.Flags == RemotePlayer.RemoteId)
             {
-                PlayerSetupSettings? setting = Settings.GetSettings(i);
-                int j = Settings.RemotePlayers.IndexOfRemoteId(setting.Behavior.Flags);
-                if (j != -1 && Settings.RemotePlayers.GetPlayers(j).MapValidation == MapValidationInfo.InvalidMap)
-                {
-                    remoteId = Settings.GetSettings(i).Behavior.Flags;
-                }
+                return false;
             }
-        }
+
+            int remotePlayer = Settings.RemotePlayers.IndexOfRemoteId(setting.Behavior.Flags);
+            return remotePlayer != -1
+                && Settings.RemotePlayers.GetPlayers(remotePlayer).MapValidation == MapValidationInfo.InvalidMap
+                && setting.Behavior.Flags != 0;
+        });
+        int remoteId = i >= 0 ? Settings.GetSettings(i).Behavior.Flags : 0;
         if (remoteId != 0)
         {
             // The host sends the map's engine image, the bytes FMapCRC covers and LoadHSMfromStream
@@ -592,16 +590,11 @@ public sealed class SetupControl : Component
     public bool CustomizeLeaders()
     {
         _phase = SetupPhase.CustomizeLeaders;
-        bool found = false;
-        int i = 0;
-        while (!found && i != Settings.Count)
-        {
-            found = Settings.GetSettings(i).Behavior.PlayerType == 0 && (!GetRemote() || Settings.GetSettings(i).Behavior.Flags == RemotePlayer.RemoteId) && !Settings.GetSettings(i).Status.Contains(PlayerSetupStatuses.LeaderCustomized);
-            if (!found)
-            {
-                i += 1;
-            }
-        }
+        int i = Settings.FindIndex(setting =>
+            setting.Behavior.PlayerType == 0
+            && (!GetRemote() || setting.Behavior.Flags == RemotePlayer.RemoteId)
+            && !setting.Status.Contains(PlayerSetupStatuses.LeaderCustomized));
+        bool found = i >= 0;
 
         if (found)
         {

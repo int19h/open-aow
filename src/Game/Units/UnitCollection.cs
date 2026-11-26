@@ -129,40 +129,16 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
 
     // Unit.PAS:2231
     public int IndexOfBehavior(GroupBehavior behavior)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            AIGroup? group = this[result].Group;
-            if (group is not null && group.GroupClass.Behavior == behavior)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+        => this.FindLastIndex(behavior, match: static (sought, troop) =>
+            troop.Group is AIGroup group && group.GroupClass.Behavior == sought);
 
     // Unit.PAS:2243
     public int IndexOfGroup(AIGroup group) => this.FindLastIndex(item => item.Group == group);
 
     // Unit.PAS:2253
     public int IndexOfGroupId(int id)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            AIGroup? group = this[result].Group;
-            if (group is not null && group.GroupId == id)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+        => this.FindLastIndex(id, match: static (sought, troop) =>
+            troop.Group is AIGroup group && group.GroupId == sought);
 
     // Unit.PAS:2265
     public Troop? FindId(int id) => this.FindLast(item => item.UnitId == id);

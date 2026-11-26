@@ -129,18 +129,7 @@ public sealed partial class HeroInventory : ObservableNode, IChildList<Item>, II
 
     // Hero.PAS:307
     public int GetAbilityCount()
-    {
-        int result = 0;
-        foreach (Item item in Items)
-        {
-            if (item is not null && result < item.OwnAbilityCount)
-            {
-                result = item.OwnAbilityCount;
-            }
-        }
-
-        return result;
-    }
+        => Items.Select(static item => item is not null ? item.OwnAbilityCount : 0).Prepend(0).Max();
 
     // Hero.PAS:318
     public AbilityOwner? GetSuperlativeEnabledAbilityOwner(int abilityId)
