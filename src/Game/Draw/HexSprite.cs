@@ -201,7 +201,7 @@ public class HexSprite(CustomNode? owner) : EngineObject(owner), IOwned<MapField
     public virtual void Changed()
     {
         MapField? mapField = Owner;
-        mapField?.Owner.Engine.HexSpriteMap.HexSpriteChangedEventsStore.Raise(this);
+        mapField?.Owner.Engine.HexSpriteMap.OnHexSpriteChanged(this);
     }
 
     // HXSPRITE.PAS:563

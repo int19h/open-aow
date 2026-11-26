@@ -236,7 +236,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
             selection.TargetMode |= TargetSelectionModes.ValidateDistance | TargetSelectionModes.ExternalFloater;
             selection.SourceLocation = new MapCoordinate(HexX, HexY, HexLevel);
             selection.Range = 12;
-            selection.Changed += OnTargetSelectionChange;
+            selection.Changed += TargetSelection_Changed;
             _storm = CreateStorm();
             _storm.UpdateTargetSelection(StrategicMap.Current.TargetSelection);
             string name = _storm.Name();
@@ -277,18 +277,19 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     public virtual int TargetMana() => (GetRechargeDays() - RechargeDays) * 50;
 
     // Altar.pas:128
-    public void OnTargetSelectionChange(TargetSelectionControl selection)
+    public void TargetSelection_Changed(object? sender, TargetSelectionChangedEventArgs e)
     {
-        switch (selection.Change)
+        TargetSelectionControl selection = (TargetSelectionControl)sender!;
+        switch (e.Change)
         {
             case TargetSelectionChange.Deactivated:
                 _storm?.Dispose();
                 _storm = null;
-                selection.Changed -= OnTargetSelectionChange;
+                selection.Changed -= TargetSelection_Changed;
                 Update();
                 break;
             case TargetSelectionChange.Selected:
-                selection.Changed -= OnTargetSelectionChange;
+                selection.Changed -= TargetSelection_Changed;
                 if (StormTargetSelected(selection.Target.X, selection.Target.Y, L: selection.Target.MapLevel))
                 {
                     selection.Deactivate();

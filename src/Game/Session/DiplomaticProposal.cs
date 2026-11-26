@@ -176,7 +176,7 @@ public abstract record DiplomaticProposal
         StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.AddEvent(log);
         ShowTo(log, player: action.Target);
         _ = log.Release();
-        StrategicMap.Current.DiplomaticRelationsChangedEventsStore.Raise(action);
+        StrategicMap.Current.OnDiplomaticRelationsChanged(action);
     }
 
     // Drops the target's logbook entry of the answered proposal.

@@ -19,30 +19,13 @@ namespace Aow.Game.Units;
 public sealed class HeroControl : EngineObject
 {
     // Hero.PAS:2413
-    public HeroControl(CustomNode? owner) : base(owner)
-    {
-        _onChangedStore = new();
-        _onHeroChangedStore = new();
-        _heroes = new HeroList(null) { Holder = CreationHolder() };
-    }
+    public HeroControl(CustomNode? owner) : base(owner) => _heroes = new HeroList(null) { Holder = CreationHolder() };
 
-    private readonly EventStore<HeroControl> _onChangedStore;
-
-    public event NotifyEvent<HeroControl> Changed
-    {
-        add => _onChangedStore.Add(value);
-        remove => _onChangedStore.Remove(value);
-    }
+    public event NotifyEvent<HeroControl>? Changed;
 
     private int _updateCount;
 
-    private readonly EventStore<Hero> _onHeroChangedStore;
-
-    public event NotifyEvent<Hero> HeroChanged
-    {
-        add => _onHeroChangedStore.Add(value);
-        remove => _onHeroChangedStore.Remove(value);
-    }
+    public event NotifyEvent<Hero>? HeroChanged;
 
     private readonly HeroList _heroes;
 
@@ -56,8 +39,8 @@ public sealed class HeroControl : EngineObject
         }
 
         _heroes?.Dispose();
-        _onHeroChangedStore.Clear();
-        _onChangedStore.Clear();
+        HeroChanged = null;
+        Changed = null;
         base.Dispose();
     }
 
@@ -108,7 +91,9 @@ public sealed class HeroControl : EngineObject
     {
         if (_updateCount == 0)
         {
-            _onChangedStore.Raise(this);
+            NotifyEvent<HeroControl>? handlers = Changed;
+            EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(Changed));
+            handlers?.Invoke(this);
         }
     }
 
@@ -244,7 +229,9 @@ public sealed class HeroControl : EngineObject
     {
         if (!GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
-            _onHeroChangedStore.Raise(hero);
+            NotifyEvent<Hero>? handlers = HeroChanged;
+            EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(HeroChanged));
+            handlers?.Invoke(hero);
         }
     }
 

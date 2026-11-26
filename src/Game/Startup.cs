@@ -27,16 +27,18 @@ public static class Startup
     public static void InitializeAll() => InitializeSelected(null);
 
     /// <summary>Creates the game engine the host owns, after the units. The engine registers the
-    /// map-load handlers of the city and AI units and then the game's classes, in the order the
-    /// Delphi units City, BehaviorAG, MainAG, IndependentAG and AoWEReg ran them after AoWE created
-    /// the engine.</summary>
+    /// map-load handlers of the city and AI units and then the game's classes. The Delphi units
+    /// City, BehaviorAG, MainAG and IndependentAG added their handlers in that order after AoWE
+    /// created the engine, and the engine's list ran them last to first. HexSpriteMapLoaded runs
+    /// its handlers first to last (issue 326, decision 4), so they subscribe in the reverse order
+    /// and still run IndependentAG first and City last.</summary>
     public static GameEngine CreateEngine(IPlayerInput playerInput)
     {
         GameEngine engine = GameEngine.Create(null, playerInput: playerInput);
-        CityRegistrar.SubscribeMapLoaded(engine);
-        BehaviorRegistrar.SubscribeMapLoaded(engine);
-        MainRegistrar.SubscribeMapLoaded(engine);
         IndependentRegistrar.SubscribeMapLoaded(engine);
+        MainRegistrar.SubscribeMapLoaded(engine);
+        BehaviorRegistrar.SubscribeMapLoaded(engine);
+        CityRegistrar.SubscribeMapLoaded(engine);
         GameClasses.Register(engine);
         return engine;
     }

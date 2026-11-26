@@ -11,24 +11,12 @@ namespace Aow.Game.Net;
 public sealed class PlayerCommunicator(CustomNode? owner) : EngineObject(owner)
 {
 
-    internal EventStore<PlayerCommunicator> OnReceiveStore { get; } = new();
-
-    internal event NotifyEvent<PlayerCommunicator> Received
-    {
-        add => OnReceiveStore.Add(value);
-        remove => OnReceiveStore.Remove(value);
-    }
+    internal event NotifyEvent<PlayerCommunicator>? Received;
 
     internal MemoryStream SendStream { get; } = new MemoryStream();
     internal MemoryStream ReceiveStream { get; } = new MemoryStream();
 
-    internal EventStore<PlayerCommunicator> OnProcessStore { get; } = new();
-
-    internal event NotifyEvent<PlayerCommunicator> Processed
-    {
-        add => OnProcessStore.Add(value);
-        remove => OnProcessStore.Remove(value);
-    }
+    internal event NotifyEvent<PlayerCommunicator>? Processed;
 
     // NetworkE.pas:629
     public bool ActivatePlayerCommunicationControl(PlayerCommunicationControl playerCommunicationControl)
@@ -63,16 +51,18 @@ public sealed class PlayerCommunicator(CustomNode? owner) : EngineObject(owner)
         {
         }
 
-        OnProcessStore.Raise(this);
+        NotifyEvent<PlayerCommunicator>? handlers = Processed;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(Processed));
+        handlers?.Invoke(this);
     }
 
     // NetworkE.pas:615
     public override void Dispose()
     {
-        OnReceiveStore.Clear();
+        Received = null;
         SendStream?.Dispose();
         ReceiveStream?.Dispose();
-        OnProcessStore.Clear();
+        Processed = null;
         PlayerCommunicationControl?.Release();
         PlayerCommunicationControl = null;
 
@@ -92,7 +82,9 @@ public sealed class PlayerCommunicator(CustomNode? owner) : EngineObject(owner)
                 if (objectValue is DataPackage received)
                 {
                     ReceivedPackage = received;
-                    OnReceiveStore.Raise(this);
+                    NotifyEvent<PlayerCommunicator>? handlers = Received;
+                    EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(Received));
+                    handlers?.Invoke(this);
                     _ = ReceivedPackage.Release();
                 }
                 else

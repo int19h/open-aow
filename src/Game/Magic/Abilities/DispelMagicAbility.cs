@@ -164,7 +164,7 @@ public class DispelMagicAbility : TouchAbility
 
             info.SetUnitSelector(selector);
             _ = selector.Release();
-            StrategicMap.Current.OnActivateAbilityStore.Raise(info);
+            StrategicMap.Current.OnAbilityActivated(info);
             _ = info.Release();
             return true;
         }

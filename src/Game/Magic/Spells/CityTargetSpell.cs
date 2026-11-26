@@ -46,15 +46,16 @@ public class CityTargetSpell : Spell
     }
 
     // CitySpells.pas:288
-    public virtual void OnTargetSelectionChange(TargetSelectionControl targetSelection)
+    public virtual void TargetSelection_Changed(object? sender, TargetSelectionChangedEventArgs e)
     {
+        TargetSelectionControl targetSelection = (TargetSelectionControl)sender!;
         Troop? source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
         if (source is not null)
         {
-            switch (targetSelection.Change)
+            switch (e.Change)
             {
                 case TargetSelectionChange.Deactivated:
-                    targetSelection.Changed -= OnTargetSelectionChange;
+                    targetSelection.Changed -= TargetSelection_Changed;
                     targetSelection.Deactivate();
                     break;
                 case TargetSelectionChange.Selected:
@@ -64,7 +65,7 @@ public class CityTargetSpell : Spell
                     {
                         if (TargetSelected(source, targetSelection.Target.X, targetSelection.Target.Y, L: targetSelection.Target.MapLevel))
                         {
-                            targetSelection.Changed -= OnTargetSelectionChange;
+                            targetSelection.Changed -= TargetSelection_Changed;
                             targetSelection.Deactivate();
                         }
                     }
@@ -78,7 +79,7 @@ public class CityTargetSpell : Spell
         }
         else
         {
-            targetSelection.Changed -= OnTargetSelectionChange;
+            targetSelection.Changed -= TargetSelection_Changed;
             targetSelection.Deactivate();
         }
     }
@@ -153,13 +154,13 @@ public class CityTargetSpell : Spell
         int l = coordinate58.MapLevel;
         targetSelection.SourceLocation = new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)l);
         targetSelection.Range = 12;
-        if (targetSelection.OnChangeStore.Count > 1)
+        if (targetSelection.ChangedHandlerCount > 1)
         {
             // { Original rejects two existing listeners. }
             throw new InvalidOperationException("oohps");
         }
 
-        targetSelection.Changed += OnTargetSelectionChange;
+        targetSelection.Changed += TargetSelection_Changed;
         targetSelection.SetValidateTargetHandler(ValidateTarget);
     }
 

@@ -42,13 +42,7 @@ public partial class GameEngine : OwningNode
 {
     private int _messageCount;
 
-    internal EventStore<EngineDebugNotification> DebugEventsStore { get; set; }
-
-    internal event NotifyEvent<EngineDebugNotification> DebugMessageWritten
-    {
-        add => DebugEventsStore.Add(value);
-        remove => DebugEventsStore.Remove(value);
-    }
+    internal event NotifyEvent<EngineDebugNotification>? DebugMessageWritten;
 
     private string _startupDirectory = "";
 
@@ -73,7 +67,6 @@ public partial class GameEngine : OwningNode
         LocalInput = playerInput ?? throw new ArgumentNullException(nameof(playerInput));
         UpdateStartupDirectory();
         Options = VerifyClasses;
-        DebugEventsStore = new();
         EngineClasses = [];
         ClassTable = [];
         Editors = new EngineObjectEditorList();
@@ -84,11 +77,6 @@ public partial class GameEngine : OwningNode
         {
             return;
         }
-
-        OnHsmLoadedStore = new();
-        OnHsmCloseStore = new();
-        _onHssLoadedStore = new();
-        _onHssCloseStore = new();
         // HSEngine registered the engine level (65794) and set (66049) here. Issue 200 folded them
         // into the game classes, which the game registers below under their own ids. No file stores
         // the engine ids.
@@ -136,20 +124,20 @@ public partial class GameEngine : OwningNode
             CloseHsm(null);
             UnregisterCoreSpells(this);
             UnregisterCoreAbilities(GamePack.AbilityControl);
-            OnHsmLoadedStore.Clear();
-            OnHsmCloseStore.Clear();
+            HexSpriteMapLoaded = null;
+            HexSpriteMapClosing = null;
             CloseHsm(null);
         }
 
-        DebugEventsStore.Clear();
+        DebugMessageWritten = null;
         base.Dispose();
         EngineClasses?.Clear();
         if (_fullInstance || s_fullConstruction)
         {
-            OnHsmLoadedStore.Clear();
-            OnHsmCloseStore.Clear();
-            _onHssLoadedStore.Clear();
-            _onHssCloseStore.Clear();
+            HexSpriteMapLoaded = null;
+            HexSpriteMapClosing = null;
+            HexSpriteSetLoaded = null;
+            HexSpriteSetClosing = null;
             Dictionary?.Dispose();
             EmailGames?.Dispose();
         }
@@ -219,7 +207,9 @@ public partial class GameEngine : OwningNode
         info.Channel = DebugChannel.User;
         info.Text = S;
         notification.Info = info;
-        DebugEventsStore.Raise(notification);
+        NotifyEvent<EngineDebugNotification>? handlers = DebugMessageWritten;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(DebugMessageWritten));
+        handlers?.Invoke(notification);
     }
 
     // Engine.pas:8805
@@ -235,7 +225,9 @@ public partial class GameEngine : OwningNode
         info.Channel = channel;
         info.Text = S;
         notification.Info = info;
-        DebugEventsStore.Raise(notification);
+        NotifyEvent<EngineDebugNotification>? handlers = DebugMessageWritten;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(DebugMessageWritten));
+        handlers?.Invoke(notification);
     }
 
     // Engine.pas:8819

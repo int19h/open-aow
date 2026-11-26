@@ -133,7 +133,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
                 this[PlayerIdExtensions.ToOriginal(otherPlayer)].AIValidAttackPlayers[PlayerIdExtensions.ToOriginal(player)] = false;
             }
 
-            StrategicMap.Current.DiplomaticRelationsChangedEventsStore.Raise(this);
+            StrategicMap.Current.OnDiplomaticRelationsChanged(this);
             for (int j = Count - 1; j >= 1; j--)
             {
                 this[j].MagicControl.UpdateEnemyEnchantments();

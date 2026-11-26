@@ -176,7 +176,7 @@ public sealed partial class TacticalBattle(CustomNode? owner) : Battle(owner)
                         }
                     }
 
-                    CombatMap.Current.DeselectEventsStore.Raise(this);
+                    CombatMap.Current.OnBattleStarted(this);
                     int seated = -1;
                     for (int i = 0, last = CombatData.Players.GetCount() - 1; i <= last; i++)
                     {

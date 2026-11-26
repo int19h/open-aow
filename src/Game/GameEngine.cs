@@ -153,7 +153,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             if (_hexSpriteMap is not null)
             {
                 _hexSpriteMap.SetProgressHandler(progress);
-                OnHsmCloseStore.Raise(_hexSpriteMap);
+                HexSpriteMapClosing?.Invoke(_hexSpriteMap);
                 _hexSpriteMap?.Dispose();
                 SetHexSpriteMap(null);
             }

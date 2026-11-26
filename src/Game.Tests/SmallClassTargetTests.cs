@@ -1,5 +1,4 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
-using Aow.Engine;
 using Aow.Game.AI.Groups;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
@@ -11,17 +10,19 @@ public sealed class SmallClassTargetTests
     [Fact]
     public void MapLoadedHandlersRemoveByStaticMethodIdentity()
     {
-        EventStore<GameMap> events = new();
-        events.Add(BehaviorRegistrar.MapLoaded);
-        events.Add(CityRegistrar.MapLoaded);
-        events.Add(IndependentRegistrar.MapLoaded);
-        events.Add(MainRegistrar.MapLoaded);
-        Assert.Equal(4, events.Count);
-        events.Remove(BehaviorRegistrar.MapLoaded);
-        events.Remove(CityRegistrar.MapLoaded);
-        events.Remove(IndependentRegistrar.MapLoaded);
-        events.Remove(MainRegistrar.MapLoaded);
-        Assert.Equal(0, events.Count);
+        // GameEngine.HexSpriteMapLoaded is a plain event (issue 326, decision 4), so a removal
+        // matches the static method a registrar subscribed.
+        NotifyEvent<GameMap>? events = null;
+        events += BehaviorRegistrar.MapLoaded;
+        events += CityRegistrar.MapLoaded;
+        events += IndependentRegistrar.MapLoaded;
+        events += MainRegistrar.MapLoaded;
+        Assert.Equal(4, events.GetInvocationList().Length);
+        events -= BehaviorRegistrar.MapLoaded;
+        events -= CityRegistrar.MapLoaded;
+        events -= IndependentRegistrar.MapLoaded;
+        events -= MainRegistrar.MapLoaded;
+        Assert.Null(events);
     }
 
     private sealed class TrackedControl(List<string> log) : AIMoveExecutorControl(null!)

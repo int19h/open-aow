@@ -28,7 +28,7 @@ public sealed partial class TacticalBattle
         if (CombatMap.Current is not null)
         {
             CombatMap.Current.UnitSelection.Clear();
-            CombatMap.Current.SelectEventsStore.Raise(this);
+            CombatMap.Current.OnBattleEnding(this);
             World.Map.StrategicMap.Current.ReleaseCombatMap();
         }
         base.Finalize();

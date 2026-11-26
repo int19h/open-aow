@@ -132,7 +132,7 @@ public class StormSpell : Spell
             selection.Title = SpellName;
             selection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CancelText);
             selection.Range = 12;
-            selection.Changed += OnTargetSelectionChange;
+            selection.Changed += TargetSelection_Changed;
             selection.SourceImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[20].GetPreviewImage();
             selection.ValidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[21].GetPreviewImage();
             selection.InvalidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[22].GetPreviewImage();
@@ -203,17 +203,18 @@ public class StormSpell : Spell
     }
 
     // Storms.pas:786
-    public void OnTargetSelectionChange(TargetSelectionControl selection)
+    public void TargetSelection_Changed(object? sender, TargetSelectionChangedEventArgs e)
     {
-        switch (selection.Change)
+        TargetSelectionControl selection = (TargetSelectionControl)sender!;
+        switch (e.Change)
         {
             case TargetSelectionChange.Deactivated:
                 _targetStorm?.Dispose();
                 _targetStorm = null;
-                selection.Changed -= OnTargetSelectionChange;
+                selection.Changed -= TargetSelection_Changed;
                 break;
             case TargetSelectionChange.Selected:
-                selection.Changed -= OnTargetSelectionChange;
+                selection.Changed -= TargetSelection_Changed;
                 if (ExecuteStormSpell(_source, selection.Target.X, selection.Target.Y, L: selection.Target.MapLevel))
                 {
                     selection.Deactivate();

@@ -136,9 +136,9 @@ public sealed class MapNetSoundConstructionTests
                 _ = Assert.IsType<GameMapMouse>(map.Mouse);
                 Assert.Same(map, map.Mouse.HexSpriteMap);
                 Assert.Same(map, map.Selection.Owner);
-                Assert.Equal(0, map.HexSpriteChangedEventsStore.Count);
-                Assert.Equal(0, map.TerrainChangedEventsStore.Count);
-                Assert.Equal(0, map.ViewPortChangedEventsStore.Count);
+                Assert.Equal(0, EventHandlers.Count(map, eventName: nameof(GameMap.HexSpriteChanged)));
+                Assert.Equal(0, EventHandlers.Count(map, eventName: nameof(GameMap.TerrainChanged)));
+                Assert.Equal(0, EventHandlers.Count(map, eventName: nameof(GameMap.ViewPortChanged)));
                 Assert.Equal(0, map.NewFrameEventsStore.Count);
                 Assert.Equal(0, map.DestroyEventsStore.Count);
                 Assert.Equal(0, map.StaticVisibleHexSprite.Count);
@@ -164,7 +164,7 @@ public sealed class MapNetSoundConstructionTests
                 break;
             case HexSpriteSelection selection:
                 Assert.Empty(selection.LocationHexSprite);
-                Assert.Equal(0, selection.OnSelectStore.Count);
+                Assert.Equal(0, EventHandlers.Count(selection, eventName: nameof(HexSpriteSelection.Selected)));
                 Assert.Equal(0, selection.OnDeselectStore.Count);
                 break;
             case MapObjectResourceTerrainControl control:
@@ -183,8 +183,8 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Null(player.ReceivedPackage);
                 Assert.Equal(0L, player.SendStream.Length);
                 Assert.Equal(0L, player.ReceiveStream.Length);
-                Assert.Equal(0, player.OnReceiveStore.Count);
-                Assert.Equal(0, player.OnProcessStore.Count);
+                Assert.Equal(0, EventHandlers.Count(player, eventName: nameof(PlayerCommunicator.Received)));
+                Assert.Equal(0, EventHandlers.Count(player, eventName: nameof(PlayerCommunicator.Processed)));
                 break;
             case TokenEvent token:
                 Assert.Equal(1, token.RefCount);
@@ -277,11 +277,11 @@ public sealed class MapNetSoundConstructionTests
                 case HexSpriteMapMouse mouse:
                     Assert.Equal(int.MinValue, mouse.X);
                     Assert.Equal(int.MinValue, mouse.Y);
-                    Assert.Equal(0, mouse.OnUpStore.Count);
+                    Assert.Equal(0, EventHandlers.Count(mouse, eventName: nameof(HexSpriteMapMouse.ButtonReleased)));
                     Assert.Equal(0, mouse.OnDownStore.Count);
-                    Assert.Equal(0, mouse.OnMoveStore.Count);
-                    Assert.Equal(0, mouse.OnDoubleClickStore.Count);
-                    Assert.Equal(0, mouse.OnCaptureChangedStore.Count);
+                    Assert.Equal(0, EventHandlers.Count(mouse, eventName: nameof(HexSpriteMapMouse.Moved)));
+                    Assert.Equal(0, EventHandlers.Count(mouse, eventName: nameof(HexSpriteMapMouse.DoubleClicked)));
+                    Assert.Equal(0, EventHandlers.Count(mouse, eventName: nameof(HexSpriteMapMouse.CaptureChanged)));
                     break;
                 case MapCoordinateList list:
                     Assert.Equal(MapCoordinate.None, list.Default);
@@ -301,8 +301,8 @@ public sealed class MapNetSoundConstructionTests
                     Assert.Equal(0, executor.Events.Count);
                     Assert.Equal(0, executor.SystemEvents.Count);
                     Assert.Empty(executor.TacticalBattleList);
-                    Assert.Equal(0, executor.OnEventsExecutedStore.Count);
-                    Assert.Equal(0, executor.OnActivateTacticalBattleStore.Count);
+                    Assert.Equal(0, EventHandlers.Count(executor, eventName: nameof(TokenExecutor.EventsExecuted)));
+                    Assert.Equal(0, EventHandlers.Count(executor, eventName: nameof(TokenExecutor.TacticalBattleActivating)));
                     break;
                 case TokenManager manager:
                     Assert.Null(manager.Owner);

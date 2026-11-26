@@ -46,9 +46,6 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     // Player.PAS:261
     public Player(CustomNode? owner) : base(owner)
     {
-        _incomeChangedEventsStore = new();
-        _gemsChangedEventsStore = new();
-        _upkeepChangedEventsStore = new();
         Structures = new PlayerStructureList(null)
         {
             Holder = CreationHolder(),
@@ -81,7 +78,6 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         Participating = false;
         EventLogbook = new EventLogbook(null) { Holder = CreationHolder() };
         EventLogbook.Changed += (sender, _) => LogbookChangedEvent(sender);
-        _logbookChangedEventsStore = new();
         DiplomaticRelations = new PlayerDiplomaticRelations(null)
         {
             Holder = CreationHolder(),
@@ -120,37 +116,13 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
 
     private int _updateCount;
 
-    private readonly EventStore<Player> _gemsChangedEventsStore;
+    public event NotifyEvent<Player>? GemsChanged;
 
-    public event NotifyEvent<Player> GemsChanged
-    {
-        add => _gemsChangedEventsStore.Add(value);
-        remove => _gemsChangedEventsStore.Remove(value);
-    }
+    public event NotifyEvent<Player>? IncomeChanged;
 
-    private readonly EventStore<Player> _incomeChangedEventsStore;
+    public event NotifyEvent<Player>? UpkeepChanged;
 
-    public event NotifyEvent<Player> IncomeChanged
-    {
-        add => _incomeChangedEventsStore.Add(value);
-        remove => _incomeChangedEventsStore.Remove(value);
-    }
-
-    private readonly EventStore<Player> _upkeepChangedEventsStore;
-
-    public event NotifyEvent<Player> UpkeepChanged
-    {
-        add => _upkeepChangedEventsStore.Add(value);
-        remove => _upkeepChangedEventsStore.Remove(value);
-    }
-
-    private readonly EventStore<Player> _logbookChangedEventsStore;
-
-    public event NotifyEvent<Player> LogbookChanged
-    {
-        add => _logbookChangedEventsStore.Add(value);
-        remove => _logbookChangedEventsStore.Remove(value);
-    }
+    public event NotifyEvent<Player>? LogbookChanged;
 
     public PlayerStructureList Structures { get; }
 
@@ -250,9 +222,9 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     {
         try
         {
-            _incomeChangedEventsStore.Clear();
-            _gemsChangedEventsStore.Clear();
-            _upkeepChangedEventsStore.Clear();
+            IncomeChanged = null;
+            GemsChanged = null;
+            UpkeepChanged = null;
             try
             {
                 if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
@@ -286,9 +258,9 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
             AIValidAttackPlayers = null;
             try
             {
-                _logbookChangedEventsStore.Clear();
+                LogbookChanged = null;
                 EventLogbook?.Dispose();
-                _logbookChangedEventsStore.Clear();
+                LogbookChanged = null;
             }
             catch (Exception error)
             {
@@ -375,9 +347,9 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
 
             PbemSettings?.Dispose();
             PbemSettings = null;
-            _incomeChangedEventsStore.Clear();
-            _gemsChangedEventsStore.Clear();
-            _upkeepChangedEventsStore.Clear();
+            IncomeChanged = null;
+            GemsChanged = null;
+            UpkeepChanged = null;
         }
         catch (Exception error)
         {
@@ -824,7 +796,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     {
         if (_updateCount == 0)
         {
-            _logbookChangedEventsStore.Raise(this);
+            LogbookChanged?.Invoke(this);
         }
     }
 
@@ -843,10 +815,10 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         _updateCount -= 1;
         if (_updateCount == 0)
         {
-            _gemsChangedEventsStore.Raise(this);
-            _upkeepChangedEventsStore.Raise(this);
+            GemsChanged?.Invoke(this);
+            UpkeepChanged?.Invoke(this);
             UpdateIncome();
-            _logbookChangedEventsStore.Raise(this);
+            LogbookChanged?.Invoke(this);
         }
 
         Structures.EndUpdate();
@@ -869,7 +841,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         Gems = value;
         if (_updateCount == 0)
         {
-            _gemsChangedEventsStore.Raise(this);
+            GemsChanged?.Invoke(this);
         }
 
         if (StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.AccumulateGold && StrategicMap.Current.VictoryGold <= Gems)
@@ -916,7 +888,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
 
         if (_updateCount == 0)
         {
-            _incomeChangedEventsStore.Raise(this);
+            IncomeChanged?.Invoke(this);
         }
     }
 
@@ -951,7 +923,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         ArmyUpkeep = value;
         if (_updateCount == 0)
         {
-            _upkeepChangedEventsStore.Raise(this);
+            UpkeepChanged?.Invoke(this);
         }
     }
 
@@ -961,7 +933,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         _magicUpkeep = value;
         if (_updateCount == 0)
         {
-            _upkeepChangedEventsStore.Raise(this);
+            UpkeepChanged?.Invoke(this);
         }
     }
 

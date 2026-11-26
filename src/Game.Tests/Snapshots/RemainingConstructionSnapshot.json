@@ -33136,11 +33136,7 @@
             "Battle.Status": 0,
             "Battle.Terminated": false,
             "Battle._executed": null,
-            "Battle._executedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.Battle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "Battle.Executed": null,
             "Battle._executedLock": 0,
             "Battle._nextCombatObjectId": 1,
             "Battle._terminated": null,
@@ -33452,11 +33448,7 @@
             "Battle.Status": 0,
             "Battle.Terminated": false,
             "Battle._executed": null,
-            "Battle._executedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.Battle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "Battle.Executed": null,
             "Battle._executedLock": 0,
             "Battle._nextCombatObjectId": 1,
             "Battle._terminated": null,
@@ -33483,7 +33475,7 @@
               "Battle.Status": 0,
               "Battle.Terminated": false,
               "Battle._executed": null,
-              "Battle._executedEventsStore": null,
+              "Battle.Executed": null,
               "Battle._executedLock": 0,
               "Battle._nextCombatObjectId": 0,
               "Battle._terminated": null,

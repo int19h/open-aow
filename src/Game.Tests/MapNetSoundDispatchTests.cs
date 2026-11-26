@@ -79,11 +79,11 @@ public sealed class MapNetSoundDispatchTests
     public void LegacyMouseStartsWithEmptyEvents()
     {
         GameMapMouse mouse = new();
-        Assert.Equal(0, mouse.OnUpStore.Count);
+        Assert.Equal(0, EventHandlers.Count(mouse, eventName: nameof(HexSpriteMapMouse.ButtonReleased)));
         Assert.Equal(0, mouse.OnDownStore.Count);
-        Assert.Equal(0, mouse.OnMoveStore.Count);
-        Assert.Equal(0, mouse.OnDoubleClickStore.Count);
-        Assert.Equal(0, mouse.OnCaptureChangedStore.Count);
+        Assert.Equal(0, EventHandlers.Count(mouse, eventName: nameof(HexSpriteMapMouse.Moved)));
+        Assert.Equal(0, EventHandlers.Count(mouse, eventName: nameof(HexSpriteMapMouse.DoubleClicked)));
+        Assert.Equal(0, EventHandlers.Count(mouse, eventName: nameof(HexSpriteMapMouse.CaptureChanged)));
         Assert.Equal(int.MinValue, mouse.X);
         Assert.Equal(int.MinValue, mouse.Y);
         mouse.Dispose();

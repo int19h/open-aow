@@ -19,23 +19,11 @@ public sealed class ItemControl(CustomNode? owner) : EngineObject(owner)
 
     private readonly List<Item> _items = [];
 
-    private readonly EventStore<ItemControl> _onChangedStore = new();
-
-    public event NotifyEvent<ItemControl> Changed
-    {
-        add => _onChangedStore.Add(value);
-        remove => _onChangedStore.Remove(value);
-    }
+    public event NotifyEvent<ItemControl>? Changed;
 
     private int _updateLock;
 
-    private readonly EventStore<Item> _onItemChangedStore = new();
-
-    public event NotifyEvent<Item> ItemChanged
-    {
-        add => _onItemChangedStore.Add(value);
-        remove => _onItemChangedStore.Remove(value);
-    }
+    public event NotifyEvent<Item>? ItemChanged;
 
     private int _lastId;
     private Statuses _status;
@@ -52,8 +40,8 @@ public sealed class ItemControl(CustomNode? owner) : EngineObject(owner)
         _items.Clear();
         NotifyChanged();
         _items?.Clear();
-        _onItemChangedStore.Clear();
-        _onChangedStore.Clear();
+        ItemChanged = null;
+        Changed = null;
         base.Dispose();
     }
 
@@ -112,14 +100,21 @@ public sealed class ItemControl(CustomNode? owner) : EngineObject(owner)
     public Item? FindItem(int itemId) => _items.FindLast(item => item.ItemId == itemId);
 
     // Army.PAS:4733
-    public void NotifyItemChanged(Item item) => _onItemChangedStore.Raise(item);
+    public void NotifyItemChanged(Item item)
+    {
+        NotifyEvent<Item>? handlers = ItemChanged;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(ItemChanged));
+        handlers?.Invoke(item);
+    }
 
     // Army.PAS:4738
     public void NotifyChanged()
     {
         if (_updateLock == 0)
         {
-            _onChangedStore.Raise(this);
+            NotifyEvent<ItemControl>? handlers = Changed;
+            EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(Changed));
+            handlers?.Invoke(this);
         }
     }
 

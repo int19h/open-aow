@@ -406,6 +406,6 @@ public sealed class LeftoverConstructionTests
         using AowHexSpriteMapMouse mouse = new();
         Assert.Equal((-1, -1, -1, -1), (mouse.SelectionRectangle.Left, mouse.SelectionRectangle.Top,
             mouse.SelectionRectangle.Right, mouse.SelectionRectangle.Bottom));
-        Assert.Equal(0, mouse.RectangleSelectEventsStore.Count);
+        Assert.Equal(0, EventHandlers.Count(mouse, eventName: nameof(GameMapMouse.RectangleSelected)));
     }
 }

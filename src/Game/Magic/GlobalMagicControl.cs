@@ -24,7 +24,6 @@ public sealed class GlobalMagicControl : EngineObject
     public GlobalMagicControl(CustomNode? owner) : base(owner)
     {
         Enchantments = new GlobalEnchantmentList(null) { Holder = CreationHolder() };
-        _changedEventsStore = new();
         NextEnchantmentId = 1;
     }
 
@@ -37,20 +36,14 @@ public sealed class GlobalMagicControl : EngineObject
 
     public int[] DoubleSphereManaCount { get; } = new int[9];
 
-    private readonly EventStore<GlobalMagicControl> _changedEventsStore;
-
-    public event NotifyEvent<GlobalMagicControl> Changed
-    {
-        add => _changedEventsStore.Add(value);
-        remove => _changedEventsStore.Remove(value);
-    }
+    public event NotifyEvent<GlobalMagicControl>? Changed;
 
     // Spells.PAS:2675
     public override void Dispose()
     {
         base.Dispose();
         Enchantments?.Dispose();
-        _changedEventsStore.Clear();
+        Changed = null;
     }
 
     // Spells.PAS:2677
@@ -147,7 +140,9 @@ public sealed class GlobalMagicControl : EngineObject
     {
         if (_updateCount == 0)
         {
-            _changedEventsStore.Raise(this);
+            NotifyEvent<GlobalMagicControl>? handlers = Changed;
+            EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(Changed));
+            handlers?.Invoke(this);
         }
     }
 
@@ -155,7 +150,9 @@ public sealed class GlobalMagicControl : EngineObject
     public void Update()
     {
         UpdateActiveEnchantments();
-        _changedEventsStore.Raise(this);
+        NotifyEvent<GlobalMagicControl>? handlers = Changed;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(Changed));
+        handlers?.Invoke(this);
     }
 
     // Spells.PAS:2700

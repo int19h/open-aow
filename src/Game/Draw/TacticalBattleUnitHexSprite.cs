@@ -638,7 +638,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
 
         CombatMap.Current.UnitSelection.RangedPath.Clear();
         CombatMap.Current.UnitSelection.UpdateMoveCursor();
-        CombatMap.Current.UnitChangedEventsStore.Raise(this);
+        CombatMap.Current.OnUnitChanged(this);
         return result;
     }
 
@@ -726,7 +726,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode? owner) : UnitHexSpr
         }
 
         CombatMap.Current.UnitSelection.UpdateMoveCursor();
-        CombatMap.Current.UnitChangedEventsStore.Raise(this);
+        CombatMap.Current.OnUnitChanged(this);
         return result;
     }
 

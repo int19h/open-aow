@@ -34,7 +34,6 @@ public class Battle : EngineObject
     // Combat.pas:6067
     public Battle(CustomNode? owner) : base(owner)
     {
-        _executedEventsStore = new();
         CombatSide combatSide = new(null) { Holder = CreationHolder() };
         Sides[(int)CombatSideIndex.Attacker] = combatSide;
         CombatSide combatSide2 = new(null) { Holder = CreationHolder() };
@@ -59,13 +58,7 @@ public class Battle : EngineObject
 
     public CombatSide[] Sides { get; } = new CombatSide[2];
 
-    private readonly EventStore<Battle> _executedEventsStore;
-
-    public event NotifyEvent<Battle> Executed
-    {
-        add => _executedEventsStore.Add(value);
-        remove => _executedEventsStore.Remove(value);
-    }
+    public event NotifyEvent<Battle>? Executed;
 
     private int _executedLock;
 
@@ -96,7 +89,7 @@ public class Battle : EngineObject
             Finalize();
         }
 
-        _executedEventsStore.Clear();
+        Executed = null;
         Sides[(int)CombatSideIndex.Attacker]?.Dispose();
         Sides[(int)CombatSideIndex.Defender]?.Dispose();
         CombatData?.Dispose();
@@ -182,7 +175,9 @@ public class Battle : EngineObject
             CombatData.GetObjects(i).ObjectDestroyed(combatObject);
         }
 
-        _executedEventsStore.Raise(this);
+        NotifyEvent<Battle>? handlers = Executed;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(Executed));
+        handlers?.Invoke(this);
         CheckTerminate();
     }
 

@@ -6,13 +6,14 @@ using Aow.Rtl;
 
 namespace Aow.Engine;
 
-// One store serves every converted list. Add appends. Remove deletes the first
-// match from index 0 by target and method, and leaves the vacated tail slot.
-// Raise reads the upper bound once, then walks that range downward on the live
-// array. A handler that deletes a lower index shifts itself into the next step
-// and runs again. A handler appended during the raise sits past the captured
-// bound. A null entry is skipped. Clear drops the array, so a later index fails
-// the way a nil list did in the original.
+// Since issue 326 (decision 4) the store serves only the events whose handler order or live
+// walk matters: GameMap.FrameStarted and MapDestroying, HexSpriteMapMouse.ButtonPressed,
+// HexSpriteSelection.Deselected and StrategicMap.UnitChanged. Every other list is a field-like
+// event. Add appends. Remove deletes the first match from index 0 by target and method, and
+// leaves the vacated tail slot. Raise reads the upper bound once, then walks that range downward
+// on the live array. A handler that deletes a lower index shifts itself into the next step and
+// runs again. A handler appended during the raise sits past the captured bound. A null entry is
+// skipped. Clear drops the array, so a later index fails the way a nil list did in the original.
 internal sealed class EventStore<TSender>
 {
     private NotifyEvent<TSender>[]? _items;

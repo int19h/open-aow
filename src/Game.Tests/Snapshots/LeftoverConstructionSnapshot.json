@@ -490,11 +490,7 @@
           "$jsonText": {
             "$type": "Aow.Engine.Nodes.ObservableEventList",
             "EngineObject._owner": null,
-            "ObservableEventList._eventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "ObservableEventList.Changed": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -525,11 +521,7 @@
           "$jsonText": {
             "$type": "Aow.Engine.Nodes.ObservableEventList",
             "EngineObject._owner": "$owner",
-            "ObservableEventList._eventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "ObservableEventList.Changed": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -547,11 +539,7 @@
             "$jsonText": {
               "$type": "Aow.Engine.Nodes.ObservableEventList",
               "EngineObject._owner": "$owner",
-              "ObservableEventList._eventsStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "ObservableEventList.Changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -3019,11 +3007,7 @@
             ],
             "Battle.Status": 0,
             "Battle.Terminated": false,
-            "Battle._executedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.Battle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "Battle.Executed": null,
             "Battle._executedLock": 0,
             "Battle._nextCombatObjectId": 1,
             "EngineObject._owner": null
@@ -3334,11 +3318,7 @@
             ],
             "Battle.Status": 0,
             "Battle.Terminated": false,
-            "Battle._executedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.Battle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "Battle.Executed": null,
             "Battle._executedLock": 0,
             "Battle._nextCombatObjectId": 1,
             "EngineObject._owner": "$owner"
@@ -3364,7 +3344,7 @@
               ],
               "Battle.Status": 0,
               "Battle.Terminated": false,
-              "Battle._executedEventsStore": null,
+              "Battle.Executed": null,
               "Battle._executedLock": 0,
               "Battle._nextCombatObjectId": 0,
               "EngineObject._owner": "$owner"
@@ -11246,11 +11226,7 @@
               "Int32List._default": 0,
               "Int32List._list": []
             },
-            "PlayerMagicControl._changedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.PlayerMagicControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "PlayerMagicControl.Changed": null,
             "PlayerMagicControl._externalPowerSource": "$ref:$.PlayerMagicControl.PowerSources.OwningNode._children.DelphiList\u00601.items[0]",
             "PlayerMagicControl._nextEnchantmentId": 1,
             "PlayerMagicControl._updateCount": 0
@@ -11321,11 +11297,7 @@
               "Int32List._default": 0,
               "Int32List._list": []
             },
-            "PlayerMagicControl._changedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.PlayerMagicControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "PlayerMagicControl.Changed": null,
             "PlayerMagicControl._externalPowerSource": "$ref:$.PlayerMagicControl.PowerSources.OwningNode._children.DelphiList\u00601.items[0]",
             "PlayerMagicControl._nextEnchantmentId": 1,
             "PlayerMagicControl._updateCount": 0
@@ -11352,7 +11324,7 @@
               "PlayerMagicControl.ResearchPointsLeft": 0,
               "PlayerMagicControl.ResearchSpellId": 0,
               "PlayerMagicControl.Spells": null,
-              "PlayerMagicControl._changedEventsStore": null,
+              "PlayerMagicControl.Changed": null,
               "PlayerMagicControl._externalPowerSource": null,
               "PlayerMagicControl._nextEnchantmentId": 0,
               "PlayerMagicControl._updateCount": 0
@@ -13821,27 +13793,14 @@
             "GameMap.FileName": "",
             "GameMap.FogEnabled": true,
             "GameMap.Frame": 0,
-            "GameMap.HexSpriteChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "GameMap.HexSpriteChanged": null,
             "GameMap.MapChangedLockCount": 0,
             "GameMap.MapContainer": null,
             "GameMap.Mouse": {
               "$type": "Aow.Game.World.Map.AowHexSpriteMapMouse",
-              "GameMapMouse.RectangleSelectEventsStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 1,
-                "EventStore\u00601._items": [
-                  [
-                    "Aow.Game.Units.SelectedArmy.RectangleSelectEvent"
-                  ],
-                  null,
-                  null,
-                  null
-                ]
-              },
+              "GameMapMouse.RectangleSelected": [
+                "Aow.Game.Units.SelectedArmy.RectangleSelectEvent"
+              ],
               "GameMapMouse.SelectionRectangle": {
                 "$type": "Aow.Rtl.Rect",
                 "Rect.Bottom": -1,
@@ -13854,38 +13813,17 @@
               "HexSpriteMapMouse.CursorVisible": false,
               "HexSpriteMapMouse.HexSpriteMap": "$ref:$",
               "HexSpriteMapMouse.IgnoreDown": false,
-              "HexSpriteMapMouse.OnCaptureChangedStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
-              "HexSpriteMapMouse.OnDoubleClickStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "HexSpriteMapMouse.CaptureChanged": null,
+              "HexSpriteMapMouse.DoubleClicked": null,
               "HexSpriteMapMouse.OnDownStore": {
                 "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "EventStore\u00601.Count": 0,
                 "EventStore\u00601._items": null
               },
-              "HexSpriteMapMouse.OnMoveStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 1,
-                "EventStore\u00601._items": [
-                  [
-                    "Aow.Game.World.Map.StrategicMap.MouseMoved"
-                  ],
-                  null,
-                  null,
-                  null
-                ]
-              },
-              "HexSpriteMapMouse.OnUpStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "HexSpriteMapMouse.Moved": [
+                "Aow.Game.World.Map.StrategicMap.MouseMoved"
+              ],
+              "HexSpriteMapMouse.ButtonReleased": null,
               "HexSpriteMapMouse.Shift": 0,
               "HexSpriteMapMouse.X": -2147483648,
               "HexSpriteMapMouse.Y": -2147483648,
@@ -13914,11 +13852,7 @@
                 "EventStore\u00601.Count": 0,
                 "EventStore\u00601._items": null
               },
-              "HexSpriteSelection.OnSelectStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.CustomNode, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "HexSpriteSelection.Selected": null,
               "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -13946,11 +13880,7 @@
               "SortedNode.StoredCount": 0
             },
             "GameMap.Status": 0,
-            "GameMap.TerrainChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "GameMap.TerrainChanged": null,
             "GameMap.Version": 0,
             "GameMap.ViewHeight": 0,
             "GameMap.ViewHeightHex": 0,
@@ -13959,11 +13889,7 @@
             "GameMap.ViewMapLevel": 0,
             "GameMap.ViewPixelX": 0,
             "GameMap.ViewPixelY": 0,
-            "GameMap.ViewPortChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "GameMap.ViewPortChanged": null,
             "GameMap.ViewWidth": 0,
             "GameMap.ViewWidthHex": 0,
             "GameMap._backHexSelector": {
@@ -13986,26 +13912,14 @@
             },
             "GameMap._hexSelectorVisible": false,
             "GameMap._hssFileName": "",
-            "GameMap._mapChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "GameMap.MapChanged": null,
             "GameMap._messageFrame": 0,
             "GameMap._messageText": "",
-            "GameMap._scannerIconsChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "GameMap.ScannerIconsChanged": null,
             "GameMap._scannerIconsChangedLockCount": 0,
             "GameMap._selectorX": 0,
             "GameMap._selectorY": 0,
-            "GameMap._showMessageEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Events.ShowMessageNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "GameMap.ShowingMessage": null,
             "GameMap._terrainChangedLockCounter": 0,
             "OwningNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
@@ -14247,16 +14161,8 @@
             },
             "StrategicMap.Combat": null,
             "StrategicMap.CombatMap": null,
-            "StrategicMap.CombatMapCreatedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap.CombatMapDestroyedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.CombatMapCreated": null,
+            "StrategicMap.CombatMapDestroyed": null,
             "StrategicMap.ConnectionType": 0,
             "StrategicMap.Day": 0,
             "StrategicMap.DayLimit": 0,
@@ -14272,11 +14178,7 @@
               "DelphiStringList.count": 0,
               "DelphiStringList.items": []
             },
-            "StrategicMap.DiplomaticRelationsChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.DiplomaticRelationsChanged": null,
             "StrategicMap.EditorPlayer": 0,
             "StrategicMap.Effects": [],
             "StrategicMap.ExitPending": false,
@@ -14335,11 +14237,7 @@
                 }
               },
               "GlobalMagicControl.NextEnchantmentId": 1,
-              "GlobalMagicControl._changedEventsStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.GlobalMagicControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "GlobalMagicControl.Changed": null,
               "GlobalMagicControl._updateCount": 0
             },
             "StrategicMap.HeroControl": {
@@ -14354,16 +14252,8 @@
                   "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.OwningNode._children.DelphiList\u00601.items"
                 }
               },
-              "HeroControl._onChangedStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Units.HeroControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
-              "HeroControl._onHeroChangedStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.Hero, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "HeroControl.Changed": null,
+              "HeroControl.HeroChanged": null,
               "HeroControl._updateCount": 0
             },
             "StrategicMap.HeroCountMax": 5,
@@ -14374,16 +14264,8 @@
               "EngineObject._owner": null,
               "ItemControl._items": [],
               "ItemControl._lastId": 0,
-              "ItemControl._onChangedStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Units.ItemControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
-              "ItemControl._onItemChangedStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.Item, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "ItemControl.Changed": null,
+              "ItemControl.ItemChanged": null,
               "ItemControl._status": 0,
               "ItemControl._updateLock": 0
             },
@@ -14795,41 +14677,17 @@
               "MoveControl._processedMapFields": null,
               "MoveControl._status": 0
             },
-            "StrategicMap.NewDayEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.PlayerControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap.NewTurnEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap.OnActivateAbilityStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap.OnLeaderChangedStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.Leader, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.DayStarted": null,
+            "StrategicMap.TurnStarted": null,
+            "StrategicMap.AbilityActivated": null,
+            "StrategicMap.LeaderChanged": null,
             "StrategicMap.PlayMode": 0,
             "StrategicMap.PlayerCommunicator": {
               "$type": "Aow.Game.Net.PlayerCommunicator",
               "EngineObject._owner": null,
               "PlayerCommunicator.Engine": "$engine",
-              "PlayerCommunicator.OnProcessStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Net.PlayerCommunicator, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
-              "PlayerCommunicator.OnReceiveStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Net.PlayerCommunicator, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "PlayerCommunicator.Processed": null,
+              "PlayerCommunicator.Received": null,
               "PlayerCommunicator.PlayerCommunicationControl": null,
               "PlayerCommunicator.ReceiveStream": {
                 "$type": "System.IO.MemoryStream",
@@ -15069,11 +14927,7 @@
                     "Player.KnownStructures": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -15242,11 +15096,7 @@
                         "Int32List._default": 0,
                         "Int32List._list": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
                       },
-                      "PlayerMagicControl._changedEventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.PlayerMagicControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "PlayerMagicControl.Changed": null,
                       "PlayerMagicControl._externalPowerSource": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[0].Player.MagicControl.PlayerMagicControl.PowerSources.OwningNode._children.DelphiList\u00601.items[0]",
                       "PlayerMagicControl._nextEnchantmentId": 1,
                       "PlayerMagicControl._updateCount": 0
@@ -15297,11 +15147,7 @@
                     "Player.Structures": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -15321,18 +15167,9 @@
                       "$type": "Aow.Game.Units.ArmyList",
                       "ArmyList.Player": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[0]",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 1,
-                        "EventStore\u00601._items": [
-                          [
-                            "Aow.Game.Session.Player.ArmiesChanged"
-                          ],
-                          null,
-                          null,
-                          null
-                        ]
-                      },
+                      "ObservableEventList.Changed": [
+                        "Aow.Game.Session.Player.ArmiesChanged"
+                      ],
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -15343,17 +15180,9 @@
                     },
                     "Player._busyCount": 0,
                     "Player._description": "",
-                    "Player._gemsChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.GemsChanged": null,
                     "Player._highestHeroLevel": 0,
-                    "Player._incomeChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.IncomeChanged": null,
                     "Player._incomeSources": {
                       "$type": "Aow.Game.World.Structures.IncomeSourceList",
                       "EngineObject._owner": null,
@@ -15372,11 +15201,7 @@
                     },
                     "Player._lastHeroEmergeDay": 0,
                     "Player._lastHeroJoinDay": 0,
-                    "Player._logbookChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.LogbookChanged": null,
                     "Player._magicUpkeep": 0,
                     "Player._messages": {
                       "$type": "Aow.Rtl.DelphiStringList",
@@ -15390,19 +15215,11 @@
                     },
                     "Player._password": "",
                     "Player._updateCount": 0,
-                    "Player._upkeepChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.UpkeepChanged": null,
                     "Player._victoryLocations": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -15606,11 +15423,7 @@
                     "Player.KnownStructures": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -15779,11 +15592,7 @@
                         "Int32List._default": 0,
                         "Int32List._list": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
                       },
-                      "PlayerMagicControl._changedEventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.PlayerMagicControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "PlayerMagicControl.Changed": null,
                       "PlayerMagicControl._externalPowerSource": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[1].Player.MagicControl.PlayerMagicControl.PowerSources.OwningNode._children.DelphiList\u00601.items[0]",
                       "PlayerMagicControl._nextEnchantmentId": 1,
                       "PlayerMagicControl._updateCount": 0
@@ -15834,11 +15643,7 @@
                     "Player.Structures": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -15858,18 +15663,9 @@
                       "$type": "Aow.Game.Units.ArmyList",
                       "ArmyList.Player": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[1]",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 1,
-                        "EventStore\u00601._items": [
-                          [
-                            "Aow.Game.Session.Player.ArmiesChanged"
-                          ],
-                          null,
-                          null,
-                          null
-                        ]
-                      },
+                      "ObservableEventList.Changed": [
+                        "Aow.Game.Session.Player.ArmiesChanged"
+                      ],
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -15880,17 +15676,9 @@
                     },
                     "Player._busyCount": 0,
                     "Player._description": "",
-                    "Player._gemsChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.GemsChanged": null,
                     "Player._highestHeroLevel": 0,
-                    "Player._incomeChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.IncomeChanged": null,
                     "Player._incomeSources": {
                       "$type": "Aow.Game.World.Structures.IncomeSourceList",
                       "EngineObject._owner": null,
@@ -15909,11 +15697,7 @@
                     },
                     "Player._lastHeroEmergeDay": 0,
                     "Player._lastHeroJoinDay": 0,
-                    "Player._logbookChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.LogbookChanged": null,
                     "Player._magicUpkeep": 0,
                     "Player._messages": {
                       "$type": "Aow.Rtl.DelphiStringList",
@@ -15927,19 +15711,11 @@
                     },
                     "Player._password": "",
                     "Player._updateCount": 0,
-                    "Player._upkeepChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.UpkeepChanged": null,
                     "Player._victoryLocations": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -16143,11 +15919,7 @@
                     "Player.KnownStructures": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -16316,11 +16088,7 @@
                         "Int32List._default": 0,
                         "Int32List._list": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
                       },
-                      "PlayerMagicControl._changedEventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.PlayerMagicControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "PlayerMagicControl.Changed": null,
                       "PlayerMagicControl._externalPowerSource": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[2].Player.MagicControl.PlayerMagicControl.PowerSources.OwningNode._children.DelphiList\u00601.items[0]",
                       "PlayerMagicControl._nextEnchantmentId": 1,
                       "PlayerMagicControl._updateCount": 0
@@ -16371,11 +16139,7 @@
                     "Player.Structures": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -16395,18 +16159,9 @@
                       "$type": "Aow.Game.Units.ArmyList",
                       "ArmyList.Player": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[2]",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 1,
-                        "EventStore\u00601._items": [
-                          [
-                            "Aow.Game.Session.Player.ArmiesChanged"
-                          ],
-                          null,
-                          null,
-                          null
-                        ]
-                      },
+                      "ObservableEventList.Changed": [
+                        "Aow.Game.Session.Player.ArmiesChanged"
+                      ],
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -16417,17 +16172,9 @@
                     },
                     "Player._busyCount": 0,
                     "Player._description": "",
-                    "Player._gemsChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.GemsChanged": null,
                     "Player._highestHeroLevel": 0,
-                    "Player._incomeChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.IncomeChanged": null,
                     "Player._incomeSources": {
                       "$type": "Aow.Game.World.Structures.IncomeSourceList",
                       "EngineObject._owner": null,
@@ -16446,11 +16193,7 @@
                     },
                     "Player._lastHeroEmergeDay": 0,
                     "Player._lastHeroJoinDay": 0,
-                    "Player._logbookChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.LogbookChanged": null,
                     "Player._magicUpkeep": 0,
                     "Player._messages": {
                       "$type": "Aow.Rtl.DelphiStringList",
@@ -16464,19 +16207,11 @@
                     },
                     "Player._password": "",
                     "Player._updateCount": 0,
-                    "Player._upkeepChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.UpkeepChanged": null,
                     "Player._victoryLocations": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -16988,7 +16723,6 @@
             "StrategicMap.TargetSelection": {
               "$type": "Aow.Game.Combat.TargetSelectionControl",
               "TargetSelectionControl.CancelText": "",
-              "TargetSelectionControl.Change": 0,
               "TargetSelectionControl.HexNumbers": {
                 "$type": "Aow.Engine.Collections.SByteList",
                 "SByteList._capacity": 0,
@@ -16998,11 +16732,7 @@
               },
               "TargetSelectionControl.ImageLibrary": null,
               "TargetSelectionControl.InvalidTargetImage": null,
-              "TargetSelectionControl.OnChangeStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TargetSelectionControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "TargetSelectionControl.Changed": null,
               "TargetSelectionControl._show": null,
               "TargetSelectionControl._validateTarget": null,
               "TargetSelectionControl.Range": 0,
@@ -17072,30 +16802,12 @@
                 "TokenExecutor.ExecuteCount": 0,
                 "TokenExecutor.Executing": false,
                 "TokenExecutor.HoldTacticalBattle": false,
-                "TokenExecutor.OnActivateTacticalBattleStore": {
-                  "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Net.TokenExecutor, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "EventStore\u00601.Count": 1,
-                  "EventStore\u00601._items": [
-                    [
-                      "Aow.Game.World.Map.StrategicMap.TokenControlActivatedEvent"
-                    ],
-                    null,
-                    null,
-                    null
-                  ]
-                },
-                "TokenExecutor.OnEventsExecutedStore": {
-                  "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Net.TokenExecutor, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "EventStore\u00601.Count": 1,
-                  "EventStore\u00601._items": [
-                    [
-                      "Aow.Game.AI.AIExecutor.TokenControlDoneEvent"
-                    ],
-                    null,
-                    null,
-                    null
-                  ]
-                },
+                "TokenExecutor.TacticalBattleActivating": [
+                  "Aow.Game.World.Map.StrategicMap.TokenControlActivatedEvent"
+                ],
+                "TokenExecutor.EventsExecuted": [
+                  "Aow.Game.AI.AIExecutor.TokenControlDoneEvent"
+                ],
                 "TokenExecutor._executeTokenEvent": [
                   "Aow.Game.World.Map.StrategicMap.OnExecuteTokenEvent"
                 ],
@@ -17173,40 +16885,15 @@
             "StrategicMap.VictoryGold": 5000,
             "StrategicMap.VictoryMana": 5000,
             "StrategicMap.VictoryMode": 0,
-            "StrategicMap._armyChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Units.Army, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap._armyDestroyedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Units.Army, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 1,
-              "EventStore\u00601._items": [
-                [
-                  "Aow.Game.Units.SelectedArmy.OnDestroyArmy"
-                ],
-                null,
-                null,
-                null
-              ]
-            },
+            "StrategicMap.ArmyChanged": null,
+            "StrategicMap.ArmyDestroyed": [
+              "Aow.Game.Units.SelectedArmy.OnDestroyArmy"
+            ],
             "StrategicMap._armyUpdateCount": 0,
             "StrategicMap._author": "",
-            "StrategicMap._combatEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.Battle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap._currentPlayerChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap._endTurnEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.CombatTriggered": null,
+            "StrategicMap.CurrentPlayerChanged": null,
+            "StrategicMap.TurnEnded": null,
             "StrategicMap._executeEventLogBuffer": {
               "$type": "Aow.Game.Events.EventLogList",
               "EngineObject._owner": null,
@@ -17223,27 +16910,11 @@
               "ExecuteEventLogCallbackList._list": []
             },
             "StrategicMap._executeEventLogDelay": 0,
-            "StrategicMap._executeEventLogEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Events.ExecuteEventLogNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap._exitEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap._gameOverEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.ExecutingEventLog": null,
+            "StrategicMap.ExitingGame": null,
+            "StrategicMap.GameEnded": null,
             "StrategicMap._gameOverLockCount": 0,
-            "StrategicMap._gameTerminatedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap._gameTerminated": null,
             "StrategicMap._independentAIMode": 2,
             "StrategicMap._objectives": {
               "$type": "Aow.Rtl.DelphiStringList",
@@ -17255,40 +16926,16 @@
               "DelphiStringList.count": 0,
               "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
             },
-            "StrategicMap._playerChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap._playerTerminatedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.PlayerChanged": null,
+            "StrategicMap.PlayerTerminated": null,
             "StrategicMap._relationsChangedLockCount": 0,
-            "StrategicMap._seatedPlayerChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.SeatedPlayerChanged": null,
             "StrategicMap._sessionName": "",
-            "StrategicMap._structureChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Structures.Structure, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap._structureDestroyedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Structures.Structure, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.StructureChanged": null,
+            "StrategicMap.StructureDestroyed": null,
             "StrategicMap._structureUpdateCount": 0,
             "StrategicMap._synchronizeCount": 0,
-            "StrategicMap._tokenControlActivatedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap._tokenControlActivated": null,
             "StrategicMap._tokenLog": null,
             "StrategicMap._turnTimeBeep": 0,
             "StrategicMap._turnTimeElapsed": 0,
@@ -17305,17 +16952,9 @@
                 null
               ]
             },
-            "StrategicMap._unitDestroyedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.Troop, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.UnitDestroyed": null,
             "StrategicMap._unitUpdateCount": 0,
-            "StrategicMap._updateVisibilityEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.VisibilityUpdated": null,
             "StrategicMap._updateVisibilityLockCount": 0,
             "StrategicMap._visibilityChanged": false
           }
@@ -17372,27 +17011,14 @@
             "GameMap.FileName": "",
             "GameMap.FogEnabled": true,
             "GameMap.Frame": 0,
-            "GameMap.HexSpriteChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "GameMap.HexSpriteChanged": null,
             "GameMap.MapChangedLockCount": 0,
             "GameMap.MapContainer": null,
             "GameMap.Mouse": {
               "$type": "Aow.Game.World.Map.AowHexSpriteMapMouse",
-              "GameMapMouse.RectangleSelectEventsStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 1,
-                "EventStore\u00601._items": [
-                  [
-                    "Aow.Game.Units.SelectedArmy.RectangleSelectEvent"
-                  ],
-                  null,
-                  null,
-                  null
-                ]
-              },
+              "GameMapMouse.RectangleSelected": [
+                "Aow.Game.Units.SelectedArmy.RectangleSelectEvent"
+              ],
               "GameMapMouse.SelectionRectangle": {
                 "$type": "Aow.Rtl.Rect",
                 "Rect.Bottom": -1,
@@ -17405,38 +17031,17 @@
               "HexSpriteMapMouse.CursorVisible": false,
               "HexSpriteMapMouse.HexSpriteMap": "$ref:$",
               "HexSpriteMapMouse.IgnoreDown": false,
-              "HexSpriteMapMouse.OnCaptureChangedStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
-              "HexSpriteMapMouse.OnDoubleClickStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "HexSpriteMapMouse.CaptureChanged": null,
+              "HexSpriteMapMouse.DoubleClicked": null,
               "HexSpriteMapMouse.OnDownStore": {
                 "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "EventStore\u00601.Count": 0,
                 "EventStore\u00601._items": null
               },
-              "HexSpriteMapMouse.OnMoveStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 1,
-                "EventStore\u00601._items": [
-                  [
-                    "Aow.Game.World.Map.StrategicMap.MouseMoved"
-                  ],
-                  null,
-                  null,
-                  null
-                ]
-              },
-              "HexSpriteMapMouse.OnUpStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "HexSpriteMapMouse.Moved": [
+                "Aow.Game.World.Map.StrategicMap.MouseMoved"
+              ],
+              "HexSpriteMapMouse.ButtonReleased": null,
               "HexSpriteMapMouse.Shift": 0,
               "HexSpriteMapMouse.X": -2147483648,
               "HexSpriteMapMouse.Y": -2147483648,
@@ -17465,11 +17070,7 @@
                 "EventStore\u00601.Count": 0,
                 "EventStore\u00601._items": null
               },
-              "HexSpriteSelection.OnSelectStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.CustomNode, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "HexSpriteSelection.Selected": null,
               "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
@@ -17497,11 +17098,7 @@
               "SortedNode.StoredCount": 0
             },
             "GameMap.Status": 0,
-            "GameMap.TerrainChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "GameMap.TerrainChanged": null,
             "GameMap.Version": 0,
             "GameMap.ViewHeight": 0,
             "GameMap.ViewHeightHex": 0,
@@ -17510,11 +17107,7 @@
             "GameMap.ViewMapLevel": 0,
             "GameMap.ViewPixelX": 0,
             "GameMap.ViewPixelY": 0,
-            "GameMap.ViewPortChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "GameMap.ViewPortChanged": null,
             "GameMap.ViewWidth": 0,
             "GameMap.ViewWidthHex": 0,
             "GameMap._backHexSelector": {
@@ -17537,26 +17130,14 @@
             },
             "GameMap._hexSelectorVisible": false,
             "GameMap._hssFileName": "",
-            "GameMap._mapChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "GameMap.MapChanged": null,
             "GameMap._messageFrame": 0,
             "GameMap._messageText": "",
-            "GameMap._scannerIconsChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "GameMap.ScannerIconsChanged": null,
             "GameMap._scannerIconsChangedLockCount": 0,
             "GameMap._selectorX": 0,
             "GameMap._selectorY": 0,
-            "GameMap._showMessageEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Events.ShowMessageNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "GameMap.ShowingMessage": null,
             "GameMap._terrainChangedLockCounter": 0,
             "OwningNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
@@ -17798,16 +17379,8 @@
             },
             "StrategicMap.Combat": null,
             "StrategicMap.CombatMap": null,
-            "StrategicMap.CombatMapCreatedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap.CombatMapDestroyedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.CombatMapCreated": null,
+            "StrategicMap.CombatMapDestroyed": null,
             "StrategicMap.ConnectionType": 0,
             "StrategicMap.Day": 0,
             "StrategicMap.DayLimit": 0,
@@ -17823,11 +17396,7 @@
               "DelphiStringList.count": 0,
               "DelphiStringList.items": []
             },
-            "StrategicMap.DiplomaticRelationsChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.DiplomaticRelationsChanged": null,
             "StrategicMap.EditorPlayer": 0,
             "StrategicMap.Effects": [],
             "StrategicMap.ExitPending": false,
@@ -17886,11 +17455,7 @@
                 }
               },
               "GlobalMagicControl.NextEnchantmentId": 1,
-              "GlobalMagicControl._changedEventsStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.GlobalMagicControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "GlobalMagicControl.Changed": null,
               "GlobalMagicControl._updateCount": 0
             },
             "StrategicMap.HeroControl": {
@@ -17905,16 +17470,8 @@
                   "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.OwningNode._children.DelphiList\u00601.items"
                 }
               },
-              "HeroControl._onChangedStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Units.HeroControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
-              "HeroControl._onHeroChangedStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.Hero, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "HeroControl.Changed": null,
+              "HeroControl.HeroChanged": null,
               "HeroControl._updateCount": 0
             },
             "StrategicMap.HeroCountMax": 5,
@@ -17925,16 +17482,8 @@
               "EngineObject._owner": null,
               "ItemControl._items": [],
               "ItemControl._lastId": 0,
-              "ItemControl._onChangedStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Units.ItemControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
-              "ItemControl._onItemChangedStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.Item, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "ItemControl.Changed": null,
+              "ItemControl.ItemChanged": null,
               "ItemControl._status": 0,
               "ItemControl._updateLock": 0
             },
@@ -18346,41 +17895,17 @@
               "MoveControl._processedMapFields": null,
               "MoveControl._status": 0
             },
-            "StrategicMap.NewDayEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.PlayerControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap.NewTurnEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap.OnActivateAbilityStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap.OnLeaderChangedStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.Leader, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.DayStarted": null,
+            "StrategicMap.TurnStarted": null,
+            "StrategicMap.AbilityActivated": null,
+            "StrategicMap.LeaderChanged": null,
             "StrategicMap.PlayMode": 0,
             "StrategicMap.PlayerCommunicator": {
               "$type": "Aow.Game.Net.PlayerCommunicator",
               "EngineObject._owner": null,
               "PlayerCommunicator.Engine": "$engine",
-              "PlayerCommunicator.OnProcessStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Net.PlayerCommunicator, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
-              "PlayerCommunicator.OnReceiveStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Net.PlayerCommunicator, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "PlayerCommunicator.Processed": null,
+              "PlayerCommunicator.Received": null,
               "PlayerCommunicator.PlayerCommunicationControl": null,
               "PlayerCommunicator.ReceiveStream": {
                 "$type": "System.IO.MemoryStream",
@@ -18620,11 +18145,7 @@
                     "Player.KnownStructures": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -18793,11 +18314,7 @@
                         "Int32List._default": 0,
                         "Int32List._list": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
                       },
-                      "PlayerMagicControl._changedEventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.PlayerMagicControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "PlayerMagicControl.Changed": null,
                       "PlayerMagicControl._externalPowerSource": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[0].Player.MagicControl.PlayerMagicControl.PowerSources.OwningNode._children.DelphiList\u00601.items[0]",
                       "PlayerMagicControl._nextEnchantmentId": 1,
                       "PlayerMagicControl._updateCount": 0
@@ -18848,11 +18365,7 @@
                     "Player.Structures": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -18872,18 +18385,9 @@
                       "$type": "Aow.Game.Units.ArmyList",
                       "ArmyList.Player": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[0]",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 1,
-                        "EventStore\u00601._items": [
-                          [
-                            "Aow.Game.Session.Player.ArmiesChanged"
-                          ],
-                          null,
-                          null,
-                          null
-                        ]
-                      },
+                      "ObservableEventList.Changed": [
+                        "Aow.Game.Session.Player.ArmiesChanged"
+                      ],
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -18894,17 +18398,9 @@
                     },
                     "Player._busyCount": 0,
                     "Player._description": "",
-                    "Player._gemsChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.GemsChanged": null,
                     "Player._highestHeroLevel": 0,
-                    "Player._incomeChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.IncomeChanged": null,
                     "Player._incomeSources": {
                       "$type": "Aow.Game.World.Structures.IncomeSourceList",
                       "EngineObject._owner": null,
@@ -18923,11 +18419,7 @@
                     },
                     "Player._lastHeroEmergeDay": 0,
                     "Player._lastHeroJoinDay": 0,
-                    "Player._logbookChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.LogbookChanged": null,
                     "Player._magicUpkeep": 0,
                     "Player._messages": {
                       "$type": "Aow.Rtl.DelphiStringList",
@@ -18941,19 +18433,11 @@
                     },
                     "Player._password": "",
                     "Player._updateCount": 0,
-                    "Player._upkeepChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.UpkeepChanged": null,
                     "Player._victoryLocations": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -19157,11 +18641,7 @@
                     "Player.KnownStructures": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -19330,11 +18810,7 @@
                         "Int32List._default": 0,
                         "Int32List._list": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
                       },
-                      "PlayerMagicControl._changedEventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.PlayerMagicControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "PlayerMagicControl.Changed": null,
                       "PlayerMagicControl._externalPowerSource": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[1].Player.MagicControl.PlayerMagicControl.PowerSources.OwningNode._children.DelphiList\u00601.items[0]",
                       "PlayerMagicControl._nextEnchantmentId": 1,
                       "PlayerMagicControl._updateCount": 0
@@ -19385,11 +18861,7 @@
                     "Player.Structures": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -19409,18 +18881,9 @@
                       "$type": "Aow.Game.Units.ArmyList",
                       "ArmyList.Player": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[1]",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 1,
-                        "EventStore\u00601._items": [
-                          [
-                            "Aow.Game.Session.Player.ArmiesChanged"
-                          ],
-                          null,
-                          null,
-                          null
-                        ]
-                      },
+                      "ObservableEventList.Changed": [
+                        "Aow.Game.Session.Player.ArmiesChanged"
+                      ],
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -19431,17 +18894,9 @@
                     },
                     "Player._busyCount": 0,
                     "Player._description": "",
-                    "Player._gemsChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.GemsChanged": null,
                     "Player._highestHeroLevel": 0,
-                    "Player._incomeChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.IncomeChanged": null,
                     "Player._incomeSources": {
                       "$type": "Aow.Game.World.Structures.IncomeSourceList",
                       "EngineObject._owner": null,
@@ -19460,11 +18915,7 @@
                     },
                     "Player._lastHeroEmergeDay": 0,
                     "Player._lastHeroJoinDay": 0,
-                    "Player._logbookChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.LogbookChanged": null,
                     "Player._magicUpkeep": 0,
                     "Player._messages": {
                       "$type": "Aow.Rtl.DelphiStringList",
@@ -19478,19 +18929,11 @@
                     },
                     "Player._password": "",
                     "Player._updateCount": 0,
-                    "Player._upkeepChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.UpkeepChanged": null,
                     "Player._victoryLocations": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -19694,11 +19137,7 @@
                     "Player.KnownStructures": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -19867,11 +19306,7 @@
                         "Int32List._default": 0,
                         "Int32List._list": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
                       },
-                      "PlayerMagicControl._changedEventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.PlayerMagicControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "PlayerMagicControl.Changed": null,
                       "PlayerMagicControl._externalPowerSource": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[2].Player.MagicControl.PlayerMagicControl.PowerSources.OwningNode._children.DelphiList\u00601.items[0]",
                       "PlayerMagicControl._nextEnchantmentId": 1,
                       "PlayerMagicControl._updateCount": 0
@@ -19922,11 +19357,7 @@
                     "Player.Structures": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -19946,18 +19377,9 @@
                       "$type": "Aow.Game.Units.ArmyList",
                       "ArmyList.Player": "$ref:$.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[2]",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 1,
-                        "EventStore\u00601._items": [
-                          [
-                            "Aow.Game.Session.Player.ArmiesChanged"
-                          ],
-                          null,
-                          null,
-                          null
-                        ]
-                      },
+                      "ObservableEventList.Changed": [
+                        "Aow.Game.Session.Player.ArmiesChanged"
+                      ],
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -19968,17 +19390,9 @@
                     },
                     "Player._busyCount": 0,
                     "Player._description": "",
-                    "Player._gemsChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.GemsChanged": null,
                     "Player._highestHeroLevel": 0,
-                    "Player._incomeChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.IncomeChanged": null,
                     "Player._incomeSources": {
                       "$type": "Aow.Game.World.Structures.IncomeSourceList",
                       "EngineObject._owner": null,
@@ -19997,11 +19411,7 @@
                     },
                     "Player._lastHeroEmergeDay": 0,
                     "Player._lastHeroJoinDay": 0,
-                    "Player._logbookChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.LogbookChanged": null,
                     "Player._magicUpkeep": 0,
                     "Player._messages": {
                       "$type": "Aow.Rtl.DelphiStringList",
@@ -20015,19 +19425,11 @@
                     },
                     "Player._password": "",
                     "Player._updateCount": 0,
-                    "Player._upkeepChangedEventsStore": {
-                      "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Session.Player, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "EventStore\u00601.Count": 0,
-                      "EventStore\u00601._items": null
-                    },
+                    "Player.UpkeepChanged": null,
                     "Player._victoryLocations": {
                       "$type": "Aow.Game.Session.PlayerStructureList",
                       "EngineObject._owner": null,
-                      "ObservableEventList._eventsStore": {
-                        "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.ObservableEventList, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "EventStore\u00601.Count": 0,
-                        "EventStore\u00601._items": null
-                      },
+                      "ObservableEventList.Changed": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -20539,7 +19941,6 @@
             "StrategicMap.TargetSelection": {
               "$type": "Aow.Game.Combat.TargetSelectionControl",
               "TargetSelectionControl.CancelText": "",
-              "TargetSelectionControl.Change": 0,
               "TargetSelectionControl.HexNumbers": {
                 "$type": "Aow.Engine.Collections.SByteList",
                 "SByteList._capacity": 0,
@@ -20549,11 +19950,7 @@
               },
               "TargetSelectionControl.ImageLibrary": null,
               "TargetSelectionControl.InvalidTargetImage": null,
-              "TargetSelectionControl.OnChangeStore": {
-                "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TargetSelectionControl, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.Count": 0,
-                "EventStore\u00601._items": null
-              },
+              "TargetSelectionControl.Changed": null,
               "TargetSelectionControl._show": null,
               "TargetSelectionControl._validateTarget": null,
               "TargetSelectionControl.Range": 0,
@@ -20623,30 +20020,12 @@
                 "TokenExecutor.ExecuteCount": 0,
                 "TokenExecutor.Executing": false,
                 "TokenExecutor.HoldTacticalBattle": false,
-                "TokenExecutor.OnActivateTacticalBattleStore": {
-                  "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Net.TokenExecutor, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "EventStore\u00601.Count": 1,
-                  "EventStore\u00601._items": [
-                    [
-                      "Aow.Game.World.Map.StrategicMap.TokenControlActivatedEvent"
-                    ],
-                    null,
-                    null,
-                    null
-                  ]
-                },
-                "TokenExecutor.OnEventsExecutedStore": {
-                  "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Net.TokenExecutor, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "EventStore\u00601.Count": 1,
-                  "EventStore\u00601._items": [
-                    [
-                      "Aow.Game.AI.AIExecutor.TokenControlDoneEvent"
-                    ],
-                    null,
-                    null,
-                    null
-                  ]
-                },
+                "TokenExecutor.TacticalBattleActivating": [
+                  "Aow.Game.World.Map.StrategicMap.TokenControlActivatedEvent"
+                ],
+                "TokenExecutor.EventsExecuted": [
+                  "Aow.Game.AI.AIExecutor.TokenControlDoneEvent"
+                ],
                 "TokenExecutor._executeTokenEvent": [
                   "Aow.Game.World.Map.StrategicMap.OnExecuteTokenEvent"
                 ],
@@ -20724,40 +20103,15 @@
             "StrategicMap.VictoryGold": 5000,
             "StrategicMap.VictoryMana": 5000,
             "StrategicMap.VictoryMode": 0,
-            "StrategicMap._armyChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Units.Army, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap._armyDestroyedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Units.Army, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 1,
-              "EventStore\u00601._items": [
-                [
-                  "Aow.Game.Units.SelectedArmy.OnDestroyArmy"
-                ],
-                null,
-                null,
-                null
-              ]
-            },
+            "StrategicMap.ArmyChanged": null,
+            "StrategicMap.ArmyDestroyed": [
+              "Aow.Game.Units.SelectedArmy.OnDestroyArmy"
+            ],
             "StrategicMap._armyUpdateCount": 0,
             "StrategicMap._author": "",
-            "StrategicMap._combatEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.Battle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap._currentPlayerChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap._endTurnEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.CombatTriggered": null,
+            "StrategicMap.CurrentPlayerChanged": null,
+            "StrategicMap.TurnEnded": null,
             "StrategicMap._executeEventLogBuffer": {
               "$type": "Aow.Game.Events.EventLogList",
               "EngineObject._owner": null,
@@ -20774,27 +20128,11 @@
               "ExecuteEventLogCallbackList._list": []
             },
             "StrategicMap._executeEventLogDelay": 0,
-            "StrategicMap._executeEventLogEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Events.ExecuteEventLogNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap._exitEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap._gameOverEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.ExecutingEventLog": null,
+            "StrategicMap.ExitingGame": null,
+            "StrategicMap.GameEnded": null,
             "StrategicMap._gameOverLockCount": 0,
-            "StrategicMap._gameTerminatedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap._gameTerminated": null,
             "StrategicMap._independentAIMode": 2,
             "StrategicMap._objectives": {
               "$type": "Aow.Rtl.DelphiStringList",
@@ -20806,40 +20144,16 @@
               "DelphiStringList.count": 0,
               "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
             },
-            "StrategicMap._playerChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap._playerTerminatedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.PlayerChanged": null,
+            "StrategicMap.PlayerTerminated": null,
             "StrategicMap._relationsChangedLockCount": 0,
-            "StrategicMap._seatedPlayerChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.SeatedPlayerChanged": null,
             "StrategicMap._sessionName": "",
-            "StrategicMap._structureChangedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Structures.Structure, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
-            "StrategicMap._structureDestroyedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Structures.Structure, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.StructureChanged": null,
+            "StrategicMap.StructureDestroyed": null,
             "StrategicMap._structureUpdateCount": 0,
             "StrategicMap._synchronizeCount": 0,
-            "StrategicMap._tokenControlActivatedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap._tokenControlActivated": null,
             "StrategicMap._tokenLog": null,
             "StrategicMap._turnTimeBeep": 0,
             "StrategicMap._turnTimeElapsed": 0,
@@ -20856,17 +20170,9 @@
                 null
               ]
             },
-            "StrategicMap._unitDestroyedEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.Troop, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.UnitDestroyed": null,
             "StrategicMap._unitUpdateCount": 0,
-            "StrategicMap._updateVisibilityEventsStore": {
-              "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "EventStore\u00601.Count": 0,
-              "EventStore\u00601._items": null
-            },
+            "StrategicMap.VisibilityUpdated": null,
             "StrategicMap._updateVisibilityLockCount": 0,
             "StrategicMap._visibilityChanged": false
           }
@@ -20890,7 +20196,7 @@
               "GameMap.FileName": "",
               "GameMap.FogEnabled": false,
               "GameMap.Frame": 0,
-              "GameMap.HexSpriteChangedEventsStore": null,
+              "GameMap.HexSpriteChanged": null,
               "GameMap.MapChangedLockCount": 0,
               "GameMap.MapContainer": null,
               "GameMap.Mouse": null,
@@ -20906,7 +20212,7 @@
               "GameMap.StaticSceneInvalid": false,
               "GameMap.StaticVisibleHexSprite": null,
               "GameMap.Status": 0,
-              "GameMap.TerrainChangedEventsStore": null,
+              "GameMap.TerrainChanged": null,
               "GameMap.Version": 0,
               "GameMap.ViewHeight": 0,
               "GameMap.ViewHeightHex": 0,
@@ -20915,21 +20221,21 @@
               "GameMap.ViewMapLevel": 0,
               "GameMap.ViewPixelX": 0,
               "GameMap.ViewPixelY": 0,
-              "GameMap.ViewPortChangedEventsStore": null,
+              "GameMap.ViewPortChanged": null,
               "GameMap.ViewWidth": 0,
               "GameMap.ViewWidthHex": 0,
               "GameMap._backHexSelector": null,
               "GameMap._frontHexSelector": null,
               "GameMap._hexSelectorVisible": false,
               "GameMap._hssFileName": "",
-              "GameMap._mapChangedEventsStore": null,
+              "GameMap.MapChanged": null,
               "GameMap._messageFrame": 0,
               "GameMap._messageText": "",
-              "GameMap._scannerIconsChangedEventsStore": null,
+              "GameMap.ScannerIconsChanged": null,
               "GameMap._scannerIconsChangedLockCount": 0,
               "GameMap._selectorX": 0,
               "GameMap._selectorY": 0,
-              "GameMap._showMessageEventsStore": null,
+              "GameMap.ShowingMessage": null,
               "GameMap._terrainChangedLockCounter": 0,
               "OwningNode._children": null,
               "StrategicMap.AIExecutor": null,
@@ -20940,15 +20246,15 @@
               "StrategicMap.CampaignSettings": null,
               "StrategicMap.Combat": null,
               "StrategicMap.CombatMap": null,
-              "StrategicMap.CombatMapCreatedEventsStore": null,
-              "StrategicMap.CombatMapDestroyedEventsStore": null,
+              "StrategicMap.CombatMapCreated": null,
+              "StrategicMap.CombatMapDestroyed": null,
               "StrategicMap.ConnectionType": 0,
               "StrategicMap.Day": 0,
               "StrategicMap.DayLimit": 0,
               "StrategicMap.DebugSave": false,
               "StrategicMap.DefendersSeed": 0,
               "StrategicMap.Description": null,
-              "StrategicMap.DiplomaticRelationsChangedEventsStore": null,
+              "StrategicMap.DiplomaticRelationsChanged": null,
               "StrategicMap.EditorPlayer": 0,
               "StrategicMap.Effects": null,
               "StrategicMap.ExitPending": false,
@@ -20967,10 +20273,10 @@
               "StrategicMap.LeadersFixed": false,
               "StrategicMap.MapName": "",
               "StrategicMap.MoveControl": null,
-              "StrategicMap.NewDayEventsStore": null,
-              "StrategicMap.NewTurnEventsStore": null,
-              "StrategicMap.OnActivateAbilityStore": null,
-              "StrategicMap.OnLeaderChangedStore": null,
+              "StrategicMap.DayStarted": null,
+              "StrategicMap.TurnStarted": null,
+              "StrategicMap.AbilityActivated": null,
+              "StrategicMap.LeaderChanged": null,
               "StrategicMap.PlayMode": 0,
               "StrategicMap.PlayerCommunicator": null,
               "StrategicMap.PlayerControl": null,
@@ -20999,41 +20305,41 @@
               "StrategicMap.VictoryGold": 0,
               "StrategicMap.VictoryMana": 0,
               "StrategicMap.VictoryMode": 0,
-              "StrategicMap._armyChangedEventsStore": null,
-              "StrategicMap._armyDestroyedEventsStore": null,
+              "StrategicMap.ArmyChanged": null,
+              "StrategicMap.ArmyDestroyed": null,
               "StrategicMap._armyUpdateCount": 0,
               "StrategicMap._author": "",
-              "StrategicMap._combatEventsStore": null,
-              "StrategicMap._currentPlayerChangedEventsStore": null,
-              "StrategicMap._endTurnEventsStore": null,
+              "StrategicMap.CombatTriggered": null,
+              "StrategicMap.CurrentPlayerChanged": null,
+              "StrategicMap.TurnEnded": null,
               "StrategicMap._executeEventLogBuffer": null,
               "StrategicMap._executeEventLogCallBacks": null,
               "StrategicMap._executeEventLogDelay": 0,
-              "StrategicMap._executeEventLogEventsStore": null,
-              "StrategicMap._exitEventsStore": null,
-              "StrategicMap._gameOverEventsStore": null,
+              "StrategicMap.ExecutingEventLog": null,
+              "StrategicMap.ExitingGame": null,
+              "StrategicMap.GameEnded": null,
               "StrategicMap._gameOverLockCount": 0,
-              "StrategicMap._gameTerminatedEventsStore": null,
+              "StrategicMap._gameTerminated": null,
               "StrategicMap._independentAIMode": 0,
               "StrategicMap._objectives": null,
-              "StrategicMap._playerChangedEventsStore": null,
-              "StrategicMap._playerTerminatedEventsStore": null,
+              "StrategicMap.PlayerChanged": null,
+              "StrategicMap.PlayerTerminated": null,
               "StrategicMap._relationsChangedLockCount": 0,
-              "StrategicMap._seatedPlayerChangedEventsStore": null,
+              "StrategicMap.SeatedPlayerChanged": null,
               "StrategicMap._sessionName": "",
-              "StrategicMap._structureChangedEventsStore": null,
-              "StrategicMap._structureDestroyedEventsStore": null,
+              "StrategicMap.StructureChanged": null,
+              "StrategicMap.StructureDestroyed": null,
               "StrategicMap._structureUpdateCount": 0,
               "StrategicMap._synchronizeCount": 0,
-              "StrategicMap._tokenControlActivatedEventsStore": null,
+              "StrategicMap._tokenControlActivated": null,
               "StrategicMap._tokenLog": null,
               "StrategicMap._turnTimeBeep": 0,
               "StrategicMap._turnTimeElapsed": 0,
               "StrategicMap._turnTimerStart": 0,
               "StrategicMap._unitChangedEventsStore": null,
-              "StrategicMap._unitDestroyedEventsStore": null,
+              "StrategicMap.UnitDestroyed": null,
               "StrategicMap._unitUpdateCount": 0,
-              "StrategicMap._updateVisibilityEventsStore": null,
+              "StrategicMap.VisibilityUpdated": null,
               "StrategicMap._updateVisibilityLockCount": 0,
               "StrategicMap._visibilityChanged": false
             }

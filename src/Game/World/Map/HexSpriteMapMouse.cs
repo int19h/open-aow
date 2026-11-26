@@ -15,22 +15,14 @@ public class HexSpriteMapMouse : IDisposable
 
     public HexSpriteMapMouse()
     {
-        OnUpStore = new();
         OnDownStore = new();
-        OnMoveStore = new();
-        OnDoubleClickStore = new();
-        OnCaptureChangedStore = new();
         Reset();
     }
 
-    internal EventStore<HexSpriteMapMouse> OnUpStore { get; }
+    internal event NotifyEvent<HexSpriteMapMouse>? ButtonReleased;
 
-    internal event NotifyEvent<HexSpriteMapMouse> ButtonReleased
-    {
-        add => OnUpStore.Add(value);
-        remove => OnUpStore.Remove(value);
-    }
-
+    // Issue 326 keeps the ordered store: TargetSelectionControl.MouseDownEvent, subscribed last,
+    // sets SelectedArmy.IgnoreMouseDown before SelectedArmy.MouseDownEvent reads it.
     internal EventStore<HexSpriteMapMouse> OnDownStore { get; }
 
     internal event NotifyEvent<HexSpriteMapMouse> ButtonPressed
@@ -39,29 +31,11 @@ public class HexSpriteMapMouse : IDisposable
         remove => OnDownStore.Remove(value);
     }
 
-    internal EventStore<HexSpriteMapMouse> OnMoveStore { get; }
+    internal event NotifyEvent<HexSpriteMapMouse>? Moved;
 
-    internal event NotifyEvent<HexSpriteMapMouse> Moved
-    {
-        add => OnMoveStore.Add(value);
-        remove => OnMoveStore.Remove(value);
-    }
+    internal event NotifyEvent<HexSpriteMapMouse>? DoubleClicked;
 
-    internal EventStore<HexSpriteMapMouse> OnDoubleClickStore { get; }
-
-    internal event NotifyEvent<HexSpriteMapMouse> DoubleClicked
-    {
-        add => OnDoubleClickStore.Add(value);
-        remove => OnDoubleClickStore.Remove(value);
-    }
-
-    internal EventStore<HexSpriteMapMouse> OnCaptureChangedStore { get; }
-
-    internal event NotifyEvent<HexSpriteMapMouse> CaptureChanged
-    {
-        add => OnCaptureChangedStore.Add(value);
-        remove => OnCaptureChangedStore.Remove(value);
-    }
+    internal event NotifyEvent<HexSpriteMapMouse>? CaptureChanged;
 
     private object? _capture;
     private Statuses _status;
@@ -70,11 +44,11 @@ public class HexSpriteMapMouse : IDisposable
     // HSEngine.pas:3486
     public virtual void Dispose()
     {
-        OnUpStore.Clear();
+        ButtonReleased = null;
         OnDownStore.Clear();
-        OnMoveStore.Clear();
-        OnDoubleClickStore.Clear();
-        OnCaptureChangedStore.Clear();
+        Moved = null;
+        DoubleClicked = null;
+        CaptureChanged = null;
     }
 
     // HSEngine.pas:3505
@@ -165,7 +139,9 @@ public class HexSpriteMapMouse : IDisposable
         Shift = shift;
         if (MouseUp())
         {
-            OnUpStore.Raise(this);
+            NotifyEvent<HexSpriteMapMouse>? handlers = ButtonReleased;
+            EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(ButtonReleased));
+            handlers?.Invoke(this);
         }
     }
 
@@ -187,7 +163,7 @@ public class HexSpriteMapMouse : IDisposable
 
         if (MouseMove())
         {
-            OnMoveStore.Raise(this);
+            Moved?.Invoke(this);
         }
     }
 
@@ -198,7 +174,9 @@ public class HexSpriteMapMouse : IDisposable
         {
             if (MouseDoubleClick())
             {
-                OnDoubleClickStore.Raise(this);
+                NotifyEvent<HexSpriteMapMouse>? handlers = DoubleClicked;
+                EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(DoubleClicked));
+                handlers?.Invoke(this);
             }
         }
     }
@@ -318,7 +296,9 @@ public class HexSpriteMapMouse : IDisposable
                 _cursor = 0;
             }
 
-            OnCaptureChangedStore.Raise(this);
+            NotifyEvent<HexSpriteMapMouse>? handlers = CaptureChanged;
+            EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(CaptureChanged));
+            handlers?.Invoke(this);
             _status &= ~Statuses.ChangingCapture;
         }
     }

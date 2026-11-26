@@ -741,7 +741,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
                     {
                         RangedPath.Clear();
                         MouseOverTarget = null;
-                        CombatMap.Current.MouseOverTargetEventsStore.Raise(MouseOverTarget);
+                        CombatMap.Current.OnMouseOverTargetChanged(MouseOverTarget);
                     }
                 }
                 else
@@ -1258,7 +1258,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
                                                 int mouseHexY = CombatMap.Current.Mouse.HexY;
                                                 int hexX = CombatMap.Current.Mouse.HexX;
                                                 MouseOverTarget = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, mouseHexY].FindOwnedChild<HexSprite>(TacticalBattleUnitHexSprite.ClassId);
-                                                CombatMap.Current.MouseOverTargetEventsStore.Raise(MouseOverTarget);
+                                                CombatMap.Current.OnMouseOverTargetChanged(MouseOverTarget);
                                             }
                                         }
 
