@@ -37,23 +37,21 @@ public sealed class UIConstructionTests
     {
         private readonly IDisposable _previousMapScope = EngineFixture.UseMap(StrategicMap.Current);
         private readonly IDisposable _previousCombatScope = EngineFixture.UseCombatMap(CombatMap.Current);
-        private readonly EventStore<GameMap> _loaded;
-        private readonly EventStore<GameMap> _closed;
+        private readonly Delegate? _loaded;
+        private readonly Delegate? _closed;
 
         internal Fixture()
         {
-            _loaded = EngineFixture.Engine.OnHsmLoadedStore;
-            _closed = EngineFixture.Engine.OnHsmCloseStore;
-            EngineFixture.Engine.OnHsmLoadedStore = new EventStore<GameMap>();
-            EngineFixture.Engine.OnHsmCloseStore = new EventStore<GameMap>();
+            _loaded = EventHandlers.Swap(EngineFixture.Engine, declaringType: typeof(GameEngine), eventName: nameof(GameEngine.HexSpriteMapLoaded), handlers: null);
+            _closed = EventHandlers.Swap(EngineFixture.Engine, declaringType: typeof(GameEngine), eventName: nameof(GameEngine.HexSpriteMapClosing), handlers: null);
             EngineFixture.SetMap(null);
             EngineFixture.SetCombatMap(null);
         }
 
         public void Dispose()
         {
-            EngineFixture.Engine.OnHsmLoadedStore = _loaded;
-            EngineFixture.Engine.OnHsmCloseStore = _closed;
+            _ = EventHandlers.Swap(EngineFixture.Engine, declaringType: typeof(GameEngine), eventName: nameof(GameEngine.HexSpriteMapLoaded), handlers: _loaded);
+            _ = EventHandlers.Swap(EngineFixture.Engine, declaringType: typeof(GameEngine), eventName: nameof(GameEngine.HexSpriteMapClosing), handlers: _closed);
             _previousMapScope.Dispose();
             _previousCombatScope.Dispose();
         }
@@ -359,7 +357,7 @@ public sealed class UIConstructionTests
                 states.Add(JsonSerializer.Serialize(owner.Observations));
             }
 
-            states.Add($"subscriptions:{EngineFixture.Engine.OnHsmLoadedStore.Count}:{EngineFixture.Engine.OnHsmCloseStore.Count}");
+            states.Add($"subscriptions:{EventHandlers.Count(EngineFixture.Engine, eventName: nameof(GameEngine.HexSpriteMapLoaded))}:{EventHandlers.Count(EngineFixture.Engine, eventName: nameof(GameEngine.HexSpriteMapClosing))}");
             ConstructionSnapshot.Check(actual: string.Join("\n", values: states), key: $"{name}.owner{owned}", name: "UiConstruction");
         }
     }

@@ -28,37 +28,13 @@ public partial class GameEngine : OwningNode
 {
     private GameMap? _hexSpriteMap;
 
-    internal EventStore<GameMap> OnHsmLoadedStore { get; set; }
+    internal event NotifyEvent<GameMap>? HexSpriteMapLoaded;
 
-    internal event NotifyEvent<GameMap> HexSpriteMapLoaded
-    {
-        add => OnHsmLoadedStore.Add(value);
-        remove => OnHsmLoadedStore.Remove(value);
-    }
+    internal event NotifyEvent<GameMap>? HexSpriteMapClosing;
 
-    internal EventStore<GameMap> OnHsmCloseStore { get; set; }
+    internal event NotifyEvent<GameEngine>? HexSpriteSetLoaded;
 
-    internal event NotifyEvent<GameMap> HexSpriteMapClosing
-    {
-        add => OnHsmCloseStore.Add(value);
-        remove => OnHsmCloseStore.Remove(value);
-    }
-
-    private readonly EventStore<GameEngine> _onHssLoadedStore;
-
-    internal event NotifyEvent<GameEngine> HexSpriteSetLoaded
-    {
-        add => _onHssLoadedStore.Add(value);
-        remove => _onHssLoadedStore.Remove(value);
-    }
-
-    private readonly EventStore<GameEngine> _onHssCloseStore;
-
-    internal event NotifyEvent<GameEngine> HexSpriteSetClosing
-    {
-        add => _onHssCloseStore.Add(value);
-        remove => _onHssCloseStore.Remove(value);
-    }
+    internal event NotifyEvent<GameEngine>? HexSpriteSetClosing;
 
     // HSEngine.pas:5210
     // The preflight of the file boundary finishes before the current map is freed. A refused
@@ -97,7 +73,7 @@ public partial class GameEngine : OwningNode
                 ReadTree(tree, objectValue: _hexSpriteMap, progress: progress, onError: EditorErrorHandler(_hexSpriteMap), dropped: dropped);
                 ActivateEngineObject(_hexSpriteMap);
                 _hexSpriteMap.SetProgressHandler(null);
-                OnHsmLoadedStore.Raise(_hexSpriteMap);
+                HexSpriteMapLoaded?.Invoke(_hexSpriteMap);
             }
             catch
             {
@@ -191,7 +167,9 @@ public partial class GameEngine : OwningNode
     // HSEngine.pas:5093
     public virtual void CloseHss()
     {
-        _onHssCloseStore.Raise(this);
+        NotifyEvent<GameEngine>? handlers = HexSpriteSetClosing;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(HexSpriteSetClosing));
+        handlers?.Invoke(this);
         GamePack.Clear();
         HssFileName = "noname.hss";
     }
@@ -256,7 +234,9 @@ public partial class GameEngine : OwningNode
             EngineMessage.InitializeMessage(out EngineMessage message, messageId: 65556, sender: this);
             GamePack.MessageProc(ref message, sender: this);
             ControlNode.MessageProc(ref message, sender: this);
-            _onHssLoadedStore.Raise(this);
+            NotifyEvent<GameEngine>? handlers = HexSpriteSetLoaded;
+            EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(HexSpriteSetLoaded));
+            handlers?.Invoke(this);
         }
         finally
         {
@@ -353,7 +333,7 @@ public partial class GameEngine : OwningNode
                 ReadTree(tree, objectValue: result, progress: progress, onError: EditorErrorHandler(result));
                 ActivateEngineObject(result);
                 result.SetProgressHandler(null);
-                OnHsmLoadedStore.Raise(result);
+                HexSpriteMapLoaded?.Invoke(result);
             }
             catch
             {
@@ -412,7 +392,7 @@ public partial class GameEngine : OwningNode
                     ReadTree(tree, objectValue: _hexSpriteMap, progress: progress, onError: EditorErrorHandler(_hexSpriteMap), dropped: dropped);
                     ActivateEngineObject(_hexSpriteMap);
                     _hexSpriteMap.SetProgressHandler(null);
-                    OnHsmLoadedStore.Raise(_hexSpriteMap);
+                    HexSpriteMapLoaded?.Invoke(_hexSpriteMap);
                 }
                 catch
                 {
@@ -517,7 +497,7 @@ public partial class GameEngine : OwningNode
         SetHexSpriteMap(CreateEngineObject<GameMap>(classId, owner: this));
         _hexSpriteMap.Status |= HexSpriteMapStatuses.Editting;
         ActivateEngineObject(_hexSpriteMap);
-        OnHsmLoadedStore.Raise(_hexSpriteMap);
+        HexSpriteMapLoaded?.Invoke(_hexSpriteMap);
         return _hexSpriteMap;
     }
 

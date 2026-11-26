@@ -135,7 +135,7 @@ public class HealingAbility : TouchAbility
 
             info.SetUnitSelector(selector);
             // { Original omits Selector.Release here. }
-            StrategicMap.Current.OnActivateAbilityStore.Raise(info);
+            StrategicMap.Current.OnAbilityActivated(info);
             _ = info.Release();
             return true;
         }

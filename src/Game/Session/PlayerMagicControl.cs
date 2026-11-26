@@ -37,7 +37,6 @@ public sealed class PlayerMagicControl : EngineObject
     public PlayerMagicControl(CustomNode? owner) : base(owner)
     {
         Spells = [];
-        _changedEventsStore = new();
         Enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
         PowerSources = new PowerSourceList(null) { Holder = CreationHolder() };
         ExternalPowerSource source = new(null) { Holder = CreationHolder() };
@@ -79,13 +78,7 @@ public sealed class PlayerMagicControl : EngineObject
 
     public PlayerEnchantmentTypes EnemyEnchantments { get; private set; }
 
-    private readonly EventStore<PlayerMagicControl> _changedEventsStore;
-
-    public event NotifyEvent<PlayerMagicControl> Changed
-    {
-        add => _changedEventsStore.Add(value);
-        remove => _changedEventsStore.Remove(value);
-    }
+    public event NotifyEvent<PlayerMagicControl>? Changed;
 
     // Spells.PAS:1927
     public override void Dispose()
@@ -93,7 +86,7 @@ public sealed class PlayerMagicControl : EngineObject
         try
         {
             Enchantments?.Dispose();
-            _changedEventsStore.Clear();
+            Changed = null;
             _ = PowerSources.RemoveChild(_externalPowerSource);
             if (PowerSources.GetCount() != 0 && StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
             {
@@ -576,7 +569,9 @@ public sealed class PlayerMagicControl : EngineObject
         if (_updateCount == 0)
         {
             UpdateEnemyEnchantments();
-            _changedEventsStore.Raise(this);
+            NotifyEvent<PlayerMagicControl>? handlers = Changed;
+            EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(Changed));
+            handlers?.Invoke(this);
         }
     }
 

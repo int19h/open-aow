@@ -106,7 +106,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
 
         try
         {
-            StrategicMap.Current.NewDayEventsStore.Raise(this);
+            StrategicMap.Current.OnDayStarted(this);
         }
         catch (Exception error)
         {
@@ -170,7 +170,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
         EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537001986, sender: this);
         message.Payload = MsgArgIds.FromPlayer(player);
         StrategicMap.Current.SendMessage(ref message, sender: this);
-        StrategicMap.Current.NewTurnEventsStore.Raise((sbyte)PlayerIdExtensions.ToOriginal(player));
+        StrategicMap.Current.OnTurnStarted((sbyte)PlayerIdExtensions.ToOriginal(player));
         EngineMessage.InitializeMessage(out message, messageId: 537001987, sender: this);
         message.Payload = MsgArgIds.FromPlayer(player);
         StrategicMap.Current.SendMessage(ref message, sender: this);

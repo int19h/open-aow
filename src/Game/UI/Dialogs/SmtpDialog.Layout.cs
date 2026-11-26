@@ -589,8 +589,8 @@ public sealed partial class SmtpDialog : ILayoutModule
         session.BeginRead(SmtpSender);
         SmtpSender.Name = "IMSSMTP";
         SmtpSender.DefaultPort = 25;
-        SmtpSender.Failed += (_, error) => SmtpSenderError(error);
-        SmtpSender.ProgressChanged += (_, progress, total) => SmtpSenderProgress(progress, total);
+        SmtpSender.Failed += (_, e) => SmtpSenderError(e.Error);
+        SmtpSender.ProgressChanged += (_, e) => SmtpSenderProgress(e.Progress, e.Total);
         session.EndRead(SmtpSender);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);

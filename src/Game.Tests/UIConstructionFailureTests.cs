@@ -1,8 +1,5 @@
-using Aow.Engine;
-
 using Aow.Game.Draw.Images;
 using Aow.Game.UI.Grids;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Tests;
 
@@ -17,10 +14,8 @@ public sealed class UIConstructionFailureTests
     public void PlainComponentsPublishCompletedState(int family)
     {
         GameEngine engine = EngineFixture.Engine;
-        EventStore<GameMap> previousLoaded = engine.OnHsmLoadedStore;
-        EventStore<GameMap> previousClose = engine.OnHsmCloseStore;
-        engine.OnHsmLoadedStore = new EventStore<GameMap>();
-        engine.OnHsmCloseStore = new EventStore<GameMap>();
+        Delegate? previousLoaded = EventHandlers.Swap(engine, declaringType: typeof(GameEngine), eventName: nameof(GameEngine.HexSpriteMapLoaded), handlers: null);
+        Delegate? previousClose = EventHandlers.Swap(engine, declaringType: typeof(GameEngine), eventName: nameof(GameEngine.HexSpriteMapClosing), handlers: null);
         EngineFixture.SetMap(null);
         EngineFixture.SetCombatMap(null);
         Component owner = new(null);
@@ -41,8 +36,8 @@ public sealed class UIConstructionFailureTests
         finally
         {
             owner.Dispose();
-            engine.OnHsmLoadedStore = previousLoaded;
-            engine.OnHsmCloseStore = previousClose;
+            _ = EventHandlers.Swap(engine, declaringType: typeof(GameEngine), eventName: nameof(GameEngine.HexSpriteMapLoaded), handlers: previousLoaded);
+            _ = EventHandlers.Swap(engine, declaringType: typeof(GameEngine), eventName: nameof(GameEngine.HexSpriteMapClosing), handlers: previousClose);
         }
     }
 }

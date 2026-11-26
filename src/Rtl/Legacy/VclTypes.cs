@@ -17,11 +17,6 @@ public enum ShiftStates : byte
     Double = 1 << 6,
 }
 
-public delegate void MouseEvent<in TSender>(TSender sender, MouseButton button, ShiftStates shift, int x, int y);
-public delegate void MouseMoveEvent<in TSender>(TSender sender, ShiftStates shift, int x, int y);
-public delegate void KeyPressEvent<in TSender>(TSender sender, ref byte key);
-public delegate void KeyEvent<in TSender>(TSender sender, ref ushort key, ShiftStates shift);
-
 public enum ConnectionType : byte { None, Unknown, TCP, IPX, Modem, Serial }
 
 public enum WindowState : byte { Normal, Minimized, Maximized }

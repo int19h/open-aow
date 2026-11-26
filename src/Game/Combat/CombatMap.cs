@@ -1,5 +1,6 @@
 #nullable disable warnings
 // Translated from AoWE.pas and AoWTC.pas.
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -22,12 +23,14 @@ namespace Aow.Game.Combat;
 // PositionStatus. Round
 public class CombatMap : GameMap
 {
-    internal EventStore<AbilityActivation> AbilityActivatedEventsStore { get; }
 
-    public event NotifyEvent<AbilityActivation> AbilityActivated
+    public event NotifyEvent<AbilityActivation>? AbilityActivated;
+
+    internal void OnAbilityActivated(AbilityActivation abilityActivation)
     {
-        add => AbilityActivatedEventsStore.Add(value);
-        remove => AbilityActivatedEventsStore.Remove(value);
+        NotifyEvent<AbilityActivation>? handlers = AbilityActivated;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(AbilityActivated));
+        handlers?.Invoke(abilityActivation);
     }
 
     // AoWTC.pas:2183
@@ -39,67 +42,58 @@ public class CombatMap : GameMap
     public sbyte SeatedCombatPlayer { get; private set; }
     public sbyte CurrentCombatPlayer { get; private set; }
 
-    internal EventStore<sbyte> ChangeTurnEventsStore { get; }
+    public event NotifyEvent<sbyte>? TurnChanged;
 
-    public event NotifyEvent<sbyte> TurnChanged
-    {
-        add => ChangeTurnEventsStore.Add(value);
-        remove => ChangeTurnEventsStore.Remove(value);
-    }
+    internal void OnTurnChanged(sbyte value) => TurnChanged?.Invoke(value);
 
-    private readonly EventStore<CombatMap> _playerChangedEventsStore;
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event PlayerChanged keeps this backing field until the port raises it.")]
+    private NotifyEvent<CombatMap>? _playerChanged;
 
-    public event NotifyEvent<CombatMap> PlayerChanged
-    {
-        add => _playerChangedEventsStore.Add(value);
-        remove => _playerChangedEventsStore.Remove(value);
-    }
+    public event NotifyEvent<CombatMap>? PlayerChanged { add => _playerChanged += value; remove => _playerChanged -= value; }
 
-    private readonly EventStore<sbyte> _seatedPlayerChangedEventsStore;
-
-    public event NotifyEvent<sbyte> SeatedPlayerChanged
-    {
-        add => _seatedPlayerChangedEventsStore.Add(value);
-        remove => _seatedPlayerChangedEventsStore.Remove(value);
-    }
+    public event NotifyEvent<sbyte>? SeatedPlayerChanged;
 
     public CombatMoveControl MoveControl { get; }
     public CombatUnitSelectionControl UnitSelection { get; }
 
-    internal EventStore<TacticalBattle> SelectEventsStore { get; }
+    public event NotifyEvent<TacticalBattle>? BattleEnding;
 
-    public event NotifyEvent<TacticalBattle> BattleEnding
+    internal void OnBattleEnding(TacticalBattle tacticalBattle)
     {
-        add => SelectEventsStore.Add(value);
-        remove => SelectEventsStore.Remove(value);
+        NotifyEvent<TacticalBattle>? handlers = BattleEnding;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(BattleEnding));
+        handlers?.Invoke(tacticalBattle);
     }
 
-    internal EventStore<TacticalBattle> DeselectEventsStore { get; }
+    public event NotifyEvent<TacticalBattle>? BattleStarted;
 
-    public event NotifyEvent<TacticalBattle> BattleStarted
+    internal void OnBattleStarted(TacticalBattle tacticalBattle)
     {
-        add => DeselectEventsStore.Add(value);
-        remove => DeselectEventsStore.Remove(value);
+        NotifyEvent<TacticalBattle>? handlers = BattleStarted;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(BattleStarted));
+        handlers?.Invoke(tacticalBattle);
     }
 
     public MapObject? CenterViewLocation { get; set; }
 
-    internal EventStore<HexSprite?> MouseOverTargetEventsStore { get; }
+    public event NotifyEvent<HexSprite>? MouseOverTargetChanged;
 
-    public event NotifyEvent<HexSprite> MouseOverTargetChanged
+    internal void OnMouseOverTargetChanged(HexSprite? hexSprite)
     {
-        add => MouseOverTargetEventsStore.Add(value);
-        remove => MouseOverTargetEventsStore.Remove(value);
+        NotifyEvent<HexSprite>? handlers = MouseOverTargetChanged;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(MouseOverTargetChanged));
+        handlers?.Invoke(hexSprite);
     }
 
     // CMapCtrl
 
-    internal EventStore<TacticalBattleUnitHexSprite?> UnitChangedEventsStore { get; }
+    public event NotifyEvent<TacticalBattleUnitHexSprite>? UnitChanged;
 
-    public event NotifyEvent<TacticalBattleUnitHexSprite> UnitChanged
+    internal void OnUnitChanged(TacticalBattleUnitHexSprite? tacticalBattleUnitHexSprite)
     {
-        add => UnitChangedEventsStore.Add(value);
-        remove => UnitChangedEventsStore.Remove(value);
+        NotifyEvent<TacticalBattleUnitHexSprite>? handlers = UnitChanged;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(UnitChanged));
+        handlers?.Invoke(tacticalBattleUnitHexSprite);
     }
 
     // CMapCtrl
@@ -131,7 +125,7 @@ public class CombatMap : GameMap
 
         GameEngine? slotEngine = _slotEngine;
         base.Dispose();
-        AbilityActivatedEventsStore.Clear();
+        AbilityActivated = null;
 
         Current = null;
         if (slotEngine?.CombatMap == this)
@@ -141,13 +135,13 @@ public class CombatMap : GameMap
 
         _slotEngine = null;
         UnitPositions?.Dispose();
-        ChangeTurnEventsStore.Clear();
-        _playerChangedEventsStore.Clear();
-        _seatedPlayerChangedEventsStore.Clear();
-        SelectEventsStore.Clear();
-        DeselectEventsStore.Clear();
-        MouseOverTargetEventsStore.Clear();
-        UnitChangedEventsStore.Clear();
+        TurnChanged = null;
+        _playerChanged = null;
+        SeatedPlayerChanged = null;
+        BattleEnding = null;
+        BattleStarted = null;
+        MouseOverTargetChanged = null;
+        UnitChanged = null;
         MoveControl?.Dispose();
         UnitSelection?.Dispose();
         Effects?.Clear();
@@ -171,17 +165,9 @@ public class CombatMap : GameMap
     private protected CombatMap(ConstructionContext? context, CustomNode? owner, EngineObject? holder) : base(context, owner)
     {
         Holder = holder;
-        AbilityActivatedEventsStore = new();
 
         UnitPositions = new UnitPositionControl(null) { Holder = CreationHolder() };
-        ChangeTurnEventsStore = new();
-        _playerChangedEventsStore = new();
-        _seatedPlayerChangedEventsStore = new();
         MoveControl = new CombatMoveControl(this);
-        SelectEventsStore = new();
-        DeselectEventsStore = new();
-        MouseOverTargetEventsStore = new();
-        UnitChangedEventsStore = new();
         Players = new TacticalBattlePlayerList();
         UnitSelection = new CombatUnitSelectionControl(this);
         Mouse.RectangleSelected += UnitSelection.RectangleSelectEvent;
@@ -420,7 +406,9 @@ public class CombatMap : GameMap
             SetSeatedPlayer(PlayerId.FromOriginal(Combat.CombatData.Players.GetPlayers(SeatedCombatPlayer).Player));
         }
 
-        _seatedPlayerChangedEventsStore.Raise(CurrentCombatPlayer);
+        NotifyEvent<sbyte>? handlers = SeatedPlayerChanged;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(SeatedPlayerChanged));
+        handlers?.Invoke(CurrentCombatPlayer);
     }
 
     // AoWTC.pas:2296
@@ -498,7 +486,7 @@ public class CombatMap : GameMap
         }
 
         UnitSelection.Unselect();
-        ChangeTurnEventsStore.Raise(CurrentCombatPlayer);
+        TurnChanged?.Invoke(CurrentCombatPlayer);
     }
 
     // AoWTC.pas:2348

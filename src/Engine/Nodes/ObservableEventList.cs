@@ -7,21 +7,20 @@ namespace Aow.Engine.Nodes;
 public class ObservableEventList(CustomNode owner) : ObservableNode(owner)
 {
 
-    private readonly EventStore<ObservableEventList> _eventsStore = new();
-
     // Engine.pas:8131
     public override void Dispose()
     {
-        _eventsStore.Clear();
+        Changed = null;
         base.Dispose();
     }
 
     // Engine.pas:8137
-    protected override void OnChange() => _eventsStore.Raise(this);
-
-    public event NotifyEvent<ObservableEventList> Changed
+    protected override void OnChange()
     {
-        add => _eventsStore.Add(value);
-        remove => _eventsStore.Remove(value);
+        NotifyEvent<ObservableEventList>? handlers = Changed;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(Changed));
+        handlers?.Invoke(this);
     }
+
+    public event NotifyEvent<ObservableEventList>? Changed;
 }

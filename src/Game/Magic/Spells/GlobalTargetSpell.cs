@@ -105,7 +105,7 @@ public class GlobalTargetSpell : Spell
         int unitLayer = coordinate69.MapLevel;
         targetSelection.SourceLocation = new MapCoordinate((sbyte)unitX, (sbyte)unitY, (sbyte)unitLayer);
         targetSelection.Range = 12;
-        targetSelection.Changed += OnTargetSelectionChange;
+        targetSelection.Changed += TargetSelection_Changed;
         targetSelection.SetShowHandler(ShowTargetSelection);
         string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SelectTargetLocationForOnMapFormat), args: [SpellName]);
         targetSelection.Text.Text = format;
@@ -138,18 +138,19 @@ public class GlobalTargetSpell : Spell
     public virtual bool ValidTargetMapField(MapField field) => true;
 
     // GlobalTargetSpells.pas:492. The recovered view aliases this control.
-    public virtual void OnTargetSelectionChange(TargetSelectionControl target)
+    public virtual void TargetSelection_Changed(object? sender, TargetSelectionChangedEventArgs e)
     {
+        TargetSelectionControl target = (TargetSelectionControl)sender!;
         Troop? caster = StrategicMap.Current.UnitControl.FindUnit(_casterId);
-        if (caster is null || target.Change == TargetSelectionChange.Deactivated)
+        if (caster is null || e.Change == TargetSelectionChange.Deactivated)
         {
-            target.Changed -= OnTargetSelectionChange;
+            target.Changed -= TargetSelection_Changed;
             target.Deactivate();
         }
-        else if (target.Change == TargetSelectionChange.Selected && ValidTargetSelection(target) &&
+        else if (e.Change == TargetSelectionChange.Selected && ValidTargetSelection(target) &&
             TargetSelected(caster, target.Target.X, target.Target.Y, L: target.Target.MapLevel))
         {
-            target.Changed -= OnTargetSelectionChange;
+            target.Changed -= TargetSelection_Changed;
             target.Deactivate();
         }
     }

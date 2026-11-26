@@ -242,7 +242,7 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
             EffectPaths.CreateFire(50, UnitHexSprite.HexX, hexY, engine: GetEngine());
         }
 
-        CombatMap.Current.UnitChangedEventsStore.Raise(UnitHexSprite);
+        CombatMap.Current.OnUnitChanged(UnitHexSprite);
     }
 
     internal static void MakeHitBlood(TacticalBattleUnit unitObject, int damage)

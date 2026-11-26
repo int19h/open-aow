@@ -18,6 +18,10 @@ public sealed class MapControl : Component
 {
     private readonly GameEngine? _engine;
 
+    // The map the control's relays are linked to, and its players at link time (issue 326).
+    private StrategicMap? _linkedMap;
+    private List<Player> _linkedPlayers = [];
+
     private static void ShowMessageLogged(string text)
     {
         HostLog.CatchDialogAtCallSite(RtlHost.Logger, text: text);
@@ -122,10 +126,7 @@ public sealed class MapControl : Component
         {
             _engine.HexSpriteMapLoaded -= engine_HexSpriteMapLoaded;
             _engine.HexSpriteMapClosing -= engine_HexSpriteMapClosing;
-            if (StrategicMap.Current is not null)
-            {
-                ReleaseHsm();
-            }
+            ReleaseHsm();
         }
 
         base.Dispose();
@@ -143,101 +144,120 @@ public sealed class MapControl : Component
             _engine.HexSpriteMapClosing += engine_HexSpriteMapClosing;
             if (StrategicMap.Current is not null)
             {
-                LinkToHsm();
+                LinkToHsm(StrategicMap.Current);
             }
         }
     }
 
-    // MapCtrl.pas:197
-    public void LinkToHsm()
+    // MapCtrl.pas:197. The original links the global map on each loaded raise and holds no linked flag, so a
+    // second raise for the live map adds a second copy of every relay (MapCtrl.pas:197, 291).
+    // The port remembers the map it linked: linking it again changes nothing, and linking
+    // another map releases the first (issue 326, the at-most-one-handler check).
+    public void LinkToHsm(StrategicMap map)
     {
-        StrategicMap.Current.Mouse.DoubleClicked += DoubleClick;
-        StrategicMap.Current.DayStarted += ChangeDay;
-        StrategicMap.Current.CurrentPlayerChanged += StrategicMap_CurrentPlayerChanged;
-        StrategicMap.Current.TurnStarted += StrategicMap_TurnStarted;
-        StrategicMap.Current.TurnEnded += StrategicMap_TurnEnded;
-        StrategicMap.Current.SeatedPlayerChanged += StrategicMap_SeatedPlayerChanged;
-        StrategicMap.Current.Selection.Selected += SelectHexSprite;
-        StrategicMap.Current.Selection.Deselected += DeselectHexSprite;
-        StrategicMap.Current.ShowingMessage += StrategicMap_ShowingMessage;
-        StrategicMap.Current.MapChanged += StrategicMap_MapChanged;
-        StrategicMap.Current.ScannerIconsChanged += StrategicMap_ScannerIconsChanged;
-        StrategicMap.Current.VisibilityUpdated += StrategicMap_VisibilityUpdated;
-        StrategicMap.Current.CombatTriggered += CombatEvent;
-        StrategicMap.Current.StructureChanged += StrategicMap_StructureChanged;
-        StrategicMap.Current.StructureDestroyed += StrategicMap_StructureDestroyed;
-        StrategicMap.Current.ArmyChanged += StrategicMap_ArmyChanged;
-        StrategicMap.Current.ArmyDestroyed += StrategicMap_ArmyDestroyed;
-        StrategicMap.Current.UnitChanged += StrategicMap_UnitChanged;
-        StrategicMap.Current.UnitDestroyed += StrategicMap_UnitDestroyed;
-        StrategicMap.Current.GameTerminated += StrategicMap_GameTerminated;
-        StrategicMap.Current.GameEnded += StrategicMap_GameEnded;
-        StrategicMap.Current.HexSpriteChanged += StrategicMap_HexSpriteChanged;
-        StrategicMap.Current.PlayerTerminated += StrategicMap_PlayerTerminated;
-        StrategicMap.Current.ExecutingEventLog += StrategicMap_ExecutingEventLog;
-        StrategicMap.Current.TargetSelection.Changed += TargetSelection_Changed;
-        StrategicMap.Current.ViewPortChanged += StrategicMap_ViewPortChanged;
-        StrategicMap.Current.AbilityActivated += StrategicMap_AbilityActivated;
-        StrategicMap.Current.GlobalMagicControl.Changed += GlobalMagicControl_Changed;
-        StrategicMap.Current.PlayerChanged += StrategicMap_PlayerChanged;
-        StrategicMap.Current.DiplomaticRelationsChanged += StrategicMap_DiplomaticRelationsChanged;
-        StrategicMap.Current.ExitingGame += ExitGameEvent;
-        StrategicMap.Current.CombatMapCreated += StrategicMap_CombatMapCreated;
-        StrategicMap.Current.CombatMapDestroyed += StrategicMap_CombatMapDestroyed;
-        for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+        if (_linkedMap == map)
         {
-            StrategicMap.Current.Players.GetPlayers(i).GemsChanged += Player_GemsChanged;
-            StrategicMap.Current.Players.GetPlayers(i).IncomeChanged += Player_IncomeChanged;
-            StrategicMap.Current.Players.GetPlayers(i).UpkeepChanged += Player_UpkeepChanged;
-            StrategicMap.Current.Players.GetPlayers(i).LogbookChanged += Player_LogbookChanged;
-            StrategicMap.Current.Players.GetPlayers(i).MagicControl.Changed += MagicControl_Changed;
+            return;
+        }
+
+        ReleaseHsm();
+        _linkedMap = map;
+        _linkedPlayers = [.. Enumerable.Range(0, map.Players.Count).Select(map.Players.GetPlayers)];
+        map.Mouse.DoubleClicked += DoubleClick;
+        map.DayStarted += ChangeDay;
+        map.CurrentPlayerChanged += StrategicMap_CurrentPlayerChanged;
+        map.TurnStarted += StrategicMap_TurnStarted;
+        map.TurnEnded += StrategicMap_TurnEnded;
+        map.SeatedPlayerChanged += StrategicMap_SeatedPlayerChanged;
+        map.Selection.Selected += SelectHexSprite;
+        map.Selection.Deselected += DeselectHexSprite;
+        map.ShowingMessage += StrategicMap_ShowingMessage;
+        map.MapChanged += StrategicMap_MapChanged;
+        map.ScannerIconsChanged += StrategicMap_ScannerIconsChanged;
+        map.VisibilityUpdated += StrategicMap_VisibilityUpdated;
+        map.CombatTriggered += CombatEvent;
+        map.StructureChanged += StrategicMap_StructureChanged;
+        map.StructureDestroyed += StrategicMap_StructureDestroyed;
+        map.ArmyChanged += StrategicMap_ArmyChanged;
+        map.ArmyDestroyed += StrategicMap_ArmyDestroyed;
+        map.UnitChanged += StrategicMap_UnitChanged;
+        map.UnitDestroyed += StrategicMap_UnitDestroyed;
+        map.GameTerminated += StrategicMap_GameTerminated;
+        map.GameEnded += StrategicMap_GameEnded;
+        map.HexSpriteChanged += StrategicMap_HexSpriteChanged;
+        map.PlayerTerminated += StrategicMap_PlayerTerminated;
+        map.ExecutingEventLog += StrategicMap_ExecutingEventLog;
+        map.TargetSelection.Changed += TargetSelection_Changed;
+        map.ViewPortChanged += StrategicMap_ViewPortChanged;
+        map.AbilityActivated += StrategicMap_AbilityActivated;
+        map.GlobalMagicControl.Changed += GlobalMagicControl_Changed;
+        map.PlayerChanged += StrategicMap_PlayerChanged;
+        map.DiplomaticRelationsChanged += StrategicMap_DiplomaticRelationsChanged;
+        map.ExitingGame += ExitGameEvent;
+        map.CombatMapCreated += StrategicMap_CombatMapCreated;
+        map.CombatMapDestroyed += StrategicMap_CombatMapDestroyed;
+        for (int i = 0, last = _linkedPlayers.Count - 1; i <= last; i++)
+        {
+            _linkedPlayers[i].GemsChanged += Player_GemsChanged;
+            _linkedPlayers[i].IncomeChanged += Player_IncomeChanged;
+            _linkedPlayers[i].UpkeepChanged += Player_UpkeepChanged;
+            _linkedPlayers[i].LogbookChanged += Player_LogbookChanged;
+            _linkedPlayers[i].MagicControl.Changed += MagicControl_Changed;
         }
     }
 
     // MapCtrl.pas:244
     public void ReleaseHsm()
     {
-        StrategicMap.Current.Mouse.DoubleClicked -= DoubleClick;
-        StrategicMap.Current.DayStarted -= ChangeDay;
-        StrategicMap.Current.CurrentPlayerChanged -= StrategicMap_CurrentPlayerChanged;
-        StrategicMap.Current.TurnStarted -= StrategicMap_TurnStarted;
-        StrategicMap.Current.TurnEnded -= StrategicMap_TurnEnded;
-        StrategicMap.Current.SeatedPlayerChanged -= StrategicMap_SeatedPlayerChanged;
-        StrategicMap.Current.Selection.Selected -= SelectHexSprite;
-        StrategicMap.Current.Selection.Deselected -= DeselectHexSprite;
-        StrategicMap.Current.ShowingMessage -= StrategicMap_ShowingMessage;
-        StrategicMap.Current.MapChanged -= StrategicMap_MapChanged;
-        StrategicMap.Current.ScannerIconsChanged -= StrategicMap_ScannerIconsChanged;
-        StrategicMap.Current.VisibilityUpdated -= StrategicMap_VisibilityUpdated;
-        StrategicMap.Current.CombatTriggered -= CombatEvent;
-        StrategicMap.Current.ArmyChanged -= StrategicMap_ArmyChanged;
-        StrategicMap.Current.ArmyDestroyed -= StrategicMap_ArmyDestroyed;
-        StrategicMap.Current.UnitChanged -= StrategicMap_UnitChanged;
-        StrategicMap.Current.UnitDestroyed -= StrategicMap_UnitDestroyed;
-        StrategicMap.Current.StructureChanged -= StrategicMap_StructureChanged;
-        StrategicMap.Current.StructureDestroyed -= StrategicMap_StructureDestroyed;
-        StrategicMap.Current.HexSpriteChanged -= StrategicMap_HexSpriteChanged;
-        StrategicMap.Current.GameTerminated -= StrategicMap_GameTerminated;
-        StrategicMap.Current.GameEnded -= StrategicMap_GameEnded;
-        StrategicMap.Current.PlayerTerminated -= StrategicMap_PlayerTerminated;
-        StrategicMap.Current.ExecutingEventLog -= StrategicMap_ExecutingEventLog;
-        StrategicMap.Current.TargetSelection.Changed -= TargetSelection_Changed;
-        StrategicMap.Current.ViewPortChanged -= StrategicMap_ViewPortChanged;
-        StrategicMap.Current.AbilityActivated -= StrategicMap_AbilityActivated;
-        StrategicMap.Current.GlobalMagicControl.Changed -= GlobalMagicControl_Changed;
-        StrategicMap.Current.PlayerChanged -= StrategicMap_PlayerChanged;
-        StrategicMap.Current.DiplomaticRelationsChanged -= StrategicMap_DiplomaticRelationsChanged;
-        StrategicMap.Current.ExitingGame -= ExitGameEvent;
-        StrategicMap.Current.CombatMapCreated -= StrategicMap_CombatMapCreated;
-        StrategicMap.Current.CombatMapDestroyed -= StrategicMap_CombatMapDestroyed;
-        for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+        if (_linkedMap is not StrategicMap map)
         {
-            StrategicMap.Current.Players.GetPlayers(i).GemsChanged -= Player_GemsChanged;
-            StrategicMap.Current.Players.GetPlayers(i).IncomeChanged -= Player_IncomeChanged;
-            StrategicMap.Current.Players.GetPlayers(i).UpkeepChanged -= Player_UpkeepChanged;
-            StrategicMap.Current.Players.GetPlayers(i).LogbookChanged -= Player_LogbookChanged;
-            StrategicMap.Current.Players.GetPlayers(i).MagicControl.Changed -= MagicControl_Changed;
+            return;
         }
+
+        _linkedMap = null;
+        map.Mouse.DoubleClicked -= DoubleClick;
+        map.DayStarted -= ChangeDay;
+        map.CurrentPlayerChanged -= StrategicMap_CurrentPlayerChanged;
+        map.TurnStarted -= StrategicMap_TurnStarted;
+        map.TurnEnded -= StrategicMap_TurnEnded;
+        map.SeatedPlayerChanged -= StrategicMap_SeatedPlayerChanged;
+        map.Selection.Selected -= SelectHexSprite;
+        map.Selection.Deselected -= DeselectHexSprite;
+        map.ShowingMessage -= StrategicMap_ShowingMessage;
+        map.MapChanged -= StrategicMap_MapChanged;
+        map.ScannerIconsChanged -= StrategicMap_ScannerIconsChanged;
+        map.VisibilityUpdated -= StrategicMap_VisibilityUpdated;
+        map.CombatTriggered -= CombatEvent;
+        map.ArmyChanged -= StrategicMap_ArmyChanged;
+        map.ArmyDestroyed -= StrategicMap_ArmyDestroyed;
+        map.UnitChanged -= StrategicMap_UnitChanged;
+        map.UnitDestroyed -= StrategicMap_UnitDestroyed;
+        map.StructureChanged -= StrategicMap_StructureChanged;
+        map.StructureDestroyed -= StrategicMap_StructureDestroyed;
+        map.HexSpriteChanged -= StrategicMap_HexSpriteChanged;
+        map.GameTerminated -= StrategicMap_GameTerminated;
+        map.GameEnded -= StrategicMap_GameEnded;
+        map.PlayerTerminated -= StrategicMap_PlayerTerminated;
+        map.ExecutingEventLog -= StrategicMap_ExecutingEventLog;
+        map.TargetSelection.Changed -= TargetSelection_Changed;
+        map.ViewPortChanged -= StrategicMap_ViewPortChanged;
+        map.AbilityActivated -= StrategicMap_AbilityActivated;
+        map.GlobalMagicControl.Changed -= GlobalMagicControl_Changed;
+        map.PlayerChanged -= StrategicMap_PlayerChanged;
+        map.DiplomaticRelationsChanged -= StrategicMap_DiplomaticRelationsChanged;
+        map.ExitingGame -= ExitGameEvent;
+        map.CombatMapCreated -= StrategicMap_CombatMapCreated;
+        map.CombatMapDestroyed -= StrategicMap_CombatMapDestroyed;
+        for (int i = 0, last = _linkedPlayers.Count - 1; i <= last; i++)
+        {
+            _linkedPlayers[i].GemsChanged -= Player_GemsChanged;
+            _linkedPlayers[i].IncomeChanged -= Player_IncomeChanged;
+            _linkedPlayers[i].UpkeepChanged -= Player_UpkeepChanged;
+            _linkedPlayers[i].LogbookChanged -= Player_LogbookChanged;
+            _linkedPlayers[i].MagicControl.Changed -= MagicControl_Changed;
+        }
+
+        _linkedPlayers = [];
     }
 
     // MapCtrl.pas:291
@@ -245,7 +265,7 @@ public sealed class MapControl : Component
     {
         if (map.EngineClass.ClassId == StrategicMap.ClassId)
         {
-            LinkToHsm();
+            LinkToHsm((StrategicMap)map);
             HexSpriteMapLoaded?.Invoke(this, e: EventArgs.Empty);
         }
     }
@@ -748,13 +768,14 @@ public sealed class MapControl : Component
     }
 
     // MapCtrl.pas:621
-    public void TargetSelection_Changed(TargetSelectionControl control)
+    public void TargetSelection_Changed(object? sender, TargetSelectionChangedEventArgs e)
     {
+        TargetSelectionControl control = (TargetSelectionControl)sender!;
         try
         {
             if (TargetSelectionChanged is not null && control is not null && (((int)StrategicMap.Current.TargetSelection.TargetMode) & 8) != 0)
             {
-                TargetSelectionChanged(control, control.Change);
+                TargetSelectionChanged(control, e.Change);
             }
         }
         catch

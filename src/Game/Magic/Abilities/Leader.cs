@@ -73,7 +73,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
         base.Changed();
         if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
-            StrategicMap.Current.OnLeaderChangedStore.Raise(this);
+            StrategicMap.Current.OnLeaderChanged(this);
         }
     }
 

@@ -82,7 +82,7 @@ public sealed partial class MapWindow : ILayoutModule
         MapViewer = new HexSpriteMapViewer(this);
         session.BeginRead(MapViewer);
         MapViewer.Name = "MapViewer";
-        MapViewer.SceneChanged += _ => MapViewerSceneChanged();
+        MapViewer.SceneChanged += (_, _) => MapViewerSceneChanged();
         session.EndRead(MapViewer);
         session.EndRead(this);
         Loaded();

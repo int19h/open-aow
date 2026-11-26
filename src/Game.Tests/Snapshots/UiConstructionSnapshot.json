@@ -13139,6 +13139,9 @@
             "CombatMapControl.UnitChanged": null,
             "CombatMapControl.UpkeepChanged": null,
             "CombatMapControl._engine": null,
+            "CombatMapControl._linkedCombatMap": null,
+            "CombatMapControl._linkedPlayers": [],
+            "CombatMapControl._linkedWorld": null,
             "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
@@ -13179,6 +13182,9 @@
             "CombatMapControl.UnitChanged": null,
             "CombatMapControl.UpkeepChanged": null,
             "CombatMapControl._engine": null,
+            "CombatMapControl._linkedCombatMap": null,
+            "CombatMapControl._linkedPlayers": [],
+            "CombatMapControl._linkedWorld": null,
             "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
@@ -13214,6 +13220,9 @@
               "CombatMapControl.UnitChanged": null,
               "CombatMapControl.UpkeepChanged": null,
               "CombatMapControl._engine": null,
+              "CombatMapControl._linkedCombatMap": null,
+              "CombatMapControl._linkedPlayers": [],
+              "CombatMapControl._linkedWorld": null,
               "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
@@ -13285,7 +13294,9 @@
             "MapControl.UpkeepChanged": null,
             "MapControl.ViewPortChanged": null,
             "MapControl.VisibilityUpdated": null,
-            "MapControl._engine": null
+            "MapControl._engine": null,
+            "MapControl._linkedMap": null,
+            "MapControl._linkedPlayers": []
           }
         }
       },
@@ -13351,7 +13362,9 @@
             "MapControl.UpkeepChanged": null,
             "MapControl.ViewPortChanged": null,
             "MapControl.VisibilityUpdated": null,
-            "MapControl._engine": null
+            "MapControl._engine": null,
+            "MapControl._linkedMap": null,
+            "MapControl._linkedPlayers": []
           }
         }
       },
@@ -13412,7 +13425,9 @@
               "MapControl.UpkeepChanged": null,
               "MapControl.ViewPortChanged": null,
               "MapControl.VisibilityUpdated": null,
-              "MapControl._engine": null
+              "MapControl._engine": null,
+              "MapControl._linkedMap": null,
+              "MapControl._linkedPlayers": []
             }
           }
         ]

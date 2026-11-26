@@ -88,6 +88,13 @@ public static partial class HostLog
     public static void DroppedObject(ILogger logger, Exception error, string fileName, string className, string path, string text)
         => Safe(() => DroppedObjectCore(logger, error: error, fileName: fileName, className: className, path: path, text: text));
 
+    [LoggerMessage(EventId = 35516, Level = LogLevel.Warning, Message = "{EventName} of {Owner} raises with {Count} handlers, at most one was expected (issue 326, decision 4)")]
+    private static partial void SecondEventHandlerCore(ILogger logger, string eventName, object owner, int count);
+
+    /// <summary>An event that had at most one subscriber in the original raises with several (issue 326, decision 4).</summary>
+    public static void SecondEventHandler(ILogger logger, string eventName, object owner, int count)
+        => Safe(() => SecondEventHandlerCore(logger, eventName: eventName, owner: owner, count: count));
+
     private static void Safe(Action log)
     {
         try

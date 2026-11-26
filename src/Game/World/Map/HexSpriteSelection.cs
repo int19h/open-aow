@@ -32,14 +32,12 @@ public sealed partial class HexSpriteSelection(CustomNode owner) : ControlStyleN
 
     void IOwnedSink<GameMap>.SetOwner(GameMap owner) => SetOwner(owner);
 
-    internal EventStore<CustomNode> OnSelectStore { get; } = new();
+    internal event NotifyEvent<CustomNode>? Selected;
 
-    internal event NotifyEvent<CustomNode> Selected
-    {
-        add => OnSelectStore.Add(value);
-        remove => OnSelectStore.Remove(value);
-    }
+    internal void ClearSelectedHandlers() => Selected = null;
 
+    // Issue 326 keeps the ordered store: TargetSelectionControl.DeselectHexSprite reselects the army
+    // in nested raises and rewrites EventHexSprite before MapControl's relay reads it.
     internal EventStore<CustomNode> OnDeselectStore { get; } = new();
 
     internal event NotifyEvent<CustomNode> Deselected
@@ -53,7 +51,7 @@ public sealed partial class HexSpriteSelection(CustomNode owner) : ControlStyleN
     {
         base.Dispose();
         LocationHexSprite?.Clear();
-        OnSelectStore.Clear();
+        Selected = null;
         OnDeselectStore.Clear();
     }
 
@@ -75,7 +73,9 @@ public sealed partial class HexSpriteSelection(CustomNode owner) : ControlStyleN
     public void TriggerSelectEvent(HexSprite hexSprite)
     {
         EventHexSprite = hexSprite;
-        OnSelectStore.Raise(Owner);
+        NotifyEvent<CustomNode>? handlers = Selected;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(Selected));
+        handlers?.Invoke(Owner);
     }
 
     // HSEngine.pas:3711

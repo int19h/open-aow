@@ -52,15 +52,8 @@ public partial class GameMap : OwningNode
         StaticFixedVisibleHexSprite.SetControlStyle(EngineServices.Shared);
         DynamicFixedVisibleHexSprite = new VisibilityList(this);
         DynamicFixedVisibleHexSprite.SetControlStyle(EngineServices.Shared);
-        HexSpriteChangedEventsStore = new();
-        TerrainChangedEventsStore = new();
-        ViewPortChangedEventsStore = new();
         NewFrameEventsStore = new();
         DestroyEventsStore = new();
-
-        _showMessageEventsStore = new();
-        _mapChangedEventsStore = new();
-        _scannerIconsChangedEventsStore = new();
         _backHexSelector = new CustomFixedVisibleHexSprite(null, show: ShowBackHexSelector) { Holder = CreationHolder() };
         _frontHexSelector = new CustomFixedVisibleHexSprite(null, show: ShowFrontHexSelector) { Holder = CreationHolder() };
         _hexSelectorVisible = false;
@@ -72,13 +65,7 @@ public partial class GameMap : OwningNode
 
     private string _hssFileName = "";
 
-    internal EventStore<TerrainChangedNotification> TerrainChangedEventsStore { get; }
-
-    internal event NotifyEvent<TerrainChangedNotification> TerrainChanged
-    {
-        add => TerrainChangedEventsStore.Add(value);
-        remove => TerrainChangedEventsStore.Remove(value);
-    }
+    internal event NotifyEvent<TerrainChangedNotification>? TerrainChanged;
 
     private Action<int, int, int>? _centerView;
 
@@ -102,6 +89,9 @@ public partial class GameMap : OwningNode
 
     private int _terrainChangedLockCounter;
 
+    // Issue 326 keeps the ordered store: the battle effects' frame handlers draw from the shared
+    // random sequence, so the order decides which effect takes which number, and a handler can
+    // end another sprite's animation during the raise, which the live walk then skips.
     internal EventStore<GameMap> NewFrameEventsStore { get; }
 
     internal event NotifyEvent<GameMap> FrameStarted
@@ -110,14 +100,10 @@ public partial class GameMap : OwningNode
         remove => NewFrameEventsStore.Remove(value);
     }
 
-    internal EventStore<GameMap> ViewPortChangedEventsStore { get; }
+    internal event NotifyEvent<GameMap>? ViewPortChanged;
 
-    internal event NotifyEvent<GameMap> ViewPortChanged
-    {
-        add => ViewPortChangedEventsStore.Add(value);
-        remove => ViewPortChangedEventsStore.Remove(value);
-    }
-
+    // Issue 326 keeps the ordered store: a top-level animation disposes itself in DestroyEvent and
+    // releases the animations it owns, which unsubscribe during the raise and the live walk skips.
     internal EventStore<GameMap> DestroyEventsStore { get; }
 
     internal event NotifyEvent<GameMap> MapDestroying
@@ -126,31 +112,32 @@ public partial class GameMap : OwningNode
         remove => DestroyEventsStore.Remove(value);
     }
 
-    internal EventStore<HexSprite> HexSpriteChangedEventsStore { get; }
+    internal event NotifyEvent<HexSprite>? HexSpriteChanged;
 
-    internal event NotifyEvent<HexSprite> HexSpriteChanged
+    internal void OnHexSpriteChanged(HexSprite hexSprite)
     {
-        add => HexSpriteChangedEventsStore.Add(value);
-        remove => HexSpriteChangedEventsStore.Remove(value);
+        NotifyEvent<HexSprite>? handlers = HexSpriteChanged;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(HexSpriteChanged));
+        handlers?.Invoke(hexSprite);
     }
 
     // AoWHSMap.PAS:383 around HSMAP.PAS:37.
     public override void Dispose()
     {
-        _showMessageEventsStore.Clear();
-        _mapChangedEventsStore.Clear();
+        ShowingMessage = null;
+        MapChanged = null;
         HideHexSelector();
         _backHexSelector?.Dispose();
         _frontHexSelector?.Dispose();
-        _scannerIconsChangedEventsStore.Clear();
+        ScannerIconsChanged = null;
         LockTerrainChangedEvent();
         Status |= HexSpriteMapStatuses.Destroying;
-        Selection.OnSelectStore.Clear();
+        Selection.ClearSelectedHandlers();
         Selection.OnDeselectStore.Clear();
         Selection.SetControlStyle(EngineServices.Shared);
         Selection.UnselectAll();
         DestroyEventsStore.Raise(this);
-        HexSpriteChangedEventsStore.Clear();
+        HexSpriteChanged = null;
         StaticVisibleHexSprite.QuickClear();
         DynamicVisibleHexSprite.QuickClear();
         StaticFixedVisibleHexSprite.QuickClear();
@@ -159,16 +146,15 @@ public partial class GameMap : OwningNode
         SendMessage(ref message, sender: this);
         NewFrameEventsStore.Clear();
         base.Dispose();
-        HexSpriteChangedEventsStore.Clear();
-        TerrainChangedEventsStore.Clear();
-        ViewPortChangedEventsStore.Clear();
+        HexSpriteChanged = null;
+        TerrainChanged = null;
+        ViewPortChanged = null;
         NewFrameEventsStore.Clear();
         Mouse?.Dispose();
         DestroyEventsStore.Clear();
         UnlockTerrainChangedEvent();
-
-        _showMessageEventsStore.Clear();
-        _mapChangedEventsStore.Clear();
+        ShowingMessage = null;
+        MapChanged = null;
     }
 
     // HSMAP.PAS:76
@@ -292,7 +278,9 @@ public partial class GameMap : OwningNode
         MapLevel mapLevel = MapContainer.GetMapLevel(L);
         info.MapLevel = mapLevel;
         notification.Info = info;
-        TerrainChangedEventsStore.Raise(notification);
+        NotifyEvent<TerrainChangedNotification>? handlers = TerrainChanged;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(TerrainChanged));
+        handlers?.Invoke(notification);
 
         if (MapChangedLockCount == 0)
         {
@@ -983,7 +971,9 @@ public partial class GameMap : OwningNode
             ViewHeightHex = y2 - y1 + 1;
             ViewHexX = x1;
             ViewHexY = y1;
-            ViewPortChangedEventsStore.Raise(this);
+            NotifyEvent<GameMap>? handlers = ViewPortChanged;
+            EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(ViewPortChanged));
+            handlers?.Invoke(this);
         }
         else
         {
@@ -1083,13 +1073,7 @@ public partial class GameMap : OwningNode
 
     public PlayerId? SeatedPlayer { get; set; } = PlayerId.Independent;
 
-    private readonly EventStore<ShowMessageNotification> _showMessageEventsStore;
-
-    public event NotifyEvent<ShowMessageNotification> ShowingMessage
-    {
-        add => _showMessageEventsStore.Add(value);
-        remove => _showMessageEventsStore.Remove(value);
-    }
+    public event NotifyEvent<ShowMessageNotification>? ShowingMessage;
 
     private string _messageText = "";
     private int _messageFrame;
@@ -1097,21 +1081,9 @@ public partial class GameMap : OwningNode
     public int FPS { get; private set; }
     public int MapChangedLockCount { get; private set; }
 
-    private readonly EventStore<MapChangedNotification> _mapChangedEventsStore;
+    public event NotifyEvent<MapChangedNotification>? MapChanged;
 
-    public event NotifyEvent<MapChangedNotification> MapChanged
-    {
-        add => _mapChangedEventsStore.Add(value);
-        remove => _mapChangedEventsStore.Remove(value);
-    }
-
-    private readonly EventStore<MapChangedNotification> _scannerIconsChangedEventsStore;
-
-    public event NotifyEvent<MapChangedNotification> ScannerIconsChanged
-    {
-        add => _scannerIconsChangedEventsStore.Add(value);
-        remove => _scannerIconsChangedEventsStore.Remove(value);
-    }
+    public event NotifyEvent<MapChangedNotification>? ScannerIconsChanged;
 
     private int _scannerIconsChangedLockCount;
 
@@ -1256,7 +1228,9 @@ public partial class GameMap : OwningNode
         info.Text = text;
         info.Color = Color.White;
         notification.Info = info;
-        _showMessageEventsStore.Raise(notification);
+        NotifyEvent<ShowMessageNotification>? handlers = ShowingMessage;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(ShowingMessage));
+        handlers?.Invoke(notification);
         _messageText = text;
         _messageFrame = 128;
     }
@@ -1274,7 +1248,9 @@ public partial class GameMap : OwningNode
         info.Text = text;
         info.Color = Color.White;
         notification.Info = info;
-        _showMessageEventsStore.Raise(notification);
+        NotifyEvent<ShowMessageNotification>? handlers = ShowingMessage;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(ShowingMessage));
+        handlers?.Invoke(notification);
         _messageText = text;
         _messageFrame = 160;
     }
@@ -1363,7 +1339,9 @@ public partial class GameMap : OwningNode
         MapLevel mapLevel = MapContainer.GetMapLevel(L);
         info.MapLevel = mapLevel;
         notification.Info = info;
-        _mapChangedEventsStore.Raise(notification);
+        NotifyEvent<MapChangedNotification>? handlers = MapChanged;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(MapChanged));
+        handlers?.Invoke(notification);
     }
 
     // AoWHSMap.PAS:490
@@ -1441,7 +1419,9 @@ public partial class GameMap : OwningNode
         MapLevel mapLevel = MapContainer.GetMapLevel(L);
         info.MapLevel = mapLevel;
         notification.Info = info;
-        _scannerIconsChangedEventsStore.Raise(notification);
+        NotifyEvent<MapChangedNotification>? handlers = ScannerIconsChanged;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(ScannerIconsChanged));
+        handlers?.Invoke(notification);
     }
 
     // AoWHSMap.PAS:542
@@ -1469,7 +1449,9 @@ public partial class GameMap : OwningNode
                     notification.Info = info;
                 }
 
-                _showMessageEventsStore.Raise(notification);
+                NotifyEvent<ShowMessageNotification>? handlers = ShowingMessage;
+                EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(ShowingMessage));
+                handlers?.Invoke(notification);
             }
 
             if (_messageFrame == 0)
@@ -1477,7 +1459,9 @@ public partial class GameMap : OwningNode
                 info.Text = "";
                 info.Color = Color.White;
                 notification.Info = info;
-                _showMessageEventsStore.Raise(notification);
+                NotifyEvent<ShowMessageNotification>? handlers = ShowingMessage;
+                EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(ShowingMessage));
+                handlers?.Invoke(notification);
             }
         }
     }

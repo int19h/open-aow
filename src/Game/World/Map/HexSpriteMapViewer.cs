@@ -21,7 +21,7 @@ public sealed class HexSpriteMapViewer : Component
     private int _sceneL;
 
     [Published]
-    public event NotifyEvent<object>? SceneChanged;
+    public event EventHandler? SceneChanged;
     private GameMap? _hexSpriteMap;
 
     // Port extension: the scene drawn under the original clamp before ShowCenteredMap centers it.
@@ -95,7 +95,7 @@ public sealed class HexSpriteMapViewer : Component
             SetSceneL(lHitPoints);
             if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && SceneChanged is not null)
             {
-                SceneChanged(this);
+                SceneChanged(this, EventArgs.Empty);
             }
         }
     }
@@ -111,7 +111,7 @@ public sealed class HexSpriteMapViewer : Component
             SetSceneL(hexLevel);
             if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && SceneChanged is not null)
             {
-                SceneChanged(this);
+                SceneChanged(this, EventArgs.Empty);
             }
         }
     }
@@ -204,7 +204,7 @@ public sealed class HexSpriteMapViewer : Component
                 GameMap m = (GameMap)mp;
                 if (m.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && SceneChanged is not null)
                 {
-                    SceneChanged(this);
+                    SceneChanged(this, EventArgs.Empty);
                 }
 
                 // Port extension: a scene larger than the map draws as the original does into

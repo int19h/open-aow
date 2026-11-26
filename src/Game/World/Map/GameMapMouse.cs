@@ -8,27 +8,17 @@ namespace Aow.Game.World.Map;
 // selection rectangle, events
 public class GameMapMouse : HexSpriteMapMouse
 {
-    public GameMapMouse() : base()
-    {
-        ResetRectangleSelection();
-        RectangleSelectEventsStore = new();
-    }
+    public GameMapMouse() : base() => ResetRectangleSelection();
 
     public Rect SelectionRectangle { get; private set; }
 
-    internal EventStore<GameMapMouse> RectangleSelectEventsStore { get; }
-
-    public event NotifyEvent<GameMapMouse> RectangleSelected
-    {
-        add => RectangleSelectEventsStore.Add(value);
-        remove => RectangleSelectEventsStore.Remove(value);
-    }
+    public event NotifyEvent<GameMapMouse>? RectangleSelected;
 
     // AoWHSMap.PAS:1057
     public override void Dispose()
     {
         base.Dispose();
-        RectangleSelectEventsStore.Clear();
+        RectangleSelected = null;
     }
 
     // AoWHSMap.PAS:1123
@@ -165,7 +155,9 @@ public class GameMapMouse : HexSpriteMapMouse
         r.Bottom = SelectionRectangle.Bottom > SelectionRectangle.Top ? SelectionRectangle.Bottom : SelectionRectangle.Top;
 
         SelectionRectangle = r;
-        RectangleSelectEventsStore.Raise(this);
+        NotifyEvent<GameMapMouse>? handlers = RectangleSelected;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(RectangleSelected));
+        handlers?.Invoke(this);
         ResetRectangleSelection();
     }
 }

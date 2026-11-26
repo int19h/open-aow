@@ -17,21 +17,9 @@ public sealed class TokenExecutor : IDisposable
     internal TokenEventList Events { get; }
     internal List<TokenControl> TacticalBattleList { get; }
 
-    internal EventStore<TokenExecutor> OnEventsExecutedStore { get; }
+    internal event NotifyEvent<TokenExecutor>? EventsExecuted;
 
-    internal event NotifyEvent<TokenExecutor> EventsExecuted
-    {
-        add => OnEventsExecutedStore.Add(value);
-        remove => OnEventsExecutedStore.Remove(value);
-    }
-
-    internal EventStore<TokenExecutor> OnActivateTacticalBattleStore { get; }
-
-    internal event NotifyEvent<TokenExecutor> TacticalBattleActivating
-    {
-        add => OnActivateTacticalBattleStore.Add(value);
-        remove => OnActivateTacticalBattleStore.Remove(value);
-    }
+    internal event NotifyEvent<TokenExecutor>? TacticalBattleActivating;
 
     private NotifyEvent<object>? _syncError;
 
@@ -85,8 +73,6 @@ public sealed class TokenExecutor : IDisposable
         // A construction test passes no manager.
         Events = new TokenEventList(null) { Holder = manager?.Owner };
         TacticalBattleList = [];
-        OnEventsExecutedStore = new();
-        OnActivateTacticalBattleStore = new();
         SystemEvents = new TokenEventList(null) { Holder = manager?.Owner };
     }
 
@@ -96,8 +82,8 @@ public sealed class TokenExecutor : IDisposable
         Reset();
         Events?.Dispose();
         TacticalBattleList?.Clear();
-        OnEventsExecutedStore.Clear();
-        OnActivateTacticalBattleStore.Clear();
+        EventsExecuted = null;
+        TacticalBattleActivating = null;
         SystemEvents?.Dispose();
     }
 
@@ -194,7 +180,9 @@ public sealed class TokenExecutor : IDisposable
         ActiveTacticalBattle = TacticalBattleList[index];
         ActiveTacticalBattle.Active = true;
         ActiveTacticalBattleIndex = index;
-        OnActivateTacticalBattleStore.Raise(this);
+        NotifyEvent<TokenExecutor>? handlers = TacticalBattleActivating;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(TacticalBattleActivating));
+        handlers?.Invoke(this);
         if (State.Contains(TokenExecutorStates.Executing))
         {
             State |= TokenExecutorStates.TacticalBattleActivated;
@@ -310,7 +298,9 @@ public sealed class TokenExecutor : IDisposable
                     if (Events.Count == 0)
                     {
                         State &= ~TokenExecutorStates.Executing;
-                        OnEventsExecutedStore.Raise(this);
+                        NotifyEvent<TokenExecutor>? handlers = EventsExecuted;
+                        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(EventsExecuted));
+                        handlers?.Invoke(this);
                         if (!HoldTacticalBattle && !State.Contains(TokenExecutorStates.TacticalBattleActivated))
                         {
                             ActivateNextTacticalBattle();

@@ -26,32 +26,16 @@
         "BattleAI._units": [],
         "BattleAI._walls": []
       },
-      "CombatMap.AbilityActivatedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.AbilityActivated": null,
       "CombatMap.CenterViewLocation": null,
-      "CombatMap.ChangeTurnEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.TurnChanged": null,
       "CombatMap.Combat": null,
       "CombatMap.CurrentCombatPlayer": 0,
-      "CombatMap.DeselectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleStarted": null,
       "CombatMap.Effects": [],
       "CombatMap.EndTurnPending": false,
       "CombatMap.FleeLocations": [],
-      "CombatMap.MouseOverTargetEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.MouseOverTargetChanged": null,
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
         "CombatMoveControl.MoveFlags": 0,
@@ -470,16 +454,8 @@
       ],
       "CombatMap.Round": 0,
       "CombatMap.SeatedCombatPlayer": 0,
-      "CombatMap.SelectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap.UnitChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.TacticalBattleUnitHexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleEnding": null,
+      "CombatMap.UnitChanged": null,
       "CombatMap.UnitPositions": {
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
@@ -951,16 +927,8 @@
         "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
-      "CombatMap._playerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap._seatedPlayerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap._playerChanged": null,
+      "CombatMap.SeatedPlayerChanged": null,
       "EngineObject._owner": null,
       "GameMap.CurrentPlayer": 0,
       "GameMap.DestroyEventsStore": {
@@ -993,27 +961,14 @@
       "GameMap.FileName": "",
       "GameMap.FogEnabled": true,
       "GameMap.Frame": 0,
-      "GameMap.HexSpriteChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.HexSpriteChanged": null,
       "GameMap.MapChangedLockCount": 0,
       "GameMap.MapContainer": null,
       "GameMap.Mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
-        "GameMapMouse.RectangleSelectEventsStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
+        "GameMapMouse.RectangleSelected": [
+          "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
+        ],
         "GameMapMouse.SelectionRectangle": {
           "$type": "Aow.Rtl.Rect",
           "Rect.Bottom": -1,
@@ -1026,38 +981,17 @@
         "HexSpriteMapMouse.CursorVisible": false,
         "HexSpriteMapMouse.HexSpriteMap": "$ref:$",
         "HexSpriteMapMouse.IgnoreDown": false,
-        "HexSpriteMapMouse.OnCaptureChangedStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
-        "HexSpriteMapMouse.OnDoubleClickStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.CaptureChanged": null,
+        "HexSpriteMapMouse.DoubleClicked": null,
         "HexSpriteMapMouse.OnDownStore": {
           "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.OnMoveStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatMap.MouseMoveEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
-        "HexSpriteMapMouse.OnUpStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.Moved": [
+          "Aow.Game.Combat.CombatMap.MouseMoveEvent"
+        ],
+        "HexSpriteMapMouse.ButtonReleased": null,
         "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
@@ -1086,11 +1020,7 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteSelection.OnSelectStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.CustomNode, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteSelection.Selected": null,
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -1118,11 +1048,7 @@
         "SortedNode.StoredCount": 0
       },
       "GameMap.Status": 0,
-      "GameMap.TerrainChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.TerrainChanged": null,
       "GameMap.Version": 0,
       "GameMap.ViewHeight": 0,
       "GameMap.ViewHeightHex": 0,
@@ -1131,11 +1057,7 @@
       "GameMap.ViewMapLevel": 0,
       "GameMap.ViewPixelX": 0,
       "GameMap.ViewPixelY": 0,
-      "GameMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ViewPortChanged": null,
       "GameMap.ViewWidth": 0,
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
@@ -1158,26 +1080,14 @@
       },
       "GameMap._hexSelectorVisible": false,
       "GameMap._hssFileName": "",
-      "GameMap._mapChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.MapChanged": null,
       "GameMap._messageFrame": 0,
       "GameMap._messageText": "",
-      "GameMap._scannerIconsChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ScannerIconsChanged": null,
       "GameMap._scannerIconsChangedLockCount": 0,
       "GameMap._selectorX": 0,
       "GameMap._selectorY": 0,
-      "GameMap._showMessageEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Events.ShowMessageNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ShowingMessage": null,
       "GameMap._terrainChangedLockCounter": 0,
       "OwningNode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
@@ -1222,32 +1132,16 @@
         "BattleAI._units": [],
         "BattleAI._walls": []
       },
-      "CombatMap.AbilityActivatedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.AbilityActivated": null,
       "CombatMap.CenterViewLocation": null,
-      "CombatMap.ChangeTurnEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.TurnChanged": null,
       "CombatMap.Combat": null,
       "CombatMap.CurrentCombatPlayer": 0,
-      "CombatMap.DeselectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleStarted": null,
       "CombatMap.Effects": [],
       "CombatMap.EndTurnPending": false,
       "CombatMap.FleeLocations": [],
-      "CombatMap.MouseOverTargetEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.MouseOverTargetChanged": null,
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
         "CombatMoveControl.MoveFlags": 0,
@@ -1666,16 +1560,8 @@
       ],
       "CombatMap.Round": 0,
       "CombatMap.SeatedCombatPlayer": 0,
-      "CombatMap.SelectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap.UnitChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.TacticalBattleUnitHexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleEnding": null,
+      "CombatMap.UnitChanged": null,
       "CombatMap.UnitPositions": {
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
@@ -2147,16 +2033,8 @@
         "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
-      "CombatMap._playerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap._seatedPlayerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap._playerChanged": null,
+      "CombatMap.SeatedPlayerChanged": null,
       "EngineObject._owner": null,
       "GameMap.CurrentPlayer": 0,
       "GameMap.DestroyEventsStore": {
@@ -2189,27 +2067,14 @@
       "GameMap.FileName": "",
       "GameMap.FogEnabled": true,
       "GameMap.Frame": 0,
-      "GameMap.HexSpriteChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.HexSpriteChanged": null,
       "GameMap.MapChangedLockCount": 0,
       "GameMap.MapContainer": null,
       "GameMap.Mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
-        "GameMapMouse.RectangleSelectEventsStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
+        "GameMapMouse.RectangleSelected": [
+          "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
+        ],
         "GameMapMouse.SelectionRectangle": {
           "$type": "Aow.Rtl.Rect",
           "Rect.Bottom": -1,
@@ -2222,38 +2087,17 @@
         "HexSpriteMapMouse.CursorVisible": false,
         "HexSpriteMapMouse.HexSpriteMap": "$ref:$",
         "HexSpriteMapMouse.IgnoreDown": false,
-        "HexSpriteMapMouse.OnCaptureChangedStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
-        "HexSpriteMapMouse.OnDoubleClickStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.CaptureChanged": null,
+        "HexSpriteMapMouse.DoubleClicked": null,
         "HexSpriteMapMouse.OnDownStore": {
           "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.OnMoveStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatMap.MouseMoveEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
-        "HexSpriteMapMouse.OnUpStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.Moved": [
+          "Aow.Game.Combat.CombatMap.MouseMoveEvent"
+        ],
+        "HexSpriteMapMouse.ButtonReleased": null,
         "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
@@ -2282,11 +2126,7 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteSelection.OnSelectStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.CustomNode, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteSelection.Selected": null,
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -2314,11 +2154,7 @@
         "SortedNode.StoredCount": 0
       },
       "GameMap.Status": 0,
-      "GameMap.TerrainChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.TerrainChanged": null,
       "GameMap.Version": 0,
       "GameMap.ViewHeight": 0,
       "GameMap.ViewHeightHex": 0,
@@ -2327,11 +2163,7 @@
       "GameMap.ViewMapLevel": 0,
       "GameMap.ViewPixelX": 0,
       "GameMap.ViewPixelY": 0,
-      "GameMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ViewPortChanged": null,
       "GameMap.ViewWidth": 0,
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
@@ -2354,26 +2186,14 @@
       },
       "GameMap._hexSelectorVisible": false,
       "GameMap._hssFileName": "",
-      "GameMap._mapChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.MapChanged": null,
       "GameMap._messageFrame": 0,
       "GameMap._messageText": "",
-      "GameMap._scannerIconsChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ScannerIconsChanged": null,
       "GameMap._scannerIconsChangedLockCount": 0,
       "GameMap._selectorX": 0,
       "GameMap._selectorY": 0,
-      "GameMap._showMessageEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Events.ShowMessageNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ShowingMessage": null,
       "GameMap._terrainChangedLockCounter": 0,
       "OwningNode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
@@ -2418,32 +2238,16 @@
         "BattleAI._units": [],
         "BattleAI._walls": []
       },
-      "CombatMap.AbilityActivatedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.AbilityActivated": null,
       "CombatMap.CenterViewLocation": null,
-      "CombatMap.ChangeTurnEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.TurnChanged": null,
       "CombatMap.Combat": null,
       "CombatMap.CurrentCombatPlayer": 0,
-      "CombatMap.DeselectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleStarted": null,
       "CombatMap.Effects": [],
       "CombatMap.EndTurnPending": false,
       "CombatMap.FleeLocations": [],
-      "CombatMap.MouseOverTargetEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.MouseOverTargetChanged": null,
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
         "CombatMoveControl.MoveFlags": 0,
@@ -2862,16 +2666,8 @@
       ],
       "CombatMap.Round": 0,
       "CombatMap.SeatedCombatPlayer": 0,
-      "CombatMap.SelectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap.UnitChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.TacticalBattleUnitHexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleEnding": null,
+      "CombatMap.UnitChanged": null,
       "CombatMap.UnitPositions": {
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
@@ -3343,16 +3139,8 @@
         "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
-      "CombatMap._playerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap._seatedPlayerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap._playerChanged": null,
+      "CombatMap.SeatedPlayerChanged": null,
       "EngineObject._owner": null,
       "GameMap.CurrentPlayer": 0,
       "GameMap.DestroyEventsStore": {
@@ -3385,27 +3173,14 @@
       "GameMap.FileName": "",
       "GameMap.FogEnabled": true,
       "GameMap.Frame": 0,
-      "GameMap.HexSpriteChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.HexSpriteChanged": null,
       "GameMap.MapChangedLockCount": 0,
       "GameMap.MapContainer": null,
       "GameMap.Mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
-        "GameMapMouse.RectangleSelectEventsStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
+        "GameMapMouse.RectangleSelected": [
+          "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
+        ],
         "GameMapMouse.SelectionRectangle": {
           "$type": "Aow.Rtl.Rect",
           "Rect.Bottom": -1,
@@ -3418,38 +3193,17 @@
         "HexSpriteMapMouse.CursorVisible": false,
         "HexSpriteMapMouse.HexSpriteMap": "$ref:$",
         "HexSpriteMapMouse.IgnoreDown": false,
-        "HexSpriteMapMouse.OnCaptureChangedStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
-        "HexSpriteMapMouse.OnDoubleClickStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.CaptureChanged": null,
+        "HexSpriteMapMouse.DoubleClicked": null,
         "HexSpriteMapMouse.OnDownStore": {
           "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.OnMoveStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatMap.MouseMoveEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
-        "HexSpriteMapMouse.OnUpStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.Moved": [
+          "Aow.Game.Combat.CombatMap.MouseMoveEvent"
+        ],
+        "HexSpriteMapMouse.ButtonReleased": null,
         "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
@@ -3478,11 +3232,7 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteSelection.OnSelectStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.CustomNode, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteSelection.Selected": null,
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -3510,11 +3260,7 @@
         "SortedNode.StoredCount": 0
       },
       "GameMap.Status": 0,
-      "GameMap.TerrainChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.TerrainChanged": null,
       "GameMap.Version": 0,
       "GameMap.ViewHeight": 0,
       "GameMap.ViewHeightHex": 0,
@@ -3523,11 +3269,7 @@
       "GameMap.ViewMapLevel": 0,
       "GameMap.ViewPixelX": 0,
       "GameMap.ViewPixelY": 0,
-      "GameMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ViewPortChanged": null,
       "GameMap.ViewWidth": 0,
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
@@ -3550,26 +3292,14 @@
       },
       "GameMap._hexSelectorVisible": false,
       "GameMap._hssFileName": "",
-      "GameMap._mapChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.MapChanged": null,
       "GameMap._messageFrame": 0,
       "GameMap._messageText": "",
-      "GameMap._scannerIconsChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ScannerIconsChanged": null,
       "GameMap._scannerIconsChangedLockCount": 0,
       "GameMap._selectorX": 0,
       "GameMap._selectorY": 0,
-      "GameMap._showMessageEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Events.ShowMessageNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ShowingMessage": null,
       "GameMap._terrainChangedLockCounter": 0,
       "OwningNode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
@@ -3614,32 +3344,16 @@
         "BattleAI._units": [],
         "BattleAI._walls": []
       },
-      "CombatMap.AbilityActivatedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.AbilityActivated": null,
       "CombatMap.CenterViewLocation": null,
-      "CombatMap.ChangeTurnEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.TurnChanged": null,
       "CombatMap.Combat": null,
       "CombatMap.CurrentCombatPlayer": 0,
-      "CombatMap.DeselectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleStarted": null,
       "CombatMap.Effects": [],
       "CombatMap.EndTurnPending": false,
       "CombatMap.FleeLocations": [],
-      "CombatMap.MouseOverTargetEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.MouseOverTargetChanged": null,
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
         "CombatMoveControl.MoveFlags": 0,
@@ -4058,16 +3772,8 @@
       ],
       "CombatMap.Round": 0,
       "CombatMap.SeatedCombatPlayer": 0,
-      "CombatMap.SelectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap.UnitChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.TacticalBattleUnitHexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleEnding": null,
+      "CombatMap.UnitChanged": null,
       "CombatMap.UnitPositions": {
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
@@ -4539,16 +4245,8 @@
         "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
-      "CombatMap._playerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap._seatedPlayerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap._playerChanged": null,
+      "CombatMap.SeatedPlayerChanged": null,
       "EngineObject._owner": null,
       "GameMap.CurrentPlayer": 0,
       "GameMap.DestroyEventsStore": {
@@ -4581,27 +4279,14 @@
       "GameMap.FileName": "",
       "GameMap.FogEnabled": true,
       "GameMap.Frame": 0,
-      "GameMap.HexSpriteChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.HexSpriteChanged": null,
       "GameMap.MapChangedLockCount": 0,
       "GameMap.MapContainer": null,
       "GameMap.Mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
-        "GameMapMouse.RectangleSelectEventsStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
+        "GameMapMouse.RectangleSelected": [
+          "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
+        ],
         "GameMapMouse.SelectionRectangle": {
           "$type": "Aow.Rtl.Rect",
           "Rect.Bottom": -1,
@@ -4614,38 +4299,17 @@
         "HexSpriteMapMouse.CursorVisible": false,
         "HexSpriteMapMouse.HexSpriteMap": "$ref:$",
         "HexSpriteMapMouse.IgnoreDown": false,
-        "HexSpriteMapMouse.OnCaptureChangedStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
-        "HexSpriteMapMouse.OnDoubleClickStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.CaptureChanged": null,
+        "HexSpriteMapMouse.DoubleClicked": null,
         "HexSpriteMapMouse.OnDownStore": {
           "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.OnMoveStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatMap.MouseMoveEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
-        "HexSpriteMapMouse.OnUpStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.Moved": [
+          "Aow.Game.Combat.CombatMap.MouseMoveEvent"
+        ],
+        "HexSpriteMapMouse.ButtonReleased": null,
         "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
@@ -4674,11 +4338,7 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteSelection.OnSelectStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.CustomNode, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteSelection.Selected": null,
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -4706,11 +4366,7 @@
         "SortedNode.StoredCount": 0
       },
       "GameMap.Status": 0,
-      "GameMap.TerrainChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.TerrainChanged": null,
       "GameMap.Version": 0,
       "GameMap.ViewHeight": 0,
       "GameMap.ViewHeightHex": 0,
@@ -4719,11 +4375,7 @@
       "GameMap.ViewMapLevel": 0,
       "GameMap.ViewPixelX": 0,
       "GameMap.ViewPixelY": 0,
-      "GameMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ViewPortChanged": null,
       "GameMap.ViewWidth": 0,
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
@@ -4746,26 +4398,14 @@
       },
       "GameMap._hexSelectorVisible": false,
       "GameMap._hssFileName": "",
-      "GameMap._mapChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.MapChanged": null,
       "GameMap._messageFrame": 0,
       "GameMap._messageText": "",
-      "GameMap._scannerIconsChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ScannerIconsChanged": null,
       "GameMap._scannerIconsChangedLockCount": 0,
       "GameMap._selectorX": 0,
       "GameMap._selectorY": 0,
-      "GameMap._showMessageEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Events.ShowMessageNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ShowingMessage": null,
       "GameMap._terrainChangedLockCounter": 0,
       "OwningNode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
@@ -4812,32 +4452,16 @@
         "BattleAI._units": [],
         "BattleAI._walls": []
       },
-      "CombatMap.AbilityActivatedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.AbilityActivated": null,
       "CombatMap.CenterViewLocation": null,
-      "CombatMap.ChangeTurnEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.TurnChanged": null,
       "CombatMap.Combat": null,
       "CombatMap.CurrentCombatPlayer": 0,
-      "CombatMap.DeselectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleStarted": null,
       "CombatMap.Effects": [],
       "CombatMap.EndTurnPending": false,
       "CombatMap.FleeLocations": [],
-      "CombatMap.MouseOverTargetEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.MouseOverTargetChanged": null,
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
         "CombatMoveControl.MoveFlags": 0,
@@ -5256,16 +4880,8 @@
       ],
       "CombatMap.Round": 0,
       "CombatMap.SeatedCombatPlayer": 0,
-      "CombatMap.SelectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap.UnitChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.TacticalBattleUnitHexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleEnding": null,
+      "CombatMap.UnitChanged": null,
       "CombatMap.UnitPositions": {
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
@@ -5737,16 +5353,8 @@
         "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
-      "CombatMap._playerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap._seatedPlayerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap._playerChanged": null,
+      "CombatMap.SeatedPlayerChanged": null,
       "EngineObject._owner": "$owner",
       "GameMap.CurrentPlayer": 0,
       "GameMap.DestroyEventsStore": {
@@ -5779,27 +5387,14 @@
       "GameMap.FileName": "",
       "GameMap.FogEnabled": true,
       "GameMap.Frame": 0,
-      "GameMap.HexSpriteChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.HexSpriteChanged": null,
       "GameMap.MapChangedLockCount": 0,
       "GameMap.MapContainer": null,
       "GameMap.Mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
-        "GameMapMouse.RectangleSelectEventsStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
+        "GameMapMouse.RectangleSelected": [
+          "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
+        ],
         "GameMapMouse.SelectionRectangle": {
           "$type": "Aow.Rtl.Rect",
           "Rect.Bottom": -1,
@@ -5812,38 +5407,17 @@
         "HexSpriteMapMouse.CursorVisible": false,
         "HexSpriteMapMouse.HexSpriteMap": "$ref:$",
         "HexSpriteMapMouse.IgnoreDown": false,
-        "HexSpriteMapMouse.OnCaptureChangedStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
-        "HexSpriteMapMouse.OnDoubleClickStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.CaptureChanged": null,
+        "HexSpriteMapMouse.DoubleClicked": null,
         "HexSpriteMapMouse.OnDownStore": {
           "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.OnMoveStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatMap.MouseMoveEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
-        "HexSpriteMapMouse.OnUpStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.Moved": [
+          "Aow.Game.Combat.CombatMap.MouseMoveEvent"
+        ],
+        "HexSpriteMapMouse.ButtonReleased": null,
         "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
@@ -5872,11 +5446,7 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteSelection.OnSelectStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.CustomNode, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteSelection.Selected": null,
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -5904,11 +5474,7 @@
         "SortedNode.StoredCount": 0
       },
       "GameMap.Status": 0,
-      "GameMap.TerrainChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.TerrainChanged": null,
       "GameMap.Version": 0,
       "GameMap.ViewHeight": 0,
       "GameMap.ViewHeightHex": 0,
@@ -5917,11 +5483,7 @@
       "GameMap.ViewMapLevel": 0,
       "GameMap.ViewPixelX": 0,
       "GameMap.ViewPixelY": 0,
-      "GameMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ViewPortChanged": null,
       "GameMap.ViewWidth": 0,
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
@@ -5944,26 +5506,14 @@
       },
       "GameMap._hexSelectorVisible": false,
       "GameMap._hssFileName": "",
-      "GameMap._mapChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.MapChanged": null,
       "GameMap._messageFrame": 0,
       "GameMap._messageText": "",
-      "GameMap._scannerIconsChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ScannerIconsChanged": null,
       "GameMap._scannerIconsChangedLockCount": 0,
       "GameMap._selectorX": 0,
       "GameMap._selectorY": 0,
-      "GameMap._showMessageEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Events.ShowMessageNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ShowingMessage": null,
       "GameMap._terrainChangedLockCounter": 0,
       "OwningNode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
@@ -6010,32 +5560,16 @@
         "BattleAI._units": [],
         "BattleAI._walls": []
       },
-      "CombatMap.AbilityActivatedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.AbilityActivated": null,
       "CombatMap.CenterViewLocation": null,
-      "CombatMap.ChangeTurnEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.TurnChanged": null,
       "CombatMap.Combat": null,
       "CombatMap.CurrentCombatPlayer": 0,
-      "CombatMap.DeselectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleStarted": null,
       "CombatMap.Effects": [],
       "CombatMap.EndTurnPending": false,
       "CombatMap.FleeLocations": [],
-      "CombatMap.MouseOverTargetEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.MouseOverTargetChanged": null,
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
         "CombatMoveControl.MoveFlags": 0,
@@ -6454,16 +5988,8 @@
       ],
       "CombatMap.Round": 0,
       "CombatMap.SeatedCombatPlayer": 0,
-      "CombatMap.SelectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap.UnitChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.TacticalBattleUnitHexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleEnding": null,
+      "CombatMap.UnitChanged": null,
       "CombatMap.UnitPositions": {
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
@@ -6935,16 +6461,8 @@
         "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
-      "CombatMap._playerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap._seatedPlayerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap._playerChanged": null,
+      "CombatMap.SeatedPlayerChanged": null,
       "EngineObject._owner": "$owner",
       "GameMap.CurrentPlayer": 0,
       "GameMap.DestroyEventsStore": {
@@ -6977,27 +6495,14 @@
       "GameMap.FileName": "",
       "GameMap.FogEnabled": true,
       "GameMap.Frame": 0,
-      "GameMap.HexSpriteChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.HexSpriteChanged": null,
       "GameMap.MapChangedLockCount": 0,
       "GameMap.MapContainer": null,
       "GameMap.Mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
-        "GameMapMouse.RectangleSelectEventsStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
+        "GameMapMouse.RectangleSelected": [
+          "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
+        ],
         "GameMapMouse.SelectionRectangle": {
           "$type": "Aow.Rtl.Rect",
           "Rect.Bottom": -1,
@@ -7010,38 +6515,17 @@
         "HexSpriteMapMouse.CursorVisible": false,
         "HexSpriteMapMouse.HexSpriteMap": "$ref:$",
         "HexSpriteMapMouse.IgnoreDown": false,
-        "HexSpriteMapMouse.OnCaptureChangedStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
-        "HexSpriteMapMouse.OnDoubleClickStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.CaptureChanged": null,
+        "HexSpriteMapMouse.DoubleClicked": null,
         "HexSpriteMapMouse.OnDownStore": {
           "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.OnMoveStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatMap.MouseMoveEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
-        "HexSpriteMapMouse.OnUpStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.Moved": [
+          "Aow.Game.Combat.CombatMap.MouseMoveEvent"
+        ],
+        "HexSpriteMapMouse.ButtonReleased": null,
         "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
@@ -7070,11 +6554,7 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteSelection.OnSelectStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.CustomNode, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteSelection.Selected": null,
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -7102,11 +6582,7 @@
         "SortedNode.StoredCount": 0
       },
       "GameMap.Status": 0,
-      "GameMap.TerrainChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.TerrainChanged": null,
       "GameMap.Version": 0,
       "GameMap.ViewHeight": 0,
       "GameMap.ViewHeightHex": 0,
@@ -7115,11 +6591,7 @@
       "GameMap.ViewMapLevel": 0,
       "GameMap.ViewPixelX": 0,
       "GameMap.ViewPixelY": 0,
-      "GameMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ViewPortChanged": null,
       "GameMap.ViewWidth": 0,
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
@@ -7142,26 +6614,14 @@
       },
       "GameMap._hexSelectorVisible": false,
       "GameMap._hssFileName": "",
-      "GameMap._mapChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.MapChanged": null,
       "GameMap._messageFrame": 0,
       "GameMap._messageText": "",
-      "GameMap._scannerIconsChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ScannerIconsChanged": null,
       "GameMap._scannerIconsChangedLockCount": 0,
       "GameMap._selectorX": 0,
       "GameMap._selectorY": 0,
-      "GameMap._showMessageEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Events.ShowMessageNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ShowingMessage": null,
       "GameMap._terrainChangedLockCounter": 0,
       "OwningNode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
@@ -7208,32 +6668,16 @@
         "BattleAI._units": [],
         "BattleAI._walls": []
       },
-      "CombatMap.AbilityActivatedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.AbilityActivated": null,
       "CombatMap.CenterViewLocation": null,
-      "CombatMap.ChangeTurnEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.TurnChanged": null,
       "CombatMap.Combat": null,
       "CombatMap.CurrentCombatPlayer": 0,
-      "CombatMap.DeselectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleStarted": null,
       "CombatMap.Effects": [],
       "CombatMap.EndTurnPending": false,
       "CombatMap.FleeLocations": [],
-      "CombatMap.MouseOverTargetEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.MouseOverTargetChanged": null,
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
         "CombatMoveControl.MoveFlags": 0,
@@ -7652,16 +7096,8 @@
       ],
       "CombatMap.Round": 0,
       "CombatMap.SeatedCombatPlayer": 0,
-      "CombatMap.SelectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap.UnitChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.TacticalBattleUnitHexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleEnding": null,
+      "CombatMap.UnitChanged": null,
       "CombatMap.UnitPositions": {
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
@@ -8133,16 +7569,8 @@
         "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
-      "CombatMap._playerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap._seatedPlayerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap._playerChanged": null,
+      "CombatMap.SeatedPlayerChanged": null,
       "EngineObject._owner": "$owner",
       "GameMap.CurrentPlayer": 0,
       "GameMap.DestroyEventsStore": {
@@ -8175,27 +7603,14 @@
       "GameMap.FileName": "",
       "GameMap.FogEnabled": true,
       "GameMap.Frame": 0,
-      "GameMap.HexSpriteChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.HexSpriteChanged": null,
       "GameMap.MapChangedLockCount": 0,
       "GameMap.MapContainer": null,
       "GameMap.Mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
-        "GameMapMouse.RectangleSelectEventsStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
+        "GameMapMouse.RectangleSelected": [
+          "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
+        ],
         "GameMapMouse.SelectionRectangle": {
           "$type": "Aow.Rtl.Rect",
           "Rect.Bottom": -1,
@@ -8208,38 +7623,17 @@
         "HexSpriteMapMouse.CursorVisible": false,
         "HexSpriteMapMouse.HexSpriteMap": "$ref:$",
         "HexSpriteMapMouse.IgnoreDown": false,
-        "HexSpriteMapMouse.OnCaptureChangedStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
-        "HexSpriteMapMouse.OnDoubleClickStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.CaptureChanged": null,
+        "HexSpriteMapMouse.DoubleClicked": null,
         "HexSpriteMapMouse.OnDownStore": {
           "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.OnMoveStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatMap.MouseMoveEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
-        "HexSpriteMapMouse.OnUpStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.Moved": [
+          "Aow.Game.Combat.CombatMap.MouseMoveEvent"
+        ],
+        "HexSpriteMapMouse.ButtonReleased": null,
         "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
@@ -8268,11 +7662,7 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteSelection.OnSelectStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.CustomNode, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteSelection.Selected": null,
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -8300,11 +7690,7 @@
         "SortedNode.StoredCount": 0
       },
       "GameMap.Status": 0,
-      "GameMap.TerrainChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.TerrainChanged": null,
       "GameMap.Version": 0,
       "GameMap.ViewHeight": 0,
       "GameMap.ViewHeightHex": 0,
@@ -8313,11 +7699,7 @@
       "GameMap.ViewMapLevel": 0,
       "GameMap.ViewPixelX": 0,
       "GameMap.ViewPixelY": 0,
-      "GameMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ViewPortChanged": null,
       "GameMap.ViewWidth": 0,
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
@@ -8340,26 +7722,14 @@
       },
       "GameMap._hexSelectorVisible": false,
       "GameMap._hssFileName": "",
-      "GameMap._mapChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.MapChanged": null,
       "GameMap._messageFrame": 0,
       "GameMap._messageText": "",
-      "GameMap._scannerIconsChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ScannerIconsChanged": null,
       "GameMap._scannerIconsChangedLockCount": 0,
       "GameMap._selectorX": 0,
       "GameMap._selectorY": 0,
-      "GameMap._showMessageEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Events.ShowMessageNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ShowingMessage": null,
       "GameMap._terrainChangedLockCounter": 0,
       "OwningNode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
@@ -8406,32 +7776,16 @@
         "BattleAI._units": [],
         "BattleAI._walls": []
       },
-      "CombatMap.AbilityActivatedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.AbilityActivated": null,
       "CombatMap.CenterViewLocation": null,
-      "CombatMap.ChangeTurnEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.TurnChanged": null,
       "CombatMap.Combat": null,
       "CombatMap.CurrentCombatPlayer": 0,
-      "CombatMap.DeselectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleStarted": null,
       "CombatMap.Effects": [],
       "CombatMap.EndTurnPending": false,
       "CombatMap.FleeLocations": [],
-      "CombatMap.MouseOverTargetEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.MouseOverTargetChanged": null,
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
         "CombatMoveControl.MoveFlags": 0,
@@ -8850,16 +8204,8 @@
       ],
       "CombatMap.Round": 0,
       "CombatMap.SeatedCombatPlayer": 0,
-      "CombatMap.SelectEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.TacticalBattle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap.UnitChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.TacticalBattleUnitHexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap.BattleEnding": null,
+      "CombatMap.UnitChanged": null,
       "CombatMap.UnitPositions": {
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
@@ -9331,16 +8677,8 @@
         "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
-      "CombatMap._playerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Combat.CombatMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
-      "CombatMap._seatedPlayerChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "CombatMap._playerChanged": null,
+      "CombatMap.SeatedPlayerChanged": null,
       "EngineObject._owner": "$owner",
       "GameMap.CurrentPlayer": 0,
       "GameMap.DestroyEventsStore": {
@@ -9373,27 +8711,14 @@
       "GameMap.FileName": "",
       "GameMap.FogEnabled": true,
       "GameMap.Frame": 0,
-      "GameMap.HexSpriteChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.HexSpriteChanged": null,
       "GameMap.MapChangedLockCount": 0,
       "GameMap.MapContainer": null,
       "GameMap.Mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
-        "GameMapMouse.RectangleSelectEventsStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
+        "GameMapMouse.RectangleSelected": [
+          "Aow.Game.Combat.CombatUnitSelectionControl.RectangleSelectEvent"
+        ],
         "GameMapMouse.SelectionRectangle": {
           "$type": "Aow.Rtl.Rect",
           "Rect.Bottom": -1,
@@ -9406,38 +8731,17 @@
         "HexSpriteMapMouse.CursorVisible": false,
         "HexSpriteMapMouse.HexSpriteMap": "$ref:$",
         "HexSpriteMapMouse.IgnoreDown": false,
-        "HexSpriteMapMouse.OnCaptureChangedStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
-        "HexSpriteMapMouse.OnDoubleClickStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.CaptureChanged": null,
+        "HexSpriteMapMouse.DoubleClicked": null,
         "HexSpriteMapMouse.OnDownStore": {
           "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.OnMoveStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 1,
-          "EventStore\u00601._items": [
-            [
-              "Aow.Game.Combat.CombatMap.MouseMoveEvent"
-            ],
-            null,
-            null,
-            null
-          ]
-        },
-        "HexSpriteMapMouse.OnUpStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HexSpriteMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteMapMouse.Moved": [
+          "Aow.Game.Combat.CombatMap.MouseMoveEvent"
+        ],
+        "HexSpriteMapMouse.ButtonReleased": null,
         "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
@@ -9466,11 +8770,7 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteSelection.OnSelectStore": {
-          "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.CustomNode, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "EventStore\u00601.Count": 0,
-          "EventStore\u00601._items": null
-        },
+        "HexSpriteSelection.Selected": null,
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList\u00601.count": 0,
@@ -9498,11 +8798,7 @@
         "SortedNode.StoredCount": 0
       },
       "GameMap.Status": 0,
-      "GameMap.TerrainChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.TerrainChanged": null,
       "GameMap.Version": 0,
       "GameMap.ViewHeight": 0,
       "GameMap.ViewHeightHex": 0,
@@ -9511,11 +8807,7 @@
       "GameMap.ViewMapLevel": 0,
       "GameMap.ViewPixelX": 0,
       "GameMap.ViewPixelY": 0,
-      "GameMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ViewPortChanged": null,
       "GameMap.ViewWidth": 0,
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
@@ -9538,26 +8830,14 @@
       },
       "GameMap._hexSelectorVisible": false,
       "GameMap._hssFileName": "",
-      "GameMap._mapChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.MapChanged": null,
       "GameMap._messageFrame": 0,
       "GameMap._messageText": "",
-      "GameMap._scannerIconsChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.MapChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ScannerIconsChanged": null,
       "GameMap._scannerIconsChangedLockCount": 0,
       "GameMap._selectorX": 0,
       "GameMap._selectorY": 0,
-      "GameMap._showMessageEventsStore": {
-        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.Events.ShowMessageNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "EventStore\u00601.Count": 0,
-        "EventStore\u00601._items": null
-      },
+      "GameMap.ShowingMessage": null,
       "GameMap._terrainChangedLockCounter": 0,
       "OwningNode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",

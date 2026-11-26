@@ -338,12 +338,13 @@ public class UnitSpell : Spell
     }
 
     // Spells.PAS:1289
-    public void OnTargetSelectionChange(TargetSelectionControl control)
+    public void TargetSelection_Changed(object? sender, TargetSelectionChangedEventArgs e)
     {
+        TargetSelectionControl control = (TargetSelectionControl)sender!;
         Troop? source = StrategicMap.Current.UnitControl.FindUnit(control.SourceUnitId);
         if (source is not null)
         {
-            switch (control.Change)
+            switch (e.Change)
             {
                 case TargetSelectionChange.Deactivated:
                     ResetTargetSelection();
@@ -375,7 +376,7 @@ public class UnitSpell : Spell
     public void ResetTargetSelection()
     {
         TargetSelectionControl targetSelectionControl = StrategicMap.Current.TargetSelection;
-        targetSelectionControl.Changed -= OnTargetSelectionChange;
+        targetSelectionControl.Changed -= TargetSelection_Changed;
         targetSelectionControl.Deactivate();
     }
 
@@ -399,7 +400,7 @@ public class UnitSpell : Spell
         int y = coordinate85.Y;
         int l = coordinate85.MapLevel;
         control.SourceLocation = new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)l);
-        control.Changed += OnTargetSelectionChange;
+        control.Changed += TargetSelection_Changed;
         control.SetValidateTargetHandler(OnValidateTarget);
         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_selectTargetPartyFormat), arguments: [SpellName]);
         control.Text.Text = format;

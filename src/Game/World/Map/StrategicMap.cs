@@ -1,5 +1,6 @@
 #nullable disable warnings
 // Translated from AoWE.pas.
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Buffers;
@@ -110,12 +111,13 @@ public sealed partial class StrategicMap : GameMap
 
     private string _sessionName = "";
 
-    internal EventStore<Leader> OnLeaderChangedStore { get; }
+    public event NotifyEvent<Leader>? LeaderChanged;
 
-    public event NotifyEvent<Leader> LeaderChanged
+    internal void OnLeaderChanged(Leader leader)
     {
-        add => OnLeaderChangedStore.Add(value);
-        remove => OnLeaderChangedStore.Remove(value);
+        NotifyEvent<Leader>? handlers = LeaderChanged;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(LeaderChanged));
+        handlers?.Invoke(leader);
     }
 
     public bool ShowIndependentMoves { get; set; }
@@ -128,106 +130,51 @@ public sealed partial class StrategicMap : GameMap
 
     private int _relationsChangedLockCount;
 
-    private readonly EventStore<StrategicMap> _playerChangedEventsStore;
+    public event NotifyEvent<StrategicMap>? PlayerChanged;
 
-    public event NotifyEvent<StrategicMap> PlayerChanged
+    public event NotifyEvent<PlayerControl>? DayStarted;
+
+    internal void OnDayStarted(PlayerControl playerControl)
     {
-        add => _playerChangedEventsStore.Add(value);
-        remove => _playerChangedEventsStore.Remove(value);
+        NotifyEvent<PlayerControl>? handlers = DayStarted;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(DayStarted));
+        handlers?.Invoke(playerControl);
     }
 
-    internal EventStore<PlayerControl> NewDayEventsStore { get; }
+    public event NotifyEvent<sbyte>? TurnStarted;
 
-    public event NotifyEvent<PlayerControl> DayStarted
+    internal void OnTurnStarted(sbyte value)
     {
-        add => NewDayEventsStore.Add(value);
-        remove => NewDayEventsStore.Remove(value);
+        NotifyEvent<sbyte>? handlers = TurnStarted;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(TurnStarted));
+        handlers?.Invoke(value);
     }
 
-    internal EventStore<sbyte> NewTurnEventsStore { get; }
+    public event NotifyEvent<sbyte>? TurnEnded;
 
-    public event NotifyEvent<sbyte> TurnStarted
-    {
-        add => NewTurnEventsStore.Add(value);
-        remove => NewTurnEventsStore.Remove(value);
-    }
+    public event NotifyEvent<StrategicMap>? CurrentPlayerChanged;
 
-    private readonly EventStore<sbyte> _endTurnEventsStore;
+    public event NotifyEvent<StrategicMap>? SeatedPlayerChanged;
 
-    public event NotifyEvent<sbyte> TurnEnded
-    {
-        add => _endTurnEventsStore.Add(value);
-        remove => _endTurnEventsStore.Remove(value);
-    }
+    public event NotifyEvent<Battle>? CombatTriggered;
 
-    private readonly EventStore<StrategicMap> _currentPlayerChangedEventsStore;
+    public event NotifyEvent<sbyte>? PlayerTerminated;
 
-    public event NotifyEvent<StrategicMap> CurrentPlayerChanged
-    {
-        add => _currentPlayerChangedEventsStore.Add(value);
-        remove => _currentPlayerChangedEventsStore.Remove(value);
-    }
+    public event NotifyEvent<StrategicMap>? GameEnded;
 
-    private readonly EventStore<StrategicMap?> _seatedPlayerChangedEventsStore;
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event GameTerminated keeps this backing field until the port raises it.")]
+    private NotifyEvent<StrategicMap>? _gameTerminated;
 
-    public event NotifyEvent<StrategicMap> SeatedPlayerChanged
-    {
-        add => _seatedPlayerChangedEventsStore.Add(value);
-        remove => _seatedPlayerChangedEventsStore.Remove(value);
-    }
-
-    private readonly EventStore<Battle> _combatEventsStore;
-
-    public event NotifyEvent<Battle> CombatTriggered
-    {
-        add => _combatEventsStore.Add(value);
-        remove => _combatEventsStore.Remove(value);
-    }
-
-    private readonly EventStore<sbyte> _playerTerminatedEventsStore;
-
-    public event NotifyEvent<sbyte> PlayerTerminated
-    {
-        add => _playerTerminatedEventsStore.Add(value);
-        remove => _playerTerminatedEventsStore.Remove(value);
-    }
-
-    private readonly EventStore<StrategicMap> _gameOverEventsStore;
-
-    public event NotifyEvent<StrategicMap> GameEnded
-    {
-        add => _gameOverEventsStore.Add(value);
-        remove => _gameOverEventsStore.Remove(value);
-    }
-
-    private readonly EventStore<StrategicMap> _gameTerminatedEventsStore;
-
-    public event NotifyEvent<StrategicMap> GameTerminated
-    {
-        add => _gameTerminatedEventsStore.Add(value);
-        remove => _gameTerminatedEventsStore.Remove(value);
-    }
+    public event NotifyEvent<StrategicMap>? GameTerminated { add => _gameTerminated += value; remove => _gameTerminated -= value; }
 
     public bool ExitPending { get; private set; }
 
-    private readonly EventStore<StrategicMap> _exitEventsStore;
-
-    public event NotifyEvent<StrategicMap> ExitingGame
-    {
-        add => _exitEventsStore.Add(value);
-        remove => _exitEventsStore.Remove(value);
-    }
+    public event NotifyEvent<StrategicMap>? ExitingGame;
 
     private int _gameOverLockCount;
     private readonly EventLogList _executeEventLogBuffer;
 
-    private readonly EventStore<ExecuteEventLogNotification> _executeEventLogEventsStore;
-
-    public event NotifyEvent<ExecuteEventLogNotification> ExecutingEventLog
-    {
-        add => _executeEventLogEventsStore.Add(value);
-        remove => _executeEventLogEventsStore.Remove(value);
-    }
+    public event NotifyEvent<ExecuteEventLogNotification>? ExecutingEventLog;
 
     private readonly ExecuteEventLogCallbackList _executeEventLogCallBacks;
 
@@ -235,29 +182,25 @@ public sealed partial class StrategicMap : GameMap
 
     private int _executeEventLogDelay;
 
-    internal EventStore<AbilityActivation> OnActivateAbilityStore { get; }
+    public event NotifyEvent<AbilityActivation>? AbilityActivated;
 
-    public event NotifyEvent<AbilityActivation> AbilityActivated
+    internal void OnAbilityActivated(AbilityActivation abilityActivation)
     {
-        add => OnActivateAbilityStore.Add(value);
-        remove => OnActivateAbilityStore.Remove(value);
+        NotifyEvent<AbilityActivation>? handlers = AbilityActivated;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(AbilityActivated));
+        handlers?.Invoke(abilityActivation);
     }
 
-    internal EventStore<EngineObject> DiplomaticRelationsChangedEventsStore { get; }
+    public event NotifyEvent<EngineObject>? DiplomaticRelationsChanged;
 
-    public event NotifyEvent<EngineObject> DiplomaticRelationsChanged
+    internal void OnDiplomaticRelationsChanged(EngineObject engineObject)
     {
-        add => DiplomaticRelationsChangedEventsStore.Add(value);
-        remove => DiplomaticRelationsChangedEventsStore.Remove(value);
+        NotifyEvent<EngineObject>? handlers = DiplomaticRelationsChanged;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(DiplomaticRelationsChanged));
+        handlers?.Invoke(engineObject);
     }
 
-    private readonly EventStore<StrategicMap> _updateVisibilityEventsStore;
-
-    public event NotifyEvent<StrategicMap> VisibilityUpdated
-    {
-        add => _updateVisibilityEventsStore.Add(value);
-        remove => _updateVisibilityEventsStore.Remove(value);
-    }
+    public event NotifyEvent<StrategicMap>? VisibilityUpdated;
 
     public List<WorldEffectHexSprite> Effects { get; }
 
@@ -267,6 +210,8 @@ public sealed partial class StrategicMap : GameMap
     private int _structureUpdateCount;
     private int _unitUpdateCount;
 
+    // Issue 326 keeps the ordered store: TargetSelectionControl.UnitChanged deactivates the target
+    // selection when its source dies, and MapControl's relay refreshes the unit window before it.
     private readonly EventStore<Troop?> _unitChangedEventsStore;
 
     public event NotifyEvent<Troop> UnitChanged
@@ -275,69 +220,28 @@ public sealed partial class StrategicMap : GameMap
         remove => _unitChangedEventsStore.Remove(value);
     }
 
-    private readonly EventStore<Army?> _armyChangedEventsStore;
+    public event NotifyEvent<Army>? ArmyChanged;
 
-    public event NotifyEvent<Army> ArmyChanged
-    {
-        add => _armyChangedEventsStore.Add(value);
-        remove => _armyChangedEventsStore.Remove(value);
-    }
+    public event NotifyEvent<Structure>? StructureChanged;
 
-    private readonly EventStore<Structure?> _structureChangedEventsStore;
+    public event NotifyEvent<Troop>? UnitDestroyed;
 
-    public event NotifyEvent<Structure> StructureChanged
-    {
-        add => _structureChangedEventsStore.Add(value);
-        remove => _structureChangedEventsStore.Remove(value);
-    }
+    public event NotifyEvent<Army>? ArmyDestroyed;
 
-    private readonly EventStore<Troop> _unitDestroyedEventsStore;
+    public event NotifyEvent<Structure>? StructureDestroyed;
 
-    public event NotifyEvent<Troop> UnitDestroyed
-    {
-        add => _unitDestroyedEventsStore.Add(value);
-        remove => _unitDestroyedEventsStore.Remove(value);
-    }
+    [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event TokenControlActivated keeps this backing field until the port raises it.")]
+    private NotifyEvent<StrategicMap>? _tokenControlActivated;
 
-    private readonly EventStore<Army> _armyDestroyedEventsStore;
+    public event NotifyEvent<StrategicMap>? TokenControlActivated { add => _tokenControlActivated += value; remove => _tokenControlActivated -= value; }
 
-    public event NotifyEvent<Army> ArmyDestroyed
-    {
-        add => _armyDestroyedEventsStore.Add(value);
-        remove => _armyDestroyedEventsStore.Remove(value);
-    }
+    public event NotifyEvent<StrategicMap>? CombatMapCreated;
 
-    private readonly EventStore<Structure> _structureDestroyedEventsStore;
+    internal void OnCombatMapCreated(StrategicMap strategicMap) => CombatMapCreated?.Invoke(strategicMap);
 
-    public event NotifyEvent<Structure> StructureDestroyed
-    {
-        add => _structureDestroyedEventsStore.Add(value);
-        remove => _structureDestroyedEventsStore.Remove(value);
-    }
+    public event NotifyEvent<StrategicMap>? CombatMapDestroyed;
 
-    private readonly EventStore<StrategicMap> _tokenControlActivatedEventsStore;
-
-    public event NotifyEvent<StrategicMap> TokenControlActivated
-    {
-        add => _tokenControlActivatedEventsStore.Add(value);
-        remove => _tokenControlActivatedEventsStore.Remove(value);
-    }
-
-    internal EventStore<StrategicMap> CombatMapCreatedEventsStore { get; }
-
-    public event NotifyEvent<StrategicMap> CombatMapCreated
-    {
-        add => CombatMapCreatedEventsStore.Add(value);
-        remove => CombatMapCreatedEventsStore.Remove(value);
-    }
-
-    internal EventStore<StrategicMap> CombatMapDestroyedEventsStore { get; }
-
-    public event NotifyEvent<StrategicMap> CombatMapDestroyed
-    {
-        add => CombatMapDestroyedEventsStore.Add(value);
-        remove => CombatMapDestroyedEventsStore.Remove(value);
-    }
+    internal void OnCombatMapDestroyed(StrategicMap strategicMap) => CombatMapDestroyed?.Invoke(strategicMap);
 
     public int InitialRandomSeed { get; set; }
     public int DefendersSeed { get; set; }
@@ -377,27 +281,27 @@ public sealed partial class StrategicMap : GameMap
         Effects?.Clear();
         TutorialControl?.Dispose();
         Players.BeginUpdate();
-        _armyChangedEventsStore.Clear();
-        _structureChangedEventsStore.Clear();
+        ArmyChanged = null;
+        StructureChanged = null;
         _unitChangedEventsStore.Clear();
-        _seatedPlayerChangedEventsStore.Clear();
-        _currentPlayerChangedEventsStore.Clear();
-        NewTurnEventsStore.Clear();
-        NewDayEventsStore.Clear();
-        OnLeaderChangedStore.Clear();
+        SeatedPlayerChanged = null;
+        CurrentPlayerChanged = null;
+        TurnStarted = null;
+        DayStarted = null;
+        LeaderChanged = null;
         Description.Clear();
         _objectives.Clear();
         TurnOrder.Clear();
-        _structureDestroyedEventsStore.Clear();
-        _unitDestroyedEventsStore.Clear();
-        CombatMapCreatedEventsStore.Clear();
-        CombatMapDestroyedEventsStore.Clear();
-        _updateVisibilityEventsStore.Clear();
-        DiplomaticRelationsChangedEventsStore.Clear();
-        OnActivateAbilityStore.Clear();
-        _tokenControlActivatedEventsStore.Clear();
-        _playerChangedEventsStore.Clear();
-        _exitEventsStore.Clear();
+        StructureDestroyed = null;
+        UnitDestroyed = null;
+        CombatMapCreated = null;
+        CombatMapDestroyed = null;
+        VisibilityUpdated = null;
+        DiplomaticRelationsChanged = null;
+        AbilityActivated = null;
+        _tokenControlActivated = null;
+        PlayerChanged = null;
+        ExitingGame = null;
         Mouse.Moved -= MouseMoved;
         if (Combat is not null)
         {
@@ -420,28 +324,28 @@ public sealed partial class StrategicMap : GameMap
         CampaignSettings?.Dispose();
         AIExecutor?.Dispose();
         SelectedArmy?.Dispose();
-        _seatedPlayerChangedEventsStore.Clear();
+        SeatedPlayerChanged = null;
         _executeEventLogBuffer?.Dispose();
-        NewTurnEventsStore.Clear();
-        _endTurnEventsStore.Clear();
-        _currentPlayerChangedEventsStore.Clear();
-        NewDayEventsStore.Clear();
-        _armyChangedEventsStore.Clear();
-        _structureChangedEventsStore.Clear();
+        TurnStarted = null;
+        TurnEnded = null;
+        CurrentPlayerChanged = null;
+        DayStarted = null;
+        ArmyChanged = null;
+        StructureChanged = null;
         _unitChangedEventsStore.Clear();
-        _armyDestroyedEventsStore.Clear();
-        _structureDestroyedEventsStore.Clear();
-        _unitDestroyedEventsStore.Clear();
-        OnLeaderChangedStore.Clear();
+        ArmyDestroyed = null;
+        StructureDestroyed = null;
+        UnitDestroyed = null;
+        LeaderChanged = null;
         PlayerControl?.Dispose();
         TextControl?.Dispose();
-        _combatEventsStore.Clear();
-        _playerChangedEventsStore.Clear();
-        _executeEventLogEventsStore.Clear();
-        OnActivateAbilityStore.Clear();
+        CombatTriggered = null;
+        PlayerChanged = null;
+        ExecutingEventLog = null;
+        AbilityActivated = null;
         GameSongs?.Dispose();
         StartupSongs?.Dispose();
-        _exitEventsStore.Clear();
+        ExitingGame = null;
         ItemControl?.Dispose();
         ItemControl = null;
         HeroControl?.Dispose();
@@ -455,16 +359,16 @@ public sealed partial class StrategicMap : GameMap
         AIPlayerActionManager?.Dispose();
         Players?.Dispose();
         Races?.Dispose();
-        _playerTerminatedEventsStore.Clear();
-        _gameOverEventsStore.Clear();
-        _gameTerminatedEventsStore.Clear();
+        PlayerTerminated = null;
+        GameEnded = null;
+        _gameTerminated = null;
         TargetSelection?.Dispose();
-        CombatMapCreatedEventsStore.Clear();
-        CombatMapDestroyedEventsStore.Clear();
-        DiplomaticRelationsChangedEventsStore.Clear();
+        CombatMapCreated = null;
+        CombatMapDestroyed = null;
+        DiplomaticRelationsChanged = null;
         Keyboard?.Dispose();
-        _updateVisibilityEventsStore.Clear();
-        _tokenControlActivatedEventsStore.Clear();
+        VisibilityUpdated = null;
+        _tokenControlActivated = null;
         UnlockMapChangedEvent();
     }
 
@@ -657,7 +561,6 @@ public sealed partial class StrategicMap : GameMap
         _independentAIMode = StrategicMapIndependentAIMode.Normal;
         Players = new PlayerCollection(null) { Holder = CreationHolder() };
         Races = new RaceList(null) { Holder = CreationHolder() };
-        _playerChangedEventsStore = new();
         FixedLeaders = true;
         AlliedVictory = false;
         CurrentPlayer = PlayerId.Independent;
@@ -675,36 +578,13 @@ public sealed partial class StrategicMap : GameMap
         HeroControl = new HeroControl(null) { Holder = CreationHolder() };
         UnitControl = new UnitControl(null) { Holder = CreationHolder() };
         StructureControl = new StructureControl(null) { Holder = CreationHolder() };
-        OnLeaderChangedStore = new();
         TextControl = new TextControl(null) { Holder = CreationHolder() };
-        NewDayEventsStore = new();
-        NewTurnEventsStore = new();
-        _endTurnEventsStore = new();
-        _currentPlayerChangedEventsStore = new();
-        _seatedPlayerChangedEventsStore = new();
-        _armyChangedEventsStore = new();
-        _structureChangedEventsStore = new();
-        _tokenControlActivatedEventsStore = new();
         _unitChangedEventsStore = new();
-        _armyDestroyedEventsStore = new();
-        _structureDestroyedEventsStore = new();
-        _unitDestroyedEventsStore = new();
-        _combatEventsStore = new();
-        _executeEventLogEventsStore = new();
         UnitChanged += TargetSelection.UnitChanged;
         ArmyDestroyed += SelectedArmy.OnDestroyArmy;
         _executeEventLogCallBacks = new ExecuteEventLogCallbackList();
-        OnActivateAbilityStore = new();
         StartupSongs = new StartupSongList(null) { Holder = CreationHolder() };
         GameSongs = new SongList(null) { Holder = CreationHolder() };
-        _playerTerminatedEventsStore = new();
-        _gameOverEventsStore = new();
-        _gameTerminatedEventsStore = new();
-        DiplomaticRelationsChangedEventsStore = new();
-        _updateVisibilityEventsStore = new();
-        CombatMapCreatedEventsStore = new();
-        CombatMapDestroyedEventsStore = new();
-        _exitEventsStore = new();
         CampaignSettings = new MapCampaignSettings(null) { Holder = CreationHolder() };
         Mouse.Moved += MouseMoved;
     }
@@ -741,7 +621,9 @@ public sealed partial class StrategicMap : GameMap
         {
             if (message.MessageId == 537001989)
             {
-                _updateVisibilityEventsStore.Raise(this);
+                NotifyEvent<StrategicMap>? handlers = VisibilityUpdated;
+                EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(VisibilityUpdated));
+                handlers?.Invoke(this);
             }
         }
     }
@@ -1002,17 +884,27 @@ public sealed partial class StrategicMap : GameMap
     public override void SetSeatedPlayer(PlayerId? player) => PlayerControl.SetSeatedPlayer(player);
 
     // AoWHSMap.PAS:1887
-    public void TriggerCombatEvent(Battle combat) => _combatEventsStore.Raise(combat);
+    public void TriggerCombatEvent(Battle combat)
+    {
+        NotifyEvent<Battle>? handlers = CombatTriggered;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(CombatTriggered));
+        handlers?.Invoke(combat);
+    }
 
     // AoWHSMap.PAS:1892
     public void TriggerGameTerminatedEvent()
     {
         GameStatus = StrategicMapGameStatus.Terminated;
-        _gameOverEventsStore.Raise(this);
+        GameEnded?.Invoke(this);
     }
 
     // AoWHSMap.PAS:2012
-    public void TriggerPlayerTerminatedEvent(PlayerId? player) => _playerTerminatedEventsStore.Raise((sbyte)PlayerIdExtensions.ToOriginal(player));
+    public void TriggerPlayerTerminatedEvent(PlayerId? player)
+    {
+        NotifyEvent<sbyte>? handlers = PlayerTerminated;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(PlayerTerminated));
+        handlers?.Invoke((sbyte)PlayerIdExtensions.ToOriginal(player));
+    }
 
     // AoWHSMap.PAS:2586
     public void StartNewMap()
@@ -1090,7 +982,7 @@ public sealed partial class StrategicMap : GameMap
         else
         {
             notification.Info = info;
-            _executeEventLogEventsStore.Raise(notification);
+            ExecutingEventLog?.Invoke(notification);
         }
     }
 
@@ -1435,7 +1327,9 @@ public sealed partial class StrategicMap : GameMap
         MapContainer.SendMessage(ref message, sender: this);
         EngineMessage.InitializeMessage(out message, messageId: 537001993, sender: this);
         MapContainer.SendMessage(ref message, sender: this);
-        _seatedPlayerChangedEventsStore.Raise(Current);
+        NotifyEvent<StrategicMap>? handlers = SeatedPlayerChanged;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(SeatedPlayerChanged));
+        handlers?.Invoke(Current);
         ShowMessage("");
     }
 
@@ -1466,7 +1360,9 @@ public sealed partial class StrategicMap : GameMap
     {
         if (!Current.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
-            _unitDestroyedEventsStore.Raise(troop);
+            NotifyEvent<Troop>? handlers = UnitDestroyed;
+            EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(UnitDestroyed));
+            handlers?.Invoke(troop);
         }
     }
 
@@ -1488,14 +1384,16 @@ public sealed partial class StrategicMap : GameMap
     {
         if (_armyUpdateCount == 0)
         {
-            _armyChangedEventsStore.Raise(army);
+            NotifyEvent<Army>? handlers = ArmyChanged;
+            EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(ArmyChanged));
+            handlers?.Invoke(army);
         }
     }
 
     // AoWHSMap.PAS:1860
     public void NotifyArmyDestroyed(Army army)
         // TArmy.Destroy passes its Self pointer
-        => _armyDestroyedEventsStore.Raise(army);
+        => ArmyDestroyed?.Invoke(army);
 
     // AoWHSMap.PAS:1866
     // TArmy.Destroy passes TArmy
@@ -1516,18 +1414,27 @@ public sealed partial class StrategicMap : GameMap
     {
         if (_structureUpdateCount == 0)
         {
-            _structureChangedEventsStore.Raise(structure);
+            NotifyEvent<Structure>? handlers = StructureChanged;
+            EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(StructureChanged));
+            handlers?.Invoke(structure);
         }
     }
 
     // AoWHSMap.PAS:1882
-    public void NotifyStructureDestroyed(Structure structure) => _structureDestroyedEventsStore.Raise(structure);
+    public void NotifyStructureDestroyed(Structure structure)
+    {
+        NotifyEvent<Structure>? handlers = StructureDestroyed;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(StructureDestroyed));
+        handlers?.Invoke(structure);
+    }
 
     // AoWHSMap.PAS:1898
     public void ExecuteExitGame()
     {
         ExitPending = true;
-        _exitEventsStore.Raise(this);
+        NotifyEvent<StrategicMap>? handlers = ExitingGame;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(ExitingGame));
+        handlers?.Invoke(this);
     }
 
     // AoWHSMap.PAS:1904
@@ -1553,7 +1460,12 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1921
-    public void TriggerEndTurnEvent(PlayerId? player) => _endTurnEventsStore.Raise((sbyte)PlayerIdExtensions.ToOriginal(player));
+    public void TriggerEndTurnEvent(PlayerId? player)
+    {
+        NotifyEvent<sbyte>? handlers = TurnEnded;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(TurnEnded));
+        handlers?.Invoke((sbyte)PlayerIdExtensions.ToOriginal(player));
+    }
 
     // AoWHSMap.PAS:1926
     public void ClearExecuteEventLogBuffer()
@@ -1582,7 +1494,7 @@ public sealed partial class StrategicMap : GameMap
             info = _executeEventLogCallBacks.GetItem(0);
             info.Done = ExecuteEventLogDone;
             notification.Info = info;
-            _executeEventLogEventsStore.Raise(notification);
+            ExecutingEventLog?.Invoke(notification);
         }
     }
 
@@ -2050,7 +1962,12 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:2546
-    public void NotifyPlayerChanged() => _currentPlayerChangedEventsStore.Raise(this);
+    public void NotifyPlayerChanged()
+    {
+        NotifyEvent<StrategicMap>? handlers = CurrentPlayerChanged;
+        EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(CurrentPlayerChanged));
+        handlers?.Invoke(this);
+    }
 
     // AoWHSMap.PAS:2552
     public void TokenControlActivatedEvent(object sender)
@@ -2243,7 +2160,7 @@ public sealed partial class StrategicMap : GameMap
 
             // The tactical profile loads a combat map, and the loader returns the game map it loads.
             CombatMap = GetEngine().LoadHsmMap<CombatMap>(FileBoundary.ReadName(GetEngine().StartupDirectory + fileName), edit: false, progress: null, profile: GameProfile.TacticalMap);
-            CombatMapCreatedEventsStore.Raise(this);
+            CombatMapCreated?.Invoke(this);
         }
     }
 
@@ -2252,7 +2169,7 @@ public sealed partial class StrategicMap : GameMap
     {
         if (CombatMap is not null)
         {
-            CombatMapDestroyedEventsStore.Raise(this);
+            CombatMapDestroyed?.Invoke(this);
             CombatMap?.Dispose();
             CombatMap = null;
             ResetSeatedPlayerView();
@@ -2373,7 +2290,9 @@ public sealed partial class StrategicMap : GameMap
         {
             BeginUnitUpdate();
             UnitControl.TriggerUnitsChanged();
-            _playerChangedEventsStore.Raise(this);
+            NotifyEvent<StrategicMap>? handlers = PlayerChanged;
+            EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(PlayerChanged));
+            handlers?.Invoke(this);
             EndUnitUpdate();
         }
     }

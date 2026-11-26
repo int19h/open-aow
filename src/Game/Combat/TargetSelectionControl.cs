@@ -1,6 +1,5 @@
 #nullable disable warnings
 // Translated from AoWE.pas.
-using Aow.Engine;
 
 using Aow.Engine.Collections;
 
@@ -28,7 +27,6 @@ public sealed class TargetSelectionControl : IDisposable
     // change, target, text, title, cancel text, images
     public TargetSelectionControl()
     {
-        OnChangeStore = new();
         HexNumbers = [];
         Text = new DelphiStringList();
     }
@@ -50,15 +48,10 @@ public sealed class TargetSelectionControl : IDisposable
     public MapCoordinate SourceLocation { get; set; }
     public object? Source { get; set; }
 
-    internal EventStore<TargetSelectionControl> OnChangeStore { get; }
+    public event EventHandler<TargetSelectionChangedEventArgs>? Changed;
 
-    public event NotifyEvent<TargetSelectionControl> Changed
-    {
-        add => OnChangeStore.Add(value);
-        remove => OnChangeStore.Remove(value);
-    }
-
-    public TargetSelectionChange Change { get; private set; }
+    // CityTargetSpell refuses a second listener, as the original read the count of the change list.
+    internal int ChangedHandlerCount => Changed?.GetInvocationList().Length ?? 0;
     public MapCoordinate Target { get; private set; }
     public DelphiStringCollection Text { get; }
     public string Title { get; set; } = "";
@@ -71,7 +64,7 @@ public sealed class TargetSelectionControl : IDisposable
     // Structur.PAS:3793
     public void Dispose()
     {
-        OnChangeStore.Clear();
+        Changed = null;
         HexNumbers = null;
         if (ImageLibrary is not null)
         {
@@ -82,12 +75,7 @@ public sealed class TargetSelectionControl : IDisposable
     }
 
     // Structur.PAS:3809
-    public void TriggerOnChangeEvent(TargetSelectionChange change)
-    {
-        Change = change;
-        OnChangeStore.Raise(this);
-        Change = TargetSelectionChange.None;
-    }
+    public void TriggerOnChangeEvent(TargetSelectionChange change) => Changed?.Invoke(this, new TargetSelectionChangedEventArgs { Change = change });
 
     // Structur.PAS:3816
     public void DeselectHexSprite(object sender)
