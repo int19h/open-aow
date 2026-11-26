@@ -1644,19 +1644,11 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
 
     // Army.PAS:1565
     public int MaxSize()
-    {
-        int result = 8;
-        for (int i = 0, last = Units.Count - 1; i <= last; i++)
-        {
-            int capacity = Units[i].GetTransportCapacity();
-            if (capacity != 0 && result > capacity + 1)
-            {
-                result = capacity + 1;
-            }
-        }
-
-        return result;
-    }
+        => Units.Select(static troop => troop.GetTransportCapacity())
+            .Where(static capacity => capacity != 0)
+            .Select(static capacity => capacity + 1)
+            .Prepend(8)
+            .Min();
 
     // Army.PAS:1576
     public Hero? Hero(int selection, HeroTypes types)
@@ -1867,16 +1859,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:1739
     public AddUnitsResult CanAddUnits(UnitCollection units)
     {
-        int transportCount = 0;
-        int i = 0;
-        int last = units.Count - 1;
-        for (; i <= last; i += 1)
-        {
-            if (units.GetUnit(i).GetTransporter())
-            {
-                transportCount += 1;
-            }
-        }
+        int transportCount = units.Count(static troop => troop.GetTransporter());
 
         if (IndexOfTransporter(255) != -1)
         {
@@ -1889,7 +1872,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 Troop? transport = Transporter(255);
                 if (transport is null)
                 {
-                    i = 0;
+                    int i = 0;
                     int limit = units.Count - 1;
                     for (; i <= limit; i += 1)
                     {
@@ -1906,17 +1889,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             {
                 if (units.Count + Units.Count <= 8)
                 {
-                    i = 0;
                     // { Original repeats the list count test before testing each candidate. }
-                    if (i != units.Count)
-                    {
-                        while (i != units.Count && CanAddUnit(units.GetUnit(i)))
-                        {
-                            i += 1;
-                        }
-                    }
-
-                    return i != units.Count ? AddUnitsResult.InvalidMoveType : AddUnitsResult.Ok;
+                    return units.FindIndex(troop => !CanAddUnit(troop)) >= 0 ? AddUnitsResult.InvalidMoveType : AddUnitsResult.Ok;
                 }
                 else
                 {
@@ -1946,16 +1920,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             selection >>>= 1;
         }
 
-        int transportCount = 0;
-        i = 0;
-        int limit = list.Count - 1;
-        for (; i <= limit; i += 1)
-        {
-            if (list[i].GetTransporter())
-            {
-                transportCount += 1;
-            }
-        }
+        int transportCount = list.Count(static troop => troop.GetTransporter());
 
         if (IndexOfTransporter(255) != -1)
         {
@@ -1988,20 +1953,9 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             else
             {
                 int count = Units.Count;
-                if (list.Count + count <= 8)
-                {
-                    i = 0;
-                    while (i != list.Count && CanAddUnit(list[i]))
-                    {
-                        i += 1;
-                    }
-
-                    result = i != list.Count ? AddUnitsResult.InvalidMoveType : AddUnitsResult.Ok;
-                }
-                else
-                {
-                    result = AddUnitsResult.TooManyUnits;
-                }
+                result = list.Count + count <= 8
+                    ? list.FindIndex(troop => !CanAddUnit(troop)) >= 0 ? AddUnitsResult.InvalidMoveType : AddUnitsResult.Ok
+                    : AddUnitsResult.TooManyUnits;
             }
         }
         else
@@ -2530,23 +2484,12 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:2208
     public bool ValidateCrusaders()
     {
-        int i = Units.Count;
-        bool result = false;
-        while (i != 0 && !result)
-        {
-            i -= 1;
-            if (Units[i].GetAbilityEnabled(101))
-            {
-                result = true;
-            }
-        }
-
+        bool result = Units.FindLastIndex(static troop => troop.GetAbilityEnabled(101)) >= 0;
         if (result)
         {
             using (BeginUpdate())
             {
-                i = Units.Count - 1;
-                for (; i >= 0; i -= 1)
+                for (int i = Units.Count - 1; i >= 0; i -= 1)
                 {
                     if (Units[i].GetAbilityEnabled(101))
                     {
@@ -2675,7 +2618,12 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         if (PlayerIdExtensions.ToOriginal(player) > 0)
         {
             bool wantsJoin = false;
-            wantsJoin = Units.Reverse().Any(item => item.OfferToJoin(player));
+            int i = Units.Count;
+            while (!wantsJoin && i != 0)
+            {
+                i -= 1;
+                wantsJoin = Units[i].OfferToJoin(player);
+            }
             if (wantsJoin)
             {
                 return GetCanJoinSelection(player);

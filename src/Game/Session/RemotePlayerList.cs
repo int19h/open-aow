@@ -1,6 +1,8 @@
 // Translated from AoWSetup.pas.
 using Aow.Engine.Nodes;
 
+using Aow.Rtl;
+
 namespace Aow.Game.Session;
 
 public sealed class RemotePlayerList(CustomNode owner) : OwningNode(owner), IChildList<RemotePlayer>
@@ -17,20 +19,5 @@ public sealed class RemotePlayerList(CustomNode owner) : OwningNode(owner), IChi
     public RemotePlayer GetPlayers(int index) => this[index];
 
     // AoWSetup.pas:284
-    public int IndexOfRemoteId(int remoteId)
-    {
-        int result = -1;
-        int i = 0;
-        while (result == -1 && i != Count)
-        {
-            if (this[i].RemoteId == remoteId)
-            {
-                result = i;
-            }
-
-            i += 1;
-        }
-
-        return result;
-    }
+    public int IndexOfRemoteId(int remoteId) => this.FindIndex(remoteId, match: static (sought, player) => player.RemoteId == sought);
 }

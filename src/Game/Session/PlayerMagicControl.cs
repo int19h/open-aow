@@ -196,16 +196,7 @@ public sealed class PlayerMagicControl : EngineObject
 
     // Spells.PAS:1995
     public int GetManaUpkeep()
-    {
-        int result = 0;
-        for (int i = Enchantments.GetCount() - 1; i >= 0; i--)
-        {
-            result += Enchantments.GetEnchantments(i).Upkeep;
-        }
-
-        result += StrategicMap.Current.GlobalMagicControl.GetEnchantmentUpkeep(Player.PlayerIndex);
-        return result;
-    }
+        => Enchantments.Sum(static enchantment => enchantment.Upkeep) + StrategicMap.Current.GlobalMagicControl.GetEnchantmentUpkeep(Player.PlayerIndex);
 
     // Spells.PAS:2004
     public void SetMana(int value)
@@ -228,16 +219,7 @@ public sealed class PlayerMagicControl : EngineObject
     }
 
     // Spells.PAS:2015
-    public int GetPower()
-    {
-        int result = 0;
-        for (int i = PowerSources.GetCount() - 1; i >= 0; i--)
-        {
-            result += PowerSources.GetItems(i).Power();
-        }
-
-        return result;
-    }
+    public int GetPower() => PowerSources.Sum(static source => source.Power());
 
     // Spells.PAS:2023
     public void OutOfMana(int mana)
@@ -777,25 +759,11 @@ public sealed class PlayerMagicControl : EngineObject
     // Spells.PAS:2384
     public int AIRequestOverrideUpkeep(int priority)
     {
-        int result = 0;
-        for (int i = 0, last = Enchantments.GetCount() - 1; i <= last; i++)
-        {
-            if (priority >= Enchantments.GetEnchantments(i).AIUpkeepPriority)
-            {
-                result += Enchantments.GetEnchantments(i).Upkeep;
-            }
-        }
+        int result = Enchantments.Sum(enchantment => priority >= enchantment.AIUpkeepPriority ? enchantment.Upkeep : 0);
 
         // { Original bug: this estimate also counts global enchantments owned by other players. }
         GlobalMagicControl? globalControl = StrategicMap.Current.GlobalMagicControl;
-        for (int i = globalControl.Enchantments.GetCount() - 1; i >= 0; i--)
-        {
-            GlobalEnchantment enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i);
-            if (priority >= enchantment.GetAIUpkeepPriority())
-            {
-                result += enchantment.GetUpkeep();
-            }
-        }
+        result += globalControl.Enchantments.Sum(enchantment => priority >= enchantment.GetAIUpkeepPriority() ? enchantment.GetUpkeep() : 0);
 
         return result;
     }

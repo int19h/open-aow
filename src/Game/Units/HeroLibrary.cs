@@ -55,22 +55,15 @@ public sealed class HeroLibrary(CustomNode? owner) : Engine.Nodes.ReferenceNode(
     // Hero.PAS:2580
     public int CreateUniqueLibraryId()
     {
-        int i;
         do
         {
-            i = 0;
             _nextLibraryId += 1;
             if (_nextLibraryId > 268435455)
             {
                 _nextLibraryId = 0;
             }
-
-            while (i != Heroes.Count && Heroes[i].LibraryId != _nextLibraryId)
-            {
-                i += 1;
-            }
         }
-        while (!(i == Heroes.Count));
+        while (Heroes.FindIndex(_nextLibraryId, match: static (sought, hero) => hero.LibraryId == sought) >= 0);
         return _nextLibraryId;
     }
 

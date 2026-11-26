@@ -134,22 +134,15 @@ public sealed class ItemControl(CustomNode? owner) : EngineObject(owner)
     // Army.PAS:4754
     public int CreateUniqueId()
     {
-        int i;
         do
         {
-            i = 0;
             _lastId += 1;
             if (_lastId > 268435455)
             {
                 _lastId = 0;
             }
-
-            while (i != _items.Count && _items[i].ItemId != _lastId)
-            {
-                i += 1;
-            }
         }
-        while (!(i == _items.Count));
+        while (_items.FindIndex(item => item.ItemId == _lastId) >= 0);
         return _lastId;
     }
 

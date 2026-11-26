@@ -108,56 +108,11 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     public PlayerSetupSettings? GetSettings(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // AoWSetup.pas:366
-    public int IndexOfPlayer(PlayerId player)
-    {
-        int result = -1;
-        int i = 0;
-        while (result == -1 && i != Count)
-        {
-            if (this[i].PlayerId == player)
-            {
-                result = i;
-            }
-
-            i += 1;
-        }
-
-        return result;
-    }
+    public int IndexOfPlayer(PlayerId player) => this.FindIndex(player, match: static (sought, setting) => setting.PlayerId == sought);
 
     // AoWSetup.pas:378
-    public int IndexOfRemoteId(int remoteId)
-    {
-        int result = -1;
-        int i = 0;
-        while (result == -1 && i != Count)
-        {
-            if (this[i].Behavior.Flags == remoteId)
-            {
-                result = i;
-            }
-
-            i += 1;
-        }
-
-        return result;
-    }
+    public int IndexOfRemoteId(int remoteId) => this.FindIndex(remoteId, match: static (sought, setting) => setting.Behavior.Flags == sought);
 
     // AoWSetup.pas:390
-    public int IndexOfRace(int race)
-    {
-        int result = -1;
-        int i = 0;
-        while (result == -1 && i != Count)
-        {
-            if (race == (byte)this[i].Race)
-            {
-                result = i;
-            }
-
-            i += 1;
-        }
-
-        return result;
-    }
+    public int IndexOfRace(int race) => this.FindIndex(race, match: static (sought, setting) => sought == (byte)setting.Race);
 }

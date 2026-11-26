@@ -44,22 +44,8 @@ public sealed class HeroResourceList : ResourceCollection, IChildList<HeroResour
 
     // Hero.PAS:2382
     public int Find(int race, HeroType heroType)
-    {
-        int i = 0;
-        int result = -1;
-        while (i < Count && result == -1)
-        {
-            HeroResource resource = this[i];
-            if (resource is not null && race == resource.Race && heroType == resource.HeroType)
-            {
-                result = i;
-            }
-
-            i += 1;
-        }
-
-        return result;
-    }
+        => ((IReadOnlyList<HeroResource>)this).FindIndex((race, heroType), match: static (sought, resource) =>
+            resource is not null && sought.race == resource.Race && sought.heroType == resource.HeroType);
 
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => ((IEnumerable<HeroResource>)this).GetEnumerator();
 }

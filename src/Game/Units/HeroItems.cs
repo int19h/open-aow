@@ -177,66 +177,19 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
 
     // Hero.PAS:454
     public MoveTypes GetMoveTypes()
-    {
-        MoveTypes result = MoveTypes.None;
-        for (int i = 0, last = Items.Count - 1; i <= last; i++)
-        {
-            Item item = Items[i];
-            if (item is not null)
-            {
-                result |= item.GetAbilityMoveTypesAll();
-            }
-        }
-
-        return result;
-    }
+        => Items.Aggregate(MoveTypes.None, func: static (flags, item) => item is not null ? flags | item.GetAbilityMoveTypesAll() : flags);
 
     // Hero.PAS:465
     public DamageTypes GetImmunityTypes()
-    {
-        DamageTypes result = DamageTypes.None;
-        for (int i = 0, last = Items.Count - 1; i <= last; i++)
-        {
-            Item item = Items[i];
-            if (item is not null)
-            {
-                result |= item.GetAbilityImmunityTypesAll();
-            }
-        }
-
-        return result;
-    }
+        => Items.Aggregate(DamageTypes.None, func: static (flags, item) => item is not null ? flags | item.GetAbilityImmunityTypesAll() : flags);
 
     // Hero.PAS:476
     public DamageTypes GetProtectionTypes()
-    {
-        DamageTypes result = DamageTypes.None;
-        for (int i = 0, last = Items.Count - 1; i <= last; i++)
-        {
-            Item item = Items[i];
-            if (item is not null)
-            {
-                result |= item.GetAbilityProtectionTypesAll();
-            }
-        }
-
-        return result;
-    }
+        => Items.Aggregate(DamageTypes.None, func: static (flags, item) => item is not null ? flags | item.GetAbilityProtectionTypesAll() : flags);
 
     // Hero.PAS:487
     public int GetAbilityCount()
-    {
-        int result = 0;
-        foreach (Item item in Items)
-        {
-            if (item is not null && result < item.OwnAbilityCount)
-            {
-                result = item.OwnAbilityCount;
-            }
-        }
-
-        return result;
-    }
+        => Items.Select(static item => item is not null ? item.OwnAbilityCount : 0).Prepend(0).Max();
 
     // Hero.PAS:498
     public AbilityOwner? GetSuperlativeEnabledAbilityOwner(int abilityId)
