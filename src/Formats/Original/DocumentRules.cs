@@ -9,22 +9,7 @@ namespace Aow.Formats.Original;
 internal static class HexText
 {
     public static bool IsLowerHex(string text)
-    {
-        if (text.Length % 2 != 0)
-        {
-            return false;
-        }
-
-        foreach (char c in text)
-        {
-            if (c is not ((>= '0' and <= '9') or (>= 'a' and <= 'f')))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
+        => text.Length % 2 == 0 && text.All(static character => character is (>= '0' and <= '9') or (>= 'a' and <= 'f'));
 
     public static byte[] Decode(string text) => Convert.FromHexString(text);
 
@@ -178,10 +163,7 @@ internal sealed partial class StringsWithValuesCodec
 
         site.RequireText(text);
         JsonArray objects = new();
-        foreach (int item in node.Objects)
-        {
-            _ = objects.Add(new JsonInteger(item));
-        }
+        objects.Items.AddRange(node.Objects.Select(static item => new JsonInteger(item)));
         // The converter stores an array only when the block rule reproduces the bytes. A line that
         // holds CR, LF or NUL stays $text, the same choice Decode makes for the engine image.
         List<string>? canonical = node.RawText is null ? Lines(text) : null;
@@ -191,10 +173,7 @@ internal sealed partial class StringsWithValuesCodec
         }
 
         JsonArray array = new();
-        foreach (string line in canonical)
-        {
-            _ = array.Add(new JsonString(line));
-        }
+        array.Items.AddRange(canonical.Select(static line => new JsonString(line)));
 
         return new JsonObject().Add("lines", array).Add("objects", objects);
     }
@@ -1061,11 +1040,11 @@ internal sealed class ListCodec(PropertyCodec element, bool storesList) : Proper
         }
 
         ListNode node = new();
-        for (int i = 0; i < array.Items.Count; i++)
+        node.Items.AddRange(array.Items.Select((value, index) =>
         {
-            DocumentSite item = site.At(site.Path.Item(i), element: true);
-            node.Items.Add(element.ReadTree(array.Items[i], site: item) ?? throw item.Fail(Codes.MissingMember, message: "A list item stores one value.", at: array.Items[i]));
-        }
+            DocumentSite item = site.At(site.Path.Item(index), element: true);
+            return element.ReadTree(value, site: item) ?? throw item.Fail(Codes.MissingMember, message: "A list item stores one value.", at: value);
+        }));
         return node;
     }
 }

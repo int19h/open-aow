@@ -310,10 +310,7 @@ internal sealed partial class FixedArrayCodec(int width, bool signed, int count)
 
         List<long> numbers = Values(site.Context, value, site.Path, name: site.Property?.Name ?? "The value", refuseLong: false);
         ListNode node = new();
-        foreach (long number in numbers)
-        {
-            node.Items.Add(new IntegerNode(Width, Signed, value: number));
-        }
+        node.Items.AddRange(numbers.Select(number => new IntegerNode(Width, signed: Signed, value: number)));
 
         return node;
     }

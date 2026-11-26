@@ -415,15 +415,7 @@ internal partial class StringsCodec : PropertyCodec
         }
 
         string[] lines = text[..^2].Split("\r\n");
-        foreach (string line in lines)
-        {
-            if (line.AsSpan().IndexOfAny('\r', '\n', '\0') >= 0)
-            {
-                return null;
-            }
-        }
-
-        return [.. lines];
+        return lines.All(static line => line.AsSpan().IndexOfAny('\r', '\n', '\0') < 0) ? [.. lines] : null;
     }
 
     /// <summary>The line count of TStrings.SetTextStr: CR, LF or CR LF end a line, NUL ends the text.</summary>
@@ -460,11 +452,7 @@ internal partial class StringsCodec : PropertyCodec
         }
 
         JsonArray array = new();
-        foreach (string line in lines)
-        {
-            _ = array.Add(new JsonString(line));
-        }
-
+        array.Items.AddRange(lines.Select(static line => new JsonString(line)));
         return array;
     }
 
@@ -560,11 +548,7 @@ internal sealed partial class StringsWithValuesCodec : StringsCodec
         }
 
         JsonArray array = new();
-        foreach (string line in lines)
-        {
-            _ = array.Add(new JsonString(line));
-        }
-
+        array.Items.AddRange(lines.Select(static line => new JsonString(line)));
         return new JsonObject().Add("lines", array).Add("objects", objects);
     }
 

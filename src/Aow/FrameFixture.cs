@@ -424,13 +424,13 @@ internal sealed class FrameFixture
                     {
                         Player player = world.Players.GetPlayers(playerIndex);
                         players.Add(new { index = playerIndex, units = player.GetUnitCount(), gold = player.Gems });
-                        for (int index = 0; index < player.Structures.GetCount(); index++)
+                        cities.AddRange(player.Structures.OfType<City>().Select(city => (object)new
                         {
-                            if (player.Structures.GetStructure(index) is City city)
-                            {
-                                cities.Add(new { name = city.Name, player = playerIndex, wall = (byte)city.WallType, upgrade = (byte)city.UpgradeLevel });
-                            }
-                        }
+                            name = city.Name,
+                            player = playerIndex,
+                            wall = (byte)city.WallType,
+                            upgrade = (byte)city.UpgradeLevel
+                        }));
                     }
                     File.WriteAllText(Path.Combine(output, "world.json"), contents: JsonSerializer.Serialize(new
                     {

@@ -133,7 +133,7 @@ public sealed class FormatSchema
     {
         foreach (string candidate in Contexts(context))
         {
-            (string Rule, SchemaClass Shape)? found = Lookup(candidate, className);
+            (string Rule, SchemaClass Shape)? found = Lookup(candidate, className: className);
             if (found is not null)
             {
                 return found;
@@ -254,10 +254,7 @@ public sealed class SchemaClass
             Inherits = false;
             KeepsChildren = false;
             Engines = [];
-            foreach (JsonValue p in ((JsonArray)source["properties"]!).Items)
-            {
-                _own.Add(new SchemaProperty((JsonObject)p, owner: this, schema));
-            }
+            _own.AddRange(((JsonArray)source["properties"]!).Items.Select(item => new SchemaProperty((JsonObject)item, owner: this, schema: schema)));
 
             if (source["skippedIds"] is JsonArray shapeSkipped)
             {
@@ -275,10 +272,7 @@ public sealed class SchemaClass
         Mapping = source["mapping"] is JsonObject mapping ? new SchemaMapping(mapping) : null;
         if (source["properties"] is JsonArray props)
         {
-            foreach (JsonValue p in props.Items)
-            {
-                _own.Add(new SchemaProperty((JsonObject)p, owner: this, schema));
-            }
+            _own.AddRange(props.Items.Select(item => new SchemaProperty((JsonObject)item, owner: this, schema: schema)));
         }
         if (source["skippedIds"] is JsonArray skipped)
         {
@@ -424,12 +418,9 @@ public sealed class SchemaClass
             // Children come from the custom node's main visit even when the field visit skips the base.
             for (SchemaClass? c = Parent; c is not null; c = c.Parent)
             {
-                foreach (SchemaProperty p in c._own)
+                foreach (SchemaProperty property in c._own.Where(candidate => candidate.IsChildrenPhase && !children.Contains(candidate)))
                 {
-                    if (p.IsChildrenPhase && !children.Contains(p))
-                    {
-                        children.Add(p);
-                    }
+                    children.Add(property);
                 }
             }
         }

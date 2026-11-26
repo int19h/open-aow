@@ -142,10 +142,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
     {
         (List<long> items, long defense) = DecodeRuns(context, start, end, site);
         JsonArray array = new();
-        for (int i = 0; i < items.Count; i++)
-        {
-            _ = array.Add(Value(items[i], context, path: site.Path.Member("items").Item(i)));
-        }
+        array.Items.AddRange(items.Select((value, index) => Value(value, context: context, path: site.Path.Member("items").Item(index))));
 
         return new JsonObject().Add("default", Value(defense, context, path: site.Path.Member("default"))).Add("items", array);
     }
@@ -273,10 +270,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
         }
 
         List<long> items = [with(array.Items.Count)];
-        for (int i = 0; i < array.Items.Count; i++)
-        {
-            items.Add(Item(array.Items[i], p: site.Path.Member("items").Item(i)));
-        }
+        items.AddRange(array.Items.Select((value, index) => Item(value, p: site.Path.Member("items").Item(index))));
 
         EncodeRuns(defense, items, data);
     }
@@ -452,10 +446,7 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
                     at: group, path: at, value: Text(group.Items.Count), constraint: $"at most {room} values");
             }
 
-            for (int k = 0; k < group.Items.Count; k++)
-            {
-                items.Add(Integer(group.Items[k], at: at.Item(k)));
-            }
+            items.AddRange(group.Items.Select((value, index) => Integer(value, at: at.Item(index))));
 
             for (long k = group.Items.Count; k < room; k++)
             {
@@ -526,10 +517,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
         }
 
         JsonArray bits = new();
-        foreach (int index in node.Indices)
-        {
-            _ = bits.Add(new JsonInteger(index));
-        }
+        bits.Items.AddRange(node.Indices.Select(static index => new JsonInteger(index)));
 
         return new JsonObject().Add("default", RawBooleanCodec.Value(node.Default)).Add("count", new JsonInteger(node.Count)).Add("bits", bits);
     }
@@ -613,10 +601,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
         }
 
         JsonArray bits = new();
-        foreach (int index in set)
-        {
-            _ = bits.Add(new JsonInteger(index));
-        }
+        bits.Items.AddRange(set.Select(static index => new JsonInteger(index)));
 
         return new JsonObject().Add("default", RawBooleanCodec.Value(defaultValue)).Add("count", new JsonInteger(count)).Add("bits", bits);
     }

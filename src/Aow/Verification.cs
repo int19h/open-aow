@@ -462,10 +462,8 @@ internal static class Verification
                 .Append(Path.Combine(sourceRoot, "Engine.pas"));
             foreach (string path in sourceFiles)
             {
-                foreach (Match match in Regex.Matches(Cp1252.Decode(File.ReadAllBytes(path)), pattern: "'([^'\\r\\n]*\\\\[^'\\r\\n]*)'"))
-                {
-                    _ = candidates.Add(match.Groups[1].Value);
-                }
+                candidates.UnionWith(Regex.Matches(Cp1252.Decode(File.ReadAllBytes(path)), pattern: "'([^'\\r\\n]*\\\\[^'\\r\\n]*)'")
+                    .Select(static match => match.Groups[1].Value));
             }
 
             int literals = 0;

@@ -124,18 +124,12 @@ public static partial class Fixtures
         if (items.Length > 0)
         {
             JsonObject queue = FirstQueue(Root(document)) ?? throw new InvalidOperationException("The save has no production queue.");
-            foreach (JsonObject item in items)
-            {
-                _ = Arr(queue["Children"]).Add(item);
-            }
+            Arr(queue["Children"]).Items.AddRange(items);
         }
         if (actions.Length > 0)
         {
             JsonObject player = Object(Arr(Object(Root(document)["Players"])["Children"]).Items[1]);
-            foreach (JsonObject action in actions)
-            {
-                _ = Arr(Object(player["DiplomaticActions"])["Children"]).Add(action);
-            }
+            Arr(Object(player["DiplomaticActions"])["Children"]).Items.AddRange(actions);
         }
         return document;
     }
@@ -150,25 +144,9 @@ public static partial class Fixtures
                     return queue;
                 }
 
-                foreach (JsonMember m in objectValue.Members)
-                {
-                    if (FirstQueue(m.Value) is { } found)
-                    {
-                        return found;
-                    }
-                }
-
-                break;
+                return objectValue.Members.Select(static member => FirstQueue(member.Value)).FirstOrDefault(static found => found is not null);
             case JsonArray array:
-                foreach (JsonValue item in array.Items)
-                {
-                    if (FirstQueue(item) is { } found)
-                    {
-                        return found;
-                    }
-                }
-
-                break;
+                return array.Items.Select(FirstQueue).FirstOrDefault(static found => found is not null);
             default:
                 break;
         }
