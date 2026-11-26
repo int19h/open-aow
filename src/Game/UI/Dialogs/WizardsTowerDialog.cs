@@ -9,7 +9,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 
@@ -40,7 +39,7 @@ public sealed partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
 
         _ = (eventValue?.Release());
 
-        StrategicMap.Current.TutorialControl.ShowMessage(69, immediate: true, onceOnly: true);
+        UI.Engine.StrategicMap.TutorialControl.ShowMessage(69, immediate: true, onceOnly: true);
     }
 
     // AoWWizardsTowerDlg.pas:67
@@ -54,9 +53,9 @@ public sealed partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
     public void BuyBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (!_event.Tower.Buy(StrategicMap.Current.SeatedPlayer, out string reason))
+        if (!_event.Tower.Buy(UI.Engine.StrategicMap.SeatedPlayer, out string reason))
         {
-            StrategicMap.Current.ShowWarning(reason);
+            UI.Engine.StrategicMap.ShowWarning(reason);
         }
         else
         {
@@ -73,7 +72,7 @@ public sealed partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
         WizardsTower wizardsTower = _event.Tower;
         if (wizardsTower.SpellId != 0)
         {
-            Spell? s = GamePack.Current.SpellControl[wizardsTower.SpellId];
+            Spell? s = UI.Engine.GamePack.SpellControl[wizardsTower.SpellId];
             if (s is not null)
             {
                 if (s.CastImages.GetImageSequence(10) is not null)
@@ -106,7 +105,7 @@ public sealed partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
             int buyCost = dialog._event.Tower.BuyCost();
             string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.ForGoldFormat), arguments: [buyCost.ToString(CultureInfo.InvariantCulture)]);
             dialog.PriceLabel.Text = $"{format}.";
-            Spell? spell = GamePack.Current.SpellControl[tower.SpellId];
+            Spell? spell = dialog.UI.Engine.GamePack.SpellControl[tower.SpellId];
             dialog.SpellNameLabel.Text = spell.SpellName;
             string magicSphere = dialog.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
             string level = dialog.UI.Engine.TranslateResourceString(GameText.LevelText);

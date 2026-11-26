@@ -29,20 +29,23 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     // AoWPInfoWin.pas:173
     public void UpdatePlayer()
     {
-        if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) > -1)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (PlayerIdExtensions.ToOriginal(strategicMap.SeatedPlayer) > -1)
         {
-            string name = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetName();
+            string name = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).GetName();
             UI.PlayerInfoWindow.PlayerLabel.Text = name;
-            if (StrategicMap.Current.SeatedPlayer != PlayerId.Independent)
+            StrategicMap engineStrategicMap = UI.Engine.StrategicMap;
+            if (engineStrategicMap.SeatedPlayer != PlayerId.Independent)
             {
-                Player? player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+                Player? player = engineStrategicMap.Players.GetPlayers(engineStrategicMap.SeatedPlayer);
                 string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
                 UI.PlayerInfoWindow.RaceLabel.Text = raceNamesPlural;
             }
 
             string day = UI.Engine.TranslateResourceString(GameText.DayText);
-            UI.PlayerInfoWindow.TurnLabel.Text = $"{day} {StrategicMap.Current.Day.ToString(CultureInfo.InvariantCulture)}";
-            int raceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
+            StrategicMap toStringStrategicMap = UI.Engine.StrategicMap;
+            UI.PlayerInfoWindow.TurnLabel.Text = $"{day} {toStringStrategicMap.Day.ToString(CultureInfo.InvariantCulture)}";
+            int raceIndex = toStringStrategicMap.Players.GetPlayers(toStringStrategicMap.SeatedPlayer).PlayerRace;
             if (raceIndex == -1)
             {
                 raceIndex = 12;
@@ -57,9 +60,10 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     public void UpdateEvents()
     {
         EventList.Items.Clear();
-        if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) > -1)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (PlayerIdExtensions.ToOriginal(strategicMap.SeatedPlayer) > -1)
         {
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.ListEvents(EventList.Items);
+            strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).EventLogbook.ListEvents(EventList.Items);
         }
 
         int count = EventList.Items.Count;
@@ -77,7 +81,8 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     public void EventListDoubleClick()
     {
         object? objectValue = EventList.Items.Objects[EventList.Selected];
-        _ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].Execute(true, trigger: ExecuteTrigger.User, done: null);
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        _ = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].Execute(true, trigger: ExecuteTrigger.User, done: null);
     }
 
     // AoWPInfoWin.pas:78
@@ -86,7 +91,8 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
         if (drawItem != EventList.Selected)
         {
             object? objectValue = EventList.Items.Objects[drawItem];
-            Color textColor = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].GetTextColor();
+            StrategicMap strategicMap = UI.Engine.StrategicMap;
+            Color textColor = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].GetTextColor();
             EventList.TextColor = textColor;
         }
     }
@@ -95,11 +101,14 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     public void EventListDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
         object? objectValue = EventList.Items.Objects[drawItem];
-        int leftIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].LeftIcon;
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        int leftIcon = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].LeftIcon;
         object? objectValue2 = EventList.Items.Objects[drawItem];
-        int middleIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue2)].MiddleIcon;
+        StrategicMap engineStrategicMap = UI.Engine.StrategicMap;
+        int middleIcon = engineStrategicMap.Players.GetPlayers(engineStrategicMap.SeatedPlayer).EventLogbook[ObjectToInt(objectValue2)].MiddleIcon;
         object? objectValue3 = EventList.Items.Objects[drawItem];
-        int rightIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue3)].RightIcon;
+        StrategicMap getPlayersStrategicMap = UI.Engine.StrategicMap;
+        int rightIcon = getPlayersStrategicMap.Players.GetPlayers(getPlayersStrategicMap.SeatedPlayer).EventLogbook[ObjectToInt(objectValue3)].RightIcon;
         if (leftIcon > -1)
         {
             if (middleIcon == -1)
@@ -137,7 +146,8 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
         if (EventList.Selected > -1 && button == MouseButton.Right)
         {
             object? objectValue = EventList.Items.Objects[EventList.Selected];
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].ViewLocation();
+            StrategicMap strategicMap = UI.Engine.StrategicMap;
+            strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].ViewLocation();
         }
     }
 
@@ -145,13 +155,14 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     public void CenterButtonClick()
     {
         UI.General.PlayButtonSound(0);
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader is not null)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).Leader is not null)
         {
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out int x, out int y, out int l);
+            strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).GetLeaderLocation(out int x, out int y, out int l);
             if (x > -1)
             {
-                StrategicMap.Current.CenterViewTo(x, y, l);
-                StrategicMap.Current.PlayCenterAnimation(x, y, l);
+                strategicMap.CenterViewTo(x, y, l);
+                UI.Engine.StrategicMap.PlayCenterAnimation(x, y, l);
             }
         }
     }
@@ -162,22 +173,24 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     // AoWPInfoWin.pas:137
     public void FaceFrDraw(LockedSurface lockedSurface)
     {
-        if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) > -1)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (PlayerIdExtensions.ToOriginal(strategicMap.SeatedPlayer) > -1)
         {
             Rect r = new(FaceFrame.AbsoluteLeft + 3, FaceFrame.AbsoluteTop + 3, FaceFrame.AbsoluteLeft + FaceFrame.WinWidth - 3, FaceFrame.AbsoluteTop + FaceFrame.WinHeight - 3);
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFace()?.ShowStretched(r, lockedSurface);
+            strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).GetFace()?.ShowStretched(r, lockedSurface);
         }
     }
 
     // AoWPInfoWin.pas:149
     public void FaceFrMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader is not null)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).Leader is not null)
         {
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out int hexX, out _, L: out _);
+            strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).GetLeaderLocation(out int hexX, out _, L: out _);
             if (hexX > -1)
             {
-                Player? player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+                Player? player = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer);
                 UI.General.SelectedUnit = player.Leader;
                 switch (button)
                 {

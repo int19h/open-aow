@@ -2,7 +2,6 @@
 using Aow.Game.Audio;
 using Aow.Game.Host;
 using Aow.Game.Saves;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
@@ -74,7 +73,7 @@ public sealed partial class TitleScene
                     break;
                 case 2:
                     LoadGame(UI.General, fileName: FileBoundary.ReadName($"{UI.Engine.StartupDirectory}Scenario\\Custom\\TUTORIAL.HSM"));
-                    if (StrategicMap.Current is { } map)
+                    if (UI.Engine.StrategicMap is { } map)
                     {
                         map.FixedLeaders = true;
                         StartGame(UI.General);

@@ -7,7 +7,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 
@@ -110,7 +109,7 @@ public sealed partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
             string reason = "";
             if (!_joinEvent.Accept(ref reason))
             {
-                StrategicMap.Current.ShowWarning(reason);
+                UI.Engine.StrategicMap.ShowWarning(reason);
             }
             else
             {
@@ -128,7 +127,7 @@ public sealed partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
             string reason = "";
             if (!_joinEvent.Reject(ref reason))
             {
-                StrategicMap.Current.ShowWarning(reason);
+                UI.Engine.StrategicMap.ShowWarning(reason);
             }
             else
             {
@@ -232,7 +231,7 @@ public sealed partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
         if (dialog.ValidateJoin())
         {
             dialog._units.Clear();
-            dialog._faceUnit = StrategicMap.Current.UnitControl.FindUnit(dialog._joinEvent.FirstUnitId);
+            dialog._faceUnit = dialog.UI.Engine.StrategicMap.UnitControl.FindUnit(dialog._joinEvent.FirstUnitId);
             dialog._selection = dialog._joinEvent.ListJoinUnits(dialog._units);
             string text = dialog._joinEvent.JoinMessage.Text;
             dialog.JoinMemo.Items.Text = text;
@@ -253,7 +252,7 @@ public sealed partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
         string cancel = dialog.UI.Engine.TranslateResourceString(GameText.CancelText);
         dialog.RightButton.Text = cancel;
         UpdatePartyJoin(dialog);
-        StrategicMap.Current.TutorialControl.ShowMessage(70, immediate: true, onceOnly: true);
+        dialog.UI.Engine.StrategicMap.TutorialControl.ShowMessage(70, immediate: true, onceOnly: true);
     }
 
     internal static void ShowPrisonersJoin(PartyJoinDialog dialog, PrisonersJoinEventLog eventValue, ExecuteDoneEvent done)

@@ -35,8 +35,8 @@ public sealed partial class CombatMapEvents
             }
         }
 
-        UI.MapWindow.MapViewer.HexSpriteMap = CombatMap.Current;
-        UI.CombatScanner.Scanner.SetMap(CombatMap.Current);
+        UI.MapWindow.MapViewer.HexSpriteMap = UI.Engine.CombatMap;
+        UI.CombatScanner.Scanner.SetMap(UI.Engine.CombatMap);
         UI.CombatScanner.Scanner.PreviousWidth = 0;
         UI.CombatScanner.Scanner.Incremental = false;
         UI.CombatScanner.Scanner.Sized = false;
@@ -44,9 +44,10 @@ public sealed partial class CombatMapEvents
 
         UI.MapWindow.MainWindow.Visible = true;
         UI.General.HideWindows();
-        CombatMap.Current = StrategicMap.Current.CombatMap;
-        UI.Engine.CombatMap = StrategicMap.Current.CombatMap;
-        UI.MapWindow.MainWindow.Visible = CombatMap.Current.PlaySounds;
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        CombatMap.Current = strategicMap.CombatMap;
+        UI.Engine.CombatMap = strategicMap.CombatMap;
+        UI.MapWindow.MainWindow.Visible = UI.Engine.CombatMap.PlaySounds;
         UI.MapWindow.WorldAlignWidth = UI.MapWindow.MainWindow.Alignment.AlignWidth;
         UI.MapWindow.WorldAlignHeight = UI.MapWindow.MainWindow.Alignment.AlignHeight;
         Rect worldRectangle = UI.MapWindow.WorldRectangle;
@@ -97,10 +98,11 @@ public sealed partial class CombatMapEvents
         UI.TaskBar.CombatChatButton.Visible = UI.TaskBar.ChatButton.Visible;
         UI.TaskBar.CombatUnitButton.Visible = false;
         UI.TaskBar.TaskWindow.IsDrawn = false;
-        UI.CombatScanner.CombatScannerWindow.Visible = CombatMap.Current.PlaySounds;
-        UI.TaskBar.CombatScannerButton.Visible = CombatMap.Current.PlaySounds;
+        UI.CombatScanner.CombatScannerWindow.Visible = UI.Engine.CombatMap.PlaySounds;
+        UI.TaskBar.CombatScannerButton.Visible = UI.Engine.CombatMap.PlaySounds;
         UI.CombatUnitInfo.MainWindow.Visible = false;
-        if (!CombatMap.Current.PlaySounds)
+        CombatMap combatMap = UI.Engine.CombatMap;
+        if (!combatMap.PlaySounds)
         {
             _chatHeight = UI.ChatWindow.MainWindow.WinHeight;
             UI.ChatWindow.MainWindow.Alignment.AlignHeight = AlignHeight.Both;
@@ -110,7 +112,7 @@ public sealed partial class CombatMapEvents
             _chatHeight = 0;
         }
 
-        if (UI.General.ChatVisible || !CombatMap.Current.PlaySounds)
+        if (UI.General.ChatVisible || !combatMap.PlaySounds)
         {
             UI.ChatWindow.MainWindow.Visible = true;
         }

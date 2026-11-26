@@ -1135,7 +1135,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         if (Campaign.RaceHistory.Count > 0)
         {
             int raceHistory = Campaign.RaceHistory[0];
-            GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(r, lockedSurface: surface);
+            UI.Engine.GamePack.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(r, lockedSurface: surface);
         }
     }
 
@@ -1146,7 +1146,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         if (Campaign.RaceHistory.Count > 1)
         {
             int raceHistory = Campaign.RaceHistory[1];
-            GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(r, lockedSurface: surface);
+            UI.Engine.GamePack.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(r, lockedSurface: surface);
         }
     }
 
@@ -1157,7 +1157,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         if (Campaign.RaceHistory.Count > 2)
         {
             int raceHistory = Campaign.RaceHistory[2];
-            GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(r, lockedSurface: surface);
+            UI.Engine.GamePack.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(r, lockedSurface: surface);
         }
     }
 

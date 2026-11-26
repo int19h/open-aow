@@ -5,7 +5,6 @@ using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 using Aow.Graphics;
 using Aow.Rtl;
 
@@ -66,11 +65,11 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
     {
         if (UI.General.CombatUnit is not null)
         {
-            bool condition = UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints > 0 && drawItem < UI.General.CombatUnit.CombatAbilityCount;
+            bool condition = UI.General.CombatUnit.Unit.GetPlayer() == UI.Engine.CombatMap.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints > 0 && drawItem < UI.General.CombatUnit.CombatAbilityCount;
             if (condition)
             {
                 CombatAbilityRef ability = UI.General.CombatUnit.Abilities[drawItem];
-                CombatMode combatMode = GamePack.Current.AbilityControl[ability.Ability].GetCombatMode(UI.General.CombatUnit.Unit.Troop);
+                CombatMode combatMode = UI.Engine.GamePack.AbilityControl[ability.Ability].GetCombatMode(UI.General.CombatUnit.Unit.Troop);
                 bool test = combatMode is not (>= CombatMode.ShortRange and <= CombatMode.LongRange) && UI.General.CombatUnit.Abilities[drawItem].Ability != 52;
                 if (!test)
                 {
@@ -113,7 +112,7 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
                 if (button == MouseButton.Right && UI.General.CombatUnit is not null)
                 {
                     object? objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
-                    Ability? ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+                    Ability? ability = UI.Engine.GamePack.AbilityControl[ObjectToInt(objectValue)];
                     if (ability is not null)
                     {
                         InfoBanner.SetInfoBanner(caption: ability.GetName(UI.General.CombatUnit.Unit.Troop), banner: UI.InfoBanner, description: ability.Description);
@@ -128,10 +127,10 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
     {
         if (UI.General.CombatUnit is not null)
         {
-            if (UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints != 0 && UnitAbilityList.HoverItem < UI.General.CombatUnit.CombatAbilityCount)
+            if (UI.General.CombatUnit.Unit.GetPlayer() == UI.Engine.CombatMap.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints != 0 && UnitAbilityList.HoverItem < UI.General.CombatUnit.CombatAbilityCount)
             {
                 CombatAbilityRef ability = UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem];
-                CombatMode combatMode = GamePack.Current.AbilityControl[ability.Ability].GetCombatMode(UI.General.CombatUnit.Unit.Troop);
+                CombatMode combatMode = UI.Engine.GamePack.AbilityControl[ability.Ability].GetCombatMode(UI.General.CombatUnit.Unit.Troop);
                 if (combatMode is not (>= CombatMode.ShortRange and <= CombatMode.LongRange) && UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem].Ability != 52)
                 {
                     return;
@@ -162,11 +161,11 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
         int hexLevel = UI.General.CombatUnit.HexLevel;
         int hexY = UI.General.CombatUnit.HexY;
         int hexX = UI.General.CombatUnit.HexX;
-        CombatMap.Current.CenterViewTo(hexX, hexY, hexLevel);
+        UI.Engine.CombatMap.CenterViewTo(hexX, hexY, hexLevel);
         int fCombatUnitHexLevel = UI.General.CombatUnit.HexLevel;
         int fCombatUnitHexY = UI.General.CombatUnit.HexY;
         int fCombatUnitHexX = UI.General.CombatUnit.HexX;
-        CombatMap.Current.PlayCenterAnimation(fCombatUnitHexX, fCombatUnitHexY, L: fCombatUnitHexLevel);
+        UI.Engine.CombatMap.PlayCenterAnimation(fCombatUnitHexX, fCombatUnitHexY, L: fCombatUnitHexLevel);
     }
 
     // AoWTCUnit.pas:195

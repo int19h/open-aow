@@ -6,7 +6,6 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
@@ -24,7 +23,7 @@ public sealed partial class CosmagicSurgeryDialog(UIContext ui) : UIModule(ui)
     {
         _caster = caster;
         _ = _caster.AddRef();
-        Troop? u = StrategicMap.Current.UnitControl.FindUnit(_caster.TargetUnitId);
+        Troop? u = UI.Engine.StrategicMap.UnitControl.FindUnit(_caster.TargetUnitId);
         if (u is not null)
         {
             string name = u.GetName();
@@ -63,7 +62,7 @@ public sealed partial class CosmagicSurgeryDialog(UIContext ui) : UIModule(ui)
         }
         else
         {
-            StrategicMap.Current.ShowMessage(reason);
+            UI.Engine.StrategicMap.ShowMessage(reason);
         }
     }
 
@@ -74,19 +73,19 @@ public sealed partial class CosmagicSurgeryDialog(UIContext ui) : UIModule(ui)
         while (offset < 0)
         {
             offset += 1;
-            face = GamePack.Current.FaceResources.PreviousFace(face);
+            face = UI.Engine.GamePack.FaceResources.PreviousFace(face);
         }
 
         while (offset > 0)
         {
             offset -= 1;
-            face = GamePack.Current.FaceResources.NextFace(face);
+            face = UI.Engine.GamePack.FaceResources.NextFace(face);
         }
 
         Rect r = new(Window.WinLeft + sender.WinLeft + 2, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth - 2, Window.WinTop + sender.WinTop + sender.WinHeight - 2);
         if (face != -1)
         {
-            FaceResource? resource = GamePack.Current.FaceResources.GetFaceResource(face);
+            FaceResource? resource = UI.Engine.GamePack.FaceResources.GetFaceResource(face);
             _ = resource.AddRef();
             resource.FaceImage.ShowStretched(r, lockedSurface);
             _ = resource.Release();
@@ -97,7 +96,7 @@ public sealed partial class CosmagicSurgeryDialog(UIContext ui) : UIModule(ui)
     public void PrevFaceBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        int previousFace = GamePack.Current.FaceResources.PreviousFace(_caster.FaceIndex);
+        int previousFace = UI.Engine.GamePack.FaceResources.PreviousFace(_caster.FaceIndex);
         _caster.FaceIndex = previousFace;
         Window.IsDrawn = false;
     }
@@ -106,7 +105,7 @@ public sealed partial class CosmagicSurgeryDialog(UIContext ui) : UIModule(ui)
     public void NextFaceBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        int nextFace = GamePack.Current.FaceResources.NextFace(_caster.FaceIndex);
+        int nextFace = UI.Engine.GamePack.FaceResources.NextFace(_caster.FaceIndex);
         _caster.FaceIndex = nextFace;
         Window.IsDrawn = false;
     }

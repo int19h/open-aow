@@ -99,7 +99,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     public void Snapshot(string name, UIContext ui)
     {
-        if (StrategicMap.Current is not { } map)
+        if (ui.Engine.StrategicMap is not { } map)
         {
             return;
         }

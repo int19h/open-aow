@@ -8,7 +8,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
@@ -111,7 +110,7 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
             string reason = "";
             if (!_joinEvent.Accept(ref reason))
             {
-                StrategicMap.Current.ShowWarning(reason);
+                UI.Engine.StrategicMap.ShowWarning(reason);
             }
             else
             {
@@ -129,7 +128,7 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
             string reason = "";
             if (!_joinEvent.Reject(ref reason))
             {
-                StrategicMap.Current.ShowWarning(reason);
+                UI.Engine.StrategicMap.ShowWarning(reason);
             }
             else
             {
@@ -214,7 +213,7 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
         if (dialog.ValidateJoin())
         {
             dialog._units.Clear();
-            dialog._faceUnit = StrategicMap.Current.UnitControl.FindUnit<Hero>(dialog._joinEvent.FirstUnitId);
+            dialog._faceUnit = dialog.UI.Engine.StrategicMap.UnitControl.FindUnit<Hero>(dialog._joinEvent.FirstUnitId);
             dialog._selection = dialog._joinEvent.ListJoinUnits(dialog._units);
             int level = dialog._faceUnit.GetLevel();
             string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [level.ToString(CultureInfo.InvariantCulture)]);

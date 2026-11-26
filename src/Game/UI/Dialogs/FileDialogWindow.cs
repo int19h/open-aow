@@ -95,9 +95,10 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
             if (!UI.Engine.Demo)
             {
                 // A refused campaign keeps the current map, which is not started again.
-                StrategicMap? previous = StrategicMap.Current;
+                StrategicMap? previous = UI.Engine.StrategicMap;
                 LoadCampaign(UI.General, name);
-                if (StrategicMap.Current is not null && StrategicMap.Current != previous)
+                StrategicMap strategicMap = UI.Engine.StrategicMap;
+                if (strategicMap is not null && strategicMap != previous)
                 {
                     General.StartGame(UI.General);
                 }
@@ -115,7 +116,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                     if (map.ConnectionType != PlayerConnectionType.Network)
                     {
                         General.LoadGame(UI.General, name);
-                        if (StrategicMap.Current is not null)
+                        if (UI.Engine.StrategicMap is not null)
                         {
                             General.StartGame(UI.General);
                         }
@@ -309,9 +310,10 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 case 0:
                     if (!IsEmpty(SaveFileNameEdit.Text) && RtlHost.Files.FileExists(SaveFileNameEdit.Text))
                     {
-                        if (StrategicMap.Current is not null)
+                        StrategicMap strategicMap = UI.Engine.StrategicMap;
+                        if (strategicMap is not null)
                         {
-                            if (StrategicMap.Current.CombatMap is not null)
+                            if (strategicMap.CombatMap is not null)
                             {
                                 UI.General.ReturnToTitle();
                             }
@@ -321,28 +323,29 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                                 {
                                     if (CompareText(UI.Engine.Campaign.FileName, Directory + SaveFileNameEdit.Text) == 0)
                                     {
-                                        StrategicMap.Current.ExitGame(ExitGameMode.Reload, done: ExitForLoad);
+                                        UI.Engine.StrategicMap.ExitGame(ExitGameMode.Reload, done: ExitForLoad);
                                     }
                                     else
                                     {
-                                        StrategicMap.Current.ExitGame(ExitGameMode.Load, done: ExitForLoad);
+                                        UI.Engine.StrategicMap.ExitGame(ExitGameMode.Load, done: ExitForLoad);
                                     }
                                 }
                                 else
                                 {
-                                    if (CompareText(StrategicMap.Current.FileName, Directory + SaveFileNameEdit.Text) == 0)
+                                    if (CompareText(UI.Engine.StrategicMap.FileName, Directory + SaveFileNameEdit.Text) == 0)
                                     {
-                                        StrategicMap.Current.ExitGame(ExitGameMode.Reload, done: ExitForLoad);
+                                        UI.Engine.StrategicMap.ExitGame(ExitGameMode.Reload, done: ExitForLoad);
                                     }
                                     else
                                     {
-                                        StrategicMap.Current.ExitGame(ExitGameMode.Load, done: ExitForLoad);
+                                        UI.Engine.StrategicMap.ExitGame(ExitGameMode.Load, done: ExitForLoad);
                                     }
                                 }
                             }
                         }
 
-                        if (StrategicMap.Current is null || StrategicMap.Current.ExitPending)
+                        StrategicMap engineStrategicMap = UI.Engine.StrategicMap;
+                        if (engineStrategicMap is null || engineStrategicMap.ExitPending)
                         {
                             Window.Visible = false;
                             LoadSelectedGame(path + SaveFileNameEdit.Text);
@@ -767,7 +770,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
             return;
         }
 
-        if (StrategicMap.Current is not null)
+        if (controller.UI.Engine.StrategicMap is not null)
         {
             controller.UI.Engine.CloseHsm(null);
         }
@@ -808,11 +811,11 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         });
     }
 
-    private static void SaveGame(string name) => StrategicMap.Current.SaveGame(name);
+    private void SaveGame(string name) => UI.Engine.StrategicMap.SaveGame(name);
 
-    private static void SaveCampaign(string name)
+    private void SaveCampaign(string name)
         // { Original campaign-save command uses the map save routine. }
-        => StrategicMap.Current.SaveGame(name);
+        => UI.Engine.StrategicMap.SaveGame(name);
 
     private static void PickScenarioMap(ScenarioSetup dialog, string name)
     {

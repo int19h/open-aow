@@ -4,7 +4,6 @@ using Aow.Game.Events;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -51,7 +50,7 @@ public sealed partial class MessageReceiveDialog(UIContext ui) : UIModule(ui)
         dialog.HeaderMemo.Items.Text = text;
         string fMessageText = eventValue.Message.Text;
         dialog.MessageMemo.Items.Text = fMessageText;
-        Player? player = StrategicMap.Current.Players.GetPlayers(eventValue.Player);
+        Player? player = dialog.UI.Engine.StrategicMap.Players.GetPlayers(eventValue.Player);
         dialog.LeftShield.CurrentImage = player.PlayerRace + 13;
         dialog.RightShield.CurrentImage = dialog.LeftShield.CurrentImage;
         dialog.Window.Visible = true;

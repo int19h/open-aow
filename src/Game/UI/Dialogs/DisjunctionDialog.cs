@@ -44,23 +44,24 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
     public void UpdateEnchantments()
     {
         string reason = "";
-        GlobalMagicControl? magic = StrategicMap.Current.GlobalMagicControl;
+        GlobalMagicControl? magic = UI.Engine.StrategicMap.GlobalMagicControl;
         EnchantmentList.Items.Clear();
         OwnerList.Items.Clear();
         for (int i = 0, last = magic.Enchantments.Count - 1; i <= last; i++)
         {
-            if (magic.Enchantments.GetEnchantments(i).PlayerIndex != StrategicMap.Current.SeatedPlayer)
+            StrategicMap strategicMap = UI.Engine.StrategicMap;
+            if (magic.Enchantments.GetEnchantments(i).PlayerIndex != strategicMap.SeatedPlayer)
             {
-                if (magic.Enchantments.GetEnchantments(i).VisibleForPlayer(StrategicMap.Current.SeatedPlayer))
+                if (magic.Enchantments.GetEnchantments(i).VisibleForPlayer(strategicMap.SeatedPlayer))
                 {
-                    if (magic.Enchantments.GetEnchantments(i).CanDispel(StrategicMap.Current.SeatedPlayer, ref reason))
+                    if (magic.Enchantments.GetEnchantments(i).CanDispel(UI.Engine.StrategicMap.SeatedPlayer, ref reason))
                     {
                         reason = magic.Enchantments.GetEnchantments(i).GetName();
                         string name = magic.Enchantments.GetEnchantments(i).GetName();
                         GlobalEnchantment enchantmentEnchantmentId = magic.Enchantments.GetEnchantments(i);
                         _ = EnchantmentList.Items.AddObject(name, item: IntToObject(enchantmentEnchantmentId.EnchantmentId));
                         GlobalEnchantment enchantmentPlayerIndex = magic.Enchantments.GetEnchantments(i);
-                        Player? player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
+                        Player? player = UI.Engine.StrategicMap.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
                         _ = OwnerList.Items.Add(player.Leader.HeroName);
                     }
                 }
@@ -98,9 +99,9 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
     {
         DisjunctionManaLabel.TextColor = _caster.GetEnoughMana() ? Color.Silver : Color.Red;
 
-        Spell? spell = GamePack.Current.SpellControl[51];
+        Spell? spell = UI.Engine.GamePack.SpellControl[51];
         int mana = _caster.GetMana();
-        Spell? fSpellControlSpell = GamePack.Current.SpellControl[51];
+        Spell? fSpellControlSpell = UI.Engine.GamePack.SpellControl[51];
         int fCasterMana = _caster.GetMana();
         DisjunctionManaLabel.Text = $"{spell.BaseManaCost.ToString(CultureInfo.InvariantCulture)}+{mana.ToString(CultureInfo.InvariantCulture)}={(fSpellControlSpell.BaseManaCost + fCasterMana).ToString(CultureInfo.InvariantCulture)}";
         DisjunctionChanceLabel.Text = $"{_caster.DispelChance.ToString(CultureInfo.InvariantCulture)}%";
@@ -178,7 +179,7 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
         }
         else
         {
-            StrategicMap.Current.ShowMessage(reason);
+            UI.Engine.StrategicMap.ShowMessage(reason);
         }
     }
 
@@ -252,17 +253,17 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
         }
 
         LockedSurface mapSurfaceDescription = LockedSurface.CreateFrom(lockedSurface, r);
-        _ = StrategicMap.Current.SetViewPort(x, y, lHitPoints: Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
-        StrategicMap.Current.UpdateStaticScene();
-        StrategicMap.Current.UpdateDynamicScene();
-        StrategicMap.Current.DrawStaticScene(in mapSurfaceDescription);
-        StrategicMap.Current.DrawDynamicScene(ref mapSurfaceDescription);
+        _ = UI.Engine.StrategicMap.SetViewPort(x, y, lHitPoints: Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
+        UI.Engine.StrategicMap.UpdateStaticScene();
+        UI.Engine.StrategicMap.UpdateDynamicScene();
+        UI.Engine.StrategicMap.DrawStaticScene(in mapSurfaceDescription);
+        UI.Engine.StrategicMap.DrawDynamicScene(ref mapSurfaceDescription);
     }
 
     // AoWDisjunctionDlg.pas:170
     public void MapViewUpdate()
     {
         UI.General.Manager.OverlayPriority = 49;
-        MapView.IsDrawn = MapView.IsDrawn && (StrategicMap.Current.Frame & 1) != 0;
+        MapView.IsDrawn = MapView.IsDrawn && (UI.Engine.StrategicMap.Frame & 1) != 0;
     }
 }

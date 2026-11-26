@@ -44,10 +44,11 @@ public sealed partial class SendEmailGameDialog(UIContext ui) : UIModule(ui)
         _sendEvent = eventValue;
         _ = _sendEvent.AddRef();
         SendEmailGameEventLog sendEmailGameEventLog = _sendEvent;
-        Player? player = StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer);
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        Player? player = strategicMap.Players.GetPlayers(_sendEvent.SendPlayer);
         EmailAddressEdit.Text = player.PbemSettings.EmailGame.EmailAddress;
         // { Original reuses the resource-string temporary for the formatted text. }
-        string nameEx = StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).GetNameWithRace();
+        string nameEx = strategicMap.Players.GetPlayers(_sendEvent.SendPlayer).GetNameWithRace();
         string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_nextPlayerFormat), arguments: [nameEx]);
         RecipientNameLabel.Text = format;
         if (sendEmailGameEventLog.Mode == 2)
@@ -93,7 +94,7 @@ public sealed partial class SendEmailGameDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWSendEmailGameDlg.pas:120
-    public void EmailAddressEditChange() => StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).PbemSettings.EmailGame.EmailAddress = EmailAddressEdit.Text;
+    public void EmailAddressEditChange() => UI.Engine.StrategicMap.Players.GetPlayers(_sendEvent.SendPlayer).PbemSettings.EmailGame.EmailAddress = EmailAddressEdit.Text;
 
     // AoWSendEmailGameDlg.pas:125
     public void DlgKeyDown(in int key, ShiftStates shift)

@@ -6,7 +6,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
@@ -64,7 +63,7 @@ public sealed partial class SynchronizeDialog(UIContext ui) : UIModule(ui)
 
             string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[settings.Race]);
             PlayerRaceLabel.Text = raceNamesPlural;
-            int day2 = StrategicMap.Current.Day;
+            int day2 = UI.Engine.StrategicMap.Day;
             if (day2 == 0)
             {
                 day2 = 1;

@@ -8,7 +8,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
@@ -133,20 +132,20 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
             ItemHexSprite itemHexSprite = ItemBag;
             int hexY = ItemBag.HexY;
             int hexX = itemHexSprite.HexX;
-            StrategicMap.Current.CenterViewTo(hexX, hexY, ItemBag.HexLevel);
+            UI.Engine.StrategicMap.CenterViewTo(hexX, hexY, ItemBag.HexLevel);
 
             int fItemBagHexY = ItemBag.HexY;
             int fItemBagHexX = ItemBag.HexX;
-            StrategicMap.Current.PlayCenterAnimation(fItemBagHexX, fItemBagHexY, L: ItemBag.HexLevel);
+            UI.Engine.StrategicMap.PlayCenterAnimation(fItemBagHexX, fItemBagHexY, L: ItemBag.HexLevel);
         }
         else
         {
             int hexY = UI.General.Structure.HexY;
             int hexX = UI.General.Structure.HexX;
-            StrategicMap.Current.CenterViewTo(hexX, hexY, UI.General.Structure.HexLevel);
+            UI.Engine.StrategicMap.CenterViewTo(hexX, hexY, UI.General.Structure.HexLevel);
             int fStructureHexY = UI.General.Structure.HexY;
             int fStructureHexX = UI.General.Structure.HexX;
-            StrategicMap.Current.PlayCenterAnimation(fStructureHexX, fStructureHexY, L: UI.General.Structure.HexLevel);
+            UI.Engine.StrategicMap.PlayCenterAnimation(fStructureHexX, fStructureHexY, L: UI.General.Structure.HexLevel);
         }
     }
 
@@ -157,13 +156,13 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         if (UI.General.Structure is not null)
         {
             string reason = "";
-            if (UI.General.Structure.CanRaze(StrategicMap.Current.SeatedPlayer, ref reason))
+            if (UI.General.Structure.CanRaze(UI.Engine.StrategicMap.SeatedPlayer, ref reason))
             {
-                _ = UI.General.Structure.Raze(StrategicMap.Current.SeatedPlayer);
+                _ = UI.General.Structure.Raze(UI.Engine.StrategicMap.SeatedPlayer);
             }
             else
             {
-                StrategicMap.Current.ShowWarning(reason);
+                UI.Engine.StrategicMap.ShowWarning(reason);
             }
         }
     }
@@ -175,7 +174,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         if (UI.General.Structure is not null)
         {
             Structure structure = UI.General.Structure;
-            if (StructureButtons.TryGet(structure.InfoButton(StrategicMap.Current.SeatedPlayer), out Action<InfoWindow, Structure> open))
+            if (StructureButtons.TryGet(structure.InfoButton(UI.Engine.StrategicMap.SeatedPlayer), out Action<InfoWindow, Structure> open))
             {
                 open(this, structure);
             }
@@ -185,7 +184,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
             if (ItemBag is not null)
             {
                 ArmyHexSprite army = ItemBag.Owner.GetArmyHexSprite();
-                if (army is not null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
+                if (army is not null && army.Army.Player == UI.Engine.StrategicMap.SeatedPlayer)
                 {
                     if (army.Army.Hero(255, types: RosterTables.AllHeroTypes) is not null)
                     {
@@ -308,7 +307,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         DelphiStringCollection description = dialog.UI.General.Structure.Description;
         dialog.SingleButtonMemo.Items.Assign(description);
         dialog.SingleButtonMemo.Sized = false;
-        bool canTeleport = structure.CanTeleport(StrategicMap.Current.SeatedPlayer);
+        bool canTeleport = structure.CanTeleport(dialog.UI.Engine.StrategicMap.SeatedPlayer);
         dialog.MainButton.Visible = canTeleport;
         string teleport = dialog.UI.Engine.TranslateResourceString(Teleport.Resource.TeleportText);
         dialog.MainButton.Text = teleport;
@@ -322,7 +321,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         dialog.SingleButtonPanel.Visible = true;
         DelphiStringCollection description = structure.Description;
         dialog.SingleButtonMemo.Items.Assign(description);
-        bool canEnter = structure.CanEnter(StrategicMap.Current.SeatedPlayer);
+        bool canEnter = structure.CanEnter(dialog.UI.Engine.StrategicMap.SeatedPlayer);
         dialog.MainButton.Visible = canEnter;
         string enter = dialog.UI.Engine.TranslateResourceString(GameText.EnterText);
         dialog.MainButton.Text = enter;
@@ -335,7 +334,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         dialog.SingleButtonPanel.Visible = true;
         DelphiStringCollection description = structure.Description;
         dialog.SingleButtonMemo.Items.Assign(description);
-        bool canEnter = structure.CanEnter(StrategicMap.Current.SeatedPlayer);
+        bool canEnter = structure.CanEnter(dialog.UI.Engine.StrategicMap.SeatedPlayer);
         dialog.MainButton.Visible = canEnter;
         string enter = dialog.UI.Engine.TranslateResourceString(GameText.EnterText);
         dialog.MainButton.Text = enter;
@@ -348,7 +347,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         dialog.SingleButtonPanel.Visible = true;
         DelphiStringCollection description = structure.Description;
         dialog.SingleButtonMemo.Items.Assign(description);
-        bool canEnter = structure.CanEnter(StrategicMap.Current.SeatedPlayer);
+        bool canEnter = structure.CanEnter(dialog.UI.Engine.StrategicMap.SeatedPlayer);
         dialog.MainButton.Visible = canEnter;
         switch (structure.Entrance)
         {
@@ -396,7 +395,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
             dialog.ExplorationSiteStatusLabel.Text = unexplored;
         }
 
-        bool canSearch = structure.CanSearch(StrategicMap.Current.SeatedPlayer);
+        bool canSearch = structure.CanSearch(dialog.UI.Engine.StrategicMap.SeatedPlayer);
         dialog.MainButton.Visible = canSearch;
         string search = dialog.UI.Engine.TranslateResourceString(GameText.SearchText);
         dialog.MainButton.Text = search;
@@ -504,7 +503,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
             _ = dialog.ActiveCityActionMemo.Items.Add(producingMerchandise);
         }
 
-        Status playerRelation = StrategicMap.Current.Races.GetRace(structure.Race).GetPlayerRelation(structure.Player);
+        Status playerRelation = dialog.UI.Engine.StrategicMap.Races.GetRace(structure.Race).GetPlayerRelation(structure.Player);
         dialog.RaceRelationIcon.CurrentImage = (int)playerRelation + 11;
         dialog.RazePanel.Visible = true;
     }
@@ -660,7 +659,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
 
         if (structure.Player is not null)
         {
-            int raceIndex = StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
+            int raceIndex = dialog.UI.Engine.StrategicMap.Players.GetPlayers(structure.Player).PlayerRace;
             if (raceIndex == -1)
             {
                 raceIndex = 12;

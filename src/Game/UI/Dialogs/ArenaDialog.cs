@@ -102,7 +102,7 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
         }
         else
         {
-            StrategicMap.Current.ShowWarning(reason);
+            UI.Engine.StrategicMap.ShowWarning(reason);
         }
     }
 
@@ -180,15 +180,15 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
 
         LockedSurface mapSurfaceDescription = LockedSurface.CreateFrom(lockedSurface, r);
         int hexLevel = _event.Arena.HexLevel;
-        _ = StrategicMap.Current.SetViewPort(x, y, lHitPoints: hexLevel, r.Right - r.Left, r.Bottom - r.Top);
-        StrategicMap.Current.UpdateStaticScene();
-        StrategicMap.Current.UpdateDynamicScene();
-        StrategicMap.Current.DrawStaticScene(in mapSurfaceDescription);
-        StrategicMap.Current.DrawDynamicScene(ref mapSurfaceDescription);
+        _ = UI.Engine.StrategicMap.SetViewPort(x, y, lHitPoints: hexLevel, r.Right - r.Left, r.Bottom - r.Top);
+        UI.Engine.StrategicMap.UpdateStaticScene();
+        UI.Engine.StrategicMap.UpdateDynamicScene();
+        UI.Engine.StrategicMap.DrawStaticScene(in mapSurfaceDescription);
+        UI.Engine.StrategicMap.DrawDynamicScene(ref mapSurfaceDescription);
     }
 
     // AoWArenaDlg.pas:224
-    public void MapViewUpdate() => MapView.IsDrawn = MapView.IsDrawn && (StrategicMap.Current.Frame & 1) != 0;
+    public void MapViewUpdate() => MapView.IsDrawn = MapView.IsDrawn && (UI.Engine.StrategicMap.Frame & 1) != 0;
 
     // AoWArenaDlg.pas:229
     public void DlgDrawBack()

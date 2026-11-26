@@ -101,10 +101,18 @@ public sealed partial class PopupWindows(UIContext ui) : UIModule(ui)
     }
 
     // AOWDialogWin.pas:73, action 6: the seated player gives up the battle.
-    internal static void SurrenderCombat() => CombatMap.Current?.Surrender(CombatMap.Current.SeatedCombatPlayer);
+    internal void SurrenderCombat()
+    {
+        CombatMap combatMap = UI.Engine.CombatMap;
+        combatMap?.Surrender(combatMap.SeatedCombatPlayer);
+    }
 
     // AOWDialogWin.pas:73, action 4: the seated player gives up the game.
-    private static void SurrenderEmpire() => StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Surrender();
+    private void SurrenderEmpire()
+    {
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        _ = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).Surrender();
+    }
 
     // AoWPWindows.pas:115
     public const string AgeOfWondersUrl = "http://www.ageofwonders.com";
@@ -142,7 +150,7 @@ public sealed partial class PopupWindows(UIContext ui) : UIModule(ui)
                     onConfirmed: SurrenderEmpire);
                 break;
             case 1:
-                StrategicMap.Current.ExitGame(ExitGameMode.Terminate, done: null);
+                UI.Engine.StrategicMap.ExitGame(ExitGameMode.Terminate, done: null);
                 break;
             case 2:
                 if (UI.Engine.Demo)
@@ -193,13 +201,13 @@ public sealed partial class PopupWindows(UIContext ui) : UIModule(ui)
         dialog.SetBookClosedHandler(DelegateRoutines.RebindDelegate<NotifyEvent<object>>(done));
         dialog.BookContext = eventValue;
         _ = (dialog.BookContext?.AddRef());
-        dialog.LeftPageLabel.Text = StrategicMap.Current.MapName;
+        dialog.LeftPageLabel.Text = dialog.UI.Engine.StrategicMap.MapName;
         dialog.LeftPageMemo.Items.Clear();
-        dialog.LeftPageMemo.Items.AddStrings((DelphiStringCollection)(object)StrategicMap.Current.Description);
+        dialog.LeftPageMemo.Items.AddStrings((DelphiStringCollection)(object)dialog.UI.Engine.StrategicMap.Description);
         string text = dialog.UI.Engine.TranslateResourceString(s_mapSettingsText);
         dialog.RightPageLabel.Text = text;
         dialog.RightPageMemo.Items.Clear();
-        if (StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.None)
+        if (dialog.UI.Engine.StrategicMap.VictoryCondition == StrategicMapVictoryCondition.None)
         {
             string text2 = dialog.UI.Engine.TranslateResourceString(s_conquerMapText);
             string s = dialog.UI.Engine.TranslateResourceString(s_objectiveFormat);
@@ -209,20 +217,20 @@ public sealed partial class PopupWindows(UIContext ui) : UIModule(ui)
         }
         else
         {
-            string text4 = dialog.UI.Engine.TranslateResourceString(s_victoryConditionTexts[(int)StrategicMap.Current.VictoryCondition]);
+            string text4 = dialog.UI.Engine.TranslateResourceString(s_victoryConditionTexts[(int)dialog.UI.Engine.StrategicMap.VictoryCondition]);
             string s2 = dialog.UI.Engine.TranslateResourceString(s_objectiveFormat);
             FormatArg value2 = (FormatArg)text4;
             string text5 = AbilityRules.Format(s2, arguments: new ReadOnlySpan<FormatArg>(ref value2));
             _ = dialog.RightPageMemo.Items.Add(text5);
         }
-        if (StrategicMap.Current.DayLimit > 0)
+        if (dialog.UI.Engine.StrategicMap.DayLimit > 0)
         {
             string s3 = dialog.UI.Engine.TranslateResourceString(s_dayLimitFormat);
-            FormatArg value3 = (FormatArg)StrategicMap.Current.DayLimit.ToString(CultureInfo.InvariantCulture);
+            FormatArg value3 = (FormatArg)dialog.UI.Engine.StrategicMap.DayLimit.ToString(CultureInfo.InvariantCulture);
             string text6 = AbilityRules.Format(s3, arguments: new ReadOnlySpan<FormatArg>(ref value3));
             _ = dialog.RightPageMemo.Items.Add(text6);
         }
-        if (StrategicMap.Current.AlliedVictory)
+        if (dialog.UI.Engine.StrategicMap.AlliedVictory)
         {
             string text7 = dialog.UI.Engine.TranslateResourceString(s_enabledText);
             string s4 = dialog.UI.Engine.TranslateResourceString(s_alliedVictoryFormat);
@@ -238,22 +246,23 @@ public sealed partial class PopupWindows(UIContext ui) : UIModule(ui)
             string text10 = AbilityRules.Format(s5, arguments: new ReadOnlySpan<FormatArg>(ref value5));
             _ = dialog.RightPageMemo.Items.Add(text10);
         }
-        int count = StrategicMap.Current.Players.GetCount();
+        int count = dialog.UI.Engine.StrategicMap.Players.GetCount();
         string s6 = dialog.UI.Engine.TranslateResourceString(s_playersOnMapFormat);
         FormatArg value6 = (FormatArg)(count - 1).ToString(CultureInfo.InvariantCulture);
         string text11 = AbilityRules.Format(s6, arguments: new ReadOnlySpan<FormatArg>(ref value6));
         _ = dialog.RightPageMemo.Items.Add(text11);
         string s7 = dialog.UI.Engine.TranslateResourceString(s_maximumSphereLevelFormat);
-        FormatArg value7 = (FormatArg)StrategicMap.Current.SphereCount.ToString(CultureInfo.InvariantCulture);
+        FormatArg value7 = (FormatArg)dialog.UI.Engine.StrategicMap.SphereCount.ToString(CultureInfo.InvariantCulture);
         string text12 = AbilityRules.Format(s7, arguments: new ReadOnlySpan<FormatArg>(ref value7));
         _ = dialog.RightPageMemo.Items.Add(text12);
         string s8 = dialog.UI.Engine.TranslateResourceString(s_maximumPlayerHeroesFormat);
-        FormatArg value8 = (FormatArg)StrategicMap.Current.HeroCountMax.ToString(CultureInfo.InvariantCulture);
+        FormatArg value8 = (FormatArg)dialog.UI.Engine.StrategicMap.HeroCountMax.ToString(CultureInfo.InvariantCulture);
         string text13 = AbilityRules.Format(s8, arguments: new ReadOnlySpan<FormatArg>(ref value8));
         _ = dialog.RightPageMemo.Items.Add(text13);
-        if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && StrategicMap.Current.RequestCombatType)
+        StrategicMap strategicMap = dialog.UI.Engine.StrategicMap;
+        if (strategicMap.ConnectionType == PlayerConnectionType.Local && strategicMap.RequestCombatType)
         {
-            string text14 = dialog.UI.Engine.TranslateResourceString(s_playerConnectionTypeTexts[(int)StrategicMap.Current.ConnectionType]);
+            string text14 = dialog.UI.Engine.TranslateResourceString(s_playerConnectionTypeTexts[(int)strategicMap.ConnectionType]);
             string text15 = dialog.UI.Engine.TranslateResourceString(s_hotSeatText);
             string s9 = dialog.UI.Engine.TranslateResourceString(s_gameTypeFormat);
             FormatArg value9 = (FormatArg)(text14 + "/" + text15);
@@ -262,13 +271,13 @@ public sealed partial class PopupWindows(UIContext ui) : UIModule(ui)
         }
         else
         {
-            string text17 = dialog.UI.Engine.TranslateResourceString(s_playerConnectionTypeTexts[(int)StrategicMap.Current.ConnectionType]);
+            string text17 = dialog.UI.Engine.TranslateResourceString(s_playerConnectionTypeTexts[(int)dialog.UI.Engine.StrategicMap.ConnectionType]);
             string s10 = dialog.UI.Engine.TranslateResourceString(s_gameTypeFormat);
             FormatArg value10 = (FormatArg)text17;
             string text18 = AbilityRules.Format(s10, arguments: new ReadOnlySpan<FormatArg>(ref value10));
             _ = dialog.RightPageMemo.Items.Add(text18);
         }
-        string text19 = dialog.UI.Engine.TranslateResourceString(GameText.PlayModeTexts[(int)StrategicMap.Current.PlayMode]);
+        string text19 = dialog.UI.Engine.TranslateResourceString(GameText.PlayModeTexts[(int)dialog.UI.Engine.StrategicMap.PlayMode]);
         string s11 = dialog.UI.Engine.TranslateResourceString(s_turnModeFormat);
         FormatArg value11 = (FormatArg)text19;
         string text20 = AbilityRules.Format(s11, arguments: new ReadOnlySpan<FormatArg>(ref value11));

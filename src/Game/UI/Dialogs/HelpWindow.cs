@@ -3,7 +3,6 @@
 using Aow.Game.Events;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
@@ -91,7 +90,7 @@ public sealed partial class HelpWindow(UIContext ui) : UIModule(ui)
         }
 
         DelphiStringList lines = [];
-        GamePack.Current.TextControl.RetrieveText(helpId, text: lines);
+        UI.Engine.GamePack.TextControl.RetrieveText(helpId, text: lines);
         UI.HelpWindow.HelpScrollBar.Position = 0;
         UI.HelpWindow.HeaderMemo.Items.Clear();
         if (lines.Count > 0)

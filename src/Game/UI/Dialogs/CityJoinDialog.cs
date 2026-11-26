@@ -6,7 +6,6 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Events;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 
@@ -44,7 +43,7 @@ public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         if (!_event.Accept(ref reason))
         {
-            StrategicMap.Current.ShowWarning(reason);
+            UI.Engine.StrategicMap.ShowWarning(reason);
         }
         else
         {
@@ -59,7 +58,7 @@ public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         if (!_event.Reject(ref reason))
         {
-            StrategicMap.Current.ShowWarning(reason);
+            UI.Engine.StrategicMap.ShowWarning(reason);
         }
         else
         {
@@ -77,7 +76,7 @@ public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
     // AoWCityJoinDlg.pas:93
     public void DlgDrawBack(LockedSurface surface)
     {
-        LibraryImage? face = GamePack.Current.RaceResources.GetRaceResource(_race).GetFace();
+        LibraryImage? face = UI.Engine.GamePack.RaceResources.GetRaceResource(_race).GetFace();
         face?.ShowClipped(CelticFrame.WinLeft + 10, CelticFrame.WinTop + 28, lockedSurface: surface);
     }
 
@@ -109,7 +108,7 @@ public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
         string text = log.JoinMessage.Text;
         dialog.Memo.Items.Text = text;
         dialog.ApproachLabel.Text = log.Text;
-        City town = StrategicMap.Current.MapContainer.GetField(log.Hex.X, log.Hex.Y, log.Hex.MapLevel).FindNoneTransparentHexSprite<City>();
+        City town = dialog.UI.Engine.StrategicMap.MapContainer.GetField(log.Hex.X, log.Hex.Y, log.Hex.MapLevel).FindNoneTransparentHexSprite<City>();
         dialog._race = town.Race;
         LibraryImage? topCityActionImage = town.GetTopCityActionImage(null);
         dialog.CityPictureLine.ImageTop = topCityActionImage;
@@ -118,6 +117,6 @@ public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
         LibraryImage? bottomCityActionImage = town.GetBottomCityActionImage(null);
         dialog.CityPictureLine.ImageBottom = bottomCityActionImage;
         dialog.Window.Visible = true;
-        StrategicMap.Current.TutorialControl.ShowMessage(62, immediate: true, onceOnly: true);
+        dialog.UI.Engine.StrategicMap.TutorialControl.ShowMessage(62, immediate: true, onceOnly: true);
     }
 }

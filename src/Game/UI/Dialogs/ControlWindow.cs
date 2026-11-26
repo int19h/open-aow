@@ -142,7 +142,7 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
     public void Unit1ChkChange(CheckBox sender)
     {
         CheckStart();
-        StrategicMap.Current.SelectedArmy.SetSelection(_selection);
+        UI.Engine.StrategicMap.SelectedArmy.SetSelection(_selection);
         CheckEnd();
         if (sender.Checked)
         {
@@ -202,7 +202,8 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
     // AOWControlWin.pas:375
     public void CheckEnd()
     {
-        _selection = StrategicMap.Current.SelectedArmy.Selection;
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        _selection = strategicMap.SelectedArmy.Selection;
         Unit1CheckBox.Checked = UI.General.SelectedUnits[0] != -1 && (_selection & (1 << UI.General.SelectedUnits[0])) == 0;
         Unit2CheckBox.Checked = UI.General.SelectedUnits[1] != -1 && (_selection & (1 << UI.General.SelectedUnits[1])) == 0;
         Unit3CheckBox.Checked = UI.General.SelectedUnits[2] != -1 && (_selection & (1 << UI.General.SelectedUnits[2])) == 0;
@@ -227,15 +228,15 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
 
         Unit8Frame.ImageLibraryIndexFrame = Unit8CheckBox.Checked ? 26 : 12;
 
-        int selection = StrategicMap.Current.SelectedArmy.Selection;
+        int selection = strategicMap.SelectedArmy.Selection;
         MoveTypes partyMove = UI.General.UnitList.GetPartyMoves(selection);
         int moveTypesToInt32 = UI.General.MoveTypesToInt32(partyMove);
         MoveIcon.CurrentImage = moveTypesToInt32;
-        int fSelectedArmySelection = StrategicMap.Current.SelectedArmy.Selection;
+        int fSelectedArmySelection = strategicMap.SelectedArmy.Selection;
         int movePoints = UI.General.UnitList.MovePoints(fSelectedArmySelection);
         MovesLabel.Text = movePoints.ToString(CultureInfo.InvariantCulture);
-        int selection2 = StrategicMap.Current.SelectedArmy.Selection;
-        Army.PartyStatus partyStatus = StrategicMap.Current.SelectedArmy.ArmyHexSprite.Army.GetPartyStatus(selection2);
+        int selection2 = strategicMap.SelectedArmy.Selection;
+        Army.PartyStatus partyStatus = strategicMap.SelectedArmy.ArmyHexSprite.Army.GetPartyStatus(selection2);
         string partyStatusText = UI.Engine.TranslateResourceString(s_partyStatusTexts[(int)partyStatus]);
         PartyStatusLabel.Text = partyStatusText;
     }
@@ -246,7 +247,7 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right)
         {
             CheckStart();
-            StrategicMap.Current.SelectedArmy.SetSelection((~_selection).TruncateToByte());
+            UI.Engine.StrategicMap.SelectedArmy.SetSelection((~_selection).TruncateToByte());
             CheckEnd();
         }
     }
@@ -256,10 +257,10 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
     {
         UI.General.PlayButtonSound(0);
         Army? army = UI.General.UnitList;
-        StrategicMap.Current.CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
+        UI.Engine.StrategicMap.CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
 
         Army? army2 = UI.General.UnitList;
-        StrategicMap.Current.PlayCenterAnimation(army2.Location.X, army2.Location.Y, L: army2.Location.MapLevel);
+        UI.Engine.StrategicMap.PlayCenterAnimation(army2.Location.X, army2.Location.Y, L: army2.Location.MapLevel);
     }
 
     // AOWControlWin.pas:422
@@ -279,13 +280,13 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
     public void HelpClick() => UI.HelpWindow.ShowHelp(503);
 
     // AOWControlWin.pas:442
-    public void PPrevClick() => StrategicMap.Current.SelectPreviousArmy();
+    public void PPrevClick() => UI.Engine.StrategicMap.SelectPreviousArmy();
 
     // AOWControlWin.pas:447
-    public void PNextClick() => StrategicMap.Current.SelectNextArmy();
+    public void PNextClick() => UI.Engine.StrategicMap.SelectNextArmy();
 
     // AOWControlWin.pas:452
-    public void PMoveClick() => StrategicMap.Current.SelectedArmy.ExecuteMove();
+    public void PMoveClick() => UI.Engine.StrategicMap.SelectedArmy.ExecuteMove();
 
     // AOWControlWin.pas:457
     public void PGuardChange()

@@ -71,14 +71,14 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
         SavedSongStatus = AudioPlayback.BackupSongStatus();
         _ = (AudioHost.SoundSystem?.FadeMusicVolume(0, speed: 1));
         UI.General.Manager.OverlayPriority = 249;
-        switch (StrategicMap.Current.Players.GetPlayers(eventValue.Player).GameOverStatus)
+        switch (UI.Engine.StrategicMap.Players.GetPlayers(eventValue.Player).GameOverStatus)
         {
             case GameOverStatus.Lost:
                 _animation = AudioPlayback.PlaySample("Sfx\\Attack\\Fireloop.wav", volume: 64, looped: true, delay: 0, panning: SamplePanning.Center, callback: null);
-                StrategicMap.Current.TutorialControl.ShowMessage(68, immediate: true, onceOnly: true);
+                UI.Engine.StrategicMap.TutorialControl.ShowMessage(68, immediate: true, onceOnly: true);
                 break;
             case GameOverStatus.Won:
-                StrategicMap.Current.TutorialControl.ShowMessage(67, immediate: true, onceOnly: true);
+                UI.Engine.StrategicMap.TutorialControl.ShowMessage(67, immediate: true, onceOnly: true);
                 break;
             case GameOverStatus.None:
             default:
@@ -107,13 +107,14 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
     public void LeaderFaceFrPreDraw(LockedSurface lockedSurface)
     {
         Rect r = default;
-        if (StrategicMap.Current is not null)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        if (strategicMap is not null)
         {
             r.Left = DeadPanel.AbsoluteLeft + LeaderFaceFrame.WinLeft + 45;
             r.Right = r.Left + 103;
             r.Top = DeadPanel.AbsoluteTop + LeaderFaceFrame.WinTop + 35;
             r.Bottom = r.Top + 128;
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader.ShowFace(r, lockedSurface);
+            strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).Leader.ShowFace(r, lockedSurface);
         }
     }
 
@@ -147,7 +148,8 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
         y += DeadPanel.AbsoluteTop;
         x += DeadPanel.AbsoluteLeft;
         string text;
-        switch (StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GameOverStatus)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        switch (strategicMap.Players.GetPlayers(GameOverEvent.Player).GameOverStatus)
         {
             case GameOverStatus.Lost:
                 int frame = _animationFrame / 3 % 9;
@@ -157,12 +159,12 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
                 }
 
                 UI.Graphics.PyreFrames[frame].Show(DeadPanel.AbsoluteLeft + PyreAnimationView.WinLeft, DeadPanel.AbsoluteTop + PyreAnimationView.WinTop, lockedSurface);
-                text = $"{StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GetNameWithRace()}, {UI.Engine.TranslateResourceString(s_yourReignHasEndedText)}";
+                text = $"{strategicMap.Players.GetPlayers(GameOverEvent.Player).GetNameWithRace()}, {UI.Engine.TranslateResourceString(s_yourReignHasEndedText)}";
                 UI.Fonts.Age15BlackOnBrown.SetTextCentered(x, y, text, lockedSurface);
                 break;
             case GameOverStatus.Won:
                 UI.Graphics.VictoryFrames[0].Show(DeadPanel.AbsoluteLeft + PyreAnimationView.WinLeft, DeadPanel.AbsoluteTop, lockedSurface);
-                text = $"{StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GetNameWithRace()}, {UI.Engine.TranslateResourceString(s_youWereVictoriousText)}";
+                text = $"{UI.Engine.StrategicMap.Players.GetPlayers(GameOverEvent.Player).GetNameWithRace()}, {UI.Engine.TranslateResourceString(s_youWereVictoriousText)}";
                 UI.Fonts.Age15WhiteOnGrey.SetTextCentered(x, y, text, lockedSurface);
                 break;
             case GameOverStatus.None:
@@ -202,9 +204,10 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
         _ = (AudioHost.SoundSystem?.SetMusicVolume(0));
         AudioPlayback.FadeMusicVolume(window.UI.SoundDialog.MusicVolumeSlider.Position, speed: 1);
         window.Players.Clear();
-        for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+        StrategicMap strategicMap = window.UI.Engine.StrategicMap;
+        for (int i = 1, last = strategicMap.Players.Count - 1; i <= last; i++)
         {
-            if (StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Independent)
+            if (strategicMap.Players.GetPlayers(i).PlayerType != PlayerType.Independent)
             {
                 _ = window.Players.Add(i.TruncateToByte());
             }
@@ -213,11 +216,11 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
         for (int i = 0; i <= 11; i++)
         {
             window.Controls[i].Visible = i < window.Players.Count;
-            bool condition = i < window.Players.Count && window.Players[i] == PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer);
+            bool condition = i < window.Players.Count && window.Players[i] == PlayerIdExtensions.ToOriginal(window.UI.Engine.StrategicMap.SeatedPlayer);
             window.Controls[i].Checked = condition;
         }
 
-        if (window.UI.Engine.Campaign is not null && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.Lost)
+        if (window.UI.Engine.Campaign is not null && window.UI.Engine.StrategicMap.Players.GetPlayers(window.UI.Engine.StrategicMap.SeatedPlayer).GameOverStatus == GameOverStatus.Lost)
         {
             string replay = window.UI.Engine.TranslateResourceString(s_replayText);
             window.ContinueButton.Text = replay;

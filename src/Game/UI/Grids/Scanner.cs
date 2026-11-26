@@ -343,7 +343,7 @@ public sealed class Scanner(Component owner) : Control(owner)
     public void SetLevel(MapLevel value)
     {
         Level = value;
-        if (StrategicMap.Current.CombatMap is not null)
+        if (value.GetEngine().StrategicMap.CombatMap is not null)
         {
             _mapWidth = Level.Width - 16;
             _mapHeight = Level.Height - 12;
@@ -527,7 +527,7 @@ public sealed class Scanner(Component owner) : Control(owner)
         if (_map is not null)
         {
             Level = _map.MapContainer.GetMapLevel(0);
-            if (StrategicMap.Current.CombatMap is not null)
+            if (value.GetEngine().StrategicMap.CombatMap is not null)
             {
                 _mapWidth = Level.Width - 16;
                 _mapHeight = Level.Height - 12;

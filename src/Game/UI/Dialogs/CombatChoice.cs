@@ -110,15 +110,15 @@ public sealed partial class CombatChoice(UIContext ui) : UIModule(ui)
         }
 
         LockedSurface viewSurfaceDescription = LockedSurface.CreateFrom(lockedSurface, r);
-        _ = StrategicMap.Current.SetViewPort(x, y, lHitPoints: _request.Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
-        StrategicMap.Current.UpdateStaticScene();
-        StrategicMap.Current.UpdateDynamicScene();
-        StrategicMap.Current.DrawStaticScene(in viewSurfaceDescription);
-        StrategicMap.Current.DrawDynamicScene(ref viewSurfaceDescription);
+        _ = UI.Engine.StrategicMap.SetViewPort(x, y, lHitPoints: _request.Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
+        UI.Engine.StrategicMap.UpdateStaticScene();
+        UI.Engine.StrategicMap.UpdateDynamicScene();
+        UI.Engine.StrategicMap.DrawStaticScene(in viewSurfaceDescription);
+        UI.Engine.StrategicMap.DrawDynamicScene(ref viewSurfaceDescription);
     }
 
     // TCFCDlg.pas:113
-    public void MapViewUpdate() => MapView.IsDrawn = MapView.IsDrawn && (StrategicMap.Current.Frame & 1) != 0;
+    public void MapViewUpdate() => MapView.IsDrawn = MapView.IsDrawn && (UI.Engine.StrategicMap.Frame & 1) != 0;
 
     // TCFCDlg.pas:116
     public void DlgHide() => Finish();
@@ -175,7 +175,7 @@ public sealed partial class CombatChoice(UIContext ui) : UIModule(ui)
                 eventValue.Select(CombatType.Fast);
             }
 
-            if (StrategicMap.Current.Players.GetPlayers(dialog._request.AttackerPlayer).PlayerType == PlayerType.Human)
+            if (dialog.UI.Engine.StrategicMap.Players.GetPlayers(dialog._request.AttackerPlayer).PlayerType == PlayerType.Human)
             {
                 dialog.CancelButton.Visible = true;
                 dialog.FightButton.Alignment.AlignWidth = AlignWidth.Left;
@@ -188,7 +188,7 @@ public sealed partial class CombatChoice(UIContext ui) : UIModule(ui)
 
             dialog.Window.ReAlign();
             dialog.Window.Visible = true;
-            StrategicMap.Current.TutorialControl.ShowMessage(61, immediate: true, onceOnly: true);
+            dialog.UI.Engine.StrategicMap.TutorialControl.ShowMessage(61, immediate: true, onceOnly: true);
         }
     }
 }

@@ -1,7 +1,6 @@
 #nullable disable warnings
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -18,7 +17,7 @@ public sealed partial class TargetSelectionDialog(UIContext ui) : UIModule(ui)
     public void CloseClick()
     {
         UI.General.PlayButtonSound(0);
-        StrategicMap.Current.TargetSelection.Deactivate();
+        UI.Engine.StrategicMap.TargetSelection.Deactivate();
     }
 
     // AoWTargetSelection.pas:51

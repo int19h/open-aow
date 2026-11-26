@@ -4,7 +4,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
@@ -31,7 +30,7 @@ public sealed partial class ControlWindow
         }
         PartyActionLabel1.Visible = PartyActionLabel2.Visible = false;
         Army? army = UI.General.UnitList;
-        bool readOnly = army.Player != StrategicMap.Current.SeatedPlayer;
+        bool readOnly = army.Player != UI.Engine.StrategicMap.SeatedPlayer;
         if (army.Player == PlayerId.Independent)
         {
             PartyMovesPanel.Visible = false;
@@ -58,7 +57,7 @@ public sealed partial class ControlWindow
         {
             PartyMovesPanel.Visible = false;
             PartyInfoPanel.Visible = true;
-            PartyInfoLabel.Text = AbilityRules.Format(UI.Engine.TranslateResourceString(s_partyOwnerFormat), arguments: [UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[StrategicMap.Current.Players.GetPlayers(army.Player).PlayerRace])]);
+            PartyInfoLabel.Text = AbilityRules.Format(UI.Engine.TranslateResourceString(s_partyOwnerFormat), arguments: [UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[UI.Engine.StrategicMap.Players.GetPlayers(army.Player).PlayerRace])]);
             PartyControlPanel.Visible = false;
         }
         else

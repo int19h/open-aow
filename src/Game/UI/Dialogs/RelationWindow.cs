@@ -145,9 +145,10 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     public void FillPlayers()
     {
         Players.Clear();
-        for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        for (int i = 1, last = strategicMap.Players.GetCount() - 1; i <= last; i++)
         {
-            if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)i)) != -1 && StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
+            if (strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)i)) != -1 && strategicMap.Players.GetPlayers(i).Status == PlayerStatus.Playing)
             {
                 _ = Players.Add(i);
             }
@@ -161,7 +162,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 check.Visible = true;
                 check.ToolTipText.Clear();
                 int player = Players[i - 1];
-                string name = StrategicMap.Current.Players.GetPlayers(player).GetName();
+                string name = UI.Engine.StrategicMap.Players.GetPlayers(player).GetName();
                 _ = check.ToolTipText.Add(name);
             }
             else
@@ -170,7 +171,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             }
         }
 
-        int indexOf = Players.IndexOf(PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer));
+        int indexOf = Players.IndexOf(PlayerIdExtensions.ToOriginal(UI.Engine.StrategicMap.SeatedPlayer));
         PlayerGlow.Alignment.LeftOffset = (indexOf * 51) - 37 + 51;
         PlayerGlow.Aligned = false;
     }
@@ -182,9 +183,10 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         ResetChecks();
         UI.General.Manager.OverlayPriority = 49;
         Races.Clear();
-        for (int i = 0, last = StrategicMap.Current.Races.GetCount() - 1; i <= last; i++)
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        for (int i = 0, last = strategicMap.Races.GetCount() - 1; i <= last; i++)
         {
-            if (StrategicMap.Current.Races.GetRace(i).Enabled)
+            if (strategicMap.Races.GetRace(i).Enabled)
             {
                 _ = Races.Add(i);
             }
@@ -198,7 +200,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 check.Visible = true;
                 check.ToolTipText.Clear();
                 int race = Races[i];
-                Race? fRacesRace = StrategicMap.Current.Races.GetRace(race);
+                Race? fRacesRace = UI.Engine.StrategicMap.Races.GetRace(race);
                 string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[fRacesRace.RaceIndex]);
                 _ = check.ToolTipText.Add(raceNamesPlural);
             }
@@ -217,7 +219,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             playerCheck.Checked = true;
         }
 
-        int index = Players.IndexOf(PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer));
+        int index = Players.IndexOf(PlayerIdExtensions.ToOriginal(UI.Engine.StrategicMap.SeatedPlayer));
         UIComponent seated = ControlAt(index + 24);
         if (seated is CheckBox seatedCheck)
         {
@@ -225,7 +227,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         }
 
         P1CBChange(seated, slot: index);
-        StrategicMap.Current.TutorialControl.ShowMessage(65, immediate: true, onceOnly: true);
+        UI.Engine.StrategicMap.TutorialControl.ShowMessage(65, immediate: true, onceOnly: true);
     }
 
     // AoWRelations.pas:270
@@ -257,10 +259,11 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         HighlightPlayer(player);
         ShowPlayerInformation(player);
         int selected = ActionsList.Selected;
-        _ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).ListDiplomaticActions(player, _actions);
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        _ = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).ListDiplomaticActions(player, _actions);
         for (int i = 0, last = _actions.GetCount() - 1; i <= last; i++)
         {
-            string name = _actions.GetDiplomaticActions(i).GetName(StrategicMap.Current.SeatedPlayer);
+            string name = _actions.GetDiplomaticActions(i).GetName(UI.Engine.StrategicMap.SeatedPlayer);
             DiplomaticAction diplomaticAction = _actions.GetDiplomaticActions(i);
             _ = ActionsList.Items.AddObject(name, item: diplomaticAction);
         }
@@ -282,21 +285,23 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         PlayerStatusLabel.Visible = true;
         PlayerInfoPanel.Visible = true;
         RaceInfoPanel.Visible = false;
-        Player? playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
+        Player? playerPlayerRace = UI.Engine.StrategicMap.Players.GetPlayers(player);
         LeftShield.CurrentImage = playerPlayerRace.PlayerRace + 26;
         LeftShield.Visible = true;
         RightShield.CurrentImage = LeftShield.CurrentImage;
         RightShield.Visible = true;
-        int firstDaySeen = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(player);
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        int firstDaySeen = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).GetFirstDaySeen(player);
         NoContactLabel.Visible = firstDaySeen == -1;
         PlayerNameLabel.Visible = !NoContactLabel.Visible;
         OfTheLabel.Visible = PlayerNameLabel.Visible;
         PlayerRaceLabel.Visible = PlayerNameLabel.Visible;
-        if (StrategicMap.Current.Players.GetPlayers(player).GetFirstDaySeen(StrategicMap.Current.SeatedPlayer) != -1)
+        StrategicMap engineStrategicMap = UI.Engine.StrategicMap;
+        if (engineStrategicMap.Players.GetPlayers(player).GetFirstDaySeen(engineStrategicMap.SeatedPlayer) != -1)
         {
-            if (player != StrategicMap.Current.SeatedPlayer)
+            if (player != engineStrategicMap.SeatedPlayer)
             {
-                DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(player, otherPlayer: StrategicMap.Current.SeatedPlayer);
+                DiplomaticRelation relation = engineStrategicMap.Players.GetDiplomaticRelation(player, otherPlayer: engineStrategicMap.SeatedPlayer);
                 string diplomaticRelation = UI.Engine.TranslateResourceString(GameTables.DiplomaticRelationTexts[(int)relation]);
                 PlayerStatusValueLabel.Text = diplomaticRelation;
                 PlayerStatusIcon.CurrentImage = relation != DiplomaticRelation.Unknown ? (int)relation + 8 : 50;
@@ -315,16 +320,17 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             PlayerStatusValueLabel.Text = noContact;
         }
 
-        string name = StrategicMap.Current.Players.GetPlayers(player).GetName();
+        string name = UI.Engine.StrategicMap.Players.GetPlayers(player).GetName();
         PlayerNameLabel.Text = name;
         OfTheLabel.Text = UI.PlayerInfoWindow.OfTheLabel.Text;
-        Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        Player? playerLocal = UI.Engine.StrategicMap.Players.GetPlayers(player);
         string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerLocal.PlayerRace]);
         PlayerRaceLabel.Text = raceNamesPlural;
-        Player? playerPlayerType = StrategicMap.Current.Players.GetPlayers(player);
+        StrategicMap getPlayersStrategicMap = UI.Engine.StrategicMap;
+        Player? playerPlayerType = getPlayersStrategicMap.Players.GetPlayers(player);
         if (playerPlayerType.PlayerType is (>= PlayerType.Human and <= PlayerType.Cpu3) or PlayerType.Cpu4 or PlayerType.Cpu5)
         {
-            PlayerTypeIcon.CurrentImage = StrategicMap.Current.Players.GetPlayers(player).PlayerType switch
+            PlayerTypeIcon.CurrentImage = getPlayersStrategicMap.Players.GetPlayers(player).PlayerType switch
             {
                 PlayerType.Cpu1 => 1,
                 PlayerType.Cpu2 => 2,
@@ -340,7 +346,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             PlayerTypeIcon.Visible = false;
         }
 
-        Player? player2 = StrategicMap.Current.Players.GetPlayers(player);
+        Player? player2 = UI.Engine.StrategicMap.Players.GetPlayers(player);
         string playerType = UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player2.PlayerType]);
         PlayerTypeLabel.Text = playerType;
     }
@@ -357,7 +363,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             CheckBox check = FChecks[SelectedIndex];
             check.Alignment.TopOffset = 20;
             check.Checked = true;
-            if (StrategicMap.Current.SeatedPlayer == player)
+            if (UI.Engine.StrategicMap.SeatedPlayer == player)
             {
                 PlayerGlow.Alignment.TopOffset = check.Alignment.TopOffset;
             }
@@ -382,16 +388,17 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                     image.ToolTipText.Clear();
                     if (SelectedPlayer is not null)
                     {
-                        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
+                        StrategicMap strategicMap = UI.Engine.StrategicMap;
+                        if (strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
                         {
                             int playerLocal = Players[i];
-                            if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)playerLocal)) != -1)
+                            if (strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)playerLocal)) != -1)
                             {
                                 int player2 = Players[i];
-                                if (StrategicMap.Current.Players.GetPlayers(SelectedPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)player2)) != -1)
+                                if (strategicMap.Players.GetPlayers(SelectedPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)player2)) != -1)
                                 {
                                     int player3 = Players[i];
-                                    DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(SelectedPlayer, otherPlayer: PlayerId.FromOriginal((sbyte)player3));
+                                    DiplomaticRelation diplomaticRelation = strategicMap.Players.GetDiplomaticRelation(SelectedPlayer, otherPlayer: PlayerId.FromOriginal((sbyte)player3));
                                     _ = image.ToolTipText.Add(GameTables.DiplomaticRelationTexts[(int)diplomaticRelation]);
                                 }
                             }
@@ -416,13 +423,14 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                     image.ToolTipText.Clear();
                     if (SelectedPlayer is not null)
                     {
-                        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
+                        StrategicMap engineStrategicMap = UI.Engine.StrategicMap;
+                        if (engineStrategicMap.Players.GetPlayers(engineStrategicMap.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
                         {
                             int race = Races[i];
-                            Status playerRelation = StrategicMap.Current.Races.GetRace(race).GetPlayerRelation(SelectedPlayer);
+                            Status playerRelation = engineStrategicMap.Races.GetRace(race).GetPlayerRelation(SelectedPlayer);
                             string status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
                             int race2 = Races[i];
-                            int playerRelationValue = StrategicMap.Current.Races.GetRace(race2).GetPlayerRelationValue(SelectedPlayer);
+                            int playerRelationValue = UI.Engine.StrategicMap.Races.GetRace(race2).GetPlayerRelationValue(SelectedPlayer);
                             _ = image.ToolTipText.Add($"{status} ({playerRelationValue.ToString(CultureInfo.InvariantCulture)})");
                         }
                     }
@@ -446,9 +454,10 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         ActionPanel.Visible = true;
         PlayerInfoPanel.Visible = false;
         RaceInfoPanel.Visible = true;
-        Status playerRelation = StrategicMap.Current.Races.GetRace((sbyte)race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
+        StrategicMap strategicMap = UI.Engine.StrategicMap;
+        Status playerRelation = strategicMap.Races.GetRace((sbyte)race).GetPlayerRelation(strategicMap.SeatedPlayer);
         RaceRelationIcon.CurrentImage = (int)playerRelation + 11;
-        Status playerRelation2 = StrategicMap.Current.Races.GetRace((sbyte)race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
+        Status playerRelation2 = strategicMap.Races.GetRace((sbyte)race).GetPlayerRelation(strategicMap.SeatedPlayer);
         string status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation2]);
         RaceRelationValueLabel.Text = status;
         string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[(sbyte)race]);
@@ -500,13 +509,13 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 case 1:
                     image.ToolTipText.Clear();
                     int player = Players[i];
-                    if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)player)) != -1)
+                    if (UI.Engine.StrategicMap.Players.GetPlayers(UI.Engine.StrategicMap.SeatedPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)player)) != -1)
                     {
                         int player2 = Players[i];
-                        Status playerRelation = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelation(PlayerId.FromOriginal((sbyte)player2));
+                        Status playerRelation = UI.Engine.StrategicMap.Races.GetRace(SelectedRace).GetPlayerRelation(PlayerId.FromOriginal((sbyte)player2));
                         string status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
                         int player3 = Players[i];
-                        int playerRelationValue = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelationValue(PlayerId.FromOriginal((sbyte)player3));
+                        int playerRelationValue = UI.Engine.StrategicMap.Races.GetRace(SelectedRace).GetPlayerRelationValue(PlayerId.FromOriginal((sbyte)player3));
                         _ = image.ToolTipText.Add($"{status} ({playerRelationValue.ToString(CultureInfo.InvariantCulture)})");
                     }
 
@@ -559,7 +568,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         SetAction(null);
         UI.General.Manager.OverlayPriority = 0;
         FinishEvent();
-        StrategicMap.Current.TutorialControl.ShowMessage(71, immediate: true, onceOnly: true);
+        UI.Engine.StrategicMap.TutorialControl.ShowMessage(71, immediate: true, onceOnly: true);
     }
 
     // AoWRelations.pas:524
@@ -675,17 +684,18 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         if (slot < Players.Count)
         {
             sbyte player2 = (sbyte)Players[slot];
-            if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(PlayerId.FromOriginal(player2)) == -1)
+            StrategicMap strategicMap = UI.Engine.StrategicMap;
+            if (strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).GetFirstDaySeen(PlayerId.FromOriginal(player2)) == -1)
             {
                 UI.Graphics.RelationWindow[28].ShowClipped(component.WinLeft, component.WinTop, lockedSurface: surface);
             }
             else
             {
                 Rect r = new(component.WinLeft + 1, component.WinTop + 1, component.WinLeft + component.WinWidth - 1, component.WinTop + component.WinHeight - 1);
-                StrategicMap.Current.Players.GetPlayers(player2).GetFace()?.ShowStretched(r, lockedSurface: surface);
+                strategicMap.Players.GetPlayers(player2).GetFace()?.ShowStretched(r, lockedSurface: surface);
             }
 
-            Player? player = StrategicMap.Current.Players.GetPlayers(player2);
+            Player? player = UI.Engine.StrategicMap.Players.GetPlayers(player2);
             UI.Graphics.RelationWindow[player.PlayerRace + 16].ShowClipped(component.WinLeft, component.WinTop, lockedSurface: surface);
         }
     }
@@ -698,7 +708,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         {
             int race = Races[slot - 20].TruncateToSByte();
             Rect r = new(control.WinLeft + 1, control.WinTop + 1, control.WinLeft + control.WinWidth - 1, control.WinTop + control.WinHeight - 1);
-            GamePack.Current.RaceResources.GetRaceResource(race).GetFace().ShowStretched(r, lockedSurface: surface);
+            UI.Engine.GamePack.RaceResources.GetRaceResource(race).GetFace().ShowStretched(r, lockedSurface: surface);
             DiplomaticAction? action = _action;
             if (action is null && NewActionPanel.Visible && ActionsList.Selected != -1)
             {
@@ -707,7 +717,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
 
             if (action is not null)
             {
-                int modifier = action.GetRelationModifier(StrategicMap.Current.SeatedPlayer, race);
+                int modifier = action.GetRelationModifier(UI.Engine.StrategicMap.SeatedPlayer, race);
                 if (modifier != 0)
                 {
                     UI.Fonts.Age10.Color = Color.White;
@@ -726,13 +736,14 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             int player = Players[slot];
             if (SelectedPlayer is not null)
             {
-                if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
+                StrategicMap strategicMap = UI.Engine.StrategicMap;
+                if (strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
                 {
-                    if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)player)) != -1)
+                    if (strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)player)) != -1)
                     {
-                        if (StrategicMap.Current.Players.GetPlayers(SelectedPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)player)) != -1)
+                        if (strategicMap.Players.GetPlayers(SelectedPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)player)) != -1)
                         {
-                            DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(SelectedPlayer, otherPlayer: PlayerId.FromOriginal((sbyte)player));
+                            DiplomaticRelation relation = strategicMap.Players.GetDiplomaticRelation(SelectedPlayer, otherPlayer: PlayerId.FromOriginal((sbyte)player));
                             int image = relation != DiplomaticRelation.Unknown ? (int)relation + 8 : 50;
 
                             UI.Graphics.RelationWindow[image].Show(component.WinLeft, component.WinTop + 8, lockedSurface: surface);
@@ -742,9 +753,10 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             }
             else
             {
-                if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)player)) != -1)
+                StrategicMap engineStrategicMap = UI.Engine.StrategicMap;
+                if (engineStrategicMap.Players.GetPlayers(engineStrategicMap.SeatedPlayer).GetFirstDaySeen(PlayerId.FromOriginal((sbyte)player)) != -1)
                 {
-                    Status playerRelation = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelation(PlayerId.FromOriginal((sbyte)player));
+                    Status playerRelation = engineStrategicMap.Races.GetRace(SelectedRace).GetPlayerRelation(PlayerId.FromOriginal((sbyte)player));
                     UI.Graphics.RelationWindow[(int)playerRelation + 11].ShowClipped(component.WinLeft, component.WinTop + 8, lockedSurface: surface);
                 }
             }
@@ -757,10 +769,11 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         UIComponent s = sender;
         if (SelectedPlayer is not null && slot - 20 < Races.Count)
         {
-            if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
+            StrategicMap strategicMap = UI.Engine.StrategicMap;
+            if (strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
             {
                 int raceIndex = Races[slot - 20];
-                Status playerRelation = StrategicMap.Current.Races.GetRace(raceIndex).GetPlayerRelation(SelectedPlayer);
+                Status playerRelation = strategicMap.Races.GetRace(raceIndex).GetPlayerRelation(SelectedPlayer);
                 UI.Graphics.RelationWindow[(int)playerRelation + 11].ShowClipped(s.WinLeft, s.WinTop + 15, lockedSurface: surface);
             }
         }
@@ -781,7 +794,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             }
             else
             {
-                StrategicMap.Current.ShowMessage(reason);
+                UI.Engine.StrategicMap.ShowMessage(reason);
             }
         }
     }
@@ -801,7 +814,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             }
             else
             {
-                StrategicMap.Current.ShowMessage(reason);
+                UI.Engine.StrategicMap.ShowMessage(reason);
             }
         }
     }
@@ -844,37 +857,39 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         {
             if (SelectedPlayer is not null)
             {
-                if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
+                StrategicMap strategicMap = UI.Engine.StrategicMap;
+                if (strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
                 {
-                    StrategicMap.Current.Players.GetPlayers(SelectedPlayer).Leader.ShowFace(r, lockedSurface: surface);
+                    strategicMap.Players.GetPlayers(SelectedPlayer).Leader.ShowFace(r, lockedSurface: surface);
                 }
             }
             else
             {
-                GamePack.Current.RaceResources.GetRaceResource(SelectedRace).GetFace().Show(FaceFrame.WinLeft + 1, FaceFrame.WinTop + 3, lockedSurface: surface);
+                UI.Engine.GamePack.RaceResources.GetRaceResource(SelectedRace).GetFace().Show(FaceFrame.WinLeft + 1, FaceFrame.WinTop + 3, lockedSurface: surface);
             }
         }
         else
         {
             if (_event is not null && _event.Action.Proposal.SignedAsOtherPlayer)
             {
-                StrategicMap.Current.Players.GetPlayers(_event.Action.OtherPlayer).Leader.ShowFace(r, lockedSurface: surface);
+                UI.Engine.StrategicMap.Players.GetPlayers(_event.Action.OtherPlayer).Leader.ShowFace(r, lockedSurface: surface);
             }
             else
             {
-                if (_action.Source == StrategicMap.Current.SeatedPlayer)
+                StrategicMap engineStrategicMap = UI.Engine.StrategicMap;
+                if (_action.Source == engineStrategicMap.SeatedPlayer)
                 {
-                    StrategicMap.Current.Players.GetPlayers(_action.Target).Leader.ShowFace(r, lockedSurface: surface);
+                    engineStrategicMap.Players.GetPlayers(_action.Target).Leader.ShowFace(r, lockedSurface: surface);
                 }
                 else
                 {
                     if (_action.Reaction == DiplomaticActionReaction.None)
                     {
-                        StrategicMap.Current.Players.GetPlayers(_action.Source).Leader.ShowFace(r, lockedSurface: surface);
+                        UI.Engine.StrategicMap.Players.GetPlayers(_action.Source).Leader.ShowFace(r, lockedSurface: surface);
                     }
                     else
                     {
-                        StrategicMap.Current.Players.GetPlayers(_action.Target).Leader.ShowFace(r, lockedSurface: surface);
+                        UI.Engine.StrategicMap.Players.GetPlayers(_action.Target).Leader.ShowFace(r, lockedSurface: surface);
                     }
                 }
             }
@@ -902,7 +917,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 string reason = "";
                 if (!_action.Send(ref reason))
                 {
-                    StrategicMap.Current.ShowMessage(reason);
+                    UI.Engine.StrategicMap.ShowMessage(reason);
                 }
             }
             else if (view == ProposalView.Offer)
@@ -912,13 +927,14 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 SendBribePanel.Visible = true;
                 BribeGoldSlider.Position = 0;
                 BribeManaSlider.Position = 0;
-                Player? playerGems = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+                StrategicMap strategicMap = UI.Engine.StrategicMap;
+                Player? playerGems = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer);
                 BribeGoldSlider.Max = playerGems.Gems;
-                Player? playerMagicControl = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+                Player? playerMagicControl = strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer);
                 BribeManaSlider.Max = playerMagicControl.MagicControl.Mana;
                 SBManaSlidChange();
                 SBGoldSlidChange();
-                string name = _action.GetName(StrategicMap.Current.SeatedPlayer);
+                string name = _action.GetName(strategicMap.SeatedPlayer);
                 BribeHeaderLabel.Text = name;
                 if (_action.Proposal.Icon >= 0)
                 {
@@ -1000,7 +1016,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             }
             else
             {
-                StrategicMap.Current.ShowMessage(reason);
+                UI.Engine.StrategicMap.ShowMessage(reason);
             }
         }
     }
@@ -1008,7 +1024,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:901
     public void ReplyButtonClick()
     {
-        DiplomaticAction? action = StrategicMap.Current.Players.GetPlayers(_action.Target).CreateDiplomaticAction(new SendMessage(), target: _action.Source, other: null);
+        DiplomaticAction? action = UI.Engine.StrategicMap.Players.GetPlayers(_action.Target).CreateDiplomaticAction(new SendMessage(), target: _action.Source, other: null);
         ClearActions();
         SetAction(action);
         NewActionPanel.Visible = false;
@@ -1030,7 +1046,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     public void IIOkBtnClick()
     {
         FinishEvent();
-        if (_action.Source == StrategicMap.Current.SeatedPlayer)
+        if (_action.Source == UI.Engine.StrategicMap.SeatedPlayer)
         {
             ShowPlayerActions(_action.Target);
         }
@@ -1069,7 +1085,8 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         dialog._event = eventValue;
         _ = eventValue.AddRef();
 
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Status == PlayerStatus.Playing)
+        StrategicMap strategicMap = dialog.UI.Engine.StrategicMap;
+        if (strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).Status == PlayerStatus.Playing)
         {
             dialog.ShowRelations(eventValue.Action.Target);
             dialog.SetAction(eventValue.Action);
@@ -1084,7 +1101,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 dialog.ReceivedMessagePanel.Visible = true;
                 string text = proposal.MessageText;
                 dialog.ReceivedMessageMemo.Items.Text = text;
-                string name = StrategicMap.Current.Players.GetPlayers(from).GetName();
+                string name = dialog.UI.Engine.StrategicMap.Players.GetPlayers(from).GetName();
                 string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.MessageFormat), arguments: [name]);
                 dialog.ReceivedMessageHeaderLabel.Text = format;
             }
@@ -1108,7 +1125,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 }
                 else
                 {
-                    if (StrategicMap.Current.SeatedPlayer == dialog._action.Source && dialog._action.Reaction != DiplomaticActionReaction.Ignore)
+                    if (dialog.UI.Engine.StrategicMap.SeatedPlayer == dialog._action.Source && dialog._action.Reaction != DiplomaticActionReaction.Ignore)
                     {
                         dialog.HighlightPlayer(dialog._action.Target);
                         dialog.ShowPlayerInformation(dialog._action.Target);
@@ -1137,14 +1154,14 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             }
             else if (view == ProposalView.Notice)
             {
-                if (StrategicMap.Current.SeatedPlayer == dialog._action.Source)
+                if (dialog.UI.Engine.StrategicMap.SeatedPlayer == dialog._action.Source)
                 {
                     dialog.FinishEvent();
                     dialog.ShowPlayerActions(dialog._action.Target);
                 }
                 else
                 {
-                    if (StrategicMap.Current.SeatedPlayer == dialog._action.Target)
+                    if (dialog.UI.Engine.StrategicMap.SeatedPlayer == dialog._action.Target)
                     {
                         dialog.HighlightPlayer(dialog._action.Source);
                         dialog.ShowPlayerInformation(dialog._action.Source);
