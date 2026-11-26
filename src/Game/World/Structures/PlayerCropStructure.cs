@@ -186,7 +186,9 @@ public class PlayerCropStructure : PlayerStructure
 
             if (result)
             {
-                return field.TerrainType is (>= (sbyte)Map.TerrainType.Grass and <= (sbyte)Map.TerrainType.Steppe) or (sbyte)Map.TerrainType.Dirt || (field.TerrainType == 5 && GetRace() == 11);
+                // A field without a terrain yet takes no crop: the original reads -1 there while a map is torn
+                // down (Crops.pas:440).
+                return field.TryGetTerrain(out TerrainType terrain) && (terrain is (>= Map.TerrainType.Grass and <= Map.TerrainType.Steppe) or Map.TerrainType.Dirt || (terrain == Map.TerrainType.Wasteland && GetRace() == 11));
             }
         }
         else

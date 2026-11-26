@@ -107,8 +107,8 @@ public sealed class ResourcePayloadTests
             loaded.SetTerrain(5, value: 9);
             TreeReader.Read(tree, objectValue: new Holder((persister, _) => GamePersistence.TerrainList(persister, name: "TerrainList", list: loaded)), factory: Factory);
             Assert.Equal(2, loaded.Count);
-            Assert.Equal([1, -2], new[] { loaded.GetTerrain(0), loaded.GetTerrain(1) });
-            Assert.Equal([-2, 4], new[] { loaded.GetOverlay(0), loaded.GetOverlay(1) });
+            Assert.Equal([1, -2], new[] { loaded.GetTerrain(0).ToOriginal(), loaded.GetTerrain(1).ToOriginal() });
+            Assert.Equal([-2, 4], new[] { loaded.GetOverlay(0).ToOriginal(), loaded.GetOverlay(1).ToOriginal() });
         }
     }
 

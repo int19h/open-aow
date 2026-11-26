@@ -262,13 +262,13 @@ internal static class TacticalTables
             if ((x != startX || y != startY) && (x != endX || y != endY))
             {
                 steps = 0;
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].TerrainType == 15)
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].Terrain == TerrainType.Border)
                 {
                     steps = 3;
                 }
                 else
                 {
-                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].TerrainType == 7)
+                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].Terrain == TerrainType.Earth)
                     {
                         steps = 3;
                     }
@@ -308,7 +308,7 @@ internal static class TacticalTables
 
                                 if (wall is null)
                                 {
-                                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].OverlayType == 8)
+                                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].OverlayType == OverlayType.Obstacle)
                                     {
                                         steps = 1;
                                     }

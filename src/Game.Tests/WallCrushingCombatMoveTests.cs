@@ -81,8 +81,8 @@ public sealed class WallCrushingCombatMoveTests
                 {
                     MapField field = container.MapLevels[0].Field[x, y];
                     bool border = x == 0 || y == 0 || x == 4 || y == 4;
-                    field.TerrainType = (sbyte)(border ? TerrainType.Border : TerrainType.Grass);
-                    field.OverlayType = -1;
+                    field.SetTerrain(TerrainType.FromOriginal((sbyte)(border ? TerrainType.Border : TerrainType.Grass)));
+                    field.OverlayType = null;
                 }
             }
 

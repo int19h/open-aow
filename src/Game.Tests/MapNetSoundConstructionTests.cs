@@ -121,8 +121,8 @@ public sealed class MapNetSoundConstructionTests
         switch (value)
         {
             case MapField field:
-                Assert.Equal(-1, field.TerrainType);
-                Assert.Equal(-1, field.OverlayType);
+                Assert.False(field.TryGetTerrain(out _));
+                Assert.Null(field.OverlayType);
                 Assert.Equal(3, field.Capacity);
                 Assert.Equal(0, field.Count);
                 // Issue 200: the field is the game field (TAoWMapField).

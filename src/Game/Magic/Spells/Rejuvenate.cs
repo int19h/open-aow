@@ -50,10 +50,10 @@ public class Rejuvenate : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:1090
-    public override bool ValidTargetSelectionMapField(MapField field) => base.ValidTargetSelectionMapField(field) && field.TerrainType is >= (sbyte)TerrainType.Desert and <= (sbyte)TerrainType.Wasteland;
+    public override bool ValidTargetSelectionMapField(MapField field) => base.ValidTargetSelectionMapField(field) && field.Terrain is >= TerrainType.Desert and <= TerrainType.Wasteland;
 
     // GlobalTargetSpells.pas:1085
-    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && field.TerrainType is >= (sbyte)TerrainType.Desert and <= (sbyte)TerrainType.Wasteland;
+    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && field.Terrain is >= TerrainType.Desert and <= TerrainType.Wasteland;
 
     private static readonly string s_rejuvenateText = "Rejuvenate";
 }

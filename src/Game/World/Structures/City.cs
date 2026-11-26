@@ -209,12 +209,12 @@ public partial class City : PlayerCropStructure
     // City.pas:2378
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (!(message.MessageId == 4364 && Resource.TerrainList.Terrain[message.HexNumber] >= 0))
+        if (!(message.MessageId == 4364 && Resource.TerrainList.Terrain[message.HexNumber].Value is not null))
         {
             base.MapFieldMessageProc(ref message);
         }
 
-        if (Resource.TerrainList.Terrain[message.HexNumber] >= 0)
+        if (Resource.TerrainList.Terrain[message.HexNumber].Value is not null)
         {
             if (message.MessageId == 4364 && message.HexNumber == 0)
             {
@@ -351,7 +351,7 @@ public partial class City : PlayerCropStructure
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
         base.UpdateMapField(info);
-        if (Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (Resource.TerrainList.GetTerrain(info.HexNumber).Value is not null)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.BattleFieldInfoFlag;
         }
@@ -975,7 +975,7 @@ public partial class City : PlayerCropStructure
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
             while (walk.HexNumber < count && !multiplePlayers)
             {
-                if (Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
+                if (Resource.TerrainList.GetTerrain(walk.HexNumber).Value is not null && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     ArmyHexSprite army = mapLevel.GetField(walk.X, walk.Y).GetArmyHexSprite();
                     if (army is not null)
@@ -1434,7 +1434,7 @@ public partial class City : PlayerCropStructure
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
         while (walk.HexNumber < count && result)
         {
-            if (Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
+            if (Resource.TerrainList.GetTerrain(walk.HexNumber).Value is not null && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 ArmyHexSprite army = mapLevel.GetField(walk.X, walk.Y).GetArmyHexSprite();
                 if (army is not null && (!selection.Contains(MoveOutOfCitySelections.SkipOwnPlayer) || army.Army.Player != Player))
@@ -1465,7 +1465,7 @@ public partial class City : PlayerCropStructure
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, radius: 0);
         while (walk.HexNumber < count)
         {
-            if (Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
+            if (Resource.TerrainList.GetTerrain(walk.HexNumber).Value is not null && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 ArmyHexSprite army = mapLevel.GetField(walk.X, walk.Y).GetArmyHexSprite();
                 if (army is not null)

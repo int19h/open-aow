@@ -49,7 +49,7 @@ public sealed class StructureShadow(CustomNode? owner) : HexSprite(owner)
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Structure.StoredHexX, Structure.StoredHexY, radius: 0);
             while (walk.HexNumber < count)
             {
-                if ((Structure.GetTerrain(walk.HexNumber) >= -1 || Structure.GetOverlay(walk.HexNumber) >= -1) && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
+                if (Structure.Covers(walk.HexNumber) && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
                     _ = level.GetField(walk.X, walk.Y).AddHexSprite(this, walk.HexNumber);
                 }
@@ -70,7 +70,7 @@ public sealed class StructureShadow(CustomNode? owner) : HexSprite(owner)
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Structure.StoredHexX, Structure.StoredHexY, radius: 0);
             while (walk.HexNumber < count)
             {
-                if ((Structure.GetTerrain(walk.HexNumber) >= -1 || Structure.GetOverlay(walk.HexNumber) >= -1) && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
+                if (Structure.Covers(walk.HexNumber) && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
                     _ = level.GetField(walk.X, walk.Y).RemoveHexSprite(this);
                 }

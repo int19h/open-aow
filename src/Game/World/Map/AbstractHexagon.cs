@@ -25,12 +25,12 @@ public class AbstractHexagon(CustomNode owner) : MapObject(owner)
     // MAPOBJ.PAS:704
     public override void ChangeTerrain(in HexSpriteTerrainInfo message)
     {
-        if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
+        if (message.HexNumber == 0 && (GetTerrain(0) is not { IsCovered: true } terrainCell || terrainCell.Value != message.Terrain))
         {
             MapObjectResourceTerrainControl? control = Resource.TerrainControl;
             if (control is not null)
             {
-                MapObjectResource? r = control.GetRandomResource(classId: Resource.EngineClass.ClassId, terrainType: message.TerrainType);
+                MapObjectResource? r = control.GetRandomResource(classId: Resource.EngineClass.ClassId, terrainType: message.TerrainNumber);
                 if (r is not null)
                 {
                     SetResource(r);
@@ -45,7 +45,7 @@ public class AbstractHexagon(CustomNode owner) : MapObject(owner)
                     int hexLevel = HexLevel;
                     int hexY = HexY;
                     int hexX = HexX;
-                    _ = Resource.TerrainControl.Place(Owner.Owner.Owner, hexX, hexY, L: hexLevel, message.TerrainType);
+                    _ = Resource.TerrainControl.Place(Owner.Owner.Owner, hexX, hexY, L: hexLevel, terrainType: message.TerrainNumber);
                 }
             }
         }

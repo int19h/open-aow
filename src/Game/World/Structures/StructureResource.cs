@@ -136,7 +136,7 @@ public class StructureResource : FixedImageLibraryTerrainMapObjectResource
         FlagType = 0;
         for (int i = 0, last = TerrainList.Count - 1; i <= last; i++)
         {
-            if (TerrainList.Terrain[i] >= 0)
+            if (TerrainList.Terrain[i].Value is not null)
             {
                 FlagType = (byte)(FlagType + 1);
             }

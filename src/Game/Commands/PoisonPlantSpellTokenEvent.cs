@@ -50,7 +50,7 @@ public class PoisonPlantSpellTokenEvent(CustomNode? owner) : GlobalTargetSpellTo
                     PoisonPlant plant = resource.CreateResourceUser<PoisonPlant>();
                     plant.DaysRemaining = (3 + ((GetEngine().StrategicMap.Random(11) - 5) / 5)).TruncateToSByte();
                     plant.CasterPlayer = source.Player;
-                    plant.OriginalOverlay = mapField.OverlayType;
+                    plant.OriginalOverlay = mapField.OverlayType.ToOriginal();
                     GetEngine().StrategicMap.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
                     if (GetEngine().StrategicMap.PlaceHex(plant, walk.X, walk.Y, L: Location.MapLevel))
                     {

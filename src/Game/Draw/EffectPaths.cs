@@ -175,7 +175,7 @@ internal static class EffectPaths
 
     internal static void CreateFire(int chance, int hexX, int hexY, GameEngine? engine)
     {
-        if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType != 15)
+        if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).Terrain != TerrainType.Border)
         {
             if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild(CombatFire.ClassId) is null)
             {

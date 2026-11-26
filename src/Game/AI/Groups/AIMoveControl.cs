@@ -143,7 +143,7 @@ public sealed class AIMoveControl : EngineObject
             PathStep pathItem = path[i];
             PathStep item2 = path[i];
             MapField mapField = GetEngine().StrategicMap.MapContainer.GetField(item2.Location.X, pathItem.Location.Y, item.Location.MapLevel);
-            if (table[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay] == -1)
+            if (table[mapField.TerrainNumber][mapField.OverlayType.ToOriginal() - MovementTables.FirstOverlay] == -1)
             {
                 if (!inGap)
                 {

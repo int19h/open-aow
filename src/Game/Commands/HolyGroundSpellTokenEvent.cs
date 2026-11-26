@@ -50,7 +50,7 @@ public class HolyGroundSpellTokenEvent(CustomNode? owner) : GlobalTargetSpellTok
                         HolyGround ground = resource.CreateResourceUser<HolyGround>();
                         ground.Duration = (((GetEngine().StrategicMap.Random(11) - 5) / 5) + 3).TruncateToSByte();
                         ground.Player = caster.Player;
-                        ground.OriginalOverlay = field.OverlayType;
+                        ground.OriginalOverlay = field.OverlayType.ToOriginal();
                         GetEngine().StrategicMap.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
                         if (GetEngine().StrategicMap.PlaceHex(ground, walk.X, walk.Y, L: Location.MapLevel))
                         {

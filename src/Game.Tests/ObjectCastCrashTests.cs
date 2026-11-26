@@ -346,13 +346,13 @@ public sealed class ObjectCastCrashTests
         {
             HexX = 20,
             HexY = 20,
-            OverlayType = 4
+            OverlayType = OverlayType.Road
         };
         HexBridge bridge = new(marker);
         bridge.SetResourceWithoutOverrides(new MapObjectResource(null) { Holder = EngineFixture.Engine });
         Assert.False(bridge.PlaceHex(scope.Map.MapContainer, 0, 0, 0));
         Assert.Same(scope.Field, bridge.Owner);
-        Assert.Equal(4, marker.OverlayType);
+        Assert.Equal(4, actual: marker.OverlayType.ToOriginal());
     }
 
     [Fact]

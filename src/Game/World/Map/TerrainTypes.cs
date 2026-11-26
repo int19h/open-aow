@@ -15,12 +15,12 @@ public enum TerrainTypes : ushort
     Ice = 1 << 6,
     Earth = 1 << 7,
     Rock = 1 << 8,
-    Laval = 1 << 9,
+    Lava = 1 << 9,
     UndergroundWater = 1 << 10,
     Reserved = 1 << 11,
     Dirt = 1 << 12,
     UndergroundIce = 1 << 13,
-    Cost = 1 << 14,
+    Coast = 1 << 14,
     Border = 1 << 15,
 }
 
@@ -31,6 +31,9 @@ public static class TerrainTypeConversions
     {
         /// <summary>The flag of the value. A value outside the members' ordinals has no flag, as it is in no Delphi set.</summary>
         public TerrainTypes ToFlag() => (int)value is >= 0 and <= 15 ? (TerrainTypes)(1U << (int)value) : TerrainTypes.None;
+
+        /// <summary>The original terrain number of a terrain.</summary>
+        public sbyte ToOriginal() => (sbyte)value;
     }
 
     extension(TerrainTypes flags)
@@ -39,5 +42,22 @@ public static class TerrainTypeConversions
         public TerrainType ToTerrainType() => System.Numerics.BitOperations.IsPow2((uint)flags)
             ? (TerrainType)System.Numerics.BitOperations.TrailingZeroCount((uint)flags)
             : throw new ArgumentOutOfRangeException(paramName: nameof(flags), message: "The value does not hold exactly one member.");
+    }
+
+    extension(TerrainType)
+    {
+        /// <summary>The terrain of an original terrain number: -1 is no terrain, 0 to 15 a member. Any other number throws.</summary>
+        public static TerrainType? FromOriginal(int value) => value switch
+        {
+            -1 => null,
+            >= 0 and <= 15 => (TerrainType)value,
+            _ => throw new ArgumentOutOfRangeException(paramName: nameof(value), actualValue: value, message: "A terrain number is -1 or 0 to 15."),
+        };
+    }
+
+    extension(TerrainType? value)
+    {
+        /// <summary>The original terrain number: -1 for no terrain.</summary>
+        public sbyte ToOriginal() => value is { } terrain ? (sbyte)terrain : (sbyte)-1;
     }
 }

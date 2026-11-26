@@ -62,7 +62,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 4402)
         {
-            if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
+            if (base.Resource.TerrainList.Terrain[message.HexNumber].Value is not null)
             {
                 RestoreTerrain();
             }
@@ -77,7 +77,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         Dispose();
         if (overlay > 0)
         {
-            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, L: field.HexLevel, field.TerrainType, overlayType: overlay);
+            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, L: field.HexLevel, terrainType: field.TerrainNumber, overlayType: overlay);
         }
     }
 

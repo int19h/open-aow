@@ -32,6 +32,13 @@ public interface IOptionalOriginalId<TSelf> : IOriginalId<TSelf>, IOptionalOrigi
 {
 }
 
+/// <summary>The original number that a null value of a nullable enum stands for, as -1 for no overlay.</summary>
+[AttributeUsage(AttributeTargets.Enum)]
+public sealed class OriginalNoneAttribute(int value) : Attribute
+{
+    public int Value { get; } = value;
+}
+
 public static class OriginalValueSnapshot
 {
     public static bool TryRender(object? value, Type? declaredType, out object? rendered)
@@ -46,6 +53,12 @@ public static class OriginalValueSnapshot
         if (value is null && underlying is not null && typeof(IOptionalOriginalValue).IsAssignableFrom(underlying))
         {
             rendered = ((IOriginalValue)Activator.CreateInstance(underlying)!).NoneValue;
+            return true;
+        }
+
+        if (value is null && underlying is { IsEnum: true } && underlying.GetCustomAttributes(typeof(OriginalNoneAttribute), inherit: false) is [OriginalNoneAttribute none])
+        {
+            rendered = none.Value;
             return true;
         }
 

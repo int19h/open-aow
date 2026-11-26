@@ -64,7 +64,7 @@ public class EarthMastery : GlobalEnchantmentSpell
             for (int y = StrategicMap.Current.ViewHexY; y <= maxY; y++)
             {
                 // The original frame offset uses the field address.
-                if (mapField.OverlayType == 4)
+                if (mapField.OverlayType == OverlayType.Road)
                 {
                     _ = CastImages.Show(0, pixelX, pixelY, frame: animation.FrameCounter - FrameFixtureInputs.FieldFrameOffset(mapField), lockedSurface);
                 }

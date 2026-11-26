@@ -93,7 +93,7 @@ public class Tornado : GlobalTargetSpell
             if (x >= 0 && walk.Y >= 0 && x < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 mapField = mapLevel.GetField(x, walk.Y);
-                if (SpellTableCost(table, terrainType: mapField.TerrainType, overlayType: mapField.OverlayType) != -1)
+                if (SpellTableCost(table, terrainType: mapField.TerrainNumber, overlayType: mapField.OverlayType.ToOriginal()) != -1)
                 {
                     _ = locations.Add(mapField);
                 }

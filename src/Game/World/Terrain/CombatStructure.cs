@@ -27,7 +27,7 @@ public class CombatStructure : CombatFixedImageLibraryTerrain
     private bool _playSound;
 
     // CombatStructure.pas:229
-    public override int GetOverlay(int index) => ((MapObject)this).Resource.TerrainList.GetTerrain(index) >= 0 ? HitPoints == 0 ? 6 : 8 : -1;
+    public override FootprintCell<OverlayType> GetOverlay(int index) => ((MapObject)this).Resource.TerrainList.GetTerrain(index).Value is not null ? HitPoints == 0 ? OverlayType.Rubble : OverlayType.Obstacle : FootprintCell<OverlayType>.Keep;
 
     // CombatStructure.pas:104
     public override void MapFieldMessageProc(ref MapFieldMessage message)
@@ -153,10 +153,10 @@ public class CombatStructure : CombatFixedImageLibraryTerrain
         if (((MapObject)this).Resource.TerrainList.GetUsed(info.HexNumber))
         {
             moveResult.Code = HitPoints == 0
-                ? ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][6 - MovementTables.FirstOverlay]
+                ? ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainNumber][6 - MovementTables.FirstOverlay]
                 : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
                     ? -1
-                    : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay];
+                    : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainNumber][8 - MovementTables.FirstOverlay];
 
             moveResult.Done = true;
         }

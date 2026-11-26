@@ -164,7 +164,7 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
             switch (message.MessageId)
             {
                 case 135169:
-                    if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && message.Param[0].Int < GetResource<Resource>().Defense)
+                    if (base.Resource.TerrainList.GetTerrain(message.HexNumber).Value is not null && message.Param[0].Int < GetResource<Resource>().Defense)
                     {
                         MapFieldMessageParameters param2 = message.Param;
                         param2[0] = (sbyte)GetResource<Resource>().Defense;
@@ -183,7 +183,7 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
     {
         if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
         {
-            if (base.Resource.TerrainList.GetOverlay(info.HexNumber) == 8)
+            if (base.Resource.TerrainList.GetOverlay(info.HexNumber).Value == OverlayType.Obstacle)
             {
                 moveResult.Code = -1;
                 moveResult.Done = true;

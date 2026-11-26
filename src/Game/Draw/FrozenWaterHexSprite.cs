@@ -43,7 +43,7 @@ public class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
     public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
         base.TerrainChanged(info);
-        if (info.HexNumber == 0 && info.TerrainType is not ((sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundIce))
+        if (info.HexNumber == 0 && info.Terrain is not (TerrainType.Ice or TerrainType.UndergroundIce))
         {
             Dispose();
         }
@@ -65,7 +65,7 @@ public class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
     // Structur.PAS:4494
     public void MeltIce()
     {
-        if (Owner.TerrainType == 6)
+        if (Owner.Terrain == TerrainType.Ice)
         {
             int hexY = HexY;
             int hexX = HexX;
@@ -73,7 +73,7 @@ public class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
         }
         else
         {
-            if (Owner.TerrainType == 13)
+            if (Owner.Terrain == TerrainType.UndergroundIce)
             {
                 int hexY = HexY;
                 int hexX = HexX;

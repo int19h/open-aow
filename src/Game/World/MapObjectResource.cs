@@ -248,7 +248,7 @@ public class MapObjectResource : EngineResource
         int hexY = default;
         for (int i = TerrainList.Count - 1; i >= 0; i--)
         {
-            if (TerrainList.GetTerrain(i) >= 0)
+            if (TerrainList.GetTerrain(i).Value is not null)
             {
                 HexGeometry.CenterHexNumberToHex(X, Y, hexNumber: i, ref hexX, ref hexY);
                 Engine.HexSpriteMap.ClearTerrain(hexX, hexY, L: hexLevel, radius: 0, terrainType: -1);

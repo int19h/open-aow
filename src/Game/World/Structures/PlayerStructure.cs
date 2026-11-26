@@ -96,7 +96,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     // Structur.PAS:2370
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (message.MessageId == 4364 && message.HexNumber == 0 && Resource.TerrainList.Terrain[message.HexNumber] >= 0)
+        if (message.MessageId == 4364 && message.HexNumber == 0 && Resource.TerrainList.Terrain[message.HexNumber].Value is not null)
         {
             if (!StrategicMap.Current.FogEnabled || !Fogged)
             {
@@ -144,14 +144,14 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
 
         if (message.MessageId == 4352)
         {
-            if (Resource.TerrainList.Terrain[message.HexNumber] >= 0 && !GetRazed())
+            if (Resource.TerrainList.Terrain[message.HexNumber].Value is not null && !GetRazed())
             {
                 message.Result = Player == PlayerId.Independent ? Resource.Claimed ? (Rtl.MsgArg)0 : (Rtl.MsgArg)(-1) : Session.MsgArgIds.FromPlayer(Player);
             }
         }
         else
         {
-            if (message.MessageId == 4365 && Resource.TerrainList.Terrain[message.HexNumber] >= 0)
+            if (message.MessageId == 4365 && Resource.TerrainList.Terrain[message.HexNumber].Value is not null)
             {
                 bool condition = PlayerIdExtensions.ToOriginal(Player) > 0;
                 if (condition)
@@ -168,13 +168,13 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
             }
             else
             {
-                if (message.MessageId == 4400 && Resource.TerrainList.Terrain[message.HexNumber] >= 0)
+                if (message.MessageId == 4400 && Resource.TerrainList.Terrain[message.HexNumber].Value is not null)
                 {
                     message.Result = Session.MsgArgIds.FromPlayer(Player);
                 }
                 else
                 {
-                    if (message.MessageId == 4353 && Resource.TerrainList.Terrain[message.HexNumber] >= 0)
+                    if (message.MessageId == 4353 && Resource.TerrainList.Terrain[message.HexNumber].Value is not null)
                     {
                         MoveAction moveAction = GetMoveAction(PlayerId.FromOriginal((sbyte)message.Param[0].Int), action: (MoveAction)message.Param[1].Int);
                         MapFieldMessageParameters param6 = message.Param;
@@ -212,13 +212,13 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
         }
         else
         {
-            if (message.MessageId == 4368 && Resource.TerrainList.Terrain[message.HexNumber] >= 0)
+            if (message.MessageId == 4368 && Resource.TerrainList.Terrain[message.HexNumber].Value is not null)
             {
                 FinalizeCombat(message.Param[0].As<Battle>());
             }
             else
             {
-                if (message.MessageId == 4361 && Resource.TerrainList.Terrain[message.HexNumber] >= 0)
+                if (message.MessageId == 4361 && Resource.TerrainList.Terrain[message.HexNumber].Value is not null)
                 {
                     string combatEventText = GetCombatEventText(message.Param[0].As<Battle>());
                     message.Result.As<CombatResultQuery>().Text = combatEventText;
@@ -230,7 +230,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     // Structur.PAS:2302
     public override void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)
     {
-        if (Resource.TerrainList.Terrain[info.HexNumber] >= 0)
+        if (Resource.TerrainList.Terrain[info.HexNumber].Value is not null)
         {
             if (!GetRazed() && Player is not null && ((MoveControl)info.Sender).Player != Player && info.MoveOverCode != 1)
             {
@@ -243,7 +243,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     // Structur.PAS:2313
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        return Resource.TerrainList.Terrain[info.HexNumber] >= 0 && (!GetRazed() || Building)
+        return Resource.TerrainList.Terrain[info.HexNumber].Value is not null && (!GetRazed() || Building)
             ? Player == PlayerId.Independent ? ((MoveControl)info.Sender).Player == Player || !Resource.Claimed ? 1 : 0
                 : ((MoveControl)info.Sender).Player == Player || Player is null ? 1 : 0
             : 1;
@@ -278,7 +278,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     // Structur.PAS:2343
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (Resource.TerrainList.Terrain[info.HexNumber] >= 0)
+        if (Resource.TerrainList.Terrain[info.HexNumber].Value is not null)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.ViewerFlag | MapField.MoveOverFlag | MapField.MoveOnFlag | MapField.OwnerFlag | MapField.PlayerChangeListenerFlag | MapField.AITargetFlag;
         }
@@ -503,7 +503,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
             {
                 for (int i = 0, last = Resource.TerrainList.Count - 1; i <= last; i++)
                 {
-                    if (Resource.TerrainList.Terrain[i] >= 0)
+                    if (Resource.TerrainList.Terrain[i].Value is not null)
                     {
                         HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, hexNumber: i, ref x, ref y);
                         _ = StrategicMap.Current.FogArea(x, y, Owner.HexLevel, range: UnfogRange);
@@ -516,7 +516,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
             {
                 for (int i = 0, last = Resource.TerrainList.Count - 1; i <= last; i++)
                 {
-                    if (Resource.TerrainList.Terrain[i] >= 0)
+                    if (Resource.TerrainList.Terrain[i].Value is not null)
                     {
                         HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, hexNumber: i, ref x, ref y);
                         _ = StrategicMap.Current.UnFogArea(x, y, Owner.HexLevel, range: UnfogRange);
@@ -539,7 +539,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
                 {
                     for (int i = 0, lastI = Resource.TerrainList.Count - 1; i <= lastI; i++)
                     {
-                        if (Resource.TerrainList.Terrain[i] >= 0)
+                        if (Resource.TerrainList.Terrain[i].Value is not null)
                         {
                             HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, hexNumber: i, ref x, ref y);
                             int visibilityRange = VisibilityRange();
@@ -619,7 +619,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
         while (walk.HexNumber < count && !different)
         {
-            if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
+            if (Resource.TerrainList.Terrain[walk.HexNumber].Value is not null && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 ArmyHexSprite army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                 if (army is not null)
@@ -718,7 +718,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
             int y = default;
             for (int i = 0, last = Resource.TerrainList.Count - 1; i <= last; i++)
             {
-                if (Resource.TerrainList.Terrain[i] >= 0)
+                if (Resource.TerrainList.Terrain[i].Value is not null)
                 {
                     HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, hexNumber: i, ref x, ref y);
                     int hexLevel = HexLevel;

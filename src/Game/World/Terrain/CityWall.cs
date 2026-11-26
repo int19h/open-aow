@@ -34,7 +34,7 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
     public int WallType { get; private set; }
 
     // CityWall.pas:133
-    public override int GetOverlay(int index) => index == 0 ? HitPoints == 0 ? 6 : 8 : base.GetOverlay(index);
+    public override FootprintCell<OverlayType> GetOverlay(int index) => index == 0 ? HitPoints == 0 ? OverlayType.Rubble : OverlayType.Obstacle : base.GetOverlay(index);
 
     // CityWall.pas:230
     public override void MapFieldMessageProc(ref MapFieldMessage message)
@@ -155,7 +155,7 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
         {
             if (HitPoints == 0)
             {
-                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][6 - MovementTables.FirstOverlay];
+                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainNumber][6 - MovementTables.FirstOverlay];
             }
             else
             {
@@ -169,10 +169,10 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
                     moveResult.Code = ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.WallCrushing) && HexX == ((MoveControl)info.Sender).Destination.X && HexY == ((MoveControl)info.Sender).Destination.Y
                         ? 0
                         : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36)
-                            ? ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][-1 - MovementTables.FirstOverlay]
+                            ? ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainNumber][-1 - MovementTables.FirstOverlay]
                             : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
                                 ? -1
-                                : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay];
+                                : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainNumber][8 - MovementTables.FirstOverlay];
                 }
             }
 
@@ -188,7 +188,7 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
                 ? 1
                 : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
                     ? 0
-                    : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay] != 0 ? 1 : 0
+                    : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainNumber][8 - MovementTables.FirstOverlay] != 0 ? 1 : 0
             : 1;
     }
 
@@ -336,7 +336,7 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
         pixelYSurface = pixelY - pixelYSurface;
         int hexY = HexY;
         int hexX = HexX;
-        int terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType switch
+        int terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainNumber switch
         {
             3 => 10,
             5 or 7 or 12 => 20,

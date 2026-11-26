@@ -123,7 +123,7 @@ public class VortexTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(o
 
                     _ = log.Release();
                     army.Army.Validate();
-                    army.Army.ValidateTerrain(army.Owner.TerrainType, army.Owner.OverlayType, source.Player);
+                    army.Army.ValidateTerrain(terrainType: army.Owner.TerrainNumber, overlayType: army.Owner.OverlayType.ToOriginal(), source.Player);
                 }
             }
 

@@ -24,7 +24,7 @@ public sealed class TerrainList : IDisposable
     }
 
     // HSEngine.pas:1423
-    public sbyte GetTerrain(int index) => index < _count ? _list[index].Terrain : (sbyte)-2;
+    public FootprintCell<TerrainType> GetTerrain(int index) => index < _count ? FootprintCell<TerrainType>.FromOriginal(_list[index].Terrain) : FootprintCell<TerrainType>.Outside;
 
     // HSEngine.pas:1431
     public void SetTerrain(int index, int value)
@@ -50,7 +50,11 @@ public sealed class TerrainList : IDisposable
     }
 
     // HSEngine.pas:1445
-    public sbyte GetOverlay(int index) => index < _count ? _list[index].Overlay : (sbyte)-2;
+    public FootprintCell<OverlayType> GetOverlay(int index) => index < _count ? FootprintCell<OverlayType>.FromOriginal(_list[index].Overlay) : FootprintCell<OverlayType>.Outside;
+
+    // The stored bytes of one pair, as the stream holds them. The save writes these, so a stored byte
+    // that the answers read the same way as another (below -2) still saves unchanged.
+    public (sbyte Terrain, sbyte Overlay) GetStoredPair(int index) => _list[index];
 
     // HSEngine.pas:1453
     public void SetOverlay(int index, int value)
@@ -115,7 +119,7 @@ public sealed class TerrainList : IDisposable
     public void Pack()
     {
         int newCount = _count;
-        while (newCount != 0 && GetOverlay(newCount - 1) == -2 && GetTerrain(newCount - 1) == -2)
+        while (newCount != 0 && _list[newCount - 1].Overlay == -2 && _list[newCount - 1].Terrain == -2)
         {
             newCount -= 1;
         }
@@ -134,14 +138,14 @@ public sealed class TerrainList : IDisposable
         UInt16List result = [];
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            if (GetTerrain(i) >= 0)
+            if (GetTerrain(i).Value is not null)
             {
                 HexGeometry.HexNumberToHex(i, ref hexX, ref hexY);
                 HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 1);
                 while (walk.HexNumber != 7)
                 {
                     int hexNumber = HexGeometry.HexToHexNumber(walk.X, walk.Y);
-                    if (hexNumber >= _count || (hexNumber < _count && GetTerrain(hexNumber) < 0))
+                    if (hexNumber >= _count || (hexNumber < _count && GetTerrain(hexNumber).Value is null))
                     {
                         if (result.IndexOf((ushort)hexNumber) == -1)
                         {
@@ -166,18 +170,18 @@ public sealed class TerrainList : IDisposable
 
         while (result && i != n)
         {
-            int t1 = GetTerrain(i);
-            int t2 = list.GetTerrain(i);
-            if (!(t1 < 0 && t2 < 0))
+            FootprintCell<TerrainType> t1 = GetTerrain(i);
+            FootprintCell<TerrainType> t2 = list.GetTerrain(i);
+            if (!(t1.Value is null && t2.Value is null))
             {
-                result = t1 >= 0 && t2 >= 0 && (!mode.Contains(TerrainCompareModes.SameTerrainType) || t1 == t2);
+                result = t1.Value is not null && t2.Value is not null && (!mode.Contains(TerrainCompareModes.SameTerrainType) || t1 == t2);
             }
 
             if (result)
             {
-                int o1 = GetOverlay(i);
-                int o2 = list.GetOverlay(i);
-                if (!(o1 < 0 && o2 < 0))
+                FootprintCell<OverlayType> o1 = GetOverlay(i);
+                FootprintCell<OverlayType> o2 = list.GetOverlay(i);
+                if (!(o1.Value is null && o2.Value is null))
                 {
                     result = !mode.Contains(TerrainCompareModes.SameOverlayType) || o1 == o2;
                 }
@@ -193,14 +197,14 @@ public sealed class TerrainList : IDisposable
 
     public sealed class TerrainAccessor(TerrainList target)
     {
-        public int this[int index] { get => target.GetTerrain(index); set => target.SetTerrain(index, value); }
+        public FootprintCell<TerrainType> this[int index] => target.GetTerrain(index);
     }
 
     public TerrainAccessor Terrain => new(this);
 
     public sealed class OverlayAccessor(TerrainList target)
     {
-        public int this[int index] { get => target.GetOverlay(index); set => target.SetOverlay(index, value); }
+        public FootprintCell<OverlayType> this[int index] => target.GetOverlay(index);
     }
 
     public OverlayAccessor Overlay => new(this);

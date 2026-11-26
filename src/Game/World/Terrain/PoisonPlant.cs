@@ -90,7 +90,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 4418)
         {
-            if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
+            if (base.Resource.TerrainList.GetTerrain(message.HexNumber).Value is not null)
             {
                 ArmyPlaced(message.Param[0].As<ArmyHexSprite>());
             }
@@ -99,7 +99,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
         {
             if (message.MessageId == 4384)
             {
-                if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && !message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageTypes.Poison) && PoisonPlantActive())
+                if (base.Resource.TerrainList.GetTerrain(message.HexNumber).Value is not null && !message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageTypes.Poison) && PoisonPlantActive())
                 {
                     message.Result = 1;
                 }
@@ -109,7 +109,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
                 if (message.MessageId == 4402)
                 {
                     // { Original excludes player zero from early restoration. }
-                    if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && PlayerIdExtensions.ToOriginal(CasterPlayer) > 0 && DaysRemaining > 0)
+                    if (base.Resource.TerrainList.GetTerrain(message.HexNumber).Value is not null && PlayerIdExtensions.ToOriginal(CasterPlayer) > 0 && DaysRemaining > 0)
                     {
                         RestoreTerrain();
                     }
@@ -121,7 +121,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     // PoisonP.pas:209
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        return base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0 && PoisonPlantActive()
+        return base.Resource.TerrainList.GetTerrain(info.HexNumber).Value is not null && PoisonPlantActive()
             ? !CanDoDamage(((MoveControl)info.Sender).Settings.Units) ? 1 : 0
             : 1;
     }
@@ -129,7 +129,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     // PoisonP.pas:203
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
+        if (base.Resource.TerrainList.GetTerrain(info.HexNumber).Value is not null)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOverFlag;
         }
@@ -231,7 +231,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
         Dispose();
         if (originalOverlay > 0)
         {
-            StrategicMap.Current.PlaceTerrain(mapField.HexX, mapField.HexY, L: mapField.HexLevel, mapField.TerrainType, overlayType: originalOverlay);
+            StrategicMap.Current.PlaceTerrain(mapField.HexX, mapField.HexY, L: mapField.HexLevel, terrainType: mapField.TerrainNumber, overlayType: originalOverlay);
         }
     }
 

@@ -40,7 +40,7 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
         {
             moveResult.Code = ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Side == CombatSideIndex.Attacker
                 ? 25
-                : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][info.MapField.OverlayType - MovementTables.FirstOverlay];
+                : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainNumber][info.MapField.OverlayType.ToOriginal() - MovementTables.FirstOverlay];
 
             moveResult.Done = true;
         }

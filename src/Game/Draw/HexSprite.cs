@@ -32,7 +32,7 @@ public class HexSprite(CustomNode? owner) : EngineObject(owner), IOwned<MapField
     }
 
     // HXSPRITE.PAS:116
-    public virtual int GetTerrain(int hexNumber) => -2;
+    public virtual FootprintCell<TerrainType> GetTerrain(int hexNumber) => FootprintCell<TerrainType>.Outside;
 
     // HXSPRITE.PAS:121
     public virtual void SetTerrain(int hexNumber, int value)
@@ -43,7 +43,11 @@ public class HexSprite(CustomNode? owner) : EngineObject(owner), IOwned<MapField
     public virtual int TerrainCount => 0;
 
     // HXSPRITE.PAS:130
-    public virtual int GetOverlay(int hexNumber) => -2;
+    public virtual FootprintCell<OverlayType> GetOverlay(int hexNumber) => FootprintCell<OverlayType>.Outside;
+
+    // Whether the hexagon is inside the sprite's footprint, for the terrain or for the overlay. The
+    // original tests both answers against -1 for this.
+    public bool Covers(int hexNumber) => GetTerrain(hexNumber).IsCovered || GetOverlay(hexNumber).IsCovered;
 
     // HXSPRITE.PAS:135
     public virtual void SetOverlay(int hexNumber, int value)

@@ -59,7 +59,7 @@ public partial class TerrainMapObject
             while (compatible && j != 0)
             {
                 j--;
-                int overlay = resource.TerrainList.GetOverlay(j);
+                int overlay = resource.TerrainList.GetOverlay(j).ToOriginal();
                 compatible = overlay < 0 || overlay == overlayType;
             }
             if (compatible)

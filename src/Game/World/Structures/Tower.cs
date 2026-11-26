@@ -29,7 +29,7 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
         base.MapFieldMessageProc(ref message);
-        if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0 && message.MessageId == 4387 && message.Param[0].As<MapField>().FindNoneTransparentHexSprite(typeof(Tower)) == this && !Building && !GetRazed())
+        if (base.Resource.TerrainList.Terrain[message.HexNumber].Value is not null && message.MessageId == 4387 && message.Param[0].As<MapField>().FindNoneTransparentHexSprite(typeof(Tower)) == this && !Building && !GetRazed())
         {
             message.Result = 2;
         }

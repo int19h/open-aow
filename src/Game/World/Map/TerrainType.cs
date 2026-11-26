@@ -1,7 +1,11 @@
 // Translated from AoWE.pas.
 
+using Aow.Engine;
+
 namespace Aow.Game.World.Map;
 
+/// <summary>The terrain of a map field. A field without a terrain holds null, the original -1.</summary>
+[OriginalNone(-1)]
 public enum TerrainType : byte
 {
     Water = 0,
@@ -13,11 +17,11 @@ public enum TerrainType : byte
     Ice = 6,
     Earth = 7,
     Rock = 8,
-    Laval = 9,
+    Lava = 9,
     UndergroundWater = 10,
     Reserved = 11,
     Dirt = 12,
     UndergroundIce = 13,
-    Cost = 14,
+    Coast = 14,
     Border = 15
 }

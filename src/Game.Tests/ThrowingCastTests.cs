@@ -60,7 +60,7 @@ public sealed class ThrowingCastTests
 
         public override int GetShowPriority() => 0;
 
-        public override int GetTerrain(int index) => 0;
+        public override FootprintCell<TerrainType> GetTerrain(int index) => World.Map.TerrainType.Water;
 
         // The tag query reads the resource. This site has none and leaves the query unanswered.
         public override void MapFieldMessageProc(ref MapFieldMessage message)
@@ -206,6 +206,14 @@ public sealed class ThrowingCastTests
             MapContainer container = new(null) { Holder = EngineFixture.Engine };
             MapLevel level = new(container);
             level.CreateMapFieldList(7, 7);
+            // The generator reads the terrain of the strategic fields, which a played map always has.
+            for (int y = 0; y < 7; y++)
+            {
+                for (int x = 0; x < 7; x++)
+                {
+                    level.GetField(x, y).SetTerrain(TerrainType.Grass);
+                }
+            }
             container.Map = scope.Map;
             scope.Map.MapContainer = container;
             MapField field = container.MapLevels[0].Field[3, 3];

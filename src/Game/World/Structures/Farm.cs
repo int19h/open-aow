@@ -119,7 +119,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
     }
 
     // Farm.pas:92
-    public override bool CanPlaceCrop(MapField field) => field.TerrainType != 5 && base.CanPlaceCrop(field);
+    public override bool CanPlaceCrop(MapField field) => (!field.TryGetTerrain(out TerrainType terrain) || terrain != Map.TerrainType.Wasteland) && base.CanPlaceCrop(field);
 
     // Farm.pas:87
     public override bool CropsEnabled() => base.CropsEnabled() && TerrainType != 5;

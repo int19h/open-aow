@@ -195,7 +195,7 @@ public class MapObjectResourceTerrainControl(CustomNode owner) : EngineObject(ow
     // HSEngine.pas:4572
     public void RegisterResource(MapObjectResource resource)
     {
-        int terrainType = resource.TerrainList.GetTerrain(0);
+        int terrainType = resource.TerrainList.GetTerrain(0).ToOriginal();
         if (terrainType >= 0 && terrainType < Resources.Count)
         {
             if (Resources[terrainType].IndexOf(resource) != -1 || resource is null)

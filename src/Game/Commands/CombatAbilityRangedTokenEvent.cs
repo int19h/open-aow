@@ -795,7 +795,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                                                                                                         GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
                                                                                                         break;
                                                                                                     case 124:
-                                                                                                        if (GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 0 && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 10 && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 2 && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 11 && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 8 && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 9 && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 15 && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 7)
+                                                                                                        if (GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).Terrain != TerrainType.Water && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).Terrain != TerrainType.UndergroundWater && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != OverlayType.Hill && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != OverlayType.Ooze && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != OverlayType.Obstacle && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).Terrain != TerrainType.Lava && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).Terrain != TerrainType.Border && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(endX, endY).Terrain != TerrainType.Earth)
                                                                                                         {
                                                                                                             TacticalBattleOozeHexSprite ooze = new(null) { Holder = CreationHolder() };
                                                                                                             _ = GetEngine().CombatMap.PlaceHex(ooze, endX, endY, L: 0);
@@ -1244,7 +1244,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                     if (condition)
                     {
                         CombatMap getFieldCombatMap = GetEngine().CombatMap;
-                        bool test = getFieldCombatMap.MapContainer.MapLevels[0].GetField(j, k).OverlayType != 8;
+                        bool test = getFieldCombatMap.MapContainer.MapLevels[0].GetField(j, k).OverlayType != OverlayType.Obstacle;
                         if (!test)
                         {
                             MapField fieldValue = getFieldCombatMap.MapContainer.MapLevels[0].GetField(j, k);
@@ -1255,16 +1255,16 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                         condition = test;
                     }
 
-                    bool passed = condition && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).TerrainType != 15 && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).TerrainType != 7;
+                    bool passed = condition && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).Terrain != TerrainType.Border && GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).Terrain != TerrainType.Earth;
                     if (passed)
                     {
                         CombatMap mapContainerCombatMap = GetEngine().CombatMap;
-                        bool test = mapContainerCombatMap.MapContainer.MapLevels[0].GetField(j, k).TerrainType is not 0 and not 10 and not 9;
+                        bool test = mapContainerCombatMap.MapContainer.MapLevels[0].GetField(j, k).Terrain is not TerrainType.Water and not TerrainType.UndergroundWater and not TerrainType.Lava;
                         if (!test)
                         {
                             MapField fieldValue = mapContainerCombatMap.MapContainer.MapLevels[0].GetField(j, k);
                             MapField fieldValue2 = mapContainerCombatMap.MapContainer.MapLevels[0].GetField(TargetX, TargetY);
-                            test = fieldValue.TerrainType == fieldValue2.TerrainType;
+                            test = fieldValue.Terrain == fieldValue2.Terrain;
                         }
 
                         passed = test;
@@ -1683,7 +1683,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
 
                         hitObject ??= GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(2_229_510);
 
-                        if (hitObject is not null || GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 15 || GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 7 || GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).OverlayType == 8)
+                        if (hitObject is not null || GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).Terrain == TerrainType.Border || GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).Terrain == TerrainType.Earth || GetEngine().CombatMap.MapContainer.MapLevels[0].GetField(j, k).OverlayType == OverlayType.Obstacle)
                         {
                             j = obstacle.PathIndex + 1;
                             int last = effect.Path.Count - 1;

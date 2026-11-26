@@ -18,18 +18,19 @@ public partial class GameMap
         {
             if (InRange())
             {
+                // The field values before the footprint applies, as the original number pair: a field
+                // without a terrain yet saves -1 and gets it back below.
                 MapField field = mapLevel.GetField(walk.X, walk.Y);
-                saved.SetTandO(walk.HexNumber, value: (byte)field.TerrainType | ((byte)field.OverlayType << 8));
-                int value = terrain.GetTerrain(walk.HexNumber);
-                if (value >= 0)
+                sbyte oldTerrain = field.TryGetTerrain(out TerrainType current) ? current.ToOriginal() : (sbyte)-1;
+                saved.SetTandO(walk.HexNumber, value: (byte)oldTerrain | ((byte)field.OverlayType.ToOriginal() << 8));
+                if (terrain.GetTerrain(walk.HexNumber).Value is { } newTerrain)
                 {
-                    field.TerrainType = (sbyte)value;
+                    field.SetTerrain(newTerrain);
                 }
 
-                value = terrain.GetOverlay(walk.HexNumber);
-                if (value >= 0)
+                if (terrain.GetOverlay(walk.HexNumber).Value is { } newOverlay)
                 {
-                    field.OverlayType = (sbyte)value;
+                    field.OverlayType = newOverlay;
                 }
             }
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -51,8 +52,8 @@ public partial class GameMap
             {
                 MapField field = mapLevel.GetField(walk.X, walk.Y);
                 int pair = saved.GetTandO(walk.HexNumber);
-                field.TerrainType = (sbyte)pair;
-                field.OverlayType = (sbyte)(pair >> 8);
+                field.SetTerrain(TerrainType.FromOriginal((sbyte)pair));
+                field.OverlayType = OverlayType.FromOriginal((sbyte)(pair >> 8));
             }
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }

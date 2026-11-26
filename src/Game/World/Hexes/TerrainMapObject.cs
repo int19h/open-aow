@@ -18,15 +18,15 @@ public partial class TerrainMapObject(CustomNode? owner) : MultiHexMapObject(own
     public override TerrainMapObjectResource Resource => GetResource<TerrainMapObjectResource>();
 
     // Terrain.pas:179
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => this == info.Sender || Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || (GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY) == info.MapField.TerrainType && CanChangeOwnTerrain(info.HexNumber));
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => this == info.Sender || Resource.TerrainList.GetTerrain(info.HexNumber).Value is null || (GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber).ToOriginal(), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY) == info.MapField.TerrainNumber && CanChangeOwnTerrain(info.HexNumber));
 
     // Terrain.pas:195
     public override void ChangeTerrain(in HexSpriteTerrainInfo info)
     {
-        int terrainType = Resource.TerrainList.GetTerrain(info.HexNumber);
-        if (terrainType >= 0 && terrainType != info.TerrainType)
+        int terrainType = Resource.TerrainList.GetTerrain(info.HexNumber).ToOriginal();
+        if (terrainType >= 0 && terrainType != info.TerrainNumber)
         {
-            int newTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY);
+            int newTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber).ToOriginal(), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY);
             if (newTerrainType != terrainType)
             {
                 TerrainMapObjectResource? r = FindTerrainResource(newTerrainType.TruncateToByte());
@@ -57,7 +57,7 @@ public partial class TerrainMapObject(CustomNode? owner) : MultiHexMapObject(own
     {
         if (message.MessageId == 16)
         {
-            if (Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
+            if (Resource.TerrainList.GetTerrain(message.HexNumber).Value is not null)
             {
                 ClearTerrain(message.MapField, message.HexNumber);
             }
@@ -76,7 +76,7 @@ public partial class TerrainMapObject(CustomNode? owner) : MultiHexMapObject(own
 
         if (message.MessageId == 17)
         {
-            if (Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
+            if (Resource.TerrainList.GetTerrain(message.HexNumber).Value is not null)
             {
                 message.Result = (sbyte)Resource.DecorationType;
             }
@@ -110,7 +110,7 @@ public partial class TerrainMapObject(CustomNode? owner) : MultiHexMapObject(own
                 if (resources[i] is TerrainMapObjectResource terrain)
                 {
                     r = terrain;
-                    found = r.EngineClass.ClassId == Resource.EngineClass.ClassId && r.DecorationType == Resource.DecorationType && r.TerrainType == Resource.TerrainType && r.TerrainList.UsedTerrain() == 1 && r.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == r.TerrainList.GetOverlay(0);
+                    found = r.EngineClass.ClassId == Resource.EngineClass.ClassId && r.DecorationType == Resource.DecorationType && r.TerrainType == Resource.TerrainType && r.TerrainList.UsedTerrain() == 1 && r.TerrainList.GetTerrain(0).Value is not null && GetOverlay(0) == r.TerrainList.GetOverlay(0);
                 }
             }
 
@@ -128,7 +128,7 @@ public partial class TerrainMapObject(CustomNode? owner) : MultiHexMapObject(own
                 int y = default;
                 for (; i <= last; i += 1)
                 {
-                    if (terrainList.GetTerrain(i) >= 0 && i != hexNumber)
+                    if (terrainList.GetTerrain(i).Value is not null && i != hexNumber)
                     {
                         HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: i, ref x, ref y);
                         _ = r.PlaceResourceUser(map, x.TruncateToSByte(), y.TruncateToSByte(), hexLevel.TruncateToSByte());
@@ -185,7 +185,7 @@ public partial class TerrainMapObject(CustomNode? owner) : MultiHexMapObject(own
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
         while (walk.HexNumber < count && result)
         {
-            if (walk.HexNumber != hexNumber && GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
+            if (walk.HexNumber != hexNumber && GetTerrain(walk.HexNumber).Value is not null && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 result = level.GetField(walk.X, walk.Y).CanChangeTerrain(this);
             }

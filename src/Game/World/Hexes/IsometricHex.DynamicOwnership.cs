@@ -20,6 +20,9 @@ public partial class IsometricHex
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 MapField neighbour = level.GetField(walk.X, walk.Y);
+                // A neighbour without a terrain yet reads -1, as the original reads it, in play too (a dead tree
+                // regrowing changes the terrain beside such a field).
+                int neighbourTerrain = neighbour.TryGetTerrain(out TerrainType terrain) ? terrain.ToOriginal() : -1;
                 HexSprite? sprite = neighbour.FindOwnedHexSprite(peer);
                 bool peerFound = sprite is not null;
                 sprite ??= neighbour.FindOwnedHexSprite(typeof(BorderHex));
@@ -28,10 +31,10 @@ public partial class IsometricHex
                     OpenSides |= (byte)(1 << (walk.HexNumber - 1));
                     if (water)
                     {
-                        shore(walk.HexNumber, neighbour.TerrainType switch { 3 => 40, 5 => 80, _ => 0 });
+                        shore(walk.HexNumber, neighbourTerrain switch { 3 => 40, 5 => 80, _ => 0 });
                     }
                 }
-                else if ((!water || peerFound) && neighbour.TerrainType != GetTerrain(0))
+                else if ((!water || peerFound) && neighbourTerrain != GetTerrain(0).ToOriginal())
                 {
                     Sides |= (byte)(1 << (walk.HexNumber - 1));
                 }

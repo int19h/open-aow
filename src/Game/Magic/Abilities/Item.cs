@@ -438,7 +438,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     // Army.PAS:4474
     public bool PlaceOnMap(GameMap? map, sbyte x, sbyte y, sbyte level)
     {
-        if (x >= 0 && y >= 0 && level >= 0 && x < map.MapContainer.Width && y < map.MapContainer.Height && level < map.MapContainer.LevelCount && map.MapContainer.GetField(x, y, level).TerrainType != 15)
+        if (x >= 0 && y >= 0 && level >= 0 && x < map.MapContainer.Width && y < map.MapContainer.Height && level < map.MapContainer.LevelCount && map.MapContainer.GetField(x, y, level).Terrain != TerrainType.Border)
         {
             ItemHexSprite? hexSprite = map.MapContainer.GetField(x, y, level).FindOwnedChild<ItemHexSprite>(ItemHexSprite.ClassId);
             if (hexSprite is null)

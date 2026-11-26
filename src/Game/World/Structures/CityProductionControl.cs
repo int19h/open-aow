@@ -42,7 +42,7 @@ public sealed partial class CityProductionControl(CustomNode? owner) : Productio
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
         while (walk.HexNumber < count && !valid)
         {
-            if (city.Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
+            if (city.Resource.TerrainList.Terrain[walk.HexNumber].Value is not null && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 int hexLevel = city.HexLevel;
                 valid = Settings.Unit.Place(walk.X, walk.Y, L: hexLevel, city.Player, mode: UnitPlaceModes.None) is not null;

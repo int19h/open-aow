@@ -137,7 +137,7 @@ public partial class Teleport(CustomNode? owner) : Structure(owner)
         if (Destination.MapLevel >= 0 && Destination.MapLevel < StrategicMap.Current.MapContainer.LevelCount && Destination.X >= 0 && Destination.X < StrategicMap.Current.MapContainer.Width && Destination.Y >= 0 && Destination.Y < StrategicMap.Current.MapContainer.Height)
         {
             MapField field = StrategicMap.Current.MapContainer.GetField(Destination.X, Destination.Y, Destination.MapLevel);
-            if (armyHexSprite.Army.ValidTerrain(field.TerrainType, field.OverlayType))
+            if (armyHexSprite.Army.ValidTerrain(terrainType: field.TerrainNumber, overlayType: field.OverlayType.ToOriginal()))
             {
                 ArmyHexSprite otherArmy = field.GetArmyHexSprite();
                 // { Original rejects a same-player army when CanAddUnits succeeds. }

@@ -64,7 +64,7 @@ public class Vortex : GlobalTargetSpell
         if (targetSelection.Target.X != -1)
         {
             MapField mapField = StrategicMap.Current.MapContainer.MapLevels[targetSelection.Target.MapLevel].GetField(targetSelection.Target.X, targetSelection.Target.Y);
-            return mapField.TerrainType is (sbyte)TerrainType.Water or (sbyte)TerrainType.UndergroundWater;
+            return mapField.Terrain is TerrainType.Water or TerrainType.UndergroundWater;
         }
         else
         {
@@ -79,7 +79,7 @@ public class Vortex : GlobalTargetSpell
         {
             MapLevel mapLevel = StrategicMap.Current.MapContainer.MapLevels[layer];
             MapField fieldValue = mapLevel.GetField(X, Y);
-            valid = fieldValue.TerrainType is (sbyte)TerrainType.Water or (sbyte)TerrainType.UndergroundWater;
+            valid = fieldValue.Terrain is TerrainType.Water or TerrainType.UndergroundWater;
         }
         else
         {

@@ -848,7 +848,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
             mouse.Cursor = 68;
         }
 
-        int cost = MoveControlSettings.MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay];
+        int cost = MoveControlSettings.MovePointTable[field.TerrainNumber][field.OverlayType.ToOriginal() - MovementTables.FirstOverlay];
         if (cost == 0 || (map.ExplorationEnabled && !field.GetExplored(map.SeatedPlayer)))
         {
             mouse.Cursor |= 1;

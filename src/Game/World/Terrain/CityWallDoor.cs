@@ -19,7 +19,7 @@ public class CityWallDoor(CustomNode? owner) : CityWall(owner)
     public new const int ClassId = 2_229_510;
 
     // CityWall.pas:428
-    public override int GetOverlay(int index) => -1;
+    public override FootprintCell<OverlayType> GetOverlay(int index) => FootprintCell<OverlayType>.Keep;
 
     // CityWall.pas:431
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -62,7 +62,7 @@ public class CityWallDoor(CustomNode? owner) : CityWall(owner)
         {
             if (HitPoints == 0)
             {
-                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][6 - MovementTables.FirstOverlay];
+                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainNumber][6 - MovementTables.FirstOverlay];
             }
             else
             {
@@ -76,10 +76,10 @@ public class CityWallDoor(CustomNode? owner) : CityWall(owner)
                     moveResult.Code = ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.WallCrushing) && HexX == ((MoveControl)info.Sender).Destination.X && HexY == ((MoveControl)info.Sender).Destination.Y
                         ? 0
                         : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Side == CombatSideIndex.Defender
-                            ? ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][-1 - MovementTables.FirstOverlay]
+                            ? ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainNumber][-1 - MovementTables.FirstOverlay]
                             : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
                                 ? -1
-                                : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay];
+                                : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainNumber][8 - MovementTables.FirstOverlay];
                 }
             }
 
@@ -95,7 +95,7 @@ public class CityWallDoor(CustomNode? owner) : CityWall(owner)
                 ? 1
                 : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
                     ? 0
-                    : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay] != 0 ? 1 : 0
+                    : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainNumber][8 - MovementTables.FirstOverlay] != 0 ? 1 : 0
             : 1;
     }
 

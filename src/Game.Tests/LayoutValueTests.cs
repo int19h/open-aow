@@ -85,8 +85,8 @@ public sealed class LayoutValueTests
     {
         TerrainList terrain = new();
         terrain.SetTandO(0, value: 0x05FE);
-        Assert.Equal(-2, terrain.GetTerrain(0));
-        Assert.Equal(5, terrain.GetOverlay(0));
+        Assert.Equal(-2, actual: terrain.GetTerrain(0).ToOriginal());
+        Assert.Equal(5, actual: terrain.GetOverlay(0).ToOriginal());
         Assert.True(terrain.GetUsed(0));
         terrain.SetTerrain(1, value: 3);
         Assert.Equal(0xFE03, terrain.GetTandO(1));

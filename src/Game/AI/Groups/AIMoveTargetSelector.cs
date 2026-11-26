@@ -393,7 +393,7 @@ public sealed class AIMoveTargetSelector : EngineObject
                     if ((field.FieldFlags & MapField.AITargetFlag) != 0)
                     {
                         MapCoordinate mapCoordinate = field.MapCoordinate;
-                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, info: TargetInfo, out data) && MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] >= 0)
+                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, info: TargetInfo, out data) && MovePointTable[field.TerrainNumber][field.OverlayType.ToOriginal() - MovementTables.FirstOverlay] >= 0)
                         {
                             target = new MoveTarget(null) { Holder = CreationHolder() };
                             MapCoordinate fieldMapCoordinate = field.MapCoordinate;
@@ -485,7 +485,7 @@ public sealed class AIMoveTargetSelector : EngineObject
             MapCoordinate mapCoordinate2 = path[number].Location;
             MapCoordinate mapCoordinate3 = path[number].Location;
             MapField field = map.MapContainer.GetField(mapCoordinate3.X, mapCoordinate2.Y, mapCoordinate.MapLevel);
-            if (table[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] == -1)
+            if (table[field.TerrainNumber][field.OverlayType.ToOriginal() - MovementTables.FirstOverlay] == -1)
             {
                 if (!flag)
                 {

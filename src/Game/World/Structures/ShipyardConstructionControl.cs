@@ -40,7 +40,7 @@ public class ShipyardConstructionControl(CustomNode owner) : StructureConstructi
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     MapField fieldValue = mapLevel.GetField(walk.X, walk.Y);
-                    result = fieldValue.TerrainType is (sbyte)TerrainType.Water or (sbyte)TerrainType.UndergroundWater;
+                    result = fieldValue.Terrain is TerrainType.Water or TerrainType.UndergroundWater;
                 }
 
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);

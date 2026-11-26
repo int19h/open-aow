@@ -32,7 +32,7 @@ public partial class City
     public void UpdateImages()
     {
         MapField? field = Owner;
-        int terrain = field.TerrainType;
+        int terrain = field.TerrainNumber;
         int offset = terrain switch { 3 => 20, 5 or (>= 7 and <= 9) or 12 or 13 => 40, _ => 0 };
         CustomImageLibrary? images = Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         if (!GetRazed())

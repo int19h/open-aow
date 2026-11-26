@@ -741,7 +741,7 @@ public class CombatMap : GameMap
         do
         {
             HexGeometry.CenterHexNumberToHex(x0, y0, hexNumber: i, ref x, ref y);
-            overlay = Current.MapContainer.MapLevels[0].Field[x, y].OverlayType;
+            overlay = Current.MapContainer.MapLevels[0].Field[x, y].OverlayType.ToOriginal();
             occupant = Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
             i += 1;
         }

@@ -90,7 +90,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 4418)
         {
-            if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+            if (base.Resource.TerrainList.Terrain[message.HexNumber].Value is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
             {
                 ArmyPlaced(message.Param[0].As<ArmyHexSprite>());
                 return;
@@ -101,7 +101,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
 
         if (message.MessageId == 4384)
         {
-            if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
+            if (base.Resource.TerrainList.Terrain[message.HexNumber].Value is not null)
             {
                 if (CanDoDamage(message.Param[0].As<ArmyHexSprite>().Army.Units))
                 {
@@ -113,7 +113,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
         {
             if (message.MessageId == 4402)
             {
-                if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0 && PlayerIdExtensions.ToOriginal(Player) > 0 && Duration > 0)
+                if (base.Resource.TerrainList.Terrain[message.HexNumber].Value is not null && PlayerIdExtensions.ToOriginal(Player) > 0 && Duration > 0)
                 {
                     RestoreTerrain();
                 }
@@ -124,7 +124,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     // HolyG.pas:209
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        return base.Resource.TerrainList.Terrain[info.HexNumber] >= 0
+        return base.Resource.TerrainList.Terrain[info.HexNumber].Value is not null
             ? !CanDoDamage(((MoveControl)info.Sender).Settings.Units.Units) ? 1 : 0
             : 1;
     }
@@ -132,7 +132,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     // HolyG.pas:181
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (base.Resource.TerrainList.Terrain[info.HexNumber] >= 0)
+        if (base.Resource.TerrainList.Terrain[info.HexNumber].Value is not null)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOverFlag;
         }
@@ -215,7 +215,7 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
         Dispose();
         if (overlay > 0)
         {
-            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, L: field.HexLevel, field.TerrainType, overlayType: overlay);
+            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, L: field.HexLevel, terrainType: field.TerrainNumber, overlayType: overlay);
         }
     }
 

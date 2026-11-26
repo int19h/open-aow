@@ -105,13 +105,13 @@ public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisible
             effect = null;
             Point3D? pathY = Path[Frame];
             HexGeometry.PixelToHex(Path[Frame].X, vertical: pathY.Y, out i, out j);
-            if (CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].TerrainType == 0)
+            if (CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].Terrain == TerrainType.Water)
             {
                 effect = CombatMap.Current.AddEffect(BattleEffectType.HitWater);
             }
             else
             {
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].OverlayType != 8 && CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].FindOwnedChild(World.Terrain.CityWall.ClassId) is null && CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].FindOwnedChild(2_229_510) is null)
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].OverlayType != OverlayType.Obstacle && CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].FindOwnedChild(World.Terrain.CityWall.ClassId) is null && CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].FindOwnedChild(2_229_510) is null)
                 {
                     effect = CombatMap.Current.AddEffect(BattleEffectType.HitGround);
                 }

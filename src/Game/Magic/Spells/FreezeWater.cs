@@ -58,8 +58,8 @@ public class FreezeWater : GlobalTargetSpell
             return false;
         }
 
-        int terrain = field.TerrainType;
-        return (terrain is 0 or 10) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
+        TerrainType terrain = field.Terrain;
+        return (terrain is TerrainType.Water or TerrainType.UndergroundWater) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
     }
 
     public override bool ValidTargetSelectionMapField(MapField field)
@@ -69,8 +69,8 @@ public class FreezeWater : GlobalTargetSpell
             return false;
         }
 
-        int terrain = field.TerrainType;
-        if ((terrain is not 0 and not 10) || field.FindNoneTransparentHexSprite(typeof(Structure)) is not null)
+        TerrainType terrain = field.Terrain;
+        if ((terrain is not TerrainType.Water and not TerrainType.UndergroundWater) || field.FindNoneTransparentHexSprite(typeof(Structure)) is not null)
         {
             return false;
         }
