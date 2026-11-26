@@ -5,6 +5,7 @@ using Aow.Game;
 using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.UI.Dialogs;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Headless;
@@ -52,5 +53,36 @@ internal static class CampaignPlay
         engine.LoadHsm(FileBoundary.ReadName(offer.FileName), edit: false, progress: null, profile: GameProfile.WorldMap, dropped: dropped);
         campaign.SetupScenario();
         return offer.FileName;
+    }
+
+    /// <summary>
+    /// The oracle's all-CPU transfer run (issue 344): after SetupScenario the campaign seat plays as
+    /// the given CPU type. The scan is the one SetupScenario and FinishScenario make
+    /// (Diplomacy.pas:2343): from the last player down to player 1, stopping at the first human or
+    /// at player 1. The stopped seat has to be human, else the call throws. PlayerList.Update then
+    /// rebuilds the local and active lists (Player.PAS:1498). Returns the seat index.
+    /// </summary>
+    public static int SeatAsCpu(GameEngine engine, PlayerType seatType)
+    {
+        if (engine.HexSpriteMap is not StrategicMap map)
+        {
+            throw new InvalidDataException("The next scenario did not load.");
+        }
+
+        int seat = map.Players.Count - 1;
+        while (seat > 1 && map.Players.GetPlayers(seat)?.PlayerType != PlayerType.Human)
+        {
+            seat--;
+        }
+
+        Player player = map.Players.GetPlayers(seat) ?? throw new InvalidDataException("The scenario has no campaign seat.");
+        if (player.PlayerType != PlayerType.Human)
+        {
+            throw new InvalidDataException($"Player {seat} is {player.PlayerType}, not the human campaign seat.");
+        }
+
+        player.PlayerType = seatType;
+        map.Players.Update();
+        return seat;
     }
 }

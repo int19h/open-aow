@@ -12,6 +12,8 @@
   </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Aow" />
+    <!-- The oracle host sends a directed move order (issue 344, decision 5). -->
+    <InternalsVisibleTo Include="Aow.Headless" />
     <InternalsVisibleTo Include="Aow.Platform" />
     <InternalsVisibleTo Include="Aow.Game.Tests" />
     <InternalsVisibleTo Include="MovementChecks" />

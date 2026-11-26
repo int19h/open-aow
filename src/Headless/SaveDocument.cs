@@ -15,10 +15,13 @@ internal static class SaveDocument
 
     public static SaveKind Kind(ReadOnlySpan<byte> bytes)
     {
-        // An original image has no profile of its own. The host has always opened that as a world map.
+        // An original image has no profile of its own. A stored campaign (Engine.pas StoreInFile,
+        // what SaveCampaign writes) starts with a root table of one short entry, id 0 at offset 0.
+        // A world save starts with CFS or with the HSM header. Every other original image stays a
+        // world map, as the host has always opened it.
         if (!GameFiles.IsGzip(bytes) && !GameFiles.IsJsonCandidate(bytes))
         {
-            return SaveKind.WorldMap;
+            return IsOriginalCampaign(bytes) ? SaveKind.Campaign : SaveKind.WorldMap;
         }
 
         Classification classification = GameFiles.Classify(bytes.ToArray(), extension: null);
@@ -36,4 +39,6 @@ internal static class SaveDocument
                     ? "The document has no profile."
                     : $"The document profile {profile} is not a game the host plays.");
     }
+
+    private static bool IsOriginalCampaign(ReadOnlySpan<byte> bytes) => bytes is [0x01, 0x00, 0x00, _, _, _, _, ..];
 }

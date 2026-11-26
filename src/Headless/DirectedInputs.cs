@@ -1,5 +1,6 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 
+using Aow.Game.Draw;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
@@ -9,16 +10,17 @@ using Aow.Game.World.Map;
 
 namespace Aow.Headless;
 
-// The directed inputs mirror equip_test_items, cast_test_global, dispel_test_global
-// and end_test_global in playtest.py. One player can own more than one input. The
-// pending set is re-armed after each day save, and each input runs once on that
-// player's turn.
-internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, int dispel, string endEnchantment)
+// The directed inputs mirror equip_test_items, cast_test_global, dispel_test_global,
+// end_test_global and leader_attack_turn in playtest.py. One player can own more than
+// one input. The pending set is re-armed after each day save, and each input runs once
+// on that player's turn.
+internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, int dispel, string endEnchantment, LeaderAttackTarget? leaderAttack)
 {
     public List<object> ItemActions { get; } = [];
     public List<object> GlobalRequests { get; } = [];
     public List<object> DispelRequests { get; } = [];
     public List<object> EndRequests { get; } = [];
+    public List<object> AttackRequests { get; } = [];
 
     private int _caster = -1;
     private int _dispeller = -1;
@@ -44,6 +46,10 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
     private bool _casterDead;
     private int _endQueuedDay = -1;
     private int _endEnchantmentId = -1;
+    private bool _pendingAttack;
+    private bool _attackDone;
+    private bool _attackerDied;
+    private readonly List<(int Player, int Leader)> _livingLeaders = [];
 
     public object DispelRecord => dispel == 0 ? null : new
     {
@@ -68,8 +74,31 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
         requests = EndRequests
     };
 
+    public object AttackRecord => leaderAttack is not { } target ? null : new
+    {
+        player = target.Player,
+        target_unit = target.UnitId,
+        done = _attackDone,
+        attacking_leader_died = _attackerDied,
+        leader_deaths = LeaderDeaths(),
+        requests = AttackRequests
+    };
+
+    public bool HasTurnInputs => spell != 0 || dispel != 0 || endEnchantment is not null || leaderAttack is not null;
+
     public void Initial()
     {
+        if (leaderAttack is not null)
+        {
+            for (int i = 1; i < map.Players.GetCount(); i++)
+            {
+                if (map.Players.GetPlayers(i).Leader is Leader hero && !hero.HeroStatus.Contains(HeroStatuses.Died))
+                {
+                    _livingLeaders.Add((i, hero.UnitId));
+                }
+            }
+        }
+
         if (items)
         {
             EquipItems();
@@ -128,6 +157,7 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
         _pendingGlobal = spell != 0;
         _pendingDispel = dispel != 0 && !_dispelled && !_dispellerDead;
         _pendingEnd = endEnchantment is not null && !_endQueued && !_casterDead;
+        _pendingAttack = leaderAttack is not null && !_attackDone;
     }
 
     public void BeforeFrame()
@@ -149,6 +179,12 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
         {
             _pendingDispel = false;
             Dispel();
+        }
+
+        if (_pendingAttack && leaderAttack is { } target && current == target.Player)
+        {
+            _pendingAttack = false;
+            AttackWithLeader(target);
         }
     }
 
@@ -288,6 +324,90 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
             cast,
             prepaid = cast && channelReady
         });
+    }
+
+    // MoveT.PAS:3181 MoveArmyXYL, the map UI's move order, with the selection bit of the
+    // leader's slot. It plans the path and queues the move token, an attack when the
+    // target is in reach. The input stops when the leader is dead or the target is gone.
+    private void AttackWithLeader(LeaderAttackTarget target)
+    {
+        Player player = map.Players.GetPlayers(target.Player);
+        Leader hero = player.Leader;
+        if (hero is null || hero.HeroStatus.Contains(HeroStatuses.Died))
+        {
+            _attackDone = true;
+            _attackerDied = true;
+            AttackRequests.Add(new { dead = true });
+            return;
+        }
+
+        if (map.UnitControl.FindUnit(target.UnitId) is not Troop unit)
+        {
+            _attackDone = true;
+            AttackRequests.Add(new { target_gone = true });
+            return;
+        }
+
+        // The army comes from the owner's army list, as the native driver finds it: the army
+        // whose units hold the unit.
+        if (ArmyOf(hero, owner: player) is not Army army)
+        {
+            _attackDone = true;
+            AttackRequests.Add(new { off_map = true });
+            return;
+        }
+
+        if (ArmyOf(unit, owner: map.Players.GetPlayers(unit.Player)) is not Army targetArmy)
+        {
+            _attackDone = true;
+            AttackRequests.Add(new { target_off_map = true });
+            return;
+        }
+
+        int slot = army.Units.IndexOf(hero);
+        ArmyHexSprite sprite = army.GetArmyHexSprite();
+        MapCoordinate here = army.Location;
+        MapCoordinate there = targetArmy.Location;
+        bool busy = player.GetBusy();
+        bool moved = sprite is not null && slot < 8 && !busy
+            && ArmyHexSprite.MoveArmyMapCoordinate(sprite, selection: 1 << slot, there.X, there.Y, L: there.MapLevel, force: false);
+        AttackRequests.Add(new
+        {
+            leader = hero.UnitId,
+            level = (byte)hero.Level,
+            slot,
+            army_units = army.Units.Count,
+            from = new[] { here.X, here.Y, here.MapLevel },
+            to = new[] { there.X, there.Y, there.MapLevel },
+            target_player = PlayerIdExtensions.ToOriginal(targetArmy.Player),
+            target_units = targetArmy.Units.Count,
+            player_busy = busy,
+            moved
+        });
+    }
+
+    // Every leader alive on the first day whose player has since lost or whose leader has died,
+    // whichever leader the directed combat killed.
+    private object[] LeaderDeaths() => [.. _livingLeaders
+        .Where(entry => map.Players.GetPlayers(entry.Player) is not { } player
+            || player.GameOverStatus == GameOverStatus.Lost
+            || player.Leader is not { } hero
+            || hero.HeroStatus.Contains(HeroStatuses.Died))
+        .Select(static entry => (object)new { player = entry.Player, leader = entry.Leader })];
+
+    private static Army? ArmyOf(Troop troop, Player owner)
+    {
+        ArmyCollection armies = owner.Armies;
+        for (int i = 0; i < armies.Count; i++)
+        {
+            Army army = armies.GetArmy(i);
+            if (army.Units.IndexOf(troop) >= 0)
+            {
+                return army;
+            }
+        }
+
+        return null;
     }
 
     private void EndEnchantment()
@@ -486,5 +606,21 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
                 });
             }
         }
+    }
+}
+
+/// <summary>The leader to send and the unit whose army it attacks, as leader_target.py prints them.</summary>
+internal readonly record struct LeaderAttackTarget(int Player, int UnitId)
+{
+    public static LeaderAttackTarget Parse(string text)
+    {
+        string[] parts = text.Split(':');
+        return parts.Length == 2
+            && int.TryParse(parts[0], style: System.Globalization.NumberStyles.None, provider: System.Globalization.CultureInfo.InvariantCulture, result: out int player)
+            && int.TryParse(parts[1], style: System.Globalization.NumberStyles.None, provider: System.Globalization.CultureInfo.InvariantCulture, result: out int unitId)
+            && player > 0
+            && unitId > 0
+            ? new LeaderAttackTarget(player, UnitId: unitId)
+            : throw new ArgumentException("--leader-attack takes PLAYER:UNIT");
     }
 }
