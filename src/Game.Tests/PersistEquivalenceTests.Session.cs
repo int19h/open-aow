@@ -76,6 +76,44 @@ public sealed partial class PersistEquivalenceTests
         });
     }
 
+    // Issue 396: a player read from an image takes the bytes past its short AIValidAttackPlayers
+    // from the image, the start of the PbemSettings image, and the owner rebuild of
+    // PersistSupport.BitListOverRead stays out. A document load rebuilds the same bytes from the
+    // members that follow. A node whose read past differs from those members shows which source
+    // the image load used.
+    [Fact]
+    public void APlayerImageLoadTakesTheAttackPlayersReadPastFromTheImage()
+    {
+        WithDestroyingMap(_ =>
+        {
+            SchemaClass classValue = s_schema.Get("Player");
+            using Player source = NewPlayer(index: 1);
+            source.AIValidAttackPlayers[12] = true;
+            Assert.Equal(13, source.AIValidAttackPlayers.Count);
+            ObjectNode tree = OriginalBackend.Read(Image(source), classValue: classValue, schema: s_schema, engine: "game");
+            byte[] readPast = ((BitListNode)tree.Find("AIValidAttackPlayers")).ReadPast.Value.ToArray();
+            Assert.Equal(2, readPast.Length);
+            using Player viaImage = NewPlayer(index: 1);
+            TreeReader.Read(tree, objectValue: viaImage, factory: Factory);
+            Assert.Equal(32, viaImage.AIValidAttackPlayers.Count);
+            Assert.Equal(readPast, viaImage.AIValidAttackPlayers.List.Span[2..4].ToArray());
+            using Player viaDocument = NewPlayer(index: 1);
+            TreeReader.Read(DocumentBackend.Read(DocumentBackend.Write(tree, classValue: classValue, schema: s_schema, engine: "game"), classValue: classValue, schema: s_schema, engine: "game"), objectValue: viaDocument, factory: Factory);
+            Assert.Equal(readPast, viaDocument.AIValidAttackPlayers.List.Span[2..4].ToArray());
+            ObjectNode altered = new(tree.ClassName, slot: tree.Slot);
+            foreach ((string name, TreeValue value) in tree.Members)
+            {
+                altered.Add(name, value: value is BitListNode node && name == "AIValidAttackPlayers"
+                    ? new BitListNode(node.Default, node.Count, indices: [.. node.Indices]) { ReadPast = new byte[] { 0xAA, 0xBB } }
+                    : value);
+            }
+
+            using Player viaAltered = NewPlayer(index: 1);
+            TreeReader.Read(altered, objectValue: viaAltered, factory: Factory);
+            Assert.Equal([0xAA, 0xBB], viaAltered.AIValidAttackPlayers.List.Span[2..4].ToArray());
+        });
+    }
+
     // The original Player.ReadWrite stores the leader setup only for a player other than 0. A
     // stored leader setup of player 0 stays unread on both loads.
     [Fact]

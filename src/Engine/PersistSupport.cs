@@ -211,12 +211,14 @@ public static class PersistSupport
     /// stored bits: the data the owner stores after the list. The original backend writes that
     /// data from the members <paramref name="following"/> persists, in the owner's stored class,
     /// and those bytes become the bits past the stored ones, as the stream load leaves them. A
-    /// following datum shorter than the read leaves the rest of the bits at the default.
+    /// following datum shorter than the read leaves the rest of the bits at the default. A load
+    /// from an image already took those bytes from the image, the data after the owner included
+    /// (<see cref="BitListImage.ReadPast"/>), so this rebuild serves a load from a document only.
     /// </summary>
     public static void BitListOverRead(this IPersister persister, BitList? list, BitListImage stored, EngineObject owner, Action<IPersister> following)
     {
         int extra = ((list.Count + 7) >> 3) - stored.Bits.Length;
-        if (extra <= 0)
+        if (extra <= 0 || stored.ReadPast is not null)
         {
             return;
         }

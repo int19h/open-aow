@@ -2,6 +2,7 @@ using System.Text;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
+using Aow.Formats.Tree;
 
 namespace Aow.Formats.Tests;
 
@@ -31,6 +32,52 @@ public sealed class ListShapeTests : FormatsTest
         JsonValue other = Decode("Sign", property: "TextSeen", bytes: odd);
         Assert.Equal("""{"default":2,"count":0,"bits":[]}""", Compact(other));
         Assert.Equal(odd, Encode("Sign", property: "TextSeen", value: other));
+    }
+
+    // Issue 396: TBitList.LoadFromStream reads the bit bytes of the count raised to its capacity,
+    // so a read from an image puts the bytes stored after a short list on the node, here the
+    // production priority after a count of 13, and the end of the image stops the read. The
+    // document stores the image's count and bits, so the read past is no stored state.
+    [Fact]
+    public void AShortBitListReadsThePastBytesOfItsImage()
+    {
+        FormatSchema schema = FormatSchema.Current;
+        SchemaClass classValue = schema.Get("PlayerStructure");
+        byte[] image = [2, 6, 0, 7, 7, 0, 13, 0, 0, 0, 0x05, 0x10, 0x09];
+        ObjectNode tree = OriginalBackend.Read(image, classValue, schema, engine: "game");
+        BitListNode node = (BitListNode)tree.Find("VictoryLocations")!;
+        Assert.Equal([0x09], node.ReadPast!.Value.ToArray());
+        Assert.Equal("""{"default":false,"count":13,"bits":[0,2,12]}""", Compact(DocumentBackend.Write(tree, classValue, schema, engine: "game")["VictoryLocations"]!));
+        Assert.Equal(image, OriginalBackend.Write(tree, classValue, schema, engine: "game"));
+        Assert.Null(((BitListNode)DocumentBackend.Read(DocumentBackend.Write(tree, classValue, schema, engine: "game"), classValue, schema, engine: "game").Find("VictoryLocations")!).ReadPast);
+        byte[] longer = [.. image, 0xAA, 0xBB, 0xCC];
+        Assert.Equal([0x09, 0xAA, 0xBB], ReadPast(longer, count: 2, end: 12));
+        Assert.Equal([0x09, 0xAA], ReadPast(longer, count: 13, end: 12));
+        Assert.Empty(ReadPast(longer, count: 32, end: 12));
+        Assert.Empty(ReadPast(longer, count: 0, end: 12));
+        // Count 33 reads the 8 bytes of capacity 64, count 64 fills them, and count 65 reads the
+        // 12 bytes of capacity 96, 3 past its 9 stored ones.
+        Assert.Equal([0x09, 0xAA, 0xBB], ReadPast(longer, count: 33, end: 12));
+        Assert.Empty(ReadPast(longer, count: 64, end: 12));
+        Assert.Equal([0x09, 0xAA, 0xBB], ReadPast(longer, count: 65, end: 12));
+        // A list that ends the image reads no byte.
+        Assert.Empty(ReadPast(longer, count: 2, end: longer.Length));
+    }
+
+    // The bytes BitListCodec.ReadPast returns, as an array.
+    private static byte[] ReadPast(byte[] data, int count, int end) => BitListCodec.ReadPast(data, count, end).ToArray();
+
+    // The image of a bit list compares the stored state, so an image load and a document load
+    // of one list give equal images, whatever each read past the stored bits.
+    [Fact]
+    public void BitListImageEqualityIgnoresTheReadPast()
+    {
+        BitListImage fromImage = new(Default: 0, Count: 2, Bits: [0x02], ReadPast: new byte[] { 0x03, 0x00, 0x1F });
+        BitListImage fromDocument = new(Default: 0, Count: 2, Bits: [0x02]);
+        Assert.Equal(fromImage, fromDocument);
+        Assert.Equal(fromImage.GetHashCode(), fromDocument.GetHashCode());
+        Assert.NotEqual(fromImage, new BitListImage(Default: 0, Count: 2, Bits: [0x03]));
+        Assert.NotEqual(fromImage, new BitListImage(Default: 0, Count: 3, Bits: [0x02]));
     }
 
     [Fact]

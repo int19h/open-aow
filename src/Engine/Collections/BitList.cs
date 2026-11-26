@@ -309,7 +309,9 @@ public partial class BitList : Persistent, IReadOnlyList<bool>
 
     /// <summary>
     /// <c>TBitList.LoadFromStream</c> (Engine.pas:4782) from a stored image. A default byte other
-    /// than 0 and 1 stays that byte.
+    /// than 0 and 1 stays that byte. <c>SetCapacity</c> raises the count to the capacity, and the
+    /// stream read takes the bytes of the raised count: the stored bits, then the bytes the image
+    /// holds past them (<see cref="BitListImage.ReadPast"/>).
     /// </summary>
     internal void LoadImage(BitListImage image)
     {
@@ -317,7 +319,12 @@ public partial class BitList : Persistent, IReadOnlyList<bool>
         _default = image.Default;
         _count = image.Count;
         SetCapacity(_count);
-        image.Bits.CopyTo(List.Span);
+        Span<byte> bits = List.Span;
+        image.Bits.CopyTo(bits);
+        if (image.ReadPast is { } readPast)
+        {
+            readPast.Span[..Math.Min(readPast.Length, bits.Length - image.Bits.Length)].CopyTo(bits[image.Bits.Length..]);
+        }
     }
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
