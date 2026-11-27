@@ -188,9 +188,13 @@ public static class PersistSupport
     }
 
     /// <summary>
-    /// A TBitList stream. The save writes what <c>SaveToStream</c> writes. A present member loads as
-    /// <c>LoadFromStream</c> does, and an absent member leaves the list as it was. A load returns
-    /// the stored image, for <see cref="BitListOverRead"/>, and null when the member is absent.
+    /// A TBitList stream. The save writes what <c>SaveToStream</c> writes. A present member loads
+    /// its stored bits, with the count raised to the capacity as <c>LoadFromStream</c> raises it,
+    /// and an absent member leaves the list as it was. The bits past the stored ones keep the
+    /// default: the port does not read the bytes the original reads past the stored bits (issue
+    /// 396, deviations.md). A load that emulates the original's bugs takes those bytes
+    /// (<see cref="BitListImage.ReadPast"/>, <see cref="BitListOverRead"/>). A load returns the
+    /// stored image, for <see cref="BitListOverRead"/>, and null when the member is absent.
     /// </summary>
     public static BitListImage? BitList(this IPersister persister, string name, BitList? list)
     {
@@ -199,9 +203,16 @@ public static class PersistSupport
             return null;
         }
 
-        LoadPayload(() => list.LoadImage(stored));
+        BitListImage loaded = persister.EmulatesOriginalBugs() ? stored : stored with { ReadPast = null };
+        LoadPayload(() => list.LoadImage(loaded));
         return stored;
     }
+
+    /// <summary>
+    /// True when the load emulates the original's bugs that the port fixes, for a comparison with
+    /// the original (<see cref="IEnginePersistableFactory.EmulateOriginalBugs"/>, deviations.md).
+    /// </summary>
+    public static bool EmulatesOriginalBugs(this IPersister persister) => (persister.Factory as IEnginePersistableFactory)?.EmulateOriginalBugs ?? false;
 
     /// <summary>
     /// The bytes <c>TBitList.LoadFromStream</c> reads past a stored bit list. <c>SetCapacity</c> puts
@@ -214,11 +225,13 @@ public static class PersistSupport
     /// following datum shorter than the read leaves the rest of the bits at the default. A load
     /// from an image already took those bytes from the image, the data after the owner included
     /// (<see cref="BitListImage.ReadPast"/>), so this rebuild serves a load from a document only.
+    /// It emulates a bug of the original, so it runs only on a load that emulates them
+    /// (<see cref="EmulatesOriginalBugs"/>, deviations.md).
     /// </summary>
     public static void BitListOverRead(this IPersister persister, BitList? list, BitListImage stored, EngineObject owner, Action<IPersister> following)
     {
         int extra = ((list.Count + 7) >> 3) - stored.Bits.Length;
-        if (extra <= 0 || stored.ReadPast is not null)
+        if (!persister.EmulatesOriginalBugs() || extra <= 0 || stored.ReadPast is not null)
         {
             return;
         }

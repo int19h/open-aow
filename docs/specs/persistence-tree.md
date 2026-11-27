@@ -221,49 +221,57 @@ keep, so a transfer is a lambda such as `static (IItemSlot slot, int item) => sl
 `BitList` moves a bit list (Delphi `TBitList`, stored by `rwStreamProc`) as its image: the
 default byte, the count and the bit bytes, bits past the count kept. It is always stored. On load
 a present member returns the stored image and an absent one returns null, so the caller leaves
-its list. `TBitList.LoadFromStream` reads past the stored bits: `SetCapacity` puts the default
-into each new bit through `Put`, `Put` past the count raises the count, so the count is the
-capacity, a multiple of 32, when the stream read takes `(FCount + 7) shr 3` bytes (`Engine.pas`
-4743 to 4789). The read takes up to 3 bytes past the stored bits: the data the stream holds next,
-inside the owner or outside it, fewer at the end of the stream. The loaded list keeps the raised
-count with those bytes as bits. The stream position after the read does not matter, because the
-storage reader seeks to the offset of each member before it reads it (`rwStreamProc`), so no
-member misses the bytes the list took. A first `Put` on an empty list leaves a short count (the
-count is the index plus one), and the original game writes it, so a short count is in original
-files and in the port's saves. The schema has three bit lists, all under this rule:
-`Sign.TextSeen` (property 8), `PlayerStructure.VictoryLocations` (property 6) and
+its list. A load takes the stored bits only. The count is raised to the capacity, a multiple
+of 32, because `TBitList.SetCapacity` puts the default into each new bit through `Put` and `Put`
+past the count raises the count, as on every growth of the list (`Engine.pas` 4743 to 4789). The
+bits past the stored ones keep the default, and a save after the load stores the raised count. A
+first `Put` on an empty list leaves a short count (the index plus one), and the original game
+writes it, so a short count is in original files and in the port's saves. The schema has three
+bit lists: `Sign.TextSeen` (property 8), `PlayerStructure.VictoryLocations` (property 6) and
 `Player.AIValidAttackPlayers` (property 53).
 
-A load from an image reproduces the read of that image exactly. The original backend's bit list
-codec puts the bytes the image stores after the stored bits on the node (`BitListNode.ReadPast`,
-issue 396), a read-only copy of up to 3 bytes. `IPersister.BitList` returns them in the image
-(`BitListImage.ReadPast`) and `BitList.LoadImage` puts them after the stored bits. `ReadPast` is
-load state: no backend writes it, and neither `BitListNode.ValueEquals` nor `BitListImage`
-equality compares it (`BitListImage` equality compares the default, the count and the content
-of the bit bytes). The image is the original file's payload as G1 rebuilds it, the payload of a
-campaign map (from an original campaign or an own one, whose nested map the document backend
-turns into its image), a network map, a packet or a written object. For an original file the
-game loads the rebuilt image, so the bytes read past are the rebuilt image's bytes. A G1 match
-that is exact gives the file's bytes. A match outside marks or as a document (a reordered or
-non-canonical table, a skipped property, a gap) rebuilds the members after the list in canonical
-form, and the read past then takes the canonical bytes where the file holds others. Every
-original of the corpus and the oracle inputs that holds a short bit list matches G1 byte for
-byte. The `Sign.TextSeen` of the
+The original's `LoadFromStream` reads the bit bytes of the raised count, `(FCount + 7) shr 3`,
+so a short list takes up to 3 bytes the stream holds after it, inside the owner or outside it,
+fewer at the end of the stream, as bits. That is a bug of the original, and the port fixes it
+(issue 396, decision of 2026-11-26, `deviations.md`). The stream position after that read does
+not matter, because the storage reader seeks to the offset of each member before it reads it
+(`rwStreamProc`). A load that emulates the original's bugs reproduces the read for the hosts
+that compare the port with the original. The switch is `EmulateOriginalBugs` of the load's
+factory (`IEnginePersistableFactory`), which `EnginePersistableFactory` takes from the host's
+`GateSwitches.EmulateOriginalBugs` (`AOW_EMULATE_ORIGINAL_BUGS=1` at host entry) unless its
+creator sets it. It is off on the game's own loads. `PersistSupport.EmulatesOriginalBugs` reads
+it.
+
+The original backend's bit list codec always puts the bytes the image stores after the stored
+bits on the node (`BitListNode.ReadPast`), a read-only copy of up to 3 bytes, and
+`IPersister.BitList` returns them in the image (`BitListImage.ReadPast`). `PersistSupport.BitList`
+hands them to `BitList.LoadImage` only under the switch. `ReadPast` is load state: no backend
+writes it, and neither `BitListNode.ValueEquals` nor `BitListImage` equality compares it
+(`BitListImage` equality compares the default, the count and the content of the bit bytes). The
+image is the original file's payload as G1 rebuilds it, the payload of a campaign map (from an
+original campaign or an own one, whose nested map the document backend turns into its image), a
+network map, a packet or a written object. For an original file the game loads the rebuilt
+image, so an emulated read takes the rebuilt image's bytes. A G1 match that is exact gives the
+file's bytes. A match outside marks or as a document (a reordered or non-canonical table, a
+skipped property, a gap) rebuilds the members after the list in canonical form, and the read
+then takes the canonical bytes where the file holds others. Every original of the corpus and the
+oracle inputs that holds a short bit list matches G1 byte for byte. The `Sign.TextSeen` of the
 Northern Trade Route sign in the user's `cmp12` save and in the `campaign_transfer` oracle start
 (count 2, bit 1) is the last sprite of its map field, so the bytes after it are the field's
-`FieldFlags` (`03 00`) and the first byte of the next field's image (`1F`). The load sets bits 8,
-9 and 24 to 28, as the original does.
+`FieldFlags` (`03 00`) and the first byte of the next field's image (`1F`). An emulated load sets
+bits 8, 9 and 24 to 28, as the original does, and the game's load sets bit 1 only.
 
-A load from a document has no image. `PersistSupport.BitListOverRead` then rebuilds the bytes
-inside the owner: the original backend writes the data of the owner's members that follow the
-list (`OriginalBackend.WriteData`, the data of an object image without its table), and its first
-bytes become the bits past the stored ones. It does nothing when the image supplied them.
-`Player.AIValidAttackPlayers` (stored count 13 in shipped and oracle saves) is followed by
-`PbemSettings`, `HeroEmerging`, `BaseHeroJoinDay` and `DiplomaticRelations`, so its load takes
-the start of the image of the e-mail settings, as the stream load does. `Sign.TextSeen` and
+A load from a document has no image. Under the switch `PersistSupport.BitListOverRead` rebuilds
+the bytes inside the owner: the original backend writes the data of the owner's members that
+follow the list (`OriginalBackend.WriteData`, the data of an object image without its table), and
+its first bytes become the bits past the stored ones. It does nothing without the switch or when
+the image supplied the bytes. `Player.AIValidAttackPlayers` (stored count 13 in a shipped save,
+5 in the play-by-email oracle start, 2 to 6 in the port's own saves) is followed by
+`PbemSettings`, `HeroEmerging`, `BaseHeroJoinDay` and `DiplomaticRelations`, so an emulated load
+takes the start of the image of the e-mail settings, as the stream load does. `Sign.TextSeen` and
 `PlayerStructure.VictoryLocations` read past their owner or into members of subclasses, which a
-document load does not rebuild, so those bits stay at the default there. A save then stores the
-raised count and its bytes, as the original game does. `Single` moves an `rwData` single with its exact bits, stored even when zero. An absent
+document load does not rebuild, so those bits stay at the default there even under the switch.
+`Single` moves an `rwData` single with its exact bits, stored even when zero. An absent
 member returns the caller's value. `Blob` moves a whole payload a callback reads and writes, the
 ILB library of a map object resource. It is always stored, empty bytes included, and an absent
 member returns null. `SBytePairs` moves a terrain list (Delphi `TTerrainList`) as pairs of signed
@@ -991,7 +999,7 @@ Own formats are not stable yet. The migration chain from an older own document i
 - `GameBoundary.WriteImage` exports the original image of a map the image can carry.
 - `GameBoundary.WritePacket` and `GameBoundary.ReadPacket` are the packet adapter.
 - `GameBoundary.WriteWrittenObject` and `GameBoundary.ReadWrittenObject` read and write the original files of section 13.
-- `PersistSupport.BitListOverRead` rebuilds the bytes a bit-list load from a document reads past the stored bits, inside the owner. It writes no file.
+- `PersistSupport.BitListOverRead` rebuilds the bytes a bit-list load from a document reads past the stored bits, inside the owner, on a load that emulates the original. It writes no file.
 
 The same test fails when a public member of `Aow.Formats.Tree` exposes a stored id (`Id`, `PropertyId`, `ClassId` or `ReservedId`), a storage width (a `Width` on a type with no `Height`), a raw image (`Image` or `Data` as bytes, or an integral `Mask`) or residue (`Residue` or `Reserved`). A grid's `Width` stays, because `Height` is beside it. `BitListImage.Bits` stays, because the engine reads the bit bytes by that name. The same rule fails when `Game` or `Engine` uses such a member. A planted call and a planted public id, both in the test project, are found by the same scan.
 

@@ -480,7 +480,8 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
 
         persister.Object("DiplomaticRelations", objectValue: DiplomaticRelations);
         // The stream load of the list reads the start of the data stored after it, the members
-        // from PbemSettings on, into the bits past a stored count that does not fill 32 bits.
+        // from PbemSettings on, into the bits past a stored count that does not fill 32 bits. The
+        // port fixes that bug, and only a load that emulates it rebuilds those bytes (deviations.md).
         if (attackPlayers != null)
         {
             persister.BitListOverRead(list: AIValidAttackPlayers, stored: attackPlayers, owner: this, following: tail =>
