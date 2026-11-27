@@ -333,6 +333,11 @@ per-turn saves are compared byte for byte between the original and the rebuilt g
 (`tools/playtest.py` and its module docstring). The port inherits that as its oracle. The seeded
 inputs and the original's per-day saves are kept under `D:\Build\oracle` (`specs/testing.md` 3.1).
 
+The port fixes bugs of the original where the user decides so, and bug-for-bug compatibility is
+not a goal in itself. `specs/deviations.md` lists each deliberate deviation and how each test
+layer handles it. A test-only switch (`AOW_EMULATE_ORIGINAL_BUGS=1`) emulates a fixed bug in the
+hosts that compare the port with the original. The game never runs with it.
+
 Compatibility with the original's files is one way. The port reads every original format (saves,
 maps, scenario sets, campaigns, user lists), because the oracle's inputs and the shipped content
 are in them. It is not required to write files the original loads, and the second stage is free to

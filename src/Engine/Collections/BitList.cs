@@ -311,7 +311,8 @@ public partial class BitList : Persistent, IReadOnlyList<bool>
     /// <c>TBitList.LoadFromStream</c> (Engine.pas:4782) from a stored image. A default byte other
     /// than 0 and 1 stays that byte. <c>SetCapacity</c> raises the count to the capacity, and the
     /// stream read takes the bytes of the raised count: the stored bits, then the bytes the image
-    /// holds past them (<see cref="BitListImage.ReadPast"/>).
+    /// holds past them (<see cref="BitListImage.ReadPast"/>). An image without them leaves the bits
+    /// past the stored ones at the default, as the port's own loads do (deviations.md).
     /// </summary>
     internal void LoadImage(BitListImage image)
     {

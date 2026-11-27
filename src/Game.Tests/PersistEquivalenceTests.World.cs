@@ -143,16 +143,48 @@ public sealed partial class PersistEquivalenceTests
         });
     }
 
+    // The game's loads take the stored bits only, for each of the three stored bit lists (issue
+    // 396, deviations.md). The count is raised to the capacity as TBitList.SetCapacity raises it on
+    // every growth, and the bits past the stored ones keep the default. The image after the list
+    // holds bytes the original load would take, and the document of the same tree loads alike.
+    [Theory]
+    [InlineData("Sign", "TextSeen")]
+    [InlineData("PlayerStructure", "VictoryLocations")]
+    [InlineData("Player", "AIValidAttackPlayers")]
+    public void TheGamesLoadTakesOnlyTheStoredBits(string className, string member)
+    {
+        SchemaClass classValue = s_schema.Get(className);
+        BitListProbe source = new(member);
+        source.List[1] = true;
+        Assert.Equal(2, source.List.Count);
+        byte[] stored = OriginalBackend.Write(TreeWriter.Write(source, Factory), classValue, s_schema, engine: "game");
+        ObjectNode tree = ReadPrefix([.. stored, 0x03, 0x00, 0x1F, 0x00], end: stored.Length, classValue: classValue);
+        Assert.False(Factory.EmulateOriginalBugs);
+        BitListProbe fromImage = new(member);
+        TreeReader.Read(tree, objectValue: fromImage, Factory);
+        Assert.Equal(32, fromImage.List.Count);
+        Assert.Equal([1], SetBits(fromImage.List));
+        BitListProbe fromDocument = new(member);
+        TreeReader.Read(DocumentBackend.Read(DocumentBackend.Write(tree, classValue, s_schema, engine: "game"), classValue, s_schema, engine: "game"), objectValue: fromDocument, Factory);
+        Assert.Equal(32, fromDocument.List.Count);
+        Assert.Equal([1], SetBits(fromDocument.List));
+        BitListProbe emulated = new(member);
+        TreeReader.Read(tree, objectValue: emulated, factory: EmulatingFactory);
+        Assert.Equal([1, 8, 9, 24, 25, 26, 27, 28], SetBits(emulated.List));
+    }
+
     // Issue 396: TBitList.LoadFromStream raises a stored count to its capacity, a multiple of 32,
     // and reads the bit bytes of the raised count, so a list whose count does not fill 32 bits
     // takes the bytes the stream holds after it (Engine.pas 4743 to 4789). The Northern Trade
     // Route sign of the user's cmp12 save stores TextSeen with count 2 and bit 1, as the first Put
     // on an empty list leaves it, and the map fields after it store 03 00 1F. The original load
-    // takes those bytes as bits 8, 9 and 24 to 28, and so does a load from the image. The
-    // document of that tree stores the count and bit the image stores. The probe moves the sign's
-    // TextSeen as Sign.PersistFields does, without the map object resource a sign's load links.
+    // takes those bytes as bits 8, 9 and 24 to 28. The port fixes that bug (deviations.md), and a
+    // load that emulates it, as the hosts that compare with the original run, takes them from the
+    // image. The document of that tree stores the count and bit the image stores. The probe moves
+    // the sign's TextSeen as Sign.PersistFields does, without the map object resource a sign's
+    // load links.
     [Fact]
-    public void ASignLoadTakesTheBytesPastItsStoredTextSeen()
+    public void ASignLoadThatEmulatesTheOriginalTakesTheBytesPastItsStoredTextSeen()
     {
         SchemaClass classValue = s_schema.Get("Sign");
         TextSeenProbe source = new();
@@ -163,7 +195,7 @@ public sealed partial class PersistEquivalenceTests
         ObjectNode tree = ReadPrefix(image, end: sign.Length, classValue: classValue);
         Assert.Equal([0x03, 0x00, 0x1F], ((BitListNode)tree.Find("TextSeen")!).ReadPast!.Value.ToArray());
         TextSeenProbe loaded = new();
-        TreeReader.Read(tree, objectValue: loaded, Factory);
+        TreeReader.Read(tree, objectValue: loaded, factory: EmulatingFactory);
         Assert.Equal(32, loaded.TextSeen.Count);
         Assert.Equal([1, 8, 9, 24, 25, 26, 27, 28], SetBits(loaded.TextSeen));
         JsonObject document = DocumentBackend.Write(tree, classValue, s_schema, engine: "game");
@@ -176,7 +208,7 @@ public sealed partial class PersistEquivalenceTests
         // At the end of the stream the read takes the bytes there are, and the rest of the bits
         // keep the default SetCapacity put there.
         TextSeenProbe shortLoaded = new();
-        TreeReader.Read(ReadPrefix([.. sign, 0x03], end: sign.Length, classValue: classValue), objectValue: shortLoaded, Factory);
+        TreeReader.Read(ReadPrefix([.. sign, 0x03], end: sign.Length, classValue: classValue), objectValue: shortLoaded, factory: EmulatingFactory);
         Assert.Equal(32, shortLoaded.TextSeen.Count);
         Assert.Equal([1, 8, 9], SetBits(shortLoaded.TextSeen));
 
@@ -184,18 +216,20 @@ public sealed partial class PersistEquivalenceTests
         ObjectNode endTree = ReadPrefix(sign, end: sign.Length, classValue: classValue);
         Assert.True(((BitListNode)endTree.Find("TextSeen")!).ReadPast!.Value.IsEmpty);
         TextSeenProbe endLoaded = new();
-        TreeReader.Read(endTree, objectValue: endLoaded, Factory);
+        TreeReader.Read(endTree, objectValue: endLoaded, factory: EmulatingFactory);
         Assert.Equal(32, endLoaded.TextSeen.Count);
         Assert.Equal([1], SetBits(endLoaded.TextSeen));
 
         // A document carries no image, so its load leaves the bits past the stored ones at the default.
+        // Only the owner rebuild of Player.AIValidAttackPlayers emulates a document load.
         TextSeenProbe fromDocument = new();
-        TreeReader.Read(DocumentBackend.Read(document, classValue, s_schema, engine: "game"), objectValue: fromDocument, Factory);
+        TreeReader.Read(DocumentBackend.Read(document, classValue, s_schema, engine: "game"), objectValue: fromDocument, factory: EmulatingFactory);
         Assert.Equal(32, fromDocument.TextSeen.Count);
         Assert.Equal([1], SetBits(fromDocument.TextSeen));
     }
 
-    // A count that fills its 32-bit words reads no byte past the stored bits.
+    // A count that fills its 32-bit words reads no byte past the stored bits, also when the load
+    // emulates the original.
     [Fact]
     public void AFullBitListReadsNoBytePastItsStoredBits()
     {
@@ -207,9 +241,20 @@ public sealed partial class PersistEquivalenceTests
         ObjectNode tree = ReadPrefix([.. sign, 0x03, 0x00, 0x1F, 0x00], end: sign.Length, classValue: classValue);
         Assert.True(((BitListNode)tree.Find("TextSeen")!).ReadPast!.Value.IsEmpty);
         TextSeenProbe loaded = new();
-        TreeReader.Read(tree, objectValue: loaded, Factory);
+        TreeReader.Read(tree, objectValue: loaded, factory: EmulatingFactory);
         Assert.Equal(32, loaded.TextSeen.Count);
         Assert.Equal([1], SetBits(loaded.TextSeen));
+    }
+
+    // A load that emulates the original's bugs, as the hosts that compare with the original run.
+    private static EnginePersistableFactory EmulatingFactory => field ??= new(EngineFixture.Engine) { EmulateOriginalBugs = true };
+
+    // One stored bit list, as its owner's PersistFields moves it.
+    private sealed class BitListProbe(string name) : IPersistable
+    {
+        public BitList List { get; } = [];
+
+        public void Persist(IPersister persister) => _ = PersistSupport.BitList(persister, name: name, list: List);
     }
 
     // The sign's TextSeen as Sign.PersistFields moves it.

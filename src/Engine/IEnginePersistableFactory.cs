@@ -15,4 +15,10 @@ public interface IEnginePersistableFactory : IPersistableFactory
 
     /// <summary>The progress handler of the load, which <c>ReadWrite</c> reaches through <c>Stream.ShowProgress</c>.</summary>
     ProgressEvent? Progress => null;
+
+    /// <summary>
+    /// True when the load emulates the original's bugs that the port fixes (deviations.md), for a
+    /// comparison with the original. False on the game's own loads.
+    /// </summary>
+    bool EmulateOriginalBugs => false;
 }

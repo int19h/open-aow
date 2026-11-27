@@ -76,30 +76,39 @@ public sealed partial class PersistEquivalenceTests
         });
     }
 
-    // Issue 396: a player read from an image takes the bytes past its short AIValidAttackPlayers
-    // from the image, the start of the PbemSettings image, and the owner rebuild of
-    // PersistSupport.BitListOverRead stays out. A document load rebuilds the same bytes from the
-    // members that follow. A node whose read past differs from those members shows which source
-    // the image load used.
+    // Issue 396: the original's load of a short AIValidAttackPlayers takes the start of the
+    // PbemSettings image into the bits past the stored ones. The port fixes that bug
+    // (deviations.md): the game's loads from an image and from a document take the stored bits
+    // only. A load that emulates the original takes the bytes from the image, and the owner rebuild
+    // of PersistSupport.BitListOverRead gives a document load the same bytes. A node whose read
+    // past differs from those members shows that an emulated image load takes the image's bytes.
     [Fact]
-    public void APlayerImageLoadTakesTheAttackPlayersReadPastFromTheImage()
+    public void APlayerLoadTakesTheAttackPlayersReadPastOnlyWhenItEmulatesTheOriginal()
     {
         WithDestroyingMap(_ =>
         {
             SchemaClass classValue = s_schema.Get("Player");
+            EnginePersistableFactory emulating = new(EngineFixture.Engine) { EmulateOriginalBugs = true };
             using Player source = NewPlayer(index: 1);
             source.AIValidAttackPlayers[12] = true;
             Assert.Equal(13, source.AIValidAttackPlayers.Count);
             ObjectNode tree = OriginalBackend.Read(Image(source), classValue: classValue, schema: s_schema, engine: "game");
             byte[] readPast = ((BitListNode)tree.Find("AIValidAttackPlayers")).ReadPast.Value.ToArray();
             Assert.Equal(2, readPast.Length);
-            using Player viaImage = NewPlayer(index: 1);
-            TreeReader.Read(tree, objectValue: viaImage, factory: Factory);
-            Assert.Equal(32, viaImage.AIValidAttackPlayers.Count);
-            Assert.Equal(readPast, viaImage.AIValidAttackPlayers.List.Span[2..4].ToArray());
-            using Player viaDocument = NewPlayer(index: 1);
-            TreeReader.Read(DocumentBackend.Read(DocumentBackend.Write(tree, classValue: classValue, schema: s_schema, engine: "game"), classValue: classValue, schema: s_schema, engine: "game"), objectValue: viaDocument, factory: Factory);
-            Assert.Equal(readPast, viaDocument.AIValidAttackPlayers.List.Span[2..4].ToArray());
+            Assert.NotEqual(new byte[2], readPast);
+            ObjectNode documentTree = DocumentBackend.Read(DocumentBackend.Write(tree, classValue: classValue, schema: s_schema, engine: "game"), classValue: classValue, schema: s_schema, engine: "game");
+            foreach (ObjectNode read in new[] { tree, documentTree })
+            {
+                using Player normal = NewPlayer(index: 1);
+                TreeReader.Read(read, objectValue: normal, factory: Factory);
+                Assert.Equal(32, normal.AIValidAttackPlayers.Count);
+                Assert.Equal(new byte[2], normal.AIValidAttackPlayers.List.Span[2..4].ToArray());
+                using Player emulated = NewPlayer(index: 1);
+                TreeReader.Read(read, objectValue: emulated, factory: emulating);
+                Assert.Equal(32, emulated.AIValidAttackPlayers.Count);
+                Assert.Equal(readPast, emulated.AIValidAttackPlayers.List.Span[2..4].ToArray());
+            }
+
             ObjectNode altered = new(tree.ClassName, slot: tree.Slot);
             foreach ((string name, TreeValue value) in tree.Members)
             {
@@ -109,7 +118,7 @@ public sealed partial class PersistEquivalenceTests
             }
 
             using Player viaAltered = NewPlayer(index: 1);
-            TreeReader.Read(altered, objectValue: viaAltered, factory: Factory);
+            TreeReader.Read(altered, objectValue: viaAltered, factory: emulating);
             Assert.Equal([0xAA, 0xBB], viaAltered.AIValidAttackPlayers.List.Span[2..4].ToArray());
         });
     }

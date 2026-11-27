@@ -427,7 +427,8 @@ public sealed class BitListNode(byte defaultValue, int count, int[] indices) : T
     /// the node was read from: the stored data that follows the list, up to 3 bytes, fewer at the
     /// end of the image. Empty when the count fills its 32-bit words. Null when the node was not
     /// read from an image. It is load state, not stored state: no backend writes it and
-    /// <see cref="ValueEquals"/> ignores it.
+    /// <see cref="ValueEquals"/> ignores it. Only a load that emulates the original's bugs puts
+    /// these bytes into the list (deviations.md).
     /// </summary>
     public ReadOnlyMemory<byte>? ReadPast { get; init; }
 

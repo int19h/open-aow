@@ -3,6 +3,7 @@ using System.Globalization;
 using Aow.Formats.Tree;
 using Aow.Game;
 using Aow.Rtl;
+using Aow.Rtl.Host;
 
 namespace Aow.Engine;
 
@@ -22,6 +23,9 @@ public sealed class EnginePersistableFactory(GameEngine engine, ProgressEvent? p
     public GameEngine Engine { get; } = engine ?? throw new InvalidOperationException("The engine is not running.");
 
     public ProgressEvent? Progress { get; } = progress;
+
+    /// <summary>The host's switch (<see cref="GateSwitches.EmulateOriginalBugs"/>) unless the creator sets it.</summary>
+    public bool EmulateOriginalBugs { get; init; } = GateSwitches.EmulateOriginalBugs;
 
     public string ClassName(IPersistable objectValue) => NameTable.Stored(objectValue.GetType());
 
