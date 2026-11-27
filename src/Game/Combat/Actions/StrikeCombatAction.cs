@@ -5,7 +5,6 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
@@ -42,12 +41,12 @@ public class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
 
         if (StrikeMode.Contains(StrikeModes.CausedFear) && target is CombatUnit fearTarget)
         {
-            _ = GamePack.Current.AbilityControl[108].Expand(fearTarget.Troop);
+            _ = GetEngine().GamePack.AbilityControl[108].Expand(fearTarget.Troop);
         }
 
         if (StrikeMode.Contains(StrikeModes.Entangled) && target is CombatUnit entangledTarget)
         {
-            _ = GamePack.Current.AbilityControl[94].Expand(entangledTarget.Troop);
+            _ = GetEngine().GamePack.AbilityControl[94].Expand(entangledTarget.Troop);
             UnitEnchantmentAbilityData data = entangledTarget.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
             data?.EnchantmentPlayerIndex = PlayerId.FromOriginal(source.CombatPlayer);
         }

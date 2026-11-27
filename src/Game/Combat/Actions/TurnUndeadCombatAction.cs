@@ -6,7 +6,6 @@ using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -24,7 +23,7 @@ public class TurnUndeadCombatAction(CustomNode owner) : DamageCombatAction(owner
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
             if (!target.Status.Contains(CombatObjectStatuses.Destroyed))
             {
-                _ = GamePack.Current.AbilityControl[34].Expand(target.Troop);
+                _ = GetEngine().GamePack.AbilityControl[34].Expand(target.Troop);
                 UnitEnchantmentAbilityData data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(34);
 
                 data?.EnchantmentPlayerIndex = PlayerId.FromOriginal(source.CombatPlayer);
@@ -38,7 +37,7 @@ public class TurnUndeadCombatAction(CustomNode owner) : DamageCombatAction(owner
         bool result = base.Play(viewer);
         if (viewer.Time == 0)
         {
-            _ = GamePack.Current.AbilityControl[38].SfxLibrary.Play(0);
+            _ = GetEngine().GamePack.AbilityControl[38].SfxLibrary.Play(0);
         }
 
         return result;
@@ -50,7 +49,7 @@ public class TurnUndeadCombatAction(CustomNode owner) : DamageCombatAction(owner
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            _ = GamePack.Current.AbilityControl[38].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
+            _ = GetEngine().GamePack.AbilityControl[38].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
         }
     }
 

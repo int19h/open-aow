@@ -54,6 +54,8 @@ public sealed class CombatMapConstructionTests
                         if (failure == 2)
                         {
                             EngineFixture.SetPack(null!);
+                            // The map reads the pack of the engine that creates it, so that engine loses its pack too.
+                            fixture.Engine.GamePack = null!;
                         }
 
                         EngineFixture.SetCombatMap(null!);

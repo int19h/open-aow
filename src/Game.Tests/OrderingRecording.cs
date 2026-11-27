@@ -84,6 +84,8 @@ internal static class OrderingRecording
             // A bare engine has no settings and no dictionary. The nodes it creates read the fixture's.
             Engine = new GameEngine(null) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
             Engine.Options &= ~GameEngine.VerifyClasses;
+            // A node this engine creates reads the pack of this engine, which is the fixture's pack (issue 335).
+            Engine.GamePack = value;
             foreach (EngineClass? descriptor in EngineClass.All.Where(x => x.Type == type))
             {
                 try

@@ -1107,7 +1107,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                 int hexX = _unit.UnitHexSprite.HexX;
                 int hexY3 = _unit.UnitHexSprite.HexY;
                 Point3DList path19 = effect.Path;
-                TacticalTables.MakeRangedPath(_unit.Side, speed: 50, arc: 20, unusedHeight: 50, hexX, hexY3, j.TruncateToInt16(), k.TruncateToInt16(), deltaX.TruncateToInt16(), deltaY.TruncateToInt16(), includeUnits: false, path: path19, obstacles);
+                TacticalTables.MakeRangedPath(_unit.Side, speed: 50, arc: 20, unusedHeight: 50, hexX, hexY3, j.TruncateToInt16(), k.TruncateToInt16(), deltaX.TruncateToInt16(), deltaY.TruncateToInt16(), includeUnits: false, path: path19, obstacles, engine: _unit.GetEngine()!);
                 effect.Path = path19;
                 if (_strikeIndex < 12)
                 {
@@ -1601,7 +1601,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                 int hexX3 = _unit.UnitHexSprite.HexX;
                 int hexY8 = _unit.UnitHexSprite.HexY;
                 Point3DList path35 = effect.Path;
-                TacticalTables.MakeRangedPath(_unit.Side, speed: 10, arc: 0, unusedHeight: 50, hexX3, hexY8, TargetX.TruncateToInt16(), TargetY.TruncateToInt16(), 0, 0, includeUnits: true, path: path35, obstacles);
+                TacticalTables.MakeRangedPath(_unit.Side, speed: 10, arc: 0, unusedHeight: 50, hexX3, hexY8, TargetX.TruncateToInt16(), TargetY.TruncateToInt16(), 0, 0, includeUnits: true, path: path35, obstacles, engine: _unit.GetEngine()!);
                 effect.Path = path35;
                 break;
             case BattleEffectType.None:
@@ -1641,7 +1641,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                 int hexX4 = _unit.UnitHexSprite.HexX;
                 int hexY9 = _unit.UnitHexSprite.HexY;
                 Point3DList path36 = effect.Path;
-                TacticalTables.MakeAbilityPath(_unit.Side, ability: (short)AbilityId, spell: (short)SpellId, hexX4, hexY9, TargetX.TruncateToInt16(), TargetY.TruncateToInt16(), path: path36, obstacles);
+                TacticalTables.MakeAbilityPath(_unit.Side, ability: (short)AbilityId, spell: (short)SpellId, hexX4, hexY9, TargetX.TruncateToInt16(), TargetY.TruncateToInt16(), path: path36, obstacles, engine: _unit.GetEngine()!);
                 effect.Path = path36;
                 break;
         }

@@ -9,8 +9,6 @@ using Aow.Game.Draw;
 
 using Aow.Game.Magic;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Combat.Actions;
 
 // (dispelled enchantment IDs)
@@ -60,7 +58,7 @@ public class DispelMagicCombatAction(CustomNode owner) : SingleTargetCombatActio
     {
         if (viewer.Time == 0)
         {
-            _ = GamePack.Current.AbilityControl[60].SfxLibrary.Play(0);
+            _ = GetEngine().GamePack.AbilityControl[60].SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -77,7 +75,7 @@ public class DispelMagicCombatAction(CustomNode owner) : SingleTargetCombatActio
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            _ = GamePack.Current.AbilityControl[60].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
+            _ = GetEngine().GamePack.AbilityControl[60].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
         }
     }
 
@@ -93,7 +91,7 @@ public class DispelMagicCombatAction(CustomNode owner) : SingleTargetCombatActio
             for (int i = enchantmentList.GetCount() - 1; i >= 0; i--)
             {
                 int chance = enchantmentList.GetEnchantments(i).DispelChance(dispelMana);
-                if (chance > StrategicMap.Current.Random(100))
+                if (chance > GetEngine().StrategicMap.Random(100))
                 {
                     Enchantment enchantments = enchantmentList.GetEnchantments(i);
                     _ = EnchantmentIds.Add(enchantments.EnchantmentId);

@@ -2,7 +2,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
@@ -31,7 +30,7 @@ public class SelfDestructCombatAction(CustomNode owner) : DamageCombatAction(own
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if ((objectValue.Id == TargetId || objectValue.Id == SourceId) && viewer.Time >= viewer.Delay - 2)
         {
-            _ = GamePack.Current.AbilityControl[65].ImageSequences.Show(40, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
+            _ = GetEngine().GamePack.AbilityControl[65].ImageSequences.Show(40, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
         }
     }
 }

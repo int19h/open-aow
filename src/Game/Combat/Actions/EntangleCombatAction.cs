@@ -7,7 +7,6 @@ using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -34,7 +33,7 @@ public class EntangleCombatAction(CustomNode owner) : SingleTargetCombatAction(o
         {
             CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
-            _ = GamePack.Current.AbilityControl[94].Expand(target.Troop);
+            _ = GetEngine().GamePack.AbilityControl[94].Expand(target.Troop);
             UnitEnchantmentAbilityData data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
             data?.EnchantmentPlayerIndex = PlayerId.FromOriginal(source.CombatPlayer);
         }
@@ -45,7 +44,7 @@ public class EntangleCombatAction(CustomNode owner) : SingleTargetCombatAction(o
     {
         if (viewer.Time == 0)
         {
-            _ = GamePack.Current.AbilityControl[40].SfxLibrary.Play(0);
+            _ = GetEngine().GamePack.AbilityControl[40].SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -62,7 +61,7 @@ public class EntangleCombatAction(CustomNode owner) : SingleTargetCombatAction(o
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            _ = GamePack.Current.AbilityControl[40].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
+            _ = GetEngine().GamePack.AbilityControl[40].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
         }
     }
 

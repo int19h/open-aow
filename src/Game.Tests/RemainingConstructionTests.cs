@@ -293,14 +293,15 @@ public sealed class RemainingConstructionTests
         }
         MethodInfo? factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
         bool node = typeof(EngineObject).IsAssignableFrom(type);
-        // A helper that is no engine node takes the node that creates it (issue 224). The test has none.
+        // A helper that is no engine node takes the node that creates it (issue 224). The fixture engine
+        // creates it here, so its pack reads reach the fixture's pack (issue 335).
         ConstructorInfo? constructor = node ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructor([]) ?? type.GetConstructor([typeof(EngineObject)]);
         return factory is not null
             ? Invoke(() => factory.Invoke(null, parameters: factory.GetParameters().Length == 0 ? [] : [owner]))!
             : constructor is not null
             ? Invoke(() => constructor.Invoke(node
                 ? EngineClassCreation.OwnerArguments(constructor, owner)
-                : new object?[constructor.GetParameters().Length]))!
+                : [.. constructor.GetParameters().Select(x => x.ParameterType == typeof(EngineObject) ? EngineFixture.Engine : null)]))!
             : throw new InvalidOperationException($"{type.FullName} has no declared completed construction signature.");
     }
 

@@ -8,8 +8,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Spells;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Combat.Actions;
 
 // (spell ID, source/target IDs, spell data, mana)
@@ -37,7 +35,7 @@ public class UnitSpellCombatAction(CustomNode owner) : CombatAction(owner)
     }
 
     // Spells.PAS:1111
-    public override void Execute(Battle combat) => GamePack.Current.SpellControl.GetSpell<UnitSpell>(SpellId).ExecuteCombatAction(combat, action: this);
+    public override void Execute(Battle combat) => GetEngine().GamePack.SpellControl.GetSpell<UnitSpell>(SpellId).ExecuteCombatAction(combat, action: this);
 
     // Spells.PAS:1115
     public override bool Play(CombatViewer viewer)

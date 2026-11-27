@@ -7,7 +7,6 @@ using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.Combat;
@@ -70,7 +69,7 @@ public class CombatUnit : CombatObject
             Troop? u = Troop;
             combatValue = 0;
             damageValue = 0;
-            AbilityTypeList abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
+            AbilityTypeList abilities = GetEngine().GamePack.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
             AbilityDamageValues values = default;
             int v;
             Ability? ability;
@@ -103,7 +102,7 @@ public class CombatUnit : CombatObject
 
             if (u.GetAbilityEnabled(52))
             {
-                ability = GamePack.Current.AbilityControl[52];
+                ability = GetEngine().GamePack.AbilityControl[52];
                 ability.TacticalBattleGetDamageValues(this, defender: target, damageValues: ref values);
                 if (values.SourceDamage > 0)
                 {
@@ -315,7 +314,7 @@ public class CombatUnit : CombatObject
                     {
                         sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
                         ArmyHexSprite? placed;
-                        if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
+                        if (GetEngine().StrategicMap.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                         {
                             placed = Troop.Place(party.Location.X, party.Location.Y, L: party.Location.MapLevel, player: PlayerId.Independent, mode: UnitPlaceModes.NeglectEmptyPlayerLocation);
                         }
@@ -339,7 +338,7 @@ public class CombatUnit : CombatObject
                 if (party is null || party.Location.X != -1)
                 {
                     sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-                    if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
+                    if (GetEngine().StrategicMap.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                     {
                         _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, L: Combat.CombatData.Location.MapLevel, player: PlayerId.Independent, mode: UnitPlaceModes.ScanArea);
                     }
@@ -379,7 +378,7 @@ public class CombatUnit : CombatObject
             while (i != 0 && !result)
             {
                 i -= 1;
-                result = Troop.GetAbilityEnabled(i) && modes.Contains(GamePack.Current.AbilityControl[i].GetCombatMode(Troop).ToFlag());
+                result = Troop.GetAbilityEnabled(i) && modes.Contains(GetEngine().GamePack.AbilityControl[i].GetCombatMode(Troop).ToFlag());
             }
         }
         else
@@ -400,22 +399,22 @@ public class CombatUnit : CombatObject
         {
             case 0:
                 int unitGraphicsResourceIndex = Troop.UnitGraphicsResourceIndex;
-                UnitGraphicsResource? unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
+                UnitGraphicsResource? unitGraphicsResource = GetEngine().GamePack.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
                 _ = unitGraphicsResource.SfxLibraries[2].Play(0);
                 break;
             case 1:
                 int fUnitUnitGraphicsResourceIndex = Troop.UnitGraphicsResourceIndex;
-                UnitGraphicsResource? fUnitGraphicsResourcesUnitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(fUnitUnitGraphicsResourceIndex);
+                UnitGraphicsResource? fUnitGraphicsResourcesUnitGraphicsResource = GetEngine().GamePack.UnitGraphicsResources.GetUnitGraphicsResource(fUnitUnitGraphicsResourceIndex);
                 _ = fUnitGraphicsResourcesUnitGraphicsResource.SfxLibraries[2].Play(1);
                 break;
             case 2:
                 int unitGraphicsResourceIndex2 = Troop.UnitGraphicsResourceIndex;
-                UnitGraphicsResource? unitGraphicsResource2 = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex2);
+                UnitGraphicsResource? unitGraphicsResource2 = GetEngine().GamePack.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex2);
                 _ = unitGraphicsResource2.SfxLibraries[3].Play(0);
                 break;
             case 3:
                 int unitGraphicsResourceIndex3 = Troop.UnitGraphicsResourceIndex;
-                UnitGraphicsResource? unitGraphicsResource3 = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex3);
+                UnitGraphicsResource? unitGraphicsResource3 = GetEngine().GamePack.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex3);
                 _ = unitGraphicsResource3.SfxLibraries[4].Play(0);
                 break;
             default:
@@ -466,7 +465,7 @@ public class CombatUnit : CombatObject
             _ = u.Show(X, Y, lockedSurface: surface, info);
             if (Status.Contains(CombatObjectStatuses.Fled))
             {
-                GamePack.Current.CombatImages[7].Show(X + 18, Y + 10, lockedSurface: surface);
+                GetEngine().GamePack.CombatImages[7].Show(X + 18, Y + 10, lockedSurface: surface);
             }
         }
     }
@@ -552,7 +551,7 @@ public class CombatUnit : CombatObject
             {
                 if (Troop.GetAbilityEnabled(i))
                 {
-                    GamePack.Current.AbilityControl[i].CombatObjectDestroyed(this);
+                    GetEngine().GamePack.AbilityControl[i].CombatObjectDestroyed(this);
                 }
             }
         }
@@ -647,7 +646,7 @@ public class CombatUnit : CombatObject
         if (u is not null && !Status.Contains(CombatObjectStatuses.Destroyed))
         {
             WallCombatFeaturesValue = u.GetWallCombatFeatures();
-            if (Troop.GetAbilityEnabled(52) && GamePack.Current.AbilityControl.GetAbility<SpellCastingAbility>(52).CanCastBreachWallSpell(Troop))
+            if (Troop.GetAbilityEnabled(52) && GetEngine().GamePack.AbilityControl.GetAbility<SpellCastingAbility>(52).CanCastBreachWallSpell(Troop))
             {
                 WallCombatFeaturesValue |= Game.Combat.WallCombatFeatures.WallBreaching;
             }
@@ -709,7 +708,7 @@ public class CombatUnit : CombatObject
             ReleaseUnitGraphicsResource();
             if (index != -1)
             {
-                _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).AddRef();
+                _ = GetEngine().GamePack.UnitGraphicsResources.GetUnitGraphicsResource(index).AddRef();
                 _unitGraphicsResourceIndex = index;
             }
         }
@@ -721,7 +720,7 @@ public class CombatUnit : CombatObject
         int index = _unitGraphicsResourceIndex;
         if (index != -1)
         {
-            _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).Release();
+            _ = GetEngine().GamePack.UnitGraphicsResources.GetUnitGraphicsResource(index).Release();
             _unitGraphicsResourceIndex = -1;
         }
     }
@@ -748,7 +747,7 @@ public class CombatUnit : CombatObject
         {
             if (GetAbilityEnabled(CombatAbilityTables.CommandingPriorityAbilityIds[i]))
             {
-                CommandAbilityData data = GamePack.Current.AbilityControl.GetAbility<CommandAbility>(CombatAbilityTables.CommandingPriorityAbilityIds[i]).GetData(Troop);
+                CommandAbilityData data = GetEngine().GamePack.AbilityControl.GetAbility<CommandAbility>(CombatAbilityTables.CommandingPriorityAbilityIds[i]).GetData(Troop);
                 if (data is not null)
                 {
                     result += data.CommandingTargetPriority(Combat);
@@ -767,7 +766,7 @@ public class CombatUnit : CombatObject
         {
             if (GetAbilityEnabled(CombatAbilityTables.CommandingStrengthAbilityIds[i]))
             {
-                CommandAbilityData data = GamePack.Current.AbilityControl.GetAbility<CommandAbility>(CombatAbilityTables.CommandingStrengthAbilityIds[i]).GetData(Troop);
+                CommandAbilityData data = GetEngine().GamePack.AbilityControl.GetAbility<CommandAbility>(CombatAbilityTables.CommandingStrengthAbilityIds[i]).GetData(Troop);
                 if (data is not null)
                 {
                     result += data.CommandingTargetStrength(Combat);

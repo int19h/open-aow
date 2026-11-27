@@ -5,7 +5,6 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
@@ -170,38 +169,38 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
         DamageTypes = damageTypes & ~immunityTypes;
     }
 
-    private static bool ShowDamageEffects(DamageTypes damageTypes, int X, int Y, int frame, in LockedSurface surface)
+    private bool ShowDamageEffects(DamageTypes damageTypes, int X, int Y, int frame, in LockedSurface surface)
     {
         bool flag = false;
         if (damageTypes.Contains(DamageTypes.Fire))
         {
-            flag = flag || GamePack.Current.AbilityControl[127].ImageSequences.Show(0, X + 32, Y + 32, frame, lockedSurface: in surface);
+            flag = flag || GetEngine().GamePack.AbilityControl[127].ImageSequences.Show(0, X + 32, Y + 32, frame, lockedSurface: in surface);
         }
         if (damageTypes.Contains(DamageTypes.Poison))
         {
-            flag = flag || GamePack.Current.AbilityControl[96].ImageSequences.Show(0, X + 32, Y + 32, frame, lockedSurface: in surface);
+            flag = flag || GetEngine().GamePack.AbilityControl[96].ImageSequences.Show(0, X + 32, Y + 32, frame, lockedSurface: in surface);
         }
         if (damageTypes.Contains(DamageTypes.Cold))
         {
-            flag = flag || GamePack.Current.AbilityControl[95].ImageSequences.Show(1, X + 32, Y + 32, frame, lockedSurface: in surface);
+            flag = flag || GetEngine().GamePack.AbilityControl[95].ImageSequences.Show(1, X + 32, Y + 32, frame, lockedSurface: in surface);
         }
         if (damageTypes.Contains(DamageTypes.Death))
         {
-            flag = flag || GamePack.Current.AbilityControl[93].ImageSequences.Show(0, X + 32, Y + 32, frame, lockedSurface: in surface);
+            flag = flag || GetEngine().GamePack.AbilityControl[93].ImageSequences.Show(0, X + 32, Y + 32, frame, lockedSurface: in surface);
         }
         if (damageTypes.Contains(DamageTypes.Holy))
         {
-            flag = flag || GamePack.Current.AbilityControl[98].ImageSequences.Show(0, X + 32, Y + 32, frame, lockedSurface: in surface);
+            flag = flag || GetEngine().GamePack.AbilityControl[98].ImageSequences.Show(0, X + 32, Y + 32, frame, lockedSurface: in surface);
         }
         return flag;
     }
 
-    private static int DamageEffectsAnimationFrames(DamageTypes damageTypes)
+    private int DamageEffectsAnimationFrames(DamageTypes damageTypes)
     {
         int number = 0;
         if (damageTypes.Contains(DamageTypes.Fire))
         {
-            int framesCount = GamePack.Current.AbilityControl[127].ImageSequences.GetFramesCount(0);
+            int framesCount = GetEngine().GamePack.AbilityControl[127].ImageSequences.GetFramesCount(0);
             if (framesCount > number)
             {
                 number = framesCount;
@@ -209,7 +208,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
         }
         if (damageTypes.Contains(DamageTypes.Poison))
         {
-            int framesCount = GamePack.Current.AbilityControl[96].ImageSequences.GetFramesCount(0);
+            int framesCount = GetEngine().GamePack.AbilityControl[96].ImageSequences.GetFramesCount(0);
             if (framesCount > number)
             {
                 number = framesCount;
@@ -217,7 +216,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
         }
         if (damageTypes.Contains(DamageTypes.Cold))
         {
-            int framesCount = GamePack.Current.AbilityControl[95].ImageSequences.GetFramesCount(1);
+            int framesCount = GetEngine().GamePack.AbilityControl[95].ImageSequences.GetFramesCount(1);
             if (framesCount > number)
             {
                 number = framesCount;
@@ -225,7 +224,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
         }
         if (damageTypes.Contains(DamageTypes.Death))
         {
-            int framesCount = GamePack.Current.AbilityControl[93].ImageSequences.GetFramesCount(0);
+            int framesCount = GetEngine().GamePack.AbilityControl[93].ImageSequences.GetFramesCount(0);
             if (framesCount > number)
             {
                 number = framesCount;
@@ -233,7 +232,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
         }
         if (damageTypes.Contains(DamageTypes.Holy))
         {
-            int framesCount = GamePack.Current.AbilityControl[98].ImageSequences.GetFramesCount(0);
+            int framesCount = GetEngine().GamePack.AbilityControl[98].ImageSequences.GetFramesCount(0);
             if (framesCount > number)
             {
                 number = framesCount;

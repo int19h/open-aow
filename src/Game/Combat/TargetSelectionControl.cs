@@ -2,6 +2,7 @@
 // Translated from AoWE.pas.
 
 using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
 
 using Aow.Game.Draw;
 
@@ -20,19 +21,16 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // { Interface declaration run owned by P1. }
-public sealed class TargetSelectionControl : IDisposable
+// Structur.PAS:3785
+// images, HNs, status, mode, callbacks, range, source coordinates, source, change events,
+// change, target, text, title, cancel text, images
+public sealed class TargetSelectionControl(EngineObject creator) : IDisposable
 {
-    // Structur.PAS:3785
-    // images, HNs, status, mode, callbacks, range, source coordinates, source, change events,
-    // change, target, text, title, cancel text, images
-    public TargetSelectionControl()
-    {
-        HexNumbers = [];
-        Text = new DelphiStringList();
-    }
+    // The strategic map that owns this control. Its engine holds the map and the pack the control reads.
+    public EngineObject Creator { get; } = creator;
 
     public CustomImageLibrary? ImageLibrary { get; private set; }
-    public SByteList? HexNumbers { get; private set; }
+    public SByteList? HexNumbers { get; private set; } = [];
     public TargetSelectionStatuses Status { get; set; }
     public TargetSelectionModes TargetMode { get; set; }
 
@@ -53,7 +51,7 @@ public sealed class TargetSelectionControl : IDisposable
     // CityTargetSpell refuses a second listener, as the original read the count of the change list.
     internal int ChangedHandlerCount => Changed?.GetInvocationList().Length ?? 0;
     public MapCoordinate Target { get; private set; }
-    public DelphiStringCollection Text { get; }
+    public DelphiStringCollection Text { get; } = new DelphiStringList();
     public string Title { get; set; } = "";
     public string CancelText { get; set; } = "";
     public int SourceUnitId { get; set; }
@@ -69,7 +67,7 @@ public sealed class TargetSelectionControl : IDisposable
         if (ImageLibrary is not null)
         {
             // { Original links the image library again when destroying the control. }
-            _ = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TARGHEX.ILB");
+            _ = Creator.GetEngine().GamePack.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TARGHEX.ILB");
             ImageLibrary = null;
         }
     }
@@ -89,16 +87,18 @@ public sealed class TargetSelectionControl : IDisposable
     // Structur.PAS:3821
     public void MouseDownEvent(object sender)
     {
+        GameEngine engine = Creator.GetEngine();
         if (Status.Contains(TargetSelectionStatuses.Activated))
         {
-            if (StrategicMap.Current.Mouse.Capture != this || StrategicMap.Current.Mouse.Button == MouseButton.Right)
+            StrategicMap strategicMap = engine.StrategicMap;
+            if (strategicMap.Mouse.Capture != this || strategicMap.Mouse.Button == MouseButton.Right)
             {
                 Deactivate();
-                StrategicMap.Current.SelectedArmy.IgnoreMouseDown = true;
+                engine.StrategicMap.SelectedArmy.IgnoreMouseDown = true;
             }
             else
             {
-                HexSpriteMapMouse mouse = StrategicMap.Current.Mouse;
+                HexSpriteMapMouse mouse = engine.StrategicMap.Mouse;
                 if (mouse.Capture == this && mouse.Button == MouseButton.Left)
                 {
                     if (ValidTarget(Target.X, Target.Y, L: Target.MapLevel))
@@ -106,7 +106,7 @@ public sealed class TargetSelectionControl : IDisposable
                         TriggerOnChangeEvent(TargetSelectionChange.Selected);
                         if (!Status.Contains(TargetSelectionStatuses.Activated))
                         {
-                            StrategicMap.Current.SelectedArmy.IgnoreMouseDown = true;
+                            engine.StrategicMap.SelectedArmy.IgnoreMouseDown = true;
                         }
                     }
                 }
@@ -127,7 +127,7 @@ public sealed class TargetSelectionControl : IDisposable
                 result = result && L == SourceLocation.MapLevel;
             }
 
-            MapField mapField = StrategicMap.Current.MapContainer.GetField(X, Y, L);
+            MapField mapField = Creator.GetEngine().StrategicMap.MapContainer.GetField(X, Y, L);
             result = result && mapField.Terrain != TerrainType.Border;
             if (result && _validateTarget is not null)
             {
@@ -145,17 +145,20 @@ public sealed class TargetSelectionControl : IDisposable
     // Structur.PAS:3862
     public void NewFrameEvent(object sender)
     {
+        GameEngine engine = Creator.GetEngine();
         if (Status.Contains(TargetSelectionStatuses.Activated))
         {
             if (Status.Contains(TargetSelectionStatuses.Visible))
             {
-                StrategicMap.Current.Mouse.SetCursor(110 + ((StrategicMap.Current.Frame >>> 2) % 10));
-                StrategicMap.Current.Mouse.CursorVisible = true;
+                StrategicMap strategicMap = engine.StrategicMap;
+                strategicMap.Mouse.SetCursor(110 + ((strategicMap.Frame >>> 2) % 10));
+                strategicMap.Mouse.CursorVisible = true;
             }
             else
             {
-                StrategicMap.Current.Mouse.SetCursor(120);
-                StrategicMap.Current.Mouse.CursorVisible = false;
+                StrategicMap engineStrategicMap = engine.StrategicMap;
+                engineStrategicMap.Mouse.SetCursor(120);
+                engineStrategicMap.Mouse.CursorVisible = false;
             }
         }
     }
@@ -165,12 +168,13 @@ public sealed class TargetSelectionControl : IDisposable
     {
         if (Status.Contains(TargetSelectionStatuses.Activated))
         {
-            Target = new MapCoordinate((sbyte)StrategicMap.Current.Mouse.HexX, (sbyte)StrategicMap.Current.Mouse.HexY, (sbyte)StrategicMap.Current.ViewMapLevel);
-            bool condition = StrategicMap.Current.Mouse.HexX != -1 && StrategicMap.Current.Mouse.HexY != -1;
+            StrategicMap strategicMap = Creator.GetEngine().StrategicMap;
+            Target = new MapCoordinate((sbyte)strategicMap.Mouse.HexX, (sbyte)strategicMap.Mouse.HexY, (sbyte)strategicMap.ViewMapLevel);
+            bool condition = strategicMap.Mouse.HexX != -1 && strategicMap.Mouse.HexY != -1;
             if (condition)
             {
-                int hexY = StrategicMap.Current.Mouse.HexY;
-                condition = ValidTarget(StrategicMap.Current.Mouse.HexX.TruncateToSByte(), hexY.TruncateToSByte(), L: StrategicMap.Current.ViewMapLevel.TruncateToSByte());
+                int hexY = strategicMap.Mouse.HexY;
+                condition = ValidTarget(strategicMap.Mouse.HexX.TruncateToSByte(), hexY.TruncateToSByte(), L: strategicMap.ViewMapLevel.TruncateToSByte());
             }
 
             Status = condition
@@ -213,7 +217,7 @@ public sealed class TargetSelectionControl : IDisposable
     // Structur.PAS:3915
     public void Initialize(object source)
     {
-        ImageLibrary ??= GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TARGHEX.ILB");
+        ImageLibrary ??= Creator.GetEngine().GamePack.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TARGHEX.ILB");
 
         if (!Status.Contains(TargetSelectionStatuses.Activated))
         {
@@ -230,16 +234,18 @@ public sealed class TargetSelectionControl : IDisposable
     // Structur.PAS:3928
     public void Activate()
     {
+        GameEngine engine = Creator.GetEngine();
         if (!Status.Contains(TargetSelectionStatuses.Activated))
         {
             Status |= TargetSelectionStatuses.Activated;
-            StrategicMap.Current.Mouse.SetCapture(this);
-            StrategicMap.Current.Mouse.ButtonPressed += MouseDownEvent;
-            StrategicMap.Current.Mouse.Moved += MouseMoveEvent;
-            StrategicMap.Current.FrameStarted += NewFrameEvent;
-            StrategicMap.Current.Selection.Deselected += DeselectHexSprite;
-            StrategicMap.Current.Mouse.CursorMode = 256;
-            StrategicMap.Current.Keyboard.Lock();
+            engine.StrategicMap.Mouse.SetCapture(this);
+            StrategicMap strategicMap = engine.StrategicMap;
+            strategicMap.Mouse.ButtonPressed += MouseDownEvent;
+            strategicMap.Mouse.Moved += MouseMoveEvent;
+            strategicMap.FrameStarted += NewFrameEvent;
+            strategicMap.Selection.Deselected += DeselectHexSprite;
+            strategicMap.Mouse.CursorMode = 256;
+            strategicMap.Keyboard.Lock();
             TriggerOnChangeEvent(TargetSelectionChange.Activated);
             MouseMoveEvent(this);
         }
@@ -252,29 +258,31 @@ public sealed class TargetSelectionControl : IDisposable
     // Structur.PAS:3946
     public void Deactivate()
     {
+        GameEngine engine = Creator.GetEngine();
         if (Status.Contains(TargetSelectionStatuses.Activated))
         {
             Status &= ~TargetSelectionStatuses.Activated;
-            StrategicMap.Current.Mouse.ButtonPressed -= MouseDownEvent;
-            StrategicMap.Current.Mouse.Moved -= MouseMoveEvent;
-            StrategicMap.Current.FrameStarted -= NewFrameEvent;
-            StrategicMap.Current.Selection.Deselected -= DeselectHexSprite;
-            if (StrategicMap.Current.Mouse.Capture == this)
+            StrategicMap strategicMap = engine.StrategicMap;
+            strategicMap.Mouse.ButtonPressed -= MouseDownEvent;
+            strategicMap.Mouse.Moved -= MouseMoveEvent;
+            strategicMap.FrameStarted -= NewFrameEvent;
+            strategicMap.Selection.Deselected -= DeselectHexSprite;
+            if (strategicMap.Mouse.Capture == this)
             {
-                if (StrategicMap.Current.SelectedArmy.ArmyHexSprite is not null)
+                if (strategicMap.SelectedArmy.ArmyHexSprite is not null)
                 {
-                    ArmyHexSprite armyHexSprite = StrategicMap.Current.SelectedArmy.ArmyHexSprite;
-                    StrategicMap.Current.Mouse.SetCapture(null);
-                    StrategicMap.Current.Selection.UnselectLocation();
-                    StrategicMap.Current.Selection.SelectLocationHexSprite(armyHexSprite);
+                    ArmyHexSprite armyHexSprite = strategicMap.SelectedArmy.ArmyHexSprite;
+                    strategicMap.Mouse.SetCapture(null);
+                    engine.StrategicMap.Selection.UnselectLocation();
+                    engine.StrategicMap.Selection.SelectLocationHexSprite(armyHexSprite);
                 }
                 else
                 {
-                    StrategicMap.Current.Mouse.SetCapture(null);
+                    engine.StrategicMap.Mouse.SetCapture(null);
                 }
             }
 
-            StrategicMap.Current.Keyboard.Unlock();
+            engine.StrategicMap.Keyboard.Unlock();
             TriggerOnChangeEvent(TargetSelectionChange.Deactivated);
             Source = null;
             _show = null;
