@@ -4,7 +4,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -29,9 +28,9 @@ public class PowerLeakEnchantment : GlobalEnchantment
     public override bool Deactivate(PlayerId? player)
     {
         _ = base.Deactivate(player);
-        for (int i = StrategicMap.Current.Players.Count - 1; i >= 0; i--)
+        for (int i = GetEngine().StrategicMap.Players.Count - 1; i >= 0; i--)
         {
-            StrategicMap.Current.Players.GetPlayers(i).MagicControl.Update();
+            GetEngine().StrategicMap.Players.GetPlayers(i).MagicControl.Update();
         }
 
         return true;
@@ -41,9 +40,9 @@ public class PowerLeakEnchantment : GlobalEnchantment
     public override bool Activate(PlayerId? player)
     {
         _ = base.Activate(player);
-        for (int i = StrategicMap.Current.Players.Count - 1; i >= 0; i--)
+        for (int i = GetEngine().StrategicMap.Players.Count - 1; i >= 0; i--)
         {
-            StrategicMap.Current.Players.GetPlayers(i).MagicControl.Update();
+            GetEngine().StrategicMap.Players.GetPlayers(i).MagicControl.Update();
         }
 
         return true;

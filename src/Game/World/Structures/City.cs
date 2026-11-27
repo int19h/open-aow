@@ -716,7 +716,7 @@ public partial class City : PlayerCropStructure
                         int priority = data.Priority;
                         if (PlayerIdExtensions.ToOriginal(Player) > 0)
                         {
-                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: Race))
+                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: Race, engine: GetEngine()!))
                             {
                                 priority = 100 + ((Size - 1) * 10);
                             }
@@ -2357,7 +2357,7 @@ public partial class City : PlayerCropStructure
                 value *= 2;
             }
 
-            DiplomaticRelation relation = AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, otherPlayer: Player, otherIndependentRelation: 0);
+            DiplomaticRelation relation = AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, otherPlayer: Player, otherIndependentRelation: 0, engine: GetEngine()!);
             if (info.FriendlyRelations.Contains(relation.ToFlag()))
             {
                 info.FriendlyStrength -= value;

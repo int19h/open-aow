@@ -35,19 +35,20 @@ public class DeathMastery : GlobalEnchantmentSpell
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
-        SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Death);
+        SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Death, engine: GetEngine()!);
         MapCoordinate coordinate63 = source.GetLocation();
         int x = coordinate63.X;
         int y = coordinate63.Y;
         int l = coordinate63.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
+        _ = GetEngine().StrategicMap.ValidateObservation(source.Player, x, y, l, radius: 0);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
         Animation animation = new(null, show: ShowAnimation)
         {
             Holder = CreationHolder(),
             AnimationLevel = 28
 ,
-            AnimationMap = StrategicMap.Current,
-            Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16)
+            AnimationMap = strategicMap,
+            Tag = (strategicMap.ViewWidth & 0xFFFF) | (strategicMap.ViewHeight << 16)
         };
         animation.Activate();
 
@@ -62,7 +63,7 @@ public class DeathMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1593
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        RandSeed = StrategicMap.Current.Frame - animation.FrameCounter;
+        RandSeed = GetEngine().StrategicMap.Frame - animation.FrameCounter;
         int count = GetEngine().AnimationDetail switch
         {
             0 => 5,

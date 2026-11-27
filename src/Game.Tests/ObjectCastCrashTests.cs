@@ -48,9 +48,7 @@ public sealed class ObjectCastCrashTests
 
     private sealed class MasteryUnit : Troop
     {
-        public MasteryUnit() : base(null)
-        {
-        }
+        public MasteryUnit() : base(null) => Holder = EngineFixture.Engine;
 
         public override bool ExpandAbility(int abilityId)
         {

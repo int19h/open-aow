@@ -8,8 +8,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Magic;
 
 public class CosmagicSurgeryEnchantment(CustomNode owner) : UnitEnchantment(owner)
@@ -28,7 +26,7 @@ public class CosmagicSurgeryEnchantment(CustomNode owner) : UnitEnchantment(owne
     // AoWAb.PAS:901
     public override string GetName()
     {
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop source = GetEngine().StrategicMap.UnitControl.FindUnit(UnitId);
         // { Original supplies an argument to the unformatted 'Cosmagic Surgery' text. }
         string name = source.GetName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CosmagicSurgeryText), arguments: [name]);

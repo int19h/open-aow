@@ -33,15 +33,15 @@ public class LifeMastery : GlobalEnchantmentSpell
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
-        SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Life);
+        SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Life, engine: GetEngine()!);
         MapCoordinate coordinate73 = source.GetLocation();
         int x = coordinate73.X;
         int y = coordinate73.Y;
         int l = coordinate73.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
+        _ = GetEngine().StrategicMap.ValidateObservation(source.Player, x, y, l, radius: 0);
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-        twinkle.Setup(GamePack.Current.SpellControl[61].CastImages.ImageSequences[0], mode: TwinkleModes.Rotate, count: 100, radius: 64, duration: 50, startDelay: 30);
-        _ = StrategicMap.Current.PlaceHex(twinkle, x, y, l);
+        twinkle.Setup(GetEngine().GamePack.SpellControl[61].CastImages.ImageSequences[0], mode: TwinkleModes.Rotate, count: 100, radius: 64, duration: 50, startDelay: 30);
+        _ = GetEngine().StrategicMap.PlaceHex(twinkle, x, y, l);
         _ = CastSounds.Play(0);
         CastingDone(source, mana: eventValue.EventMana);
         return false;

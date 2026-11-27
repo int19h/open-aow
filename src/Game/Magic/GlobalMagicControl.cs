@@ -222,7 +222,7 @@ public sealed class GlobalMagicControl : EngineObject
     // Spells.PAS:2712
     public bool DispelEnchantment(PlayerId? player, GlobalEnchantment enchantment)
     {
-        if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment.EnchantmentId) != -1)
+        if (!GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment.EnchantmentId) != -1)
         {
             string reason = "";
             if (enchantment.CanDispel(player, ref reason))
@@ -231,15 +231,16 @@ public sealed class GlobalMagicControl : EngineObject
                 eventValue.Mode = ChangeGlobalMagicTokenEventMode.DispelEnchantment;
                 eventValue.EnchantmentId = enchantment.EnchantmentId;
                 eventValue.PlayerIndex = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player));
-                StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+                GetEngine().StrategicMap.TokenManager.GetTokenControl(player).AddEvent(eventValue);
                 _ = eventValue.Release();
                 return true;
             }
             else
             {
-                if (player == StrategicMap.Current.SeatedPlayer)
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                if (player == strategicMap.SeatedPlayer)
                 {
-                    StrategicMap.Current.ShowWarning(reason);
+                    strategicMap.ShowWarning(reason);
                 }
 
                 return false;
@@ -261,7 +262,7 @@ public sealed class GlobalMagicControl : EngineObject
     // Spells.PAS:2716
     public bool RemoveEnchantment(PlayerId? player, GlobalEnchantment? enchantment)
     {
-        if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment.EnchantmentId) != -1)
+        if (!GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment.EnchantmentId) != -1)
         {
             string reason = "";
             if (enchantment.CanRemove(player, ref reason))
@@ -270,15 +271,16 @@ public sealed class GlobalMagicControl : EngineObject
                 eventValue.Mode = ChangeGlobalMagicTokenEventMode.RemoveEnchantment;
                 eventValue.EnchantmentId = enchantment.EnchantmentId;
                 eventValue.PlayerIndex = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(player));
-                StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+                GetEngine().StrategicMap.TokenManager.GetTokenControl(player).AddEvent(eventValue);
                 _ = eventValue.Release();
                 return true;
             }
             else
             {
-                if (player == StrategicMap.Current.SeatedPlayer)
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                if (player == strategicMap.SeatedPlayer)
                 {
-                    StrategicMap.Current.ShowWarning(reason);
+                    strategicMap.ShowWarning(reason);
                 }
 
                 return false;

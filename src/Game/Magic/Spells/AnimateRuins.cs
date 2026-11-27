@@ -13,7 +13,6 @@ using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
 using static Aow.Rtl.DelphiFormat;
@@ -60,7 +59,7 @@ public class AnimateRuins : CityTargetSpell
                 int hexLevel2 = targetCity.HexLevel;
                 int hexY2 = targetCity.HexY;
                 int targetCityHexX = targetCity.HexX;
-                _ = StrategicMap.Current.PlaceHex(a, targetCityHexX, hexY2, L: hexLevel2);
+                _ = GetEngine().StrategicMap.PlaceHex(a, targetCityHexX, hexY2, L: hexLevel2);
             }
 
             return true;
@@ -70,15 +69,15 @@ public class AnimateRuins : CityTargetSpell
             if (executeCount == 50)
             {
                 targetCity = eventValue.GetSelectedCity();
-                targetCity.SetRace(StrategicMap.Current.Players.GetPlayers(source.Player).PlayerRace);
+                targetCity.SetRace(GetEngine().StrategicMap.Players.GetPlayers(source.Player).PlayerRace);
                 targetCity.SetRazed(false);
                 int size = targetCity.Size;
-                int count = StrategicMap.Current.Random(size * 2) + 1;
+                int count = GetEngine().StrategicMap.Random(size * 2) + 1;
                 for (int i = 0; i <= count; i++)
                 {
                     Unit unit = new(null) { Holder = CreationHolder() };
-                    int random = StrategicMap.Current.Random(2);
-                    unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(UndeadUnitResourceIds[random]));
+                    int random = GetEngine().StrategicMap.Random(2);
+                    unit.SetUnitResource(GetEngine().GamePack.UnitResources.GetUnitResource(UndeadUnitResourceIds[random]));
                     int hexLevel = targetCity.HexLevel;
                     int hexY = targetCity.HexY;
                     _ = unit.Place(targetCity.HexX, hexY, L: hexLevel, source.Player, mode: UnitPlaceModes.ScanArea);

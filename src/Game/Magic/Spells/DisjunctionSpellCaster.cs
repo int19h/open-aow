@@ -23,18 +23,18 @@ public class DisjunctionSpellCaster(CustomNode? owner) : SpellCaster(owner)
     {
         // FPlayer is on TAbstractUnit. FCastingProgress is on THero, so only that read tests for a hero.
         bool result = base.CanCast(ref reason);
-        Troop? source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+        Troop? source = GetEngine().StrategicMap.UnitControl.FindUnit(CasterSourceId);
         if (result && SelectedEnchantment() is not null)
         {
-            if (!StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.SpellWard) || SelectedEnchantment().EnchantmentType == GlobalEnchantmentType.SpellWard)
+            if (!GetEngine().StrategicMap.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.SpellWard) || SelectedEnchantment().EnchantmentType == GlobalEnchantmentType.SpellWard)
             {
-                if (!StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
+                if (!GetEngine().StrategicMap.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
                 {
                     if (source is Hero hero)
                     {
-                        Spell? spell = GamePack.Current.SpellControl[51];
+                        Spell? spell = GetEngine().GamePack.SpellControl[51];
                         int mana = GetMana();
-                        if (StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress >= spell.BaseManaCost + mana)
+                        if (GetEngine().StrategicMap.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress >= spell.BaseManaCost + mana)
                         {
                             return true;
                         }
@@ -70,15 +70,16 @@ public class DisjunctionSpellCaster(CustomNode? owner) : SpellCaster(owner)
         string reason = "";
         if (CanCast(ref reason))
         {
-            Troop? source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
-            if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            Troop? source = strategicMap.UnitControl.FindUnit(CasterSourceId);
+            if (!strategicMap.Players.GetPlayers(source.Player).GetBusy())
             {
                 DisjunctionTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-                Spell? spell = GamePack.Current.SpellControl[51];
+                Spell? spell = GetEngine().GamePack.SpellControl[51];
                 eventValue.Initialize(CasterSpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: spell.BaseManaCost);
                 eventValue.EnchantmentId = EnchantmentId;
                 eventValue.DispelChance = DispelChance;
-                StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                strategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 _ = eventValue.Release();
                 return true;
             }
@@ -89,7 +90,7 @@ public class DisjunctionSpellCaster(CustomNode? owner) : SpellCaster(owner)
         }
         else
         {
-            StrategicMap.Current.ShowMessage(reason);
+            GetEngine().StrategicMap.ShowMessage(reason);
         }
 
         return false;
@@ -101,8 +102,8 @@ public class DisjunctionSpellCaster(CustomNode? owner) : SpellCaster(owner)
     // GlobalSpells.pas:817
     public GlobalEnchantment? SelectedEnchantment()
     {
-        int index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
-        return index != -1 ? StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index) : null;
+        int index = GetEngine().StrategicMap.GlobalMagicControl.IndexOfId(EnchantmentId);
+        return index != -1 ? GetEngine().StrategicMap.GlobalMagicControl.Enchantments.GetEnchantments(index) : null;
     }
 
     // GlobalSpells.pas:828
@@ -134,15 +135,16 @@ public class DisjunctionSpellCaster(CustomNode? owner) : SpellCaster(owner)
     public bool GetEnoughMana()
     {
         // FPlayer is on TAbstractUnit. FCastingProgress is on THero, so only that read tests for a hero.
-        Troop? source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+        Troop? source = GetEngine().StrategicMap.UnitControl.FindUnit(CasterSourceId);
         if (SelectedEnchantment() is not null)
         {
-            if (!StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (!strategicMap.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
             {
                 if (source is Hero hero)
                 {
-                    int mana2 = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress;
-                    Spell? spell = GamePack.Current.SpellControl[51];
+                    int mana2 = strategicMap.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress;
+                    Spell? spell = GetEngine().GamePack.SpellControl[51];
                     int mana = GetMana();
                     if (mana2 >= spell.BaseManaCost + mana)
                     {

@@ -33,8 +33,9 @@ public class EnchantedRoadsEnchantment : GlobalEnchantment
     public override bool Deactivate(PlayerId? player)
     {
         _ = base.Deactivate(player);
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.EnchantedRoads);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Player playerLocal = strategicMap.Players.GetPlayers(PlayerIndex);
+        strategicMap.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.EnchantedRoads);
         return true;
     }
 
@@ -42,7 +43,7 @@ public class EnchantedRoadsEnchantment : GlobalEnchantment
     public override bool CanActivate(PlayerId? player, ref string reason)
     {
         bool result = base.CanActivate(player, ref reason);
-        if (result && StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.EnchantedRoads))
+        if (result && GetEngine().StrategicMap.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.EnchantedRoads))
         {
             string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
             string name = GetName();
@@ -57,8 +58,9 @@ public class EnchantedRoadsEnchantment : GlobalEnchantment
     public override bool Activate(PlayerId? player)
     {
         _ = base.Activate(player);
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments | PlayerEnchantmentTypes.EnchantedRoads);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Player playerLocal = strategicMap.Players.GetPlayers(PlayerIndex);
+        strategicMap.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments | PlayerEnchantmentTypes.EnchantedRoads);
         return true;
     }
 }

@@ -60,8 +60,8 @@ public class GlobalTargetSpell : Spell
         {
             _casterId = source.UnitId;
             _casterPlayer = source.Player;
-            SetupTargetSelection(source, StrategicMap.Current.TargetSelection);
-            StrategicMap.Current.TargetSelection.Activate();
+            SetupTargetSelection(source, GetEngine().StrategicMap.TargetSelection);
+            GetEngine().StrategicMap.TargetSelection.Activate();
             return true;
         }
         else
@@ -75,7 +75,8 @@ public class GlobalTargetSpell : Spell
     {
         int x = default;
         int y = default;
-        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[target.Target.MapLevel];
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        MapLevel level = strategicMap.MapContainer.MapLevels[target.Target.MapLevel];
         HexGeometry.CenterHexNumberToHex(target.Target.X, target.Target.Y, hexNumber, ref x, ref y);
         // { Original accepts Width/Height themselves (strict > bounds test). }
         if (x >= 0 && y >= 0 && x <= level.Width && y <= level.Height)
@@ -84,7 +85,7 @@ public class GlobalTargetSpell : Spell
             if (ValidTargetSelectionMapField(mapField))
             {
                 int radius = HexGeometry.HexNumberToRadius(hexNumber);
-                int intensity = (Math.Abs(((StrategicMap.Current.Frame + radius) % 9) - 4) * 20) + 20;
+                int intensity = (Math.Abs(((strategicMap.Frame + radius) % 9) - 4) * 20) + 20;
                 target.ImageLibrary[0].ShowBlended(xs - 8, ys, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[intensity]);
             }
             else
@@ -111,9 +112,10 @@ public class GlobalTargetSpell : Spell
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
         targetSelection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CancelText);
-        targetSelection.SourceImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[20].GetPreviewImage();
-        targetSelection.ValidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[21].GetPreviewImage();
-        targetSelection.InvalidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[22].GetPreviewImage();
+        GamePack gamePack = GetEngine().GamePack;
+        targetSelection.SourceImage = gamePack.SpellControl[SpellId].CastImages.ImageSequences[20].GetPreviewImage();
+        targetSelection.ValidTargetImage = gamePack.SpellControl[SpellId].CastImages.ImageSequences[21].GetPreviewImage();
+        targetSelection.InvalidTargetImage = gamePack.SpellControl[SpellId].CastImages.ImageSequences[22].GetPreviewImage();
     }
 
     // GlobalTargetSpells.pas:544
@@ -125,7 +127,7 @@ public class GlobalTargetSpell : Spell
     // GlobalTargetSpells.pas:475
     public virtual bool ValidTargetSelectionMapField(MapField field)
     {
-        if (StrategicMap.Current.ExplorationEnabled && !field.GetExplored(_casterPlayer))
+        if (GetEngine().StrategicMap.ExplorationEnabled && !field.GetExplored(_casterPlayer))
         {
             // Preserve the result for callers.
             return false;
@@ -141,7 +143,7 @@ public class GlobalTargetSpell : Spell
     public virtual void TargetSelection_Changed(object? sender, TargetSelectionChangedEventArgs e)
     {
         TargetSelectionControl target = (TargetSelectionControl)sender!;
-        Troop? caster = StrategicMap.Current.UnitControl.FindUnit(_casterId);
+        Troop? caster = GetEngine().StrategicMap.UnitControl.FindUnit(_casterId);
         if (caster is null || e.Change == TargetSelectionChange.Deactivated)
         {
             target.Changed -= TargetSelection_Changed;
@@ -183,8 +185,8 @@ public class GlobalTargetSpell : Spell
         {
             spell._casterId = caster.UnitId;
             spell._casterPlayer = caster.Player;
-            spell.SetupTargetSelection(caster, StrategicMap.Current.TargetSelection);
-            StrategicMap.Current.TargetSelection.Activate();
+            spell.SetupTargetSelection(caster, spell.GetEngine().StrategicMap.TargetSelection);
+            spell.GetEngine().StrategicMap.TargetSelection.Activate();
             return true;
         }
         else

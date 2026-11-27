@@ -5,8 +5,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Magic.Spells;
 
 public sealed record class FastBattleSpellCommand : FastBattleCommand
@@ -21,7 +19,7 @@ public sealed record class FastBattleSpellCommand : FastBattleCommand
     // Spells.PAS:1
     public override string GetName()
     {
-        Spell spell = GamePack.Current.SpellControl[SpellId];
+        Spell spell = Creator.GetEngine().GamePack.SpellControl[SpellId];
         string result = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), S: s_castFormat), arguments: [spell.SpellName]);
         return Target is not null ? $"{result} on {Target.IdString()}" : result;
     }

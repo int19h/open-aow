@@ -11,7 +11,6 @@ using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
 using Aow.Rtl;
@@ -48,7 +47,7 @@ public class TownQuake : CityTargetSpell
                 targetCity = eventValue.GetSelectedCity();
                 targetCity.StopTownQuake();
                 ArmyHSList armies = new(null) { Holder = CreationHolder() };
-                if (StrategicMap.Current.Random(10) < 7)
+                if (GetEngine().StrategicMap.Random(10) < 7)
                 {
                     targetCity.SetWallType(0);
                 }

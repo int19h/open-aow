@@ -5,7 +5,6 @@ using Aow.Game.AI;
 using Aow.Game.Commands;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -81,7 +80,7 @@ public class GlobalEnchantmentSpell(CustomNode? owner) : Spell(owner)
         bool result = base.CanActivate(source, ref messageText);
         if (result)
         {
-            if (!StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.SpellWard))
+            if (!GetEngine().StrategicMap.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.SpellWard))
             {
                 GlobalEnchantment? enchantment = CreateEnchantment();
                 if (enchantment is not null)
@@ -105,13 +104,13 @@ public class GlobalEnchantmentSpell(CustomNode? owner) : Spell(owner)
     public override bool Activate(Troop source)
     {
         string reason = "";
-        if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, messageText: ref reason) && !GetEngine().StrategicMap.Players.GetPlayers(source.Player).GetBusy())
         {
             GlobalEnchantmentSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
             eventValue.Enchantment = CreateEnchantment();
             SetupEnchantment(source, eventValue.Enchantment);
-            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }

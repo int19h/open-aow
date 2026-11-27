@@ -36,18 +36,19 @@ public class Vortex : GlobalTargetSpell
     // GlobalTargetSpells.pas:2100
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (!strategicMap.Players.GetPlayers(source.Player).GetBusy())
         {
             VortexTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
             eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), layer: L.TruncateToSByte());
-            ArmyHexSprite army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
+            ArmyHexSprite army = strategicMap.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
             if (army is not null)
             {
                 eventValue.ArmyId = army.Army.CreateId(255);
             }
 
-            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            strategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             // Original queues through AddEvent
             _ = eventValue.Release();
             return true;
@@ -63,7 +64,7 @@ public class Vortex : GlobalTargetSpell
     {
         if (targetSelection.Target.X != -1)
         {
-            MapField mapField = StrategicMap.Current.MapContainer.MapLevels[targetSelection.Target.MapLevel].GetField(targetSelection.Target.X, targetSelection.Target.Y);
+            MapField mapField = GetEngine().StrategicMap.MapContainer.MapLevels[targetSelection.Target.MapLevel].GetField(targetSelection.Target.X, targetSelection.Target.Y);
             return mapField.Terrain is TerrainType.Water or TerrainType.UndergroundWater;
         }
         else
@@ -77,7 +78,7 @@ public class Vortex : GlobalTargetSpell
     {
         if (X != -1)
         {
-            MapLevel mapLevel = StrategicMap.Current.MapContainer.MapLevels[layer];
+            MapLevel mapLevel = GetEngine().StrategicMap.MapContainer.MapLevels[layer];
             MapField fieldValue = mapLevel.GetField(X, Y);
             valid = fieldValue.Terrain is TerrainType.Water or TerrainType.UndergroundWater;
         }

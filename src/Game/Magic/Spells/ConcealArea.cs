@@ -41,17 +41,18 @@ public class ConcealArea : Spell
         int x = coordinate60.X;
         int y = coordinate60.Y;
         int layer = coordinate60.MapLevel;
-        if (source.Player == StrategicMap.Current.SeatedPlayer)
+        if (source.Player == GetEngine().StrategicMap.SeatedPlayer)
         {
             ConcealAreaHexSprite conceal = new(null) { Holder = CreationHolder() };
             conceal.StartAnimation(x, y, layer, radius: 14);
         }
 
-        for (int player = 1, last = StrategicMap.Current.Players.Count - 1; player <= last; player++)
+        for (int player = 1, last = GetEngine().StrategicMap.Players.Count - 1; player <= last; player++)
         {
-            MapLevel level = StrategicMap.Current.MapContainer.MapLevels[layer];
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            MapLevel level = strategicMap.MapContainer.MapLevels[layer];
             LocationTextEventLog? log;
-            if (StrategicMap.Current.Players.GetDiplomaticRelation(source.Player, otherPlayer: PlayerId.FromOriginal((sbyte)player)) == DiplomaticRelation.War && player != PlayerIdExtensions.ToOriginal(source.Player))
+            if (strategicMap.Players.GetDiplomaticRelation(source.Player, otherPlayer: PlayerId.FromOriginal((sbyte)player)) == DiplomaticRelation.War && player != PlayerIdExtensions.ToOriginal(source.Player))
             {
                 log = null;
                 HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 0);
@@ -60,7 +61,7 @@ public class ConcealArea : Spell
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                     {
                         MapField mapField = level.GetField(walk.X, walk.Y);
-                        if (mapField.GetExplored(PlayerId.FromOriginal(player)) && !StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, layer, player: PlayerId.FromOriginal((sbyte)player)))
+                        if (mapField.GetExplored(PlayerId.FromOriginal(player)) && !GetEngine().StrategicMap.VisibleForPlayer(walk.X, walk.Y, layer, player: PlayerId.FromOriginal((sbyte)player)))
                         {
                             mapField.SetExplored(PlayerId.FromOriginal(player), value: false);
                             if (log is null)
@@ -73,7 +74,7 @@ public class ConcealArea : Spell
                                 };
                                 string concealArea = AbilityRules.TranslateResourceString(GetEngine(), S: s_concealAreaText);
                                 log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CastFormat), args: [concealArea]);
-                                StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
+                                GetEngine().StrategicMap.Players.GetPlayers(player).EventLogbook.AddEvent(log);
                                 _ = log.Release();
                             }
                         }
@@ -84,7 +85,7 @@ public class ConcealArea : Spell
             }
             else
             {
-                if (StrategicMap.Current.VisibleForPlayer(x, y, layer, player: PlayerId.FromOriginal((sbyte)player)))
+                if (GetEngine().StrategicMap.VisibleForPlayer(x, y, layer, player: PlayerId.FromOriginal((sbyte)player)))
                 {
                     log = new LocationTextEventLog(null)
                     {
@@ -94,7 +95,7 @@ public class ConcealArea : Spell
                     };
                     string concealArea = AbilityRules.TranslateResourceString(GetEngine(), S: s_concealAreaText);
                     log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CastFormat), args: [concealArea]);
-                    StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
+                    GetEngine().StrategicMap.Players.GetPlayers(player).EventLogbook.AddEvent(log);
                     _ = log.Release();
                 }
             }
@@ -104,7 +105,7 @@ public class ConcealArea : Spell
     }
 
     // GlobalSpells.pas:297
-    public override bool Enabled => StrategicMap.Current.ExplorationEnabled;
+    public override bool Enabled => GetEngine().StrategicMap.ExplorationEnabled;
 
     // GlobalSpells.pas:368
     public override bool CanActivate(Troop source, ref string messageText)
@@ -113,9 +114,10 @@ public class ConcealArea : Spell
         if (result)
         {
             bool war = false;
-            for (int player = 1, last = StrategicMap.Current.Players.Count - 1; player <= last; player++)
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            for (int player = 1, last = strategicMap.Players.Count - 1; player <= last; player++)
             {
-                war = war || StrategicMap.Current.Players.GetPlayers(source.Player).DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)player)) == DiplomaticRelation.War;
+                war = war || strategicMap.Players.GetPlayers(source.Player).DiplomaticRelations.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)player)) == DiplomaticRelation.War;
             }
 
             if (!war)
@@ -134,11 +136,11 @@ public class ConcealArea : Spell
     {
         string reason = "";
         _ = base.Activate(source);
-        if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, messageText: ref reason) && !GetEngine().StrategicMap.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
-            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }

@@ -51,7 +51,7 @@ public class CityEnchantmentSpell(CustomNode? owner) : CityTargetSpell(owner)
             int x = coordinate56.X;
             int y = coordinate56.Y;
             int l = coordinate56.MapLevel;
-            City targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
+            City targetCity = GetEngine().StrategicMap.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
             bool condition = targetCity is not null;
             if (condition)
             {
@@ -84,7 +84,7 @@ public class CityEnchantmentSpell(CustomNode? owner) : CityTargetSpell(owner)
         int x = coordinate57.X;
         int y = coordinate57.Y;
         int l = coordinate57.MapLevel;
-        City targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
+        City targetCity = GetEngine().StrategicMap.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
         if (targetCity is not null && ValidTargetCity(source, targetCity) && source.CanCastSpell(SpellId, ref reason))
         {
             _ = AICastSpellExpenseMade(source, budget: BaseManaCost, mana: ManaUpkeep, upkeep: AIBudget);

@@ -13,7 +13,8 @@ internal static class RosterTables
 
     internal static int GetUnitIndexAIPriority(int unitIndex, PlayerId? player, int relation, GameEngine? engine)
     {
-        UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
+        GamePack gamePack = engine.GamePack;
+        UnitResource? resource = gamePack.UnitResources.GetUnitResource(unitIndex);
         int result;
         if (resource is not null && resource.GetTransportCapacity() == 0)
         {
@@ -22,18 +23,18 @@ internal static class RosterTables
             {
                 if (resource.Race != -1)
                 {
-                    value = StrategicMap.Current.Races.GetRace(resource.Race).GetPlayerRelationValue(player);
+                    value = engine.StrategicMap.Races.GetRace(resource.Race).GetPlayerRelationValue(player);
                 }
                 else
                 {
-                    Player? players = StrategicMap.Current.Players.GetPlayers(player);
-                    Alignment alignment = GamePack.Current.RaceResources.GetRaceResource(players.PlayerRace).Alignment;
+                    Player? players = engine.StrategicMap.Players.GetPlayers(player);
+                    Alignment alignment = gamePack.RaceResources.GetRaceResource(players.PlayerRace).Alignment;
                     value = AlignmentTables.AlignmentStatusValues[(int)resource.Alignment][(int)alignment];
                 }
             }
             else
             {
-                Alignment iRtoAlignment = AbilityRules.IndependentRelationToAlignment(relation);
+                Alignment iRtoAlignment = AbilityRules.IndependentRelationToAlignment(relation, engine: engine);
                 value = AlignmentTables.AlignmentStatusValues[(int)resource.Alignment][(int)iRtoAlignment];
             }
 
@@ -56,7 +57,8 @@ internal static class RosterTables
                         result += 150;
                     }
 
-                    if (StrategicMap.Current is not null && StrategicMap.Current.Day > 20 && (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(20) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(19) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(18) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(121) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(88) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(89)))
+                    StrategicMap strategicMap = engine.StrategicMap;
+                    if (strategicMap is not null && strategicMap.Day > 20 && (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(20) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(19) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(18) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(121) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(88) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(89)))
                     {
                         result += 100;
                     }

@@ -5,7 +5,6 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
@@ -60,7 +59,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
     // AoWAb.PAS:40
     public override void NewDay(AbilityOwner owner)
     {
-        if (StrategicMap.Current.Day == 1)
+        if (GetEngine().StrategicMap.Day == 1)
         {
             _ = owner.RemoveAbility(AbilityId);
         }

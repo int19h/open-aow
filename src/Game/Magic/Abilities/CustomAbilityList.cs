@@ -5,8 +5,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Formats.Tree;
 
-using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiConversions;
@@ -49,7 +47,7 @@ public class CustomAbilityList(CustomNode? owner) : EngineObject(owner)
 
         for (int index = 0; index < AbilityCount; index++)
         {
-            if (GetAbilitySetAt(index) && GamePack.Current.AbilityControl[index] is null)
+            if (GetAbilitySetAt(index) && GetEngine().GamePack.AbilityControl[index] is null)
             {
                 SetAbilitySet(index, value: 0);
             }
@@ -74,7 +72,7 @@ public class CustomAbilityList(CustomNode? owner) : EngineObject(owner)
         {
             if (GetAbilitySetAt(i))
             {
-                Ability? ability = GamePack.Current.AbilityControl[i];
+                Ability? ability = GetEngine().GamePack.AbilityControl[i];
                 if ((ability.SelectionTypes & types) != AbilitySelectionTypes.None)
                 {
                     _ = text.AddObject(ability.GetName(null), item: IntToObject(i));

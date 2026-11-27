@@ -40,15 +40,16 @@ public class FireMastery : GlobalEnchantmentSpell
             int x = coordinate66.X;
             int y = coordinate66.Y;
             int l = coordinate66.MapLevel;
-            SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Fire);
-            _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
+            SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Fire, engine: GetEngine()!);
+            _ = GetEngine().StrategicMap.ValidateObservation(source.Player, x, y, l, radius: 0);
+            StrategicMap strategicMap = GetEngine().StrategicMap;
             Animation animation = new(null, show: ShowAnimation)
             {
                 Holder = CreationHolder(),
                 AnimationLevel = 27
 ,
-                AnimationMap = StrategicMap.Current,
-                Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16)
+                AnimationMap = strategicMap,
+                Tag = (strategicMap.ViewWidth & 0xFFFF) | (strategicMap.ViewHeight << 16)
             };
             animation.Activate();
 
@@ -72,7 +73,7 @@ public class FireMastery : GlobalEnchantmentSpell
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface surface)
     {
         int chance = GetEngine().AnimationDetail switch { 0 => 2, 2 => 5, _ => 3 };
-        StrategicMap? map = StrategicMap.Current;
+        StrategicMap? map = GetEngine().StrategicMap;
         MapLevel level = map.MapContainer.GetMapLevel(map.ViewMapLevel);
         int maxX = map.ViewHexX + map.ViewWidthHex - 1, maxY = map.ViewHexY + map.ViewHeightHex - 1;
         for (int x = map.ViewHexX; x <= maxX; x++)

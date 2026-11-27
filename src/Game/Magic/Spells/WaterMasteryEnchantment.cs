@@ -33,11 +33,12 @@ public class WaterMasteryEnchantment : GlobalEnchantment
     public override bool Deactivate(PlayerId? player)
     {
         _ = base.Deactivate(player);
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.WaterMastery);
-        StrategicMap.Current.UpdateVisibility();
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Player playerLocal = strategicMap.Players.GetPlayers(PlayerIndex);
+        strategicMap.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.WaterMastery);
+        strategicMap.UpdateVisibility();
         // { Original uses Fire for Water Mastery. }
-        StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Fire);
+        GetEngine().StrategicMap.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Fire);
         return true;
     }
 
@@ -47,7 +48,7 @@ public class WaterMasteryEnchantment : GlobalEnchantment
         bool result = base.CanActivate(player, ref reason);
         if (result)
         {
-            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.WaterMastery))
+            if (GetEngine().StrategicMap.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.WaterMastery))
             {
                 string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
                 string name = GetName();
@@ -63,11 +64,12 @@ public class WaterMasteryEnchantment : GlobalEnchantment
     public override bool Activate(PlayerId? player)
     {
         _ = base.Activate(player);
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments | PlayerEnchantmentTypes.WaterMastery);
-        StrategicMap.Current.UpdateVisibility();
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Player playerLocal = strategicMap.Players.GetPlayers(PlayerIndex);
+        strategicMap.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments | PlayerEnchantmentTypes.WaterMastery);
+        strategicMap.UpdateVisibility();
         // { Original uses Fire for Water Mastery. }
-        StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Fire);
+        GetEngine().StrategicMap.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Fire);
         return true;
     }
 }

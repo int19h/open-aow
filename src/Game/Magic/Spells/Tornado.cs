@@ -35,18 +35,19 @@ public class Tornado : GlobalTargetSpell
     // GlobalTargetSpells.pas:1865
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (!strategicMap.Players.GetPlayers(source.Player).GetBusy())
         {
             TornadoTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
             eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), layer: L.TruncateToSByte());
-            ArmyHexSprite army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
+            ArmyHexSprite army = strategicMap.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
             if (army is not null)
             {
                 eventValue.ArmyId = army.Army.CreateId(255);
             }
 
-            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            strategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             // Original queues through AddEvent
             _ = eventValue.Release();
             return true;
@@ -61,7 +62,7 @@ public class Tornado : GlobalTargetSpell
     public bool ValidWarpLocation(ArmyHexSprite army, int X, int Y, int layer)
     {
         MapFieldMessage message = default;
-        MapField mapField = StrategicMap.Current.MapContainer.GetField(X, Y, layer);
+        MapField mapField = GetEngine().StrategicMap.MapContainer.GetField(X, Y, layer);
         bool result = mapField.GetArmyHexSprite() is null && mapField.GetPlayer() is null;
         if (result)
         {
@@ -85,7 +86,7 @@ public class Tornado : GlobalTargetSpell
         int hexY = army.HexY;
         int hexX = army.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 10);
-        MapLevel mapLevel = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
+        MapLevel mapLevel = GetEngine().StrategicMap.MapContainer.MapLevels[army.HexLevel];
         MapField? mapField;
         while (walk.Radius < 15)
         {

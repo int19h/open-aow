@@ -45,7 +45,7 @@ public class PestilenceStorm(CustomNode? owner) : Storm(owner)
     // Storms.pas:725
     public override StormDamageInfo GetTargetDamageInfo(PlayerId? player, int X, int Y, int L, StormDamageInfo info)
     {
-        AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Pestilence, X, Y, L, innerRadius: 0, outerRadius: 2, out info);
+        AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Pestilence, X, Y, L, innerRadius: 0, outerRadius: 2, out info, engine: GetEngine()!);
         return info;
     }
 

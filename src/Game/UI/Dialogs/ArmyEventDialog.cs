@@ -89,14 +89,14 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
                 byte unit7 = _units[index];
                 int damageValue2 = eventValue.DamageValues[unit7];
                 byte unit8 = _units[index];
-                HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent((hitPoints - damageValue2).TruncateToSByte(), hits: eventValue.ArmyView.Units.GetUnit(unit8).GetHits()), x: X, y: Y, surface: lockedSurface);
+                HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent((hitPoints - damageValue2).TruncateToSByte(), hits: eventValue.ArmyView.Units.GetUnit(unit8).GetHits()), x: X, y: Y, surface: lockedSurface, engine: UI.Engine);
             }
             else
             {
                 byte unit4 = _units[index];
                 int hits = eventValue.ArmyView.Units.GetUnit(unit4).GetHits();
                 byte unit5 = _units[index];
-                HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(eventValue.ArmyView.Units.GetUnit(unit5).GetHitPoints(), hits), x: X, y: Y, surface: lockedSurface);
+                HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(eventValue.ArmyView.Units.GetUnit(unit5).GetHitPoints(), hits), x: X, y: Y, surface: lockedSurface, engine: UI.Engine);
             }
         }
         else

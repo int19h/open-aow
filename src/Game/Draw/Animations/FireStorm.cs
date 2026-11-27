@@ -42,7 +42,7 @@ public class FireStorm(CustomNode? owner) : Storm(owner)
     // Storms.pas:603
     public override StormDamageInfo GetTargetDamageInfo(PlayerId? player, int X, int Y, int L, StormDamageInfo info)
     {
-        AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Fire, X, Y, L, innerRadius: 0, outerRadius: 2, out info);
+        AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Fire, X, Y, L, innerRadius: 0, outerRadius: 2, out info, engine: GetEngine()!);
         return info;
     }
 
@@ -77,7 +77,8 @@ public class FireStorm(CustomNode? owner) : Storm(owner)
         NewFrame();
         if (FrameCounter == 20)
         {
-            AbilityRules.TriggerStormDamage(mapLevel: HexLevel, y: HexY, storm: StormType.Fire, x: HexX, innerRadius: 0, outerRadius: 2, player: StrategicMap.Current.CurrentPlayer);
+            GameEngine engine = GetEngine()!;
+            AbilityRules.TriggerStormDamage(mapLevel: HexLevel, y: HexY, storm: StormType.Fire, x: HexX, innerRadius: 0, outerRadius: 2, player: engine.StrategicMap.CurrentPlayer, engine: engine);
             int hexLevel2 = HexLevel;
             int hexY2 = HexY;
             int hexX = HexX;

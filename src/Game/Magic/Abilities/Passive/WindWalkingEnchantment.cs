@@ -30,7 +30,7 @@ public class WindWalkingEnchantment : UnitEnchantmentAbility
             int l = coordinate90.MapLevel;
             if (x != -1)
             {
-                MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);
+                MapField mapField = troop.GetEngine().StrategicMap.MapContainer.GetField(x, y, l);
                 army.ValidateTerrain(terrainType: mapField.TerrainNumber, overlayType: mapField.OverlayType.ToOriginal());
             }
         }

@@ -9,8 +9,6 @@ using Aow.Game.Combat.Actions;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
-
-using Aow.Game.World.Map;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.Magic.Spells;
@@ -84,24 +82,24 @@ public class DispelMagic : UnitSpell
             {
                 int dispelMana = GetDispelMana(source);
                 int chance = enchantments.GetEnchantments(i).DispelChance(dispelMana);
-                if (chance > StrategicMap.Current.Random(100))
+                if (chance > GetEngine().StrategicMap.Random(100))
                 {
                     count += 1;
                     _ = enchantments.GetEnchantments(i).Dispel();
                 }
             }
 
-            if (source.Player == StrategicMap.Current.SeatedPlayer)
+            if (source.Player == GetEngine().StrategicMap.SeatedPlayer)
             {
                 if (count > 0)
                 {
                     string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SpellsSuccessfullyDispelledFormat), args: [count.ToString(CultureInfo.InvariantCulture)]);
-                    StrategicMap.Current.ShowMessage(format);
+                    GetEngine().StrategicMap.ShowMessage(format);
                 }
                 else
                 {
                     string dispelMagicFailed = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DispelMagicFailedText);
-                    StrategicMap.Current.ShowMessage(dispelMagicFailed);
+                    GetEngine().StrategicMap.ShowMessage(dispelMagicFailed);
                 }
             }
 

@@ -7,8 +7,6 @@ using Aow.Game.Combat.Actions;
 
 using Aow.Game.Units;
 
-using Aow.Game.World.Map;
-
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 
@@ -71,7 +69,7 @@ public class InvokeDeathAbility : TouchAbility
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, target: attacker);
             damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
-            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), damageTypes: GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(defender), immunityTypes: attacker.GetImmunityTypes(), damage: defender.GetDamage());
+            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), damageTypes: GetEngine().GamePack.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(defender), immunityTypes: attacker.GetImmunityTypes(), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
             damageValues.DamageTypes = DamageTypes.Death;
         }
@@ -159,7 +157,7 @@ public class InvokeDeathAbility : TouchAbility
     // AoWAb.PAS:3527. Draws the random value the touch event used to draw, then builds the action.
     public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit? target)
     {
-        RandSeed = StrategicMap.Current.Random(16777215);
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
         return CreateCombatAction(source, target: target);
     }
 

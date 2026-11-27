@@ -35,7 +35,7 @@ public class WarpParty : Spell
         string reason = "";
         _ = base.Activate(source);
         bool result;
-        if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, messageText: ref reason) && !GetEngine().StrategicMap.Players.GetPlayers(source.Player).GetBusy())
         {
             // Without an army the source has no party to move.
             if (source.ArmyOwner is not Army armyOwner)
@@ -48,10 +48,10 @@ public class WarpParty : Spell
             eventValue.ArmyId = armyOwner.CreateId(255);
             MapCoordinate warpLocation = CalculateWarpLocation(armyOwner.GetArmyHexSprite());
             eventValue.WarpLocation = warpLocation;
-            StrategicMap.Current.SelectedArmy.Unselect();
+            GetEngine().StrategicMap.SelectedArmy.Unselect();
             if (eventValue.WarpLocation != MapCoordinate.None)
             {
-                StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                GetEngine().StrategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 result = true;
             }
             else
@@ -73,7 +73,7 @@ public class WarpParty : Spell
     public bool ValidTarget(ArmyHexSprite? army, int X, int Y, int layer)
     {
         MapFieldMessage message = default;
-        MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, layer);
+        MapField field = GetEngine().StrategicMap.MapContainer.GetField(X, Y, layer);
         bool result = field.GetArmyHexSprite() is null && field.GetPlayer() is null;
         if (result)
         {
@@ -98,7 +98,8 @@ public class WarpParty : Spell
         int hexY = army.HexY;
         int hexX = army.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 10);
-        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        MapLevel level = strategicMap.MapContainer.MapLevels[army.HexLevel];
         MapField? field;
         while (walk.Radius < 20)
         {
@@ -114,11 +115,11 @@ public class WarpParty : Spell
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        for (int l = 0, last = StrategicMap.Current.MapContainer.LevelCount - 1; l <= last; l++)
+        for (int l = 0, last = strategicMap.MapContainer.LevelCount - 1; l <= last; l++)
         {
             if (Math.Abs(l - army.HexLevel) == 1)
             {
-                level = StrategicMap.Current.MapContainer.MapLevels[l];
+                level = strategicMap.MapContainer.MapLevels[l];
                 int armyHexY = army.HexY;
                 int armyHexX = army.HexX;
                 HexNumberWalkData.InitializeHexNumberWalk(out walk, armyHexX, armyHexY, radius: 0);

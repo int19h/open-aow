@@ -35,7 +35,7 @@ public class DeathMasteryEnchantment : GlobalEnchantment
         {
             if (message.Payload.Int != 0)
             {
-                if (StrategicMap.Current.Players.GetPlayers(message.Payload.Int).MagicControl.EnemyEnchantments.Contains(PlayerEnchantmentTypes.DeathMastery))
+                if (GetEngine().StrategicMap.Players.GetPlayers(message.Payload.Int).MagicControl.EnemyEnchantments.Contains(PlayerEnchantmentTypes.DeathMastery))
                 {
                     NewTurn(PlayerId.FromOriginal((sbyte)message.Payload.Int));
                 }
@@ -51,11 +51,12 @@ public class DeathMasteryEnchantment : GlobalEnchantment
     {
         _ = base.Deactivate(player);
         // { Original doubles Life. }
-        StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Life);
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.DeathMastery);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Life);
+        Player playerLocal = strategicMap.Players.GetPlayers(PlayerIndex);
+        strategicMap.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.DeathMastery);
         EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537002241, sender: this);
-        StrategicMap.Current.SendMessage(ref message, sender: this);
+        strategicMap.SendMessage(ref message, sender: this);
         return true;
     }
 
@@ -65,7 +66,7 @@ public class DeathMasteryEnchantment : GlobalEnchantment
         bool result = base.CanActivate(player, ref reason);
         if (result)
         {
-            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.DeathMastery))
+            if (GetEngine().StrategicMap.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.DeathMastery))
             {
                 string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
                 string name = GetName();
@@ -82,9 +83,10 @@ public class DeathMasteryEnchantment : GlobalEnchantment
     {
         _ = base.Activate(player);
         // { Original doubles Life. }
-        StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Life);
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments | PlayerEnchantmentTypes.DeathMastery);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Life);
+        Player playerLocal = strategicMap.Players.GetPlayers(PlayerIndex);
+        strategicMap.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments | PlayerEnchantmentTypes.DeathMastery);
         return true;
     }
 
@@ -93,9 +95,10 @@ public class DeathMasteryEnchantment : GlobalEnchantment
     {
         byte[] flags = [];
         int mask = MapField.ExploredFlag(player);
-        for (int l = 0, last = StrategicMap.Current.MapContainer.LevelCount - 1; l <= last; l++)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        for (int l = 0, last = strategicMap.MapContainer.LevelCount - 1; l <= last; l++)
         {
-            MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(l);
+            MapLevel mapLevel = strategicMap.MapContainer.GetMapLevel(l);
             int index = 0;
             Array.Resize(ref flags, newSize: mapLevel.Width * mapLevel.Height);
             Array.Clear(flags);
@@ -142,7 +145,7 @@ public class DeathMasteryEnchantment : GlobalEnchantment
             }
         }
 
-        StrategicMap.Current.UpdateVisibility();
+        strategicMap.UpdateVisibility();
         Array.Resize(ref flags, newSize: 0);
     }
 }

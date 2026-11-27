@@ -34,10 +34,10 @@ public class Flood : GlobalEnchantmentSpell
         int x = coordinate67.X;
         int y = coordinate67.Y;
         int l = coordinate67.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
+        _ = GetEngine().StrategicMap.ValidateObservation(source.Player, x, y, l, radius: 0);
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-        twinkle.Setup(GamePack.Current.SpellControl[50].CastImages.ImageSequences[0], mode: TwinkleModes.Rotate, count: 50, radius: 64, duration: 50, startDelay: 30);
-        _ = StrategicMap.Current.PlaceHex(twinkle, x, y, l);
+        twinkle.Setup(GetEngine().GamePack.SpellControl[50].CastImages.ImageSequences[0], mode: TwinkleModes.Rotate, count: 50, radius: 64, duration: 50, startDelay: 30);
+        _ = GetEngine().StrategicMap.PlaceHex(twinkle, x, y, l);
         _ = CastSounds.Play(0);
         CastingDone(source, mana: eventValue.EventMana);
         return false;

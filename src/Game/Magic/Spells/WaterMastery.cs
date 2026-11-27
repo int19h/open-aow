@@ -36,10 +36,10 @@ public class WaterMastery : GlobalEnchantmentSpell
         int x = coordinate86.X;
         int y = coordinate86.Y;
         int l = coordinate86.MapLevel;
-        SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Water);
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
+        SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Water, engine: GetEngine()!);
+        _ = GetEngine().StrategicMap.ValidateObservation(source.Player, x, y, l, radius: 0);
         _ = CastSounds.Play(0);
-        _ = StrategicMap.Current.AddEffect(WorldEffectType.WaterMastery);
+        _ = GetEngine().StrategicMap.AddEffect(WorldEffectType.WaterMastery);
         CastingDone(source, mana: BaseManaCost);
         return false;
     }

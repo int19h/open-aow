@@ -5,8 +5,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 
-using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiRounding;
@@ -66,10 +64,10 @@ public class RoundAttackAbility : TouchAbility
             }
         }
 
-        int count = StrategicMap.Current.Random(2) + 1;
+        int count = GetEngine().StrategicMap.Random(2) + 1;
         while (count != 0 && targets.Count != 0)
         {
-            other = targets[StrategicMap.Current.Random(targets.Count)];
+            other = targets[GetEngine().StrategicMap.Random(targets.Count)];
             action = CombatObject.CreateStrikeCombatAction(source, target: other, defensive: false);
             if (action is not null)
             {
@@ -97,7 +95,7 @@ public class RoundAttackAbility : TouchAbility
             int unitStrikeDamageValueLocal = Troop.UnitStrikeDamageValue(attacker, target: defender);
             damageValues.TargetDamage = unitStrikeDamageValueLocal;
             damageValues.TargetCost = 0;
-            DamageTypes damageTypes = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(attacker);
+            DamageTypes damageTypes = GetEngine().GamePack.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(attacker);
             DamageTypes immunityTypes = defender.GetImmunityTypes();
             damageValues.DamageTypes = damageTypes & ~immunityTypes;
         }
@@ -120,7 +118,7 @@ public class RoundAttackAbility : TouchAbility
             int damage = troop.GetDamage();
 
             strength = AbilityRules.LimitedDamage(attack, defense: damage, damage: 1) * 3;
-            types = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(owner);
+            types = GetEngine().GamePack.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(owner);
         }
     }
 
@@ -211,7 +209,7 @@ public class RoundAttackAbility : TouchAbility
             info.Attack = (sbyte)attack;
             int damage = source.GetDamage();
             info.Damage = (sbyte)damage;
-            DamageTypes damageTypes = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(source);
+            DamageTypes damageTypes = GetEngine().GamePack.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(source);
             info.DamageTypes = damageTypes;
             info.RepeatCount = 2;
             info.TargetTypes = CombatTargetTypes.Enemy;

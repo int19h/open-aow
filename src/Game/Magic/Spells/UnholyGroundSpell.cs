@@ -45,7 +45,7 @@ public class UnholyGroundSpell : GlobalTargetSpell
         UnholyGroundSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
         eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), layer: L.TruncateToSByte());
-        StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+        GetEngine().StrategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         _ = eventValue.Release();
         return true;
     }

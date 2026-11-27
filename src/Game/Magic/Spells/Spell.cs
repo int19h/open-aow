@@ -78,19 +78,22 @@ public class Spell : EngineObject
     // Spells.PAS:224
     public virtual void PlayDefaultCastEffects(PlayerId? player, int X, int Y, int layer)
     {
-        if (StrategicMap.Current.Visible(X, Y, L: layer, radius: 0))
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Visible(X, Y, L: layer, radius: 0))
         {
-            _ = StrategicMap.Current.ValidateObservation(player, X, Y, layer, radius: 0);
-            if (GamePack.Current.SpellControl[SpellId].CastImages.GetImageSequence(0) is not null)
+            _ = strategicMap.ValidateObservation(player, X, Y, layer, radius: 0);
+            GamePack gamePack = GetEngine().GamePack;
+            if (gamePack.SpellControl[SpellId].CastImages.GetImageSequence(0) is not null)
             {
                 ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-                animation.SetImageSequence(GamePack.Current.SpellControl[SpellId].CastImages.GetImageSequence(0));
-                _ = StrategicMap.Current.PlaceHex(animation, X, Y, L: layer);
+                animation.SetImageSequence(gamePack.SpellControl[SpellId].CastImages.GetImageSequence(0));
+                _ = GetEngine().StrategicMap.PlaceHex(animation, X, Y, L: layer);
             }
 
-            if (StrategicMap.Current.SeatedPlayer == player || StrategicMap.Current.Watching(X, Y, L: layer, radius: 0))
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+            if (engineStrategicMap.SeatedPlayer == player || engineStrategicMap.Watching(X, Y, L: layer, radius: 0))
             {
-                _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(0);
+                _ = GetEngine().GamePack.SpellControl[SpellId].CastSounds.Play(0);
             }
         }
     }
@@ -114,7 +117,7 @@ public class Spell : EngineObject
     {
         if (SpellType == SpellType.Global)
         {
-            if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.SpellWard))
+            if (GetEngine().StrategicMap.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.SpellWard))
             {
                 messageText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
                 return false;
@@ -134,7 +137,7 @@ public class Spell : EngineObject
     {
         if (SpellType == SpellType.Global)
         {
-            if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.SpellWard))
+            if (GetEngine().StrategicMap.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.SpellWard))
             {
                 messageText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
                 return false;
@@ -153,7 +156,8 @@ public class Spell : EngineObject
     // Spells.PAS:54
     public virtual bool Activate(Troop source)
     {
-        if (StrategicMap.Current.SeatedPlayer == source.Player)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.SeatedPlayer == source.Player)
         {
             MapCoordinate coordinate77 = source.GetLocation();
             int x = coordinate77.X;
@@ -161,7 +165,7 @@ public class Spell : EngineObject
             int l = coordinate77.MapLevel;
             if (x != -1)
             {
-                StrategicMap.Current.MakeVisible(x, y, l, radius: 3);
+                strategicMap.MakeVisible(x, y, l, radius: 3);
             }
         }
 
@@ -171,7 +175,8 @@ public class Spell : EngineObject
 
     public bool ActivateStatic(Troop source)
     {
-        if (StrategicMap.Current.SeatedPlayer == source.Player)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.SeatedPlayer == source.Player)
         {
             MapCoordinate coordinate78 = source.GetLocation();
             int x = coordinate78.X;
@@ -179,7 +184,7 @@ public class Spell : EngineObject
             int l = coordinate78.MapLevel;
             if (x != -1)
             {
-                StrategicMap.Current.MakeVisible(x, y, l, radius: 3);
+                strategicMap.MakeVisible(x, y, l, radius: 3);
             }
         }
 
@@ -275,15 +280,16 @@ public class Spell : EngineObject
     {
         if (upkeep > 0)
         {
-            mana -= StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.AIRequestOverrideUpkeep(Round(upkeep * 0.8));
+            mana -= GetEngine().StrategicMap.Players.GetPlayers(source.Player).MagicControl.AIRequestOverrideUpkeep(Round(upkeep * 0.8));
             if (mana < 0)
             {
                 mana = 0;
             }
         }
 
-        AIBudgetManager manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
-        return StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.RequestBudgetExpense(0, mana: budget, goldUpkeep: 0, manaUpkeep: mana, budget: manager.DefaultBudget, usePool: 1 != 0);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        AIBudgetManager manager = strategicMap.Players.GetPlayers(source.Player).AIBudget;
+        return strategicMap.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.RequestBudgetExpense(0, mana: budget, goldUpkeep: 0, manaUpkeep: mana, budget: manager.DefaultBudget, usePool: 1 != 0);
     }
 
     // Spells.PAS:396
@@ -291,8 +297,9 @@ public class Spell : EngineObject
     {
         if (AIRequestCastSpellExpense(source, budget, mana, upkeep))
         {
-            AIBudgetManager manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
-            return StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.BudgetExpenseMade(0, mana: budget, goldUpkeep: 0, manaUpkeep: mana, budget: manager.DefaultBudget, mode: AIBudgetManager.ExpenseMode.PoolThenBudget);
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            AIBudgetManager manager = strategicMap.Players.GetPlayers(source.Player).AIBudget;
+            return strategicMap.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.BudgetExpenseMade(0, mana: budget, goldUpkeep: 0, manaUpkeep: mana, budget: manager.DefaultBudget, mode: AIBudgetManager.ExpenseMode.PoolThenBudget);
         }
         else
         {
@@ -300,7 +307,7 @@ public class Spell : EngineObject
         }
     }
 
-    public virtual bool CanActivateCombat(Troop source, ref string reason) => StrategicMap.Current.Combat is not null;
+    public virtual bool CanActivateCombat(Troop source, ref string reason) => GetEngine().StrategicMap.Combat is not null;
 
     public virtual void GetCombatInfo(Troop? source, ref SpellCombatInfo info)
     {

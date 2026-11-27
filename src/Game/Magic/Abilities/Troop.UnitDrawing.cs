@@ -16,10 +16,11 @@ public partial class Troop
     {
         int result = 0;
         int resourceIndex = UnitGraphicsResourceIndex;
-        _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).AddRef();
+        _ = GetEngine().GamePack.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).AddRef();
         if (info.Animation != UnitAnimation.None)
         {
-            ImageSequence? sequence = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Sequences.List[((int)info.Animation * 6) + info.Direction - 1];
+            GamePack gamePack = GetEngine().GamePack;
+            ImageSequence? sequence = gamePack.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Sequences.List[((int)info.Animation * 6) + info.Direction - 1];
             if (sequence is not null)
             {
                 int frame;
@@ -33,7 +34,7 @@ public partial class Troop
                     }
                     else
                     {
-                        GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Show(info.Direction, X + sequence.OffsetX + 16, Y + sequence.OffsetY + 20, lockedSurface);
+                        gamePack.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Show(info.Direction, X + sequence.OffsetX + 16, Y + sequence.OffsetY + 20, lockedSurface);
                     }
 
                     if (totalFrames - info.Frame > result)
@@ -78,11 +79,11 @@ public partial class Troop
         {
             if (info.Looped)
             {
-                GamePack.Current.AbilityControl[96].ImageSequences.ShowLooped(0, X + 32, Y + 32, StrategicMap.Current.Frame, lockedSurface);
+                GetEngine().GamePack.AbilityControl[96].ImageSequences.ShowLooped(0, X + 32, Y + 32, GetEngine().StrategicMap.Frame, lockedSurface);
             }
             else
             {
-                _ = GamePack.Current.AbilityControl[96].ImageSequences.Show(0, X + 32, Y + 32, frame: 4, lockedSurface);
+                _ = GetEngine().GamePack.AbilityControl[96].ImageSequences.Show(0, X + 32, Y + 32, frame: 4, lockedSurface);
             }
         }
 
@@ -90,11 +91,11 @@ public partial class Troop
         {
             if (info.Looped)
             {
-                GamePack.Current.AbilityControl[98].ImageSequences.ShowLooped(0, X + 32, Y + 32, StrategicMap.Current.Frame, lockedSurface);
+                GetEngine().GamePack.AbilityControl[98].ImageSequences.ShowLooped(0, X + 32, Y + 32, GetEngine().StrategicMap.Frame, lockedSurface);
             }
             else
             {
-                _ = GamePack.Current.AbilityControl[98].ImageSequences.Show(0, X + 32, Y + 32, frame: 4, lockedSurface);
+                _ = GetEngine().GamePack.AbilityControl[98].ImageSequences.Show(0, X + 32, Y + 32, frame: 4, lockedSurface);
             }
         }
 
@@ -102,75 +103,75 @@ public partial class Troop
         {
             if (info.Looped)
             {
-                GamePack.Current.AbilityControl[93].ImageSequences.ShowLooped(0, X + 32, Y + 32, StrategicMap.Current.Frame, lockedSurface);
+                GetEngine().GamePack.AbilityControl[93].ImageSequences.ShowLooped(0, X + 32, Y + 32, GetEngine().StrategicMap.Frame, lockedSurface);
             }
             else
             {
-                _ = GamePack.Current.AbilityControl[93].ImageSequences.Show(0, X + 32, Y + 32, frame: 4, lockedSurface);
+                _ = GetEngine().GamePack.AbilityControl[93].ImageSequences.Show(0, X + 32, Y + 32, frame: 4, lockedSurface);
             }
         }
 
         if (info.Overlays.Contains(UnitOverlayModes.HitPoints))
         {
             int hitPointsToHitPercent = HitChance.HitPointsToHitPercent(hits: GetHits(), hitPoints: GetHitPoints()).TruncateToByte();
-            HitChance.ShowHitPercent(X, Y, surface: lockedSurface, percent: hitPointsToHitPercent);
+            HitChance.ShowHitPercent(X, Y, surface: lockedSurface, percent: hitPointsToHitPercent, engine: GetEngine()!);
         }
 
         if (info.Overlays.Contains(UnitOverlayModes.Combat))
         {
             if (GetHitPoints() == 0)
             {
-                GamePack.Current.CombatImages[4].Show(X + 18, Y + 10, lockedSurface);
+                GetEngine().GamePack.CombatImages[4].Show(X + 18, Y + 10, lockedSurface);
             }
 
             if (GetAbilityEnabled(48))
             {
-                GamePack.Current.AbilityControl[48].ImageSequences.ShowLooped(0, X + 32, Y + 40, StrategicMap.Current.Frame, lockedSurface);
+                GetEngine().GamePack.AbilityControl[48].ImageSequences.ShowLooped(0, X + 32, Y + 40, GetEngine().StrategicMap.Frame, lockedSurface);
             }
 
             if (GetAbilityEnabled(150))
             {
-                GamePack.Current.AbilityControl[150].ImageSequences.ShowLooped(0, X + 32, Y + 40, StrategicMap.Current.Frame, lockedSurface);
+                GetEngine().GamePack.AbilityControl[150].ImageSequences.ShowLooped(0, X + 32, Y + 40, GetEngine().StrategicMap.Frame, lockedSurface);
             }
 
             if (GetAbilityEnabled(149))
             {
-                GamePack.Current.AbilityControl[149].ImageSequences.ShowLooped(0, X + 32, Y + 40, StrategicMap.Current.Frame, lockedSurface);
+                GetEngine().GamePack.AbilityControl[149].ImageSequences.ShowLooped(0, X + 32, Y + 40, GetEngine().StrategicMap.Frame, lockedSurface);
             }
 
             if (GetAbilityEnabled(97))
             {
-                GamePack.Current.AbilityControl[97].ImageSequences.ShowLooped(0, X + 32, Y + 40, StrategicMap.Current.Frame, lockedSurface);
+                GetEngine().GamePack.AbilityControl[97].ImageSequences.ShowLooped(0, X + 32, Y + 40, GetEngine().StrategicMap.Frame, lockedSurface);
             }
 
             if (GetAbilityEnabled(92))
             {
-                GamePack.Current.AbilityControl[92].ImageSequences.ShowLooped(0, X + 32, Y + 35, StrategicMap.Current.Frame, lockedSurface);
+                GetEngine().GamePack.AbilityControl[92].ImageSequences.ShowLooped(0, X + 32, Y + 35, GetEngine().StrategicMap.Frame, lockedSurface);
             }
 
             if (GetAbilityEnabled(95))
             {
-                GamePack.Current.AbilityControl[95].ImageSequences.ShowLooped(0, X + 32, Y + 32, StrategicMap.Current.Frame, lockedSurface);
+                GetEngine().GamePack.AbilityControl[95].ImageSequences.ShowLooped(0, X + 32, Y + 32, GetEngine().StrategicMap.Frame, lockedSurface);
             }
 
             if (GetAbilityEnabled(94))
             {
-                GamePack.Current.AbilityControl[94].ImageSequences.ShowLooped(0, X + 32, Y + 35, StrategicMap.Current.Frame, lockedSurface);
+                GetEngine().GamePack.AbilityControl[94].ImageSequences.ShowLooped(0, X + 32, Y + 35, GetEngine().StrategicMap.Frame, lockedSurface);
             }
 
             if (GetAbilityEnabled(127))
             {
-                GamePack.Current.AbilityControl[127].ImageSequences.ShowLooped(0, X + 32, Y + 35, StrategicMap.Current.Frame, lockedSurface);
+                GetEngine().GamePack.AbilityControl[127].ImageSequences.ShowLooped(0, X + 32, Y + 35, GetEngine().StrategicMap.Frame, lockedSurface);
             }
 
             if (GetAbilityEnabled(107))
             {
-                GamePack.Current.AbilityControl[107].ImageSequences.ShowLooped(0, X + 32, Y + 40, StrategicMap.Current.Frame, lockedSurface);
+                GetEngine().GamePack.AbilityControl[107].ImageSequences.ShowLooped(0, X + 32, Y + 40, GetEngine().StrategicMap.Frame, lockedSurface);
             }
 
             if (GetAbilityEnabled(34))
             {
-                GamePack.Current.AbilityControl[34].ImageSequences.ShowLooped(0, X + 32, Y + 40, StrategicMap.Current.Frame, lockedSurface);
+                GetEngine().GamePack.AbilityControl[34].ImageSequences.ShowLooped(0, X + 32, Y + 40, GetEngine().StrategicMap.Frame, lockedSurface);
             }
         }
 
@@ -178,15 +179,15 @@ public partial class Troop
         {
             if (info.Looped)
             {
-                GamePack.Current.ImageSequences.ShowLooped(70, X + 32, Y + 40, StrategicMap.Current.Frame, lockedSurface);
+                GetEngine().GamePack.ImageSequences.ShowLooped(70, X + 32, Y + 40, GetEngine().StrategicMap.Frame, lockedSurface);
             }
             else
             {
-                _ = GamePack.Current.ImageSequences.Show(70, X + 32, Y + 40, frame: 5, lockedSurface);
+                _ = GetEngine().GamePack.ImageSequences.Show(70, X + 32, Y + 40, frame: 5, lockedSurface);
             }
         }
 
-        _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Release();
+        _ = GetEngine().GamePack.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Release();
         return result;
     }
 }

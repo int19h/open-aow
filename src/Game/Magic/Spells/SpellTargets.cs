@@ -2,14 +2,13 @@
 
 using Aow.Engine.Nodes;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
 internal static class SpellTargets
 {
 
-    internal static void NotifySpellSphere(PlayerId? player, MagicSphere sphere)
+    internal static void NotifySpellSphere(PlayerId? player, MagicSphere sphere, GameEngine engine)
     {
         EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537002242, sender: null);
         EngineMessageParameters param = message.Param;
@@ -18,6 +17,6 @@ internal static class SpellTargets
         EngineMessageParameters param2 = message.Param;
         param2[1] = (int)sphere;
         message.Param = param2;
-        StrategicMap.Current.SendMessage(ref message, sender: null);
+        engine.StrategicMap.SendMessage(ref message, sender: null);
     }
 }

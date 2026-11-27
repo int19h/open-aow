@@ -364,7 +364,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
             case AITargetMode.Attack:
                 if (info.Player != Player && !GetRazed())
                 {
-                    if (Player == PlayerId.Independent || AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: 0))
+                    if (Player == PlayerId.Independent || AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: 0, engine: GetEngine()!))
                     {
                         int defaultAITargetPriority = DefaultAITargetPriority;
                         data.Priority = defaultAITargetPriority;

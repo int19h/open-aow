@@ -33,8 +33,8 @@ public class Harmony : GlobalEnchantmentSpell
         int x = coordinate71.X;
         int y = coordinate71.Y;
         int l = coordinate71.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
-        _ = StrategicMap.Current.AddEffect(WorldEffectType.Tranquility);
+        _ = GetEngine().StrategicMap.ValidateObservation(source.Player, x, y, l, radius: 0);
+        _ = GetEngine().StrategicMap.AddEffect(WorldEffectType.Tranquility);
         _ = CastSounds.Play(0);
         CastingDone(source, mana: eventValue.EventMana);
         return false;

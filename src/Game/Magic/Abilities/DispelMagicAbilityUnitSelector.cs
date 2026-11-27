@@ -5,8 +5,6 @@ using Aow.Game.Commands;
 using Aow.Game.Session;
 using Aow.Game.Units;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Magic.Abilities;
 
 public sealed class DispelMagicAbilityUnitSelector(EngineObject creator) : UnitSelector(creator)
@@ -19,8 +17,8 @@ public sealed class DispelMagicAbilityUnitSelector(EngineObject creator) : UnitS
     public override bool Select()
     {
         string error = "";
-        Troop? source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
-        if (CanSelect(ref error) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        Troop? source = Creator.GetEngine().StrategicMap.UnitControl.FindUnit(SourceUnitId);
+        if (CanSelect(ref error) && !Creator.GetEngine().StrategicMap.Players.GetPlayers(source.Player).GetBusy())
         {
             int i = 0;
             Troop? target = null;
@@ -44,7 +42,7 @@ public sealed class DispelMagicAbilityUnitSelector(EngineObject creator) : UnitS
                     TargetId = target.UnitId,
                     TargetPlayer = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(target.Player))
                 };
-                StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                Creator.GetEngine().StrategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 _ = eventValue.Release();
                 return true;
             }

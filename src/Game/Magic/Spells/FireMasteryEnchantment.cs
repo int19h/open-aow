@@ -36,9 +36,10 @@ public class FireMasteryEnchantment : GlobalEnchantment
         {
             if (message.Payload.Int != 0)
             {
-                if (StrategicMap.Current.Players.GetPlayers(message.Payload.Int).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.FireMastery))
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                if (strategicMap.Players.GetPlayers(message.Payload.Int).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.FireMastery))
                 {
-                    UpdateFire(2, explosions: !StrategicMap.Current.RequestCombatType);
+                    UpdateFire(2, explosions: !strategicMap.RequestCombatType);
                 }
             }
         }
@@ -51,7 +52,7 @@ public class FireMasteryEnchantment : GlobalEnchantment
     public override bool Deactivate(PlayerId? player)
     {
         _ = base.Deactivate(player);
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        Player playerLocal = GetEngine().StrategicMap.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.FireMastery);
 
@@ -64,14 +65,14 @@ public class FireMasteryEnchantment : GlobalEnchantment
         }
 
         // { Original doubles Water. }
-        StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Water);
+        GetEngine().StrategicMap.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Water);
         return true;
     }
 
     // GlobalEnchantmentSpells.pas:1653
     public override bool CanActivate(PlayerId? player, ref string reason)
     {
-        if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.FireMastery))
+        if (GetEngine().StrategicMap.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.FireMastery))
         {
             string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
             string name = GetName();
@@ -89,8 +90,9 @@ public class FireMasteryEnchantment : GlobalEnchantment
     {
         _ = base.Activate(player);
         // { Original doubles Water. }
-        StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Water);
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Water);
+        Player playerLocal = strategicMap.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments | PlayerEnchantmentTypes.FireMastery);
 
@@ -109,10 +111,10 @@ public class FireMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1696
     public void UpdateFire(int factor, bool explosions)
     {
-        RandSeed = StrategicMap.Current.Random(16777215);
-        for (int l = 0, last = StrategicMap.Current.MapContainer.LevelCount - 1; l <= last; l++)
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
+        for (int l = 0, last = GetEngine().StrategicMap.MapContainer.LevelCount - 1; l <= last; l++)
         {
-            MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(l);
+            MapLevel mapLevel = GetEngine().StrategicMap.MapContainer.GetMapLevel(l);
             for (int y = 1, lastY = mapLevel.Height - 1; y <= lastY; y++)
             {
                 for (int x = 1, lastX = mapLevel.Width - 2; x <= lastX; x++)
@@ -120,9 +122,9 @@ public class FireMasteryEnchantment : GlobalEnchantment
                     int chance = MapField.IgnitionChance(mapLevel.GetField(x, y));
                     if (chance > 0)
                     {
-                        if (StrategicMap.Current.Random(10_000) < chance * factor)
+                        if (GetEngine().StrategicMap.Random(10_000) < chance * factor)
                         {
-                            Fire fire = GamePack.Current.FireControl.PlaceFire(x, y, l, fireType: FireType.Large);
+                            Fire fire = GetEngine().GamePack.FireControl.PlaceFire(x, y, l, fireType: FireType.Large);
                             if (fire is not null)
                             {
                                 if (explosions)

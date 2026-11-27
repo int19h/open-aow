@@ -88,13 +88,13 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
         }
         else
         {
-            _ = StrategicMap.Current.GlobalMagicControl.Enchantments.RemoveChild(this);
+            _ = GetEngine().StrategicMap.GlobalMagicControl.Enchantments.RemoveChild(this);
         }
 
-        StrategicMap.Current.GlobalMagicControl.Update();
+        GetEngine().StrategicMap.GlobalMagicControl.Update();
         if (EnchantmentManaUpkeep != 0)
         {
-            StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
+            GetEngine().StrategicMap.Players.GetPlayers(PlayerIndex).MagicControl.Update();
         }
 
         _ = Release();
@@ -104,7 +104,7 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
     // Spells.PAS:2536
     public virtual bool CanActivate(PlayerId? player, ref string reason)
     {
-        if (EnchantmentType != GlobalEnchantmentType.None && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(EnchantmentType.ToFlag()))
+        if (EnchantmentType != GlobalEnchantmentType.None && GetEngine().StrategicMap.GlobalMagicControl.ActiveEnchantments.Contains(EnchantmentType.ToFlag()))
         {
             reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat), arguments: [Name]);
             return false;
@@ -121,21 +121,21 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
     {
         PlayerIndex = player;
         EnchantmentStatus |= GlobalEnchantmentStatuses.Activated;
-        _ = StrategicMap.Current.GlobalMagicControl.ValidateEnchantmentId(this);
+        _ = GetEngine().StrategicMap.GlobalMagicControl.ValidateEnchantmentId(this);
         if (EnchantmentMode.Contains(GlobalEnchantmentModes.Owned))
         {
-            Owner = StrategicMap.Current.GlobalMagicControl.Enchantments;
+            Owner = GetEngine().StrategicMap.GlobalMagicControl.Enchantments;
         }
         else
         {
-            _ = StrategicMap.Current.GlobalMagicControl.Enchantments.AddChild(this);
+            _ = GetEngine().StrategicMap.GlobalMagicControl.Enchantments.AddChild(this);
         }
 
         _ = AddRef();
-        StrategicMap.Current.GlobalMagicControl.Update();
+        GetEngine().StrategicMap.GlobalMagicControl.Update();
         if (EnchantmentManaUpkeep != 0)
         {
-            StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
+            GetEngine().StrategicMap.Players.GetPlayers(PlayerIndex).MagicControl.Update();
         }
 
         return true;
@@ -185,7 +185,7 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
         {
             _ = AddRef();
             MapCoordinate location = GetLocation();
-            for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
+            for (int i = 1, last = GetEngine().StrategicMap.Players.GetCount() - 1; i <= last; i++)
             {
                 if (VisibleForPlayer(PlayerId.FromOriginal((sbyte)i)))
                 {
@@ -198,7 +198,7 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
                     log.SetLocation(location);
                     string name = GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_dispelledFormat), arguments: [name]);
-                    StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
+                    GetEngine().StrategicMap.Players.GetPlayers(i).EventLogbook.AddEvent(log);
                     _ = log.Release();
                 }
             }
@@ -226,7 +226,7 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
         {
             _ = AddRef();
             MapCoordinate location = GetLocation();
-            for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
+            for (int i = 1, last = GetEngine().StrategicMap.Players.GetCount() - 1; i <= last; i++)
             {
                 if (VisibleForPlayer(PlayerId.FromOriginal((sbyte)i)))
                 {
@@ -239,7 +239,7 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
                     log.SetLocation(location);
                     string name = GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.RemovedFormat), arguments: [name]);
-                    StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
+                    GetEngine().StrategicMap.Players.GetPlayers(i).EventLogbook.AddEvent(log);
                     _ = log.Release();
                 }
             }
@@ -261,7 +261,7 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
         if (!EnchantmentMode.Contains(GlobalEnchantmentModes.TrueGlobal) && player != PlayerIndex)
         {
             MapCoordinate location = GetLocation();
-            return location.X != -1 && StrategicMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, player);
+            return location.X != -1 && GetEngine().StrategicMap.VisibleForPlayer(location.X, location.Y, location.MapLevel, player);
         }
         else
         {
@@ -275,8 +275,8 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
         MapCoordinate location = GetLocation();
         if (location.X != -1)
         {
-            StrategicMap.Current.CenterViewTo(location.X, location.Y, location.MapLevel);
-            StrategicMap.Current.PlayCenterAnimation(location.X, location.Y, L: location.MapLevel);
+            GetEngine().StrategicMap.CenterViewTo(location.X, location.Y, location.MapLevel);
+            GetEngine().StrategicMap.PlayCenterAnimation(location.X, location.Y, L: location.MapLevel);
         }
     }
 

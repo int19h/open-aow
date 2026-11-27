@@ -567,8 +567,9 @@ public class Battle : EngineObject
     // Combat.pas:6245
     public void AddAdjacentArmies()
     {
+        GameEngine engine = GetEngine()!;
         CombatData data = CombatData;
-        MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(data.Location.MapLevel);
+        MapLevel level = engine.StrategicMap.MapContainer.GetMapLevel(data.Location.MapLevel);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, data.Location.X, data.Location.Y, radius: 0);
         while (walk.Radius <= 1)
         {
@@ -583,7 +584,7 @@ public class Battle : EngineObject
                         CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
                         CombatPlayer fPlayersPlayers = data.Players.GetPlayers(data.DefenderPlayer);
                         CombatPlayer players2 = data.Players.GetPlayers(data.AttackerPlayer);
-                        side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, attackerRelation: ((byte)players2.IndependentRelation).TruncateToSByte(), defender: PlayerId.FromOriginal(fPlayersPlayers.Player), defenderRelation: players.IndependentRelation.TruncateToSByte(), player: (sbyte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player), relation: armyHexSprite.Army.IndependentRelation);
+                        side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, attackerRelation: ((byte)players2.IndependentRelation).TruncateToSByte(), defender: PlayerId.FromOriginal(fPlayersPlayers.Player), defenderRelation: players.IndependentRelation.TruncateToSByte(), player: (sbyte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player), relation: armyHexSprite.Army.IndependentRelation, engine: engine);
                     }
                     else
                     {
@@ -712,13 +713,14 @@ public class Battle : EngineObject
     // Combat.pas:6364
     public void AddEmptyArmy(byte player, int independentRelation, int X, int Y, int L)
     {
+        GameEngine engine = GetEngine()!;
         MapFieldMessage message = default;
         CombatData data = CombatData;
         byte position = GetPartyPosition(X, Y, layer: L);
         CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
         CombatPlayer fPlayersPlayers = data.Players.GetPlayers(data.DefenderPlayer);
         CombatPlayer players2 = data.Players.GetPlayers(data.AttackerPlayer);
-        CombatSideIndex side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, attackerRelation: ((byte)players2.IndependentRelation).TruncateToSByte(), defender: PlayerId.FromOriginal(fPlayersPlayers.Player), defenderRelation: players.IndependentRelation.TruncateToSByte(), player: (sbyte)player, relation: independentRelation.TruncateToSByte());
+        CombatSideIndex side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, attackerRelation: ((byte)players2.IndependentRelation).TruncateToSByte(), defender: PlayerId.FromOriginal(fPlayersPlayers.Player), defenderRelation: players.IndependentRelation.TruncateToSByte(), player: (sbyte)player, relation: independentRelation.TruncateToSByte(), engine: engine);
         byte playerLocal = (byte)CombatData.Players.IndexOf(player, relation: independentRelation);
         if (playerLocal == 255)
         {
@@ -727,12 +729,12 @@ public class Battle : EngineObject
 
         CombatParty party = CombatData.Parties.CreateParty(this, position, combatPlayer: playerLocal, X, Y, L, army: null);
         message.MessageId = 4387;
-        MapField fieldValue = StrategicMap.Current.MapContainer.GetField(X, Y, L);
+        MapField fieldValue = engine.StrategicMap.MapContainer.GetField(X, Y, L);
         MapFieldMessageParameters param = message.Param;
         param[0] = fieldValue;
         message.Param = param;
         message.Result = 0;
-        StrategicMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
+        engine.StrategicMap.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
         if (message.Result.Int != 0)
         {
             party.Wall = message.Result.Int.TruncateToByte();

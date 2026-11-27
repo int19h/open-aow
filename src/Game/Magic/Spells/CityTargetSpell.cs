@@ -35,8 +35,8 @@ public class CityTargetSpell : Spell
         if (CanActivate(source, messageText: ref reason))
         {
             _sourceId = source.UnitId;
-            SetupTargetSelection(source, StrategicMap.Current.TargetSelection);
-            StrategicMap.Current.TargetSelection.Activate();
+            SetupTargetSelection(source, GetEngine().StrategicMap.TargetSelection);
+            GetEngine().StrategicMap.TargetSelection.Activate();
             return true;
         }
         else
@@ -49,7 +49,7 @@ public class CityTargetSpell : Spell
     public virtual void TargetSelection_Changed(object? sender, TargetSelectionChangedEventArgs e)
     {
         TargetSelectionControl targetSelection = (TargetSelectionControl)sender!;
-        Troop? source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
+        Troop? source = GetEngine().StrategicMap.UnitControl.FindUnit(_sourceId);
         if (source is not null)
         {
             switch (e.Change)
@@ -89,7 +89,7 @@ public class CityTargetSpell : Spell
     {
         bool playSound = false;
         int hexLevel = targetCity.HexLevel;
-        MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(hexLevel);
+        MapLevel level = GetEngine().StrategicMap.MapContainer.GetMapLevel(hexLevel);
         int hexY = targetCity.HexY;
         int hexX = targetCity.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
@@ -97,27 +97,29 @@ public class CityTargetSpell : Spell
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height && targetCity.Resource.TerrainList.Used[walk.HexNumber])
             {
-                bool condition = source.Player == StrategicMap.Current.SeatedPlayer;
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                bool condition = source.Player == strategicMap.SeatedPlayer;
                 if (!condition)
                 {
                     int targetCityHexLevel = targetCity.HexLevel;
-                    condition = StrategicMap.Current.TerrainVisible(walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), L: targetCityHexLevel, radius: 0);
+                    condition = strategicMap.TerrainVisible(walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), L: targetCityHexLevel, radius: 0);
                 }
 
                 if (condition)
                 {
                     // { Original passes the city layer before the radius. }
                     ImageSequenceAnimation a = new(null) { Holder = CreationHolder() };
-                    a.SetImageSequence(GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[0]);
+                    a.SetImageSequence(GetEngine().GamePack.SpellControl[SpellId].CastImages.ImageSequences[0]);
                     a.FrameCounter = Random(5);
                     a.AnimationLevel = 27;
                     int targetCityHexLevel = targetCity.HexLevel;
-                    _ = StrategicMap.Current.PlaceHex(a, walk.X, walk.Y, L: targetCityHexLevel);
-                    bool test = source.Player == StrategicMap.Current.SeatedPlayer;
+                    _ = GetEngine().StrategicMap.PlaceHex(a, walk.X, walk.Y, L: targetCityHexLevel);
+                    StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                    bool test = source.Player == engineStrategicMap.SeatedPlayer;
                     if (!test)
                     {
                         int hexLevel2 = targetCity.HexLevel;
-                        test = StrategicMap.Current.WatchingTerrain(walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), L: hexLevel2, radius: 0);
+                        test = engineStrategicMap.WatchingTerrain(walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), L: hexLevel2, radius: 0);
                     }
 
                     if (test)
@@ -132,7 +134,7 @@ public class CityTargetSpell : Spell
 
         if (playSound)
         {
-            _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(0);
+            _ = GetEngine().GamePack.SpellControl[SpellId].CastSounds.Play(0);
         }
     }
 
@@ -145,9 +147,10 @@ public class CityTargetSpell : Spell
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
         targetSelection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CancelText);
-        targetSelection.SourceImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[20].GetPreviewImage();
-        targetSelection.ValidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[21].GetPreviewImage();
-        targetSelection.InvalidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[22].GetPreviewImage();
+        GamePack gamePack = GetEngine().GamePack;
+        targetSelection.SourceImage = gamePack.SpellControl[SpellId].CastImages.ImageSequences[20].GetPreviewImage();
+        targetSelection.ValidTargetImage = gamePack.SpellControl[SpellId].CastImages.ImageSequences[21].GetPreviewImage();
+        targetSelection.InvalidTargetImage = gamePack.SpellControl[SpellId].CastImages.ImageSequences[22].GetPreviewImage();
         MapCoordinate coordinate58 = source.GetLocation();
         int x = coordinate58.X;
         int y = coordinate58.Y;
@@ -168,12 +171,12 @@ public class CityTargetSpell : Spell
     public virtual bool TargetSelected(Troop source, int X, int Y, int L)
     {
         bool result;
-        if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (!GetEngine().StrategicMap.Players.GetPlayers(source.Player).GetBusy())
         {
             CityTargetSpellTokenEvent eventValue = CreateTokenEvent();
             if (SetupTokenEvent(eventValue, source, X, Y, L))
             {
-                StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                GetEngine().StrategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 result = true;
             }
             else
@@ -202,7 +205,7 @@ public class CityTargetSpell : Spell
             int x = coordinate59.X;
             int y = coordinate59.Y;
             int l = coordinate59.MapLevel;
-            City found = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
+            City found = GetEngine().StrategicMap.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
             return targetCity != found;
         }
 
@@ -230,12 +233,13 @@ public class CityTargetSpell : Spell
     // CitySpells.pas:262
     public void ValidateTarget(TargetSelectionControl targetSelection, sbyte X, sbyte Y, sbyte L, ref bool valid)
     {
-        MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(L);
-        Troop? source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        MapLevel level = strategicMap.MapContainer.GetMapLevel(L);
+        Troop? source = strategicMap.UnitControl.FindUnit(_sourceId);
         if (source is not null && X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
         {
             MapField field = level.GetField(X, Y);
-            valid = !StrategicMap.Current.ExplorationEnabled || field.GetExplored(source.Player);
+            valid = !strategicMap.ExplorationEnabled || field.GetExplored(source.Player);
             if (valid)
             {
                 City targetCity = field.FindNoneTransparentHexSprite<City>();

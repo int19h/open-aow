@@ -3,7 +3,6 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Abilities.Passive;
 
@@ -57,7 +56,7 @@ public class SummonedAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1147
     public int UnitIndexToAIUpkeepPriority(int unitIndex)
     {
-        return GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level switch
+        return GetEngine().GamePack.UnitResources.GetUnitResource(unitIndex).Level switch
         {
             1 => 250,
             2 => 250,

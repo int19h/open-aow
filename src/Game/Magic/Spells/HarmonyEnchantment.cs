@@ -5,7 +5,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -52,11 +51,11 @@ public class HarmonyEnchantment : GlobalEnchantment
         _ = base.Deactivate(player);
         if (DaysActive > 10)
         {
-            StrategicMap.Current.Races.RelationOffset -= 40;
+            GetEngine().StrategicMap.Races.RelationOffset -= 40;
         }
         else
         {
-            StrategicMap.Current.Races.RelationOffset -= DaysActive * 4;
+            GetEngine().StrategicMap.Races.RelationOffset -= DaysActive * 4;
         }
 
         return true;
@@ -76,7 +75,7 @@ public class HarmonyEnchantment : GlobalEnchantment
         DaysActive += 1;
         if (DaysActive <= 10)
         {
-            StrategicMap.Current.Races.RelationOffset += 4;
+            GetEngine().StrategicMap.Races.RelationOffset += 4;
         }
     }
 }

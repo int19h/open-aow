@@ -12,7 +12,6 @@ using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
 using static Aow.Rtl.DelphiFormat;
@@ -45,7 +44,7 @@ public class Anarchy : CityTargetSpell
                 Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CastFormat), args: [SpellName])
             };
             log.SetLocation(level: targetCity.HexLevel, y: targetCity.HexY, x: targetCity.HexX);
-            StrategicMap.Current.Players.GetPlayers(targetCity.Player).EventLogbook.AddEvent(log);
+            GetEngine().StrategicMap.Players.GetPlayers(targetCity.Player).EventLogbook.AddEvent(log);
             _ = log.Release();
             PlayDefaultCityEffects(source, targetCity);
             _ = targetCity.ValidateObservation(source.Player);
@@ -60,7 +59,7 @@ public class Anarchy : CityTargetSpell
                 int targetCityHexLevel = targetCity.HexLevel;
                 int targetCityHexY = targetCity.HexY;
                 int hexX = targetCity.HexX;
-                _ = StrategicMap.Current.PlaceHex(a, hexX, targetCityHexY, L: targetCityHexLevel);
+                _ = GetEngine().StrategicMap.PlaceHex(a, hexX, targetCityHexY, L: targetCityHexLevel);
             }
 
             return true;

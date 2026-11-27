@@ -5,8 +5,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 
-using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiRounding;
@@ -51,10 +49,10 @@ public class BreathAbility : RangedAttackAbility
                 }
             }
 
-            int count = StrategicMap.Current.Random(2) + 1;
+            int count = GetEngine().StrategicMap.Random(2) + 1;
             while (count != 0 && targets.Count != 0)
             {
-                other = targets[StrategicMap.Current.Random(targets.Count)];
+                other = targets[GetEngine().StrategicMap.Random(targets.Count)];
                 RangedAttackCombatAction action = CreateRangedAttackCombatAction(source, target: other, attackPenalty: 2);
                 source.Combat.ExecuteCombatAction(action);
                 _ = action.Release();

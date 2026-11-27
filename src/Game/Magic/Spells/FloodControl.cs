@@ -58,8 +58,9 @@ public sealed class FloodControl(CustomNode? owner) : EngineObject(owner)
     // GlobalEnchantmentSpells.pas:1090
     public void Setup()
     {
-        Width = StrategicMap.Current.MapContainer.Width;
-        Height = StrategicMap.Current.MapContainer.Height;
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Width = strategicMap.MapContainer.Width;
+        Height = strategicMap.MapContainer.Height;
         sbyte[] originalTerrain = OriginalTerrain;
         Array.Resize(ref originalTerrain, newSize: Width * Height * 2);
         OriginalTerrain = originalTerrain;
@@ -69,8 +70,9 @@ public sealed class FloodControl(CustomNode? owner) : EngineObject(owner)
     // GlobalEnchantmentSpells.pas:1098
     public void Flood()
     {
-        StrategicMap.Current.LockMapChangedEvent();
-        MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(0);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.LockMapChangedEvent();
+        MapLevel mapLevel = strategicMap.MapContainer.GetMapLevel(0);
         // { Original includes the last row when walking neighbouring hexagons. }
         MapField mapField;
         int index;
@@ -130,15 +132,17 @@ public sealed class FloodControl(CustomNode? owner) : EngineObject(owner)
             }
         }
 
-        StrategicMap.Current.UnlockMapChangedEvent();
-        StrategicMap.Current.InvalidateMap();
+        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+        engineStrategicMap.UnlockMapChangedEvent();
+        engineStrategicMap.InvalidateMap();
     }
 
     // GlobalEnchantmentSpells.pas:1160
     public void Restore()
     {
-        StrategicMap.Current.LockMapChangedEvent();
-        MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(0);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.LockMapChangedEvent();
+        MapLevel mapLevel = strategicMap.MapContainer.GetMapLevel(0);
         int index;
         MapField mapField;
         for (int y = 1, last = mapLevel.Height - 1; y <= last; y++)
@@ -160,7 +164,7 @@ public sealed class FloodControl(CustomNode? owner) : EngineObject(owner)
             }
         }
 
-        MapObjectResourceList resources = GamePack.Current.MapObjectResourceList;
+        MapObjectResourceList resources = GetEngine().GamePack.MapObjectResourceList;
         DelphiList<MapObjectResource> candidates = [];
         for (int y = 1, last = mapLevel.Height - 1; y <= last; y++)
         {
@@ -173,7 +177,7 @@ public sealed class FloodControl(CustomNode? owner) : EngineObject(owner)
                     mapField = mapLevel.GetField(x, y);
                     if ((byte)overlay is 4 or 5)
                     {
-                        _ = GamePack.Current.RoadControl.Place(StrategicMap.Current.MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: 0, terrainType: mapField.TerrainNumber);
+                        _ = GetEngine().GamePack.RoadControl.Place(GetEngine().StrategicMap.MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: 0, terrainType: mapField.TerrainNumber);
                     }
                     else
                     {
@@ -189,7 +193,7 @@ public sealed class FloodControl(CustomNode? owner) : EngineObject(owner)
 
                         if (candidates.Count != 0)
                         {
-                            _ = candidates[StrategicMap.Current.Random(candidates.Count)].PlaceResourceUser(StrategicMap.Current, x.TruncateToSByte(), y.TruncateToSByte(), 0);
+                            _ = candidates[GetEngine().StrategicMap.Random(candidates.Count)].PlaceResourceUser(GetEngine().StrategicMap, x.TruncateToSByte(), y.TruncateToSByte(), 0);
                         }
                     }
                 }
@@ -197,7 +201,8 @@ public sealed class FloodControl(CustomNode? owner) : EngineObject(owner)
                 index += 2;
             }
         }
-        StrategicMap.Current.UnlockMapChangedEvent();
-        StrategicMap.Current.InvalidateMap();
+        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+        engineStrategicMap.UnlockMapChangedEvent();
+        engineStrategicMap.InvalidateMap();
     }
 }

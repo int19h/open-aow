@@ -3,7 +3,6 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -295,9 +294,9 @@ public class StrikeAbility : AdjustableAbility
         _ = base.Remove(owner);
         for (int i = owner.OwnAbilityCount - 1; i >= 0; --i)
         {
-            if (owner.GetOwnAbilityEnabled(i) && GamePack.Current.AbilityControl[i] is StrikeEnhancementAbility)
+            if (owner.GetOwnAbilityEnabled(i) && owner.GetEngine().GamePack.AbilityControl[i] is StrikeEnhancementAbility)
             {
-                while (GamePack.Current.AbilityControl[i].Remove(owner))
+                while (owner.GetEngine().GamePack.AbilityControl[i].Remove(owner))
                 {
                 }
             }

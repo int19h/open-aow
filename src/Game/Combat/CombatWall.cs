@@ -110,7 +110,7 @@ public class CombatWall : CombatObject
             default:
                 break;
         }
-        HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: GetHits(), hitPoints: _hitPoints.TruncateToSByte()), x: X, y: Y - 10, surface: surface);
+        HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: GetHits(), hitPoints: _hitPoints.TruncateToSByte()), x: X, y: Y - 10, surface: surface, engine: GetEngine()!);
     }
 
     // Combat.pas:1773

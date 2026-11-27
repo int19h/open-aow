@@ -75,7 +75,7 @@ public class UnitSpell : Spell
                     eventValue.Initialize(SpellId, source, targets: null, mana: BaseManaCost);
                     eventValue.TargetPlayer = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player));
                     _ = eventValue.TargetUnitIds.Add(target.UnitId);
-                    StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                    GetEngine().StrategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                     _ = eventValue.Release();
                     return true;
                 }
@@ -127,8 +127,8 @@ public class UnitSpell : Spell
             }
             else
             {
-                SetupTargetSelection(source, control: StrategicMap.Current.TargetSelection);
-                StrategicMap.Current.TargetSelection.Activate();
+                SetupTargetSelection(source, control: GetEngine().StrategicMap.TargetSelection);
+                GetEngine().StrategicMap.TargetSelection.Activate();
             }
 
             return true;
@@ -228,11 +228,12 @@ public class UnitSpell : Spell
     public virtual bool CastSpell(Troop source, UnitUserList targets)
     {
         ResetTargetSelection();
-        if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (!strategicMap.Players.GetPlayers(source.Player).GetBusy())
         {
             UnitSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(mana: source.CastingMana(this), spellId: SpellId, source: source, targets: targets);
-            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            strategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -281,7 +282,7 @@ public class UnitSpell : Spell
             {
                 if (action.Mana != 0 && (((byte)combat.Status) & 1) != 0)
                 {
-                    GamePack.Current.SpellControl[SpellId].CombatCastingDone(source, action.Mana);
+                    GetEngine().GamePack.SpellControl[SpellId].CombatCastingDone(source, action.Mana);
                 }
             }
         }
@@ -318,13 +319,14 @@ public class UnitSpell : Spell
     // Spells.PAS:1269
     public void OnValidateTarget(TargetSelectionControl control, sbyte X, sbyte Y, sbyte L, ref bool valid)
     {
-        Troop? source = StrategicMap.Current.UnitControl.FindUnit(control.SourceUnitId);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Troop? source = strategicMap.UnitControl.FindUnit(control.SourceUnitId);
         if (source is not null)
         {
-            if (StrategicMap.Current.Visible(X, Y, L, radius: 0))
+            if (strategicMap.Visible(X, Y, L, radius: 0))
             {
-                ArmyHexSprite party = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
-                valid = party is not null && (party.Army.Player == source.Player || !StrategicMap.Current.MapContainer.GetField(X, Y, L).GetMagicShieldActive()) && ValidTargetParty(source, party);
+                ArmyHexSprite party = strategicMap.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
+                valid = party is not null && (party.Army.Player == source.Player || !strategicMap.MapContainer.GetField(X, Y, L).GetMagicShieldActive()) && ValidTargetParty(source, party);
             }
             else
             {
@@ -341,7 +343,7 @@ public class UnitSpell : Spell
     public void TargetSelection_Changed(object? sender, TargetSelectionChangedEventArgs e)
     {
         TargetSelectionControl control = (TargetSelectionControl)sender!;
-        Troop? source = StrategicMap.Current.UnitControl.FindUnit(control.SourceUnitId);
+        Troop? source = GetEngine().StrategicMap.UnitControl.FindUnit(control.SourceUnitId);
         if (source is not null)
         {
             switch (e.Change)
@@ -352,7 +354,7 @@ public class UnitSpell : Spell
                 case TargetSelectionChange.Selected:
                     if (control.Target.X != -1)
                     {
-                        ArmyHexSprite party = StrategicMap.Current.MapContainer.GetField(control.Target.X, control.Target.Y, control.Target.MapLevel).GetArmyHexSprite();
+                        ArmyHexSprite party = GetEngine().StrategicMap.MapContainer.GetField(control.Target.X, control.Target.Y, control.Target.MapLevel).GetArmyHexSprite();
                         if (party is not null && ValidTargetParty(source, party))
                         {
                             TargetPartySelected(source, party);
@@ -375,7 +377,7 @@ public class UnitSpell : Spell
     // Spells.PAS:1310
     public void ResetTargetSelection()
     {
-        TargetSelectionControl targetSelectionControl = StrategicMap.Current.TargetSelection;
+        TargetSelectionControl targetSelectionControl = GetEngine().StrategicMap.TargetSelection;
         targetSelectionControl.Changed -= TargetSelection_Changed;
         targetSelectionControl.Deactivate();
     }
@@ -407,9 +409,10 @@ public class UnitSpell : Spell
         control.Title = SpellName;
         control.CancelText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CancelText);
         control.SourceUnitId = source.UnitId;
-        control.SourceImage = GamePack.Current.SpellControl[SpellId].CastImages.GetImageSequence(20).GetPreviewImage();
-        control.ValidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.GetImageSequence(21).GetPreviewImage();
-        control.InvalidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.GetImageSequence(22).GetPreviewImage();
+        GamePack gamePack = GetEngine().GamePack;
+        control.SourceImage = gamePack.SpellControl[SpellId].CastImages.GetImageSequence(20).GetPreviewImage();
+        control.ValidTargetImage = gamePack.SpellControl[SpellId].CastImages.GetImageSequence(21).GetPreviewImage();
+        control.InvalidTargetImage = gamePack.SpellControl[SpellId].CastImages.GetImageSequence(22).GetPreviewImage();
     }
 
     private static ReadOnlySpan<byte> SelectionMasks => [0, 1, 3, 7, 15, 31, 63, 127, 255];

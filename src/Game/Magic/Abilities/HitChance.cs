@@ -53,11 +53,12 @@ internal static class HitChance
         return result > 100 ? 100 : result;
     }
 
-    internal static void ShowHitPercent(int x, int y, in LockedSurface surface, int percent)
+    internal static void ShowHitPercent(int x, int y, in LockedSurface surface, int percent, GameEngine engine)
     {
         LockedSurface lockedSurface;
         lockedSurface = surface;
-        GamePack.Current.CombatImages[0].Show(x + 20, y + 54, lockedSurface);
+        GamePack gamePack = engine.GamePack;
+        gamePack.CombatImages[0].Show(x + 20, y + 54, lockedSurface);
         Rect clipRectangle = lockedSurface.ClipRectangle;
         clipRectangle.Right = x + 20 + ((percent + 3) / 4);
         lockedSurface.ClipRectangle = clipRectangle;
@@ -68,6 +69,6 @@ internal static class HitChance
             lockedSurface.ClipRectangle = clipRectangle2;
         }
 
-        GamePack.Current.CombatImages[1].Show(x + 20, y + 54, lockedSurface);
+        gamePack.CombatImages[1].Show(x + 20, y + 54, lockedSurface);
     }
 }

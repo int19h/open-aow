@@ -235,7 +235,7 @@ public partial class ProductionPlace : PlayerStructure
                         }
                         else
                         {
-                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: 0))
+                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: 0, engine: GetEngine()!))
                             {
                                 Player? player = StrategicMap.Current.Players.GetPlayers(info.Player);
                                 data.Priority = 50 + (player.Income / 2);
