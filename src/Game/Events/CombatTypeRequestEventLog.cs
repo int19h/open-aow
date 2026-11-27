@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // selection. location. TokenEvent. owned object
-public partial class CombatTypeRequestEventLog(CustomNode? owner) : EventLog(owner)
+public partial class CombatTypeRequestEventLog(CustomNode? owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
     public CombatType CombatType { get; private set; }
     public sbyte AttackerPlayer { get; set; }

@@ -18,7 +18,19 @@ namespace Aow.Game.Events;
 public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<EventLogList>
 {
     [SuppressMessage("Style", "IDE0290", Justification = "EventLogList.cs:87 calls AddRef during AddChild. Delphi sees a count of 0, SetOwner skips its own AddRef and Release, and the count after construction is 1.")]
-    public EventLog(CustomNode? owner) : base(owner) => RefCount = 1;
+    public EventLog(CustomNode? owner, EngineObject holder) : base(null)
+    {
+        Holder = holder;
+        // The log reads the map of the engine it reaches through its owner or its holder, before it
+        // joins the owner, as the original read the global map before it set the owner. With no map
+        // the day stays 0 and the player is Independent. The original leaves player index 0 there,
+        // and Independent is the port's own choice, kept from the earlier property initializers.
+        StrategicMap? strategicMap = (owner?.GetEngine() ?? GetEngine())?.StrategicMap;
+        Day = strategicMap is not null ? strategicMap.Day : 0;
+        Player = strategicMap is not null ? strategicMap.CurrentPlayer : PlayerId.Independent;
+        SetOwner(owner);
+        RefCount = 1;
+    }
 
     // The list that holds the log. AcceptsOwner admits only that list, so the read never fails.
     public new EventLogList Owner => GetOwner<EventLogList>();
@@ -27,10 +39,10 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
 
     void IOwnedSink<EventLogList>.SetOwner(EventLogList owner) => SetOwner(owner);
 
-    public int Day { get; set; } = StrategicMap.Current is { } map ? map.Day : 0;
+    public int Day { get; set; }
     public int Id { get; set; }
 
-    public PlayerId? Player { get; set; } = StrategicMap.Current is { } map ? map.CurrentPlayer : PlayerId.Independent;
+    public PlayerId? Player { get; set; }
 
     public int RefCount { get; private set; }
 

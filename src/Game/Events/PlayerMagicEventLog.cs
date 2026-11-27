@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // (mode, location, spell ID, value, enchantment name)
-public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
+public partial class PlayerMagicEventLog(CustomNode owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
 
     public new const int ClassId = 131_824;

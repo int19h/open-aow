@@ -18,9 +18,8 @@ namespace Aow.Game.Magic.Abilities;
 public class DispelMagicAbility : TouchAbility
 {
     // AoWAb.PAS:4040
-    public DispelMagicAbility(CustomNode? owner, EngineObject holder) : base(owner)
+    public DispelMagicAbility(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityId = 60;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DispelMagicText);
         SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.UseItem | AbilitySelectionTypes.Editor;

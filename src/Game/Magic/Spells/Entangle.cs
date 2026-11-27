@@ -14,9 +14,8 @@ namespace Aow.Game.Magic.Spells;
 public class Entangle : CombatSpell
 {
     // CombatSpells.pas:1352
-    public Entangle(CustomNode? owner, EngineObject holder) : base(owner)
+    public Entangle(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.EntangleText);
         SpellId = 111;
         SpellCombatInfo spellCombatInfo = CombatInfo;

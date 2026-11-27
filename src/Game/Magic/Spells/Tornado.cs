@@ -16,9 +16,8 @@ namespace Aow.Game.Magic.Spells;
 public class Tornado : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1798
-    public Tornado(CustomNode? owner, EngineObject holder) : base(owner)
+    public Tornado(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TornadoText);
         SpellId = 68;
         AboveGroundOnly = true;

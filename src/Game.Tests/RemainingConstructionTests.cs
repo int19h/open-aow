@@ -275,7 +275,9 @@ public sealed class RemainingConstructionTests
 
         if (route == 2)
         {
-            using GameEngine engine = new(null!);
+            // The bare engine stands for the engine the object is built for. A new ability or spell reads that
+            // engine's pack (issue 335), so the engine holds the fixture's pack.
+            using GameEngine engine = new(null!) { GamePack = EngineFixture.Engine.GamePack };
             EngineClass meta = EngineClass.Of(type);
             engine.Options &= ~GameEngine.VerifyClasses;
             try

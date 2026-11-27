@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class PassWallAbility : AdjustableAbility
 {
     // PassiveAb.pas:937
-    public PassWallAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public PassWallAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_passWallText);
         AbilityId = 66;
         SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.HeadItem | AbilitySelectionTypes.TorsoItem | AbilitySelectionTypes.DefenseItem | AbilitySelectionTypes.RingItem;

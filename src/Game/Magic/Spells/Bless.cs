@@ -10,9 +10,8 @@ namespace Aow.Game.Magic.Spells;
 public class Bless : UnitSpell
 {
     // UnitSpells.pas:790
-    public Bless(CustomNode owner, EngineObject holder) : base(owner)
+    public Bless(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_blessText);
         SpellId = 56;
         BaseManaCost = 5;

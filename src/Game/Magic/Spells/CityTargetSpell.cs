@@ -26,7 +26,7 @@ public class CityTargetSpell : Spell
     public CityTargetModes CityTargetMode { get; protected init; }
 
     // CitySpells.pas:209
-    public CityTargetSpell(CustomNode? owner) : base(owner) => SpellType = SpellType.Global;
+    public CityTargetSpell(CustomNode? owner, EngineObject holder) : base(owner, holder: holder) => SpellType = SpellType.Global;
 
     // CitySpells.pas:377
     public override bool Activate(Troop source)

@@ -19,9 +19,8 @@ namespace Aow.Game.Magic.Spells;
 public class CallHero : Spell
 {
     // GlobalSpells.pas:1184
-    public CallHero(CustomNode? owner, EngineObject holder) : base(owner)
+    public CallHero(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_callHeroText);
         SpellId = 69;
         SpellType = SpellType.Global;

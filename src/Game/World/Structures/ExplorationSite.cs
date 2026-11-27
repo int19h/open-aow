@@ -175,10 +175,12 @@ public partial class ExplorationSite : Structure
                     combat.Finalize();
                     string name = GetName();
                     combat.Logbook.FinalData.Header = $"{name} {combat.Logbook.FinalData.Header}";
-                    eventValue = new CombatEventLog(null) { Holder = CreationHolder() };
+                    eventValue = new CombatEventLog(null, holder: CreationHolder());
                     eventValue.SetCombatLogbook(combat.Logbook);
-                    StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
-                    if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == player && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
+                    // The log reads the day and player of its creator engine, so it lands on that engine's map too.
+                    StrategicMap strategicMap = GetEngine().StrategicMap;
+                    strategicMap.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
+                    if (PlayerIdExtensions.ToOriginal(strategicMap.SeatedPlayer) == player && strategicMap.Players.GetPlayers(player).PlayerType == PlayerType.Human)
                     {
                         _ = eventValue.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                     }
@@ -200,10 +202,12 @@ public partial class ExplorationSite : Structure
                         combat.Finalize();
                         string name = GetName();
                         combat.Logbook.FinalData.Header = $"{name} {combat.Logbook.FinalData.Header}";
-                        eventValue = new CombatEventLog(null) { Holder = CreationHolder() };
+                        eventValue = new CombatEventLog(null, holder: CreationHolder());
                         eventValue.SetCombatLogbook(combat.Logbook);
-                        StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
-                        if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == player && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
+                        // The log reads the day and player of its creator engine, so it lands on that engine's map too.
+                        StrategicMap strategicMap = GetEngine().StrategicMap;
+                        strategicMap.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
+                        if (PlayerIdExtensions.ToOriginal(strategicMap.SeatedPlayer) == player && strategicMap.Players.GetPlayers(player).PlayerType == PlayerType.Human)
                         {
                             _ = eventValue.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                         }
@@ -231,13 +235,15 @@ public partial class ExplorationSite : Structure
             PlayerCollection playerList = StrategicMap.Current.Players;
             if (playerList.LocalPlayers.Count == 1 || StrategicMap.Current.RequestCombatType)
             {
-                CombatTypeRequestEventLog request = new(null) { Holder = CreationHolder() };
+                CombatTypeRequestEventLog request = new(null, holder: CreationHolder());
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 request.SetCenterLocation(HexX.TruncateToByte(), hexY.TruncateToByte(), L: hexLevel);
                 request.AttackerPlayer = (sbyte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player);
                 request.DefenderPlayer = 0;
-                StrategicMap.Current.TriggerTypedExecuteEventLog(request, immediate: true, done: RequestCombatTypeCallback);
+                // The log reads the day and player of its creator engine, so it lands on that engine's map too.
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                strategicMap.TriggerTypedExecuteEventLog(request, immediate: true, done: RequestCombatTypeCallback);
                 _ = request.Release();
                 return true;
             }

@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class VertigoAbility : DurationAbility
 {
     // PassiveAb.pas:952
-    public VertigoAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public VertigoAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_vertigoText);
         AbilityId = 98;
         AbilityType = AbilityType.Handicap;

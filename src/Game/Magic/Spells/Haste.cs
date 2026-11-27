@@ -10,9 +10,8 @@ namespace Aow.Game.Magic.Spells;
 public class Haste : UnitSpell
 {
     // UnitSpells.pas:215
-    public Haste(CustomNode owner, EngineObject holder) : base(owner)
+    public Haste(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellControlTypes = SpellControlTypes.Global | SpellControlTypes.Combat;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.HasteText);
         SpellId = 15;

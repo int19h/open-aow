@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Spells;
 public class HealingWater : UnitSpell
 {
     // UnitSpells.pas:467
-    public HealingWater(CustomNode owner, EngineObject holder) : base(owner)
+    public HealingWater(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_healingWaterText);
         SpellId = 55;
         BaseManaCost = 5;

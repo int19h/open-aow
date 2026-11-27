@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Spells;
 public class SummonFireSprite : SummonSpell
 {
     // SummonSpells.pas:457
-    public SummonFireSprite(CustomNode owner, EngineObject holder) : base(owner)
+    public SummonFireSprite(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonFireSpriteText);
         SpellId = 21;
         BaseManaCost = 5;

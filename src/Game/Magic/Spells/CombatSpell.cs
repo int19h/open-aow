@@ -19,7 +19,7 @@ public class CombatSpell : Spell
     public int DamageMode { get; protected init; }
 
     // CombatSpells.pas:632
-    public CombatSpell(CustomNode? owner) : base(owner)
+    public CombatSpell(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
         SpellType = SpellType.Combat;
         SpellControlTypes = SpellControlTypes.Combat;

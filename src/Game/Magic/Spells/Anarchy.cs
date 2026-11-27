@@ -22,9 +22,8 @@ namespace Aow.Game.Magic.Spells;
 public class Anarchy : CityTargetSpell
 {
     // CitySpells.pas:849
-    public Anarchy(CustomNode? owner, EngineObject holder) : base(owner)
+    public Anarchy(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_anarchyText);
         SpellId = 72;
         CityTargetMode = CityTargetModes.Enemy;
@@ -37,9 +36,8 @@ public class Anarchy : CityTargetSpell
         if (executeCount == 0)
         {
             targetCity = eventValue.GetSelectedCity();
-            LocationTextEventLog log = new(null)
+            LocationTextEventLog log = new(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 Player = source.Player,
                 Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CastFormat), args: [SpellName])
             };

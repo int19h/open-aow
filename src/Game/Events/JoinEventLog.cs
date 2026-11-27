@@ -14,7 +14,7 @@ namespace Aow.Game.Events;
 
 // { Interface declaration run owned by P5. }
 // FirstUnitID, UnitIDs, Location, Selection, JoinIndex, JoinMessage, Gold, JoinMode, Text
-public class JoinEventLog(CustomNode owner) : EventLog(owner)
+public class JoinEventLog(CustomNode owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
 
     public int FirstUnitId { get; set; }

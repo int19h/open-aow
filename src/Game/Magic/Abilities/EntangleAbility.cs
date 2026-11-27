@@ -13,9 +13,8 @@ namespace Aow.Game.Magic.Abilities;
 public class EntangleAbility : TouchAbility
 {
     // AoWAb.PAS:2968
-    public EntangleAbility(CustomNode? owner, EngineObject holder) : base(owner)
+    public EntangleAbility(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityId = 40;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.EntangleText);
         SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.UseItem;

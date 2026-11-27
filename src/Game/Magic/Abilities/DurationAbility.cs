@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities;
 
 // (duration mode)
-public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
+public class DurationAbility(CustomNode owner, EngineObject holder) : AdjustableAbility(owner, holder: holder)
 {
     public DurationMode DurationMode { get; protected init; }
 

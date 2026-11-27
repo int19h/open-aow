@@ -190,9 +190,8 @@ public partial class Arena(CustomNode owner) : Structure(owner)
     {
         if (CanEnter(StrategicMap.Current.SeatedPlayer))
         {
-            EnterArenaEventLog log = new(null)
+            EnterArenaEventLog log = new(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 Arena = this
             };
             ArmyHexSprite army = Owner.GetArmyHexSprite();

@@ -10,7 +10,7 @@ namespace Aow.Game.Magic.Abilities;
 public class TouchAbility : AdjustableAbility
 {
     // AoWAb.PAS:1843
-    public TouchAbility(CustomNode? owner) : base(owner)
+    public TouchAbility(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
         SelectionTypes |= AbilitySelectionTypes.UseItem;
         AbilityType = AbilityType.Combat;

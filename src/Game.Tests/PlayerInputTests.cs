@@ -32,7 +32,7 @@ public sealed class PlayerInputTests
         public void Dispose() => _previousScope.Dispose();
     }
 
-    private sealed class TestSpell(CustomNode owner) : Spell(owner)
+    private sealed class TestSpell(CustomNode owner, EngineObject holder) : Spell(owner, holder: holder)
     {
         public override bool CanActivateCombat(Troop source, ref string reason) => true;
     }
@@ -98,7 +98,7 @@ public sealed class PlayerInputTests
     {
         using MapScope scope = new();
         EngineFixture.PlayerInput.Clear();
-        UnitSpell spell = new(null) { Holder = EngineFixture.Engine };
+        UnitSpell spell = new(null, holder: EngineFixture.Engine);
         Army army = new(null) { Holder = EngineFixture.Engine };
         Troop source = new(null) { Holder = EngineFixture.Engine, Player = PlayerId.Player2, UnitId = 11 };
         source.SetOwner(army);
@@ -112,7 +112,7 @@ public sealed class PlayerInputTests
     {
         using MapScope scope = new();
         EngineFixture.PlayerInput.Clear();
-        UnitSpell spell = new(null) { Holder = EngineFixture.Engine };
+        UnitSpell spell = new(null, holder: EngineFixture.Engine);
         ArmyHexSprite party = new(null) { Holder = EngineFixture.Engine };
         Troop source = new(null) { Holder = EngineFixture.Engine, Player = PlayerId.Player2, UnitId = 11 };
         source.SetOwner(party.Army);
@@ -126,7 +126,7 @@ public sealed class PlayerInputTests
     {
         using MapScope scope = new();
         EngineFixture.PlayerInput.Clear();
-        TestSpell spell = new(null) { Holder = EngineFixture.Engine };
+        TestSpell spell = new(null, holder: EngineFixture.Engine);
         Troop source = new(null) { Holder = EngineFixture.Engine, Player = PlayerId.Player2, UnitId = 11 };
         Assert.True(spell.ActivateCombat(source));
         _ = Assert.Single(EngineFixture.PlayerInput.CombatCalls);

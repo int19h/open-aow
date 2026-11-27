@@ -7,7 +7,7 @@ namespace Aow.Game.Magic.Abilities;
 public class TransportAbility : MultiLevelAbility
 {
     // AoWAb.PAS:939
-    public TransportAbility(CustomNode owner) : base(owner)
+    public TransportAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
         SelectionTypes = AbilitySelectionTypes.Unit;
         MaxLevel = 7;

@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Spells;
 public class FireBall : CombatSpell
 {
     // CombatSpells.pas:1489
-    public FireBall(CustomNode owner, EngineObject holder) : base(owner)
+    public FireBall(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_fireBallText);
         SpellId = 117;
         SpellCombatInfo spellCombatInfo = CombatInfo;

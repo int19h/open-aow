@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class WindWalkingEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1336
-    public WindWalkingEnchantment(CustomNode owner, EngineObject holder) : base(owner)
+    public WindWalkingEnchantment(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.WindWalkingText);
         AbilityId = 165;
     }

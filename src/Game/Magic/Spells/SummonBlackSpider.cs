@@ -10,9 +10,8 @@ namespace Aow.Game.Magic.Spells;
 public class SummonBlackSpider : SummonSpell
 {
     // SummonSpells.pas:475
-    public SummonBlackSpider(CustomNode owner, EngineObject holder) : base(owner)
+    public SummonBlackSpider(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonBlackSpiderText);
         SpellId = 20;
         BaseManaCost = 5;

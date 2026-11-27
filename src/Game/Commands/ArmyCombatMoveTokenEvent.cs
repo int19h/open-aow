@@ -260,9 +260,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
     {
         GetEngine().StrategicMap.SetSeatedPlayer(null);
         StrategicMap strategicMap = GetEngine().StrategicMap;
-        NewTurnEventLog log = new(null)
+        NewTurnEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             TurnPlayer = strategicMap.CurrentPlayer,
             Mode = NewTurnEventLogMode.Dialog,
             DialogStyle = NewTurnEventLogDialogStyles.None
@@ -590,9 +589,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
             activateTacticalBattleStrategicMap.TokenManager.TokenExecutor.ActivateTacticalBattle(player2);
             if (PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.SeatedPlayer) == player2)
             {
-                request = new CombatTypeRequestEventLog(null)
+                request = new CombatTypeRequestEventLog(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     AttackerPlayer = (sbyte)PlayerIdExtensions.ToOriginal(ArmyHexSprite.Army.Player),
                     DefenderPlayer = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer()),
                     Location = new MapCoordinate((sbyte)field.HexX, (sbyte)field.HexY, (sbyte)field.HexLevel)
@@ -645,9 +643,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
         NewTurnEventLog log;
         if (_combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType && GetEngine().StrategicMap.RequestCombatType && GetEngine().StrategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType != PlayerType.Human)
         {
-            log = new NewTurnEventLog(null)
+            log = new NewTurnEventLog(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 TurnPlayer = field.GetPlayer(),
                 Mode = NewTurnEventLogMode.Dialog,
                 DialogStyle = NewTurnEventLogDialogStyles.Closeable,
@@ -661,9 +658,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
             if (_combatMode == ArmyCombatMoveTokenEventMode.SetupReady && _combatType == CombatType.Tactical && GetEngine().StrategicMap.RequestCombatType && GetEngine().StrategicMap.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType != PlayerType.Human)
             {
                 _combatMode = ArmyCombatMoveTokenEventMode.SetupHotSeat;
-                log = new NewTurnEventLog(null)
+                log = new NewTurnEventLog(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     TurnPlayer = field.GetPlayer(),
                     Mode = NewTurnEventLogMode.Dialog,
                     DialogStyle = NewTurnEventLogDialogStyles.Closeable,
@@ -677,9 +673,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
         if (_combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType)
         {
             ArmyHexSprite.PauseMove();
-            request = new CombatTypeRequestEventLog(null)
+            request = new CombatTypeRequestEventLog(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 AttackerPlayer = (sbyte)PlayerIdExtensions.ToOriginal(ArmyHexSprite.Army.Player),
                 DefenderPlayer = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer()),
                 Location = new MapCoordinate((sbyte)field.HexX, (sbyte)field.HexY, (sbyte)field.HexLevel)
@@ -807,7 +802,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
         {
             if (logbook.GetEngine().StrategicMap.VisibleForPlayer(fFinalData.Location.X, fFinalData.Location.Y, fFinalData.Location.MapLevel, player: PlayerId.FromOriginal((sbyte)i)) || logbook.InitialData.Players.IndexOfPlayer((byte)i) != -1)
             {
-                CombatEventLog combatEventLog = new(null) { Holder = logbook };
+                CombatEventLog combatEventLog = new(null, holder: logbook);
                 combatEventLog.SetCombatLogbook(logbook);
                 logbook.GetEngine().StrategicMap.Players.GetPlayers(i).EventLogbook.AddEvent(combatEventLog);
                 if (execute && i == PlayerIdExtensions.ToOriginal(logbook.GetEngine().StrategicMap.SeatedPlayer) && logbook.GetEngine().StrategicMap.Players.GetPlayers(i).PlayerType == PlayerType.Human && logbook.FinalData.CombatResult != 6)

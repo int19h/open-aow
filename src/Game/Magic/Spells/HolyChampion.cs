@@ -12,9 +12,8 @@ namespace Aow.Game.Magic.Spells;
 public class HolyChampion : UnitSpell
 {
     // UnitSpells.pas:497
-    public HolyChampion(CustomNode owner, EngineObject holder) : base(owner)
+    public HolyChampion(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.HolyChampionText);
         SpellId = 36;
         BaseManaCost = 5;

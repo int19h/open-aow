@@ -11,16 +11,16 @@ public sealed record class FastBattleSpellCommand : FastBattleCommand
 {
     public FastBattleSpellCommand(int abilityId, EngineObject creator) : base(abilityId) => Creator = creator;
 
-    // The spell that created this command. The command reaches the engine through it.
+    // The spell that created this command.
     public EngineObject Creator { get; }
 
     public int SpellId { get; init; }
 
     // Spells.PAS:1
-    public override string GetName()
+    public override string GetName(GameEngine engine)
     {
-        Spell spell = Creator.GetEngine().GamePack.SpellControl[SpellId];
-        string result = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), S: s_castFormat), arguments: [spell.SpellName]);
+        Spell spell = engine.GamePack.SpellControl[SpellId];
+        string result = AbilityRules.Format(AbilityRules.TranslateResourceString(engine, S: s_castFormat), arguments: [spell.SpellName]);
         return Target is not null ? $"{result} on {Target.IdString()}" : result;
     }
 

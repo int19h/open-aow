@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Spells;
 public class CallFlames : CombatSpell
 {
     // CombatSpells.pas:1421
-    public CallFlames(CustomNode owner, EngineObject holder) : base(owner)
+    public CallFlames(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_callFlamesText);
         SpellId = 113;
         SpellCombatInfo spellCombatInfo = CombatInfo;

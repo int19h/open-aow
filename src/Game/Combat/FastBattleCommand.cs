@@ -1,6 +1,5 @@
 #nullable disable warnings
 // Translated from AoWE.pas.
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat;
 
@@ -18,9 +17,10 @@ public record class FastBattleCommand
     public CombatObject? Target { get; init; }
 
     // AIGroup.pas:6710
-    public virtual string GetName()
+    // The name reads the pack of the engine the caller runs for (issue 335).
+    public virtual string GetName(GameEngine engine)
     {
-        string result = GamePack.Current.AbilityControl[AbilityId].GetName(null);
+        string result = engine.GamePack.AbilityControl[AbilityId].GetName(null);
         return Target is not null ? $"{result} on {Target.IdString()}" : result;
     }
 }

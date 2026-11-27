@@ -14,9 +14,8 @@ namespace Aow.Game.Magic.Spells;
 public class WindsOfFury : CombatSpell
 {
     // CombatSpells.pas:1889
-    public WindsOfFury(CustomNode? owner, EngineObject holder) : base(owner)
+    public WindsOfFury(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_windsOfFuryText);
         SpellId = 126;
         SpellCombatInfo spellCombatInfo = CombatInfo;

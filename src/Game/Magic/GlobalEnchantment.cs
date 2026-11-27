@@ -154,9 +154,8 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
             result = Activate(player);
             if (result)
             {
-                GlobalEnchantmentEventLog log = new(null)
+                GlobalEnchantmentEventLog log = new(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     EnchantmentPlayer = player,
                     Player = player,
                     Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CastFormat), arguments: [Name])
@@ -189,9 +188,8 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
             {
                 if (VisibleForPlayer(PlayerId.FromOriginal((sbyte)i)))
                 {
-                    GlobalEnchantmentEventLog log = new(null)
+                    GlobalEnchantmentEventLog log = new(null, holder: CreationHolder())
                     {
-                        Holder = CreationHolder(),
                         Player = PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(player)),
                         EnchantmentPlayer = PlayerIndex
                     };
@@ -230,9 +228,8 @@ public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
             {
                 if (VisibleForPlayer(PlayerId.FromOriginal((sbyte)i)))
                 {
-                    GlobalEnchantmentEventLog log = new(null)
+                    GlobalEnchantmentEventLog log = new(null, holder: CreationHolder())
                     {
-                        Holder = CreationHolder(),
                         Player = PlayerIndex,
                         EnchantmentPlayer = PlayerIndex
                     };

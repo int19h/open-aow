@@ -94,12 +94,12 @@ public sealed partial class PersistEquivalenceTests
             {
                 DiplomaticProposal proposal = DiplomaticProposal.FromFields(kind: 9, gold: 70, mana: 5) with { Message = ["Hail", "Neighbor"] };
                 using DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Proposal = proposal, Source = PlayerId.Player1, Target = PlayerId.Player2, OtherPlayer = PlayerId.Player3, Day = 9 };
-                DiplomaticActionEventLog log = new(null) { Holder = EngineFixture.Engine };
+                DiplomaticActionEventLog log = new(null, holder: EngineFixture.Engine);
                 log.SetDiplomaticAction(action);
                 Assert.NotSame(action, log.Action);
                 Assert.Equal(proposal, log.Action.Proposal);
                 EqualBytes(Image(StreamCopy(action)), actual: Image(log.Action), label: "DiplomaticAction copy");
-                DiplomaticActionEventLog other = new(null) { Holder = EngineFixture.Engine };
+                DiplomaticActionEventLog other = new(null, holder: EngineFixture.Engine);
                 SameCopies(log, other);
                 Discard(other);
                 Discard(log);

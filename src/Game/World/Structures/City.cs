@@ -928,9 +928,8 @@ public partial class City : PlayerCropStructure
     {
         if (!GetRazed() && !Building && oldPlayer == PlayerId.Independent && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && Status.Contains(MapObjectStatuses.Activated) && !base.Resource.Claimed)
         {
-            CityProductionEventLog log = new(null)
+            CityProductionEventLog log = new(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 Player = newPlayer
             };
             string editName = EditName();
@@ -1800,9 +1799,8 @@ public partial class City : PlayerCropStructure
                 if (chance >= StrategicMap.Current.Random(100))
                 {
                     _ = MoveArmiesOutOfCity(MoveOutOfCitySelections.None);
-                    CityRebellionEventLog log = new(null)
+                    CityRebellionEventLog log = new(null, holder: CreationHolder())
                     {
-                        Holder = CreationHolder(),
                         Player = Player,
                         CityName = GetName(),
                         Location = new MapCoordinate(HexX, HexY, HexLevel)
@@ -2284,9 +2282,8 @@ public partial class City : PlayerCropStructure
                     }
 
                     armies?.Dispose();
-                    LocationTextEventLog log = new(null)
+                    LocationTextEventLog log = new(null, holder: CreationHolder())
                     {
-                        Holder = CreationHolder(),
                         Player = Player
                     };
                     string name = GetName();

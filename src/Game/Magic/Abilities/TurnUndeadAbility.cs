@@ -17,9 +17,8 @@ namespace Aow.Game.Magic.Abilities;
 public class TurnUndeadAbility : TouchAbility
 {
     // AoWAb.PAS:3121
-    public TurnUndeadAbility(CustomNode? owner, EngineObject holder) : base(owner)
+    public TurnUndeadAbility(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityId = 38;
         SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.HeadItem | AbilitySelectionTypes.TorsoItem | AbilitySelectionTypes.DefenseItem | AbilitySelectionTypes.RingItem | AbilitySelectionTypes.UseItem | AbilitySelectionTypes.Editor;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TurnUndeadText);

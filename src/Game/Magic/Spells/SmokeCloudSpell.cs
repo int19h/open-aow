@@ -16,9 +16,8 @@ namespace Aow.Game.Magic.Spells;
 public class SmokeCloudSpell : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:2325
-    public SmokeCloudSpell(CustomNode? owner, EngineObject holder) : base(owner)
+    public SmokeCloudSpell(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SmokeCloudText);
         SpellId = 74;
         BaseManaCost = 5;

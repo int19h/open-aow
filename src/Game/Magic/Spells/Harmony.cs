@@ -14,9 +14,8 @@ namespace Aow.Game.Magic.Spells;
 public class Harmony : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:969
-    public Harmony(CustomNode? owner, EngineObject holder) : base(owner)
+    public Harmony(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.HarmonyText);
         SpellId = 47;
         SpellType = SpellType.Global;

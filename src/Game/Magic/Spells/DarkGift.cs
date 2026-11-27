@@ -10,9 +10,8 @@ namespace Aow.Game.Magic.Spells;
 public class DarkGift : UnitSpell
 {
     // UnitSpells.pas:830
-    public DarkGift(CustomNode owner, EngineObject holder) : base(owner)
+    public DarkGift(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DarkGiftText);
         SpellId = 77;
         BaseManaCost = 5;

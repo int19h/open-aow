@@ -15,9 +15,8 @@ namespace Aow.Game.Magic.Spells;
 public class AntiMagicShell : CityEnchantmentSpell
 {
     // CitySpells.pas:727
-    public AntiMagicShell(CustomNode? owner, EngineObject holder) : base(owner)
+    public AntiMagicShell(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.AntiMagicShellText);
         SpellId = 54;
         CityTargetMode = CityTargetModes.Own;

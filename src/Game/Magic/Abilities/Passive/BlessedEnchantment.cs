@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class BlessedEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1211
-    public BlessedEnchantment(CustomNode owner, EngineObject holder) : base(owner)
+    public BlessedEnchantment(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_blessedText);
         AbilityId = 158;
     }

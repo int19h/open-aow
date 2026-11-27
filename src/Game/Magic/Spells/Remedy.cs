@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Spells;
 public class Remedy : UnitSpell
 {
     // UnitSpells.pas:424
-    public Remedy(CustomNode owner, EngineObject holder) : base(owner)
+    public Remedy(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_remedyText);
         SpellId = 35;
         BaseManaCost = 5;

@@ -115,14 +115,15 @@ public abstract record ProductionOrder
     // Adds Text at City to the logbook of the control's player.
     protected static void Log(ProductionControl control, City city, string text)
     {
-        CityProductionEventLog eventValue = new(null)
+        CityProductionEventLog eventValue = new(null, holder: control)
         {
-            Holder = control,
             Player = control.GetPlayer(),
             Text = text
         };
         eventValue.SetLocation(level: city.HexLevel, y: city.HexY, x: city.HexX);
-        StrategicMap.Current.Players.GetPlayers(eventValue.Player).EventLogbook.AddEvent(eventValue);
+        // The log reads the day and player of its creator engine, so it lands on that engine's map too.
+        StrategicMap strategicMap = control.GetEngine().StrategicMap;
+        strategicMap.Players.GetPlayers(eventValue.Player).EventLogbook.AddEvent(eventValue);
         _ = eventValue.Release();
     }
 

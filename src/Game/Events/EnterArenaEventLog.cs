@@ -10,7 +10,7 @@ using static Aow.Rtl.DelphiFormat;
 namespace Aow.Game.Events;
 
 // Arena, Selection, Trainable, UnitIds
-public partial class EnterArenaEventLog(CustomNode? owner) : EventLog(owner)
+public partial class EnterArenaEventLog(CustomNode? owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
 
     public Arena Arena { get; init; }

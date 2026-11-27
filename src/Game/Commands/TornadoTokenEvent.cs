@@ -114,9 +114,8 @@ public class TornadoTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(
 
                 if (selection != 0)
                 {
-                    ArmyEventLog log = new(null)
+                    ArmyEventLog log = new(null, holder: CreationHolder())
                     {
-                        Holder = CreationHolder(),
                         Player = source.Player
                     };
                     string tornado = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TornadoText);

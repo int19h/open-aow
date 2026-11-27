@@ -73,9 +73,8 @@ public class VortexTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(o
             ArmyHexSprite? army = default;
             if (ArmyId is not null && ArmyId.RetrieveArmy(ref army, ref selection))
             {
-                ArmyEventLog log = new(null)
+                ArmyEventLog log = new(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: s_vortexDamageText),
                     Player = source.Player
                 };

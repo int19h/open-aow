@@ -115,9 +115,8 @@ public class ArmyNegotiateMoveTokenEvent(CustomNode? owner) : MoveArmyTokenEvent
         {
             if (player == strategicMap.SeatedPlayer)
             {
-                NegotiateRequestEventLog negotiateRequestEventLog = new(null)
+                NegotiateRequestEventLog negotiateRequestEventLog = new(null, holder: armyHexSprite)
                 {
-                    Holder = armyHexSprite,
                     ArmyId = armyHexSprite.Army.CreateId(selection),
                     MovePoints = movePoints,
                     Hex = new MapCoordinate(unchecked((sbyte)(byte)X), unchecked((sbyte)(byte)Y), unchecked((sbyte)(byte)L)),
@@ -141,9 +140,8 @@ public class ArmyNegotiateMoveTokenEvent(CustomNode? owner) : MoveArmyTokenEvent
         }
         else if (armyHexSprite.GetEngine().StrategicMap.Players.GetPlayers(player).GetLocal())
         {
-            NegotiateRequestEventLog negotiateRequestEventLog = new(null)
+            NegotiateRequestEventLog negotiateRequestEventLog = new(null, holder: armyHexSprite)
             {
-                Holder = armyHexSprite,
                 ArmyId = armyHexSprite.Army.CreateId(selection),
                 MovePoints = movePoints,
                 Hex = new MapCoordinate(unchecked((sbyte)(byte)X), unchecked((sbyte)(byte)Y), unchecked((sbyte)(byte)L)),

@@ -667,9 +667,8 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                 GetEngine().StrategicMap.Players.Update();
             }
 
-            GameOverEventLog eventValue = new(null)
+            GameOverEventLog eventValue = new(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 Player = PlayerIndex
             };
             if (value == GameOverStatus.Lost)
@@ -1155,7 +1154,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                 MapCoordinate item3 = locations[i];
                 MapCoordinate item4 = locations[i];
                 structure = GetEngine().StrategicMap.MapContainer.GetField(item4.X, item3.Y, item2.MapLevel).FindNoneTransparentHexSprite<Structure>();
-                HeroEmergeEventLog log = new(null) { Holder = CreationHolder() };
+                HeroEmergeEventLog log = new(null, holder: CreationHolder());
                 log.Setup(hero, player: PlayerIndex, mode: HeroEmergeEventLog.HeroJoinMode.Emerged);
                 log.LocationName = structure is not null
                     ? structure.GetName()

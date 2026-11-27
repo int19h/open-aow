@@ -17,9 +17,8 @@ namespace Aow.Game.Magic.Spells;
 
 public class UnholyGroundSpell : GlobalTargetSpell
 {
-    public UnholyGroundSpell(CustomNode? owner, EngineObject holder) : base(owner)
+    public UnholyGroundSpell(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_unholyGroundsText);
         SpellId = 14;
         BaseManaCost = 5;

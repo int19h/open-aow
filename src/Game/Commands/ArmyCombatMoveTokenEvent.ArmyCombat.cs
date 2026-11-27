@@ -112,9 +112,8 @@ public partial class ArmyCombatMoveTokenEvent
                 StrategicMap engineStrategicMap = GetEngine().StrategicMap;
                 if (engineStrategicMap.RequestCombatType && PlayerIdExtensions.ToOriginal(engineStrategicMap.SeatedPlayer) == defender)
                 {
-                    UserEventLog log = new(null)
+                    UserEventLog log = new(null, holder: CreationHolder())
                     {
-                        Holder = CreationHolder(),
                         Data = this
                     };
                     engineStrategicMap.TriggerExecuteEventLog(log, immediate: false, done: RestoreHotSeatModeCallback);

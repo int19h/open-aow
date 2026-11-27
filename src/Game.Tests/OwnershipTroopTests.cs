@@ -391,7 +391,7 @@ public sealed class OwnershipTroopTests
         _ = Assert.Throws<ArgumentException>(() => new MoveTarget(stranger));
         _ = Assert.Throws<ArgumentException>(() => new TokenEvent(stranger));
         _ = Assert.Throws<ArgumentException>(() => new Player(stranger));
-        _ = Assert.Throws<ArgumentException>(() => new EventLog(stranger));
+        _ = Assert.Throws<ArgumentException>(() => new EventLog(stranger, holder: EngineFixture.Engine));
         TokenEventReferenceList events = new(null) { Holder = EngineFixture.Engine };
         _ = Assert.Throws<ArgumentException>(() => events.AddChild(new MoveTarget(null) { Holder = EngineFixture.Engine }));
         Assert.Equal(EngineClass.Of<EngineReferenceNode>().ClassId, events.EngineClass.ClassId);

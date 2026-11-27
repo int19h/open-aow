@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class StoneSkinAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1029
-    public StoneSkinAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public StoneSkinAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.StoneSkinText);
         AbilityId = 153;
     }

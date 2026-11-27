@@ -15,9 +15,8 @@ namespace Aow.Game.Magic.Spells;
 public class MindDecay : CombatSpell
 {
     // CombatSpells.pas:1190
-    public MindDecay(CustomNode? owner, EngineObject holder) : base(owner)
+    public MindDecay(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_mindDecayText);
         SpellId = 106;
         SpellCombatInfo spellCombatInfo = CombatInfo;

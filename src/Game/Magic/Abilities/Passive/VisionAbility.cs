@@ -7,7 +7,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class VisionAbility : MultiLevelAbility
 {
     // PassiveAb.pas:461
-    public VisionAbility(CustomNode owner) : base(owner)
+    public VisionAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
         SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.HeadItem | AbilitySelectionTypes.TorsoItem | AbilitySelectionTypes.DefenseItem | AbilitySelectionTypes.RingItem | AbilitySelectionTypes.Editor;
         MaxLevel = 4;

@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class WebbedAbility : DurationAbility
 {
     // PassiveAb.pas:736
-    public WebbedAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public WebbedAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_webbedText);
         AbilityId = 97;
         AbilityType = AbilityType.Handicap;

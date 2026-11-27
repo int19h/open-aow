@@ -63,9 +63,8 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
         strategicMap.LockRelationsChanged();
         for (int i = 1, last = GetEngine().StrategicMap.Players.Count - 1; i <= last; i++)
         {
-            TextEventLog log = new NewDayEventLog(null)
+            TextEventLog log = new NewDayEventLog(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_newDayFormat), arguments: [GetEngine().StrategicMap.Day])
             };
             StrategicMap engineStrategicMap = GetEngine().StrategicMap;

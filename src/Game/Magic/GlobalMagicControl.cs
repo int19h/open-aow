@@ -94,9 +94,8 @@ public sealed class GlobalMagicControl : EngineObject
             {
                 GlobalEnchantment enchantment = Enchantments.GetEnchantments(index);
                 mana -= enchantment.GetUpkeep();
-                PlayerMagicEventLog log = new(null)
+                PlayerMagicEventLog log = new(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     Player = player,
                     Mode = PlayerMagicEventLog.EventMode.OutOfMana,
                     EnchantmentName = Enchantments.GetEnchantments(index).GetName()

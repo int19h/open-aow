@@ -610,9 +610,8 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     // Structur.PAS:1414
     public virtual void BuildingDone()
     {
-        LocationTextEventLog log = new(null)
+        LocationTextEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             Player = BuildingPlayer
         };
         if (GetRazed())
@@ -731,9 +730,8 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         if (CanRaze(player, ref reason))
         {
             BeginUpdate();
-            LocationTextEventLog log = new(null)
+            LocationTextEventLog log = new(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 Player = player
             };
             string editName = EditName();

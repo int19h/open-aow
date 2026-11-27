@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class FireProtectionEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1054
-    public FireProtectionEnchantment(CustomNode owner, EngineObject holder) : base(owner)
+    public FireProtectionEnchantment(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: FireProtectionText);
         AbilityId = 167;
     }

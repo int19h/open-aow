@@ -34,9 +34,8 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
             StrategicMap getPlayersStrategicMap = GetEngine().StrategicMap;
             if (getPlayersStrategicMap.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
-                log = new NewTurnEventLog(null)
+                log = new NewTurnEventLog(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     TurnPlayer = getPlayersStrategicMap.CurrentPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
                     DialogStyle = NewTurnEventLogDialogStyles.Closeable,
@@ -47,9 +46,8 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
             }
             else
             {
-                log = new NewTurnEventLog(null)
+                log = new NewTurnEventLog(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     TurnPlayer = GetEngine().StrategicMap.CurrentPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
                     DialogStyle = NewTurnEventLogDialogStyles.None
@@ -78,9 +76,8 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
                     resetTurnTimerStrategicMap.ResetTurnTimer();
                     resetTurnTimerStrategicMap.EnableTurnTimer();
                     resetTurnTimerStrategicMap.ResetSeatedPlayerView();
-                    log = new NewTurnEventLog(null)
+                    log = new NewTurnEventLog(null, holder: CreationHolder())
                     {
-                        Holder = CreationHolder(),
                         TurnPlayer = player,
                         Mode = NewTurnEventLogMode.Dialog,
                         DialogStyle = NewTurnEventLogDialogStyles.Closeable,
@@ -140,7 +137,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
             {
                 if (triggerExecuteEventLogStrategicMap.GameType is GameType.Custom or GameType.Tutorial)
                 {
-                    ShowBookEventLog bookLog = new(null) { Holder = CreationHolder() };
+                    ShowBookEventLog bookLog = new(null, holder: CreationHolder());
                     triggerExecuteEventLogStrategicMap.TriggerExecuteEventLog(bookLog, immediate: false, done: null);
                     _ = bookLog.Release();
                 }
@@ -152,9 +149,8 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
                     listResearchSpellsStrategicMap.Players.GetPlayers(player).MagicControl.ListResearchSpells(spells, spellTypes: SpellTypes.Combat | SpellTypes.Unit | SpellTypes.Global);
                     if (spells.GetCount() > 0)
                     {
-                        PlayerMagicEventLog magicLog = new(null)
+                        PlayerMagicEventLog magicLog = new(null, holder: CreationHolder())
                         {
-                            Holder = CreationHolder(),
                             Mode = PlayerMagicEventLog.EventMode.StartResearch
                         };
                         GetEngine().StrategicMap.TriggerExecuteEventLog(magicLog, immediate: false, done: null);
@@ -307,7 +303,7 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
                 engineStrategicMap.AIExecutor.DeactivatePlayer(player);
             }
 
-            EndTurnEventLog log = new(null) { Holder = CreationHolder() };
+            EndTurnEventLog log = new(null, holder: CreationHolder());
             StrategicMap addEventStrategicMap = GetEngine().StrategicMap;
             addEventStrategicMap.Players.GetPlayers(addEventStrategicMap.CurrentPlayer).EventLogbook.AddEvent(log);
             _ = log.Release();
@@ -369,9 +365,8 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
             StrategicMap getPlayersStrategicMap = GetEngine().StrategicMap;
             if (getPlayersStrategicMap.Players.GetPlayers(getPlayersStrategicMap.CurrentPlayer).PlayerType == PlayerType.Human)
             {
-                log = new NewTurnEventLog(null)
+                log = new NewTurnEventLog(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     TurnPlayer = getPlayersStrategicMap.CurrentPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
                     DialogStyle = NewTurnEventLogDialogStyles.Closeable,
@@ -383,9 +378,8 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
             else
             {
                 StrategicMap currentPlayerStrategicMap = GetEngine().StrategicMap;
-                log = new NewTurnEventLog(null)
+                log = new NewTurnEventLog(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     TurnPlayer = currentPlayerStrategicMap.CurrentPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
                     DialogStyle = NewTurnEventLogDialogStyles.None
@@ -414,9 +408,8 @@ public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
             StrategicMap playersStrategicMap = GetEngine().StrategicMap;
             if (playersStrategicMap.Players.GetPlayers(playersStrategicMap.CurrentPlayer).PlayerType == PlayerType.Human && playersStrategicMap.CurrentPlayer == playersStrategicMap.SeatedPlayer)
             {
-                log = new NewTurnEventLog(null)
+                log = new NewTurnEventLog(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     TurnPlayer = playersStrategicMap.SeatedPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
                     DialogStyle = NewTurnEventLogDialogStyles.Closeable,

@@ -14,9 +14,8 @@ namespace Aow.Game.Magic.Abilities;
 public class RoundAttackAbility : TouchAbility
 {
     // AoWAb.PAS:2262
-    public RoundAttackAbility(CustomNode? owner, EngineObject holder) : base(owner)
+    public RoundAttackAbility(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityId = 114;
         AbilityType = AbilityType.Combat;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_roundAttackText);

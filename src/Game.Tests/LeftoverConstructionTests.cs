@@ -353,7 +353,9 @@ public sealed class LeftoverConstructionTests
 
     private static EngineObject Saved(Type type, CustomNode owner)
     {
-        using GameEngine engine = new(null) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
+        // The bare engine stands for the engine the object is built for. A new ability or spell reads that
+        // engine's pack (issue 335), so the engine holds the fixture's pack.
+        using GameEngine engine = new(null) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary, GamePack = EngineFixture.Engine.GamePack };
         EngineClass descriptor = EngineClass.Of(type);
         engine.Options &= ~GameEngine.VerifyClasses;
         try

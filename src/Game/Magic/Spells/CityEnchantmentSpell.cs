@@ -13,7 +13,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Magic.Spells;
 
 // enchantment ID, enchantment setting, AI priority, AI budget, AI cast situations
-public class CityEnchantmentSpell(CustomNode? owner) : CityTargetSpell(owner)
+public class CityEnchantmentSpell(CustomNode? owner, EngineObject holder) : CityTargetSpell(owner, holder: holder)
 {
 
     public CityEnchantmentId EnchantmentId { get; protected init; }

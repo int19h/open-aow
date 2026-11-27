@@ -18,9 +18,8 @@ namespace Aow.Game.Magic.Spells;
 public class FireBarrier : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:882
-    public FireBarrier(CustomNode? owner, EngineObject holder) : base(owner)
+    public FireBarrier(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_fireBarrierText);
         SpellId = 11;
         BaseManaCost = 5;

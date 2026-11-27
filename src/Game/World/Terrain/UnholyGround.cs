@@ -143,9 +143,8 @@ public class UnholyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owne
     {
         int damaged = 0;
         RandSeed = StrategicMap.Current.Random(16777215);
-        ArmyEventLog log = new(null)
+        ArmyEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: s_unholyGroundDamageText)
         };
         string unholyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), S: s_unholyGroundDamageText);

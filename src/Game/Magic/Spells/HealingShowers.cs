@@ -15,9 +15,8 @@ namespace Aow.Game.Magic.Spells;
 public class HealingShowers : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:2277
-    public HealingShowers(CustomNode? owner, EngineObject holder) : base(owner)
+    public HealingShowers(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_healingShowersText);
         SpellId = 73;
         BaseManaCost = 5;

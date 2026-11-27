@@ -18,7 +18,7 @@ namespace Aow.Game.Events;
 public partial class ArmyInfoEventLog : EventLog
 {
     // Army.PAS:255
-    public ArmyInfoEventLog(CustomNode? owner) : base(owner)
+    public ArmyInfoEventLog(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
         Messages = new DelphiStringList();
         ArmyView = new ArmyView(null) { Holder = CreationHolder() };

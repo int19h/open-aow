@@ -162,9 +162,8 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     {
         if (CanEnter(StrategicMap.Current.SeatedPlayer))
         {
-            EnterWizardsTowerEventLog log = new(null)
+            EnterWizardsTowerEventLog log = new(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 Tower = this
             };
             _ = log.Execute(true, trigger: ExecuteTrigger.User, done: null);

@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class CursedAbility : DurationAbility
 {
     // PassiveAb.pas:981
-    public CursedAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public CursedAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_cursedText);
         AbilityId = 93;
         SelectionTypes = AbilitySelectionTypes.None;

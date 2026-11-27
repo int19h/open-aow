@@ -938,9 +938,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             {
                 using (BeginUpdate())
                 {
-                    ArmyEventLog log = new(null)
+                    ArmyEventLog log = new(null, holder: CreationHolder())
                     {
-                        Holder = CreationHolder(),
                         Player = player
                     };
                     if (terrainType is (sbyte)TerrainType.Water or (sbyte)TerrainType.UndergroundWater)
@@ -2296,7 +2295,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         GetEngine().StrategicMap.LockGameOverEvent();
         DelphiList<Troop> units = [];
         int count = SelectionCount(selection);
-        ArmyInfoEventLog log = new(null) { Holder = CreationHolder() };
+        ArmyInfoEventLog log = new(null, holder: CreationHolder());
         log.ArmyView.Setup(this, selection: 255);
         log.Selection = selection;
         log.Player = Player;
@@ -2678,7 +2677,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                     using (BeginUpdate())
                     {
                         offer.Mode |= NegotiateModes.MoveOnAccept;
-                        ArmyInfoEventLog log = new(null) { Holder = CreationHolder() };
+                        ArmyInfoEventLog log = new(null, holder: CreationHolder());
                         log.ArmyView.Setup(this, selection);
                         log.Selection = 255;
                         log.Description = "";
@@ -2808,9 +2807,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     public void TriggerFireDamage()
     {
         RandSeed = GetEngine().StrategicMap.Random(16777215);
-        ArmyEventLog log = new(null)
+        ArmyEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: s_fireDamageText),
             Player = GetArmyHexSprite().Army.Player
         };
@@ -2928,9 +2926,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     public void IncomingStorm(StormType storm, int distance, PlayerId? player)
     {
         RandSeed = GetEngine().StrategicMap.Random(16777215);
-        ArmyEventLog log = new(null)
+        ArmyEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.StormTypeTexts[(int)storm]),
             Player = player
         };

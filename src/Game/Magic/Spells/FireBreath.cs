@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Spells;
 public class FireBreath : CombatSpell
 {
     // CombatSpells.pas:1438
-    public FireBreath(CustomNode owner, EngineObject holder) : base(owner)
+    public FireBreath(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_fireBreathText);
         SpellId = 114;
         SpellCombatInfo spellCombatInfo = CombatInfo;

@@ -378,9 +378,8 @@ public partial class ProductionPlace : PlayerStructure
     {
         if (!GetRazed() && !Building && oldPlayer == PlayerId.Independent && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && Status.Contains(MapObjectStatuses.Activated) && !Resource.Claimed)
         {
-            ProductionPlaceEventLog log = new(null)
+            ProductionPlaceEventLog log = new(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 Player = newPlayer
             };
             string editName = EditName();

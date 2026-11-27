@@ -17,9 +17,8 @@ namespace Aow.Game.Magic.Spells;
 public class FreezeWater : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:710
-    public FreezeWater(CustomNode? owner, EngineObject holder) : base(owner)
+    public FreezeWater(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_freezeWaterText);
         SpellId = 10;
         BaseManaCost = 5;

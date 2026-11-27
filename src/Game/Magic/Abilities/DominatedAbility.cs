@@ -6,9 +6,8 @@ namespace Aow.Game.Magic.Abilities;
 public class DominatedAbility : CommandedAbility
 {
     // AoWAb.PAS:5315
-    public DominatedAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public DominatedAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityId = 150;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_dominatedText);
     }

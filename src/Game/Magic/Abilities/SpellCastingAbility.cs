@@ -13,9 +13,8 @@ namespace Aow.Game.Magic.Abilities;
 public class SpellCastingAbility : MultiLevelAbility
 {
     // AoWAb.PAS:4439
-    public SpellCastingAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public SpellCastingAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityId = 52;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText);
         AbilityType = AbilityType.Enhancement;

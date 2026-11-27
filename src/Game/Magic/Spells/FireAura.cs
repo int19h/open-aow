@@ -13,9 +13,8 @@ namespace Aow.Game.Magic.Spells;
 public class FireAura : UnitSpell
 {
     // UnitSpells.pas:616
-    public FireAura(CustomNode owner, EngineObject holder) : base(owner)
+    public FireAura(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FireAuraText);
         SpellId = 40;
         BaseManaCost = 5;

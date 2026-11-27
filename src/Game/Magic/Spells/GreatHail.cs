@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Spells;
 public class GreatHail : CombatSpell
 {
     // CombatSpells.pas:1472
-    public GreatHail(CustomNode owner, EngineObject holder) : base(owner)
+    public GreatHail(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_greatHailText);
         SpellId = 116;
         SpellCombatInfo spellCombatInfo = CombatInfo;

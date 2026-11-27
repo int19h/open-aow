@@ -44,9 +44,8 @@ public sealed record Loot : ProductionOrder
         control.Settings.Player = control.GetPlayer();
         control.Settings.Gold = 0;
         ChangeRelation(control, city, change: -30);
-        LocationTextEventLog log = new(null)
+        LocationTextEventLog log = new(null, holder: control)
         {
-            Holder = control,
             Player = control.GetPlayer(),
             Text = Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_cityLootingFormat), args: [city.GetName()])
         };

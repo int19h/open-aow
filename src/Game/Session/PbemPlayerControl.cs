@@ -44,9 +44,8 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
                 setCurrentPlayerStrategicMap.SetCurrentPlayer(player);
                 Player? players = setCurrentPlayerStrategicMap.Players.GetPlayers(player);
                 setCurrentPlayerStrategicMap.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status | PbemPlayerStatuses.NewTurn;
-                SendEmailGameEventLog log = new(null)
+                SendEmailGameEventLog log = new(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     Mode = 2,
                     SendPlayer = player
                 };
@@ -248,9 +247,8 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
         if (!log.Success)
         {
             StrategicMap strategicMap = GetEngine().StrategicMap;
-            SendEmailGameEventLog sendLog = new(null)
+            SendEmailGameEventLog sendLog = new(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 Mode = 1,
                 SendPlayer = strategicMap.CurrentPlayer
             };

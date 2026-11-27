@@ -9,9 +9,8 @@ namespace Aow.Game.Magic.Abilities;
 public class CosmagicSurgeryAbility : UnitEnchantmentAbility
 {
     // AoWAb.PAS:910
-    public CosmagicSurgeryAbility(CustomNode? owner, EngineObject holder) : base(owner)
+    public CosmagicSurgeryAbility(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CosmagicSurgeryText);
         AbilityId = 126;
     }

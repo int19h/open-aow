@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Spells;
 public class Stoning : CombatSpell
 {
     // CombatSpells.pas:1587
-    public Stoning(CustomNode owner, EngineObject holder) : base(owner)
+    public Stoning(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_stoningText);
         SpellId = 122;
         SpellCombatInfo spellCombatInfo = CombatInfo;

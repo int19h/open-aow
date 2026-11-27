@@ -585,9 +585,8 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     {
         if (!GetRazed() && !Building && oldPlayer == PlayerId.Independent && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && Status.Contains(MapObjectStatuses.Activated) && !Resource.Claimed)
         {
-            LocationTextEventLog log = new(null)
+            LocationTextEventLog log = new(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 Player = newPlayer
             };
             string editName = EditName();

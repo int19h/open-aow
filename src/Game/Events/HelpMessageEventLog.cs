@@ -11,9 +11,8 @@ namespace Aow.Game.Events;
 public partial class HelpMessageEventLog : EventLog
 {
     // EventLog.pas:860
-    public HelpMessageEventLog(CustomNode owner, EngineObject holder) : base(owner)
+    public HelpMessageEventLog(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         Message = [];
         HelpFileName = AbilityRules.TranslateResourceString(GetEngine(), S: s_helpText);
         Mode = 0;

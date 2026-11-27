@@ -10,9 +10,8 @@ namespace Aow.Game.Magic.Spells;
 public class StoneSkin : UnitSpell
 {
     // UnitSpells.pas:256
-    public StoneSkin(CustomNode owner, EngineObject holder) : base(owner)
+    public StoneSkin(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.StoneSkinText);
         SpellId = 17;
         BaseManaCost = 5;

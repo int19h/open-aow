@@ -5,7 +5,7 @@ using Aow.Game.Session;
 namespace Aow.Game.Events;
 
 // player, text, mode, dialog style
-public partial class NewTurnEventLog(CustomNode owner) : EventLog(owner)
+public partial class NewTurnEventLog(CustomNode owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
     public PlayerId? TurnPlayer { get; init; } = PlayerId.Independent;
     public string Text { get; set; } = "";

@@ -516,9 +516,8 @@ public static class AbilityRules
 
     internal static EnhancementAbility CreateEnhancementAbility(int id, string name, AbilitySelectionTypes selectionTypes, GameEngine engine)
     {
-        EnhancementAbility ability = new(null)
+        EnhancementAbility ability = new(null, holder: engine)
         {
-            Holder = engine,
             AbilityId = id,
             AbilityName = name,
             SelectionTypes = selectionTypes

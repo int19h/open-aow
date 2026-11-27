@@ -6,7 +6,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // location
-public class LocationTextEventLog(CustomNode owner) : TextEventLog(owner)
+public class LocationTextEventLog(CustomNode owner, EngineObject holder) : TextEventLog(owner, holder: holder)
 {
 
     // EventLog.pas:728

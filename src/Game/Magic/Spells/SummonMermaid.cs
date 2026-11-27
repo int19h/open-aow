@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Spells;
 public class SummonMermaid : SummonSpell
 {
     // SummonSpells.pas:488
-    public SummonMermaid(CustomNode owner, EngineObject holder) : base(owner)
+    public SummonMermaid(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonMermaidText);
         SpellId = 78;
         BaseManaCost = 5;

@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class HighPrayerBlessingAbility : DurationAbility
 {
     // PassiveAb.pas:1267
-    public HighPrayerBlessingAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public HighPrayerBlessingAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_highPrayerBlessingText);
         AbilityId = 100;
         AbilityType = AbilityType.Enhancement;

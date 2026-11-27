@@ -15,9 +15,8 @@ namespace Aow.Game.Magic.Spells;
 public class Flood : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1356
-    public Flood(CustomNode? owner, EngineObject holder) : base(owner)
+    public Flood(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FloodText);
         SpellId = 50;
         SpellType = SpellType.Global;

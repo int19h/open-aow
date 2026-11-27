@@ -20,9 +20,8 @@ namespace Aow.Game.Magic.Spells;
 public class TownQuake : CityTargetSpell
 {
     // CitySpells.pas:764
-    public TownQuake(CustomNode? owner, EngineObject holder) : base(owner)
+    public TownQuake(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_townQuakeText);
         SpellId = 71;
         CityTargetMode = CityTargetModes.Enemy;
@@ -79,9 +78,8 @@ public class TownQuake : CityTargetSpell
     // CitySpells.pas:773
     public void TriggerArmyDamage(Troop source, ArmyHexSprite army)
     {
-        ArmyEventLog log = new(null)
+        ArmyEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: s_townQuakeDamageText),
             Player = source.Player
         };

@@ -9,9 +9,8 @@ namespace Aow.Game.Magic.Abilities;
 public class FlameThrowingAbility : BreathAbility
 {
     // AoWAb.PAS:4934
-    public FlameThrowingAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public FlameThrowingAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityId = 30;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_flameThrowingText);
         AttackRangedAttack = 4;

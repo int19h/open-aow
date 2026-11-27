@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Spells;
 public class FireStormSpell : StormSpell
 {
     // Storms.pas:939
-    public FireStormSpell(CustomNode? owner, EngineObject holder) : base(owner)
+    public FireStormSpell(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.FireStormText);
         SpellId = 3;
         BaseManaCost = 5;

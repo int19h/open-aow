@@ -15,9 +15,8 @@ namespace Aow.Game.Magic.Spells;
 public class Rejuvenate : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1074
-    public Rejuvenate(CustomNode? owner, EngineObject holder) : base(owner)
+    public Rejuvenate(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_rejuvenateText);
         SpellId = 41;
         BaseManaCost = 5;

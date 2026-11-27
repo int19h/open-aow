@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Spells;
 public class Swarm : CombatSpell
 {
     // CombatSpells.pas:1455
-    public Swarm(CustomNode owner, EngineObject holder) : base(owner)
+    public Swarm(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_swarmText);
         SpellId = 115;
         SpellCombatInfo spellCombatInfo = CombatInfo;

@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Spells;
 public class SacrificialFlame : CombatSpell
 {
     // CombatSpells.pas:1934
-    public SacrificialFlame(CustomNode owner, EngineObject holder) : base(owner)
+    public SacrificialFlame(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_sacrificialFlameText);
         SpellId = 128;
         SpellCombatInfo spellCombatInfo = CombatInfo;

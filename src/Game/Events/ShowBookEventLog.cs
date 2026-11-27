@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Events;
 
-public partial class ShowBookEventLog(CustomNode owner) : EventLog(owner)
+public partial class ShowBookEventLog(CustomNode owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
 
     // EventLog.pas:818

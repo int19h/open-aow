@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Spells;
 public class Vaporize : CombatSpell
 {
     // CombatSpells.pas:1570
-    public Vaporize(CustomNode owner, EngineObject holder) : base(owner)
+    public Vaporize(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_vaporizeText);
         SpellId = 121;
         DamageMode = 1;
