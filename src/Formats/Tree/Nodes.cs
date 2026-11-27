@@ -422,6 +422,15 @@ public sealed class BitListNode(byte defaultValue, int count, int[] indices) : T
     public int Count { get; } = count;
     public IReadOnlyList<int> Indices { get; } = indices;
 
+    /// <summary>
+    /// The bytes <c>TBitList.LoadFromStream</c> reads past the stored bits, taken from the image
+    /// the node was read from: the stored data that follows the list, up to 3 bytes, fewer at the
+    /// end of the image. Empty when the count fills its 32-bit words. Null when the node was not
+    /// read from an image. It is load state, not stored state: no backend writes it and
+    /// <see cref="ValueEquals"/> ignores it.
+    /// </summary>
+    public ReadOnlyMemory<byte>? ReadPast { get; init; }
+
     public override bool ValueEquals(TreeValue other)
         => other is BitListNode node && node.Default == Default && node.Count == Count && PlainEqual(Indices, node.Indices);
 }
@@ -430,8 +439,26 @@ public sealed class BitListNode(byte defaultValue, int count, int[] indices) : T
 /// The image of a bit list (Delphi <c>TBitList</c>) as <c>SaveToStream</c> writes it: the default
 /// byte, the count, and the <c>(count + 7) &gt;&gt; 3</c> bit bytes, bit i in byte <c>i &gt;&gt; 3</c>
 /// at mask <c>1 &lt;&lt; (i and 7)</c>. Bits past the count in the last byte equal the default bit.
+/// <see cref="ReadPast"/> is the <see cref="BitListNode.ReadPast"/> of the node a load read, the
+/// bytes the stream load takes past the stored bits, and null when no image supplied them.
+/// Equality compares the default, the count and the bit bytes, and ignores
+/// <see cref="ReadPast"/> as the node's value equality does, so a load from an image and a load
+/// from a document of one list give equal images.
 /// </summary>
-public sealed record BitListImage(byte Default, int Count, byte[] Bits);
+public sealed record BitListImage(byte Default, int Count, byte[] Bits, ReadOnlyMemory<byte>? ReadPast = null)
+{
+    public bool Equals(BitListImage? other)
+        => other is not null && other.Default == Default && other.Count == Count && other.Bits.AsSpan().SequenceEqual(Bits);
+
+    public override int GetHashCode()
+    {
+        HashCode hash = new();
+        hash.Add(Default);
+        hash.Add(Count);
+        hash.AddBytes(Bits);
+        return hash.ToHashCode();
+    }
+}
 
 /// <summary>
 /// A list with a stored default (Delphi <c>TIntegerList</c> and <c>TByteList</c>). Width 4 holds

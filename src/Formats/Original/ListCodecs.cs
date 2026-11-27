@@ -500,7 +500,27 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
 
         byte defaultValue = context.Data[start];
         int[] set = Unpack(defaultValue, count, bytes: context.Data.AsSpan(start + 5, length: end - start - 5), context, tailOffset: end - 1, path: frame.Path.Member("bits"));
-        return new Tree.BitListNode(defaultValue, count, indices: set);
+        return new Tree.BitListNode(defaultValue, count, indices: set) { ReadPast = ReadPast(context.Data, count, end) };
+    }
+
+    /// <summary>
+    /// The bytes <c>TBitList.LoadFromStream</c> reads past a list of <paramref name="count"/> bits
+    /// whose stored bits end at <paramref name="end"/>. <c>SetCapacity</c> rounds the capacity up
+    /// to a multiple of 32 and puts the default into each new bit through <c>Put</c>, and <c>Put</c>
+    /// past the count raises the count, so <c>Stream.Read(FList^, (FCount + 7) shr 3)</c> reads
+    /// the bytes of the whole capacity (Engine.pas 4743 to 4789). The bytes past the stored ones
+    /// are the data the stream holds next, inside or outside the owner, and a read at the end of
+    /// the stream takes fewer. The stream position after the read does not matter: the storage
+    /// reader seeks to each member's offset before it reads it (<c>rwStreamProc</c>, Engine.pas
+    /// 10157).
+    /// </summary>
+    internal static ReadOnlyMemory<byte> ReadPast(byte[] data, int count, int end)
+    {
+        long stored = (count + 7L) >> 3;
+        long read = ((count + 31L) & ~31L) >> 3;
+        int taken = (int)Math.Min(read - stored, Math.Max(data.Length - end, 0));
+        // A copy, so the node does not keep the whole image alive.
+        return data.AsSpan(end, length: taken).ToArray();
     }
 
     internal override JsonValue? WriteTree(Tree.TreeValue value, Tree.DocumentSite site)

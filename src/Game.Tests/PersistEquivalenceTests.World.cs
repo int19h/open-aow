@@ -1,5 +1,7 @@
 using Aow.Engine;
+using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
+using Aow.Formats;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
@@ -140,6 +142,104 @@ public sealed partial class PersistEquivalenceTests
             Assert.Equal(viaReadWrite.TextSeen[2], actual: viaPersist.TextSeen[2]);
         });
     }
+
+    // Issue 396: TBitList.LoadFromStream raises a stored count to its capacity, a multiple of 32,
+    // and reads the bit bytes of the raised count, so a list whose count does not fill 32 bits
+    // takes the bytes the stream holds after it (Engine.pas 4743 to 4789). The Northern Trade
+    // Route sign of the user's cmp12 save stores TextSeen with count 2 and bit 1, as the first Put
+    // on an empty list leaves it, and the map fields after it store 03 00 1F. The original load
+    // takes those bytes as bits 8, 9 and 24 to 28, and so does a load from the image. The
+    // document of that tree stores the count and bit the image stores. The probe moves the sign's
+    // TextSeen as Sign.PersistFields does, without the map object resource a sign's load links.
+    [Fact]
+    public void ASignLoadTakesTheBytesPastItsStoredTextSeen()
+    {
+        SchemaClass classValue = s_schema.Get("Sign");
+        TextSeenProbe source = new();
+        source.TextSeen[1] = true;
+        Assert.Equal(2, source.TextSeen.Count);
+        byte[] sign = OriginalBackend.Write(TreeWriter.Write(source, Factory), classValue, s_schema, engine: "game");
+        byte[] image = [.. sign, 0x03, 0x00, 0x1F, 0x00];
+        ObjectNode tree = ReadPrefix(image, end: sign.Length, classValue: classValue);
+        Assert.Equal([0x03, 0x00, 0x1F], ((BitListNode)tree.Find("TextSeen")!).ReadPast!.Value.ToArray());
+        TextSeenProbe loaded = new();
+        TreeReader.Read(tree, objectValue: loaded, Factory);
+        Assert.Equal(32, loaded.TextSeen.Count);
+        Assert.Equal([1, 8, 9, 24, 25, 26, 27, 28], SetBits(loaded.TextSeen));
+        JsonObject document = DocumentBackend.Write(tree, classValue, s_schema, engine: "game");
+        Assert.Equal("""{"default":false,"count":2,"bits":[1]}""", CompactJson(document["TextSeen"]!));
+        // A save stores the raised count and the bits the load took, as the original's save does.
+        BitListNode saved = (BitListNode)TreeWriter.Write(loaded, Factory).Find("TextSeen")!;
+        Assert.Equal(32, saved.Count);
+        Assert.Equal([1, 8, 9, 24, 25, 26, 27, 28], saved.Indices);
+
+        // At the end of the stream the read takes the bytes there are, and the rest of the bits
+        // keep the default SetCapacity put there.
+        TextSeenProbe shortLoaded = new();
+        TreeReader.Read(ReadPrefix([.. sign, 0x03], end: sign.Length, classValue: classValue), objectValue: shortLoaded, Factory);
+        Assert.Equal(32, shortLoaded.TextSeen.Count);
+        Assert.Equal([1, 8, 9], SetBits(shortLoaded.TextSeen));
+
+        // A list that ends the image reads no byte, and the raised count keeps the default.
+        ObjectNode endTree = ReadPrefix(sign, end: sign.Length, classValue: classValue);
+        Assert.True(((BitListNode)endTree.Find("TextSeen")!).ReadPast!.Value.IsEmpty);
+        TextSeenProbe endLoaded = new();
+        TreeReader.Read(endTree, objectValue: endLoaded, Factory);
+        Assert.Equal(32, endLoaded.TextSeen.Count);
+        Assert.Equal([1], SetBits(endLoaded.TextSeen));
+
+        // A document carries no image, so its load leaves the bits past the stored ones at the default.
+        TextSeenProbe fromDocument = new();
+        TreeReader.Read(DocumentBackend.Read(document, classValue, s_schema, engine: "game"), objectValue: fromDocument, Factory);
+        Assert.Equal(32, fromDocument.TextSeen.Count);
+        Assert.Equal([1], SetBits(fromDocument.TextSeen));
+    }
+
+    // A count that fills its 32-bit words reads no byte past the stored bits.
+    [Fact]
+    public void AFullBitListReadsNoBytePastItsStoredBits()
+    {
+        SchemaClass classValue = s_schema.Get("Sign");
+        TextSeenProbe source = new();
+        source.TextSeen[1] = true;
+        source.TextSeen.Count = 32;
+        byte[] sign = OriginalBackend.Write(TreeWriter.Write(source, Factory), classValue, s_schema, engine: "game");
+        ObjectNode tree = ReadPrefix([.. sign, 0x03, 0x00, 0x1F, 0x00], end: sign.Length, classValue: classValue);
+        Assert.True(((BitListNode)tree.Find("TextSeen")!).ReadPast!.Value.IsEmpty);
+        TextSeenProbe loaded = new();
+        TreeReader.Read(tree, objectValue: loaded, Factory);
+        Assert.Equal(32, loaded.TextSeen.Count);
+        Assert.Equal([1], SetBits(loaded.TextSeen));
+    }
+
+    // The sign's TextSeen as Sign.PersistFields moves it.
+    private sealed class TextSeenProbe : IPersistable
+    {
+        public BitList TextSeen { get; } = [];
+
+        public void Persist(IPersister persister) => _ = PersistSupport.BitList(persister, name: "TextSeen", list: TextSeen);
+    }
+
+    private static List<int> SetBits(BitList list)
+    {
+        List<int> set = [];
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i])
+            {
+                set.Add(i);
+            }
+        }
+
+        return set;
+    }
+
+    // The object image that ends at an offset of a longer image, as a load reads it from a stream.
+    private static ObjectNode ReadPrefix(byte[] image, int end, SchemaClass classValue)
+        => ImageTree.Read(new DecodeContext(image, schema: s_schema, engine: "game", profile: "game", file: null, limits: FormatLimits.Default), start: 0, end: end, classValue: classValue);
+
+    private static string CompactJson(JsonValue value)
+        => System.Text.Encoding.UTF8.GetString(JsonWriter.ToUtf8(value)).Replace(" ", "", comparisonType: StringComparison.Ordinal).Replace("\n", "", comparisonType: StringComparison.Ordinal);
 
     // PE-3-i part 2: the world classes have no ReadWrite, so the translate stream visits them
     // through their tree methods and visits what the original ReadWrite visited under its mode

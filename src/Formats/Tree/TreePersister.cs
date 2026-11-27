@@ -592,7 +592,7 @@ internal sealed class MemberPersister : IPersister
                 bits[^1] |= Original.BitListCodec.ExpectedTail(node.Default, node.Count);
             }
 
-            return new BitListImage(node.Default, node.Count, bits);
+            return new BitListImage(node.Default, node.Count, bits, ReadPast: node.ReadPast);
         }
         if (value.Count < 0 || value.Bits.Length != (value.Count + 7L) >> 3)
         {
