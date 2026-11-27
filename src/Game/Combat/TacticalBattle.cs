@@ -35,13 +35,14 @@ public sealed partial class TacticalBattle(CustomNode? owner) : Battle(owner)
         CombatData.TurnOrder.Clear();
         _ = CombatData.TurnOrder.Add(CombatData.AttackerPlayer.TruncateToByte());
         HostPlayer = -1;
-        for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        for (int i = 0, last = strategicMap.Players.GetCount() - 1; i <= last; i++)
         {
             if (HostPlayer == -1)
             {
-                if (StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human)
+                if (strategicMap.Players.GetPlayers(i).PlayerType == PlayerType.Human)
                 {
-                    if (StrategicMap.Current.Players.GetPlayers(i).Status != PlayerStatus.Terminated)
+                    if (strategicMap.Players.GetPlayers(i).Status != PlayerStatus.Terminated)
                     {
                         HostPlayer = (sbyte)i;
                     }
@@ -60,25 +61,27 @@ public sealed partial class TacticalBattle(CustomNode? owner) : Battle(owner)
             }
 
             CombatPlayer playerPlayer = CombatData.Players.GetPlayers((sbyte)i);
-            if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType != PlayerType.Human)
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+            if (engineStrategicMap.Players.GetPlayers(playerPlayer.Player).PlayerType != PlayerType.Human)
             {
-                if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl remote)
+                if (engineStrategicMap.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl remote)
                 {
-                    PlayerCommunicationSettings? playerConnectionMode = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
+                    PlayerCommunicationSettings? playerConnectionMode = engineStrategicMap.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
                     CombatPlayer player = CombatData.Players.GetPlayers((sbyte)i);
                     remote.SetConnectionMode(player.Player, mode: playerConnectionMode.ConnectionMode);
-                    PlayerCommunicationSettings? playerSystemId = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
+                    PlayerCommunicationSettings? playerSystemId = engineStrategicMap.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
                     CombatPlayer player2 = CombatData.Players.GetPlayers((sbyte)i);
                     remote.SetSystemId(player2.Player, playerSystemId.SystemId);
                 }
             }
         }
 
-        for (int i = 0, last = StrategicMap.Current.TokenManager.GetCount() - 1; i <= last; i++)
+        for (int i = 0, last = GetEngine().StrategicMap.TokenManager.GetCount() - 1; i <= last; i++)
         {
-            if (StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(i)).Local() || StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(i)).Global())
+            StrategicMap localStrategicMap = GetEngine().StrategicMap;
+            if (localStrategicMap.TokenManager.GetTokenControl(PlayerId.FromOriginal(i)).Local() || localStrategicMap.TokenManager.GetTokenControl(PlayerId.FromOriginal(i)).Global())
             {
-                StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(i)).ClearEvents();
+                localStrategicMap.TokenManager.GetTokenControl(PlayerId.FromOriginal(i)).ClearEvents();
             }
         }
 
@@ -153,41 +156,45 @@ public sealed partial class TacticalBattle(CustomNode? owner) : Battle(owner)
                 }
                 else
                 {
-                    StrategicMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
+                    GetEngine().StrategicMap.TokenManager.TokenExecutor.HoldTacticalBattle = true;
                     RandomBattleMapGenerator generator = new(this);
                     _ = generator.RandomMap(this, CombatData.Location.X, CombatData.Location.Y, L: CombatData.Location.MapLevel);
-                    bool condition = StrategicMap.Current.StartingGame || StrategicMap.Current.VisibleForPlayer(CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel, player: StrategicMap.Current.SeatedPlayer);
-                    CombatMap.Current.PlaySounds = condition;
-                    if (!CombatMap.Current.PlaySounds)
+                    StrategicMap strategicMap = GetEngine().StrategicMap;
+                    bool condition = strategicMap.StartingGame || strategicMap.VisibleForPlayer(CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel, player: strategicMap.SeatedPlayer);
+                    CombatMap combatMap = GetEngine().CombatMap;
+                    combatMap.PlaySounds = condition;
+                    if (!combatMap.PlaySounds)
                     {
                         for (int i = 0, last = CombatData.Players.GetCount() - 1; i <= last; i++)
                         {
                             CombatPlayer playerPlayer = CombatData.Players.GetPlayers((sbyte)i);
-                            if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
+                            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                            if (engineStrategicMap.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
                             {
                                 CombatPlayer player = CombatData.Players.GetPlayers((sbyte)i);
-                                if (StrategicMap.Current.Players.GetPlayers(player.Player).GetLocal())
+                                if (engineStrategicMap.Players.GetPlayers(player.Player).GetLocal())
                                 {
-                                    CombatMap.Current.PlaySounds = true;
+                                    combatMap.PlaySounds = true;
                                 }
                             }
                         }
                     }
 
-                    CombatMap.Current.OnBattleStarted(this);
+                    combatMap.OnBattleStarted(this);
                     int seated = -1;
                     for (int i = 0, last = CombatData.Players.GetCount() - 1; i <= last; i++)
                     {
                         if (seated == -1)
                         {
                             CombatPlayer playerPlayer = CombatData.Players.GetPlayers((sbyte)i);
-                            if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
+                            StrategicMap getPlayersStrategicMap = GetEngine().StrategicMap;
+                            if (getPlayersStrategicMap.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
                             {
                                 CombatPlayer player = CombatData.Players.GetPlayers((sbyte)i);
-                                if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(player.Player).ConnectionMode != ConnectionMode.Remote)
+                                if (getPlayersStrategicMap.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(player.Player).ConnectionMode != ConnectionMode.Remote)
                                 {
                                     CombatPlayer player2 = CombatData.Players.GetPlayers((sbyte)i);
-                                    if (StrategicMap.Current.Players.GetPlayers(player2.Player).Status != PlayerStatus.Terminated)
+                                    if (getPlayersStrategicMap.Players.GetPlayers(player2.Player).Status != PlayerStatus.Terminated)
                                     {
                                         seated = i;
                                     }
@@ -196,13 +203,13 @@ public sealed partial class TacticalBattle(CustomNode? owner) : Battle(owner)
                         }
                     }
 
-                    CombatMap.Current.SetSeatedCombatPlayer((sbyte)seated);
-                    CombatMap.Current.CenterViewTo(32, 29, 0);
-                    CombatMap.Current.Combat.NewRound();
+                    GetEngine().CombatMap.SetSeatedCombatPlayer((sbyte)seated);
+                    GetEngine().CombatMap.CenterViewTo(32, 29, 0);
+                    GetEngine().CombatMap.Combat.NewRound();
                     int turnOrder = CombatData.TurnOrder[0];
-                    CombatMap.Current.NewTurn((sbyte)turnOrder);
+                    GetEngine().CombatMap.NewTurn((sbyte)turnOrder);
                     result = CombatResult.Busy;
-                    SetTerminatedHandler(_ => CombatMap.Current.EndCombat());
+                    SetTerminatedHandler(_ => GetEngine().CombatMap.EndCombat());
                     SetLogCombatActions(1);
                 }
             }

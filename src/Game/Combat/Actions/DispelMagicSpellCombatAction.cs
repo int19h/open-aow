@@ -30,10 +30,11 @@ public class DispelMagicSpellCombatAction(CustomNode owner) : DispelMagicCombatA
         base.Execute(combat);
         if (ManaCost != 0 && combat.Status.Contains(CombatStatuses.Executing))
         {
-            if (GamePack.Current.SpellControl[SpellId] is not null)
+            GamePack gamePack = GetEngine().GamePack;
+            if (gamePack.SpellControl[SpellId] is not null)
             {
                 CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
-                GamePack.Current.SpellControl[SpellId].CastingDone(source.Troop, mana: ManaCost);
+                gamePack.SpellControl[SpellId].CastingDone(source.Troop, mana: ManaCost);
             }
         }
     }

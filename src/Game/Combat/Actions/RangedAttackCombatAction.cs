@@ -5,8 +5,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Combat.Actions;
 
 // (ability ID)
@@ -24,14 +22,14 @@ public class RangedAttackCombatAction(CustomNode? owner) : DamageCombatAction(ow
     }
 
     // AoWAb.PAS:4643
-    public override string GetName() => GamePack.Current.AbilityControl[AbilityId].GetName(null);
+    public override string GetName() => GetEngine().GamePack.AbilityControl[AbilityId].GetName(null);
 
     // AoWAb.PAS:4647
     public override bool Play(CombatViewer viewer)
     {
         if (viewer.Time == 1)
         {
-            _ = GamePack.Current.AbilityControl[AbilityId].SfxLibrary.Play(0);
+            _ = GetEngine().GamePack.AbilityControl[AbilityId].SfxLibrary.Play(0);
         }
 
         return base.Play(viewer);
@@ -43,7 +41,7 @@ public class RangedAttackCombatAction(CustomNode? owner) : DamageCombatAction(ow
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId && viewer.Time != 0)
         {
-            GamePack.Current.AbilityControl[AbilityId].ImageSequences.ShowLooped(40, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
+            GetEngine().GamePack.AbilityControl[AbilityId].ImageSequences.ShowLooped(40, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
         }
     }
 }

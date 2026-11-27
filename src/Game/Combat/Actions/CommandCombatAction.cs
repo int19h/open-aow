@@ -7,8 +7,6 @@ using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Combat.Actions;
 
 // (ability ID, success)
@@ -39,17 +37,17 @@ public class CommandCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
             source.SetExperience(source.Experience + target.Level);
             for (int i = 0; i <= 2; i++)
             {
-                GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).ResetCommandedUnits(target);
+                GetEngine().GamePack.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).ResetCommandedUnits(target);
             }
 
             for (int i = 0; i <= 2; i++)
             {
-                GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).Uncommand(target);
+                GetEngine().GamePack.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).Uncommand(target);
             }
 
             if (source.Side != target.Side)
             {
-                GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityId).Command(source, target);
+                GetEngine().GamePack.AbilityControl.GetAbility<CommandAbility>(AbilityId).Command(source, target);
             }
         }
     }
@@ -59,7 +57,7 @@ public class CommandCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
     {
         if (viewer.Time == 0)
         {
-            _ = GamePack.Current.AbilityControl[AbilityId].SfxLibrary.Play(0);
+            _ = GetEngine().GamePack.AbilityControl[AbilityId].SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -76,7 +74,7 @@ public class CommandCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId)
         {
-            _ = GamePack.Current.AbilityControl[AbilityId].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
+            _ = GetEngine().GamePack.AbilityControl[AbilityId].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
         }
     }
 

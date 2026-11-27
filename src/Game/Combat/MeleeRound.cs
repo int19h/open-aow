@@ -191,7 +191,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
         Reset();
         _attackerUnit = attacker;
         _defenderUnit = defender;
-        AttackerDamageTypes = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(attacker);
+        AttackerDamageTypes = Creator.GetEngine().GamePack.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(attacker);
         _defenderDamageTypes = DamageTypes.None;
         if (AttackerDamageTypes != DamageTypes.None)
         {
@@ -206,7 +206,8 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
         Reset();
         _attackerUnit = attacker;
         _defenderUnit = defender;
-        AttackerDamageTypes = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(attacker);
+        GamePack gamePack = Creator.GetEngine().GamePack;
+        AttackerDamageTypes = gamePack.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(attacker);
         if (AttackerDamageTypes != DamageTypes.None)
         {
             _attackerStrikes = 2;
@@ -220,7 +221,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
             _attackerStrikes = 0;
         }
 
-        _defenderDamageTypes = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(defender);
+        _defenderDamageTypes = gamePack.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(defender);
         _defenderStrikes = _defenderDamageTypes != DamageTypes.None ? 2 : 0;
 
         CombatSideIndex side = _defenderUnit.GetAbilityEnabled(116) && !_attackerUnit.GetAbilityEnabled(116) && _defenderStrikes != 0

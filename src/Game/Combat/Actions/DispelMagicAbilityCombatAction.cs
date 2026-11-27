@@ -4,8 +4,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Combat.Actions;
 
 public class DispelMagicAbilityCombatAction(CustomNode owner) : DispelMagicCombatAction(owner)
@@ -19,6 +17,6 @@ public class DispelMagicAbilityCombatAction(CustomNode owner) : DispelMagicComba
     {
         base.Execute(combat);
         CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
-        GamePack.Current.AbilityControl.GetAbility<DispelMagicAbility>(60).SetEnabled(source.Troop, enabled: false);
+        GetEngine().GamePack.AbilityControl.GetAbility<DispelMagicAbility>(60).SetEnabled(source.Troop, enabled: false);
     }
 }

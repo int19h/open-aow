@@ -4,8 +4,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Combat.Actions;
 
 public class MindDecayCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
@@ -24,15 +22,15 @@ public class MindDecayCombatAction(CustomNode owner) : ExclusiveCombatSpellComba
             source.SetExperience(source.Experience + target.Level);
             for (int i = 0; i <= 2; i++)
             {
-                GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).ResetCommandedUnits(target);
+                GetEngine().GamePack.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).ResetCommandedUnits(target);
             }
 
             for (int i = 0; i <= 2; i++)
             {
-                GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).Uncommand(target);
+                GetEngine().GamePack.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).Uncommand(target);
             }
 
-            _ = GamePack.Current.AbilityControl[131].Expand(target.Troop);
+            _ = GetEngine().GamePack.AbilityControl[131].Expand(target.Troop);
             target.SetCombatPlayer((byte)source.CombatPlayer);
         }
     }

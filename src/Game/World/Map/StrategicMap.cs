@@ -543,7 +543,7 @@ public sealed partial class StrategicMap : GameMap
         AIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<HuntAIGroup>()]);
         PlayMode = PlayMode.None;
         Keyboard = new HexSpriteMapKeyboard(null) { Holder = CreationHolder() };
-        TargetSelection = new TargetSelectionControl();
+        TargetSelection = new TargetSelectionControl(this);
         Effects = [];
         DefendersSeed = 0;
         HeroCountMax = 5;

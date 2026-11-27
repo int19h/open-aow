@@ -190,7 +190,7 @@ public class CombatMap : GameMap
         if (message.MessageId == 536870920 && !Status.Contains(HexSpriteMapStatuses.Editting))
         {
             // A combat map runs a tactical battle, so the current combat is that battle.
-            SetCombat((TacticalBattle?)StrategicMap.Current.Combat);
+            SetCombat((TacticalBattle?)GetEngine().StrategicMap.Combat);
         }
 
         base.MessageProc(ref message, sender);
@@ -206,7 +206,7 @@ public class CombatMap : GameMap
         {
             for (int y = 6, lastY = MapContainer.Height - 7; y <= lastY; y++)
             {
-                _ = GamePack.Current.CombatHexes.Place(MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: 0, terrainType: 1);
+                _ = GetEngine().GamePack.CombatHexes.Place(MapContainer, x.TruncateToSByte(), y.TruncateToSByte(), L: 0, terrainType: 1);
             }
         }
 
@@ -242,7 +242,7 @@ public class CombatMap : GameMap
     public override void DrawDynamicScene(ref LockedSurface lockedSurface)
     {
         base.DrawDynamicScene(ref lockedSurface);
-        if (StrategicMap.Current is not null)
+        if (GetEngine()?.StrategicMap is not null)
         {
             DrawFog(lockedSurface);
         }
@@ -286,7 +286,7 @@ public class CombatMap : GameMap
         if (!Status.Contains(HexSpriteMapStatuses.Editting) && Combat is not null)
         {
             UpdateCursor();
-            if (EndTurnPending && ((StrategicMap.Current.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(Combat.HostPlayer).ConnectionMode != ConnectionMode.Remote) || (Players.GetPlayers(CurrentCombatPlayer).Auto && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(PlayerIdExtensions.ToOriginal(CurrentPlayer)).ConnectionMode != ConnectionMode.Remote)))
+            if (EndTurnPending && ((GetEngine().StrategicMap.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human && GetEngine().StrategicMap.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(Combat.HostPlayer).ConnectionMode != ConnectionMode.Remote) || (Players.GetPlayers(CurrentCombatPlayer).Auto && GetEngine().StrategicMap.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(PlayerIdExtensions.ToOriginal(CurrentPlayer)).ConnectionMode != ConnectionMode.Remote)))
             {
                 switch (AI.Status)
                 {
@@ -337,7 +337,7 @@ public class CombatMap : GameMap
             {
                 hexSprite = new TacticalBattleItemHexSprite(null) { Holder = CreationHolder() };
                 // { Original bug: a failed placement leaves the new item sprite allocated. }
-                if (Current.PlaceHex(hexSprite, x, y, l))
+                if (GetEngine().CombatMap.PlaceHex(hexSprite, x, y, l))
                 {
                     item.SetOwner(hexSprite.Items);
                 }
@@ -380,7 +380,7 @@ public class CombatMap : GameMap
     // AoWTC.pas:2256
     public void MouseMoveEvent(object sender)
     {
-        if (!Current.Status.Contains(HexSpriteMapStatuses.Editting) && !Players.GetPlayers(CurrentCombatPlayer).Auto && Mouse.HexX != -1 && Mouse.HexY != -1 && Mouse.Capture is null)
+        if (!GetEngine().CombatMap.Status.Contains(HexSpriteMapStatuses.Editting) && !Players.GetPlayers(CurrentCombatPlayer).Auto && Mouse.HexX != -1 && Mouse.HexY != -1 && Mouse.Capture is null)
         {
             Mouse.CursorMode = 0;
             int hexY = Mouse.HexY;
@@ -423,7 +423,7 @@ public class CombatMap : GameMap
         SetCurrentPlayer(PlayerId.FromOriginal(Players.GetPlayers(CurrentCombatPlayer).Player));
         Combat.NewTurn((byte)CurrentCombatPlayer);
         UnitSelection.Unselect();
-        StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(CurrentPlayer));
+        GetEngine().StrategicMap.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(CurrentPlayer));
         if (Players.GetPlayers(CurrentCombatPlayer).Player == 0)
         {
             string ind = AbilityRules.TranslateResourceString(GetEngine(), S: s_independentsText);
@@ -433,17 +433,18 @@ public class CombatMap : GameMap
         else
         {
             TacticalBattlePlayer playerLocal = Players.GetPlayers(CurrentCombatPlayer);
-            Player? playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal.Player);
+            Player? playerPlayerRace = GetEngine().StrategicMap.Players.GetPlayers(playerLocal.Player);
             string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
             string beginRound = AbilityRules.TranslateResourceString(GetEngine(), S: s_beginRoundText);
             ShowMessage($"{raceNamesPlural} {beginRound}");
         }
 
         TacticalBattlePlayer playerPlayer = Players.GetPlayers(CurrentCombatPlayer);
-        if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
         {
             TacticalBattlePlayer playerLocal = Players.GetPlayers(CurrentCombatPlayer);
-            if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(playerLocal.Player).ConnectionMode != ConnectionMode.Remote)
+            if (strategicMap.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(playerLocal.Player).ConnectionMode != ConnectionMode.Remote)
             {
                 SetSeatedCombatPlayer(CurrentCombatPlayer);
                 if (Players.GetPlayers(CurrentCombatPlayer).LastX == 0)
@@ -498,23 +499,25 @@ public class CombatMap : GameMap
         bool result = false;
         if (!automatic)
         {
-            if (StrategicMap.Current.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human)
+            if (GetEngine().StrategicMap.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human)
             {
                 return result;
             }
 
-            if (Current.SeatedCombatPlayer != Current.CurrentCombatPlayer)
+            CombatMap combatMap = GetEngine().CombatMap;
+            if (combatMap.SeatedCombatPlayer != combatMap.CurrentCombatPlayer)
             {
                 return result;
             }
         }
 
-        if (StrategicMap.Current.TokenManager.PlayerReady(CurrentPlayer))
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.TokenManager.PlayerReady(CurrentPlayer))
         {
             TacticalBattleEndTurnTokenEvent? tokenEvent = CreateTacticalBattleEndTurnTokenEvent((sbyte)PlayerIdExtensions.ToOriginal(CurrentPlayer));
             if (tokenEvent is not null)
             {
-                StrategicMap.Current.TokenManager.GetTokenControl(CurrentPlayer).AddEvent(tokenEvent);
+                strategicMap.TokenManager.GetTokenControl(CurrentPlayer).AddEvent(tokenEvent);
                 _ = tokenEvent.Release();
                 result = true;
                 EndTurnPending = false;
@@ -615,7 +618,7 @@ public class CombatMap : GameMap
     // AoWTC.pas:2475
     public void UpdateCursor()
     {
-        if (!((SeatedPlayer is null || StrategicMap.Current.TokenManager.PlayerReady(SeatedPlayer)) && SeatedPlayer == CurrentPlayer && !Players.GetPlayers(CurrentCombatPlayer).Auto && Current.SeatedCombatPlayer == Current.CurrentCombatPlayer))
+        if (!((SeatedPlayer is null || GetEngine().StrategicMap.TokenManager.PlayerReady(SeatedPlayer)) && SeatedPlayer == CurrentPlayer && !Players.GetPlayers(CurrentCombatPlayer).Auto && GetEngine().CombatMap.SeatedCombatPlayer == GetEngine().CombatMap.CurrentCombatPlayer))
         {
             Mouse.Cursor = ((Frame >>> 2) % 4) + 6;
         }
@@ -647,7 +650,7 @@ public class CombatMap : GameMap
     public void EndCombat()
     {
         TerminateCombatTokenEvent tokenEvent = new(null) { Holder = CreationHolder() };
-        StrategicMap.Current.TokenManager.TokenExecutor.AddSystemEvent(tokenEvent);
+        GetEngine().StrategicMap.TokenManager.TokenExecutor.AddSystemEvent(tokenEvent);
         _ = tokenEvent.Release();
     }
 
@@ -701,13 +704,13 @@ public class CombatMap : GameMap
     // AoWTC.pas:2572
     public void Surrender(sbyte mode)
     {
-        if (StrategicMap.Current.TokenManager.PlayerReady(Current.CurrentPlayer) && CurrentCombatPlayer == SeatedCombatPlayer)
+        if (GetEngine().StrategicMap.TokenManager.PlayerReady(GetEngine().CombatMap.CurrentPlayer) && CurrentCombatPlayer == SeatedCombatPlayer)
         {
             UnitSelection.Unselect();
             TacticalBattleEndCombatTokenEvent tokenEvent = CreateTacticalBattleEndCombatTokenEvent();
             if (tokenEvent is not null)
             {
-                StrategicMap.Current.TokenManager.GetTokenControl(CurrentPlayer).AddEvent(tokenEvent);
+                GetEngine().StrategicMap.TokenManager.GetTokenControl(CurrentPlayer).AddEvent(tokenEvent);
                 _ = tokenEvent.Release();
             }
         }
@@ -721,7 +724,7 @@ public class CombatMap : GameMap
 
     private TacticalBattleEndTurnTokenEvent? CreateTacticalBattleEndTurnTokenEvent(sbyte player)
     {
-        return player != -1 && StrategicMap.Current.TokenManager.PlayerReady(PlayerId.FromOriginal(player))
+        return player != -1 && GetEngine().StrategicMap.TokenManager.PlayerReady(PlayerId.FromOriginal(player))
             ? new TacticalBattleEndTurnTokenEvent(null) { Holder = CreationHolder() }
             : null;
     }
@@ -741,8 +744,9 @@ public class CombatMap : GameMap
         do
         {
             HexGeometry.CenterHexNumberToHex(x0, y0, hexNumber: i, ref x, ref y);
-            overlay = Current.MapContainer.MapLevels[0].Field[x, y].OverlayType.ToOriginal();
-            occupant = Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
+            CombatMap combatMap = map.GetEngine().CombatMap;
+            overlay = combatMap.MapContainer.MapLevels[0].Field[x, y].OverlayType.ToOriginal();
+            occupant = combatMap.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
             i += 1;
         }
         while (!(overlay != 8 && occupant is null));

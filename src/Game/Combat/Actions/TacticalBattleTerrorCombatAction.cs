@@ -4,7 +4,6 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -36,13 +35,13 @@ public class TacticalBattleTerrorCombatAction(CustomNode owner) : CombatAction(o
         if (_succeeded)
         {
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(_targetId);
-            _ = GamePack.Current.AbilityControl[108].Expand(target.Troop);
+            _ = GetEngine().GamePack.AbilityControl[108].Expand(target.Troop);
         }
 
         if (ManaCost != 0 && combat.Status.Contains(CombatStatuses.Executing))
         {
             CombatUnit source = combat.CombatData.FindId<CombatUnit>(_sourceId);
-            GamePack.Current.SpellControl[105].CastingDone(source.Troop, mana: ManaCost);
+            GetEngine().GamePack.SpellControl[105].CastingDone(source.Troop, mana: ManaCost);
         }
     }
 

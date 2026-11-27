@@ -78,26 +78,26 @@ internal static class TacticalTables
 
     internal static ReadOnlySpan<int> WallMaxHitPoints => [7, 13];
 
-    internal static void MakeAbilityPath(CombatSideIndex side, short ability, short spell, int x1, int y1, int x2, int y2, Point3DList path, DelphiList<RangedObstacle> obstacles)
+    internal static void MakeAbilityPath(CombatSideIndex side, short ability, short spell, int x1, int y1, int x2, int y2, Point3DList path, DelphiList<RangedObstacle> obstacles, GameEngine engine)
     {
         int x;
         int y;
         switch (ability)
         {
             case 55:
-                MakeRangedPath(side, speed: 25, arc: 0, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
+                MakeRangedPath(side, speed: 25, arc: 0, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles, engine: engine);
                 break;
             case 22:
             case 24:
             case 25:
-                MakeRangedPath(side, speed: 50, arc: 100, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
+                MakeRangedPath(side, speed: 50, arc: 100, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles, engine: engine);
                 break;
             case 44:
             case 45:
             case 57:
             case 58:
             case 123:
-                MakeRangedPath(side, speed: 50, arc: 20, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
+                MakeRangedPath(side, speed: 50, arc: 20, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles, engine: engine);
                 break;
             case 30:
             case 31:
@@ -112,20 +112,20 @@ internal static class TacticalTables
                 switch (spell)
                 {
                     case 103:
-                        MakeRangedPath(side, speed: 25, arc: 0, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
+                        MakeRangedPath(side, speed: 25, arc: 0, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles, engine: engine);
                         break;
                     case 107:
-                        MakeRangedPath(side, speed: 25, arc: 0, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
+                        MakeRangedPath(side, speed: 25, arc: 0, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles, engine: engine);
                         obstacles.Clear();
                         break;
                     case 117:
-                        MakeRangedPath(side, speed: 50, arc: 50, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
+                        MakeRangedPath(side, speed: 50, arc: 50, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles, engine: engine);
                         break;
                     case 100:
-                        MakeRangedPath(side, speed: 50, arc: 35, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
+                        MakeRangedPath(side, speed: 50, arc: 35, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles, engine: engine);
                         break;
                     case 119:
-                        MakeRangedPath(side, speed: 50, arc: 20, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
+                        MakeRangedPath(side, speed: 50, arc: 20, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles, engine: engine);
                         break;
                     default:
                         switch (SpellTypes[spell])
@@ -187,7 +187,7 @@ internal static class TacticalTables
                             case BattleEffectType.SacFire:
                             case BattleEffectType.BreathDam:
                             default:
-                                MakeRangedPath(side, speed: 50, arc: 50, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
+                                MakeRangedPath(side, speed: 50, arc: 50, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles, engine: engine);
                                 break;
                         }
 
@@ -196,13 +196,13 @@ internal static class TacticalTables
 
                 break;
             default:
-                MakeRangedPath(side, speed: 50, arc: 50, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
+                MakeRangedPath(side, speed: 50, arc: 50, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles, engine: engine);
                 break;
         }
     }
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps unusedHeight on purpose.")]
-    internal static void MakeRangedPath(CombatSideIndex side, int speed, int arc, int unusedHeight, int x1, int y1, int x2, int y2, int offsetX, int offsetY, bool includeUnits, Point3DList path, DelphiList<RangedObstacle> obstacles)
+    internal static void MakeRangedPath(CombatSideIndex side, int speed, int arc, int unusedHeight, int x1, int y1, int x2, int y2, int offsetX, int offsetY, bool includeUnits, Point3DList path, DelphiList<RangedObstacle> obstacles, GameEngine engine)
     {
         int hexX = default;
         int hexY = default;
@@ -262,13 +262,14 @@ internal static class TacticalTables
             if ((x != startX || y != startY) && (x != endX || y != endY))
             {
                 steps = 0;
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].Terrain == TerrainType.Border)
+                CombatMap combatMap = engine.CombatMap;
+                if (combatMap.MapContainer.MapLevels[0].Field[x, y].Terrain == TerrainType.Border)
                 {
                     steps = 3;
                 }
                 else
                 {
-                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].Terrain == TerrainType.Earth)
+                    if (combatMap.MapContainer.MapLevels[0].Field[x, y].Terrain == TerrainType.Earth)
                     {
                         steps = 3;
                     }
@@ -277,12 +278,12 @@ internal static class TacticalTables
                         a = HexGeometry.DeltaHexToRadius(x, y, startX, startY);
                         TacticalBattleUnitHexSprite? unitHexSprite = !includeUnits
                             ? null
-                            : CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
+                            : combatMap.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
 
-                        CityWall? wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<CityWall>(CityWall.ClassId);
+                        CityWall? wall = combatMap.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<CityWall>(CityWall.ClassId);
                         if (wall is null && side == CombatSideIndex.Attacker)
                         {
-                            wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2_229_510) as CityWall;
+                            wall = combatMap.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2_229_510) as CityWall;
                         }
 
                         if (a == 1)
@@ -308,7 +309,7 @@ internal static class TacticalTables
 
                                 if (wall is null)
                                 {
-                                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].OverlayType == OverlayType.Obstacle)
+                                    if (combatMap.MapContainer.MapLevels[0].Field[x, y].OverlayType == OverlayType.Obstacle)
                                     {
                                         steps = 1;
                                     }
@@ -328,7 +329,7 @@ internal static class TacticalTables
                                             while (wall is null && b < 7)
                                             {
                                                 HexGeometry.CenterHexNumberToHex(startX, startY, hexNumber: b, ref hexX, ref hexY);
-                                                wall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(CityWall.ClassId) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2_229_510) as CityWall;
+                                                wall = combatMap.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(CityWall.ClassId) ?? combatMap.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2_229_510) as CityWall;
                                                 b += 1;
                                             }
 

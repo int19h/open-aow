@@ -221,9 +221,10 @@ public class Battle : EngineObject
         data.AttackerLocation = new MapCoordinate((sbyte)attackerX, (sbyte)attackerY, (sbyte)attackerL);
         data.AttackerPlayer = (sbyte)AddCombatPlayer(attackerPlayer, independentRelation: attackerRelation.TruncateToByte(), side: CombatSideIndex.Attacker);
         data.DefenderPlayer = (sbyte)AddCombatPlayer(defenderPlayer, independentRelation: defenderRelation, side: CombatSideIndex.Defender);
-        MapField fieldValue = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        MapField fieldValue = strategicMap.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel);
         data.TerrainAndOverlayTypes[0] = (byte)fieldValue.TerrainNumber;
-        MapField mapContainerField = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel);
+        MapField mapContainerField = strategicMap.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel);
         data.TerrainAndOverlayTypes[1] = (byte)mapContainerField.OverlayType.ToOriginal();
         return true;
     }
@@ -231,7 +232,7 @@ public class Battle : EngineObject
     // Combat.pas:6619
     public virtual CombatResult Execute()
     {
-        RandSeed = StrategicMap.Current.Random(16777215);
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
         return CombatResult.Idle;
     }
 
@@ -295,7 +296,7 @@ public class Battle : EngineObject
             data = CombatData;
             int item = data.DefeatedLeaders[i];
             CombatPlayer players = data.Players.GetPlayers((sbyte)item);
-            StrategicMap.Current.GameOver(PlayerId.FromOriginal(players.Player), status: GameOverStatus.Lost);
+            GetEngine().StrategicMap.GameOver(PlayerId.FromOriginal(players.Player), status: GameOverStatus.Lost);
             Logbook.PlayerEliminated = true;
         }
 
@@ -324,7 +325,7 @@ public class Battle : EngineObject
         {
             playerIndex -= 1;
             CombatPlayer players = CombatData.Players.GetPlayers((sbyte)playerIndex);
-            Player? player = StrategicMap.Current.Players.GetPlayers(players.Player);
+            Player? player = GetEngine().StrategicMap.Players.GetPlayers(players.Player);
             int armyIndex = player.Armies.Count;
             bool alive = false;
             while (armyIndex != 0 && !alive)
@@ -344,7 +345,7 @@ public class Battle : EngineObject
             param[0] = this;
             message.Param = param;
             message.Result = 0;
-            StrategicMap.Current.MapContainer.GetField(finalData.Location.X, finalData.Location.Y, finalData.Location.MapLevel).SendMapFieldMessage(ref message);
+            GetEngine().StrategicMap.MapContainer.GetField(finalData.Location.X, finalData.Location.Y, finalData.Location.MapLevel).SendMapFieldMessage(ref message);
         }
 
         UnlockExecuted();
@@ -490,7 +491,7 @@ public class Battle : EngineObject
             {
                 CombatParty? party = CombatData.Parties.GetParty((byte)i);
                 CombatPlayer players = CombatData.Players.GetPlayers((sbyte)party.PlayerIndex);
-                if (types.Contains(StrategicMap.Current.Players.GetPlayers(players.Player).PlayerType.ToFlag()))
+                if (types.Contains(GetEngine().StrategicMap.Players.GetPlayers(players.Player).PlayerType.ToFlag()))
                 {
                     result = true;
                 }
@@ -669,13 +670,14 @@ public class Battle : EngineObject
             if (X != -1)
             {
                 message.MessageId = 4387;
-                MapField fieldValue = StrategicMap.Current.MapContainer.GetField(X, Y, L);
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                MapField fieldValue = strategicMap.MapContainer.GetField(X, Y, L);
                 MapFieldMessageParameters param = message.Param;
                 param[0] = fieldValue;
                 message.Param = param;
                 message.Result = 0;
                 CombatData data = CombatData;
-                StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel).SendMapFieldMessage(ref message);
+                strategicMap.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel).SendMapFieldMessage(ref message);
                 if (message.Result.Int != 0)
                 {
                     party.Wall = message.Result.Int.TruncateToByte();
@@ -729,12 +731,13 @@ public class Battle : EngineObject
 
         CombatParty party = CombatData.Parties.CreateParty(this, position, combatPlayer: playerLocal, X, Y, L, army: null);
         message.MessageId = 4387;
-        MapField fieldValue = engine.StrategicMap.MapContainer.GetField(X, Y, L);
+        StrategicMap strategicMap = engine.StrategicMap;
+        MapField fieldValue = strategicMap.MapContainer.GetField(X, Y, L);
         MapFieldMessageParameters param = message.Param;
         param[0] = fieldValue;
         message.Param = param;
         message.Result = 0;
-        engine.StrategicMap.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
+        strategicMap.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
         if (message.Result.Int != 0)
         {
             party.Wall = message.Result.Int.TruncateToByte();
@@ -749,7 +752,7 @@ public class Battle : EngineObject
         {
             ExplorationSite = 2;
             _ = AddArmy(army, side: CombatSideIndex.Attacker, X, Y, L);
-            ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel).GetArmyHexSprite();
+            ArmyHexSprite armyHexSprite = GetEngine().StrategicMap.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel).GetArmyHexSprite();
             if (armyHexSprite is not null)
             {
                 _ = AddArmy(armyHexSprite.Army, side: CombatSideIndex.Defender, data.Location.X, data.Location.Y, L: data.Location.MapLevel);
@@ -792,7 +795,7 @@ public class Battle : EngineObject
         param[0] = this;
         message.Param = param;
         // { direct combat data }
-        StrategicMap.Current.MapContainer.GetField(CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel).SendMapFieldMessage(ref message);
+        GetEngine().StrategicMap.MapContainer.GetField(CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel).SendMapFieldMessage(ref message);
         // Handlers write the query through the message. The text read here is that write.
         result = query.Text;
         if (IsEmpty(result))

@@ -17,20 +17,30 @@ public sealed partial class TacticalBattle
 
     public override void Finalize()
     {
-        for (int i = 0; i < CombatData.Players.GetCount(); i++)
+        // A battle that reaches no engine has no world map and no battle map, so it takes the
+        // original's no-map branches (issue 335, G5 guard rule).
+        GameEngine? engine = GetEngine();
+        World.Map.StrategicMap? strategicMap = engine?.StrategicMap;
+        if (strategicMap is not null)
         {
-            int player = CombatData.Players.GetPlayers((sbyte)i).Player;
-            if (World.Map.StrategicMap.Current.Players.GetPlayers((sbyte)player).PlayerType != PlayerType.Human)
+            for (int i = 0; i < CombatData.Players.GetCount(); i++)
             {
-                RestorePlayerConnection(World.Map.StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl, player);
+                int player = CombatData.Players.GetPlayers((sbyte)i).Player;
+                if (strategicMap.Players.GetPlayers((sbyte)player).PlayerType != PlayerType.Human)
+                {
+                    RestorePlayerConnection(strategicMap.PlayerCommunicator.PlayerCommunicationControl, player);
+                }
             }
         }
-        if (CombatMap.Current is not null)
+
+        CombatMap? combatMap = engine?.CombatMap;
+        if (combatMap is not null)
         {
-            CombatMap.Current.UnitSelection.Clear();
-            CombatMap.Current.OnBattleEnding(this);
-            World.Map.StrategicMap.Current.ReleaseCombatMap();
+            combatMap.UnitSelection.Clear();
+            combatMap.OnBattleEnding(this);
+            engine.StrategicMap.ReleaseCombatMap();
         }
+
         base.Finalize();
     }
 }

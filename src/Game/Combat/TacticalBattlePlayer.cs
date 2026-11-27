@@ -20,9 +20,10 @@ public sealed class TacticalBattlePlayer(CustomNode? owner) : CombatPlayer(owner
     public void SetAuto(bool value)
     {
         Auto = value;
-        if (CombatMap.Current.SeatedCombatPlayer == _index && CombatMap.Current.SeatedCombatPlayer == CombatMap.Current.CurrentCombatPlayer)
+        CombatMap combatMap = GetEngine().CombatMap;
+        if (combatMap.SeatedCombatPlayer == _index && combatMap.SeatedCombatPlayer == combatMap.CurrentCombatPlayer)
         {
-            CombatMap.Current.AI.Reset();
+            combatMap.AI.Reset();
         }
     }
 }

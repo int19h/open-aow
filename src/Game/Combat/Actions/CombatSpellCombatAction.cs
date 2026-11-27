@@ -5,7 +5,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 using Aow.Game.Magic.Spells;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -33,7 +32,7 @@ public class CombatSpellCombatAction(CustomNode owner) : DamageCombatAction(owne
         if (ManaCost != 0 && combat.Status.Contains(CombatStatuses.Executing))
         {
             CombatObject source = combat.CombatData.FindId(SourceId);
-            GamePack.Current.SpellControl[SpellId].CombatCastingDone(source, mana: ManaCost);
+            GetEngine().GamePack.SpellControl[SpellId].CombatCastingDone(source, mana: ManaCost);
         }
     }
 
@@ -42,7 +41,7 @@ public class CombatSpellCombatAction(CustomNode owner) : DamageCombatAction(owne
     {
         if (viewer.Time == 0)
         {
-            _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(0);
+            _ = GetEngine().GamePack.SpellControl[SpellId].CastSounds.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -59,14 +58,14 @@ public class CombatSpellCombatAction(CustomNode owner) : DamageCombatAction(owne
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId)
         {
-            Spell spell = GamePack.Current.SpellControl[SpellId];
+            Spell spell = GetEngine().GamePack.SpellControl[SpellId];
             GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, text: spell.SpellName, lockedSurface: surface);
         }
         else
         {
             if (objectValue.Id == TargetId)
             {
-                _ = GamePack.Current.SpellControl[SpellId].CastImages.Show(11, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
+                _ = GetEngine().GamePack.SpellControl[SpellId].CastImages.Show(11, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
             }
         }
     }
@@ -78,14 +77,14 @@ public class CombatSpellCombatAction(CustomNode owner) : DamageCombatAction(owne
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId)
         {
-            Spell spell = GamePack.Current.SpellControl[SpellId];
+            Spell spell = GetEngine().GamePack.SpellControl[SpellId];
             GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, text: spell.SpellName, lockedSurface: surface);
         }
         else
         {
             if (objectValue.Id == TargetId)
             {
-                _ = GamePack.Current.SpellControl[SpellId].CastImages.Show(11, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
+                _ = GetEngine().GamePack.SpellControl[SpellId].CastImages.Show(11, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
             }
         }
     }

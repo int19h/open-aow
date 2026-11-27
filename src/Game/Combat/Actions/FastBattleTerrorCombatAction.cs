@@ -3,7 +3,6 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -20,7 +19,7 @@ public class FastBattleTerrorCombatAction(CustomNode owner) : MultiTargetCombatS
         {
             byte targetId = TargetIds[i];
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(targetId);
-            _ = GamePack.Current.AbilityControl[108].Expand(target.Troop);
+            _ = GetEngine().GamePack.AbilityControl[108].Expand(target.Troop);
         }
     }
 

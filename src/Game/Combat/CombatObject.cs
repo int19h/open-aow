@@ -10,7 +10,6 @@ using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.DelphiRounding;
@@ -483,7 +482,7 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
         {
             if (GetAbilityEnabled(i))
             {
-                GamePack.Current.AbilityControl[i].CombatObjectDestroyed(this);
+                GetEngine().GamePack.AbilityControl[i].CombatObjectDestroyed(this);
             }
         }
 
@@ -672,7 +671,7 @@ public class CombatObject(CustomNode? owner) : EngineObject(owner)
     internal static DamageTypes MeleeDamageTypes(CombatObject? source)
     {
         return source is CombatUnit sourceUnit
-            ? GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(sourceUnit.Troop)
+            ? source.GetEngine().GamePack.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(sourceUnit.Troop)
             : DamageTypes.None;
     }
 

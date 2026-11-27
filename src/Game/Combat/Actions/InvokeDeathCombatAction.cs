@@ -5,8 +5,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Combat.Actions;
 
 // (successful)
@@ -41,7 +39,7 @@ public class InvokeDeathCombatAction(CustomNode owner) : SingleTargetCombatActio
     {
         if (viewer.Time == 0)
         {
-            _ = GamePack.Current.AbilityControl[35].SfxLibrary.Play(0);
+            _ = GetEngine().GamePack.AbilityControl[35].SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -58,7 +56,7 @@ public class InvokeDeathCombatAction(CustomNode owner) : SingleTargetCombatActio
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            _ = GamePack.Current.AbilityControl[35].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
+            _ = GetEngine().GamePack.AbilityControl[35].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
         }
     }
 

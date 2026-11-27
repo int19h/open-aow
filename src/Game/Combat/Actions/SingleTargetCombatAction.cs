@@ -3,7 +3,6 @@
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Draw;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -30,14 +29,14 @@ public class SingleTargetCombatAction(CustomNode owner) : CombatAction(owner)
         {
             if (objectValue.Id == SourceId)
             {
-                GamePack.Current.CombatImages[2].Show(X + 15, Y + 18, lockedSurface: surface);
+                GetEngine().GamePack.CombatImages[2].Show(X + 15, Y + 18, lockedSurface: surface);
             }
         }
         else
         {
             if (objectValue.Id == TargetId)
             {
-                GamePack.Current.CombatImages[2].Show(X + 15, Y + 18, lockedSurface: surface);
+                GetEngine().GamePack.CombatImages[2].Show(X + 15, Y + 18, lockedSurface: surface);
             }
         }
 
@@ -46,14 +45,14 @@ public class SingleTargetCombatAction(CustomNode owner) : CombatAction(owner)
         {
             if (objectValue.Id == TargetId)
             {
-                GamePack.Current.CombatImages[3].Show(X + 15, Y + 18, lockedSurface: surface);
+                GetEngine().GamePack.CombatImages[3].Show(X + 15, Y + 18, lockedSurface: surface);
             }
         }
         else
         {
             if (objectValue.Id == SourceId)
             {
-                GamePack.Current.CombatImages[3].Show(X + 15, Y + 18, lockedSurface: surface);
+                GetEngine().GamePack.CombatImages[3].Show(X + 15, Y + 18, lockedSurface: surface);
             }
         }
     }

@@ -65,13 +65,14 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
 
                     int hexY = UnitHexSprite.HexY;
                     HexGeometry.CenterHexNumberToHex(UnitHexSprite.HexX, hexY, hexNumber: direction, ref x2, ref y2);
-                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2].Terrain is not TerrainType.Water and not TerrainType.Lava)
+                    CombatMap combatMap = GetEngine().CombatMap;
+                    if (combatMap.MapContainer.MapLevels[0].Field[x2, y2].Terrain is not TerrainType.Water and not TerrainType.Lava)
                     {
-                        TacticalBattleBloodHexSprite blood = new(CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2]);
+                        TacticalBattleBloodHexSprite blood = new(combatMap.MapContainer.MapLevels[0].Field[x2, y2]);
                         blood.Activate();
                         blood.OffsetX = Random(32) - 32;
                         blood.OffsetY = Random(32) - 32;
-                        blood.Frame = Random(GamePack.Current.ImageSequences.ImageSequences[4].TotalSequenceFrames);
+                        blood.Frame = Random(GetEngine().GamePack.ImageSequences.ImageSequences[4].TotalSequenceFrames);
                     }
 
                     count -= 1;
@@ -90,7 +91,7 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
                     MakeHitBlood(this, damage: 100);
                     for (int i = 0; i <= 9; i++)
                     {
-                        BattleEffectSprite effect = CombatMap.Current.AddEffect(BattleEffectType.DecayComet);
+                        BattleEffectSprite effect = GetEngine().CombatMap.AddEffect(BattleEffectType.DecayComet);
                         effect.AbilityIndex = 52;
                         effect.SpellIndex = 106;
                         int hexY = UnitHexSprite.HexY;
@@ -125,19 +126,20 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
                 {
                     int hexY = UnitHexSprite.HexY;
                     int hexX = UnitHexSprite.HexX;
-                    bool condition = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].Terrain != TerrainType.Water;
+                    CombatMap engineCombatMap = GetEngine().CombatMap;
+                    bool condition = engineCombatMap.MapContainer.MapLevels[0].Field[hexX, hexY].Terrain != TerrainType.Water;
                     if (condition)
                     {
                         int fUnitHexSpriteHexY = UnitHexSprite.HexY;
                         int fUnitHexSpriteHexX = UnitHexSprite.HexX;
-                        condition = CombatMap.Current.MapContainer.MapLevels[0].Field[fUnitHexSpriteHexX, fUnitHexSpriteHexY].Terrain != TerrainType.Lava;
+                        condition = engineCombatMap.MapContainer.MapLevels[0].Field[fUnitHexSpriteHexX, fUnitHexSpriteHexY].Terrain != TerrainType.Lava;
                     }
 
                     if (condition)
                     {
                         int fUnitHexSpriteHexY = UnitHexSprite.HexY;
                         int fUnitHexSpriteHexX = UnitHexSprite.HexX;
-                        TacticalBattleCorpseHexSprite corpse = new(CombatMap.Current.MapContainer.MapLevels[0].Field[fUnitHexSpriteHexX, fUnitHexSpriteHexY])
+                        TacticalBattleCorpseHexSprite corpse = new(engineCombatMap.MapContainer.MapLevels[0].Field[fUnitHexSpriteHexX, fUnitHexSpriteHexY])
                         {
                             UnitGraphics = UnitHexSprite.UnitGraphicsResource
                         };
@@ -195,7 +197,7 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
                 Rect r = new(UnitHexSprite.HexX, hexY3, hexX2 + 1, hexY2 + 1);
                 UnitHexSprite?.Dispose();
                 UnitHexSprite = null;
-                CombatMap.Current.TriggerMapChangedEvent(r, L: 0);
+                GetEngine().CombatMap.TriggerMapChangedEvent(r, L: 0);
             }
         }
         else
@@ -242,12 +244,12 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
             EffectPaths.CreateFire(50, UnitHexSprite.HexX, hexY, engine: GetEngine());
         }
 
-        CombatMap.Current.OnUnitChanged(UnitHexSprite);
+        GetEngine().CombatMap.OnUnitChanged(UnitHexSprite);
     }
 
     internal static void MakeHitBlood(TacticalBattleUnit unitObject, int damage)
     {
-        BattleEffectSprite effect = CombatMap.Current.AddEffect(BattleEffectType.Blood);
+        BattleEffectSprite effect = unitObject.GetEngine().CombatMap.AddEffect(BattleEffectType.Blood);
         Point3D point = new();
         effect.Path.Add(point);
         switch (damage)
@@ -300,7 +302,8 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
     {
         bool result = false;
         sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(unitObject.GetPlayer());
-        if (StrategicMap.Current.TokenManager.PlayerReady(PlayerId.FromOriginal(player)) && path.Count > 1)
+        StrategicMap strategicMap = unitObject.GetEngine().StrategicMap;
+        if (strategicMap.TokenManager.PlayerReady(PlayerId.FromOriginal(player)) && path.Count > 1)
         {
             int movePoints = unitObject.MovePoints;
             int cost = 0;
@@ -328,7 +331,7 @@ public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
                 if (eventValue is not null)
                 {
                     sbyte unitObjectPlayer = (sbyte)PlayerIdExtensions.ToOriginal(unitObject.GetPlayer());
-                    StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(unitObjectPlayer)).AddEvent(eventValue);
+                    strategicMap.TokenManager.GetTokenControl(PlayerId.FromOriginal(unitObjectPlayer)).AddEvent(eventValue);
                     _ = eventValue.Release();
                     result = true;
                 }

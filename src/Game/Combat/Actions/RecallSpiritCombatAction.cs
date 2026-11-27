@@ -3,7 +3,6 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -22,7 +21,7 @@ public class RecallSpiritCombatAction(CustomNode? owner) : ExclusiveCombatSpellC
             CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
             Unit newUnit = new(null) { Holder = CreationHolder() };
-            newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(130));
+            newUnit.SetUnitResource(GetEngine().GamePack.UnitResources.GetUnitResource(130));
             newUnit.SetPlayer(source.Troop.Player);
             _ = newUnit.ExpandAbility(130);
             newUnit.Activate();

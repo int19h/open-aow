@@ -291,7 +291,7 @@ public sealed class CombatPredictor : IDisposable
             FinishCombat();
         }
 
-        StrategicMap.Current.AIExecutor.UseProcessTime(Work * 58);
+        Creator.GetEngine().StrategicMap.AIExecutor.UseProcessTime(Work * 58);
         CombatResult result = (CombatResult)Result;
         Invalid = 0;
         return result;

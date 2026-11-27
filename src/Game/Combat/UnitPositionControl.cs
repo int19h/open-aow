@@ -32,13 +32,14 @@ public sealed class UnitPositionControl : EngineObject
         {
             int l = message.Data[1];
             HexGeometry.PixelToHex(message.Payload.Int, vertical: message.Data[0], out int x, out int y);
-            if (CombatMap.Current.MapContainer.GetField(x, y, l).Terrain != TerrainType.Border)
+            CombatMap combatMap = GetEngine().CombatMap;
+            if (combatMap.MapContainer.GetField(x, y, l).Terrain != TerrainType.Border)
             {
-                UnitPositionHexSprite? hexSprite = CombatMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<UnitPositionHexSprite>(UnitPositionHexSprite.ClassId);
+                UnitPositionHexSprite? hexSprite = combatMap.MapContainer.GetField(x, y, l).FindOwnedChild<UnitPositionHexSprite>(UnitPositionHexSprite.ClassId);
                 if (hexSprite is null)
                 {
                     hexSprite = new UnitPositionHexSprite(null) { Holder = CreationHolder() };
-                    if (!CombatMap.Current.PlaceHex(hexSprite, x, y, l))
+                    if (!combatMap.PlaceHex(hexSprite, x, y, l))
                     {
                         hexSprite?.Dispose();
                         hexSprite = null;
