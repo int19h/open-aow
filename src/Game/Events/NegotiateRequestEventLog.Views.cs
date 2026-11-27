@@ -18,7 +18,7 @@ public partial class NegotiateRequestEventLog
 
         if (Object == NegotiateObject.Army)
         {
-            ArmyHexSprite armyHexSprite = World.Map.StrategicMap.Current.MapContainer.GetField(Hex.X, Hex.Y, Hex.MapLevel).GetArmyHexSprite();
+            ArmyHexSprite armyHexSprite = GetEngine().StrategicMap.MapContainer.GetField(Hex.X, Hex.Y, Hex.MapLevel).GetArmyHexSprite();
             if (armyHexSprite is not null)
             {
                 int joinSelection = armyHexSprite.Army.GetJoinSelection(Player);

@@ -37,9 +37,10 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
     // PlayerC.PAS:7
     public override void Dispose()
     {
-        if (StrategicMap.Current is not null && StrategicMap.Current.TokenManager is not null)
+        StrategicMap strategicMap = GetEngine()?.StrategicMap;
+        if (strategicMap is not null && strategicMap.TokenManager is not null)
         {
-            TokenExecutor tokenExecutor = StrategicMap.Current.TokenManager.TokenExecutor;
+            TokenExecutor tokenExecutor = strategicMap.TokenManager.TokenExecutor;
             tokenExecutor.SetGetSyncValueHandler(null);
             tokenExecutor.SetSyncErrorHandler(null);
         }
@@ -56,48 +57,53 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
     // PlayerC.PAS:76
     public virtual void NewDay()
     {
-        StrategicMap.Current.Day += 1;
-        StrategicMap.Current.Players.BeginUpdate();
-        StrategicMap.Current.LockRelationsChanged();
-        for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.Day += 1;
+        strategicMap.Players.BeginUpdate();
+        strategicMap.LockRelationsChanged();
+        for (int i = 1, last = GetEngine().StrategicMap.Players.Count - 1; i <= last; i++)
         {
             TextEventLog log = new NewDayEventLog(null)
             {
                 Holder = CreationHolder(),
-                Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_newDayFormat), arguments: [StrategicMap.Current.Day])
+                Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_newDayFormat), arguments: [GetEngine().StrategicMap.Day])
             };
-            if (StrategicMap.Current.DayLimit != 0 && StrategicMap.Current.DayLimit - StrategicMap.Current.Day <= 10)
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+            if (engineStrategicMap.DayLimit != 0 && engineStrategicMap.DayLimit - engineStrategicMap.Day <= 10)
             {
-                string formatDaysLeftString = DurationText.FormatDaysLeftString(GetEngine(), days: StrategicMap.Current.DayLimit - StrategicMap.Current.Day);
+                string formatDaysLeftString = DurationText.FormatDaysLeftString(GetEngine(), days: engineStrategicMap.DayLimit - engineStrategicMap.Day);
                 log.Text = $"{log.Text} ({formatDaysLeftString})";
             }
 
             log.Player = PlayerId.FromOriginal((sbyte)i);
-            StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
+            GetEngine().StrategicMap.Players.GetPlayers(i).EventLogbook.AddEvent(log);
             _ = log.Release();
         }
 
-        if (StrategicMap.Current.TurnOrderMode == StrategicMapTurnOrderMode.Changing)
+        StrategicMap generateNewTurnOrderStrategicMap = GetEngine().StrategicMap;
+        if (generateNewTurnOrderStrategicMap.TurnOrderMode == StrategicMapTurnOrderMode.Changing)
         {
-            StrategicMap.Current.GenerateNewTurnOrder();
+            generateNewTurnOrderStrategicMap.GenerateNewTurnOrder();
         }
 
-        if (StrategicMap.Current.Day == 1)
+        StrategicMap resetPlayerRelationsStrategicMap = GetEngine().StrategicMap;
+        if (resetPlayerRelationsStrategicMap.Day == 1)
         {
-            StrategicMap.Current.Races.ResetPlayerRelations();
-            if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local)
+            resetPlayerRelationsStrategicMap.Races.ResetPlayerRelations();
+            if (resetPlayerRelationsStrategicMap.ConnectionType == PlayerConnectionType.Local)
             {
                 Randomize();
-                StrategicMap.Current.InitialRandomSeed = RandSeed;
+                GetEngine().StrategicMap.InitialRandomSeed = RandSeed;
             }
 
-            StrategicMap.Current.DefendersSeed = StrategicMap.Current.InitialRandomSeed;
+            StrategicMap defendersSeedStrategicMap = GetEngine().StrategicMap;
+            defendersSeedStrategicMap.DefendersSeed = defendersSeedStrategicMap.InitialRandomSeed;
         }
 
         try
         {
             EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537001985, sender: this);
-            StrategicMap.Current.SendMessage(ref message, sender: this);
+            GetEngine().StrategicMap.SendMessage(ref message, sender: this);
         }
         catch (Exception error)
         {
@@ -106,14 +112,15 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
 
         try
         {
-            StrategicMap.Current.OnDayStarted(this);
+            GetEngine().StrategicMap.OnDayStarted(this);
         }
         catch (Exception error)
         {
             HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
         }
 
-        if (StrategicMap.Current.DayLimit == StrategicMap.Current.Day)
+        StrategicMap dayLimitStrategicMap = GetEngine().StrategicMap;
+        if (dayLimitStrategicMap.DayLimit == dayLimitStrategicMap.Day)
         {
             MessageEventLog messageLog = new(null, holder: CreationHolder())
             {
@@ -123,72 +130,80 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
             };
             string turnLimitReached = AbilityRules.TranslateResourceString(GetEngine(), S: s_turnLimitReachedText);
             messageLog.Message.Text = turnLimitReached;
-            StrategicMap.Current.TriggerExecuteEventLog(messageLog, immediate: false, done: null);
+            GetEngine().StrategicMap.TriggerExecuteEventLog(messageLog, immediate: false, done: null);
             _ = messageLog.Release();
-            StrategicMap.Current.GameOver(StrategicMap.Current.SeatedPlayer, status: GameOverStatus.Lost);
-            for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+            StrategicMap gameOverStrategicMap = GetEngine().StrategicMap;
+            gameOverStrategicMap.GameOver(gameOverStrategicMap.SeatedPlayer, status: GameOverStatus.Lost);
+            for (int i = 1, last = GetEngine().StrategicMap.Players.Count - 1; i <= last; i++)
             {
-                StrategicMap.Current.GameOver(PlayerId.FromOriginal((sbyte)i), status: GameOverStatus.Lost);
+                GetEngine().StrategicMap.GameOver(PlayerId.FromOriginal((sbyte)i), status: GameOverStatus.Lost);
             }
         }
 
-        StrategicMap.Current.UnlockRelationsChanged();
-        StrategicMap.Current.TriggerRelationsChanged();
-        StrategicMap.Current.Players.EndUpdate();
+        StrategicMap unlockRelationsChangedStrategicMap = GetEngine().StrategicMap;
+        unlockRelationsChangedStrategicMap.UnlockRelationsChanged();
+        unlockRelationsChangedStrategicMap.TriggerRelationsChanged();
+        GetEngine().StrategicMap.Players.EndUpdate();
     }
 
     // PlayerC.PAS:177
     public virtual void NewTurn(PlayerId? player)
     {
-        if (StrategicMap.Current.Day != 1)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Day != 1)
         {
-            Player? players = StrategicMap.Current.Players.GetPlayers(player);
-            Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
-            int upkeep = StrategicMap.Current.Players.GetPlayers(player).GetUpkeep();
-            StrategicMap.Current.Players.GetPlayers(player).SetGems(players.Gems + fPlayersPlayers.Income - upkeep);
-            if (StrategicMap.Current.Players.GetPlayers(player).Gems < 0)
+            Player? players = strategicMap.Players.GetPlayers(player);
+            Player? fPlayersPlayers = strategicMap.Players.GetPlayers(player);
+            int upkeep = strategicMap.Players.GetPlayers(player).GetUpkeep();
+            strategicMap.Players.GetPlayers(player).SetGems(players.Gems + fPlayersPlayers.Income - upkeep);
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+            if (engineStrategicMap.Players.GetPlayers(player).Gems < 0)
             {
-                StrategicMap.Current.Players.GetPlayers(player).SetGems(0);
-                Player? players2 = StrategicMap.Current.Players.GetPlayers(player);
+                engineStrategicMap.Players.GetPlayers(player).SetGems(0);
+                StrategicMap getPlayersStrategicMap = GetEngine().StrategicMap;
+                Player? players2 = getPlayersStrategicMap.Players.GetPlayers(player);
                 players2.MoraleValue = (players2.MoraleValue - 5).TruncateToSByte();
-                if (StrategicMap.Current.Players.GetPlayers(player).MoraleValue < -50)
+                if (getPlayersStrategicMap.Players.GetPlayers(player).MoraleValue < -50)
                 {
-                    StrategicMap.Current.Players.GetPlayers(player).MoraleValue = -50;
+                    getPlayersStrategicMap.Players.GetPlayers(player).MoraleValue = -50;
                 }
             }
             else
             {
-                StrategicMap.Current.Players.GetPlayers(player).MoraleValue = 0;
+                GetEngine().StrategicMap.Players.GetPlayers(player).MoraleValue = 0;
             }
 
-            StrategicMap.Current.Players.GetPlayers(player).SetEndTurn(false);
+            GetEngine().StrategicMap.Players.GetPlayers(player).SetEndTurn(false);
         }
 
-        Player? players3 = StrategicMap.Current.Players.GetPlayers(player);
+        StrategicMap lockUpdateVisibilityStrategicMap = GetEngine().StrategicMap;
+        Player? players3 = lockUpdateVisibilityStrategicMap.Players.GetPlayers(player);
         players3.Day += 1;
-        StrategicMap.Current.LockUpdateVisibility();
+        lockUpdateVisibilityStrategicMap.LockUpdateVisibility();
         EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537001986, sender: this);
         message.Payload = MsgArgIds.FromPlayer(player);
-        StrategicMap.Current.SendMessage(ref message, sender: this);
-        StrategicMap.Current.OnTurnStarted((sbyte)PlayerIdExtensions.ToOriginal(player));
+        lockUpdateVisibilityStrategicMap.SendMessage(ref message, sender: this);
+        GetEngine().StrategicMap.OnTurnStarted((sbyte)PlayerIdExtensions.ToOriginal(player));
         EngineMessage.InitializeMessage(out message, messageId: 537001987, sender: this);
         message.Payload = MsgArgIds.FromPlayer(player);
-        StrategicMap.Current.SendMessage(ref message, sender: this);
-        StrategicMap.Current.UnLockUpdateVisibility();
-        if (StrategicMap.Current.DebugSave)
+        GetEngine().StrategicMap.SendMessage(ref message, sender: this);
+        GetEngine().StrategicMap.UnLockUpdateVisibility();
+        StrategicMap saveHsmStrategicMap = GetEngine().StrategicMap;
+        if (saveHsmStrategicMap.DebugSave)
         {
             try
             {
-                if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
+                if (saveHsmStrategicMap.PlayMode == PlayMode.Simultaneous)
                 {
                     if (player == PlayerId.Independent)
                     {
-                        GetEngine().SaveHsm($"{GetEngine().StartupDirectory}DEBUG\\{StrategicMap.Current.MapName}{StrategicMap.Current.Day.ToString(CultureInfo.InvariantCulture)}_p{StrategicMap.Current.SeatedPlayer.ToOriginal().ToString(CultureInfo.InvariantCulture)}{FileBoundary.WriteExtension(DocumentKind.Save)}", progress: null, profile: GameProfile.WorldMap);
+                        GetEngine().SaveHsm($"{GetEngine().StartupDirectory}DEBUG\\{saveHsmStrategicMap.MapName}{saveHsmStrategicMap.Day.ToString(CultureInfo.InvariantCulture)}_p{saveHsmStrategicMap.SeatedPlayer.ToOriginal().ToString(CultureInfo.InvariantCulture)}{FileBoundary.WriteExtension(DocumentKind.Save)}", progress: null, profile: GameProfile.WorldMap);
                     }
                 }
                 else
                 {
-                    GetEngine().SaveHsm($"{GetEngine().StartupDirectory}DEBUG\\{StrategicMap.Current.MapName}{StrategicMap.Current.Day.ToString(CultureInfo.InvariantCulture)}-{player.ToOriginal().ToString(CultureInfo.InvariantCulture)}_p{StrategicMap.Current.SeatedPlayer.ToOriginal().ToString(CultureInfo.InvariantCulture)}{FileBoundary.WriteExtension(DocumentKind.Save)}", progress: null, profile: GameProfile.WorldMap);
+                    StrategicMap toStringStrategicMap = GetEngine().StrategicMap;
+                    GetEngine().SaveHsm($"{GetEngine().StartupDirectory}DEBUG\\{toStringStrategicMap.MapName}{toStringStrategicMap.Day.ToString(CultureInfo.InvariantCulture)}-{player.ToOriginal().ToString(CultureInfo.InvariantCulture)}_p{toStringStrategicMap.SeatedPlayer.ToOriginal().ToString(CultureInfo.InvariantCulture)}{FileBoundary.WriteExtension(DocumentKind.Save)}", progress: null, profile: GameProfile.WorldMap);
                 }
             }
             catch (Exception error)
@@ -202,7 +217,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
     public virtual void AutoSave()
     {
         string fileName = "";
-        if (StrategicMap.Current.GameType == GameType.Campaign)
+        if (GetEngine().StrategicMap.GameType == GameType.Campaign)
         {
             try
             {
@@ -213,7 +228,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
             catch
             {
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CouldNotSaveFormat), arguments: [fileName]);
-                StrategicMap.Current.ShowWarning(format);
+                GetEngine().StrategicMap.ShowWarning(format);
             }
         }
         else
@@ -226,7 +241,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
             catch
             {
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CouldNotSaveFormat), arguments: [fileName]);
-                StrategicMap.Current.ShowWarning(format);
+                GetEngine().StrategicMap.ShowWarning(format);
             }
         }
     }
@@ -239,26 +254,29 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
     // PlayerC.PAS:19
     public virtual void Setup()
     {
-        if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.ConnectionType == PlayerConnectionType.Network && !strategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
-            if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is null)
+            if (strategicMap.PlayerCommunicator.PlayerCommunicationControl is null)
             {
                 throw new InvalidOperationException("Please setup DirectPlayPCC");
             }
 
-            TokenExecutor tokenExecutor = StrategicMap.Current.TokenManager.TokenExecutor;
+            TokenExecutor tokenExecutor = strategicMap.TokenManager.TokenExecutor;
             tokenExecutor.SetGetSyncValueHandler(GetSyncValue);
             tokenExecutor.SetSyncErrorHandler(OutOfSync);
         }
         else
         {
-            if ((StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) || StrategicMap.Current.ConnectionType is PlayerConnectionType.Local or PlayerConnectionType.Email) && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is null)
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+            if ((engineStrategicMap.Status.Contains(HexSpriteMapStatuses.Editting) || engineStrategicMap.ConnectionType is PlayerConnectionType.Local or PlayerConnectionType.Email) && engineStrategicMap.PlayerCommunicator.PlayerCommunicationControl is null)
             {
                 LocalPlayerCommunicationControl playerCommunicationControl = new(this);
-                playerCommunicationControl.Setup(StrategicMap.Current.Players.Count);
-                for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+                playerCommunicationControl.Setup(engineStrategicMap.Players.Count);
+                StrategicMap getPlayersStrategicMap = GetEngine().StrategicMap;
+                for (int i = 0, last = getPlayersStrategicMap.Players.Count - 1; i <= last; i++)
                 {
-                    if (StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human)
+                    if (getPlayersStrategicMap.Players.GetPlayers(i).PlayerType == PlayerType.Human)
                     {
                         playerCommunicationControl.SetConnectionMode(PlayerId.FromInt32(i), mode: ConnectionMode.Local);
                     }
@@ -268,9 +286,9 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
                     }
                 }
 
-                _ = StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(playerCommunicationControl);
+                _ = getPlayersStrategicMap.PlayerCommunicator.ActivatePlayerCommunicationControl(playerCommunicationControl);
                 playerCommunicationControl.Release();
-                StrategicMap.Current.Players.Update();
+                GetEngine().StrategicMap.Players.Update();
             }
         }
     }
@@ -278,11 +296,12 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
     // PlayerC.PAS:224
     public virtual void StartNewMap()
     {
-        for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        for (int i = 0, last = strategicMap.Players.Count - 1; i <= last; i++)
         {
-            if (i == 0 || StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Independent)
+            if (i == 0 || strategicMap.Players.GetPlayers(i).PlayerType != PlayerType.Independent)
             {
-                StrategicMap.Current.Players.GetPlayers(i).Status = PlayerStatus.Playing;
+                strategicMap.Players.GetPlayers(i).Status = PlayerStatus.Playing;
             }
         }
     }
@@ -293,7 +312,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
     }
 
     // PlayerC.PAS:463
-    public virtual void PasswordFailed() => StrategicMap.Current.ExecuteExitGame();
+    public virtual void PasswordFailed() => GetEngine().StrategicMap.ExecuteExitGame();
 
     // PlayerC.PAS:468
     public virtual void PasswordValidated()
@@ -301,31 +320,33 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
     }
 
     // PlayerC.PAS:236
-    public virtual void SetPlayerGameOverStatus(PlayerId? player, GameOverStatus status) => StrategicMap.Current.Players.GetPlayers(player).SetGameOverStatus(status);
+    public virtual void SetPlayerGameOverStatus(PlayerId? player, GameOverStatus status) => GetEngine().StrategicMap.Players.GetPlayers(player).SetGameOverStatus(status);
 
     // PlayerC.PAS:241
     public virtual void GameOver(PlayerId? player, GameOverStatus status)
     {
-        if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus != status && StrategicMap.Current.Players.GetPlayers(player).Status != PlayerStatus.Terminated)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Players.GetPlayers(player).GameOverStatus != status && strategicMap.Players.GetPlayers(player).Status != PlayerStatus.Terminated)
         {
-            StrategicMap.Current.LockGameOverEvent();
+            strategicMap.LockGameOverEvent();
             SetPlayerGameOverStatus(player, status);
             if (status == GameOverStatus.Lost)
             {
-                if (!StrategicMap.Current.AlliedVictory)
+                StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                if (!engineStrategicMap.AlliedVictory)
                 {
-                    if (StrategicMap.Current.Players.ActivePlayers.Count == 1)
+                    if (engineStrategicMap.Players.ActivePlayers.Count == 1)
                     {
-                        GameOver(PlayerId.FromOriginal((sbyte)StrategicMap.Current.Players.ActivePlayers[0]), status: GameOverStatus.Won);
+                        GameOver(PlayerId.FromOriginal((sbyte)engineStrategicMap.Players.ActivePlayers[0]), status: GameOverStatus.Won);
                     }
                 }
                 else
                 {
-                    if (StrategicMap.Current.Players.GetActivePlayersAllied())
+                    if (GetEngine().StrategicMap.Players.GetActivePlayersAllied())
                     {
-                        for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+                        for (int i = 1, last = GetEngine().StrategicMap.Players.Count - 1; i <= last; i++)
                         {
-                            if (i != PlayerIdExtensions.ToOriginal(player) && StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing && StrategicMap.Current.Players.GetPlayers(i).GameOverStatus != GameOverStatus.Lost)
+                            if (i != PlayerIdExtensions.ToOriginal(player) && GetEngine().StrategicMap.Players.GetPlayers(i).Status == PlayerStatus.Playing && GetEngine().StrategicMap.Players.GetPlayers(i).GameOverStatus != GameOverStatus.Lost)
                             {
                                 SetPlayerGameOverStatus(PlayerId.FromOriginal((sbyte)i), status: GameOverStatus.Won);
                             }
@@ -337,11 +358,12 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
             {
                 if (status == GameOverStatus.Won)
                 {
-                    for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+                    for (int i = 1, last = GetEngine().StrategicMap.Players.Count - 1; i <= last; i++)
                     {
-                        if (i != PlayerIdExtensions.ToOriginal(player) && StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing && StrategicMap.Current.Players.GetPlayers(i).GameOverStatus != GameOverStatus.Lost)
+                        if (i != PlayerIdExtensions.ToOriginal(player) && GetEngine().StrategicMap.Players.GetPlayers(i).Status == PlayerStatus.Playing && GetEngine().StrategicMap.Players.GetPlayers(i).GameOverStatus != GameOverStatus.Lost)
                         {
-                            if (StrategicMap.Current.Players.GetDiplomaticRelation(player, otherPlayer: PlayerId.FromOriginal((sbyte)i)) == DiplomaticRelation.Alliance && StrategicMap.Current.AlliedVictory)
+                            StrategicMap getDiplomaticRelationStrategicMap = GetEngine().StrategicMap;
+                            if (getDiplomaticRelationStrategicMap.Players.GetDiplomaticRelation(player, otherPlayer: PlayerId.FromOriginal((sbyte)i)) == DiplomaticRelation.Alliance && getDiplomaticRelationStrategicMap.AlliedVictory)
                             {
                                 SetPlayerGameOverStatus(PlayerId.FromOriginal((sbyte)i), status: GameOverStatus.Won);
                             }
@@ -354,22 +376,23 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
                 }
             }
 
-            StrategicMap.Current.UnlockGameOverEvent();
+            GetEngine().StrategicMap.UnlockGameOverEvent();
         }
     }
 
     // PlayerC.PAS:274
-    public virtual void GameOverEventHandled(PlayerId? player) => StrategicMap.Current.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
+    public virtual void GameOverEventHandled(PlayerId? player) => GetEngine().StrategicMap.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
 
     // PlayerC.PAS:388
     public virtual void ExitGame(ExitGameMode mode, ExitGameCallBack? done)
     {
-        if (StrategicMap.Current.Combat is null)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Combat is null)
         {
             MessageEventLog log;
-            if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network && StrategicMap.Current.GameStatus != StrategicMapGameStatus.Terminated && StrategicMap.Current.GameType != GameType.Tutorial && StrategicMap.Current.Players.LocalPlayers.Count > 1)
+            if (strategicMap.ConnectionType == PlayerConnectionType.Network && strategicMap.GameStatus != StrategicMapGameStatus.Terminated && strategicMap.GameType != GameType.Tutorial && strategicMap.Players.LocalPlayers.Count > 1)
             {
-                if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous || StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
+                if (strategicMap.PlayMode == PlayMode.Simultaneous || strategicMap.CurrentPlayer == strategicMap.SeatedPlayer)
                 {
                     _exitMode = mode;
                     _exitCallback = done;
@@ -383,7 +406,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
                     _ = log.Message.Add(yourAboutToExitAMultiPlayerGame);
                     string translatedText = AbilityRules.TranslateResourceString(GetEngine(), S: s_doYouWantToContinueExitingText);
                     _ = log.Message.Add(translatedText);
-                    StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ExitNetworkGameCallback);
+                    GetEngine().StrategicMap.TriggerTypedExecuteEventLog(log, immediate: false, done: ExitNetworkGameCallback);
                     _ = log.Release();
                 }
                 else
@@ -396,13 +419,14 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
                     };
                     string pleaseWaitTillItIsYourTurn = AbilityRules.TranslateResourceString(GetEngine(), S: s_pleaseWaitTillItIsYourTurnText);
                     _ = log.Message.Add(pleaseWaitTillItIsYourTurn);
-                    StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: null);
+                    GetEngine().StrategicMap.TriggerExecuteEventLog(log, immediate: false, done: null);
                     _ = log.Release();
                 }
             }
             else
             {
-                if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Modified) && StrategicMap.Current.GameStatus != StrategicMapGameStatus.Terminated && StrategicMap.Current.GameType != GameType.Tutorial)
+                StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                if (engineStrategicMap.Status.Contains(HexSpriteMapStatuses.Modified) && engineStrategicMap.GameStatus != StrategicMapGameStatus.Terminated && engineStrategicMap.GameType != GameType.Tutorial)
                 {
                     if (_exitCallback is null)
                     {
@@ -415,17 +439,17 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
                                 Title = AbilityRules.TranslateResourceString(GetEngine(), S: ConfirmText),
                                 Buttons = MessageEventLogButtons.YesNoCancel
                             };
-                            if (GetEngine().Campaign is null && !IsEmpty(StrategicMap.Current.FileName) && !DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
+                            if (GetEngine().Campaign is null && !IsEmpty(GetEngine().StrategicMap.FileName) && !DocumentKind.Map.HasExtension(ExtractFileExt(GetEngine().StrategicMap.FileName)))
                             {
                                 log.Layout = MessageEventLogLayout.Normal;
                                 // The message names the file the save writes (own-formats.md 4.2).
-                                string fileName = ExtractFileName(FileBoundary.WriteName(StrategicMap.Current.FileName));
+                                string fileName = ExtractFileName(FileBoundary.WriteName(GetEngine().StrategicMap.FileName));
                                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_saveGameFormat), arguments: [fileName]);
                                 _ = log.Message.Add(format);
                             }
                             else
                             {
-                                if (GetEngine().Campaign is not null && !IsEmpty(GetEngine().Campaign.FileName) && !DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
+                                if (GetEngine().Campaign is not null && !IsEmpty(GetEngine().Campaign.FileName) && !DocumentKind.CampaignMap.HasExtension(ExtractFileExt(GetEngine().StrategicMap.FileName)))
                                 {
                                     // { Original tests the map extension when saving a campaign. }
                                     log.Layout = MessageEventLogLayout.Normal;
@@ -441,7 +465,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
                                 }
                             }
 
-                            StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: SaveGameOnExitCallback);
+                            GetEngine().StrategicMap.TriggerTypedExecuteEventLog(log, immediate: false, done: SaveGameOnExitCallback);
                             _ = log.Release();
                         }
                         else
@@ -456,7 +480,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
                 }
                 else
                 {
-                    StrategicMap.Current.ExecuteExitGame();
+                    GetEngine().StrategicMap.ExecuteExitGame();
                 }
             }
         }
@@ -469,33 +493,36 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
     // PlayerC.PAS:153
     public virtual void EndTurn(PlayerId? player)
     {
-        StrategicMap.Current.LockRelationsChanged();
-        if (player == StrategicMap.Current.SeatedPlayer)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.LockRelationsChanged();
+        if (player == strategicMap.SeatedPlayer)
         {
-            Player? p = StrategicMap.Current.Players.GetPlayers(player);
+            Player? p = strategicMap.Players.GetPlayers(player);
             p.SetEndTurn(true);
             if (p is not null)
             {
-                StrategicMap.Current.GetViewCenter(out int x, out int y, out int l);
+                GetEngine().StrategicMap.GetViewCenter(out int x, out int y, out int l);
                 p.View = new MapCoordinate(unchecked((sbyte)(byte)x), unchecked((sbyte)(byte)y), unchecked((sbyte)(byte)l));
             }
         }
 
         EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537001991, sender: this);
         message.Payload = MsgArgIds.FromPlayer(player);
-        StrategicMap.Current.SendMessage(ref message, sender: this);
-        StrategicMap.Current.UnlockRelationsChanged();
-        StrategicMap.Current.TriggerRelationsChanged();
+        GetEngine().StrategicMap.SendMessage(ref message, sender: this);
+        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+        engineStrategicMap.UnlockRelationsChanged();
+        engineStrategicMap.TriggerRelationsChanged();
     }
 
     // PlayerC.PAS:279
     public virtual void SetSeatedPlayer(PlayerId? player)
     {
-        if (player != StrategicMap.Current.SeatedPlayer)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (player != strategicMap.SeatedPlayer)
         {
-            StrategicMap.Current.SeatedPlayer = player;
-            StrategicMap.Current.NotifySeatedPlayerChanged();
-            StrategicMap.Current.ResetSeatedPlayerView();
+            strategicMap.SeatedPlayer = player;
+            strategicMap.NotifySeatedPlayerChanged();
+            GetEngine().StrategicMap.ResetSeatedPlayerView();
         }
     }
 
@@ -505,9 +532,10 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
         for (int i = _disconnectedPlayers.Count - 1; i >= 0; i--)
         {
             int player = _disconnectedPlayers[i].First;
-            if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.None)
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (strategicMap.Players.GetPlayers(player).GameOverStatus == GameOverStatus.None)
             {
-                if (StrategicMap.Current.TokenManager.PlayerReady(StrategicMap.Current.CurrentPlayer) && StrategicMap.Current.TokenManager.TokenExecutor.ActiveTacticalBattle.Count == 0)
+                if (strategicMap.TokenManager.PlayerReady(strategicMap.CurrentPlayer) && strategicMap.TokenManager.TokenExecutor.ActiveTacticalBattle.Count == 0)
                 {
                     int count = _disconnectedPlayers[i].Second;
                     if (count > 0)
@@ -520,7 +548,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
                     {
                         PlayerConnectionEventLog log = new(null, holder: CreationHolder());
                         log.Setup(PlayerId.FromOriginal((sbyte)player), reason: 2);
-                        StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: null);
+                        GetEngine().StrategicMap.TriggerExecuteEventLog(log, immediate: false, done: null);
                         _ = log.Release();
                         _disconnectedPlayers.Delete(i);
                     }
@@ -538,32 +566,37 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
     {
         PlayerConnectionEventLog log = new(null, holder: CreationHolder());
         log.Setup(null, reason: 2);
-        StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: null);
+        GetEngine().StrategicMap.TriggerExecuteEventLog(log, immediate: false, done: null);
         _ = log.Release();
     }
 
     // PlayerC.PAS:289
-    public virtual bool LockAI() => StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && !StrategicMap.Current.RequestCombatType && StrategicMap.Current.AILockCount != 0;
+    public virtual bool LockAI()
+    {
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        return strategicMap.ConnectionType == PlayerConnectionType.Local && !strategicMap.RequestCombatType && strategicMap.AILockCount != 0;
+    }
 
     // PlayerC.PAS:49
-    public void GetSyncValue(out int value) => value = StrategicMap.Current.DefendersSeed;
+    public void GetSyncValue(out int value) => value = GetEngine().StrategicMap.DefendersSeed;
 
     // PlayerC.PAS:54
     public void OutOfSync(object sender)
     {
-        if (StrategicMap.Current.TokenManager.TokenExecutor.ActiveTacticalBattle.Active)
+        if (GetEngine().StrategicMap.TokenManager.TokenExecutor.ActiveTacticalBattle.Active)
         {
             if (!_outOfSyncShown)
             {
                 PlayerConnectionEventLog log = new(null, holder: CreationHolder());
                 log.Setup(null, reason: 3);
-                StrategicMap.Current.TriggerExecuteEventLog(log, immediate: StrategicMap.Current.Combat is not null, done: null);
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                strategicMap.TriggerExecuteEventLog(log, immediate: strategicMap.Combat is not null, done: null);
                 _ = log.Release();
                 _outOfSyncShown = true;
             }
             else
             {
-                StrategicMap.Current.TokenManager.TokenExecutor.Lock();
+                GetEngine().StrategicMap.TokenManager.TokenExecutor.Lock();
             }
         }
     }
@@ -571,11 +604,11 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
     // PlayerC.PAS:295
     public void ListPlayerInfo(DelphiStringCollection strings)
     {
-        PlayerCommunicationControl? playerCommunicationControl = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
-        for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+        PlayerCommunicationControl? playerCommunicationControl = GetEngine().StrategicMap.PlayerCommunicator.PlayerCommunicationControl;
+        for (int i = 0, last = GetEngine().StrategicMap.Players.Count - 1; i <= last; i++)
         {
             string text = $"Player {i.ToString(CultureInfo.InvariantCulture)}";
-            int race = StrategicMap.Current.Players.GetPlayers(i).PlayerRace;
+            int race = GetEngine().StrategicMap.Players.GetPlayers(i).PlayerRace;
             if (race != -1)
             {
                 string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[race]);
@@ -603,7 +636,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
                 GetEngine().SaveHsm(log.FileName, progress: null, profile: GameProfile.WorldMap);
             }
 
-            StrategicMap.Current.ExecuteExitGame();
+            GetEngine().StrategicMap.ExecuteExitGame();
             _exitCallback?.Invoke(_exitMode, Exited: true);
         }
         else
@@ -619,12 +652,13 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
     {
         if (log.PressedButton == PressedEventLogButton.Yes)
         {
-            if ((GetEngine().Campaign is null && (IsEmpty(StrategicMap.Current.FileName) || DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))) || (GetEngine().Campaign is not null && (IsEmpty(GetEngine().Campaign.FileName) || DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))))
+            if ((GetEngine().Campaign is null && (IsEmpty(GetEngine().StrategicMap.FileName) || DocumentKind.Map.HasExtension(ExtractFileExt(GetEngine().StrategicMap.FileName)))) || (GetEngine().Campaign is not null && (IsEmpty(GetEngine().Campaign.FileName) || DocumentKind.CampaignMap.HasExtension(ExtractFileExt(GetEngine().StrategicMap.FileName)))))
             {
                 SaveGameEventLog saveLog = new(null, holder: CreationHolder());
-                if (!IsEmpty(StrategicMap.Current.FileName))
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                if (!IsEmpty(strategicMap.FileName))
                 {
-                    saveLog.DefaultName = ExtractFileName(StrategicMap.Current.FileName);
+                    saveLog.DefaultName = ExtractFileName(strategicMap.FileName);
                     if (Pos(".", haystack: saveLog.DefaultName) != 0)
                     {
                         saveLog.DefaultName = DelphiStrings.Copy(saveLog.DefaultName, index: 1, count: Pos(".", haystack: saveLog.DefaultName) - 1);
@@ -632,11 +666,11 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
                 }
                 else
                 {
-                    saveLog.DefaultName = StrategicMap.Current.MapName;
+                    saveLog.DefaultName = strategicMap.MapName;
                 }
 
                 saveLog.Directory = $"{GetEngine().StartupDirectory}Save\\";
-                StrategicMap.Current.TriggerTypedExecuteEventLog(saveLog, immediate: false, done: ExitSaveGameCallback);
+                strategicMap.TriggerTypedExecuteEventLog(saveLog, immediate: false, done: ExitSaveGameCallback);
                 _ = saveLog.Release();
             }
             else
@@ -650,10 +684,10 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
                 }
                 else
                 {
-                    engine.SaveHsm(FileBoundary.WriteName(StrategicMap.Current.FileName), progress: null, profile: GameProfile.WorldMap);
+                    engine.SaveHsm(FileBoundary.WriteName(engine.StrategicMap.FileName), progress: null, profile: GameProfile.WorldMap);
                 }
 
-                StrategicMap.Current.ExecuteExitGame();
+                engine.StrategicMap.ExecuteExitGame();
                 _exitCallback?.Invoke(_exitMode, Exited: true);
 
                 _exitCallback = null;
@@ -663,7 +697,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
         {
             if (log.PressedButton == PressedEventLogButton.No)
             {
-                StrategicMap.Current.ExecuteExitGame();
+                GetEngine().StrategicMap.ExecuteExitGame();
                 _exitCallback?.Invoke(_exitMode, Exited: true);
 
                 _exitCallback = null;
@@ -685,16 +719,17 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
     {
         if (log.PressedButton == PressedEventLogButton.Yes)
         {
-            if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous || StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (strategicMap.PlayMode == PlayMode.Simultaneous || strategicMap.CurrentPlayer == strategicMap.SeatedPlayer)
             {
                 TerminatePlayerTokenEvent tokenEvent = new(null)
                 {
                     Holder = CreationHolder(),
-                    Player = StrategicMap.Current.SeatedPlayer,
+                    Player = strategicMap.SeatedPlayer,
                     ExitCallback = _exitCallback,
                     ExitMode = _exitMode
                 };
-                StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(tokenEvent);
+                strategicMap.TokenManager.GetTokenControl(strategicMap.SeatedPlayer).AddEvent(tokenEvent);
                 _ = tokenEvent.Release();
             }
         }
@@ -706,7 +741,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
         if (log.PressedButton == PressedEventLogButton.Yes)
         {
             PasswordEventLog passwordLog = new(null, holder: CreationHolder());
-            StrategicMap.Current.TriggerTypedExecuteEventLog(passwordLog, immediate: false, done: ValidatePasswordCallback);
+            GetEngine().StrategicMap.TriggerTypedExecuteEventLog(passwordLog, immediate: false, done: ValidatePasswordCallback);
             _ = passwordLog.Release();
         }
         else
@@ -731,7 +766,7 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
             _ = messageLog.Message.Add("");
             string translatedText = AbilityRules.TranslateResourceString(GetEngine(), S: s_doYouWantToTryAgainText);
             _ = messageLog.Message.Add(translatedText);
-            StrategicMap.Current.TriggerTypedExecuteEventLog(messageLog, immediate: false, done: PasswordTryAgainCallback);
+            GetEngine().StrategicMap.TriggerTypedExecuteEventLog(messageLog, immediate: false, done: PasswordTryAgainCallback);
             _ = messageLog.Release();
         }
         else
@@ -743,14 +778,14 @@ public class PlayerControl(CustomNode? owner) : EngineObject(owner)
     // PlayerC.PAS:504
     public void ValidatePassword(string password)
     {
-        if (StrategicMap.Current.SeatedPlayer is not null)
+        if (GetEngine().StrategicMap.SeatedPlayer is not null)
         {
             SetSeatedPlayer(null);
         }
 
         _password = password;
         PasswordEventLog log = new(null, holder: CreationHolder());
-        StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ValidatePasswordCallback);
+        GetEngine().StrategicMap.TriggerTypedExecuteEventLog(log, immediate: false, done: ValidatePasswordCallback);
         _ = log.Release();
     }
 

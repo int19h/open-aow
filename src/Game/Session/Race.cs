@@ -81,7 +81,7 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
     // Ability.PAS:229
     public int GetRelationValue(int race)
     {
-        int player = StrategicMap.Current.Players.RaceToPlayer(race);
+        int player = GetEngine().StrategicMap.Players.RaceToPlayer(race);
         int result = player == -1 ? StatusToStatusValue((Status)DefaultRelations[race]) : _playerRelations[player - 1];
 
         return result + Owner.RelationOffset;
@@ -90,10 +90,11 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
     // Ability.PAS:239
     public Status GetRelation(int race)
     {
-        int player = StrategicMap.Current.Players.RaceToPlayer(race);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        int player = strategicMap.Players.RaceToPlayer(race);
         return player == -1
-            ? StatusValueToStatus(StatusToStatusValue((Status)DefaultRelations[race]) + StrategicMap.Current.Races.RelationOffset)
-            : StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset);
+            ? StatusValueToStatus(StatusToStatusValue((Status)DefaultRelations[race]) + strategicMap.Races.RelationOffset)
+            : StatusValueToStatus(_playerRelations[player - 1] + strategicMap.Races.RelationOffset);
     }
 
     // Ability.PAS:249
@@ -101,28 +102,30 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
     {
         if (PlayerIdExtensions.ToOriginal(player) > 0)
         {
-            // { Original dereferences AoWHSMap before the nil check below. }
-            _playerRelations[PlayerIdExtensions.ToOriginal(player) - 1] = value - StrategicMap.Current.Races.RelationOffset;
-            StrategicMap.Current?.TriggerRelationsChanged();
+            // { Original dereferences AoWHSMap before its nil check, so the check never skips. }
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            _playerRelations[PlayerIdExtensions.ToOriginal(player) - 1] = value - strategicMap.Races.RelationOffset;
+            strategicMap.TriggerRelationsChanged();
         }
     }
 
     // Ability.PAS:259
-    public int GetPlayerRelationValue(PlayerId? player) => PlayerIdExtensions.ToOriginal(player) > 0 ? _playerRelations[PlayerIdExtensions.ToOriginal(player) - 1] + StrategicMap.Current.Races.RelationOffset : 50;
+    public int GetPlayerRelationValue(PlayerId? player) => PlayerIdExtensions.ToOriginal(player) > 0 ? _playerRelations[PlayerIdExtensions.ToOriginal(player) - 1] + GetEngine().StrategicMap.Races.RelationOffset : 50;
 
     // Ability.PAS:265
-    public Status GetPlayerRelation(PlayerId? player) => PlayerIdExtensions.ToOriginal(player) > 0 ? StatusValueToStatus(_playerRelations[PlayerIdExtensions.ToOriginal(player) - 1] + StrategicMap.Current.Races.RelationOffset) : Status.Neutral;
+    public Status GetPlayerRelation(PlayerId? player) => PlayerIdExtensions.ToOriginal(player) > 0 ? StatusValueToStatus(_playerRelations[PlayerIdExtensions.ToOriginal(player) - 1] + GetEngine().StrategicMap.Races.RelationOffset) : Status.Neutral;
 
     // Ability.PAS:271
     public void NewDay()
     {
-        if (StrategicMap.Current.Day != 1)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Day != 1)
         {
-            if ((StrategicMap.Current.GlobalMagicControl.ActiveEnchantments & (GlobalEnchantmentTypes.Hatred | GlobalEnchantmentTypes.Harmony)) == GlobalEnchantmentTypes.None)
+            if ((strategicMap.GlobalMagicControl.ActiveEnchantments & (GlobalEnchantmentTypes.Hatred | GlobalEnchantmentTypes.Harmony)) == GlobalEnchantmentTypes.None)
             {
                 for (int i = 0, last = _playerRelations.Count - 1; i <= last; i++)
                 {
-                    Player players = StrategicMap.Current.Players.GetPlayers(i + 1);
+                    Player players = strategicMap.Players.GetPlayers(i + 1);
                     int defaultValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
                     if (_playerRelations[i] > defaultValue)
                     {
@@ -172,9 +175,10 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
     public void ResetPlayerRelations()
     {
         _playerRelations.Clear();
-        for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        for (int i = 1, last = strategicMap.Players.GetCount() - 1; i <= last; i++)
         {
-            Player players = StrategicMap.Current.Players.GetPlayers(i);
+            Player players = strategicMap.Players.GetPlayers(i);
             int statusToStatusValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
             _ = _playerRelations.Add(statusToStatusValue);
         }
@@ -192,11 +196,12 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
     {
         if (value != Enabled)
         {
-            if (GamePack.Current.RaceResources.GetRaceResource(RaceIndex) is not null)
+            GamePack gamePack = GetEngine().GamePack;
+            if (gamePack.RaceResources.GetRaceResource(RaceIndex) is not null)
             {
                 _ = value
-                    ? GamePack.Current.RaceResources.GetRaceResource(RaceIndex).AddRef()
-                    : GamePack.Current.RaceResources.GetRaceResource(RaceIndex).Release();
+                    ? gamePack.RaceResources.GetRaceResource(RaceIndex).AddRef()
+                    : GetEngine().GamePack.RaceResources.GetRaceResource(RaceIndex).Release();
 
                 Enabled = value;
             }

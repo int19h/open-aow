@@ -64,7 +64,7 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
         {
             i -= 1;
             int item = UnitIds[i];
-            Troop troop = StrategicMap.Current.UnitControl.FindUnit(item);
+            Troop troop = GetEngine().StrategicMap.UnitControl.FindUnit(item);
             // { Original behavior: missing and dead units do not invalidate the offer. }
             if (troop is not null && troop.Player == PlayerId.Independent)
             {
@@ -86,7 +86,7 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
         for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
             int item = UnitIds[i];
-            Troop troop = StrategicMap.Current.UnitControl.FindUnit(item);
+            Troop troop = GetEngine().StrategicMap.UnitControl.FindUnit(item);
             _ = units.AddUnit(troop);
         }
 
@@ -97,7 +97,7 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
     // Diplomacy.pas:93
     public virtual bool Accept(ref string errorText)
     {
-        if (StrategicMap.Current.Players.GetPlayers(Player).Gems >= Gold)
+        if (GetEngine().StrategicMap.Players.GetPlayers(Player).Gems >= Gold)
         {
             return true;
         }

@@ -5,5 +5,5 @@ namespace Aow.Game.Events;
 public partial class GameOverEventLog
 {
     // The seated player sees the game over screen, every other player the message.
-    public override EventView View() => World.Map.StrategicMap.Current.SeatedPlayer == Player ? EventView.GameOver : EventView.ReceivedMessage;
+    public override EventView View() => GetEngine().StrategicMap.SeatedPlayer == Player ? EventView.GameOver : EventView.ReceivedMessage;
 }

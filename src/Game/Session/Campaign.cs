@@ -128,7 +128,7 @@ public class Campaign : EngineObject
 
     // Diplomacy.pas:2413
     // The name takes the extension the host writes for a campaign save (own-formats.md 4.2).
-    public virtual string GetAutoSaveFileName(CampaignAutoSaveType auto) => StrategicMap.Current.MapName + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
+    public virtual string GetAutoSaveFileName(CampaignAutoSaveType auto) => GetEngine().StrategicMap.MapName + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
 
     // Diplomacy.pas:2330
     public virtual void SelectNextScenario(int id) => NextScenarioId = id;
@@ -147,57 +147,59 @@ public class Campaign : EngineObject
     // Diplomacy.pas:2343
     public virtual void SetupScenario()
     {
-        sbyte player = (sbyte)(StrategicMap.Current.Players.Count - 1);
-        while (player > 1 && StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        sbyte player = (sbyte)(strategicMap.Players.Count - 1);
+        while (player > 1 && strategicMap.Players.GetPlayers(player).PlayerType != PlayerType.Human)
         {
             player = (sbyte)(player - 1);
         }
 
         int level = 1 + (CompletedScenarios.Count / 4);
-        for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+        for (int i = 1, last = GetEngine().StrategicMap.Players.Count - 1; i <= last; i++)
         {
             if (i != player)
             {
-                for (int j = 0, lastJ = GamePack.Current.SpellControl.GetCount() - 1; j <= lastJ; j++)
+                for (int j = 0, lastJ = GetEngine().GamePack.SpellControl.GetCount() - 1; j <= lastJ; j++)
                 {
-                    Spell? spell = GamePack.Current.SpellControl[j];
+                    Spell? spell = GetEngine().GamePack.SpellControl[j];
                     bool condition = spell is not null && spell.SpellLevel <= level;
                     if (condition)
                     {
-                        int spherePicks = StrategicMap.Current.Players.GetPlayers(i).Leader.GetSpherePicks(spell.MagicSphere);
+                        int spherePicks = GetEngine().StrategicMap.Players.GetPlayers(i).Leader.GetSpherePicks(spell.MagicSphere);
                         condition = spell.SpellLevel <= spherePicks;
                     }
 
                     if (condition)
                     {
-                        if (StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.IndexOf(j) == -1)
+                        if (GetEngine().StrategicMap.Players.GetPlayers(i).MagicControl.Spells.IndexOf(j) == -1)
                         {
-                            _ = StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.Add(j);
+                            _ = GetEngine().StrategicMap.Players.GetPlayers(i).MagicControl.Spells.Add(j);
                         }
                     }
                 }
             }
         }
 
-        for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+        for (int i = 1, last = engineStrategicMap.Players.Count - 1; i <= last; i++)
         {
-            if (StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Human && StrategicMap.Current.Players.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)i), otherPlayer: PlayerId.FromOriginal(player)) != DiplomaticRelation.Alliance)
+            if (engineStrategicMap.Players.GetPlayers(i).PlayerType != PlayerType.Human && engineStrategicMap.Players.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)i), otherPlayer: PlayerId.FromOriginal(player)) != DiplomaticRelation.Alliance)
             {
                 if (DifficultyLevel == CampaignDifficultyLevel.Easy)
                 {
-                    switch (StrategicMap.Current.Players.GetPlayers(i).PlayerType)
+                    switch (engineStrategicMap.Players.GetPlayers(i).PlayerType)
                     {
                         case PlayerType.Cpu2:
-                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu1;
+                            engineStrategicMap.Players.GetPlayers(i).PlayerType = PlayerType.Cpu1;
                             break;
                         case PlayerType.Cpu3:
-                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu2;
+                            engineStrategicMap.Players.GetPlayers(i).PlayerType = PlayerType.Cpu2;
                             break;
                         case PlayerType.Cpu4:
-                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu3;
+                            engineStrategicMap.Players.GetPlayers(i).PlayerType = PlayerType.Cpu3;
                             break;
                         case PlayerType.Cpu5:
-                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu3;
+                            engineStrategicMap.Players.GetPlayers(i).PlayerType = PlayerType.Cpu3;
                             break;
                         case PlayerType.Human:
                         case PlayerType.Cpu1:
@@ -210,19 +212,19 @@ public class Campaign : EngineObject
 
                 if (DifficultyLevel == CampaignDifficultyLevel.Hard)
                 {
-                    switch (StrategicMap.Current.Players.GetPlayers(i).PlayerType)
+                    switch (engineStrategicMap.Players.GetPlayers(i).PlayerType)
                     {
                         case PlayerType.Cpu1:
-                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu3;
+                            engineStrategicMap.Players.GetPlayers(i).PlayerType = PlayerType.Cpu3;
                             break;
                         case PlayerType.Cpu2:
-                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu4;
+                            engineStrategicMap.Players.GetPlayers(i).PlayerType = PlayerType.Cpu4;
                             break;
                         case PlayerType.Cpu3:
-                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu5;
+                            engineStrategicMap.Players.GetPlayers(i).PlayerType = PlayerType.Cpu5;
                             break;
                         case PlayerType.Cpu4:
-                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu5;
+                            engineStrategicMap.Players.GetPlayers(i).PlayerType = PlayerType.Cpu5;
                             break;
                         case PlayerType.Human:
                         case PlayerType.Independent:
@@ -235,17 +237,18 @@ public class Campaign : EngineObject
             }
         }
 
-        StrategicMap.Current.SetupPlayerControl(PlayMode, connection: PlayerConnectionType.Local);
-        for (int r = 0, last = StrategicMap.Current.Races.Count - 1; r <= last; r++)
+        engineStrategicMap.SetupPlayerControl(PlayMode, connection: PlayerConnectionType.Local);
+        for (int r = 0, last = GetEngine().StrategicMap.Races.Count - 1; r <= last; r++)
         {
-            if (StrategicMap.Current.Races.GetRace(r) is not null)
+            StrategicMap getRaceStrategicMap = GetEngine().StrategicMap;
+            if (getRaceStrategicMap.Races.GetRace(r) is not null)
             {
-                Race? race = StrategicMap.Current.Races.GetRace(r);
+                Race? race = getRaceStrategicMap.Races.GetRace(r);
                 if (race is not null)
                 {
                     for (int i = 0; i <= 11; i++)
                     {
-                        if (((RaceHistory.IndexOf((byte)i) != -1 || i == StrategicMap.Current.Players.GetPlayers(player).PlayerRace) && StrategicMap.Current.Players.GetPlayers(player).PlayerRace == r) || ((RaceHistory.IndexOf((byte)r) != -1 || StrategicMap.Current.Players.GetPlayers(player).PlayerRace == r) && i == StrategicMap.Current.Players.GetPlayers(player).PlayerRace))
+                        if (((RaceHistory.IndexOf((byte)i) != -1 || i == GetEngine().StrategicMap.Players.GetPlayers(player).PlayerRace) && GetEngine().StrategicMap.Players.GetPlayers(player).PlayerRace == r) || ((RaceHistory.IndexOf((byte)r) != -1 || GetEngine().StrategicMap.Players.GetPlayers(player).PlayerRace == r) && i == GetEngine().StrategicMap.Players.GetPlayers(player).PlayerRace))
                         {
                             int relation = race.DefaultRelations[i];
                             switch (relation)
@@ -273,7 +276,8 @@ public class Campaign : EngineObject
             }
         }
 
-        StrategicMap.Current.AlliedVictory = StrategicMap.Current.CampaignSettings.AlliedVictory;
+        StrategicMap alliedVictoryStrategicMap = GetEngine().StrategicMap;
+        alliedVictoryStrategicMap.AlliedVictory = alliedVictoryStrategicMap.CampaignSettings.AlliedVictory;
         TransferSettings.ExecuteSelection();
         ScenarioStarted = true;
     }
@@ -285,16 +289,17 @@ public class Campaign : EngineObject
         _ = CompletedScenarios.Add(CurrentScenarioId);
         TransferSettings.Retrieve();
         Stream.Clear();
-        sbyte player = (sbyte)(StrategicMap.Current.Players.Count - 1);
-        while (player > 1 && StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        sbyte player = (sbyte)(strategicMap.Players.Count - 1);
+        while (player > 1 && strategicMap.Players.GetPlayers(player).PlayerType != PlayerType.Human)
         {
             player = (sbyte)(player - 1);
         }
 
-        Player? players = StrategicMap.Current.Players.GetPlayers(player);
+        Player? players = strategicMap.Players.GetPlayers(player);
         if (RaceHistory.IndexOf((byte)players.PlayerRace) == -1)
         {
-            Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
+            Player? fPlayersPlayers = GetEngine().StrategicMap.Players.GetPlayers(player);
             _ = RaceHistory.Add(fPlayersPlayers.PlayerRace.TruncateToByte());
         }
 

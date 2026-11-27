@@ -11,8 +11,6 @@ using Aow.Game.Session;
 
 using Aow.Game.Units;
 
-using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Events;
@@ -68,7 +66,7 @@ public partial class ArmyEventLog : EventLog
     public override string GetText() => ArmyText;
 
     // Army.PAS:174
-    public override int LeftIcon => PlayerIdExtensions.ToOriginal(ArmyView.Player) > 0 ? StrategicMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace : 12;
+    public override int LeftIcon => PlayerIdExtensions.ToOriginal(ArmyView.Player) > 0 ? GetEngine().StrategicMap.Players.GetPlayers(ArmyView.Player).PlayerRace : 12;
 
     // Army.PAS:218
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent? done)
@@ -76,21 +74,21 @@ public partial class ArmyEventLog : EventLog
         switch (trigger)
         {
             case ExecuteTrigger.User:
-                StrategicMap.Current.TriggerExecuteEventLog(this, immediate: false, done);
+                GetEngine().StrategicMap.TriggerExecuteEventLog(this, immediate: false, done);
                 return true;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
                 bool showEvent = false;
-                if (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.SeatedPlayer == ArmyView.Player)
+                if (GetEngine().StrategicMap.SeatedPlayer == Player || GetEngine().StrategicMap.SeatedPlayer == ArmyView.Player)
                 {
-                    showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.PartyDamage));
-                    showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.PartyDamage));
+                    showEvent = showEvent || (GetEngine().StrategicMap.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.PartyDamage));
+                    showEvent = showEvent || (GetEngine().StrategicMap.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.PartyDamage));
                 }
 
                 showEvent = showEvent || _gameOver;
                 if (showEvent)
                 {
-                    StrategicMap.Current.TriggerExecuteEventLog(this, immediate: false, done);
+                    GetEngine().StrategicMap.TriggerExecuteEventLog(this, immediate: false, done);
                     return true;
                 }
 
@@ -144,6 +142,6 @@ public partial class ArmyEventLog : EventLog
     }
 
     // Army.PAS:212
-    public void ValidateGameOver() => _gameOver = LeaderKilled() || (PartyDestroyed() && StrategicMap.Current.Players.GetPlayers(ArmyView.Player).Armies.GetCount() == 1);
+    public void ValidateGameOver() => _gameOver = LeaderKilled() || (PartyDestroyed() && GetEngine().StrategicMap.Players.GetPlayers(ArmyView.Player).Armies.GetCount() == 1);
 
 }

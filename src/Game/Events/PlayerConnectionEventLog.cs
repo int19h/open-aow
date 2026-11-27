@@ -6,7 +6,6 @@ using Aow.Formats;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 using static Aow.Rtl.DelphiStrings;
 
@@ -27,7 +26,7 @@ public class PlayerConnectionEventLog(CustomNode? owner, EngineObject holder) : 
             DefaultName = "",
             Directory = $"{GetEngine().StartupDirectory}Save\\"
         };
-        StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ExitSaveGameCallback);
+        GetEngine().StrategicMap.TriggerTypedExecuteEventLog(log, immediate: false, done: ExitSaveGameCallback);
         _ = log.Release();
         return true;
     }
@@ -35,7 +34,7 @@ public class PlayerConnectionEventLog(CustomNode? owner, EngineObject holder) : 
     // PlayerC.PAS:1726
     public override bool No()
     {
-        StrategicMap.Current.ExecuteExitGame();
+        GetEngine().StrategicMap.ExecuteExitGame();
         return true;
     }
 
@@ -55,7 +54,7 @@ public class PlayerConnectionEventLog(CustomNode? owner, EngineObject holder) : 
                 break;
             case 1:
                 Buttons = MessageEventLogButtons.YesNo;
-                string name = StrategicMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
+                string name = GetEngine().StrategicMap.Players.GetPlayers(_disconnectedPlayer).GetName();
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_connectionTimeOutFormat), arguments: [name]);
                 Message.Text = format;
                 _ = Message.Add("");
@@ -66,7 +65,7 @@ public class PlayerConnectionEventLog(CustomNode? owner, EngineObject holder) : 
                 Buttons = MessageEventLogButtons.YesNo;
                 if (_disconnectedPlayer is not null)
                 {
-                    string name2 = StrategicMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
+                    string name2 = GetEngine().StrategicMap.Players.GetPlayers(_disconnectedPlayer).GetName();
                     string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_connectionLostFormat), arguments: [name2]);
                     Message.Text = formattedText;
                 }
@@ -102,10 +101,10 @@ public class PlayerConnectionEventLog(CustomNode? owner, EngineObject holder) : 
         else
         {
             // { Original exits twice when the dialog is canceled. }
-            StrategicMap.Current.ExecuteExitGame();
+            GetEngine().StrategicMap.ExecuteExitGame();
         }
 
-        StrategicMap.Current.ExecuteExitGame();
+        GetEngine().StrategicMap.ExecuteExitGame();
     }
 
     private static readonly string s_connectionLostText = "Connection Lost!";

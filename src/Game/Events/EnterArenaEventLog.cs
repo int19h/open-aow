@@ -4,7 +4,6 @@ using System.Globalization;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
-using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using static Aow.Rtl.DelphiFormat;
 
@@ -33,7 +32,7 @@ public partial class EnterArenaEventLog(CustomNode? owner) : EventLog(owner)
             if (index >= 0 && index < UnitIds.Count)
             {
                 int unitId = UnitIds[index];
-                return StrategicMap.Current.UnitControl.FindUnit(unitId);
+                return GetEngine().StrategicMap.UnitControl.FindUnit(unitId);
             }
             else
             {
@@ -57,7 +56,7 @@ public partial class EnterArenaEventLog(CustomNode? owner) : EventLog(owner)
             }
         }
 
-        bool result = Arena.TrainUnits(StrategicMap.Current.SeatedPlayer, units, out errorText);
+        bool result = Arena.TrainUnits(GetEngine().StrategicMap.SeatedPlayer, units, out errorText);
         return result;
     }
 
@@ -73,7 +72,7 @@ public partial class EnterArenaEventLog(CustomNode? owner) : EventLog(owner)
             }
         }
 
-        bool result = Arena.CanTrainUnits(StrategicMap.Current.SeatedPlayer, units, ref errorText);
+        bool result = Arena.CanTrainUnits(GetEngine().StrategicMap.SeatedPlayer, units, ref errorText);
         return result;
     }
 
@@ -86,7 +85,7 @@ public partial class EnterArenaEventLog(CustomNode? owner) : EventLog(owner)
             if (((1 << i) & Selection) != 0)
             {
                 int unitId = UnitIds[i];
-                Troop? troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
+                Troop? troop = GetEngine().StrategicMap.UnitControl.FindUnit(unitId);
                 if (troop is not null)
                 {
                     total += Arena.UnitTrainCost(troop);

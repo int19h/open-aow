@@ -2,8 +2,6 @@
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Session;
 
 // Kind 6: the source ends its alliance with the target.
@@ -27,19 +25,19 @@ public sealed record BreakAlliance : DiplomaticProposal
     public override void Sent(DiplomaticAction action)
     {
         action.ApplyRelationModifiers();
-        StrategicMap.Current.Players.SetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Source)), otherPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Target)), relation: DiplomaticRelation.Peace);
-        if (action.Source == StrategicMap.Current.SeatedPlayer)
+        action.GetEngine().StrategicMap.Players.SetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Source)), otherPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Target)), relation: DiplomaticRelation.Peace);
+        if (action.Source == action.GetEngine().StrategicMap.SeatedPlayer)
         {
             string allianceBroken = AbilityRules.TranslateResourceString(action.GetEngine(), S: AllianceBrokenText);
-            StrategicMap.Current.ShowMessage(allianceBroken);
+            action.GetEngine().StrategicMap.ShowMessage(allianceBroken);
         }
 
         Broadcast(action, exclude: -1, viewer: action.Target);
     }
 
     public override int RelationModifier(DiplomaticAction action, PlayerId? player, int race)
-        => player == action.Source && Relation(action.Source, second: action.Target) == DiplomaticRelation.Alliance
-            ? RaceModifier(action.Target, race, modifier: -40)
+        => player == action.Source && Relation(action.Source, second: action.Target, engine: action.GetEngine()!) == DiplomaticRelation.Alliance
+            ? RaceModifier(action.Target, race: race, modifier: -40, engine: action.GetEngine()!)
             : 0;
 
     internal static string AllianceBrokenText { get; } = "Alliance broken";

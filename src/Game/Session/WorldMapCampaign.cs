@@ -8,8 +8,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Saves;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Session;
 
 // faction, state, page
@@ -42,7 +40,7 @@ public sealed class WorldMapCampaign(CustomNode owner) : Campaign(owner)
         string result;
         if (auto == CampaignAutoSaveType.ScenarioFinished)
         {
-            result = StrategicMap.Current.MapName;
+            result = GetEngine().StrategicMap.MapName;
             if (Faction == 0)
             {
                 result = $"{result}_{AbilityRules.TranslateResourceString(GetEngine(), S: s_wonText)}";

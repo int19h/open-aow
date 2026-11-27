@@ -30,12 +30,13 @@ public sealed record DeclareWar : DiplomaticProposal
     public override void Sent(DiplomaticAction action)
     {
         action.ApplyRelationModifiers();
-        StrategicMap.Current.Players.GetPlayers(action.Target).PlayerSeen(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Source)));
-        StrategicMap.Current.Players.SetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Source)), otherPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Target)), relation: DiplomaticRelation.War);
-        if (action.Source == StrategicMap.Current.SeatedPlayer)
+        StrategicMap strategicMap = action.GetEngine().StrategicMap;
+        strategicMap.Players.GetPlayers(action.Target).PlayerSeen(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Source)));
+        strategicMap.Players.SetDiplomaticRelation(PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Source)), otherPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(action.Target)), relation: DiplomaticRelation.War);
+        if (action.Source == action.GetEngine().StrategicMap.SeatedPlayer)
         {
             string warDeclared = AbilityRules.TranslateResourceString(action.GetEngine(), S: s_warDeclaredText);
-            StrategicMap.Current.ShowMessage(warDeclared);
+            action.GetEngine().StrategicMap.ShowMessage(warDeclared);
         }
 
         Broadcast(action, exclude: -1, viewer: action.Target);
@@ -46,11 +47,11 @@ public sealed record DeclareWar : DiplomaticProposal
 
     public override int RelationModifier(DiplomaticAction action, PlayerId? player, int race)
     {
-        return player == action.Source && Relation(action.Source, second: action.Target) != DiplomaticRelation.War
-? RaceModifier(modifier: Relation(action.Source, second: action.Target) == DiplomaticRelation.Alliance
+        return player == action.Source && Relation(action.Source, second: action.Target, engine: action.GetEngine()!) != DiplomaticRelation.War
+? RaceModifier(modifier: Relation(action.Source, second: action.Target, engine: action.GetEngine()!) == DiplomaticRelation.Alliance
                 ? -60
-                : -20, other: action.Target, race: race)
-            : player == action.Target && Relation(action.Source, second: action.Target) != DiplomaticRelation.War && StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace == race
+                : -20, other: action.Target, race: race, engine: action.GetEngine()!)
+            : player == action.Target && Relation(action.Source, second: action.Target, engine: action.GetEngine()!) != DiplomaticRelation.War && action.GetEngine().StrategicMap.Players.GetPlayers(action.Source).PlayerRace == race
             ? -20
             : 0;
     }

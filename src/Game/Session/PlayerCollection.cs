@@ -78,7 +78,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     public int GetDiplomaticRelationCount(PlayerId? player, DiplomaticRelations relations)
     {
         int result = 0;
-        for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+        for (int i = 1, last = GetEngine().StrategicMap.Players.Count - 1; i <= last; i++)
         {
             if (i != PlayerIdExtensions.ToOriginal(player))
             {
@@ -133,13 +133,13 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
                 this[PlayerIdExtensions.ToOriginal(otherPlayer)].AIValidAttackPlayers[PlayerIdExtensions.ToOriginal(player)] = false;
             }
 
-            StrategicMap.Current.OnDiplomaticRelationsChanged(this);
+            GetEngine().StrategicMap.OnDiplomaticRelationsChanged(this);
             for (int j = Count - 1; j >= 1; j--)
             {
                 this[j].MagicControl.UpdateEnemyEnchantments();
             }
 
-            StrategicMap.Current.UpdateVisibility();
+            GetEngine().StrategicMap.UpdateVisibility();
         }
     }
 
@@ -330,9 +330,10 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
 
         i = 0;
         int defaultRace = -1;
-        while (i != GamePack.Current.RaceResources.Count && defaultRace == -1)
+        GamePack gamePack = GetEngine().GamePack;
+        while (i != gamePack.RaceResources.Count && defaultRace == -1)
         {
-            if (GamePack.Current.RaceResources.GetRaceResource(i) is not null)
+            if (gamePack.RaceResources.GetRaceResource(i) is not null)
             {
                 if (races is null || races.GetRace(i).Enabled)
                 {
@@ -396,7 +397,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // intf_P1_03.inc:319
     public void Update()
     {
-        if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is null)
+        if (GetEngine().StrategicMap.PlayerCommunicator.PlayerCommunicationControl is null)
         {
             return;
         }

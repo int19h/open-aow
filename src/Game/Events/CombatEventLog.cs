@@ -54,7 +54,7 @@ public partial class CombatEventLog(CustomNode? owner) : EventLog(owner)
         if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
         {
             CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
-            Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(players.Player);
+            Player? fPlayersPlayers = GetEngine().StrategicMap.Players.GetPlayers(players.Player);
             return AbilityRules.RaceColors[fPlayersPlayers.PlayerRace];
         }
         else
@@ -72,7 +72,7 @@ public partial class CombatEventLog(CustomNode? owner) : EventLog(owner)
             if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
             {
                 CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
-                return StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
+                return GetEngine().StrategicMap.Players.GetPlayers(players.Player).PlayerRace;
             }
             else
             {
@@ -93,7 +93,7 @@ public partial class CombatEventLog(CustomNode? owner) : EventLog(owner)
             if (data.Players.GetPlayers(data.DefenderPlayer).Player != 0)
             {
                 CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
-                return StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
+                return GetEngine().StrategicMap.Players.GetPlayers(players.Player).PlayerRace;
             }
             else
             {
@@ -105,7 +105,7 @@ public partial class CombatEventLog(CustomNode? owner) : EventLog(owner)
     // Combat2.pas:467
     public override void PlayLoggedSfx(EventLogbook logbook)
     {
-        _ = Logbook.InitialData.Players.IndexOfPlayer((byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer)) != -1
+        _ = Logbook.InitialData.Players.IndexOfPlayer((byte)PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.SeatedPlayer)) != -1
             ? AudioPlayback.PlaySample("SFX\\EVENTS\\ROLL.WAV")
             : AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
     }
@@ -116,18 +116,19 @@ public partial class CombatEventLog(CustomNode? owner) : EventLog(owner)
         switch (trigger)
         {
             case ExecuteTrigger.User:
-                StrategicMap.Current.TriggerExecuteEventLog(this, immediate: false, done);
+                GetEngine().StrategicMap.TriggerExecuteEventLog(this, immediate: false, done);
                 return true;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
                 bool showCombat;
-                if (Logbook.InitialData.Players.IndexOfPlayer((byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer)) != -1)
+                if (Logbook.InitialData.Players.IndexOfPlayer((byte)PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.SeatedPlayer)) != -1)
                 {
                     CombatData data = Logbook.InitialData;
-                    showCombat = data.Players.GetPlayers(data.AttackerPlayer).Player == PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer);
-                    showCombat = showCombat || (StrategicMap.Current.RequestCombatType && StrategicMap.Current.ConnectionType == PlayerConnectionType.Email && Logbook.InitialData.Players.GetPlayers(Logbook.InitialData.DefenderPlayer).Player == PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer));
-                    showCombat = showCombat || (trigger == ExecuteTrigger.Event && StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.Combat));
-                    showCombat = showCombat || (trigger == ExecuteTrigger.Event && StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.Combat));
+                    StrategicMap strategicMap = GetEngine().StrategicMap;
+                    showCombat = data.Players.GetPlayers(data.AttackerPlayer).Player == PlayerIdExtensions.ToOriginal(strategicMap.SeatedPlayer);
+                    showCombat = showCombat || (strategicMap.RequestCombatType && strategicMap.ConnectionType == PlayerConnectionType.Email && Logbook.InitialData.Players.GetPlayers(Logbook.InitialData.DefenderPlayer).Player == PlayerIdExtensions.ToOriginal(strategicMap.SeatedPlayer));
+                    showCombat = showCombat || (trigger == ExecuteTrigger.Event && strategicMap.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.Combat));
+                    showCombat = showCombat || (trigger == ExecuteTrigger.Event && strategicMap.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.Combat));
                     showCombat = showCombat && Logbook.CombatResult != CombatResult.NoDefenders;
                 }
                 else
@@ -138,7 +139,7 @@ public partial class CombatEventLog(CustomNode? owner) : EventLog(owner)
                 showCombat = showCombat || Logbook.PlayerEliminated;
                 if (showCombat)
                 {
-                    StrategicMap.Current.TriggerExecuteEventLog(this, immediate: false, done);
+                    GetEngine().StrategicMap.TriggerExecuteEventLog(this, immediate: false, done);
                     return true;
                 }
                 else

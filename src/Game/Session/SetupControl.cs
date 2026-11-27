@@ -281,7 +281,7 @@ public sealed class SetupControl : Component
         if (!IsEmpty(Settings.MapName) && RemotePlayer.MapValidation != MapValidationInfo.Valid)
         {
             MapValidationInfo validation;
-            if (GamePack.Current.HssCrc == Settings.SetCrc)
+            if (_engine.GamePack.HssCrc == Settings.SetCrc)
             {
                 // The client looks up the host's map by name, its own document first (own-formats.md 2.9).
                 string fileName = FileBoundary.ReadName(_engine.StartupDirectory + Settings.MapName);
@@ -684,9 +684,9 @@ public sealed class SetupControl : Component
     // AoWSetup.pas:844
     public void RemoveIndependentPlayers()
     {
-        for (int i = StrategicMap.Current.Players.GetCount() - 1; i >= 1; i--)
+        for (int i = _engine.StrategicMap.Players.GetCount() - 1; i >= 1; i--)
         {
-            Player? player = StrategicMap.Current.Players.GetPlayers(i);
+            Player? player = _engine.StrategicMap.Players.GetPlayers(i);
             if (player.PlayerType == PlayerType.Independent)
             {
                 for (int j = player.Structures.GetCount() - 1; j >= 0; j--)
@@ -712,7 +712,7 @@ public sealed class SetupControl : Component
         for (int i = 0, last = Settings.GetCount() - 1; i <= last; i++)
         {
             PlayerSetupSettings? settingPlayerId = Settings.GetSettings(i);
-            Player? playerPlayer = StrategicMap.Current.Players.GetPlayers((sbyte)PlayerIdExtensions.ToOriginal(settingPlayerId.PlayerId));
+            Player? playerPlayer = _engine.StrategicMap.Players.GetPlayers((sbyte)PlayerIdExtensions.ToOriginal(settingPlayerId.PlayerId));
             playerPlayer.PlayerType = (PlayerType)Settings.GetSettings(i).Behavior.PlayerType;
             playerPlayer.Behavior = (PlayerBehavior)Settings.GetSettings(i).BehaviorMode;
             if (Settings.ConnectionType == 2)
@@ -754,12 +754,13 @@ public sealed class SetupControl : Component
             }
         }
 
-        StrategicMap.Current.ConnectionType = (PlayerConnectionType)Settings.ConnectionType;
+        StrategicMap strategicMap = _engine.StrategicMap;
+        strategicMap.ConnectionType = (PlayerConnectionType)Settings.ConnectionType;
         if (GetRemote())
         {
             RemotePlayerCommunicationControl remotePlayerCommunicationControl = new(_engine,
                 sendData: (data, systemId) => _transport.SendData(data, recipient: PlayerId.FromInt32(systemId)));
-            remotePlayerCommunicationControl.Setup(StrategicMap.Current.Players.GetCount(), localSystemId: RemotePlayer.RemoteId);
+            remotePlayerCommunicationControl.Setup(strategicMap.Players.GetCount(), localSystemId: RemotePlayer.RemoteId);
             remotePlayerCommunicationControl.SetConnectionMode(0, mode: ConnectionMode.Global);
             remotePlayerCommunicationControl.SetSystemId(0, systemId: RemotePlayer.RemoteId);
             for (int i = 0, last = Settings.GetCount() - 1; i <= last; i++)
@@ -785,14 +786,14 @@ public sealed class SetupControl : Component
                 }
             }
 
-            _ = StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(remotePlayerCommunicationControl);
+            _ = _engine.StrategicMap.PlayerCommunicator.ActivatePlayerCommunicationControl(remotePlayerCommunicationControl);
             ListPlayerCommunicationControlInfo(remotePlayerCommunicationControl);
             remotePlayerCommunicationControl.Release();
         }
         else
         {
             LocalPlayerCommunicationControl localPlayerCommunicationControl = new(_engine);
-            localPlayerCommunicationControl.Setup(StrategicMap.Current.Players.GetCount());
+            localPlayerCommunicationControl.Setup(_engine.StrategicMap.Players.GetCount());
             localPlayerCommunicationControl.SetConnectionMode(PlayerId.Independent, mode: ConnectionMode.Global);
             for (int i = 0, last = Settings.GetCount() - 1; i <= last; i++)
             {
@@ -806,27 +807,29 @@ public sealed class SetupControl : Component
                 }
             }
 
-            _ = StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(localPlayerCommunicationControl);
+            _ = _engine.StrategicMap.PlayerCommunicator.ActivatePlayerCommunicationControl(localPlayerCommunicationControl);
             ListPlayerCommunicationControlInfo(localPlayerCommunicationControl);
             localPlayerCommunicationControl.Release();
         }
 
         if (Settings.MapDay == 0)
         {
-            StrategicMap.Current.InitialRandomSeed = Settings.RandomSeed;
-            StrategicMap.Current.FixedLeaders = Settings.LeadersOnMap;
-            StrategicMap.Current.AlliedVictory = Settings.AlliedVictory;
-            StrategicMap.Current.SetExplorationEnabled(Settings.ExplorationEnabled);
-            StrategicMap.Current.SetFogEnabled(true);
+            StrategicMap engineStrategicMap = _engine.StrategicMap;
+            engineStrategicMap.InitialRandomSeed = Settings.RandomSeed;
+            engineStrategicMap.FixedLeaders = Settings.LeadersOnMap;
+            engineStrategicMap.AlliedVictory = Settings.AlliedVictory;
+            engineStrategicMap.SetExplorationEnabled(Settings.ExplorationEnabled);
+            _engine.StrategicMap.SetFogEnabled(true);
         }
 
-        StrategicMap.Current.DayLimit = Settings.DayLimit;
-        StrategicMap.Current.TurnTime = Settings.TurnTime;
-        StrategicMap.Current.VictoryMode = Settings.TacticalBattleAvailability;
-        StrategicMap.Current.LeadersFixed = Settings.CustomizeLeaders;
-        StrategicMap.Current.StartingGame = Settings.AlwaysViewTacticalBattle;
+        StrategicMap dayLimitStrategicMap = _engine.StrategicMap;
+        dayLimitStrategicMap.DayLimit = Settings.DayLimit;
+        dayLimitStrategicMap.TurnTime = Settings.TurnTime;
+        dayLimitStrategicMap.VictoryMode = Settings.TacticalBattleAvailability;
+        dayLimitStrategicMap.LeadersFixed = Settings.CustomizeLeaders;
+        dayLimitStrategicMap.StartingGame = Settings.AlwaysViewTacticalBattle;
         RemoveIndependentPlayers();
-        StrategicMap.Current.SetupPlayerControl((PlayMode)Settings.PlayMode, connection: (PlayerConnectionType)Settings.ConnectionType);
+        _engine.StrategicMap.SetupPlayerControl((PlayMode)Settings.PlayMode, connection: (PlayerConnectionType)Settings.ConnectionType);
         if (MapSetUp is not null)
         {
             try
@@ -1437,7 +1440,7 @@ public sealed class SetupControl : Component
             // A document with no image uses the canonical document bytes, as ImageCrc32 states.
             int fileCrc = FileBoundary.ImageCrc32(_engine.StartupDirectory + fileName, profile: GameProfile.WorldMap);
             Settings.MapCrc = fileCrc;
-            Settings.SetCrc = GamePack.Current.HssCrc;
+            Settings.SetCrc = _engine.GamePack.HssCrc;
             Settings.RandomSeed = RandSeed;
             Settings.VictoryCondition = ((int)preview.VictoryCondition).TruncateToByte();
             if (preview.Day != 0)

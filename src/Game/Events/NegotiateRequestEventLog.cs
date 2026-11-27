@@ -55,7 +55,8 @@ public partial class NegotiateRequestEventLog(CustomNode? owner) : JoinEventLog(
         bool result = base.Accept(ref errorText);
         if (result)
         {
-            if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Human && StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (strategicMap.Players.GetPlayers(Player).PlayerType == PlayerType.Human && strategicMap.Players.GetPlayers(Player).GetBusy())
             {
                 return result;
             }
@@ -64,7 +65,7 @@ public partial class NegotiateRequestEventLog(CustomNode? owner) : JoinEventLog(
             tokenEvent.Gold = Gold;
             tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.OfferBribe;
             tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Accept;
-            StrategicMap.Current.TokenManager.TokenControls[Player].AddEvent(tokenEvent);
+            GetEngine().StrategicMap.TokenManager.TokenControls[Player].AddEvent(tokenEvent);
             _ = tokenEvent.Release();
             return true;
         }
@@ -81,7 +82,8 @@ public partial class NegotiateRequestEventLog(CustomNode? owner) : JoinEventLog(
         bool result = base.Reject(ref errorText);
         if (result)
         {
-            if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Human && StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (strategicMap.Players.GetPlayers(Player).PlayerType == PlayerType.Human && strategicMap.Players.GetPlayers(Player).GetBusy())
             {
                 return result;
             }
@@ -90,7 +92,7 @@ public partial class NegotiateRequestEventLog(CustomNode? owner) : JoinEventLog(
             tokenEvent.Gold = 0;
             tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.ForceOffer;
             tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Reject;
-            StrategicMap.Current.TokenManager.TokenControls[Player].AddEvent(tokenEvent);
+            GetEngine().StrategicMap.TokenManager.TokenControls[Player].AddEvent(tokenEvent);
             _ = tokenEvent.Release();
             return true;
         }
@@ -122,5 +124,5 @@ public partial class NegotiateRequestEventLog(CustomNode? owner) : JoinEventLog(
         return eventValue;
     }
 
-    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent? done) => trigger == 0 && StrategicMap.Current.SeatedPlayer == Player && base.Execute(mode, trigger, done);
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent? done) => trigger == 0 && GetEngine().StrategicMap.SeatedPlayer == Player && base.Execute(mode, trigger, done);
 }

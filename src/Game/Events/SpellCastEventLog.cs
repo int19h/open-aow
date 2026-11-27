@@ -30,7 +30,7 @@ public class SpellCastEventLog(CustomNode owner) : EventLog(owner)
     // Spells.PAS:855
     public override string GetText()
     {
-        Spell spell = GamePack.Current.SpellControl[SpellId];
+        Spell spell = GetEngine().GamePack.SpellControl[SpellId];
         return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_castingReadyFormat), arguments: [spell.SpellName]);
     }
 
@@ -38,15 +38,15 @@ public class SpellCastEventLog(CustomNode owner) : EventLog(owner)
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
         bool show = trigger == ExecuteTrigger.User;
-        show = show || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.SpellReady));
-        show = show || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.SpellReady));
+        show = show || (GetEngine().StrategicMap.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.SpellReady));
+        show = show || (GetEngine().StrategicMap.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.SpellReady));
         if (show)
         {
-            Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+            Hero hero = GetEngine().StrategicMap.UnitControl.FindUnit<Hero>(UnitId);
             if (hero is not null && hero.CastingSpellId == SpellId && hero.CastingReady())
             {
                 string reason = "";
-                _ = GamePack.Current.AbilityControl[52].Activate(hero, ref reason);
+                _ = GetEngine().GamePack.AbilityControl[52].Activate(hero, ref reason);
             }
         }
 
@@ -56,7 +56,7 @@ public class SpellCastEventLog(CustomNode owner) : EventLog(owner)
     // Spells.PAS:843
     public override void ViewLocation()
     {
-        Troop troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop troop = GetEngine().StrategicMap.UnitControl.FindUnit(UnitId);
         if (troop is not null)
         {
             MapCoordinate coordinate21 = troop.GetLocation();

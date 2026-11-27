@@ -3,8 +3,6 @@
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
-using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiRandom;
@@ -77,9 +75,9 @@ public class RaceList : ControlStyleNode, IChildList<Race>
     // Ability.PAS:423
     public void Update()
     {
-        for (int i = 0, last = GamePack.Current.RaceResources.GetCount() - 1; i <= last; i++)
+        for (int i = 0, last = GetEngine().GamePack.RaceResources.GetCount() - 1; i <= last; i++)
         {
-            if (GamePack.Current.RaceResources.GetRaceResource(i) is not null)
+            if (GetEngine().GamePack.RaceResources.GetRaceResource(i) is not null)
             {
                 if (GetRace(i) is null)
                 {

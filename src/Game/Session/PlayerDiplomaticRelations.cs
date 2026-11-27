@@ -59,9 +59,10 @@ public sealed class PlayerDiplomaticRelations : EngineObject
                 Player.LegacyNewRelations.Clear();
             }
 
-            if (StrategicMap.Current.Day == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (strategicMap.Day == 0 && !strategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
             {
-                for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+                for (int i = 1, last = strategicMap.Players.Count - 1; i <= last; i++)
                 {
                     // { The loop index supplies the player. }
                     DiplomaticRelation diplomaticRelation = GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)i));
@@ -72,7 +73,7 @@ public sealed class PlayerDiplomaticRelations : EngineObject
             {
                 if (Player.LegacyRelations.Count != 0)
                 {
-                    for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
+                    for (int i = 1, last = strategicMap.Players.Count - 1; i <= last; i++)
                     {
                         DiplomaticRelation diplomaticRelation = Player.LegacyRelations.GetDiplomaticRelation(i);
                         GetHistory(PlayerId.FromOriginal((sbyte)i)).Add(diplomaticRelation, day: 0);
@@ -91,9 +92,10 @@ public sealed class PlayerDiplomaticRelations : EngineObject
     public void SetDiplomaticRelation(PlayerId? player, DiplomaticRelation value)
     {
         _relations[PlayerIdExtensions.ToOriginal(player)] = (byte)value;
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && StrategicMap.Current.Day > 0)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (!strategicMap.Status.Contains(HexSpriteMapStatuses.Editting) && strategicMap.Day > 0)
         {
-            GetHistory(player).Add(value, StrategicMap.Current.Day);
+            GetHistory(player).Add(value, strategicMap.Day);
         }
     }
 
@@ -103,12 +105,12 @@ public sealed class PlayerDiplomaticRelations : EngineObject
     // Player.PAS:119
     public void ValidateHistory()
     {
-        while (_history.Count + 1 < StrategicMap.Current.Players.Count)
+        while (_history.Count + 1 < GetEngine().StrategicMap.Players.Count)
         {
             new DiplomaticRelationHistoryList(null) { Holder = CreationHolder() }.Owner = _history;
         }
 
-        while (_history.Count + 1 > StrategicMap.Current.Players.Count)
+        while (_history.Count + 1 > GetEngine().StrategicMap.Players.Count)
         {
             int count = _history.Count;
             _history.Children[count - 1]?.Dispose();
