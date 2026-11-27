@@ -87,11 +87,11 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         bool condition = PlayerIdExtensions.ToOriginal(Player) > 0;
         if (condition)
         {
-            int count = StrategicMap.Current.Players.GetCount();
+            int count = GetEngine().StrategicMap.Players.GetCount();
             condition = PlayerIdExtensions.ToOriginal(Player) < count;
         }
 
-        int index = condition ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : 12;
+        int index = condition ? GetEngine().StrategicMap.Players.GetPlayers(Player).PlayerRace : 12;
 
         return AbilityRules.RaceColors[index];
     }
@@ -104,11 +104,11 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
             bool condition = PlayerIdExtensions.ToOriginal(Player) > 0;
             if (condition)
             {
-                int count = StrategicMap.Current.Players.GetCount();
+                int count = GetEngine().StrategicMap.Players.GetCount();
                 condition = PlayerIdExtensions.ToOriginal(Player) < count;
             }
 
-            return condition ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : 12;
+            return condition ? GetEngine().StrategicMap.Players.GetPlayers(Player).PlayerRace : 12;
         }
     }
 
@@ -130,7 +130,8 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     // EventLog.pas:449
     public virtual void NotifyLogged(EventLogbook logbook)
     {
-        if (StrategicMap.Current.SeatedPlayer == logbook.Player && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.None)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.SeatedPlayer == logbook.Player && strategicMap.Players.GetPlayers(strategicMap.SeatedPlayer).GameOverStatus == GameOverStatus.None)
         {
             PlayLoggedSfx(logbook);
         }
@@ -139,9 +140,9 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     // EventLog.pas:403
     public virtual bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent? done)
     {
-        if (trigger == ExecuteTrigger.User || ((trigger == ExecuteTrigger.Event || (trigger == ExecuteTrigger.NewTurn && StrategicMap.Current.RequestCombatType)) && StrategicMap.Current.SeatedPlayer == Player))
+        if (trigger == ExecuteTrigger.User || ((trigger == ExecuteTrigger.Event || (trigger == ExecuteTrigger.NewTurn && GetEngine().StrategicMap.RequestCombatType)) && GetEngine().StrategicMap.SeatedPlayer == Player))
         {
-            StrategicMap.Current.TriggerExecuteEventLog(this, immediate: mode, done);
+            GetEngine().StrategicMap.TriggerExecuteEventLog(this, immediate: mode, done);
             return true;
         }
         else
@@ -164,28 +165,28 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         int l = coordinate16.MapLevel;
         if (x != -1)
         {
-            StrategicMap.Current.CenterViewTo(x, y, l);
-            StrategicMap.Current.PlayCenterAnimation(x, y, l);
+            GetEngine().StrategicMap.CenterViewTo(x, y, l);
+            GetEngine().StrategicMap.PlayCenterAnimation(x, y, l);
         }
     }
 
     // EventLog.pas:419
     public void CenterViewTo(int X, int Y, int L)
     {
-        StrategicMap.Current.CenterViewTo(X, Y, L);
-        StrategicMap.Current.PlayCenterAnimation(X, Y, L);
+        GetEngine().StrategicMap.CenterViewTo(X, Y, L);
+        GetEngine().StrategicMap.PlayCenterAnimation(X, Y, L);
     }
 
     internal static void DistributeEventLog(EventLog log, bool execute)
     {
-        for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
+        for (int i = 0, last = log.GetEngine().StrategicMap.Players.GetCount() - 1; i <= last; i++)
         {
-            Player? player = StrategicMap.Current.Players.GetPlayers(i);
+            Player? player = log.GetEngine().StrategicMap.Players.GetPlayers(i);
             if (player.Status == PlayerStatus.Playing)
             {
                 EventLog copyLog = log.Copy<EventLog>(log.GetEngine());
                 player.EventLogbook.AddEvent(copyLog);
-                if (i == PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) && execute)
+                if (i == PlayerIdExtensions.ToOriginal(log.GetEngine().StrategicMap.SeatedPlayer) && execute)
                 {
                     _ = copyLog.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                 }
@@ -197,14 +198,16 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
 
     internal static void DistributeLocationEventLog(EventLog log, PlayerId? player, int x, int y, sbyte level, bool execute)
     {
-        for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
+        for (int i = 0, last = log.GetEngine().StrategicMap.Players.GetCount() - 1; i <= last; i++)
         {
-            Player? targetPlayer = StrategicMap.Current.Players.GetPlayers(i);
-            if (targetPlayer.Status == PlayerStatus.Playing && (i == PlayerIdExtensions.ToOriginal(player) || !StrategicMap.Current.FoggedForPlayer(x, y, L: level, player: PlayerId.FromOriginal((sbyte)i))))
+            StrategicMap strategicMap = log.GetEngine().StrategicMap;
+            Player? targetPlayer = strategicMap.Players.GetPlayers(i);
+            if (targetPlayer.Status == PlayerStatus.Playing && (i == PlayerIdExtensions.ToOriginal(player) || !strategicMap.FoggedForPlayer(x, y, L: level, player: PlayerId.FromOriginal((sbyte)i))))
             {
                 EventLog copyLog = log.Copy<EventLog>(log.GetEngine());
                 targetPlayer.EventLogbook.AddEvent(copyLog);
-                if (i == PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) && StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human && execute)
+                StrategicMap engineStrategicMap = log.GetEngine().StrategicMap;
+                if (i == PlayerIdExtensions.ToOriginal(engineStrategicMap.SeatedPlayer) && engineStrategicMap.Players.GetPlayers(i).PlayerType == PlayerType.Human && execute)
                 {
                     _ = copyLog.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                 }

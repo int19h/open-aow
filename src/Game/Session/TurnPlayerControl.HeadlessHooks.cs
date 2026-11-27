@@ -9,7 +9,7 @@ public partial class TurnPlayerControl
 {
     public override void NewDay()
     {
-        StrategicMap map = StrategicMap.Current;
+        StrategicMap map = GetEngine().StrategicMap;
         int player = PlayerIdExtensions.ToOriginal(map.SeatedPlayer);
         if (map.RequestCombatType)
         {

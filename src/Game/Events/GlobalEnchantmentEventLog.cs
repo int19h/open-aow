@@ -4,7 +4,6 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.Events;
 
@@ -28,8 +27,8 @@ public class GlobalEnchantmentEventLog(CustomNode owner) : LocationTextEventLog(
         get
         {
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(EnchantmentPlayer);
-            return player > 0 && StrategicMap.Current.Players.GetCount() > player
-                ? StrategicMap.Current.Players.GetPlayers(EnchantmentPlayer).PlayerRace
+            return player > 0 && GetEngine().StrategicMap.Players.GetCount() > player
+                ? GetEngine().StrategicMap.Players.GetPlayers(EnchantmentPlayer).PlayerRace
                 : 12;
         }
     }

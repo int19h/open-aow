@@ -21,14 +21,15 @@ public partial class PrisonersJoinEventLog(CustomNode? owner) : JoinEventLog(own
     // Dungeon.pas:292
     public override bool Accept(ref string errorText)
     {
-        Dungeon dungeon = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Dungeon>(Dungeon.ClassId);
-        if (dungeon is not null && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Dungeon dungeon = strategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Dungeon>(Dungeon.ClassId);
+        if (dungeon is not null && !strategicMap.Players.GetPlayers(Player).GetBusy())
         {
             StructureTokenEvent tokenEvent = dungeon.CreateTokenEvent();
             dungeon.SetupTokenEvent(tokenEvent);
             tokenEvent.Param = PlayerIdExtensions.ToOriginal(Player);
             tokenEvent.Action = 1;
-            StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
             return true;
         }
@@ -41,7 +42,7 @@ public partial class PrisonersJoinEventLog(CustomNode? owner) : JoinEventLog(own
     // Dungeon.pas:311
     public override bool Cancel()
     {
-        Dungeon dungeon = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Dungeon>(Dungeon.ClassId);
+        Dungeon dungeon = GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Dungeon>(Dungeon.ClassId);
         if (dungeon is not null)
         {
             for (int i = 0, last = dungeon.Prisoners.Units.Count - 1; i <= last; i++)
@@ -50,10 +51,10 @@ public partial class PrisonersJoinEventLog(CustomNode? owner) : JoinEventLog(own
                 if (unitType is UnitType.Humanoid or UnitType.Creature)
                 {
                     int index = dungeon.Prisoners.Units.GetUnit(i).UnitGraphicsResourceIndex;
-                    if (GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index) is not null)
+                    if (GetEngine().GamePack.UnitGraphicsResources.GetUnitGraphicsResource(index) is not null)
                     {
                         int random = Random(15);
-                        UnitGraphicsResource? unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index);
+                        UnitGraphicsResource? unitGraphicsResource = GetEngine().GamePack.UnitGraphicsResources.GetUnitGraphicsResource(index);
                         _ = unitGraphicsResource.SfxLibraries[3].Play(0, volume: 100, looped: false, delay: random, panning: SamplePanning.Center, callback: null);
                     }
                 }

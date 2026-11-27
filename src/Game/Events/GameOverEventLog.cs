@@ -34,13 +34,14 @@ public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
     // EventLog.pas:783
     public override string GetText()
     {
-        switch (StrategicMap.Current.Players.GetPlayers(Player).GameOverStatus)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        switch (strategicMap.Players.GetPlayers(Player).GameOverStatus)
         {
             case GameOverStatus.Lost:
-                string name = StrategicMap.Current.Players.GetPlayers(Player).GetName();
+                string name = strategicMap.Players.GetPlayers(Player).GetName();
                 return DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_gameOverDefeatEventLogFormat), args: [name]);
             case GameOverStatus.Won:
-                string name2 = StrategicMap.Current.Players.GetPlayers(Player).GetName();
+                string name2 = GetEngine().StrategicMap.Players.GetPlayers(Player).GetName();
                 return DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_gameOverVictoryEventLogFormat), args: [name2]);
             case GameOverStatus.None:
             default:
@@ -56,9 +57,9 @@ public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
         switch (trigger)
         {
             case ExecuteTrigger.User:
-                if (StrategicMap.Current.SeatedPlayer != Player)
+                if (GetEngine().StrategicMap.SeatedPlayer != Player)
                 {
-                    StrategicMap.Current.TriggerExecuteEventLog(this, immediate: mode, done);
+                    GetEngine().StrategicMap.TriggerExecuteEventLog(this, immediate: mode, done);
                     return true;
                 }
                 else
@@ -66,10 +67,10 @@ public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
                     return false;
                 }
             case ExecuteTrigger.Event:
-                StrategicMap.Current.TriggerExecuteEventLog(this, immediate: mode, done);
+                GetEngine().StrategicMap.TriggerExecuteEventLog(this, immediate: mode, done);
                 return true;
             case ExecuteTrigger.NewTurn:
-                StrategicMap.Current.TriggerExecuteEventLog(this, immediate: mode, done);
+                GetEngine().StrategicMap.TriggerExecuteEventLog(this, immediate: mode, done);
                 return true;
             default:
                 return false;
@@ -77,7 +78,7 @@ public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
     }
 
     // EventLog.pas:791
-    public void Handled() => StrategicMap.Current.GameOverEventHandled(Player);
+    public void Handled() => GetEngine().StrategicMap.GameOverEventHandled(Player);
 
     private static readonly string s_gameOverDefeatEventLogFormat = "%s is defeated!";
     private static readonly string s_gameOverVictoryEventLogFormat = "%s is victorious!";

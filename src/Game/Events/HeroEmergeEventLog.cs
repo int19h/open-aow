@@ -50,18 +50,18 @@ public partial class HeroEmergeEventLog(CustomNode? owner) : EventLog(owner)
         }
         else
         {
-            Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+            Hero hero = GetEngine().StrategicMap.UnitControl.FindUnit<Hero>(UnitId);
             if (hero is not null)
             {
                 if (hero.Player == Player)
                 {
                     string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_alreadyJoinedFormat), arguments: [hero.HeroName]);
-                    StrategicMap.Current.ShowWarning(format);
+                    GetEngine().StrategicMap.ShowWarning(format);
                 }
                 else
                 {
                     string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_doesNotWantToJoinAnymoreFormat), arguments: [hero.HeroName]);
-                    StrategicMap.Current.ShowWarning(format);
+                    GetEngine().StrategicMap.ShowWarning(format);
                 }
             }
 
@@ -74,7 +74,7 @@ public partial class HeroEmergeEventLog(CustomNode? owner) : EventLog(owner)
     // Hero.PAS:203
     public override void ViewLocation()
     {
-        Troop? u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop? u = GetEngine().StrategicMap.UnitControl.FindUnit(UnitId);
         if (u is not null)
         {
             MapCoordinate coordinate17 = u.GetLocation();
@@ -93,7 +93,7 @@ public partial class HeroEmergeEventLog(CustomNode? owner) : EventLog(owner)
     {
         Player = player;
         UnitId = hero.UnitId;
-        _emergeDay = StrategicMap.Current.Day;
+        _emergeDay = GetEngine().StrategicMap.Day;
         _mode = mode;
         string name = hero.HeroName;
         if (!IsEmpty(hero.GetNickname()))
@@ -108,7 +108,7 @@ public partial class HeroEmergeEventLog(CustomNode? owner) : EventLog(owner)
     // Hero.PAS:214
     public HeroJoinEventLog? CreateHeroJoinEventLog()
     {
-        Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+        Hero hero = GetEngine().StrategicMap.UnitControl.FindUnit<Hero>(UnitId);
         HeroJoinEventLog result;
         if (hero is not null && hero.Player == PlayerId.Independent && hero.OfferToJoin(Player) && hero.ArmyOwner is { } army)
         {

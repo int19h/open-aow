@@ -20,13 +20,13 @@ public partial class HeroJoinEventLog(CustomNode? owner) : JoinEventLog(owner)
     // Hero.PAS:116
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent? done)
     {
-        UnitControl? unitControl = StrategicMap.Current.UnitControl;
+        UnitControl? unitControl = GetEngine().StrategicMap.UnitControl;
         Hero hero = unitControl.FindUnit<Hero>(FirstUnitId);
         if (hero is not null && hero.Player == PlayerId.Independent && hero.OfferToJoin(Player))
         {
             bool executeNow = trigger == ExecuteTrigger.User;
-            executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.HeroJoin));
-            executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.HeroJoin));
+            executeNow = executeNow || (GetEngine().StrategicMap.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.HeroJoin));
+            executeNow = executeNow || (GetEngine().StrategicMap.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.HeroJoin));
             return executeNow && base.Execute(mode, trigger, done);
         }
         else
@@ -39,9 +39,10 @@ public partial class HeroJoinEventLog(CustomNode? owner) : JoinEventLog(owner)
     public override bool Accept(ref string errorText)
     {
         bool result = base.Accept(ref errorText);
-        if (result && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
+        if (result && !GetEngine().StrategicMap.Players.GetPlayers(Player).GetBusy())
         {
-            Troop? u = StrategicMap.Current.UnitControl.FindUnit(FirstUnitId);
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            Troop? u = strategicMap.UnitControl.FindUnit(FirstUnitId);
             MapCoordinate coordinate18 = u.GetLocation();
             int locationX = coordinate18.X;
             int locationY = coordinate18.Y;
@@ -59,7 +60,7 @@ public partial class HeroJoinEventLog(CustomNode? owner) : JoinEventLog(owner)
                 Result = NegotiateTokenEvent.NegotiateResult.Accept,
                 EventLogId = JoinIndex
             };
-            StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
+            strategicMap.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
         }
 
@@ -72,17 +73,19 @@ public partial class HeroJoinEventLog(CustomNode? owner) : JoinEventLog(owner)
     // dispatched on it).
     public bool ExecuteAI()
     {
-        Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(FirstUnitId);
+        Hero hero = GetEngine().StrategicMap.UnitControl.FindUnit<Hero>(FirstUnitId);
         if (hero is not null && hero.Player == PlayerId.Independent && hero.OfferToJoin(Player))
         {
-            Player? players = StrategicMap.Current.Players.GetPlayers(Player);
-            if (StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(Gold, mana: 0, budget: players.AIBudget.DefaultBudget, usePool: true))
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            Player? players = strategicMap.Players.GetPlayers(Player);
+            if (strategicMap.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(Gold, mana: 0, budget: players.AIBudget.DefaultBudget, usePool: true))
             {
                 string errorText = "";
                 if (Accept(ref errorText))
                 {
-                    Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player);
-                    _ = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(Gold, mana: 0, budget: fPlayersPlayers.AIBudget.DefaultBudget, mode: AIBudgetManager.ExpenseMode.BudgetThenPool);
+                    StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                    Player? fPlayersPlayers = engineStrategicMap.Players.GetPlayers(Player);
+                    _ = engineStrategicMap.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(Gold, mana: 0, budget: fPlayersPlayers.AIBudget.DefaultBudget, mode: AIBudgetManager.ExpenseMode.BudgetThenPool);
                 }
 
                 return true;

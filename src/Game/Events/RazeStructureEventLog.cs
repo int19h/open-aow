@@ -2,8 +2,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
-using Aow.Game.World.Map;
-
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.Events;
@@ -17,7 +15,7 @@ public class RazeStructureEventLog(CustomNode? owner, EngineObject holder) : Mes
     // (Structure)
     public override bool Yes()
     {
-        _ = Structure.RazeWithoutConfirmation(StrategicMap.Current.SeatedPlayer);
+        _ = Structure.RazeWithoutConfirmation(GetEngine().StrategicMap.SeatedPlayer);
         return true;
     }
 }

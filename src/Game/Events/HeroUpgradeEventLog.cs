@@ -35,7 +35,7 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
     // Hero.PAS:66
     public override string GetText()
     {
-        Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+        Hero hero = GetEngine().StrategicMap.UnitControl.FindUnit<Hero>(UnitId);
         if (hero is not null)
         {
             if (NewLevel - OldLevel == 1)
@@ -56,28 +56,29 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
     // Hero.PAS:76
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        UnitControl unitControl = StrategicMap.Current.UnitControl;
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        UnitControl unitControl = strategicMap.UnitControl;
         Hero hero = unitControl.FindUnit<Hero>(UnitId);
-        if (hero is not null && StrategicMap.Current.SeatedPlayer == hero.Player)
+        if (hero is not null && strategicMap.SeatedPlayer == hero.Player)
         {
             if (hero.UpgradePending)
             {
                 bool executeNow = trigger == ExecuteTrigger.User;
-                executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.HeroUpgrade));
-                executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.HeroUpgrade));
+                executeNow = executeNow || (strategicMap.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.HeroUpgrade));
+                executeNow = executeNow || (strategicMap.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.HeroUpgrade));
                 return executeNow && base.Execute(mode, trigger, done);
             }
             else
             {
-                if (StrategicMap.Current.Players.GetPlayers(hero.Player).Day == UpgradeDay)
+                if (GetEngine().StrategicMap.Players.GetPlayers(hero.Player).Day == UpgradeDay)
                 {
                     string canOnlyUpgradeHeroOnce = AbilityRules.TranslateResourceString(GetEngine(), S: s_canOnlyUpgradeHeroOnceText);
-                    StrategicMap.Current.ShowWarning(canOnlyUpgradeHeroOnce);
+                    GetEngine().StrategicMap.ShowWarning(canOnlyUpgradeHeroOnce);
                 }
                 else
                 {
                     string canOnlyUpgradeOnTheDayALevelIsMade = AbilityRules.TranslateResourceString(GetEngine(), S: s_canOnlyUpgradeOnDayLevelIsMadeText);
-                    StrategicMap.Current.ShowWarning(canOnlyUpgradeOnTheDayALevelIsMade);
+                    GetEngine().StrategicMap.ShowWarning(canOnlyUpgradeOnTheDayALevelIsMade);
                 }
 
                 return false;
@@ -92,7 +93,7 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
     // Hero.PAS:102
     public override void ViewLocation()
     {
-        Troop u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop u = GetEngine().StrategicMap.UnitControl.FindUnit(UnitId);
         if (u is not null)
         {
             MapCoordinate coordinate19 = u.GetLocation();

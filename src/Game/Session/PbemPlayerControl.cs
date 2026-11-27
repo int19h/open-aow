@@ -28,33 +28,37 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
     // PlayerC.PAS:984
     public override void NewTurn(PlayerId? player)
     {
-        if (StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status.Contains(PbemPlayerStatuses.NewTurn) || StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human || StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Terminated)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Players.GetPlayers(player).PbemSettings.Status.Contains(PbemPlayerStatuses.NewTurn) || strategicMap.Players.GetPlayers(player).PlayerType != PlayerType.Human || strategicMap.Players.GetPlayers(player).Status == PlayerStatus.Terminated)
         {
             base.NewTurn(player);
-            Player? players = StrategicMap.Current.Players.GetPlayers(player);
-            StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = (players.PbemSettings.Status & ~(PbemPlayerStatuses.NewTurn | PbemPlayerStatuses.TurnDone)) | PbemPlayerStatuses.Playing;
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+            Player? players = engineStrategicMap.Players.GetPlayers(player);
+            engineStrategicMap.Players.GetPlayers(player).PbemSettings.Status = (players.PbemSettings.Status & ~(PbemPlayerStatuses.NewTurn | PbemPlayerStatuses.TurnDone)) | PbemPlayerStatuses.Playing;
         }
         else
         {
-            if (StrategicMap.Current.Players.LocalPlayers.Count > 1 || player != _localPlayer)
+            StrategicMap setCurrentPlayerStrategicMap = GetEngine().StrategicMap;
+            if (setCurrentPlayerStrategicMap.Players.LocalPlayers.Count > 1 || player != _localPlayer)
             {
-                StrategicMap.Current.SetCurrentPlayer(player);
-                Player? players = StrategicMap.Current.Players.GetPlayers(player);
-                StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status | PbemPlayerStatuses.NewTurn;
+                setCurrentPlayerStrategicMap.SetCurrentPlayer(player);
+                Player? players = setCurrentPlayerStrategicMap.Players.GetPlayers(player);
+                setCurrentPlayerStrategicMap.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status | PbemPlayerStatuses.NewTurn;
                 SendEmailGameEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
                     Mode = 2,
                     SendPlayer = player
                 };
-                StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: SendEmailGameCallback);
+                setCurrentPlayerStrategicMap.TriggerExecuteEventLog(log, immediate: false, done: SendEmailGameCallback);
                 _ = log.Release();
             }
             else
             {
                 base.NewTurn(player);
-                Player? players = StrategicMap.Current.Players.GetPlayers(player);
-                StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = (players.PbemSettings.Status & ~(PbemPlayerStatuses.NewTurn | PbemPlayerStatuses.TurnDone)) | PbemPlayerStatuses.Playing;
+                StrategicMap getPlayersStrategicMap = GetEngine().StrategicMap;
+                Player? players = getPlayersStrategicMap.Players.GetPlayers(player);
+                getPlayersStrategicMap.Players.GetPlayers(player).PbemSettings.Status = (players.PbemSettings.Status & ~(PbemPlayerStatuses.NewTurn | PbemPlayerStatuses.TurnDone)) | PbemPlayerStatuses.Playing;
             }
         }
     }
@@ -65,23 +69,24 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
         DefaultStartMap();
         NewDay();
         int i = 0;
-        int last = StrategicMap.Current.Players.Count - 1;
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        int last = strategicMap.Players.Count - 1;
         for (; i <= last; i += 1)
         {
-            if (i == 0 || StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Independent)
+            if (i == 0 || strategicMap.Players.GetPlayers(i).PlayerType != PlayerType.Independent)
             {
-                StrategicMap.Current.Players.GetPlayers(i).Status = PlayerStatus.Playing;
+                strategicMap.Players.GetPlayers(i).Status = PlayerStatus.Playing;
             }
         }
 
         i = 0;
         while (true)
         {
-            bool condition = i < StrategicMap.Current.TurnOrder.Count;
+            bool condition = i < strategicMap.TurnOrder.Count;
             if (condition)
             {
-                int item = StrategicMap.Current.TurnOrder[i];
-                condition = StrategicMap.Current.Players.GetPlayers(item).PlayerType != PlayerType.Human;
+                int item = strategicMap.TurnOrder[i];
+                condition = strategicMap.Players.GetPlayers(item).PlayerType != PlayerType.Human;
             }
 
             if (!condition)
@@ -92,34 +97,36 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
             i += 1;
         }
 
-        int player = StrategicMap.Current.TurnOrder[i];
-        Player? players = StrategicMap.Current.Players.GetPlayers(player);
+        int player = strategicMap.TurnOrder[i];
+        Player? players = strategicMap.Players.GetPlayers(player);
         bool test = GetEngine().EmailGames.FindEmailGame(players.PbemSettings.EmailGame) is not null;
         if (test)
         {
-            test = CompareText(b: GetEngine().Registry.GetLocalEmailAddress(), a: StrategicMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.EmailAddress) == 0;
+            test = CompareText(b: GetEngine().Registry.GetLocalEmailAddress(), a: GetEngine().StrategicMap.Players.GetPlayers(player).PbemSettings.EmailGame.EmailAddress) == 0;
         }
 
         if (test)
         {
             _localPlayer = PlayerId.FromOriginal((sbyte)player);
-            Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
-            StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = fPlayersPlayers.PbemSettings.Status | PbemPlayerStatuses.NewTurn;
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+            Player? fPlayersPlayers = engineStrategicMap.Players.GetPlayers(player);
+            engineStrategicMap.Players.GetPlayers(player).PbemSettings.Status = fPlayersPlayers.PbemSettings.Status | PbemPlayerStatuses.NewTurn;
         }
         else
         {
-            StrategicMap.Current.SetSeatedPlayer(null);
+            GetEngine().StrategicMap.SetSeatedPlayer(null);
         }
 
-        NewTurn(PlayerId.FromOriginal((sbyte)StrategicMap.Current.TurnOrder[1]));
+        NewTurn(PlayerId.FromOriginal((sbyte)GetEngine().StrategicMap.TurnOrder[1]));
     }
 
     // PlayerC.PAS:1187
     public override void StartLoadedMap()
     {
-        if (!IsEmpty(StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).Settings))
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (!IsEmpty(strategicMap.Players.GetPlayers(strategicMap.CurrentPlayer).Settings))
         {
-            ValidatePassword(StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).Settings);
+            ValidatePassword(strategicMap.Players.GetPlayers(strategicMap.CurrentPlayer).Settings);
         }
         else
         {
@@ -133,67 +140,73 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
     // PlayerC.PAS:1230
     public override void ExitGame(ExitGameMode mode, ExitGameCallBack? done)
     {
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatuses.Playing))
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Players.GetPlayers(strategicMap.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatuses.Playing))
         {
-            if (DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
+            if (DocumentKind.Map.HasExtension(ExtractFileExt(strategicMap.FileName)))
             {
                 SaveGameEventLog log = new(null, holder: CreationHolder())
                 {
                     Title = AbilityRules.TranslateResourceString(GetEngine(), S: s_saveEmailGameText)
                 };
-                if (!IsEmpty(StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.EmailGame.Name))
+                StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                if (!IsEmpty(engineStrategicMap.Players.GetPlayers(engineStrategicMap.CurrentPlayer).PbemSettings.EmailGame.Name))
                 {
-                    log.DefaultName = $"{StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.EmailGame.Name}.asg";
+                    log.DefaultName = $"{engineStrategicMap.Players.GetPlayers(engineStrategicMap.CurrentPlayer).PbemSettings.EmailGame.Name}.asg";
                 }
 
                 log.Directory = $"{GetEngine().StartupDirectory}EmailIn\\";
-                StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ExitGameSaveAsCallback);
+                engineStrategicMap.TriggerTypedExecuteEventLog(log, immediate: false, done: ExitGameSaveAsCallback);
                 _ = log.Release();
             }
             else
             {
                 // A game file outside EmailIn takes the name the host writes (own-formats.md 4.2).
-                StrategicMap.Current.FileName = FileBoundary.WriteName(StrategicMap.Current.FileName);
-                GetEngine().SaveHsm(StrategicMap.Current.FileName, progress: null, profile: GameProfile.WorldMap);
-                StrategicMap.Current.ExecuteExitGame();
+                StrategicMap writeNameStrategicMap = GetEngine().StrategicMap;
+                writeNameStrategicMap.FileName = FileBoundary.WriteName(writeNameStrategicMap.FileName);
+                GetEngine().SaveHsm(GetEngine().StrategicMap.FileName, progress: null, profile: GameProfile.WorldMap);
+                GetEngine().StrategicMap.ExecuteExitGame();
             }
         }
         else
         {
-            StrategicMap.Current.ExecuteExitGame();
+            GetEngine().StrategicMap.ExecuteExitGame();
         }
     }
 
     // PlayerC.PAS:1053
     public override void EndTurn(PlayerId? player)
     {
-        if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human && StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Players.GetPlayers(player).PlayerType == PlayerType.Human && strategicMap.Players.GetPlayers(player).Status == PlayerStatus.Playing)
         {
-            if (DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
+            if (DocumentKind.Map.HasExtension(ExtractFileExt(strategicMap.FileName)))
             {
                 SaveGameEventLog saveLog = new(null, holder: CreationHolder())
                 {
                     Title = AbilityRules.TranslateResourceString(GetEngine(), S: s_saveEmailGameText)
                 };
-                if (!IsEmpty(StrategicMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.Name))
+                StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                if (!IsEmpty(engineStrategicMap.Players.GetPlayers(player).PbemSettings.EmailGame.Name))
                 {
-                    saveLog.DefaultName = $"{StrategicMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.Name}.asg";
+                    saveLog.DefaultName = $"{engineStrategicMap.Players.GetPlayers(player).PbemSettings.EmailGame.Name}.asg";
                 }
 
                 saveLog.Directory = $"{GetEngine().StartupDirectory}EmailIn\\";
-                StrategicMap.Current.TriggerTypedExecuteEventLog(saveLog, immediate: false, done: EndTurnGameSavedCallback);
+                engineStrategicMap.TriggerTypedExecuteEventLog(saveLog, immediate: false, done: EndTurnGameSavedCallback);
                 _ = saveLog.Release();
             }
             else
             {
-                Player? players = StrategicMap.Current.Players.GetPlayers(player);
-                StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = (players.PbemSettings.Status | PbemPlayerStatuses.TurnDone) & ~PbemPlayerStatuses.Playing;
+                StrategicMap getPlayersStrategicMap = GetEngine().StrategicMap;
+                Player? players = getPlayersStrategicMap.Players.GetPlayers(player);
+                getPlayersStrategicMap.Players.GetPlayers(player).PbemSettings.Status = (players.PbemSettings.Status | PbemPlayerStatuses.TurnDone) & ~PbemPlayerStatuses.Playing;
                 // A game file outside EmailIn takes the name the host writes (own-formats.md 4.2).
-                StrategicMap.Current.FileName = FileBoundary.WriteName(StrategicMap.Current.FileName);
+                getPlayersStrategicMap.FileName = FileBoundary.WriteName(getPlayersStrategicMap.FileName);
                 bool saved;
                 try
                 {
-                    GetEngine().SaveHsm(StrategicMap.Current.FileName, progress: null, profile: GameProfile.WorldMap);
+                    GetEngine().SaveHsm(GetEngine().StrategicMap.FileName, progress: null, profile: GameProfile.WorldMap);
                     saved = true;
                 }
                 catch
@@ -203,14 +216,14 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
 
                 if (saved)
                 {
-                    base.EndTurn(StrategicMap.Current.CurrentPlayer);
+                    base.EndTurn(GetEngine().StrategicMap.CurrentPlayer);
                 }
                 else
                 {
                     MessageEventLog messageLog = new(null, holder: CreationHolder());
-                    string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CouldNotSaveFormat) + ".", arguments: [StrategicMap.Current.FileName]);
+                    string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CouldNotSaveFormat) + ".", arguments: [GetEngine().StrategicMap.FileName]);
                     messageLog.Message.Text = format;
-                    StrategicMap.Current.TriggerExecuteEventLog(messageLog, immediate: false, done: TerminateEmailGameCallback);
+                    GetEngine().StrategicMap.TriggerExecuteEventLog(messageLog, immediate: false, done: TerminateEmailGameCallback);
                     _ = messageLog.Release();
                 }
             }
@@ -218,12 +231,12 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
         else
         {
             // { Original uses current player, ignoring Player here. }
-            base.EndTurn(StrategicMap.Current.CurrentPlayer);
+            base.EndTurn(GetEngine().StrategicMap.CurrentPlayer);
         }
     }
 
     // PlayerC.PAS:887
-    public void TerminateEmailGame() => StrategicMap.Current.ExitGame(ExitGameMode.Exit, done: null);
+    public void TerminateEmailGame() => GetEngine().StrategicMap.ExitGame(ExitGameMode.Exit, done: null);
 
     // PlayerC.PAS:890
     public void TerminateEmailGameCallback(EventLog log) => TerminateEmailGame();
@@ -234,13 +247,14 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
         _ = RtlHost.Files.DeleteFile(log.FileName);
         if (!log.Success)
         {
+            StrategicMap strategicMap = GetEngine().StrategicMap;
             SendEmailGameEventLog sendLog = new(null)
             {
                 Holder = CreationHolder(),
                 Mode = 1,
-                SendPlayer = StrategicMap.Current.CurrentPlayer
+                SendPlayer = strategicMap.CurrentPlayer
             };
-            StrategicMap.Current.TriggerExecuteEventLog(sendLog, immediate: false, done: SendEmailGameCallback);
+            strategicMap.TriggerExecuteEventLog(sendLog, immediate: false, done: SendEmailGameCallback);
             _ = sendLog.Release();
         }
         else
@@ -259,7 +273,7 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
             {
                 GetEngine().SaveHsm(log.FileName, progress: null, profile: GameProfile.WorldMap);
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.GameSavedFormat), arguments: [log.FileName]);
-                StrategicMap.Current.ShowMessage(format);
+                GetEngine().StrategicMap.ShowMessage(format);
                 failed = false;
             }
             catch
@@ -278,7 +292,7 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
             messageLog = new MessageEventLog(null, holder: CreationHolder());
             string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CouldNotSaveFormat) + ".", arguments: [log.FileName]);
             messageLog.Message.Text = format;
-            StrategicMap.Current.TriggerExecuteEventLog(messageLog, immediate: false, done: TerminateEmailGameCallback);
+            GetEngine().StrategicMap.TriggerExecuteEventLog(messageLog, immediate: false, done: TerminateEmailGameCallback);
             _ = messageLog.Release();
         }
         else
@@ -286,7 +300,7 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
             messageLog = new MessageEventLog(null, holder: CreationHolder());
             string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_gameSuccessfullySavedText) + ".", arguments: [log.FileName]);
             messageLog.Message.Text = format;
-            StrategicMap.Current.TriggerExecuteEventLog(messageLog, immediate: false, done: TerminateEmailGameCallback);
+            GetEngine().StrategicMap.TriggerExecuteEventLog(messageLog, immediate: false, done: TerminateEmailGameCallback);
             _ = messageLog.Release();
         }
     }
@@ -299,17 +313,18 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
     // PlayerC.PAS:1018
     public void TriggerGameRestartedEvents(PlayerId? player)
     {
-        StrategicMap.Current.SynchronizeBegin();
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.SynchronizeBegin();
         RestartGameEventLog log = new(null, holder: CreationHolder())
         {
             Player = player
         };
-        string name = StrategicMap.Current.Players.GetPlayers(player).GetName();
+        string name = strategicMap.Players.GetPlayers(player).GetName();
         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_gameRestartEventLogFormat), arguments: [name]);
         log.Message.Text = format;
         EventLog.DistributeEventLog(log, execute: false);
         _ = log.Release();
-        StrategicMap.Current.SynchronizeEnd();
+        GetEngine().StrategicMap.SynchronizeEnd();
     }
 
     // PlayerC.PAS:1031
@@ -320,20 +335,22 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
         {
             try
             {
-                Player? players = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
-                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status = (players.PbemSettings.Status | PbemPlayerStatuses.TurnDone) & ~PbemPlayerStatuses.Playing;
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                Player? players = strategicMap.Players.GetPlayers(strategicMap.CurrentPlayer);
+                strategicMap.Players.GetPlayers(strategicMap.CurrentPlayer).PbemSettings.Status = (players.PbemSettings.Status | PbemPlayerStatuses.TurnDone) & ~PbemPlayerStatuses.Playing;
                 GetEngine().SaveHsm(log.FileName, progress: null, profile: GameProfile.WorldMap);
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.GameSavedFormat), arguments: [log.FileName]);
-                StrategicMap.Current.ShowMessage(format);
-                StrategicMap.Current.SynchronizeBegin();
-                base.EndTurn(StrategicMap.Current.CurrentPlayer);
-                StrategicMap.Current.SynchronizeEnd();
+                GetEngine().StrategicMap.ShowMessage(format);
+                StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+                engineStrategicMap.SynchronizeBegin();
+                base.EndTurn(engineStrategicMap.CurrentPlayer);
+                GetEngine().StrategicMap.SynchronizeEnd();
                 failed = false;
             }
             catch
             {
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CouldNotSaveFormat), arguments: [log.FileName]);
-                StrategicMap.Current.ShowWarning(format);
+                GetEngine().StrategicMap.ShowWarning(format);
                 failed = true;
             }
         }
@@ -344,25 +361,28 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
 
         if (failed)
         {
-            StrategicMap.Current.TriggerEndTurnEvent(StrategicMap.Current.CurrentPlayer);
+            StrategicMap triggerEndTurnEventStrategicMap = GetEngine().StrategicMap;
+            triggerEndTurnEventStrategicMap.TriggerEndTurnEvent(triggerEndTurnEventStrategicMap.CurrentPlayer);
         }
     }
 
     // PlayerC.PAS:1094
     public void StartLoadedEmailGame()
     {
-        StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.EmailGame.LastDay = StrategicMap.Current.Day;
-        Player? players = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.Players.GetPlayers(strategicMap.CurrentPlayer).PbemSettings.EmailGame.LastDay = strategicMap.Day;
+        Player? players = strategicMap.Players.GetPlayers(strategicMap.CurrentPlayer);
         _ = GetEngine().EmailGames.UpdateGame(players.PbemSettings.EmailGame);
-        Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
-        StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status = fPlayersPlayers.PbemSettings.Status | PbemPlayerStatuses.Playing;
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatuses.NewTurn))
+        StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+        Player? fPlayersPlayers = engineStrategicMap.Players.GetPlayers(engineStrategicMap.CurrentPlayer);
+        engineStrategicMap.Players.GetPlayers(engineStrategicMap.CurrentPlayer).PbemSettings.Status = fPlayersPlayers.PbemSettings.Status | PbemPlayerStatuses.Playing;
+        if (engineStrategicMap.Players.GetPlayers(engineStrategicMap.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatuses.NewTurn))
         {
-            StrategicMap.Current.SynchronizeBegin();
+            engineStrategicMap.SynchronizeBegin();
             DefaultStartMap();
-            StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(StrategicMap.Current.CurrentPlayer));
-            NewTurn(StrategicMap.Current.CurrentPlayer);
-            StrategicMap.Current.SynchronizeEnd();
+            engineStrategicMap.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(engineStrategicMap.CurrentPlayer));
+            NewTurn(GetEngine().StrategicMap.CurrentPlayer);
+            GetEngine().StrategicMap.SynchronizeEnd();
         }
         else
         {
@@ -375,14 +395,15 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
     {
         if (log.PressedButton == PressedEventLogButton.Yes)
         {
-            StrategicMap.Current.SynchronizeBegin();
-            TriggerGameRestartedEvents(StrategicMap.Current.CurrentPlayer);
-            StrategicMap.Current.SynchronizeEnd();
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            strategicMap.SynchronizeBegin();
+            TriggerGameRestartedEvents(strategicMap.CurrentPlayer);
+            GetEngine().StrategicMap.SynchronizeEnd();
             StartLoadedEmailGame();
         }
         else
         {
-            StrategicMap.Current.ExecuteExitGame();
+            GetEngine().StrategicMap.ExecuteExitGame();
         }
     }
 
@@ -391,41 +412,47 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
     {
         if (log.PressedButton == PressedEventLogButton.Yes)
         {
-            StrategicMap.Current.SynchronizeBegin();
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            strategicMap.SynchronizeBegin();
             DefaultStartMap();
-            StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(StrategicMap.Current.CurrentPlayer));
-            EndTurn(StrategicMap.Current.CurrentPlayer);
-            StrategicMap.Current.SynchronizeEnd();
+            strategicMap.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(strategicMap.CurrentPlayer));
+            EndTurn(GetEngine().StrategicMap.CurrentPlayer);
+            GetEngine().StrategicMap.SynchronizeEnd();
         }
         else
         {
-            StrategicMap.Current.ExecuteExitGame();
+            GetEngine().StrategicMap.ExecuteExitGame();
         }
     }
 
     // PlayerC.PAS:1136
     public void ValidateLoadedMap()
     {
-        _localPlayer = StrategicMap.Current.CurrentPlayer;
-        Player? players = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        _localPlayer = strategicMap.CurrentPlayer;
+        Player? players = strategicMap.Players.GetPlayers(strategicMap.CurrentPlayer);
         if (GetEngine().EmailGames.FindEmailGame(players.PbemSettings.EmailGame) is null)
         {
-            Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+            Player? fPlayersPlayers = engineStrategicMap.Players.GetPlayers(engineStrategicMap.CurrentPlayer);
             bool restarted = GetEngine().EmailGames.EmailGameRestarted(fPlayersPlayers.PbemSettings.EmailGame);
-            Player? players2 = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
-            Player? players3 = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
+            StrategicMap getPlayersStrategicMap = GetEngine().StrategicMap;
+            Player? players2 = getPlayersStrategicMap.Players.GetPlayers(getPlayersStrategicMap.CurrentPlayer);
+            Player? players3 = getPlayersStrategicMap.Players.GetPlayers(getPlayersStrategicMap.CurrentPlayer);
             EmailGame emailGame = GetEngine().EmailGames.CreateEmailGame(players3.PbemSettings.EmailGame.Name, players2.PbemSettings.EmailGame.EmailAddress);
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.SetGame(emailGame);
+            StrategicMap setGameStrategicMap = GetEngine().StrategicMap;
+            setGameStrategicMap.Players.GetPlayers(setGameStrategicMap.CurrentPlayer).PbemSettings.SetGame(emailGame);
             if (restarted)
             {
-                TriggerGameRestartedEvents(StrategicMap.Current.CurrentPlayer);
+                TriggerGameRestartedEvents(GetEngine().StrategicMap.CurrentPlayer);
             }
 
             StartLoadedEmailGame();
         }
         else
         {
-            Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
+            StrategicMap playersStrategicMap = GetEngine().StrategicMap;
+            Player? fPlayersPlayers = playersStrategicMap.Players.GetPlayers(playersStrategicMap.CurrentPlayer);
             MessageEventLog log;
             if (GetEngine().EmailGames.EmailGameRestarted(fPlayersPlayers.PbemSettings.EmailGame))
             {
@@ -440,13 +467,14 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
                 _ = log.Message.Add("");
                 string translatedText = AbilityRules.TranslateResourceString(GetEngine(), S: s_doYouWantToContinueText);
                 _ = log.Message.Add(translatedText);
-                StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ContinueRestartedGameCallback);
+                GetEngine().StrategicMap.TriggerTypedExecuteEventLog(log, immediate: false, done: ContinueRestartedGameCallback);
                 _ = log.Release();
             }
             else
             {
                 SetSeatedPlayer(null);
-                if ((StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status & (PbemPlayerStatuses.NewTurn | PbemPlayerStatuses.TurnDone)) == PbemPlayerStatuses.TurnDone)
+                StrategicMap currentPlayerStrategicMap = GetEngine().StrategicMap;
+                if ((currentPlayerStrategicMap.Players.GetPlayers(currentPlayerStrategicMap.CurrentPlayer).PbemSettings.Status & (PbemPlayerStatuses.NewTurn | PbemPlayerStatuses.TurnDone)) == PbemPlayerStatuses.TurnDone)
                 {
                     log = new MessageEventLog(null, holder: CreationHolder())
                     {
@@ -458,7 +486,7 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
                     _ = log.Message.Add("");
                     string translatedText = AbilityRules.TranslateResourceString(GetEngine(), S: s_doYouWantToContinueText);
                     _ = log.Message.Add(translatedText);
-                    StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ContinueTurnDoneGameCallback);
+                    GetEngine().StrategicMap.TriggerTypedExecuteEventLog(log, immediate: false, done: ContinueTurnDoneGameCallback);
                     _ = log.Release();
                 }
                 else
@@ -477,12 +505,12 @@ public sealed class PbemPlayerControl(CustomNode? owner) : TurnPlayerControl(own
             try
             {
                 GetEngine().SaveHsm(log.FileName, progress: null, profile: GameProfile.WorldMap);
-                StrategicMap.Current.ExecuteExitGame();
+                GetEngine().StrategicMap.ExecuteExitGame();
             }
             catch
             {
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CouldNotSaveFormat), arguments: [log.FileName]);
-                StrategicMap.Current.ShowWarning(format);
+                GetEngine().StrategicMap.ShowWarning(format);
             }
         }
     }

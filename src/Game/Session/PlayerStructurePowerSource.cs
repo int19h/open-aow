@@ -25,7 +25,7 @@ public class PlayerStructurePowerSource(CustomNode? owner) : PowerSource(owner)
         _structure.HexLevel);
 
     // Structur.PAS:2526
-    public override void Select() => StrategicMap.Current.Select(_structure, center: true);
+    public override void Select() => GetEngine().StrategicMap.Select(_structure, center: true);
 
     // Structur.PAS:2504
     // (Structure)

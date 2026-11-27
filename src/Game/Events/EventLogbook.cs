@@ -3,7 +3,6 @@
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.IntegerObjects;
@@ -124,7 +123,7 @@ public sealed class EventLogbook : EngineObject
     // EventLog.pas:600
     public void AddEvent(EventLog? eventValue)
     {
-        Assert(StrategicMap.Current.Synchronized, message: "", file: "EventLog.pas", line: 704);
+        Assert(GetEngine().StrategicMap.Synchronized, message: "", file: "EventLog.pas", line: 704);
         eventValue.SetOwner(_events);
         eventValue.Id = CreateUniqueId();
         eventValue.NotifyLogged(this);

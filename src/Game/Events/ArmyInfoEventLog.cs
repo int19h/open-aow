@@ -10,8 +10,6 @@ using Aow.Game.Session;
 
 using Aow.Game.Units;
 
-using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Events;
@@ -71,20 +69,20 @@ public partial class ArmyInfoEventLog : EventLog
             switch (trigger)
             {
                 case ExecuteTrigger.User:
-                    StrategicMap.Current.TriggerExecuteEventLog(this, immediate: false, done);
+                    GetEngine().StrategicMap.TriggerExecuteEventLog(this, immediate: false, done);
                     return true;
                 case ExecuteTrigger.NewTurn:
-                    if (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.SeatedPlayer == ArmyView.Player)
+                    if (GetEngine().StrategicMap.SeatedPlayer == Player || GetEngine().StrategicMap.SeatedPlayer == ArmyView.Player)
                     {
-                        StrategicMap.Current.TriggerExecuteEventLog(this, immediate: false, done);
+                        GetEngine().StrategicMap.TriggerExecuteEventLog(this, immediate: false, done);
                         return true;
                     }
 
                     break;
                 case ExecuteTrigger.Event:
-                    if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.SeatedPlayer == ArmyView.Player))
+                    if (GetEngine().StrategicMap.ConnectionType == PlayerConnectionType.Local && (GetEngine().StrategicMap.SeatedPlayer == Player || GetEngine().StrategicMap.SeatedPlayer == ArmyView.Player))
                     {
-                        StrategicMap.Current.TriggerExecuteEventLog(this, immediate: false, done);
+                        GetEngine().StrategicMap.TriggerExecuteEventLog(this, immediate: false, done);
                         return true;
                     }
                     else

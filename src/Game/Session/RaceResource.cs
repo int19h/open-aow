@@ -10,8 +10,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
 
-using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiStrings;
@@ -157,10 +155,10 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
         {
             if (!IsEmpty(_imageLibraryName))
             {
-                ImageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName);
+                ImageLibrary = GetEngine().GamePack.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName);
             }
 
-            _faceLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "FACES\\R_FACES.ILB");
+            _faceLibrary = GetEngine().GamePack.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "FACES\\R_FACES.ILB");
         }
     }
 
@@ -172,10 +170,10 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
         {
             if (!IsEmpty(_imageLibraryName))
             {
-                GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName);
+                GetEngine().GamePack.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName);
             }
 
-            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "FACES\\R_FACES.ILB");
+            GetEngine().GamePack.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "FACES\\R_FACES.ILB");
             _faceLibrary = null;
             ImageLibrary = null;
         }

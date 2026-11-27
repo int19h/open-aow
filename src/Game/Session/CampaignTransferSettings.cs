@@ -161,11 +161,12 @@ public sealed class CampaignTransferSettings : EngineObject
     public void Retrieve()
     {
         Clear();
-        if (StrategicMap.Current is not null)
+        StrategicMap strategicMap = GetEngine()?.StrategicMap;
+        if (strategicMap is not null)
         {
             UnitUserList units = new(null) { Holder = CreationHolder() };
-            sbyte player = (sbyte)StrategicMap.Current.Players.LocalPlayers[0];
-            Leader = StrategicMap.Current.Players.GetPlayers(player).Leader.Copy<Leader>(GetEngine());
+            sbyte player = (sbyte)strategicMap.Players.LocalPlayers[0];
+            Leader = strategicMap.Players.GetPlayers(player).Leader.Copy<Leader>(GetEngine());
             Leader.RemoveEnchantments();
             Leader.RemoveHandicaps();
             _ = Leader.ExecuteCancelCasting();
@@ -197,9 +198,9 @@ public sealed class CampaignTransferSettings : EngineObject
             }
 
             Leader.HeroItems.Clear();
-            for (int i = 0, last = StrategicMap.Current.UnitControl.GetCount() - 1; i <= last; i++)
+            for (int i = 0, last = GetEngine().StrategicMap.UnitControl.GetCount() - 1; i <= last; i++)
             {
-                Troop troop = StrategicMap.Current.UnitControl[i];
+                Troop troop = GetEngine().StrategicMap.UnitControl[i];
                 if (PlayerIdExtensions.ToOriginal(troop.Player) == player && troop.GetUnitType() != UnitType.Machine && (troop.GetMoveTypes() & (MoveTypes.Walking | MoveTypes.Flying)) != MoveTypes.None && troop is not Magic.Abilities.Leader && !troop.GetAbilityEnabled(155))
                 {
                     if (troop is Hero)
@@ -248,12 +249,13 @@ public sealed class CampaignTransferSettings : EngineObject
                 }
             }
 
-            _researchPercentage = StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchPercentage;
-            Player? players = StrategicMap.Current.Players.GetPlayers(player);
+            StrategicMap engineStrategicMap = GetEngine().StrategicMap;
+            _researchPercentage = engineStrategicMap.Players.GetPlayers(player).MagicControl.ResearchPercentage;
+            Player? players = engineStrategicMap.Players.GetPlayers(player);
             _spells.Assign(players.MagicControl.Spells);
-            _researchSpellId = StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId;
-            _researchPointsLeft = StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft;
-            RandSeed = StrategicMap.Current.Random(16777215);
+            _researchSpellId = engineStrategicMap.Players.GetPlayers(player).MagicControl.ResearchSpellId;
+            _researchPointsLeft = engineStrategicMap.Players.GetPlayers(player).MagicControl.ResearchPointsLeft;
+            RandSeed = engineStrategicMap.Random(16777215);
             GenerateTransferUnits(units);
             units?.Dispose();
         }
@@ -499,29 +501,30 @@ public sealed class CampaignTransferSettings : EngineObject
     // Diplomacy.pas:2109
     public void ExecuteSelection()
     {
-        if (StrategicMap.Current is not null)
+        StrategicMap strategicMap = GetEngine()?.StrategicMap;
+        if (strategicMap is not null)
         {
-            StrategicMap.Current.SynchronizeBegin();
-            StrategicMap.Current.Players.Update();
-            sbyte player = (sbyte)(StrategicMap.Current.Players.Count - 1);
-            while (player > 1 && StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+            strategicMap.SynchronizeBegin();
+            strategicMap.Players.Update();
+            sbyte player = (sbyte)(strategicMap.Players.Count - 1);
+            while (player > 1 && strategicMap.Players.GetPlayers(player).PlayerType != PlayerType.Human)
             {
                 player = (sbyte)(player - 1);
             }
 
             if (GetEngine().Campaign.CompletedScenarios.Count != 0)
             {
-                StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchPercentage = _researchPercentage;
+                strategicMap.Players.GetPlayers(player).MagicControl.ResearchPercentage = _researchPercentage;
             }
 
-            StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId = _researchSpellId;
-            StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft = _researchPointsLeft;
-            StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.Assign(_spells);
-            Player? players = StrategicMap.Current.Players.GetPlayers(player);
+            strategicMap.Players.GetPlayers(player).MagicControl.ResearchSpellId = _researchSpellId;
+            strategicMap.Players.GetPlayers(player).MagicControl.ResearchPointsLeft = _researchPointsLeft;
+            strategicMap.Players.GetPlayers(player).MagicControl.Spells.Assign(_spells);
+            Player? players = strategicMap.Players.GetPlayers(player);
             players.InitialGold += SelectedTransferGold;
-            Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
+            Player? fPlayersPlayers = strategicMap.Players.GetPlayers(player);
             fPlayersPlayers.MagicControl.ExternalMana += SelectedTransferMana;
-            Leader? leader = StrategicMap.Current.Players.GetPlayers(player).Leader;
+            Leader? leader = strategicMap.Players.GetPlayers(player).Leader;
             MapCoordinate coordinate23 = leader.GetLocation();
             int x = coordinate23.X;
             int y = coordinate23.Y;
@@ -600,12 +603,12 @@ public sealed class CampaignTransferSettings : EngineObject
             {
                 int item = SelectedItems[i];
                 itemItem = Items.GetItem(item).Copy<Item>(GetEngine());
-                StrategicMap.Current.ItemControl.RegisterItem(itemItem);
-                _ = itemItem.PlaceOnMap(StrategicMap.Current, (sbyte)x, (sbyte)y, (sbyte)l);
+                GetEngine().StrategicMap.ItemControl.RegisterItem(itemItem);
+                _ = itemItem.PlaceOnMap(GetEngine().StrategicMap, (sbyte)x, (sbyte)y, (sbyte)l);
                 _ = itemItem.Release();
             }
 
-            StrategicMap.Current.SynchronizeEnd();
+            GetEngine().StrategicMap.SynchronizeEnd();
         }
     }
 

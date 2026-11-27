@@ -45,10 +45,10 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
         switch (Mode)
         {
             case EventMode.SpellResearched:
-                Spell spell = GamePack.Current.SpellControl[SpellId];
+                Spell spell = GetEngine().GamePack.SpellControl[SpellId];
                 return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_researchedFormat), arguments: [spell.SpellName]);
             case EventMode.OutOfMana:
-                return StrategicMap.Current.SeatedPlayer == Player
+                return GetEngine().StrategicMap.SeatedPlayer == Player
                     ? AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_removedOutOfManaFormat), arguments: [EnchantmentName])
                     : AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.RemovedFormat), arguments: [EnchantmentName]);
             case EventMode.StartResearch:
@@ -65,7 +65,7 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
         bool show = Mode switch
         {
             EventMode.OutOfMana => trigger == ExecuteTrigger.User,
-            EventMode.SpellResearched => trigger == ExecuteTrigger.User || (StrategicMap.Current.PlayMode == PlayMode.Turn
+            EventMode.SpellResearched => trigger == ExecuteTrigger.User || (GetEngine().StrategicMap.PlayMode == PlayMode.Turn
                                     ? GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.SpellResearched)
                                     : GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.SpellResearched)),
             EventMode.StartResearch => true,
@@ -80,8 +80,8 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
         int x = Location.X;
         if (x != -1)
         {
-            StrategicMap.Current.CenterViewTo(x, Location.Y, Location.MapLevel);
-            StrategicMap.Current.PlayCenterAnimation(Location.X, Location.Y, L: Location.MapLevel);
+            GetEngine().StrategicMap.CenterViewTo(x, Location.Y, Location.MapLevel);
+            GetEngine().StrategicMap.PlayCenterAnimation(Location.X, Location.Y, L: Location.MapLevel);
         }
     }
 

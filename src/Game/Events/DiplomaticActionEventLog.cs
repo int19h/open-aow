@@ -62,11 +62,11 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
             bool condition = PlayerIdExtensions.ToOriginal(Action.OtherPlayer) > 0;
             if (condition)
             {
-                int count = StrategicMap.Current.Players.Count;
+                int count = GetEngine().StrategicMap.Players.Count;
                 condition = PlayerIdExtensions.ToOriginal(Action.OtherPlayer) < count;
             }
 
-            race = condition ? StrategicMap.Current.Players.GetPlayers(Action.OtherPlayer).PlayerRace : 12;
+            race = condition ? GetEngine().StrategicMap.Players.GetPlayers(Action.OtherPlayer).PlayerRace : 12;
 
             return RaceColors[race];
         }
@@ -77,26 +77,27 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
                 bool condition = PlayerIdExtensions.ToOriginal(Action.Target) > 0;
                 if (condition)
                 {
-                    int count = StrategicMap.Current.Players.Count;
+                    int count = GetEngine().StrategicMap.Players.Count;
                     condition = PlayerIdExtensions.ToOriginal(Action.Target) < count;
                 }
 
-                race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Target).PlayerRace : 12;
+                race = condition ? GetEngine().StrategicMap.Players.GetPlayers(Action.Target).PlayerRace : 12;
 
                 return RaceColors[race];
             }
             else
             {
-                if (StrategicMap.Current.SeatedPlayer != Action.Source)
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                if (strategicMap.SeatedPlayer != Action.Source)
                 {
                     bool condition = PlayerIdExtensions.ToOriginal(Action.Source) > 0;
                     if (condition)
                     {
-                        int count = StrategicMap.Current.Players.Count;
+                        int count = strategicMap.Players.Count;
                         condition = PlayerIdExtensions.ToOriginal(Action.Source) < count;
                     }
 
-                    race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Source).PlayerRace : 12;
+                    race = condition ? strategicMap.Players.GetPlayers(Action.Source).PlayerRace : 12;
 
                     return RaceColors[race];
                 }
@@ -105,11 +106,11 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
                     bool condition = PlayerIdExtensions.ToOriginal(Action.Target) > 0;
                     if (condition)
                     {
-                        int count = StrategicMap.Current.Players.Count;
+                        int count = strategicMap.Players.Count;
                         condition = PlayerIdExtensions.ToOriginal(Action.Target) < count;
                     }
 
-                    race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Target).PlayerRace : 12;
+                    race = condition ? strategicMap.Players.GetPlayers(Action.Target).PlayerRace : 12;
 
                     return RaceColors[race];
                 }
@@ -128,22 +129,22 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
                 bool condition = PlayerIdExtensions.ToOriginal(action.Source) > 0;
                 if (condition)
                 {
-                    int count = StrategicMap.Current.Players.Count;
+                    int count = GetEngine().StrategicMap.Players.Count;
                     condition = PlayerIdExtensions.ToOriginal(action.Source) < count;
                 }
 
-                return condition ? StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace : -1;
+                return condition ? GetEngine().StrategicMap.Players.GetPlayers(action.Source).PlayerRace : -1;
             }
             else
             {
                 bool condition = PlayerIdExtensions.ToOriginal(action.OtherPlayer) > 0;
                 if (condition)
                 {
-                    int count = StrategicMap.Current.Players.Count;
+                    int count = GetEngine().StrategicMap.Players.Count;
                     condition = PlayerIdExtensions.ToOriginal(action.OtherPlayer) < count;
                 }
 
-                return condition ? StrategicMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerRace : -1;
+                return condition ? GetEngine().StrategicMap.Players.GetPlayers(action.OtherPlayer).PlayerRace : -1;
             }
         }
     }
@@ -158,11 +159,11 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
             bool condition = PlayerIdExtensions.ToOriginal(action.Target) > 0;
             if (condition)
             {
-                int count = StrategicMap.Current.Players.Count;
+                int count = GetEngine().StrategicMap.Players.Count;
                 condition = PlayerIdExtensions.ToOriginal(action.Target) < count;
             }
 
-            return condition ? StrategicMap.Current.Players.GetPlayers(action.Target).PlayerRace : -1;
+            return condition ? GetEngine().StrategicMap.Players.GetPlayers(action.Target).PlayerRace : -1;
         }
     }
 
@@ -184,16 +185,17 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent? done)
     {
         bool show = trigger == ExecuteTrigger.User;
-        if (StrategicMap.Current.SeatedPlayer == Action.Target || StrategicMap.Current.SeatedPlayer == Action.Source)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.SeatedPlayer == Action.Target || strategicMap.SeatedPlayer == Action.Source)
         {
-            show = show || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.Diplomacy) && trigger == ExecuteTrigger.NewTurn);
-            show = show || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.Diplomacy));
+            show = show || (strategicMap.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.Diplomacy) && trigger == ExecuteTrigger.NewTurn);
+            show = show || (strategicMap.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.Diplomacy));
         }
 
         show = show && (trigger == ExecuteTrigger.User || Action.Reaction != DiplomaticActionReaction.Ignore);
         if (show)
         {
-            StrategicMap.Current.TriggerExecuteEventLog(this, immediate: mode, done);
+            strategicMap.TriggerExecuteEventLog(this, immediate: mode, done);
             return true;
         }
         else
@@ -222,10 +224,11 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
     internal static bool DiplomaticExecute(DiplomaticActionEventLog log, bool immediate, ExecuteTrigger trigger, object data, ExecuteDoneEvent done)
     {
         bool result = trigger == ExecuteTrigger.User;
-        if (log.Action.Target == StrategicMap.Current.SeatedPlayer || log.Action.Source == StrategicMap.Current.SeatedPlayer)
+        StrategicMap strategicMap = log.GetEngine().StrategicMap;
+        if (log.Action.Target == strategicMap.SeatedPlayer || log.Action.Source == strategicMap.SeatedPlayer)
         {
-            result = result || (StrategicMap.Current.PlayMode == PlayMode.Turn && log.GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.Diplomacy) && trigger == ExecuteTrigger.NewTurn);
-            result = result || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && log.GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.Diplomacy));
+            result = result || (strategicMap.PlayMode == PlayMode.Turn && log.GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.Diplomacy) && trigger == ExecuteTrigger.NewTurn);
+            result = result || (strategicMap.PlayMode == PlayMode.Simultaneous && log.GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.Diplomacy));
         }
         result = result && (trigger == ExecuteTrigger.User || log.Action.Reaction != DiplomaticActionReaction.Ignore);
         if (!result)
@@ -233,7 +236,7 @@ public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owne
             return false;
         }
 
-        StrategicMap.Current.TriggerExecuteEventLog(log, immediate, done);
+        strategicMap.TriggerExecuteEventLog(log, immediate, done);
         return true;
     }
 }

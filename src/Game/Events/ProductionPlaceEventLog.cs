@@ -1,8 +1,6 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 // Translated from PrdPlace.pas.
 using Aow.Engine.Nodes;
-
-using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.Events;
@@ -19,10 +17,10 @@ public partial class ProductionPlaceEventLog(CustomNode owner) : ProductionEvent
         if (trigger == ExecuteTrigger.User)
         {
             ProductionPlace place = GetProductionPlace();
-            if (place is not null && StrategicMap.Current.SeatedPlayer == place.Player)
+            if (place is not null && GetEngine().StrategicMap.SeatedPlayer == place.Player)
             {
-                StrategicMap.Current.CenterViewTo(Location.X, Location.Y, Location.MapLevel);
-                StrategicMap.Current.TriggerExecuteEventLog(this, immediate: true, done);
+                GetEngine().StrategicMap.CenterViewTo(Location.X, Location.Y, Location.MapLevel);
+                GetEngine().StrategicMap.TriggerExecuteEventLog(this, immediate: true, done);
             }
         }
 
@@ -30,6 +28,6 @@ public partial class ProductionPlaceEventLog(CustomNode owner) : ProductionEvent
     }
 
     // PrdPlace.pas:739
-    public ProductionPlace GetProductionPlace() => StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite<ProductionPlace>();
+    public ProductionPlace GetProductionPlace() => GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite<ProductionPlace>();
 
 }
