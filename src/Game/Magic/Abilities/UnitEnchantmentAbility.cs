@@ -66,16 +66,17 @@ public class UnitEnchantmentAbility : AdjustableAbility
     // AoWAb.PAS:637
     public override string GetSourceName(AbilityOwner? owner)
     {
-        if (StrategicMap.Current is not null)
+        StrategicMap? strategicMap = GetEngine()?.StrategicMap;
+        if (strategicMap is not null)
         {
             UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-            Troop? source = StrategicMap.Current.UnitControl.FindUnit(data.Enchantment.UnitId);
+            Troop? source = strategicMap.UnitControl.FindUnit(data.Enchantment.UnitId);
             // { Original also reports player zero as unknown. }
             return data.Enchantment.Source <= 0
                 ? AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.UnknownText)
                 : source is not null && PlayerIdExtensions.ToOriginal(source.Player) == data.Enchantment.Source
                     ? AbilityRules.TranslateResourceString(GetEngine(), S: s_manaText)
-                    : StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).Leader.HeroName;
+                    : GetEngine().StrategicMap.Players.GetPlayers(data.Enchantment.Source).Leader.HeroName;
         }
         else
         {
@@ -153,9 +154,11 @@ public class UnitEnchantmentAbility : AdjustableAbility
         UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
         if (data is not null)
         {
-            if (StrategicMap.Current is not null && data.Enchantment.Source > -1)
+            // The removal runs for the owner's engine, and a guard on the global map tests that engine's map.
+            StrategicMap? strategicMap = owner.GetEngine()?.StrategicMap;
+            if (strategicMap is not null && data.Enchantment.Source > -1)
             {
-                _ = StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).MagicControl.UnregisterEnchantment(data.Enchantment);
+                _ = strategicMap.Players.GetPlayers(data.Enchantment.Source).MagicControl.UnregisterEnchantment(data.Enchantment);
             }
 
             SetAbility(owner, index: AbilityId, value: 0);

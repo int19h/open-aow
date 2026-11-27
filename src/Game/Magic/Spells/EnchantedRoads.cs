@@ -36,18 +36,18 @@ public class EnchantedRoads : GlobalEnchantmentSpell
         int x = coordinate65.X;
         int y = coordinate65.Y;
         int l = coordinate65.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
+        _ = GetEngine().StrategicMap.ValidateObservation(source.Player, x, y, l, radius: 0);
         Animation animation = new(null, show: ShowAnimation)
         {
             Holder = CreationHolder(),
             AnimationLevel = 27
 ,
-            AnimationMap = StrategicMap.Current
+            AnimationMap = GetEngine().StrategicMap
         };
         animation.Activate();
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-        twinkle.Setup(GamePack.Current.SpellControl[44].CastImages.ImageSequences[0], mode: TwinkleModes.Rotate, count: 50, radius: 64, duration: 50, startDelay: 30);
-        _ = StrategicMap.Current.PlaceHex(twinkle, x, y, l);
+        twinkle.Setup(GetEngine().GamePack.SpellControl[44].CastImages.ImageSequences[0], mode: TwinkleModes.Rotate, count: 50, radius: 64, duration: 50, startDelay: 30);
+        _ = GetEngine().StrategicMap.PlaceHex(twinkle, x, y, l);
         _ = CastSounds.Play(0);
         CastingDone(source, mana: eventValue.EventMana);
         return false;
@@ -58,7 +58,7 @@ public class EnchantedRoads : GlobalEnchantmentSpell
 
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface surface)
     {
-        StrategicMap? map = StrategicMap.Current;
+        StrategicMap? map = GetEngine().StrategicMap;
         MapLevel level = map.MapContainer.GetMapLevel(map.ViewMapLevel);
         int maxX = map.ViewHexX + map.ViewWidthHex - 1, maxY = map.ViewHexY + map.ViewHeightHex - 1;
         for (int x = map.ViewHexX; x <= maxX; x++)

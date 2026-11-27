@@ -211,11 +211,11 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
             {
                 if (HasWall(0, 4))
                 {
-                    HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: wall.GetHits(), hitPoints: wall.HitPoints), x: X + 250, y: Y + 332 - 45, surface: surface);
+                    HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: wall.GetHits(), hitPoints: wall.HitPoints), x: X + 250, y: Y + 332 - 45, surface: surface, engine: UI.Engine);
                 }
                 else
                 {
-                    HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: wall.GetHits(), hitPoints: wall.HitPoints), x: X + 250, y: Y + 218 - 45, surface: surface);
+                    HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: wall.GetHits(), hitPoints: wall.HitPoints), x: X + 250, y: Y + 218 - 45, surface: surface, engine: UI.Engine);
                 }
             }
         }

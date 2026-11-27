@@ -83,7 +83,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
 
         if (Status.Contains(ItemStatuses.Registered))
         {
-            StrategicMap.Current.ItemControl.UnregisterItem(this);
+            GetEngine().StrategicMap.ItemControl.UnregisterItem(this);
         }
         base.Dispose();
     }
@@ -222,7 +222,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     {
         if (Status.Contains(ItemStatuses.Registered))
         {
-            StrategicMap.Current.ItemControl.NotifyItemChanged(this);
+            GetEngine().StrategicMap.ItemControl.NotifyItemChanged(this);
         }
     }
 
@@ -232,14 +232,14 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
         bool result;
         if (ItemType == ItemType.Scroll && _spellId != 0)
         {
-            if (StrategicMap.Current.Players.GetPlayers(hero.Player).MagicControl.Spells.IndexOf(_spellId) == -1)
+            if (GetEngine().StrategicMap.Players.GetPlayers(hero.Player).MagicControl.Spells.IndexOf(_spellId) == -1)
             {
                 return true;
             }
             else
             {
                 result = false;
-                Spell? spell = GamePack.Current.SpellControl[_spellId];
+                Spell? spell = GetEngine().GamePack.SpellControl[_spellId];
                 reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_itemSpellAlreadyResearchedFormat), arguments: [spell.SpellName]);
             }
         }
@@ -256,7 +256,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     public bool Use(Hero hero)
     {
         string reason = "";
-        if (CanUse(hero, ref reason) && !StrategicMap.Current.Players.GetPlayers(hero.Player).GetBusy())
+        if (CanUse(hero, ref reason) && !GetEngine().StrategicMap.Players.GetPlayers(hero.Player).GetBusy())
         {
             ItemTokenEvent eventValue = new(null)
             {
@@ -264,7 +264,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
                 ItemId = ItemId,
                 HeroId = hero.UnitId
             };
-            StrategicMap.Current.TokenManager.GetTokenControl(hero.Player).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(hero.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -284,13 +284,13 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
             switch (ItemType)
             {
                 case ItemType.Scroll:
-                    _ = StrategicMap.Current.Players.GetPlayers(hero.Player).MagicControl.ExecuteSpellResearched(_spellId);
-                    if (StrategicMap.Current.SeatedPlayer == hero.Player)
+                    _ = GetEngine().StrategicMap.Players.GetPlayers(hero.Player).MagicControl.ExecuteSpellResearched(_spellId);
+                    if (GetEngine().StrategicMap.SeatedPlayer == hero.Player)
                     {
                         _ = AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
-                        Spell? spell = GamePack.Current.SpellControl[_spellId];
+                        Spell? spell = GetEngine().GamePack.SpellControl[_spellId];
                         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_itemSpellResearchedFormat), arguments: [spell.SpellName]);
-                        StrategicMap.Current.ShowMessage(format);
+                        GetEngine().StrategicMap.ShowMessage(format);
                     }
 
                     Dispose();
@@ -313,7 +313,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     // Army.PAS:4418
     public void Show(int X, int Y, in LockedSurface surface)
     {
-        ItemGraphics? graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
+        ItemGraphics? graphics = GetEngine().GamePack.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
         if (graphics is not null)
         {
             _ = graphics.AddRef();
@@ -327,7 +327,8 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     {
         if (!Status.Contains(ItemStatuses.Activated))
         {
-            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) || StrategicMap.Current.Day == 0)
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (strategicMap.Status.Contains(HexSpriteMapStatuses.Editting) || strategicMap.Day == 0)
             {
                 UpdateFromLibrary();
             }
@@ -354,7 +355,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     // Army.PAS:4356
     public LibraryImage? GetImage()
     {
-        ItemGraphics? graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
+        ItemGraphics? graphics = GetEngine().GamePack.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
         LibraryImage? result;
         if (graphics is not null)
         {
@@ -394,7 +395,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     {
         if (LibraryId != -1)
         {
-            Item? item = GamePack.Current.ItemLibraries.FindItem(LibraryName, LibraryId);
+            Item? item = GetEngine().GamePack.ItemLibraries.FindItem(LibraryName, LibraryId);
             if (item is not null)
             {
                 int id = ItemId;
@@ -428,7 +429,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
         Damage = 0;
         ItemType itemType = value;
         ItemType = itemType;
-        _itemGraphicsIndex = GamePack.Current.ItemGraphicsResources.FindItemTypeGraphics(itemType);
+        _itemGraphicsIndex = GetEngine().GamePack.ItemGraphicsResources.FindItemTypeGraphics(itemType);
         Clear();
     }
 

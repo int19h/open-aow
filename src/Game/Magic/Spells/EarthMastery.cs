@@ -34,13 +34,13 @@ public class EarthMastery : GlobalEnchantmentSpell
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
-        SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Earth);
+        SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Earth, engine: GetEngine()!);
         MapCoordinate coordinate64 = source.GetLocation();
         int x = coordinate64.X;
         int y = coordinate64.Y;
         int l = coordinate64.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
-        _ = StrategicMap.Current.AddEffect(WorldEffectType.EarthMastery);
+        _ = GetEngine().StrategicMap.ValidateObservation(source.Player, x, y, l, radius: 0);
+        _ = GetEngine().StrategicMap.AddEffect(WorldEffectType.EarthMastery);
         _ = CastSounds.Play(0);
         CastingDone(source, mana: eventValue.EventMana);
         return false;
@@ -52,16 +52,17 @@ public class EarthMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1890
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(StrategicMap.Current.ViewMapLevel);
-        int maxX = StrategicMap.Current.ViewHexX + StrategicMap.Current.ViewWidthHex - 1;
-        int maxY = StrategicMap.Current.ViewHexY + StrategicMap.Current.ViewHeightHex - 1;
-        for (int x = StrategicMap.Current.ViewHexX; x <= maxX; x++)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        MapLevel mapLevel = strategicMap.MapContainer.GetMapLevel(strategicMap.ViewMapLevel);
+        int maxX = strategicMap.ViewHexX + strategicMap.ViewWidthHex - 1;
+        int maxY = strategicMap.ViewHexY + strategicMap.ViewHeightHex - 1;
+        for (int x = strategicMap.ViewHexX; x <= maxX; x++)
         {
-            HexGeometry.HexToPixel(x, StrategicMap.Current.ViewHexY, out int pixelX, out int pixelY);
+            HexGeometry.HexToPixel(x, strategicMap.ViewHexY, out int pixelX, out int pixelY);
             pixelX = pixelX - pixelXSurface + 16;
             pixelY = pixelY - pixelYSurface + 16;
-            MapField mapField = mapLevel.GetField(x, StrategicMap.Current.ViewHexY);
-            for (int y = StrategicMap.Current.ViewHexY; y <= maxY; y++)
+            MapField mapField = mapLevel.GetField(x, strategicMap.ViewHexY);
+            for (int y = strategicMap.ViewHexY; y <= maxY; y++)
             {
                 // The original frame offset uses the field address.
                 if (mapField.OverlayType == OverlayType.Road)

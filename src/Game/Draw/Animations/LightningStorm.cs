@@ -38,7 +38,7 @@ public class LightningStorm(CustomNode? owner) : Storm(owner)
     // Storms.pas:487
     public override StormDamageInfo GetTargetDamageInfo(PlayerId? player, int X, int Y, int L, StormDamageInfo info)
     {
-        AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Lightning, X, Y, L, innerRadius: 0, outerRadius: 1, out info);
+        AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Lightning, X, Y, L, innerRadius: 0, outerRadius: 1, out info, engine: GetEngine()!);
         return info;
     }
 
@@ -83,7 +83,8 @@ public class LightningStorm(CustomNode? owner) : Storm(owner)
         }
         if (_stormImages.Count == FrameCounter)
         {
-            AbilityRules.TriggerStormDamage(mapLevel: HexLevel, y: HexY, storm: StormType.Lightning, x: HexX, innerRadius: 0, outerRadius: 1, player: StrategicMap.Current.CurrentPlayer);
+            GameEngine engine = GetEngine()!;
+            AbilityRules.TriggerStormDamage(mapLevel: HexLevel, y: HexY, storm: StormType.Lightning, x: HexX, innerRadius: 0, outerRadius: 1, player: engine.StrategicMap.CurrentPlayer, engine: engine);
             return false;
         }
         else

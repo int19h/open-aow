@@ -120,12 +120,12 @@ public class StormSpell : Spell
             int x = coordinate82.X;
             int y = coordinate82.Y;
             int l = coordinate82.MapLevel;
-            TargetSelectionControl selection = StrategicMap.Current.TargetSelection;
+            TargetSelectionControl selection = GetEngine().StrategicMap.TargetSelection;
             _targetStorm = CreateStorm();
             selection.Initialize(this);
             selection.TargetMode |= TargetSelectionModes.ValidateDistance | TargetSelectionModes.ExternalFloater;
             selection.SourceLocation = new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)l);
-            StrategicMap.Current.MakeVisible(x, y, l, radius: 5);
+            GetEngine().StrategicMap.MakeVisible(x, y, l, radius: 5);
             string name = _targetStorm.Name();
             string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SelectTargetLocationForOnMapFormat), args: [name]);
             selection.Text.Text = format;
@@ -133,11 +133,12 @@ public class StormSpell : Spell
             selection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CancelText);
             selection.Range = 12;
             selection.Changed += TargetSelection_Changed;
-            selection.SourceImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[20].GetPreviewImage();
-            selection.ValidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[21].GetPreviewImage();
-            selection.InvalidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[22].GetPreviewImage();
+            GamePack gamePack = GetEngine().GamePack;
+            selection.SourceImage = gamePack.SpellControl[SpellId].CastImages.ImageSequences[20].GetPreviewImage();
+            selection.ValidTargetImage = gamePack.SpellControl[SpellId].CastImages.ImageSequences[21].GetPreviewImage();
+            selection.InvalidTargetImage = gamePack.SpellControl[SpellId].CastImages.ImageSequences[22].GetPreviewImage();
             selection.Activate();
-            _targetStorm.UpdateTargetSelection(StrategicMap.Current.TargetSelection);
+            _targetStorm.UpdateTargetSelection(GetEngine().StrategicMap.TargetSelection);
             return true;
         }
         else
@@ -152,12 +153,13 @@ public class StormSpell : Spell
     // Storms.pas:768
     public virtual bool ExecuteStormSpell(Troop source, int X, int Y, int L)
     {
-        if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (!strategicMap.Players.GetPlayers(source.Player).GetBusy())
         {
             StormSpellTokenEvent tokenEvent = new(null) { Holder = CreationHolder() };
             tokenEvent.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
             tokenEvent.Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
-            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(tokenEvent);
+            strategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
             return true;
         }

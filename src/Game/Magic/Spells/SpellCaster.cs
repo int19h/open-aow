@@ -4,8 +4,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Magic.Spells;
 
 // (spell ID, source ID, refcount)
@@ -44,7 +42,7 @@ public class SpellCaster(CustomNode owner) : EngineObject(owner)
     public virtual bool Cast() => true;
 
     // intf_P4_02.inc:998
-    public Troop Source => StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+    public Troop Source => GetEngine().StrategicMap.UnitControl.FindUnit(CasterSourceId);
 
-    public virtual bool CanCast(ref string reason) => StrategicMap.Current.UnitControl.FindUnit(CasterSourceId) is not null;
+    public virtual bool CanCast(ref string reason) => GetEngine().StrategicMap.UnitControl.FindUnit(CasterSourceId) is not null;
 }

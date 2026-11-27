@@ -32,9 +32,10 @@ public class Fury : UnitSpell
     public override void PlayDefaultCastEffects(PlayerId? player, int X, int Y, int layer)
     {
         base.PlayDefaultCastEffects(player, X, Y, layer);
-        if (player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, L: layer, radius: 0))
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (player == strategicMap.SeatedPlayer || strategicMap.Watching(X, Y, L: layer, radius: 0))
         {
-            _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(1);
+            _ = GetEngine().GamePack.SpellControl[SpellId].CastSounds.Play(1);
         }
     }
 
@@ -45,7 +46,7 @@ public class Fury : UnitSpell
         result = result && !target.GetAbilityEnabled(156);
         if (result)
         {
-            if (StrategicMap.Current.Players.GetPlayers(target.Player).PlayerType != PlayerType.Human && target is Leader)
+            if (GetEngine().StrategicMap.Players.GetPlayers(target.Player).PlayerType != PlayerType.Human && target is Leader)
             {
                 return false;
             }

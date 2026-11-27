@@ -9,8 +9,6 @@ using Aow.Game.Combat.Actions;
 
 using Aow.Game.Units;
 
-using Aow.Game.World.Map;
-
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 
@@ -194,7 +192,7 @@ public class CommandAbility : TouchAbility
         // { The returned class is consumed by its constructor. }
         Uncommand(target);
         // { Inline the returned class receiver. }
-        CommandedAbilityData targetData = GamePack.Current.AbilityControl.GetAbility<CommandedAbility>(CommandedAbilityId).AbilityDataClass().Create<CommandedAbilityData>(null, holder: CreationHolder());
+        CommandedAbilityData targetData = GetEngine().GamePack.AbilityControl.GetAbility<CommandedAbility>(CommandedAbilityId).AbilityDataClass().Create<CommandedAbilityData>(null, holder: CreationHolder());
         targetData.AbilityId = CommandedAbilityId;
         targetData.CommandAbilityId = AbilityId;
         targetData.SourceId = source.Id;
@@ -219,7 +217,7 @@ public class CommandAbility : TouchAbility
     // AoWAb.PAS:5259. Draws the random value the touch event used to draw, then builds the action.
     public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit? target)
     {
-        RandSeed = StrategicMap.Current.Random(16777215);
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
         return CreateCommandCombatAction(source, target: target);
     }
 
@@ -258,7 +256,7 @@ public class CommandAbility : TouchAbility
         Troop? troopOwner = target.Troop;
         if (troopOwner.GetAbilityEnabled(CommandedAbilityId))
         {
-            CommandedAbilityData? data = GamePack.Current.AbilityControl.GetAbility<CommandedAbility>(CommandedAbilityId).GetData(troopOwner);
+            CommandedAbilityData? data = GetEngine().GamePack.AbilityControl.GetAbility<CommandedAbility>(CommandedAbilityId).GetData(troopOwner);
             // { Original reads Data before checking it for nil. }
             CombatUnit source = target.Combat.CombatData.FindId<CombatUnit>(data.SourceId);
             if (data is not null)
@@ -266,7 +264,7 @@ public class CommandAbility : TouchAbility
                 target.SetCombatPlayer(data.OriginalCombatPlayer);
             }
 
-            _ = GamePack.Current.AbilityControl[CommandedAbilityId].Remove(target.Troop);
+            _ = GetEngine().GamePack.AbilityControl[CommandedAbilityId].Remove(target.Troop);
             if (source is not null)
             {
                 CommandAbilityData sourceData = GetData(source.Troop);

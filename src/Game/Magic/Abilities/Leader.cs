@@ -27,9 +27,12 @@ public class Leader(CustomNode? owner) : Hero(owner)
     // Hero.PAS:2766
     public override void Dispose()
     {
-        if (StrategicMap.Current is not null && StrategicMap.Current.Players.GetPlayers(Player) is not null && this == StrategicMap.Current.Players.GetPlayers(Player).Leader)
+        // The original tested the global map. This tests the map of the engine the leader reaches, and a
+        // leader that reaches no engine takes the original's branch for no map.
+        StrategicMap? strategicMap = GetEngine()?.StrategicMap;
+        if (strategicMap is not null && strategicMap.Players.GetPlayers(Player) is not null && this == strategicMap.Players.GetPlayers(Player).Leader)
         {
-            StrategicMap.Current.Players.GetPlayers(Player).SetLeader(null);
+            strategicMap.Players.GetPlayers(Player).SetLeader(null);
         }
 
         base.Dispose();
@@ -49,14 +52,15 @@ public class Leader(CustomNode? owner) : Hero(owner)
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001989)
         {
-            SetSpherePicksMax(StrategicMap.Current.SphereCount.TruncateToByte());
-            if (StrategicMap.Current.Players.GetCount() > PlayerIdExtensions.ToOriginal(Player))
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            SetSpherePicksMax(strategicMap.SphereCount.TruncateToByte());
+            if (strategicMap.Players.GetCount() > PlayerIdExtensions.ToOriginal(Player))
             {
                 // { reload FPlayer }
-                if (StrategicMap.Current.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).PlayerRace != Race)
+                if (strategicMap.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).PlayerRace != Race)
                 {
-                    Player? players = StrategicMap.Current.Players.GetPlayers(Player);
-                    SetHeroResourceIndex(GamePack.Current.HeroResources.Find(players.PlayerRace, heroType: HeroType.HeroLeader));
+                    Player? players = strategicMap.Players.GetPlayers(Player);
+                    SetHeroResourceIndex(GetEngine().GamePack.HeroResources.Find(players.PlayerRace, heroType: HeroType.HeroLeader));
                     Changed();
                 }
             }
@@ -71,9 +75,10 @@ public class Leader(CustomNode? owner) : Hero(owner)
     public override void Changed()
     {
         base.Changed();
-        if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
+        StrategicMap? strategicMap = GetEngine()?.StrategicMap;
+        if (strategicMap is not null && !strategicMap.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
-            StrategicMap.Current.OnLeaderChanged(this);
+            strategicMap.OnLeaderChanged(this);
         }
     }
 
@@ -109,7 +114,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
         bool result = base.CanActivate();
         if (result)
         {
-            Leader? leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
+            Leader? leader = GetEngine().StrategicMap.Players.GetPlayers(Player).Leader;
             if (leader is not null && !CompatibleHero(leader))
             {
                 return false;
@@ -125,13 +130,14 @@ public class Leader(CustomNode? owner) : Hero(owner)
         LibraryId = -1;
         if (Player == PlayerId.Independent)
         {
-            Player = PlayerId.FromOriginal((sbyte)StrategicMap.Current.Players.RaceToPlayer(Race));
+            Player = PlayerId.FromOriginal((sbyte)GetEngine().StrategicMap.Players.RaceToPlayer(Race));
         }
 
         base.Activate();
-        if (StrategicMap.Current.Players.GetPlayers(Player) is not null)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Players.GetPlayers(Player) is not null)
         {
-            Leader? leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
+            Leader? leader = strategicMap.Players.GetPlayers(Player).Leader;
             if (leader != this)
             {
                 if (leader is not null && leader.Owner is not null)
@@ -147,7 +153,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
                 }
 
                 // { Original silently swallows this duplicate-leader exception. }
-                StrategicMap.Current.Players.GetPlayers(Player).SetLeader(this);
+                GetEngine().StrategicMap.Players.GetPlayers(Player).SetLeader(this);
                 Changed();
             }
             else
@@ -171,21 +177,26 @@ public class Leader(CustomNode? owner) : Hero(owner)
     // Hero.PAS:2915
     public override void Killed()
     {
-        if (UnitStatus.Contains(UnitStatuses.Activated) && StrategicMap.Current.Combat is null)
+        if (UnitStatus.Contains(UnitStatuses.Activated) && GetEngine().StrategicMap.Combat is null)
         {
-            StrategicMap.Current.GameOver(Player, status: GameOverStatus.Lost);
+            GetEngine().StrategicMap.GameOver(Player, status: GameOverStatus.Lost);
         }
 
         base.Killed();
     }
 
     // Hero.PAS:2787
-    public override string GetNickname() => StrategicMap.Current is not null ? StrategicMap.Current.GameType != GameType.Campaign ? "" : Nickname : "";
+    public override string GetNickname()
+    {
+        StrategicMap? strategicMap = GetEngine()?.StrategicMap;
+        return strategicMap is not null ? strategicMap.GameType != GameType.Campaign ? "" : Nickname : "";
+    }
 
     // Hero.PAS:2795
     public override void SetNickname(string value)
     {
-        if (StrategicMap.Current is not null && StrategicMap.Current.GameType == GameType.Campaign)
+        StrategicMap? strategicMap = GetEngine()?.StrategicMap;
+        if (strategicMap is not null && strategicMap.GameType == GameType.Campaign)
         {
             base.SetNickname(value);
         }
@@ -195,7 +206,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
     public override void SetHeroResourceIndex(int value)
     {
         base.SetHeroResourceIndex(value);
-        if (HeroResource is not null && StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (HeroResource is not null && GetEngine()?.StrategicMap is not null && GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             HeroName = HeroResource.Name;
         }

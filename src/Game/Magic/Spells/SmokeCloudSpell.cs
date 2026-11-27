@@ -32,13 +32,14 @@ public class SmokeCloudSpell : GlobalTargetSpell
         // SmokeCloudSpell.TargetSelected constructs the GlobalTargetSpellTokenEvent this spell executes.
         GlobalTargetSpellTokenEvent targetEvent = (GlobalTargetSpellTokenEvent)eventValue;
         Troop sourceLocal = targetEvent.Source;
-        _ = StrategicMap.Current.ValidateObservation(sourceLocal.Player, targetEvent.Location.X, targetEvent.Location.Y, targetEvent.Location.MapLevel, radius: 2);
-        if (targetEvent.Source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(targetEvent.Location.X, targetEvent.Location.Y, L: targetEvent.Location.MapLevel, radius: 2))
+        _ = GetEngine().StrategicMap.ValidateObservation(sourceLocal.Player, targetEvent.Location.X, targetEvent.Location.Y, targetEvent.Location.MapLevel, radius: 2);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (targetEvent.Source.Player == strategicMap.SeatedPlayer || strategicMap.Watching(targetEvent.Location.X, targetEvent.Location.Y, L: targetEvent.Location.MapLevel, radius: 2))
         {
-            _ = GamePack.Current.SpellControl[targetEvent.EventSpellId].CastSounds.Play(0);
+            _ = GetEngine().GamePack.SpellControl[targetEvent.EventSpellId].CastSounds.Play(0);
         }
 
-        EngineResource resource = ((CustomNode)(object)GamePack.Current.MapObjectResourceList).FindChild<EngineResource>(SmokeCloud.Resource.ClassId);
+        EngineResource resource = ((CustomNode)(object)GetEngine().GamePack.MapObjectResourceList).FindChild<EngineResource>(SmokeCloud.Resource.ClassId);
         if (resource is not null)
         {
             SmokeCloud cloud = resource.CreateResourceUser<SmokeCloud>();
@@ -47,12 +48,12 @@ public class SmokeCloudSpell : GlobalTargetSpell
             cloud.Enchantment.PlayerIndex = source.Player;
             cloud.Enchantment.EnchantmentManaUpkeep = ManaUpkeep;
             cloud.Drifting = false;
-            if (!StrategicMap.Current.PlaceHex(cloud, targetEvent.Location.X, targetEvent.Location.Y, L: targetEvent.Location.MapLevel))
+            if (!GetEngine().StrategicMap.PlaceHex(cloud, targetEvent.Location.X, targetEvent.Location.Y, L: targetEvent.Location.MapLevel))
             {
                 cloud?.Dispose();
             }
 
-            GamePack.Current.SpellControl[SpellId].CastingDone(source, mana: BaseManaCost);
+            GetEngine().GamePack.SpellControl[SpellId].CastingDone(source, mana: BaseManaCost);
         }
 
         return false;
@@ -76,7 +77,7 @@ public class SmokeCloudSpell : GlobalTargetSpell
         GlobalTargetSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
         eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), layer: L.TruncateToSByte());
-        StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+        GetEngine().StrategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         _ = eventValue.Release();
         return true;
     }

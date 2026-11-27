@@ -33,7 +33,7 @@ public class EarthMasteryEnchantment : GlobalEnchantment
     public override bool Deactivate(PlayerId? player)
     {
         _ = base.Deactivate(player);
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        Player playerLocal = GetEngine().StrategicMap.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.EarthMastery);
 
@@ -46,7 +46,7 @@ public class EarthMasteryEnchantment : GlobalEnchantment
         }
 
         // { Original doubles Air. }
-        StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Air);
+        GetEngine().StrategicMap.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Air);
         return true;
     }
 
@@ -56,7 +56,7 @@ public class EarthMasteryEnchantment : GlobalEnchantment
         bool result = base.CanActivate(player, ref reason);
         if (result)
         {
-            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.EarthMastery))
+            if (GetEngine().StrategicMap.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.EarthMastery))
             {
                 reason = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat), args: [Name]);
                 return false;
@@ -71,8 +71,9 @@ public class EarthMasteryEnchantment : GlobalEnchantment
     {
         _ = base.Activate(player);
         // { Original doubles Air. }
-        StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Air);
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Air);
+        Player playerLocal = strategicMap.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments | PlayerEnchantmentTypes.EarthMastery);
 

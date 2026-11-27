@@ -51,7 +51,8 @@ public class Storm(CustomNode owner) : Animation(owner)
     // Storms.pas:242
     public bool GetBestTarget(PlayerId? player, int X, int Y, int L, int range, out MapCoordinate target, out StormDamageInfo info)
     {
-        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[L];
+        GameEngine engine = GetEngine()!;
+        MapLevel level = engine.StrategicMap.MapContainer.MapLevels[L];
         target = MapCoordinate.None;
         bool result = false;
         info = default;
@@ -62,7 +63,7 @@ public class Storm(CustomNode owner) : Animation(owner)
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 ArmyHexSprite armyHexSprite = level.Field[walk.X, walk.Y].GetArmyHexSprite();
-                if (armyHexSprite is not null && armyHexSprite.Army.Player != PlayerId.Independent && AbilityRules.ValidAttackRelation(player, independentRelation: 0, targetPlayer: armyHexSprite.Army.Player, targetRace: 0))
+                if (armyHexSprite is not null && armyHexSprite.Army.Player != PlayerId.Independent && AbilityRules.ValidAttackRelation(player, independentRelation: 0, targetPlayer: armyHexSprite.Army.Player, targetRace: 0, engine: engine))
                 {
                     candidate = GetTargetDamageInfo(player, walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), L: L.TruncateToSByte(), info: candidate);
                     if (info.EnemyDamage - info.FriendlyDamage < candidate.EnemyDamage - candidate.FriendlyDamage)

@@ -1683,7 +1683,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         }
         else
         {
-            DiplomaticRelation diplomaticRelation = AbilityRules.DiplomaticRelation(PlayerIndex, independentRelation: 0, otherPlayer: player, otherIndependentRelation: independentRelation);
+            DiplomaticRelation diplomaticRelation = AbilityRules.DiplomaticRelation(PlayerIndex, independentRelation: 0, otherPlayer: player, otherIndependentRelation: independentRelation, engine: GetEngine()!);
             return diplomaticRelation is DiplomaticRelation.War or DiplomaticRelation.Unknown;
         }
     }

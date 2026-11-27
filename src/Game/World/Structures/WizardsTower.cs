@@ -115,7 +115,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
             {
                 case AITargetMode.Attack:
                     sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Owner.GetPlayer());
-                    if (player != PlayerIdExtensions.ToOriginal(info.Player) && (player <= 0 || AbilityRules.ValidAttackRelation(info.Player, independentRelation: 0, targetPlayer: PlayerId.FromOriginal(player), targetRace: 0)) && ValidAITarget(info.Player))
+                    if (player != PlayerIdExtensions.ToOriginal(info.Player) && (player <= 0 || AbilityRules.ValidAttackRelation(info.Player, independentRelation: 0, targetPlayer: PlayerId.FromOriginal(player), targetRace: 0, engine: GetEngine()!)) && ValidAITarget(info.Player))
                     {
                         if (data.Priority < 10)
                         {

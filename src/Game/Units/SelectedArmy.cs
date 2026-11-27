@@ -184,7 +184,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
                     {
                         if (settings.Path.Count != 0)
                         {
-                            int roadConstructionCost = AbilityRules.RoadConstructionCost(ArmyHexSprite.Army.Player, settings.Path, settings.MovePoints);
+                            int roadConstructionCost = AbilityRules.RoadConstructionCost(ArmyHexSprite.Army.Player, settings.Path, settings.MovePoints, engine: Creator.GetEngine()!);
                             string format = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), S: s_armyRoadConstructionCostFormat), arguments: [roadConstructionCost.ToString(CultureInfo.InvariantCulture)]);
                             Creator.GetEngine().StrategicMap.ShowMessage(format);
                         }
@@ -321,7 +321,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
                 {
                     if (_mode == SelectedArmyMode.BuildRoads)
                     {
-                        int cost = AbilityRules.RoadConstructionCost(armyHexSprite.Army.Player, moveSettings.Path, moveSettings.MovePoints);
+                        int cost = AbilityRules.RoadConstructionCost(armyHexSprite.Army.Player, moveSettings.Path, moveSettings.MovePoints, engine: Creator.GetEngine()!);
                         if (cost <= Creator.GetEngine().StrategicMap.Players.GetPlayers(armyHexSprite.Army.Player).Gems)
                         {
                             if (ArmyHexSprite.MoveArmy(armyHexSprite, Selection, moveSettings.Path, mode: ArmyMoveModes.SelectEndLocation | ArmyMoveModes.BuildRoads, force: false))

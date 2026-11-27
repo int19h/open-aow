@@ -187,7 +187,7 @@ public class Ability : EngineObject
                 UnitId = owner is Troop troop ? troop.UnitId : 0
             };
 
-            StrategicMap.Current.OnAbilityActivated(info);
+            GetEngine().StrategicMap.OnAbilityActivated(info);
             _ = info.Release();
             return true;
         }
@@ -216,7 +216,7 @@ public class Ability : EngineObject
                 UnitId = owner is Troop troop ? troop.UnitId : 0
             };
 
-            StrategicMap.Current.CombatMap.OnAbilityActivated(info);
+            GetEngine().StrategicMap.CombatMap.OnAbilityActivated(info);
             _ = info.Release();
             return true;
         }

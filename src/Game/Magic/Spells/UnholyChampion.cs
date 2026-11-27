@@ -5,7 +5,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
@@ -30,7 +29,7 @@ public class UnholyChampion : UnitSpell
     public override bool ValidTargetUnit(Troop source, Troop target)
     {
         bool result = base.ValidTargetUnit(source, target);
-        return result && !target.GetAbilityEnabled(147) && !target.GetAbilityEnabled(161) && GamePack.Current.AbilityControl[147].CanExpand(target);
+        return result && !target.GetAbilityEnabled(147) && !target.GetAbilityEnabled(161) && GetEngine().GamePack.AbilityControl[147].CanExpand(target);
     }
 
     // UnitSpells.pas:550

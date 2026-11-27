@@ -33,8 +33,8 @@ public class SpellWard : GlobalEnchantmentSpell
         int x = coordinate79.X;
         int y = coordinate79.Y;
         int l = coordinate79.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
-        _ = StrategicMap.Current.AddEffect(WorldEffectType.SpellWard);
+        _ = GetEngine().StrategicMap.ValidateObservation(source.Player, x, y, l, radius: 0);
+        _ = GetEngine().StrategicMap.AddEffect(WorldEffectType.SpellWard);
         _ = CastSounds.Play(0);
         CastingDone(source, mana: eventValue.EventMana);
         return false;

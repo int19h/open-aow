@@ -33,8 +33,8 @@ public class Hatred : GlobalEnchantmentSpell
         int x = coordinate72.X;
         int y = coordinate72.Y;
         int l = coordinate72.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
-        _ = StrategicMap.Current.AddEffect(WorldEffectType.Hatred);
+        _ = GetEngine().StrategicMap.ValidateObservation(source.Player, x, y, l, radius: 0);
+        _ = GetEngine().StrategicMap.AddEffect(WorldEffectType.Hatred);
         _ = CastSounds.Play(0);
         CastingDone(source, mana: eventValue.EventMana);
         return false;

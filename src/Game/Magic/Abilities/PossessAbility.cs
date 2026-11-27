@@ -7,8 +7,6 @@ using Aow.Game.Combat.Actions;
 
 using Aow.Game.Units;
 
-using Aow.Game.World.Map;
-
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 
@@ -152,7 +150,7 @@ public class PossessAbility : TouchAbility
     // AoWAb.PAS:2640. Draws the random value the touch event used to draw, then builds the action.
     public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit? target)
     {
-        RandSeed = StrategicMap.Current.Random(16777215);
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
         return CreatePossessCombatAction(source, target: target);
     }
 

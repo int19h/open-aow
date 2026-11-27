@@ -35,18 +35,18 @@ public class BirdsView : Spell
         int x = coordinate53.X;
         int y = coordinate53.Y;
         int layer = coordinate53.MapLevel;
-        if (StrategicMap.Current.SeatedPlayer == source.Player)
+        if (GetEngine().StrategicMap.SeatedPlayer == source.Player)
         {
             BirdsViewHexSprite birdsViewHexSprite = new(null) { Holder = CreationHolder() };
             birdsViewHexSprite.StartAnimation(x, y, layer, radius: 14);
         }
 
-        _ = StrategicMap.Current.ExploreArea(x, y, layer, source.Player, range: 14);
+        _ = GetEngine().StrategicMap.ExploreArea(x, y, layer, source.Player, range: 14);
         return false;
     }
 
     // GlobalSpells.pas:500
-    public override bool Enabled => StrategicMap.Current.ExplorationEnabled;
+    public override bool Enabled => GetEngine().StrategicMap.ExplorationEnabled;
 
     // GlobalSpells.pas:518
     public override bool CanActivate(Troop source, ref string messageText)
@@ -73,11 +73,11 @@ public class BirdsView : Spell
     {
         string reason = "";
         _ = base.Activate(source);
-        if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, messageText: ref reason) && !GetEngine().StrategicMap.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
-            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }

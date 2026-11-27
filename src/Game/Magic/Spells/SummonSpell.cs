@@ -8,7 +8,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Abilities.Passive;
 using Aow.Game.Session;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 
 using static Aow.Rtl.DelphiRandom;
 
@@ -89,7 +88,7 @@ public class SummonSpell : Spell
             SummonSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
             SetupSummonSpellTokenEvent(eventValue);
-            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -113,7 +112,7 @@ public class SummonSpell : Spell
         get
         {
             int unitIndex = UnitIndices[0];
-            return GamePack.Current.AbilityControl.GetAbility<SummonedAbility>(155).UnitIndexToAIUpkeepPriority(unitIndex);
+            return GetEngine().GamePack.AbilityControl.GetAbility<SummonedAbility>(155).UnitIndexToAIUpkeepPriority(unitIndex);
         }
     }
 

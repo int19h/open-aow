@@ -35,22 +35,23 @@ public class AirMastery : GlobalEnchantmentSpell
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
-        SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Air);
+        SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Air, engine: GetEngine()!);
         MapCoordinate coordinate50 = source.GetLocation();
         int x = coordinate50.X;
         int y = coordinate50.Y;
         int l = coordinate50.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
+        _ = GetEngine().StrategicMap.ValidateObservation(source.Player, x, y, l, radius: 0);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
         Animation animation = new(null, show: ShowAnimation)
         {
             Holder = CreationHolder(),
             AnimationLevel = 28
 ,
-            AnimationMap = StrategicMap.Current,
-            Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16)
+            AnimationMap = strategicMap,
+            Tag = (strategicMap.ViewWidth & 0xFFFF) | (strategicMap.ViewHeight << 16)
         };
         animation.Activate();
-        _ = GamePack.Current.SpellControl[60].CastSounds.Play(0);
+        _ = GetEngine().GamePack.SpellControl[60].CastSounds.Play(0);
         CastingDone(source, mana: eventValue.EventMana);
         return false;
     }
@@ -61,9 +62,10 @@ public class AirMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:701
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (StrategicMap.Current.ViewMapLevel == 0)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.ViewMapLevel == 0)
         {
-            RandSeed = StrategicMap.Current.Frame - animation.FrameCounter;
+            RandSeed = strategicMap.Frame - animation.FrameCounter;
             int count = GetEngine().AnimationDetail switch
             {
                 0 => 5,

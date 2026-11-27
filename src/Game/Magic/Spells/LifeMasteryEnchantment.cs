@@ -34,11 +34,12 @@ public class LifeMasteryEnchantment : GlobalEnchantment
     {
         _ = base.Deactivate(player);
         // { Original doubles Death. }
-        StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Death);
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.LifeMastery);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Death);
+        Player playerLocal = strategicMap.Players.GetPlayers(PlayerIndex);
+        strategicMap.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.LifeMastery);
         EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537002240, sender: this);
-        StrategicMap.Current.SendMessage(ref message, sender: this);
+        strategicMap.SendMessage(ref message, sender: this);
         return true;
     }
 
@@ -48,7 +49,7 @@ public class LifeMasteryEnchantment : GlobalEnchantment
         bool result = base.CanActivate(player, ref reason);
         if (result)
         {
-            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.LifeMastery))
+            if (GetEngine().StrategicMap.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.LifeMastery))
             {
                 string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
                 string name = GetName();
@@ -65,8 +66,9 @@ public class LifeMasteryEnchantment : GlobalEnchantment
     {
         _ = base.Activate(player);
         // { Original doubles Death. }
-        StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Death);
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Death);
+        Player playerLocal = strategicMap.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments | PlayerEnchantmentTypes.LifeMastery);
 

@@ -125,10 +125,11 @@ public class FloodEnchantment : GlobalEnchantment
         {
             DispelPlayer = PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(player));
             Removed = true;
-            RestoreDays = StrategicMap.Current.PlayMode == PlayMode.Simultaneous ? 2 : 1;
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            RestoreDays = strategicMap.PlayMode == PlayMode.Simultaneous ? 2 : 1;
 
-            StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
-            StrategicMap.Current.GlobalMagicControl.Update();
+            strategicMap.Players.GetPlayers(PlayerIndex).MagicControl.Update();
+            GetEngine().StrategicMap.GlobalMagicControl.Update();
             return true;
         }
         else
@@ -149,9 +150,10 @@ public class FloodEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1260
     public int DaysBeforeActive()
     {
-        return StrategicMap.Current.PlayMode == PlayMode.Simultaneous && TurnsActive < 2
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        return strategicMap.PlayMode == PlayMode.Simultaneous && TurnsActive < 2
             ? 2 - TurnsActive
-            : StrategicMap.Current.PlayMode == PlayMode.Turn && TurnsActive == 0 ? 1 : 0;
+            : strategicMap.PlayMode == PlayMode.Turn && TurnsActive == 0 ? 1 : 0;
     }
 
     // GlobalEnchantmentSpells.pas:1282
@@ -160,7 +162,7 @@ public class FloodEnchantment : GlobalEnchantment
         if (!Removed)
         {
             TurnsActive += 1;
-            if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
+            if (GetEngine().StrategicMap.PlayMode == PlayMode.Simultaneous)
             {
                 if (TurnsActive is > 1 and < 4)
                 {
@@ -170,7 +172,7 @@ public class FloodEnchantment : GlobalEnchantment
                 {
                     if (TurnsActive == 4)
                     {
-                        if (StrategicMap.Current.Random(2) == 1)
+                        if (GetEngine().StrategicMap.Random(2) == 1)
                         {
                             FloodControl.Flood();
                         }
@@ -179,7 +181,7 @@ public class FloodEnchantment : GlobalEnchantment
             }
             else
             {
-                if (StrategicMap.Current.PlayMode == PlayMode.Turn)
+                if (GetEngine().StrategicMap.PlayMode == PlayMode.Turn)
                 {
                     if (TurnsActive < 3)
                     {
@@ -189,7 +191,7 @@ public class FloodEnchantment : GlobalEnchantment
                     {
                         if (TurnsActive == 3)
                         {
-                            if (StrategicMap.Current.Random(2) == 1)
+                            if (GetEngine().StrategicMap.Random(2) == 1)
                             {
                                 FloodControl.Flood();
                             }

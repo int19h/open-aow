@@ -24,7 +24,7 @@ public class SmokeCloudEnchantment : GlobalEnchantment
     }
 
     // SmokeCloud.pas:102
-    public override string GetName() => GamePack.Current.SpellControl[74].SpellName;
+    public override string GetName() => GetEngine().GamePack.SpellControl[74].SpellName;
 
     // SmokeCloud.pas:156
     public override bool VisibleForPlayer(PlayerId? player)
@@ -37,7 +37,7 @@ public class SmokeCloudEnchantment : GlobalEnchantment
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, radius: 0);
         while (!result && walk.Radius <= 3)
         {
-            result = StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, Cloud.HexLevel, player);
+            result = GetEngine().StrategicMap.VisibleForPlayer(walk.X, walk.Y, Cloud.HexLevel, player);
             HexNumberWalkData.WalkToNextHexNumber(ref hexNumberWalkData);
         }
 

@@ -33,10 +33,11 @@ public class AirMasteryEnchantment : GlobalEnchantment
     public override bool Deactivate(PlayerId? player)
     {
         _ = base.Deactivate(player);
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.AirMastery);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Player playerLocal = strategicMap.Players.GetPlayers(PlayerIndex);
+        strategicMap.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.AirMastery);
         // { Original uses Earth. }
-        StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Earth);
+        strategicMap.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Earth);
         return true;
     }
 
@@ -46,7 +47,7 @@ public class AirMasteryEnchantment : GlobalEnchantment
         bool result = base.CanActivate(player, ref reason);
         if (result)
         {
-            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.AirMastery))
+            if (GetEngine().StrategicMap.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.AirMastery))
             {
                 string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
                 string name = GetName();
@@ -62,10 +63,11 @@ public class AirMasteryEnchantment : GlobalEnchantment
     public override bool Activate(PlayerId? player)
     {
         _ = base.Activate(player);
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments | PlayerEnchantmentTypes.AirMastery);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Player playerLocal = strategicMap.Players.GetPlayers(PlayerIndex);
+        strategicMap.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments | PlayerEnchantmentTypes.AirMastery);
         // { Original uses Earth. }
-        StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Earth);
+        strategicMap.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Earth);
         return true;
     }
 }

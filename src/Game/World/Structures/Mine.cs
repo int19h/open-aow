@@ -104,7 +104,7 @@ public partial class Mine : PlayerStructure
                         }
                         else
                         {
-                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)), targetRace: 0))
+                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)), targetRace: 0, engine: GetEngine()!))
                             {
                                 candidatePriority = 50 - (StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2);
                                 if (candidatePriority < 25)

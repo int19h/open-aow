@@ -82,7 +82,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
                         }
                         else
                         {
-                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: 0))
+                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: 0, engine: GetEngine()!))
                             {
                                 priority = 50 - (StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2);
                                 if (priority < 25)

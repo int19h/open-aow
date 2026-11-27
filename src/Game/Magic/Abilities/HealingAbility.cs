@@ -9,8 +9,6 @@ using Aow.Game.Combat.Actions;
 using Aow.Game.Session;
 using Aow.Game.Units;
 
-using Aow.Game.World.Map;
-
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiTextCompare;
 
@@ -135,7 +133,7 @@ public class HealingAbility : TouchAbility
 
             info.SetUnitSelector(selector);
             // { Original omits Selector.Release here. }
-            StrategicMap.Current.OnAbilityActivated(info);
+            GetEngine().StrategicMap.OnAbilityActivated(info);
             _ = info.Release();
             return true;
         }
@@ -280,7 +278,7 @@ public class HealingAbility : TouchAbility
     // Draws the random value the touch event used to draw, then builds the action.
     public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit? target)
     {
-        RandSeed = StrategicMap.Current.Random(16777215);
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
         return CreateHealingCombatAction(source, target: target);
     }
 

@@ -46,7 +46,7 @@ public class Enchantment(CustomNode owner) : EngineObject(owner)
             Upkeep = value;
             if (Source > -1)
             {
-                StrategicMap.Current.Players.GetPlayers(Source).MagicControl.Update();
+                GetEngine().StrategicMap.Players.GetPlayers(Source).MagicControl.Update();
             }
         }
     }
@@ -58,13 +58,13 @@ public class Enchantment(CustomNode owner) : EngineObject(owner)
         {
             if (Source > -1)
             {
-                _ = StrategicMap.Current.Players.GetPlayers(Source).MagicControl.UnregisterEnchantment(this);
+                _ = GetEngine().StrategicMap.Players.GetPlayers(Source).MagicControl.UnregisterEnchantment(this);
             }
 
             Source = PlayerIdExtensions.ToOriginal(player);
             if (Source > -1)
             {
-                _ = StrategicMap.Current.Players.GetPlayers(Source).MagicControl.RegisterEnchantment(this);
+                _ = GetEngine().StrategicMap.Players.GetPlayers(Source).MagicControl.RegisterEnchantment(this);
             }
         }
     }
@@ -84,16 +84,17 @@ public class Enchantment(CustomNode owner) : EngineObject(owner)
         int l = coordinate22.MapLevel;
         if (x != -1)
         {
-            if (StrategicMap.Current.Visible(x, y, l, radius: 0))
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (strategicMap.Visible(x, y, l, radius: 0))
             {
-                StrategicMap.Current.CenterViewTo(x, y, l);
-                StrategicMap.Current.PlayCenterAnimation(x, y, l);
+                strategicMap.CenterViewTo(x, y, l);
+                GetEngine().StrategicMap.PlayCenterAnimation(x, y, l);
             }
             else
             {
                 string binding = GetBinding();
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsOutOfSightFormat), arguments: [binding]);
-                StrategicMap.Current.ShowMessage(format);
+                GetEngine().StrategicMap.ShowMessage(format);
             }
 
             return true;

@@ -30,9 +30,10 @@ public class FireAura : UnitSpell
     public override void PlayDefaultCastEffects(PlayerId? player, int X, int Y, int layer)
     {
         base.PlayDefaultCastEffects(player, X, Y, layer);
-        if (player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, L: layer, radius: 0))
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (player == strategicMap.SeatedPlayer || strategicMap.Watching(X, Y, L: layer, radius: 0))
         {
-            _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(1);
+            _ = GetEngine().GamePack.SpellControl[SpellId].CastSounds.Play(1);
         }
     }
 

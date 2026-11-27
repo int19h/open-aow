@@ -8,8 +8,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Units;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Magic.Abilities;
 
 public class PossessedAbility : PossessAbility
@@ -62,7 +60,7 @@ public class PossessedAbility : PossessAbility
         {
             combatUnit.SetStatus(combatUnit.Status & ~CombatObjectStatuses.Destroyed);
             Unit newUnit = new(null) { Holder = CreationHolder() };
-            newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(152));
+            newUnit.SetUnitResource(GetEngine().GamePack.UnitResources.GetUnitResource(152));
             PossessedAbilityData data = GetData(combatUnit.Troop);
             if (data is not null)
             {

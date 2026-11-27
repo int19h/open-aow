@@ -8,7 +8,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Combat;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Rtl;
@@ -113,7 +112,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
         {
             if (GetAbilitySetAt(i))
             {
-                Ability? ability = GamePack.Current.AbilityControl[i];
+                Ability? ability = GetEngine().GamePack.AbilityControl[i];
                 if ((ability.SelectionTypes & types) != AbilitySelectionTypes.None)
                 {
                     _ = text.AddObject(ability.GetName(this), item: IntToObject(i));
@@ -129,34 +128,34 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
     public virtual string GetOwnerName() => "";
 
     // Ability.PAS:1927
-    public virtual string GetOwnAbilityName(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetName(this);
+    public virtual string GetOwnAbilityName(int abilityId) => GetEngine().GamePack.AbilityControl[abilityId].GetName(this);
 
     // Ability.PAS:1931
-    public virtual int GetAbilityAttack(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetAttack(this);
+    public virtual int GetAbilityAttack(int abilityId) => GetEngine().GamePack.AbilityControl[abilityId].GetAttack(this);
 
     // Ability.PAS:1935
-    public virtual int GetAbilityDefense(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetDefense(this);
+    public virtual int GetAbilityDefense(int abilityId) => GetEngine().GamePack.AbilityControl[abilityId].GetDefense(this);
 
     // Ability.PAS:1939
-    public virtual int GetAbilityResistance(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetResistance(this);
+    public virtual int GetAbilityResistance(int abilityId) => GetEngine().GamePack.AbilityControl[abilityId].GetResistance(this);
 
     // Ability.PAS:1943
-    public virtual int GetAbilityDamage(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetDamage(this);
+    public virtual int GetAbilityDamage(int abilityId) => GetEngine().GamePack.AbilityControl[abilityId].GetDamage(this);
 
     // Ability.PAS:1947
-    public virtual MoveTypes GetAbilityMoveTypes(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetMoveTypes(this);
+    public virtual MoveTypes GetAbilityMoveTypes(int abilityId) => GetEngine().GamePack.AbilityControl[abilityId].GetMoveTypes(this);
 
     // Ability.PAS:1951
-    public virtual DamageTypes GetAbilityProtectionTypes(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetProtectionTypes(this);
+    public virtual DamageTypes GetAbilityProtectionTypes(int abilityId) => GetEngine().GamePack.AbilityControl[abilityId].GetProtectionTypes(this);
 
     // Ability.PAS:1955
-    public virtual DamageTypes GetAbilityImmunityTypes(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetImmunityTypes(this);
+    public virtual DamageTypes GetAbilityImmunityTypes(int abilityId) => GetEngine().GamePack.AbilityControl[abilityId].GetImmunityTypes(this);
 
     // Ability.PAS:1959
-    public virtual int GetOwnAbilityLevel(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetLevel(this);
+    public virtual int GetOwnAbilityLevel(int abilityId) => GetEngine().GamePack.AbilityControl[abilityId].GetLevel(this);
 
     // Ability.PAS:1963
-    public virtual bool GetOwnAbilityEnabled(int abilityId) => GetAbilitySetAt(abilityId) && GamePack.Current.AbilityControl[abilityId].GetEnabled(this);
+    public virtual bool GetOwnAbilityEnabled(int abilityId) => GetAbilitySetAt(abilityId) && GetEngine().GamePack.AbilityControl[abilityId].GetEnabled(this);
 
     // Ability.PAS:1672
     public virtual AbilitySelectionTypes GetAbilitySelectionTypes() => AbilitySelectionTypes.None;
@@ -169,7 +168,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
     // Ability.PAS:1840
     public virtual bool ExpandAbility(int abilityId)
     {
-        bool result = GamePack.Current.AbilityControl[abilityId].Expand(this);
+        bool result = GetEngine().GamePack.AbilityControl[abilityId].Expand(this);
         if (result)
         {
             Changed();
@@ -181,7 +180,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
     // Ability.PAS:1845
     public virtual bool RemoveAbility(int abilityId)
     {
-        bool result = GamePack.Current.AbilityControl[abilityId].Remove(this);
+        bool result = GetEngine().GamePack.AbilityControl[abilityId].Remove(this);
         if (result)
         {
             Changed();
@@ -196,7 +195,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
         AbilitySelectionTypes types = GetAbilitySelectionTypes();
         for (int i = OwnAbilityCount - 1; i >= 0; i--)
         {
-            if (GetAbilitySetAt(i) && (GamePack.Current.AbilityControl[i].SelectionTypes & types) == AbilitySelectionTypes.None)
+            if (GetAbilitySetAt(i) && (GetEngine().GamePack.AbilityControl[i].SelectionTypes & types) == AbilitySelectionTypes.None)
             {
                 SetAbilitySet(i, value: 0);
             }
@@ -332,7 +331,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
         {
             if (GetOwnAbilityEnabled(i))
             {
-                result = (result + GamePack.Current.AbilityControl[i].GetAttack(this)).TruncateToSByte();
+                result = (result + GetEngine().GamePack.AbilityControl[i].GetAttack(this)).TruncateToSByte();
             }
         }
 
@@ -347,7 +346,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
         {
             if (GetOwnAbilityEnabled(i))
             {
-                result = (result + GamePack.Current.AbilityControl[i].GetDefense(this)).TruncateToSByte();
+                result = (result + GetEngine().GamePack.AbilityControl[i].GetDefense(this)).TruncateToSByte();
             }
         }
 
@@ -362,7 +361,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
         {
             if (GetOwnAbilityEnabled(i))
             {
-                result = (result + GamePack.Current.AbilityControl[i].GetResistance(this)).TruncateToSByte();
+                result = (result + GetEngine().GamePack.AbilityControl[i].GetResistance(this)).TruncateToSByte();
             }
         }
 
@@ -377,7 +376,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
         {
             if (GetOwnAbilityEnabled(i))
             {
-                result = (result + GamePack.Current.AbilityControl[i].GetDamage(this)).TruncateToSByte();
+                result = (result + GetEngine().GamePack.AbilityControl[i].GetDamage(this)).TruncateToSByte();
             }
         }
 
@@ -442,7 +441,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
         {
             if (GetOwnAbilityEnabled(i))
             {
-                result &= GamePack.Current.AbilityControl[i].GetWallCombatFeatures(this);
+                result &= GetEngine().GamePack.AbilityControl[i].GetWallCombatFeatures(this);
             }
         }
 
@@ -552,7 +551,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
             {
                 if (GetAbilitySetAt(i))
                 {
-                    GamePack.Current.AbilityControl[i].NewDay(this);
+                    GetEngine().GamePack.AbilityControl[i].NewDay(this);
                 }
             }
         }
@@ -569,7 +568,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
         {
             if (GetAbilitySetAt(i))
             {
-                GamePack.Current.AbilityControl[i].NewTurn(this, player);
+                GetEngine().GamePack.AbilityControl[i].NewTurn(this, player);
             }
         }
     }
@@ -581,7 +580,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
         {
             if (GetAbilitySetAt(i))
             {
-                GamePack.Current.AbilityControl[i].NewCombatTurn(combat, player);
+                GetEngine().GamePack.AbilityControl[i].NewCombatTurn(combat, player);
             }
         }
     }
@@ -593,7 +592,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
         {
             if (GetAbilitySetAt(i))
             {
-                GamePack.Current.AbilityControl[i].CombatDone(combat);
+                GetEngine().GamePack.AbilityControl[i].CombatDone(combat);
             }
         }
     }
@@ -606,7 +605,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
         {
             if (GetAbilitySetAt(i))
             {
-                Ability? ability = GamePack.Current.AbilityControl[i];
+                Ability? ability = GetEngine().GamePack.AbilityControl[i];
                 string name = ability.GetName(this);
                 if (!IsEmpty(name))
                 {

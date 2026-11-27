@@ -6,8 +6,6 @@ using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 
 using Aow.Game.Magic.Abilities;
-
-using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
 
@@ -209,10 +207,10 @@ public class CombatSpell : Spell
             }
 
             // { Original shifts Random(4) by two, so this adds no random extra targets. }
-            int count = (StrategicMap.Current.Random(4) >>> 2) + CombatInfo.Radius;
+            int count = (GetEngine().StrategicMap.Random(4) >>> 2) + CombatInfo.Radius;
             while (count != 0 && targets.Count != 0)
             {
-                other = targets[StrategicMap.Current.Random(targets.Count)];
+                other = targets[GetEngine().StrategicMap.Random(targets.Count)];
                 for (int j = 0, last = CombatInfo.RepeatCount - 1; j <= last; j++)
                 {
                     if (!other.Status.Contains(CombatObjectStatuses.Destroyed))

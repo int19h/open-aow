@@ -6,8 +6,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.Magic.Abilities;
 
 public class CommandedAbility : AdjustableAbility
@@ -37,7 +35,7 @@ public class CommandedAbility : AdjustableAbility
         CommandedAbilityData? data = GetData(combatObject.AbilityOwner);
         if (data is not null && combatObject is CombatUnit combatUnit)
         {
-            GamePack.Current.AbilityControl.GetAbility<CommandAbility>(data.CommandAbilityId).Uncommand(combatUnit);
+            GetEngine().GamePack.AbilityControl.GetAbility<CommandAbility>(data.CommandAbilityId).Uncommand(combatUnit);
         }
     }
 

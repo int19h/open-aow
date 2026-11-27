@@ -4,7 +4,6 @@ using System.Globalization;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.IntegerObjects;
@@ -167,7 +166,7 @@ public sealed class SpellControl(CustomNode? owner) : EngineObject(owner)
             }
         }
 
-        int result = candidates.Count != 0 ? candidates[StrategicMap.Current.Random(candidates.Count)] : 0;
+        int result = candidates.Count != 0 ? candidates[GetEngine().StrategicMap.Random(candidates.Count)] : 0;
         return result;
     }
 }

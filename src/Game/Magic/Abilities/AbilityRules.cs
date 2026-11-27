@@ -179,7 +179,7 @@ public static class AbilityRules
         return result;
     }
 
-    internal static int RoadConstructionCost(PlayerId? player, MovePath path, int movePoints)
+    internal static int RoadConstructionCost(PlayerId? player, MovePath path, int movePoints, GameEngine engine)
     {
         int result = 0;
         int i = path.Count;
@@ -191,7 +191,7 @@ public static class AbilityRules
             if (points <= movePoints)
             {
                 PathStep item = path[i];
-                MapField field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(item.Location);
+                MapField field = engine.StrategicMap.MapContainer.GetFieldMapCoordinate(item.Location);
                 if (CanConstructRoad(player, field))
                 {
                     result += 10;
@@ -218,7 +218,7 @@ public static class AbilityRules
     {
         if (damageType != DamageType.NonSpecific)
         {
-            GamePack.Current.CombatImages[(int)damageType + 10].Show(x + 15, y + 10, lockedSurface: surface);
+            engine.GamePack.CombatImages[(int)damageType + 10].Show(x + 15, y + 10, lockedSurface: surface);
             engine.CombatFont.Color = damageType is (>= DamageType.Cold and <= DamageType.Magic) or DamageType.Holy
                 ? Color.Black
                 : Color.White;
@@ -270,17 +270,17 @@ public static class AbilityRules
             {
                 tries -= 1;
                 int index = units[Random(units.Count)];
-                if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType.ToFlag()) && GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() + result > value && GamePack.Current.UnitResources.GetUnitResource(index).Level <= level)
+                if (index != -1 && types.Contains(engine.GamePack.UnitResources.GetUnitResource(index).UnitType.ToFlag()) && engine.GamePack.UnitResources.GetUnitResource(index).GetObtainValue() + result > value && engine.GamePack.UnitResources.GetUnitResource(index).Level <= level)
                 {
                     int bestIndex = index;
                     int i = 20;
-                    int difference = Math.Abs(GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
+                    int difference = Math.Abs(engine.GamePack.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
                     do
                     {
                         index = units[Random(units.Count)];
-                        if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType.ToFlag()))
+                        if (index != -1 && types.Contains(engine.GamePack.UnitResources.GetUnitResource(index).UnitType.ToFlag()))
                         {
-                            int delta = Math.Abs(GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
+                            int delta = Math.Abs(engine.GamePack.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
                             if (delta < difference)
                             {
                                 difference = delta;
@@ -294,10 +294,10 @@ public static class AbilityRules
                     index = bestIndex;
                 }
 
-                if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType.ToFlag()) && GamePack.Current.UnitResources.GetUnitResource(index).Level <= level)
+                if (index != -1 && types.Contains(engine.GamePack.UnitResources.GetUnitResource(index).UnitType.ToFlag()) && engine.GamePack.UnitResources.GetUnitResource(index).Level <= level)
                 {
                     Unit unit = new(null) { Holder = engine };
-                    unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
+                    unit.SetUnitResource(engine.GamePack.UnitResources.GetUnitResource(index));
                     if (unit.Place(X, Y, L, player, mode: UnitPlaceModes.None) is not null)
                     {
                         result += unit.GetObtainValue();
@@ -312,7 +312,7 @@ public static class AbilityRules
         return result;
     }
 
-    internal static Alignment IndependentRelationToAlignment(int relation)
+    internal static Alignment IndependentRelationToAlignment(int relation, GameEngine engine)
     {
         return relation < 0
             ? relation switch
@@ -322,51 +322,51 @@ public static class AbilityRules
                 -3 => Alignment.Neutral,
                 _ => Alignment.Neutral,
             }
-            : GamePack.Current.RaceResources.GetRaceResource(relation).Alignment;
+            : engine.GamePack.RaceResources.GetRaceResource(relation).Alignment;
     }
 
-    internal static DiplomaticRelation DiplomaticRelation(PlayerId? player, int independentRelation, PlayerId? otherPlayer, int otherIndependentRelation)
+    internal static DiplomaticRelation DiplomaticRelation(PlayerId? player, int independentRelation, PlayerId? otherPlayer, int otherIndependentRelation, GameEngine engine)
     {
         if (player == PlayerId.Independent || otherPlayer == PlayerId.Independent)
         {
-            int race = player != PlayerId.Independent ? StrategicMap.Current.Players.GetPlayers(player).PlayerRace
+            int race = player != PlayerId.Independent ? engine.StrategicMap.Players.GetPlayers(player).PlayerRace
                 : independentRelation >= 0 ? independentRelation : -1;
 
-            int otherRace = otherPlayer != PlayerId.Independent ? StrategicMap.Current.Players.GetPlayers(otherPlayer).PlayerRace
+            int otherRace = otherPlayer != PlayerId.Independent ? engine.StrategicMap.Players.GetPlayers(otherPlayer).PlayerRace
                 : otherIndependentRelation >= 0 ? otherIndependentRelation : -1;
 
             if (race == -1 || otherRace == -1)
             {
                 Alignment alignment = race != -1
-                    ? GamePack.Current.RaceResources.GetRaceResource(race).Alignment
-                    : IndependentRelationToAlignment(independentRelation);
+                    ? engine.GamePack.RaceResources.GetRaceResource(race).Alignment
+                    : IndependentRelationToAlignment(independentRelation, engine: engine);
 
                 Alignment otherAlignment = otherRace != -1
-                    ? GamePack.Current.RaceResources.GetRaceResource(otherRace).Alignment
-                    : IndependentRelationToAlignment(otherIndependentRelation);
+                    ? engine.GamePack.RaceResources.GetRaceResource(otherRace).Alignment
+                    : IndependentRelationToAlignment(otherIndependentRelation, engine: engine);
 
                 return AlignmentTables.AlignmentToDiplomaticRelation(alignment, otherAlignment);
             }
             else
             {
-                return AlignmentTables.StatusToDiplomaticRelation(StrategicMap.Current.Races.GetRace(race).GetRelation(otherRace));
+                return AlignmentTables.StatusToDiplomaticRelation(engine.StrategicMap.Races.GetRace(race).GetRelation(otherRace));
             }
         }
         else
         {
             return player != otherPlayer
-                ? StrategicMap.Current.Players.GetDiplomaticRelation(player, otherPlayer)
+                ? engine.StrategicMap.Players.GetDiplomaticRelation(player, otherPlayer)
                 : Session.DiplomaticRelation.Alliance;
         }
     }
 
-    internal static bool ValidAttackRelation(PlayerId? player, int independentRelation, PlayerId? targetPlayer, int targetRace)
+    internal static bool ValidAttackRelation(PlayerId? player, int independentRelation, PlayerId? targetPlayer, int targetRace, GameEngine engine)
     {
         if (player == PlayerId.Independent)
         {
             if (targetPlayer != PlayerId.Independent)
             {
-                DiplomaticRelation relation = DiplomaticRelation(player, independentRelation, otherPlayer: targetPlayer, otherIndependentRelation: targetRace);
+                DiplomaticRelation relation = DiplomaticRelation(player, independentRelation, otherPlayer: targetPlayer, otherIndependentRelation: targetRace, engine: engine);
                 return relation is Session.DiplomaticRelation.War or Session.DiplomaticRelation.Unknown;
             }
             else
@@ -376,7 +376,7 @@ public static class AbilityRules
         }
         else
         {
-            return StrategicMap.Current.Players.GetPlayers(player).ValidAttackRelation(targetPlayer, independentRelation: targetRace);
+            return engine.StrategicMap.Players.GetPlayers(player).ValidAttackRelation(targetPlayer, independentRelation: targetRace);
         }
     }
 
@@ -419,7 +419,7 @@ public static class AbilityRules
             {
                 units = new UnitUserList(null) { Holder = engine };
                 PathStep item = movePath[^1];
-                MapLevel level = StrategicMap.Current.MapContainer.MapLevels[item.Location.MapLevel];
+                MapLevel level = engine.StrategicMap.MapContainer.MapLevels[item.Location.MapLevel];
                 PathStep movePathItem = movePath[^1];
                 PathStep item2 = movePath[^1];
                 HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, item2.Location.X, movePathItem.Location.Y, radius: 0);
@@ -450,7 +450,7 @@ public static class AbilityRules
                 PathStep item = movePath[i];
                 PathStep movePathItem = movePath[i];
                 PathStep item2 = movePath[i];
-                StrategicMap.Current.RetrieveBattleFieldInfo(item2.Location.X, movePathItem.Location.Y, item.Location.MapLevel, radius: range, ref info);
+                engine.StrategicMap.RetrieveBattleFieldInfo(item2.Location.X, movePathItem.Location.Y, item.Location.MapLevel, radius: range, ref info);
                 if (info.Strength > result)
                 {
                     result = info.Strength;
@@ -491,7 +491,7 @@ public static class AbilityRules
                         PathStep item3 = movePath[j + 1];
                         PathStep item4 = movePath[j + 1];
                         PathStep item5 = movePath[j + 1];
-                        StrategicMap.Current.RetrieveBattleFieldInfo(item5.Location.X, item4.Location.Y, item3.Location.MapLevel, radius: range, ref info);
+                        engine.StrategicMap.RetrieveBattleFieldInfo(item5.Location.X, item4.Location.Y, item3.Location.MapLevel, radius: range, ref info);
                         if (info.Strength > result)
                         {
                             result = info.Strength;
@@ -504,7 +504,7 @@ public static class AbilityRules
 
             units?.Dispose();
 
-            StrategicMap.Current.AIExecutor.UseProcessTime(50);
+            engine.StrategicMap.AIExecutor.UseProcessTime(50);
         }
         else
         {
@@ -550,14 +550,15 @@ public static class AbilityRules
 
     internal static bool EndPlayerTurn(PlayerId? player, GameEngine? engine)
     {
+        StrategicMap strategicMap = engine.StrategicMap;
         EndTurnTokenEvent eventValue = new(null)
         {
             Holder = engine,
             Player = player,
-            Day = StrategicMap.Current.Day,
+            Day = strategicMap.Day,
             Mode = EndTurnTokenEventMode.EndTurn
         };
-        StrategicMap.Current.TokenManager.TokenControls[player].AddEvent(eventValue);
+        strategicMap.TokenManager.TokenControls[player].AddEvent(eventValue);
         _ = eventValue.Release();
         return true;
     }
@@ -572,7 +573,7 @@ public static class AbilityRules
     }
 
     public static void RetrieveStormDamageInfo(PlayerId? player, StormType storm, int x, int y,
-                int level, int innerRadius, int outerRadius, out StormDamageInfo info)
+                int level, int innerRadius, int outerRadius, out StormDamageInfo info, GameEngine engine)
     {
         StormDamageQuery query = new()
         {
@@ -583,7 +584,7 @@ public static class AbilityRules
                 EnemyRelations = DiplomaticRelations.War | DiplomaticRelations.Unknown
             }
         };
-        MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(level);
+        MapLevel mapLevel = engine.StrategicMap.MapContainer.GetMapLevel(level);
         MapFieldMessage message = new() { MessageId = 0x1151 };
         MapFieldMessageParameters param = message.Param;
         param[0] = (int)storm;
@@ -614,10 +615,10 @@ public static class AbilityRules
 
     internal static DamageTypes AllDamageTypes { get; } = DamageTypes.Fire | DamageTypes.Cold | DamageTypes.Lightning | DamageTypes.Magic | DamageTypes.Poison | DamageTypes.Death | DamageTypes.Holy | DamageTypes.Physical | DamageTypes.Wall | DamageTypes.NonSpecific;
 
-    internal static void TriggerStormDamage(StormType storm, int x, int y, int mapLevel, int innerRadius, int outerRadius, PlayerId? player)
+    internal static void TriggerStormDamage(StormType storm, int x, int y, int mapLevel, int innerRadius, int outerRadius, PlayerId? player, GameEngine engine)
     {
         MapFieldMessage message = default;
-        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[mapLevel];
+        MapLevel level = engine.StrategicMap.MapContainer.MapLevels[mapLevel];
         message.MessageId = 4432;
         MapFieldMessageParameters param = message.Param;
         param[0] = (int)storm;

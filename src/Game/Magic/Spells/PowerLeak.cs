@@ -36,10 +36,10 @@ public class PowerLeak : GlobalEnchantmentSpell
         int x = coordinate74.X;
         int y = coordinate74.Y;
         int l = coordinate74.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
+        _ = GetEngine().StrategicMap.ValidateObservation(source.Player, x, y, l, radius: 0);
         TwinkleAnimation animation = new(null) { Holder = CreationHolder() };
-        animation.Setup(GamePack.Current.SpellControl[48].CastImages.ImageSequences[0], mode: TwinkleModes.Implode, count: 100, radius: 64, duration: 50, startDelay: 30);
-        _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
+        animation.Setup(GetEngine().GamePack.SpellControl[48].CastImages.ImageSequences[0], mode: TwinkleModes.Implode, count: 100, radius: 64, duration: 50, startDelay: 30);
+        _ = GetEngine().StrategicMap.PlaceHex(animation, x, y, l);
         _ = CastSounds.Play(0);
         CastingDone(source, mana: eventValue.EventMana);
         return false;

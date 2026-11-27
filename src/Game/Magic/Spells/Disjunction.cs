@@ -28,9 +28,10 @@ public class Disjunction : Spell
     {
         string reason = "";
         int count = 0;
-        for (int i = 0, last = StrategicMap.Current.GlobalMagicControl.Enchantments.Count - 1; i <= last; i++)
+        for (int i = 0, last = GetEngine().StrategicMap.GlobalMagicControl.Enchantments.Count - 1; i <= last; i++)
         {
-            if (StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i).PlayerIndex != source.Player && StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i).VisibleForPlayer(source.Player) && StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i).CanDispel(source.Player, ref reason))
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (strategicMap.GlobalMagicControl.Enchantments.GetEnchantments(i).PlayerIndex != source.Player && strategicMap.GlobalMagicControl.Enchantments.GetEnchantments(i).VisibleForPlayer(source.Player) && GetEngine().StrategicMap.GlobalMagicControl.Enchantments.GetEnchantments(i).CanDispel(source.Player, ref reason))
             {
                 count += 1;
             }

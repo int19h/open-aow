@@ -25,18 +25,19 @@ public class CosmagicSurgerySpellCaster(CustomNode? owner) : SpellCaster(owner)
     public override bool Cast()
     {
         string reason = "";
-        GamePack.Current.SpellControl.GetSpell<UnitSpell>(59).ResetTargetSelection();
-        Troop? source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
-        Troop? target = StrategicMap.Current.UnitControl.FindUnit(TargetUnitId);
-        if (source is not null && target is not null && CanCast(ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        GetEngine().GamePack.SpellControl.GetSpell<UnitSpell>(59).ResetTargetSelection();
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        Troop? source = strategicMap.UnitControl.FindUnit(CasterSourceId);
+        Troop? target = strategicMap.UnitControl.FindUnit(TargetUnitId);
+        if (source is not null && target is not null && CanCast(ref reason) && !strategicMap.Players.GetPlayers(source.Player).GetBusy())
         {
             UnitSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            Spell? spell = GamePack.Current.SpellControl[59];
+            Spell? spell = GetEngine().GamePack.SpellControl[59];
             eventValue.Initialize(CasterSpellId, source, targets: null, mana: spell.BaseManaCost);
             _ = eventValue.TargetUnitIds.Add(TargetUnitId);
             eventValue.SpellData[0] = FaceIndex;
             eventValue.TargetPlayer = PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(target.Player));
-            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            strategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }

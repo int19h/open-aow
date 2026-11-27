@@ -441,7 +441,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:370
     public void ReturnBattleFieldInfo(ref BattleFieldInfo info)
     {
-        DiplomaticRelation relation = AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, otherPlayer: Player, otherIndependentRelation: IndependentRelation);
+        DiplomaticRelation relation = AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, otherPlayer: Player, otherIndependentRelation: IndependentRelation, engine: GetEngine()!);
         for (int i = Units.Count - 1; i >= 0; i--)
         {
             Troop troop = Units[i];
@@ -2393,7 +2393,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
 
         for (int i = 0, last = armies.GetCount() - 1; i <= last; i++)
         {
-            if (AbilityRules.DiplomaticRelation(PlayerId.Independent, armies[i].Army.IndependentRelation, otherPlayer: PlayerId.FromOriginal(player), otherIndependentRelation: 0) == DiplomaticRelation.War)
+            if (AbilityRules.DiplomaticRelation(PlayerId.Independent, armies[i].Army.IndependentRelation, otherPlayer: PlayerId.FromOriginal(player), otherIndependentRelation: 0, engine: GetEngine()!) == DiplomaticRelation.War)
             {
                 armies[i].Army.SetBehavior(255, behavior: GroupBehavior.Raid);
             }
@@ -2863,7 +2863,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:2508
     public void RetrieveStormDamageInfo(StormType storm, int distance, ref StormDamageInfo info)
     {
-        int relation = ((int)AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, otherPlayer: Player, otherIndependentRelation: IndependentRelation)).TruncateToByte();
+        int relation = ((int)AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, otherPlayer: Player, otherIndependentRelation: IndependentRelation, engine: GetEngine()!)).TruncateToByte();
         if (info.FriendlyRelations.Contains(((DiplomaticRelation)relation).ToFlag()) || info.EnemyRelations.Contains(((DiplomaticRelation)relation).ToFlag()))
         {
             int attack;
@@ -2977,7 +2977,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 {
                     if (PlayerIdExtensions.ToOriginal(Player) > 0)
                     {
-                        data.Priority = AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: IndependentRelation) || info.Mode == AITargetMode.Raid
+                        data.Priority = AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: IndependentRelation, engine: GetEngine()!) || info.Mode == AITargetMode.Raid
                             ? info.Player != PlayerId.Independent && Leader(255) is not null
                                 ? 300
                                 : info.Player != PlayerId.Independent && Hero(255, types: HeroTypes.Hero) is not null ? 100 : 50
@@ -2996,7 +2996,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                             }
                             else
                             {
-                                if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: IndependentRelation))
+                                if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: IndependentRelation, engine: GetEngine()!))
                                 {
                                     data.Priority = 50;
                                 }
@@ -3014,7 +3014,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 data.Priority = 10;
                 break;
             case AITargetMode.Recruit:
-                if (info.Player == Player && (Player != PlayerId.Independent || AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, otherPlayer: Player, otherIndependentRelation: IndependentRelation) != DiplomaticRelation.War))
+                if (info.Player == Player && (Player != PlayerId.Independent || AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, otherPlayer: Player, otherIndependentRelation: IndependentRelation, engine: GetEngine()!) != DiplomaticRelation.War))
                 {
                     data.Priority |= 1;
                 }

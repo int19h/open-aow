@@ -35,18 +35,19 @@ public class AntiMagicShell : CityEnchantmentSpell
     public override void PlayDefaultCityEffects(Troop source, City targetCity)
     {
         base.PlayDefaultCityEffects(source, targetCity);
-        bool condition = source.Player == StrategicMap.Current.SeatedPlayer;
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        bool condition = source.Player == strategicMap.SeatedPlayer;
         if (!condition)
         {
             int hexLevel = targetCity.HexLevel;
             int hexY = targetCity.HexY;
             int hexX = targetCity.HexX;
-            condition = StrategicMap.Current.WatchingTerrain(hexX, hexY, L: hexLevel, radius: 1);
+            condition = strategicMap.WatchingTerrain(hexX, hexY, L: hexLevel, radius: 1);
         }
 
         if (condition)
         {
-            _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(1, volume: -1, looped: false, delay: 30, panning: SamplePanning.Center, callback: null);
+            _ = GetEngine().GamePack.SpellControl[SpellId].CastSounds.Play(1, volume: -1, looped: false, delay: 30, panning: SamplePanning.Center, callback: null);
         }
     }
 }

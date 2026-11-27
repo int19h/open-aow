@@ -44,11 +44,12 @@ public class AnimateHero : Spell
             x = coordinate51.X;
             y = coordinate51.Y;
             layer = coordinate51.MapLevel;
-            _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, radius: 0);
+            _ = GetEngine().StrategicMap.ValidateObservation(source.Player, x, y, layer, radius: 0);
             TwinkleAnimation animation = new(null) { Holder = CreationHolder() };
             animation.Setup(CastImages.GetImageSequence(0), mode: TwinkleModes.Rotate, count: 50, radius: 64, duration: 50, startDelay: 30);
-            _ = StrategicMap.Current.PlaceHex(animation, x, y, L: layer);
-            if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(x, y, L: layer, radius: 0))
+            _ = GetEngine().StrategicMap.PlaceHex(animation, x, y, L: layer);
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (source.Player == strategicMap.SeatedPlayer || strategicMap.Watching(x, y, L: layer, radius: 0))
             {
                 _ = CastSounds.Play(0);
             }
@@ -56,10 +57,10 @@ public class AnimateHero : Spell
         if (executeCount == 20)
         {
             HeroList heroes = new(null) { Holder = CreationHolder() };
-            StrategicMap.Current.HeroControl.ListDeadHeroes(heroes);
+            GetEngine().StrategicMap.HeroControl.ListDeadHeroes(heroes);
             for (int i = heroes.Count - 1; i >= 0; i--)
             {
-                if (heroes.GetHero(i) is Leader || heroes.GetHero(i).GetLevel() > StrategicMap.Current.Players.GetPlayers(source.Player).BaseHeroJoinLevel + 2)
+                if (heroes.GetHero(i) is Leader || heroes.GetHero(i).GetLevel() > GetEngine().StrategicMap.Players.GetPlayers(source.Player).BaseHeroJoinLevel + 2)
                 {
                     _ = heroes.RemoveChild(heroes.GetHero(i));
                 }
@@ -72,7 +73,7 @@ public class AnimateHero : Spell
                 y = coordinate52.Y;
                 layer = coordinate52.MapLevel;
                 int count = heroes.Count;
-                Hero hero = heroes.GetHero(StrategicMap.Current.Random(count));
+                Hero hero = heroes.GetHero(GetEngine().StrategicMap.Random(count));
                 hero.Animate();
                 ArmyHexSprite? army = hero.Place(x, y, L: layer, player: PlayerId.Independent, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);
                 LocationTextEventLog log = new(null)
@@ -107,11 +108,11 @@ public class AnimateHero : Spell
             }
             else
             {
-                if (source.Player == StrategicMap.Current.SeatedPlayer)
+                if (source.Player == GetEngine().StrategicMap.SeatedPlayer)
                 {
                     string noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NoHeroAnswersYourCallText);
-                    StrategicMap.Current.ShowMessage(noHeroAnswersYourCall);
-                    _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(0);
+                    GetEngine().StrategicMap.ShowMessage(noHeroAnswersYourCall);
+                    _ = GetEngine().GamePack.SpellControl[SpellId].CastSounds.Play(0);
                 }
             }
 
@@ -130,11 +131,11 @@ public class AnimateHero : Spell
     {
         string reason = "";
         _ = base.Activate(source);
-        if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, messageText: ref reason) && !GetEngine().StrategicMap.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
-            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }

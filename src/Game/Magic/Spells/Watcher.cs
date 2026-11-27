@@ -34,12 +34,13 @@ public class Watcher : GlobalTargetSpell
     // GlobalTargetSpells.pas:1506
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (!strategicMap.Players.GetPlayers(source.Player).GetBusy())
         {
             WatcherTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, playerIndex: PlayerId.FromOriginal((byte)PlayerIdExtensions.ToOriginal(source.Player)), sourceId: source.UnitId, mana: BaseManaCost);
             eventValue.SetLocation(X.TruncateToSByte(), Y.TruncateToSByte(), layer: L.TruncateToSByte());
-            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            strategicMap.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             // Original queues through AddEvent
             _ = eventValue.Release();
             return true;
