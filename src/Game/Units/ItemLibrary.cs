@@ -45,8 +45,9 @@ public sealed class ItemLibrary(CustomNode? owner) : ObservableNode(owner), IChi
         // AddChild receives an engine object. The library holds only items. Another class throws,
         // and null fails at the LibraryId read.
         Item? item = (Item?)child;
-        // { Original checks the world item ID, not the library ID. }
-        if (item.LibraryId <= 0 || Items.FindItem(item.LibraryId) is not null)
+        // { The original checks the world item ID, not the library ID. The port checks the
+        // library ID, so no two library items share one. }
+        if (item.LibraryId <= 0 || FindLibraryId(item.LibraryId) is not null)
         {
             item.LibraryId = CreateUniqueLibraryId();
         }
@@ -147,7 +148,7 @@ public sealed class ItemLibrary(CustomNode? owner) : ObservableNode(owner), IChi
     }
 
     // Army.PAS:4917
-    public Item? FindLibraryId(int libraryId) => Items.FindLast(item => item.LibraryId == libraryId);
+    public Item? FindLibraryId(int libraryId) => Items.FindLast(item => item is not null && item.LibraryId == libraryId);
 
     // Army.PAS:4946
     public Item CreateItem()
