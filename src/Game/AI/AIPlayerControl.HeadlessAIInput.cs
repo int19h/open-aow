@@ -2,6 +2,7 @@
 
 using Aow.Game.AI.Groups;
 using Aow.Game.Host;
+using Aow.Game.World.Map;
 
 namespace Aow.Game.AI;
 
@@ -11,6 +12,17 @@ public sealed partial class AIPlayerControl
     public bool Process(AIExecutor executor, bool tokenControlDone)
     {
         HeadlessHooks.BeforeAIPlayerProcess?.Invoke();
+        // A directed input that ends the game does it inside the callback, before this test.
+        // The turn stops there. The native driver stops inside that call and does not run the
+        // rest of Process, and the saves are already written. The stop serves that hook. With
+        // the hook clear, a terminated map still takes the busy and ready test and the phase
+        // switch.
+        if (HeadlessHooks.BeforeAIPlayerProcess is not null
+            && GetEngine().StrategicMap.GameStatus == StrategicMapGameStatus.Terminated)
+        {
+            return false;
+        }
+
         if (Player.GetBusy() || !GetEngine().StrategicMap.TokenManager.PlayerReady(Player.PlayerIndex))
         {
             return false;

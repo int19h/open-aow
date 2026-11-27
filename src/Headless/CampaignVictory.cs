@@ -1,4 +1,5 @@
 using Aow.Game;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -73,7 +74,8 @@ internal sealed class CampaignVictory(GameEngine engine, PlayerType seatType)
     /// <summary>
     /// After the run: the effects FinishScenario and Retrieve leave (Diplomacy.pas:2416 and :1842).
     /// The scenario is no longer started, the completed list holds it, the transfer settings hold
-    /// the seat's leader, and the save under the finished name is new since the victory.
+    /// the seat's leader and the heroes Retrieve kept (name, unit, level, experience and the items
+    /// moved onto the transfer), and the save under the finished name is new since the victory.
     /// </summary>
     public void Finish()
     {
@@ -84,21 +86,72 @@ internal sealed class CampaignVictory(GameEngine engine, PlayerType seatType)
 
         CampaignTransferSettings transfer = campaign.TransferSettings;
         bool written = !_finishedSaveExisted && RtlHost.Files.FileExists(path);
+        int[] itemIds = new int[transfer.Items.Count];
+        for (int index = 0; index < itemIds.Length; index++)
+        {
+            itemIds[index] = transfer.Items.GetItem(index)?.ItemId ?? 0;
+        }
+
+        // Retrieve keeps experience and level on the hero and moves the hero's items onto the
+        // transfer item list with the hero's unit id (Diplomacy.pas:1842).
+        object[] heroes = new object[transfer.Heroes.Count];
+        for (int index = 0; index < heroes.Length; index++)
+        {
+            Hero hero = transfer.Heroes.GetHero(index);
+            heroes[index] = HeroRecord(hero.HeroName, nickname: hero.Nickname, unitId: hero.UnitId, level: hero.Level, experience: hero.Experience, itemIds: itemIds);
+        }
+
+        Leader? leader = transfer.Leader;
         Finished = new
         {
             scenario_started = campaign.ScenarioStarted,
             current_scenario = campaign.CurrentScenarioId,
             completed_scenarios = campaign.CompletedScenarios.ToArray(),
-            transfer_leader = transfer.Leader?.UnitId,
+            transfer_leader = leader?.UnitId,
             transfer_units = transfer.Units.Count,
             transfer_items = transfer.Items.Count,
             transfer_heroes = transfer.Heroes.Count,
+            leader = leader is null ? null : HeroRecord(leader.HeroName, nickname: leader.Nickname, unitId: leader.UnitId, level: leader.Level, experience: leader.Experience, itemIds: itemIds),
+            heroes,
+            items = itemIds,
             finished_save_written = written,
         };
         if (written && !campaign.ScenarioStarted && campaign.CompletedScenarios.IndexOf(campaign.CurrentScenarioId) >= 0)
         {
             FinishedName = DelphiPaths.ExtractFileName(path).ToString();
         }
+    }
+
+    private static object HeroRecord(string name, string nickname, int unitId, int level, int experience, int[] itemIds)
+    {
+        int count = 0;
+        for (int index = 0; index < itemIds.Length; index++)
+        {
+            if (itemIds[index] == unitId)
+            {
+                count++;
+            }
+        }
+
+        int[] heroItemIds = new int[count];
+        int filled = 0;
+        for (int index = 0; index < itemIds.Length; index++)
+        {
+            if (itemIds[index] == unitId)
+            {
+                heroItemIds[filled++] = itemIds[index];
+            }
+        }
+
+        return new
+        {
+            name,
+            nickname,
+            unit_id = unitId,
+            level,
+            experience,
+            items = heroItemIds,
+        };
     }
 
     // The name FinishScenario saves under (Diplomacy.pas:2427), in the game's Save folder.
