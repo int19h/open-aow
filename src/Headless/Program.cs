@@ -58,6 +58,7 @@ internal static class Program
         int tacticalBattles = 0, globalSpell = 0, dispel = 0;
         string endEnchantment = null;
         LeaderAttackTarget? leaderAttack = null;
+        int captureLocations = 0;
         PlayerType? campaignSeatType = null;
         int campaignSeat = -1;
         bool campaignVictoryRequested = false;
@@ -95,6 +96,7 @@ internal static class Program
             dispel = request.Dispel;
             endEnchantment = request.EndEnchantment;
             leaderAttack = request.LeaderAttack;
+            captureLocations = request.CaptureLocations;
             campaignSeatType = request.CampaignSeatType;
             campaignVictoryRequested = request.CampaignVictory;
             string randomTracePath = request.RandomTracePath;
@@ -286,7 +288,7 @@ internal static class Program
                 DelphiRandom.SuppressRandomize = true;
                 HeadlessHooks.Tactical = tactical;
                 HeadlessHooks.TacticalBattles = tacticalBattles;
-                directed = new(map, items: exerciseItems, spell: globalSpell, dispel: dispel, endEnchantment: endEnchantment, leaderAttack: leaderAttack);
+                directed = new(map, items: exerciseItems, spell: globalSpell, dispel: dispel, endEnchantment: endEnchantment, leaderAttack: leaderAttack, captureLocations: captureLocations);
                 if (directed.HasTurnInputs)
                 {
                     HeadlessHooks.BeforeAIPlayerProcess = directed.BeforeFrame;
@@ -337,6 +339,15 @@ internal static class Program
                 };
                 void Save(PlayerControl control)
                 {
+                    // An ended campaign opens the next day in the same frame, after the end
+                    // event. The native campaign harness stops at that event, so the later day
+                    // is not a reference save. A run that is not a campaign still writes the day
+                    // and still runs the checks below. The capture flag is not this guard.
+                    if (ended && campaignVictoryRequested)
+                    {
+                        return;
+                    }
+
                     CheckTodos();
                     day = map.Day;
                     if (firstDay == 0)
@@ -563,6 +574,7 @@ internal static class Program
                     dispel = directed?.DispelRecord,
                     end_enchantment = directed?.EndRecord,
                     leader_attack = directed?.AttackRecord,
+                    capture_locations = directed?.CaptureRecord,
                     tactical_selections = HeadlessHooks.TacticalSelections,
                     tactical_executions = HeadlessHooks.TacticalExecutions,
                     complete,

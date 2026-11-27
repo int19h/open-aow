@@ -45,7 +45,7 @@ in 54 files, 50 attack lists in 15 files). No `VictoryLocations` has a short cou
 |---|---|
 | product tests | The tests pin the game's load (stored bits only) for all three lists and the emulated load with a factory that sets the switch (`PersistEquivalenceTests`, `ListShapeTests`). The persistence equivalence and corpus tests compare two port paths that share `PersistSupport.BitList`, so they run without the switch and prove the game's load |
 | persistence | unaffected: G1, G2, the own round trip and the converter check move the stored count and bits, never a load's raised list |
-| oracle | emulated: `tools/oracle/run.py` starts each headless host with the switch, so the scenario runs and the own resumptions (which run through `run.py`) load as the original does. The play-by-email and campaign transfer starts hold short lists, and their later days depend on the attack bits. The campaign victory start stores the sign at count 32 (`prepare_campaign_victory.py`), so it loads alike with or without the switch |
+| oracle | emulated: `tools/oracle/run.py` starts each headless host with the switch, so the scenario runs and the own resumptions (which run through `run.py`) load as the original does. The play-by-email and campaign transfer starts hold short lists, and their later days depend on the attack bits. The campaign victory start stores the sign at count 32 (`prepare_campaign_victory.py`) and the campaign heroes start does the same (`prepare_campaign_heroes.py`), so those two load alike with or without the switch |
 | scenarios, frames | emulated: `tools/oracle/verify_frames.py` starts each game host with the switch, because the fixtures compare state with the original's |
 
 ## 2. The battle camera follows the seated player's units (issue 346)

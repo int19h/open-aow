@@ -7,20 +7,22 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 
 namespace Aow.Headless;
 
 // The directed inputs mirror equip_test_items, cast_test_global, dispel_test_global,
-// end_test_global and leader_attack_turn in playtest.py. One player can own more than
-// one input. The pending set is re-armed after each day save, and each input runs once
-// on that player's turn.
-internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, int dispel, string endEnchantment, LeaderAttackTarget? leaderAttack)
+// end_test_global, leader_attack_turn and capture_locations_turn in playtest.py. One
+// player can own more than one input. The pending set is re-armed after each day save,
+// and each input runs once on that player's turn.
+internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, int dispel, string endEnchantment, LeaderAttackTarget? leaderAttack, int captureLocations)
 {
     public List<object> ItemActions { get; } = [];
     public List<object> GlobalRequests { get; } = [];
     public List<object> DispelRequests { get; } = [];
     public List<object> EndRequests { get; } = [];
     public List<object> AttackRequests { get; } = [];
+    public List<object> CaptureRequests { get; } = [];
 
     private int _caster = -1;
     private int _dispeller = -1;
@@ -48,6 +50,8 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
     private int _endEnchantmentId = -1;
     private bool _pendingAttack;
     private bool _attackDone;
+    private bool _pendingCapture;
+    private bool _captureDone;
     private bool _attackerDied;
     private readonly List<(int Player, int Leader)> _livingLeaders = [];
 
@@ -85,7 +89,14 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
         requests = AttackRequests
     };
 
-    public bool HasTurnInputs => spell != 0 || dispel != 0 || endEnchantment is not null || leaderAttack is not null;
+    public object CaptureRecord => captureLocations == 0 ? null : new
+    {
+        player = captureLocations,
+        done = _captureDone,
+        requests = CaptureRequests
+    };
+
+    public bool HasTurnInputs => spell != 0 || dispel != 0 || endEnchantment is not null || leaderAttack is not null || captureLocations != 0;
 
     public void Initial()
     {
@@ -159,6 +170,7 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
         _pendingDispel = dispel != 0 && !_dispelled && !_dispellerDead;
         _pendingEnd = endEnchantment is not null && !_endQueued && !_casterDead;
         _pendingAttack = leaderAttack is not null && !_attackDone;
+        _pendingCapture = captureLocations != 0 && !_captureDone;
     }
 
     public void BeforeFrame()
@@ -187,6 +199,12 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
             _pendingAttack = false;
             AttackWithLeader(target);
         }
+
+        if (_pendingCapture && current == captureLocations)
+        {
+            _pendingCapture = false;
+            CaptureLocations();
+        }
     }
 
     public void AssertKnownResults(int turns)
@@ -206,6 +224,11 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
             throw new InvalidOperationException(_endQueued
                 ? $"end enchantment did not remove enchantment {_endEnchantmentId}"
                 : "end enchantment was not accepted");
+        }
+
+        if (captureLocations != 0 && !_captureDone)
+        {
+            throw new InvalidOperationException("capture locations did not run");
         }
     }
 
@@ -609,6 +632,56 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
                 });
             }
         }
+    }
+
+    // Structur.PAS:2130. On the player's turn, each structure that is still a victory location
+    // for that player changes owner through the structure's own SetPlayer, in structure-control
+    // order. The victory check inside SetPlayer then runs when the new owner has that location.
+    // The native driver calls the same method from the same turn boundary
+    // (playtest.py --capture-locations).
+    private void CaptureLocations()
+    {
+        PlayerId playerId = PlayerId.FromOriginal(captureLocations) ?? throw new InvalidOperationException("capture locations names no player");
+
+        StructureControl control = map.StructureControl ?? throw new InvalidOperationException("the map has no structure control");
+        int locationCount = 0;
+        for (int index = 0; index < control.GetCount(); index++)
+        {
+            if (control[index] is not PlayerStructure structure || !structure.GetVictoryLocation(playerId))
+            {
+                continue;
+            }
+
+            int owner = PlayerIdExtensions.ToOriginal(structure.Player);
+            bool heldByAlly = owner > 0
+                && map.AlliedVictory
+                && map.Players.GetDiplomaticRelation(structure.Player, otherPlayer: playerId) == DiplomaticRelation.Alliance;
+            if (structure.Player == playerId || heldByAlly)
+            {
+                continue;
+            }
+
+            locationCount++;
+            structure.SetPlayer(playerId);
+            CaptureRequests.Add(new
+            {
+                structure_id = structure.StructureId,
+                name = structure.GetName(),
+                previous_player = owner,
+                captured = structure.Player == playerId,
+            });
+            if (map.GameStatus == StrategicMapGameStatus.Terminated)
+            {
+                break;
+            }
+        }
+
+        if (locationCount == 0)
+        {
+            throw new InvalidOperationException($"player {captureLocations} has no victory location left to capture");
+        }
+
+        _captureDone = true;
     }
 }
 
