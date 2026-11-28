@@ -18,7 +18,7 @@ public partial class ArmyCombatMoveTokenEvent
 {
     public void ExecuteCombat()
     {
-        if ((HeadlessHooks.Tactical || FrameFixtureInputs.Tactical) && (HeadlessHooks.TacticalBattles == 0 || HeadlessHooks.TacticalSelections < HeadlessHooks.TacticalBattles))
+        if (TestModeSelectsTactical())
         {
             _combatType = CombatType.Tactical;
             HeadlessHooks.TacticalSelections++;
@@ -231,4 +231,10 @@ public partial class ArmyCombatMoveTokenEvent
             FinishMove();
         }
     }
+
+    // The game stores a fast battle when the probe finds no defender (MoveT.PAS:2710).
+    // A test mode asks for a tactical battle only when that probe finds one.
+    // An empty walled city stays a fast capture.
+    // The human clause stays in SetupCombat. Test modes exist to run a CPU battle the game resolves fast.
+    private bool TestModeSelectsTactical() => (HeadlessHooks.Tactical || FrameFixtureInputs.Tactical) && (HeadlessHooks.TacticalBattles == 0 || HeadlessHooks.TacticalSelections < HeadlessHooks.TacticalBattles) && ProbeCombatParties().DefendersAvailable;
 }

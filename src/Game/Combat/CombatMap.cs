@@ -7,6 +7,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Audio;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.Session;
@@ -286,7 +287,12 @@ public class CombatMap : GameMap
         if (!Status.Contains(HexSpriteMapStatuses.Editting) && Combat is not null)
         {
             UpdateCursor();
-            if (EndTurnPending && ((GetEngine().StrategicMap.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human && GetEngine().StrategicMap.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(Combat.HostPlayer).ConnectionMode != ConnectionMode.Remote) || (Players.GetPlayers(CurrentCombatPlayer).Auto && GetEngine().StrategicMap.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(PlayerIdExtensions.ToOriginal(CurrentPlayer)).ConnectionMode != ConnectionMode.Remote)))
+            // AoWTC.pas:2447. HandSeatToAI keeps a real human on the Auto checkbox and lets a driven human use the battle AI.
+            // The seat type and the two presence checks run only after EndTurnPending, matching the original short-circuit.
+            PlayerType CurrentSeatType() => GetEngine().StrategicMap.Players.GetPlayers(CurrentPlayer).PlayerType;
+            bool HostIsPresent() => GetEngine().StrategicMap.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(Combat.HostPlayer).ConnectionMode != ConnectionMode.Remote;
+            bool CurrentSeatIsPresent() => GetEngine().StrategicMap.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(PlayerIdExtensions.ToOriginal(CurrentPlayer)).ConnectionMode != ConnectionMode.Remote;
+            if (EndTurnPending && ((HeadlessHooks.HandSeatToAI(CurrentSeatType()) && HostIsPresent()) || (Players.GetPlayers(CurrentCombatPlayer).Auto && CurrentSeatIsPresent())))
             {
                 switch (AI.Status)
                 {
