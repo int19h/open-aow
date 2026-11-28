@@ -52,6 +52,12 @@ internal sealed record HostRequest
 
     public bool TraceMovement { get; init; }
 
+    /// <summary>The run records its token events in events.jsonl and trace.jsonl in the output folder (issue 343).</summary>
+    public bool RecordTokens { get; init; }
+
+    /// <summary>Each recorded add names the code that added the event. Implies <see cref="RecordTokens"/>.</summary>
+    public bool RecordSites { get; init; }
+
     public int AnimationFps { get; init; } = 30;
 
     public int ViewportWidth { get; init; } = 1_600;
@@ -179,6 +185,12 @@ internal sealed record HostRequest
                 case "--trace-movement":
                     request = request with { TraceMovement = true };
                     break;
+                case "--record-tokens":
+                    request = request with { RecordTokens = true };
+                    break;
+                case "--record-sites":
+                    request = request with { RecordTokens = true, RecordSites = true };
+                    break;
                 case "--file-log":
                     request = request with { FileLogPath = Path.GetFullPath(Value()) };
                     break;
@@ -217,7 +229,7 @@ internal sealed record HostRequest
         }
 
         return request.Input.Length == 0 || request.Output.Length == 0 || request.Turns < 0
-            ? throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--cpu-humans] [--next-scenario <node>] [--tactical] [--global-spell <id>] [--dispel 51] [--end-enchantment remove|upkeep] [--leader-attack <player>:<unit>[:army]] [--campaign-seat-type <cpu type>] [--campaign-victory] [--capture-locations <player>] [--pbem [--pbem-attack <unit>:<target>]] [--file-log <path>]")
+            ? throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--cpu-humans] [--next-scenario <node>] [--tactical] [--global-spell <id>] [--dispel 51] [--end-enchantment remove|upkeep] [--leader-attack <player>:<unit>[:army]] [--campaign-seat-type <cpu type>] [--campaign-victory] [--capture-locations <player>] [--pbem [--pbem-attack <unit>:<target>]] [--file-log <path>] [--record-tokens] [--record-sites]")
             : request;
     }
 }

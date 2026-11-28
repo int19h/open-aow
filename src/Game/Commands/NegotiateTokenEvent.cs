@@ -73,7 +73,9 @@ public class NegotiateTokenEvent(CustomNode? owner) : TokenEvent(owner)
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         MapFieldMessage message = default;
-        if (Validate())
+        bool valid = Validate();
+        tokenEvent.ReportValidated(this, isValid: valid);
+        if (valid)
         {
             message.MessageId = 4367;
             MapFieldMessageParameters param = message.Param;

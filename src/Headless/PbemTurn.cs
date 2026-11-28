@@ -4,6 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
+using Aow.Game.Recording;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
@@ -20,7 +21,7 @@ namespace Aow.Headless;
 /// the send event and ends the run. pbem_chain.py states what the dialog's modes do instead. The
 /// native harness stops at the same points (playtest.py run-pbem).
 /// </summary>
-internal sealed class PbemTurn(StrategicMap map, PbemOrder? order)
+internal sealed class PbemTurn(StrategicMap map, PbemOrder? order, TokenRecorder? recorder = null)
 {
     private readonly PlayerId? _seat = map.CurrentPlayer;
 
@@ -88,14 +89,21 @@ internal sealed class PbemTurn(StrategicMap map, PbemOrder? order)
             saveLoaded();
             if (order is { } given)
             {
-                OrderRecord = Attack(given);
+                using (recorder?.HostInput("pbem-order", changesState: true))
+                {
+                    OrderRecord = Attack(given);
+                }
             }
         }
 
         EndTurnRequests++;
-        if (map.EndTurn())
+        // A refused request adds nothing and leaves no marker.
+        using (recorder?.HostInput("pbem-end-turn", changesState: false))
         {
-            EndTurnFrame = frame;
+            if (map.EndTurn())
+            {
+                EndTurnFrame = frame;
+            }
         }
     }
 

@@ -43,9 +43,40 @@ public sealed class TokenExecutor : IDisposable
 
     internal TokenManager? TokenManager { get; }
 
+    // The four token stream events below are a port addition for the recordings of issue 343. They
+    // are static, with the executor as the sender, so an executor keeps the fields of the original
+    // (the construction snapshots compare them).
+
+    /// <summary>
+    /// A token event entered a token control, the system events or the executing batch of the
+    /// sending executor. An event added while <see cref="Executing"/> is true comes from the
+    /// execution of another event.
+    /// </summary>
+    public static event EventHandler<TokenEventAddedEventArgs>? TokenEventAdded;
+
+    /// <summary>Raised before each execution of a token event, before <see cref="Executing"/> is set.</summary>
+    public static event EventHandler<TokenEventExecutingEventArgs>? TokenEventExecuting;
+
+    /// <summary>Raised after each execution of a token event, after <see cref="Executing"/> is cleared.</summary>
+    public static event EventHandler<TokenEventExecutedEventArgs>? TokenEventExecuted;
+
+    /// <summary>
+    /// An executing event validated itself and acts on the result: a move and a multiple move at
+    /// their first execution (MoveT.PAS:2027 and 3309), a structure event at its first execution
+    /// (Structur.PAS:3077) and a negotiation at its one execution (Diplomacy.pas:247).
+    /// </summary>
+    public static event EventHandler<TokenEventValidatedEventArgs>? TokenEventValidated;
+
+    internal void ReportValidated(TokenEvent tokenEvent, bool isValid)
+        => TokenEventValidated?.Invoke(this, new TokenEventValidatedEventArgs { TokenEvent = tokenEvent, IsValid = isValid });
+
+    internal void ReportAdded(TokenEvent tokenEvent, TokenEventQueue queue, PlayerId? player)
+        => TokenEventAdded?.Invoke(this, new TokenEventAddedEventArgs { TokenEvent = tokenEvent, Queue = queue, Player = player });
+
     // NetworkE.pas:1429
     public ExecuteResult ExecuteTokenEvent(TokenEvent tokenEvent)
     {
+        TokenEventExecuting?.Invoke(this, new TokenEventExecutingEventArgs { TokenEvent = tokenEvent });
         Executing = true;
         _executeTokenEvent?.Invoke(tokenEvent);
 
@@ -63,6 +94,7 @@ public sealed class TokenExecutor : IDisposable
 
         ExecuteCount += 1;
         Executing = false;
+        TokenEventExecuted?.Invoke(this, new TokenEventExecutedEventArgs { TokenEvent = tokenEvent, Result = result });
         return result;
     }
 
@@ -154,6 +186,7 @@ public sealed class TokenExecutor : IDisposable
         if (State.Contains(TokenExecutorStates.Executing))
         {
             Events.Add(tokenEvent);
+            ReportAdded(tokenEvent, queue: TokenEventQueue.Executor, player: null);
             return true;
         }
         else
@@ -254,7 +287,11 @@ public sealed class TokenExecutor : IDisposable
     }
 
     // NetworkE.pas:1543
-    public void AddSystemEvent(TokenEvent tokenEvent) => SystemEvents.Add(tokenEvent);
+    public void AddSystemEvent(TokenEvent tokenEvent)
+    {
+        SystemEvents.Add(tokenEvent);
+        ReportAdded(tokenEvent, queue: TokenEventQueue.System, player: null);
+    }
 
     // NetworkE.pas:1550
     // { Lets the active token control prefetch its events, executes them and activates the next token

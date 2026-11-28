@@ -40,6 +40,8 @@ public sealed class TokenControl : IDisposable
         {
             Events.Add(tokenEvent);
         }
+
+        _tokenManager?.TokenExecutor?.ReportAdded(tokenEvent, queue: TokenEventQueue.Player, player: Player);
     }
 
     // NetworkE.pas:1293

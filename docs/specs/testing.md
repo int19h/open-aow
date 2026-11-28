@@ -241,6 +241,36 @@ comparison keeps the two sides apart (`own-formats.md` 5.1):
   matched, 0 strict export losses, 0 refusals by the unit validators, every pinned census file
   present and the matched expectation. `own-formats.md` section 9 quotes the lines.
 
+Token recordings (issue 343, step 1). With `--record-tokens` the host attaches a `TokenRecorder`
+(`src/Game/Recording`) to the map's token executor and writes two files of minimal JSON lines into
+the run directory. `events.jsonl` holds each input event in the order it first executed: its seat,
+queue, origin (`ai` for an add inside the AI executor or for the seat whose turn the tactical battle
+AI holds, `host` for an add inside a host action, `human` otherwise, a rule that stays provisional
+until replay checks it per seat), `TokenCounter`, the executor's round at the execution and at the
+add, the day, the stored class and the event's own-format document node, written through the
+document backend with the token counter back at -1, the value of an added event. A marker line in
+the same order names each host action, a directed input of the headless host or the PBEM turn's
+order and end of turn, with the number of its adds, because some of those actions change the state
+outside the token stream. `trace.jsonl` holds each executed event when it completes: its counters,
+seat, class, whether it was an input, the result, the attempts, the result of the validation it
+acted on, `RandSeed`, `DefendersSeed` and the events its execution added. An event added while
+`TokenExecutor.Executing` is true is derived from the executing event. Every other add is an input.
+`--record-sites` adds the adding code to each line, the evidence for that split. A sites run walks
+the stack on the game thread, so it is diagnostic only and never mints a baseline. A fault of the
+recorder stops the recording and leaves the game state alone, and `run.json` names it. A fault of a
+writer throws on the game thread, and the saves after it are not comparable. The recorder reads and
+changes nothing the game saves: the oracle runner records every scenario, and the saves stay equal
+to the native ones. The recorder adds no identity hash to the game thread, which the game reads as
+addresses for animation phases (`FrameFixtureInputs`): an animation phase moves a move sound, and
+the sound draws from the global `RandSeed` that the AI also draws from. So it searches lists by
+reference, its reflection and tree writing run on a thread of their own, and the document backend
+maps the captured trees after the game, when `events.jsonl` is written. That thread can still fill a
+cache the game thread later reads. The saves of the fourteen oracle scenarios and the random traces
+(`--trace-random`) of the thirteen that take it, at the gate's turn counts, are byte-equal with the
+recorder on and off, and the oracle layer keeps one such pass, small for 10 turns. A scenario that
+fails names its first event that differs from the trace of a passing run
+(`tools/oracle/trace_diff.py` and `tests/oracle/traces` in the private repository).
+
 ### 3.3 Determinism requirements on the port
 
 The headless run must be deterministic by itself before it is compared: two runs of the port with
