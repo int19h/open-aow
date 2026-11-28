@@ -556,9 +556,8 @@ public partial class Hero : Troop
 
                 if (CastingManaValue == CastingProgress)
                 {
-                    SpellCastEventLog log = new(null)
+                    SpellCastEventLog log = new(null, holder: CreationHolder())
                     {
-                        Holder = CreationHolder(),
                         Player = Player,
                         UnitId = UnitId,
                         SpellId = CastingSpellId
@@ -1497,9 +1496,8 @@ public partial class Hero : Troop
                 UpgradePending = true;
                 int oldLevel = Level;
                 Level = level.TruncateToByte();
-                HeroUpgradeEventLog log = new(null)
+                HeroUpgradeEventLog log = new(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     OldLevel = oldLevel.TruncateToByte(),
                     NewLevel = Level.TruncateToByte(),
                     UpgradeDay = GetEngine().StrategicMap.Players.GetPlayers(Player).Day,

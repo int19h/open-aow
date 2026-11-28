@@ -9,7 +9,7 @@ using Aow.Game.Session;
 namespace Aow.Game.Magic.Spells;
 
 // AIBasePriority
-public class GlobalEnchantmentSpell(CustomNode? owner) : Spell(owner)
+public class GlobalEnchantmentSpell(CustomNode? owner, EngineObject holder) : Spell(owner, holder: holder)
 {
 
     public int AIBasePriority { get; protected init; } = -1;

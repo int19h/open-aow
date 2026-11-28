@@ -19,9 +19,8 @@ namespace Aow.Game.Magic.Spells;
 public class TownGate : CityTargetSpell
 {
     // CitySpells.pas:421
-    public TownGate(CustomNode? owner, EngineObject holder) : base(owner)
+    public TownGate(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_townGateText);
         SpellId = 38;
         CityTargetMode = CityTargetModes.Own | CityTargetModes.SkipSource;

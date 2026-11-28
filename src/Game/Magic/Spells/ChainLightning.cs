@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Spells;
 public class ChainLightning : CombatSpell
 {
     // CombatSpells.pas:1224
-    public ChainLightning(CustomNode owner, EngineObject holder) : base(owner)
+    public ChainLightning(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_chainLightningText);
         SpellId = 107;
         SpellCombatInfo spellCombatInfo = CombatInfo;

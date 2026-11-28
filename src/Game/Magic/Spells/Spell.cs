@@ -25,11 +25,15 @@ public class Spell : EngineObject
 {
 
     // Spells.PAS:10
-    public Spell(CustomNode? owner) : base(owner)
+    public Spell(CustomNode? owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         SpellText = [];
         CastSounds = new SfxLibrary(null) { Holder = CreationHolder() };
-        CastImages = new ImageSequenceList(GamePack.Current.ImageLibraryManager, imageLibrary: null);
+        // An spell is built for one engine and takes the image library manager of that engine's pack.
+        // Construction needs a holder or an owner that reaches an engine, and no global pack stands in.
+        GameEngine engine = GetEngine() ?? throw new InvalidOperationException($"{GetType().Name} is built with no holder or owner that reaches an engine.");
+        CastImages = new ImageSequenceList(engine.GamePack.ImageLibraryManager, imageLibrary: null);
         ResearchCost = 1;
         SpellControlTypes = SpellControlTypes.Global;
     }

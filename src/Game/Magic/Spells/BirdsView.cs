@@ -15,9 +15,8 @@ namespace Aow.Game.Magic.Spells;
 public class BirdsView : Spell
 {
     // GlobalSpells.pas:489
-    public BirdsView(CustomNode? owner, EngineObject holder) : base(owner)
+    public BirdsView(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_birdsViewText);
         SpellId = 2;
         SpellType = SpellType.Global;

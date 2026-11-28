@@ -146,7 +146,9 @@ public sealed partial class SpellConstructionTests
 
     private static GameEngine RegisteredEngine(Type type)
     {
-        GameEngine engine = new(null);
+        // The bare engine stands for the engine the object is built for. A new ability or spell reads that
+        // engine's pack (issue 335), so the engine holds the fixture's pack.
+        GameEngine engine = new(null) { GamePack = EngineFixture.Engine.GamePack };
         try
         {
             engine.RegisterEngineClasses([EngineClass.Of(type)]);
@@ -336,7 +338,7 @@ public sealed partial class SpellConstructionTests
     [Fact]
     public void SummonConstructionInitializesItsSpellState()
     {
-        SummonSpell raw = new(null) { Holder = EngineFixture.Engine };
+        SummonSpell raw = new(null, holder: EngineFixture.Engine);
         Assert.NotNull(raw.SpellText);
         Assert.NotNull(raw.UnitIndices);
         Assert.Equal(0, raw.GetDispelResistance(null));

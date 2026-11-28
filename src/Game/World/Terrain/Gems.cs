@@ -156,14 +156,15 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             Player? player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
             player.SetGems(player.Gems + _amount);
 
-            LocationTextEventLog eventValue = new(null)
+            LocationTextEventLog eventValue = new(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 Player = armyHexSprite.Army.Player,
                 Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_goldFoundFormat), args: [_amount.ToString(CultureInfo.InvariantCulture)])
             };
             eventValue.SetLocation(level: HexLevel, y: HexY, x: HexX);
-            StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);
+            // The log reads the day and player of its creator engine, so it lands on that engine's map too.
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            strategicMap.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);
             _ = eventValue.Release();
             Dispose();
         }

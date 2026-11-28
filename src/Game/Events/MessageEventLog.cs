@@ -13,9 +13,8 @@ namespace Aow.Game.Events;
 public partial class MessageEventLog : EventLog
 {
     // EventLog.pas:824
-    public MessageEventLog(CustomNode owner, EngineObject holder) : base(owner)
+    public MessageEventLog(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         Message = new DelphiStringList();
         Title = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.MessageText);
         Buttons = MessageEventLogButtons.Ok;

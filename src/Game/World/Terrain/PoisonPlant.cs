@@ -158,9 +158,8 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     {
         int count = 0;
         RandSeed = StrategicMap.Current.Random(16777215);
-        ArmyEventLog log = new(null)
+        ArmyEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: s_poisonPlantDamageText),
             Player = armyHexSprite.Army.Player
         };

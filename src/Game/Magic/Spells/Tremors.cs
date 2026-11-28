@@ -9,7 +9,7 @@ namespace Aow.Game.Magic.Spells;
 public class Tremors : CombatSpell
 {
     // CombatSpells.pas:1404
-    public Tremors(CustomNode owner) : base(owner)
+    public Tremors(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
         // { Original leaves this spell name untranslated. }
         SpellName = s_tremorsText;

@@ -15,7 +15,7 @@ using Aow.Graphics;
 namespace Aow.Game.Events;
 
 // Action
-public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owner)
+public partial class DiplomaticActionEventLog(CustomNode? owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
 
     // Diplomacy.pas:1199

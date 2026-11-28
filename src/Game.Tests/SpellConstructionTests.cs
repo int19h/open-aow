@@ -13,7 +13,7 @@ public sealed partial class SpellConstructionTests
 {
     private interface IOwnerProbe { int OwnerCalls { get; } }
 
-    private sealed class ProbeAbility(CustomNode owner) : Ability(owner), IOwnerProbe
+    private sealed class ProbeAbility(CustomNode owner, EngineObject holder) : Ability(owner, holder: holder), IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
@@ -24,7 +24,7 @@ public sealed partial class SpellConstructionTests
         }
     }
 
-    private sealed class ProbeAdjustableAbility(CustomNode owner) : AdjustableAbility(owner), IOwnerProbe
+    private sealed class ProbeAdjustableAbility(CustomNode owner, EngineObject holder) : AdjustableAbility(owner, holder: holder), IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
@@ -68,7 +68,7 @@ public sealed partial class SpellConstructionTests
         }
     }
 
-    private sealed class ProbeDurationAbility(CustomNode owner) : DurationAbility(owner), IOwnerProbe
+    private sealed class ProbeDurationAbility(CustomNode owner, EngineObject holder) : DurationAbility(owner, holder: holder), IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
@@ -79,7 +79,7 @@ public sealed partial class SpellConstructionTests
         }
     }
 
-    private sealed class ProbeEnhancementAbility(CustomNode owner) : EnhancementAbility(owner), IOwnerProbe
+    private sealed class ProbeEnhancementAbility(CustomNode owner, EngineObject holder) : EnhancementAbility(owner, holder: holder), IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
@@ -101,7 +101,7 @@ public sealed partial class SpellConstructionTests
         }
     }
 
-    private sealed class ProbeMultiLevelAbility(CustomNode owner) : MultiLevelAbility(owner), IOwnerProbe
+    private sealed class ProbeMultiLevelAbility(CustomNode owner, EngineObject holder) : MultiLevelAbility(owner, holder: holder), IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
@@ -123,7 +123,7 @@ public sealed partial class SpellConstructionTests
         }
     }
 
-    private sealed class ProbeSpell(CustomNode owner) : Spell(owner), IOwnerProbe
+    private sealed class ProbeSpell(CustomNode owner, EngineObject holder) : Spell(owner, holder: holder), IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
@@ -145,7 +145,7 @@ public sealed partial class SpellConstructionTests
         }
     }
 
-    private sealed class ProbeUnitEnchantmentAbility(CustomNode owner) : UnitEnchantmentAbility(owner), IOwnerProbe
+    private sealed class ProbeUnitEnchantmentAbility(CustomNode owner, EngineObject holder) : UnitEnchantmentAbility(owner, holder: holder), IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
@@ -156,7 +156,7 @@ public sealed partial class SpellConstructionTests
         }
     }
 
-    private sealed class ProbeUnitSpell(CustomNode owner) : UnitSpell(owner), IOwnerProbe
+    private sealed class ProbeUnitSpell(CustomNode owner, EngineObject holder) : UnitSpell(owner, holder: holder), IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 

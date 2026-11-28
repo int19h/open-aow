@@ -8,7 +8,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Magic.Abilities;
 
 // (max level, level costs)
-public class MultiLevelAbility(CustomNode? owner) : AdjustableAbility(owner)
+public class MultiLevelAbility(CustomNode? owner, EngineObject holder) : AdjustableAbility(owner, holder: holder)
 {
 
     public int MaxLevel { get; protected init; } = 4;

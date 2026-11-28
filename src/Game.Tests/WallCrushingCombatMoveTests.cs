@@ -53,7 +53,7 @@ public sealed class WallCrushingCombatMoveTests
     private static GamePack CreateCombatPack()
     {
         GamePack pack = EngineFixture.CreateGamePack(new ImageLibraryManager(null));
-        pack.AbilityControl.RegisterAbility(new MovementAbility(null!) { Holder = EngineFixture.Engine, AbilityId = 0, AbilityName = "Walking", MoveTypes = MoveTypes.Walking });
+        pack.AbilityControl.RegisterAbility(new MovementAbility(null!, holder: EngineFixture.Engine) { AbilityId = 0, AbilityName = "Walking", MoveTypes = MoveTypes.Walking });
         pack.AbilityControl.RegisterAbility(new SelfDestructAbility(null, holder: EngineFixture.Engine));
         pack.AbilityControl.RegisterAbility(new WallCrushingAbility(null, holder: EngineFixture.Engine));
         return pack;

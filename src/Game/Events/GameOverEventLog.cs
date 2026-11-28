@@ -12,7 +12,7 @@ using Aow.Rtl;
 namespace Aow.Game.Events;
 
 // message, inherited player
-public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
+public partial class GameOverEventLog(CustomNode owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
 
     // EventLog.pas:777

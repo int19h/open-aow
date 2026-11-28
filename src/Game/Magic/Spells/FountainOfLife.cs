@@ -19,9 +19,8 @@ namespace Aow.Game.Magic.Spells;
 public class FountainOfLife : CityEnchantmentSpell
 {
     // CitySpells.pas:649
-    public FountainOfLife(CustomNode? owner, EngineObject holder) : base(owner)
+    public FountainOfLife(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FountainOfLifeText);
         SpellId = 52;
         CityTargetMode = CityTargetModes.Own;

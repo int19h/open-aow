@@ -16,7 +16,7 @@ using Aow.Graphics;
 namespace Aow.Game.Events;
 
 // Logbook
-public partial class CombatEventLog(CustomNode? owner) : EventLog(owner)
+public partial class CombatEventLog(CustomNode? owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
 
     // Combat2.pas:413

@@ -10,7 +10,7 @@ public class ProtectionAbility : EnhancementAbility
     public DamageTypes ProtectionTypes { get; init; }
 
     // PassiveAb.pas:1446
-    public ProtectionAbility(CustomNode owner) : base(owner)
+    public ProtectionAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
         SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.DefenseItem | AbilitySelectionTypes.RingItem | AbilitySelectionTypes.Editor;
         AbilityType = AbilityType.Enhancement;

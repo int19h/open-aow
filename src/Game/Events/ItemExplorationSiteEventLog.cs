@@ -12,7 +12,7 @@ using Aow.Rtl;
 namespace Aow.Game.Events;
 
 // ItemIds, Messages, Title, Location
-public partial class ItemExplorationSiteEventLog(CustomNode owner) : EventLog(owner)
+public partial class ItemExplorationSiteEventLog(CustomNode owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
 
     // ItemExpS.pas:201

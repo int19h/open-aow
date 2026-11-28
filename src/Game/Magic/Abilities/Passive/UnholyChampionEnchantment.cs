@@ -7,9 +7,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class UnholyChampionEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1203
-    public UnholyChampionEnchantment(CustomNode owner, EngineObject holder) : base(owner)
+    public UnholyChampionEnchantment(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.UnholyChampionText);
         AbilityId = 161;
     }

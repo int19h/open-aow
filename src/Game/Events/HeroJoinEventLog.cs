@@ -13,7 +13,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // { Interface declaration run owned by P2. }
-public partial class HeroJoinEventLog(CustomNode? owner) : JoinEventLog(owner)
+public partial class HeroJoinEventLog(CustomNode? owner, EngineObject holder) : JoinEventLog(owner, holder: holder)
 {
     public new const int ClassId = 131_828;
 

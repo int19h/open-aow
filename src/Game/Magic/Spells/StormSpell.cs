@@ -22,7 +22,7 @@ public class StormSpell : Spell
     private Troop _source;
 
     // Storms.pas:762
-    public StormSpell(CustomNode? owner) : base(owner) => SpellType = SpellType.Global;
+    public StormSpell(CustomNode? owner, EngineObject holder) : base(owner, holder: holder) => SpellType = SpellType.Global;
 
     // Storms.pas:888
     public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)

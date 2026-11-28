@@ -23,9 +23,8 @@ namespace Aow.Game.Magic.Spells;
 public class AnimateRuins : CityTargetSpell
 {
     // CitySpells.pas:915
-    public AnimateRuins(CustomNode? owner, EngineObject holder) : base(owner)
+    public AnimateRuins(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_animateRuinsText);
         SpellId = 76;
         CityTargetMode = CityTargetModes.Enemy | CityTargetModes.Razed;
@@ -38,9 +37,8 @@ public class AnimateRuins : CityTargetSpell
         if (executeCount == 0)
         {
             targetCity = eventValue.GetSelectedCity();
-            LocationTextEventLog log = new(null)
+            LocationTextEventLog log = new(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 Player = source.Player
             };
             string animateRuins = AbilityRules.TranslateResourceString(GetEngine(), S: s_animateRuinsText);

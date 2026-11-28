@@ -15,9 +15,8 @@ namespace Aow.Game.Magic.Spells;
 public class PowerLeak : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1036
-    public PowerLeak(CustomNode? owner, EngineObject holder) : base(owner)
+    public PowerLeak(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellType = SpellType.Global;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.PowerLeakText);
         SpellId = 48;

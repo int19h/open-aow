@@ -59,16 +59,17 @@ public sealed partial class CityProductionControl(CustomNode? owner) : Productio
             valid = Settings.Unit.Place(cityHexX, cityHexY, L: hexLevel, city.Player, mode: UnitPlaceModes.ScanArea) is not null;
         }
 
-        CityProductionEventLog log = new(null)
+        CityProductionEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             Player = city.Player
         };
         string name = Settings.Unit.GetName();
         string fCityName = City.GetName();
         log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ProducedFormat), args: [name, fCityName]);
         log.SetLocation(level: city.HexLevel, y: city.HexY, x: city.HexX);
-        StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
+        // The log reads the day and player of its creator engine, so it lands on that engine's map too.
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
         _ = log.Release();
         return valid;
     }
@@ -78,9 +79,8 @@ public sealed partial class CityProductionControl(CustomNode? owner) : Productio
     {
         base.UnitResearched();
         City city = City;
-        CityProductionEventLog log = new(null)
+        CityProductionEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             Player = city.Player
         };
         UnitProduction? unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
@@ -88,7 +88,9 @@ public sealed partial class CityProductionControl(CustomNode? owner) : Productio
         string name = City.GetName();
         log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.InstalledFormat), args: [unitName, name]);
         log.SetLocation(level: city.HexLevel, y: city.HexY, x: city.HexX);
-        StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
+        // The log reads the day and player of its creator engine, so it lands on that engine's map too.
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
         _ = log.Release();
     }
 

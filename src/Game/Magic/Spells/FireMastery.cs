@@ -18,9 +18,8 @@ namespace Aow.Game.Magic.Spells;
 public class FireMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1733
-    public FireMastery(CustomNode? owner, EngineObject holder) : base(owner)
+    public FireMastery(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellType = SpellType.Global;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FireMasteryText);
         SpellId = 63;

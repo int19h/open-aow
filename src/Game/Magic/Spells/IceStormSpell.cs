@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Spells;
 public class IceStormSpell : StormSpell
 {
     // Storms.pas:984
-    public IceStormSpell(CustomNode? owner, EngineObject holder) : base(owner)
+    public IceStormSpell(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.IceStormText);
         SpellId = 4;
         BaseManaCost = 5;

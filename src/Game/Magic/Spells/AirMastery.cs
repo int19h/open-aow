@@ -17,9 +17,8 @@ namespace Aow.Game.Magic.Spells;
 public class AirMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:688
-    public AirMastery(CustomNode? owner, EngineObject holder) : base(owner)
+    public AirMastery(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.AirMasteryText);
         SpellId = 60;
         SpellType = SpellType.Global;

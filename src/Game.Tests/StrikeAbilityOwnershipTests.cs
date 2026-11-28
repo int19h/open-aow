@@ -31,6 +31,10 @@ public sealed class StrikeAbilityOwnershipTests
         otherPack.AbilityControl.RegisterAbility(otherStrike);
         Assert.Same(otherEngine, otherPack.GetEngine());
         Assert.Same(otherEngine, otherStrike.GetEngine());
+        // The strike was built while the global held the fixture's pack. Its image sequences still
+        // take the image library manager of its own engine's pack.
+        Assert.Same(otherPack.ImageLibraryManager, otherStrike.ImageSequences.ImageLibraryManager);
+        Assert.NotSame(engine.GamePack.ImageLibraryManager, otherStrike.ImageSequences.ImageLibraryManager);
         GamePack? previousPack = GamePack.Current;
         GamePack.Current = otherPack;
         try

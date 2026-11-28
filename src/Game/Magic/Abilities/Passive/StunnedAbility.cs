@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class StunnedAbility : DurationAbility
 {
     // PassiveAb.pas:793
-    public StunnedAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public StunnedAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_stunnedText);
         AbilityId = 92;
         AbilityType = AbilityType.Handicap;

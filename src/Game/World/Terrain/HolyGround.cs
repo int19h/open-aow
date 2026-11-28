@@ -143,9 +143,8 @@ public class HolyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     {
         int damaged = 0;
         RandSeed = StrategicMap.Current.Random(16777215);
-        ArmyEventLog log = new(null)
+        ArmyEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: s_holyGroundDamageText)
         };
         string holyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), S: s_holyGroundDamageText);

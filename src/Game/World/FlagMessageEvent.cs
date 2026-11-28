@@ -44,7 +44,9 @@ public class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
             };
             string text = _message.Text;
             log.Message.Text = text;
-            StrategicMap.Current.TriggerExecuteEventLog(log, immediate: TriggerMode == FlagEventTriggerMode.Instant, done: null);
+            // The log reads the day and player of its creator engine, so it lands on that engine's map too.
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            strategicMap.TriggerExecuteEventLog(log, immediate: TriggerMode == FlagEventTriggerMode.Instant, done: null);
             _ = log.Release();
         }
 

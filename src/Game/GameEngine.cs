@@ -648,9 +648,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps enchantment and the original ignores it.")]
     private RangedAttackAbility CreateRangedAttack(int id, string name, int attack, int damage, int repeats, RangedAttackAbility.CombatRange range, DamageTypes damageTypes, int enchantment)
     {
-        RangedAttackAbility ability = new(null)
+        RangedAttackAbility ability = new(null, holder: this)
         {
-            Holder = this,
             AbilityId = id,
             AbilityName = name,
             RangeRangedAttack = range,
@@ -666,9 +665,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps enchantment and the original ignores it.")]
     private BoltsAbility CreateBolts(int id, string name, int attack, int damage, DamageType damageType, int enchantment)
     {
-        BoltsAbility ability = new(null)
+        BoltsAbility ability = new(null, holder: this)
         {
-            Holder = this,
             AbilityId = id,
             AbilityName = name,
             DamageTypesRangedAttack = damageType.ToFlag(),
@@ -682,9 +680,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps enchantment and the original ignores it.")]
     private BreathAbility CreateBreath(int id, string name, DamageType damageType, int enchantment)
     {
-        BreathAbility ability = new(null)
+        BreathAbility ability = new(null, holder: this)
         {
-            Holder = this,
             AbilityId = id,
             AbilityName = name,
             DamageTypesRangedAttack = damageType.ToFlag()
@@ -695,9 +692,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     private StrikeEnhancementAbility CreateStrikeEnhancement(int id, string name, AbilitySelectionTypes selection)
     {
-        StrikeEnhancementAbility ability = new(null)
+        StrikeEnhancementAbility ability = new(null, holder: this)
         {
-            Holder = this,
             SelectionTypes = selection,
             AbilityId = id,
             AbilityName = name
@@ -831,7 +827,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         RegisterEngineClasses([EngineClass.Of<UnitEnchantmentAbilityData>(), EngineClass.Of<UnitEnchantment>(), EngineClass.Of<DispelMagicAbilityTokenEvent>(), EngineClass.Of<PossessedAbilityData>()]);
         RegisterEngineClasses([EngineClass.Of<CommandCombatAction>(), EngineClass.Of<CommandedAbilityData>(), EngineClass.Of<CommandAbilityData>(), EngineClass.Of<HealingTokenEvent>(), EngineClass.Of<DispelMagicAbilityData>()]);
         RegisterEngineClasses([EngineClass.Of<PossessCombatAction>(), EngineClass.Of<WebCombatAction>(), EngineClass.Of<HealingCombatAction>(), EngineClass.Of<EntangleCombatAction>(), EngineClass.Of<HealingAbilityData>(), EngineClass.Of<TurnUndeadCombatAction>(), EngineClass.Of<InvokeDeathCombatAction>()]);
-        control.RegisterAbility(new LeadershipAbility(null) { Holder = this });
+        control.RegisterAbility(new LeadershipAbility(null, holder: this));
         control.RegisterAbility(new EntangleAbility(null, holder: this));
         control.RegisterAbility(new WebAbility(null, holder: this));
         control.RegisterAbility(new SelfDestructAbility(null, holder: this));
@@ -849,7 +845,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         control.RegisterAbility(new ConstructAbility(null, holder: this));
         control.RegisterAbility(new DispelMagicAbility(null, holder: this));
         control.RegisterAbility(new WallCrushingAbility(null, holder: this));
-        control.RegisterAbility(new TransportAbility(null) { Holder = this });
+        control.RegisterAbility(new TransportAbility(null, holder: this));
         control.RegisterAbility(new PossessAbility(null, holder: this));
         control.RegisterAbility(new PossessedAbility(null, holder: this));
         RegisterEnhancements(control);

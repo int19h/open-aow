@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Events;
 
 // inherited text
-public class NewDayEventLog(CustomNode owner) : TextEventLog(owner)
+public class NewDayEventLog(CustomNode owner, EngineObject holder) : TextEventLog(owner, holder: holder)
 {
 
     // EventLog.pas:809

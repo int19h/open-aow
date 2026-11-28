@@ -20,7 +20,7 @@ public class UnitSpell : Spell
 {
 
     // Spells.PAS:1210
-    public UnitSpell(CustomNode? owner) : base(owner)
+    public UnitSpell(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
         AIValue = -1;
         SpellType = SpellType.Unit;

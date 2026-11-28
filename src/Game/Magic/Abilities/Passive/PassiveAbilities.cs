@@ -9,9 +9,8 @@ internal static class PassiveAbilities
 
     internal static MovementAbility CreateMovementAbility(int id, string name, MoveTypes moveTypes, GameEngine engine)
     {
-        MovementAbility ability = new(null)
+        MovementAbility ability = new(null, holder: engine)
         {
-            Holder = engine,
             AbilityId = id,
             AbilityName = name,
             MoveTypes = moveTypes
@@ -26,9 +25,8 @@ internal static class PassiveAbilities
 
     internal static ImmunityAbility CreateImmunityAbility(int id, string name, DamageTypes damageTypes, GameEngine engine)
     {
-        ImmunityAbility ability = new(null)
+        ImmunityAbility ability = new(null, holder: engine)
         {
-            Holder = engine,
             AbilityId = id,
             AbilityName = name,
             ImmunityTypes = damageTypes,
@@ -49,9 +47,8 @@ internal static class PassiveAbilities
 
     internal static ProtectionAbility CreateProtectionAbility(int id, string name, DamageTypes damageTypes, AbilitySelectionTypes selectionTypes, GameEngine engine)
     {
-        ProtectionAbility ability = new(null)
+        ProtectionAbility ability = new(null, holder: engine)
         {
-            Holder = engine,
             AbilityId = id,
             AbilityName = name,
             ProtectionTypes = damageTypes,

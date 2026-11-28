@@ -24,7 +24,7 @@ public class SummonSpell : Spell
     public override void Dispose() => base.Dispose();
 
     // SummonSpells.pas:241
-    public SummonSpell(CustomNode? owner) : base(owner)
+    public SummonSpell(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
         UnitIndices = [];
         SpellType = SpellType.Global;

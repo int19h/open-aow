@@ -82,7 +82,9 @@ internal static class OrderingRecording
 
             DelphiRandom.RandSeed = 123456789;
             // A bare engine has no settings and no dictionary. The nodes it creates read the fixture's.
-            Engine = new GameEngine(null) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
+            // The bare engine stands for the engine the object is built for. A new ability or spell reads that
+            // engine's pack (issue 335), so the engine holds the fixture's pack.
+            Engine = new GameEngine(null) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary, GamePack = EngineFixture.Engine.GamePack };
             Engine.Options &= ~GameEngine.VerifyClasses;
             // A node this engine creates reads the pack of this engine, which is the fixture's pack (issue 335).
             Engine.GamePack = value;

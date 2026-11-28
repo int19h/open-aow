@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Abilities;
 public class SeduceAbility : CommandAbility
 {
     // AoWAb.PAS:5372
-    public SeduceAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public SeduceAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityId = 29;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_seduceText);
         CommandedAbilityId = 48;

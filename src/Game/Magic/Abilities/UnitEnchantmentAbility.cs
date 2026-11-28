@@ -16,7 +16,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:601
-    public UnitEnchantmentAbility(CustomNode? owner) : base(owner)
+    public UnitEnchantmentAbility(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
         AbilityType = AbilityType.Enchantment;
         SelectionTypes = AbilitySelectionTypes.None;

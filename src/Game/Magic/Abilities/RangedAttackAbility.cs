@@ -12,7 +12,7 @@ namespace Aow.Game.Magic.Abilities;
 public class RangedAttackAbility : AdjustableAbility
 {
     // AoWAb.PAS:4653
-    public RangedAttackAbility(CustomNode? owner) : base(owner)
+    public RangedAttackAbility(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
         SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.UseItem;
         AbilityType = AbilityType.Combat;

@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Spells;
 public class SummonEarthElemental : SummonSpell
 {
     // SummonSpells.pas:379
-    public SummonEarthElemental(CustomNode owner, EngineObject holder) : base(owner)
+    public SummonEarthElemental(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonEarthElementalText);
         SpellId = 28;
         BaseManaCost = 5;

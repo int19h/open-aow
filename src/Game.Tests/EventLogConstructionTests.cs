@@ -136,11 +136,15 @@ public sealed class EventLogConstructionTests
                         using OrderingRecording.Fixture fixture = new(type);
                         if (mapped == 1)
                         {
-                            EngineFixture.SetMap(EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value =>
+                            StrategicMap map = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value =>
                             {
                                 value.Day = 7;
                                 value.CurrentPlayer = PlayerId.FromOriginal(unchecked((sbyte)200));
-                            }));
+                            });
+                            EngineFixture.SetMap(map);
+                            // Route 3 builds the log on the fixture's own engine, and a new log reads
+                            // the map of its engine (issue 335), so that engine holds the same map.
+                            fixture.Engine.StrategicMap = map;
                         }
 
                         EventListOwner? owner = owned == 1 ? new EventListOwner() : null;

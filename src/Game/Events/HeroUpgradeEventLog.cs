@@ -13,7 +13,7 @@ using Aow.Rtl;
 namespace Aow.Game.Events;
 
 // UnitId. OldLevel. NewLevel. UpgradeDay
-public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
+public partial class HeroUpgradeEventLog(CustomNode owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
     public new const int ClassId = 131_825;
 

@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Spells;
 public class SummonSyron : SummonSpell
 {
     // SummonSpells.pas:328
-    public SummonSyron(CustomNode owner, EngineObject holder) : base(owner)
+    public SummonSyron(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonSyronText);
         SpellId = 24;
         BaseManaCost = 5;

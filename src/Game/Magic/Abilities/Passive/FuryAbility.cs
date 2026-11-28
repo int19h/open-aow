@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class FuryAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1160
-    public FuryAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public FuryAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FuryText);
         AbilityId = 156;
     }

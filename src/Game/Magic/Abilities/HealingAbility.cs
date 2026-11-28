@@ -17,9 +17,8 @@ namespace Aow.Game.Magic.Abilities;
 public class HealingAbility : TouchAbility
 {
     // AoWAb.PAS:3616
-    public HealingAbility(CustomNode? owner, EngineObject holder) : base(owner)
+    public HealingAbility(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityId = 47;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_healingText);
         SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.UseItem | AbilitySelectionTypes.Editor;

@@ -308,9 +308,8 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
     // Diplomacy.pas:707
     public DiplomaticActionEventLog CreateEventLog()
     {
-        DiplomaticActionEventLog log = new(null)
+        DiplomaticActionEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             Day = GetEngine().StrategicMap.Day
         };
         log.SetDiplomaticAction(this);

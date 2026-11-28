@@ -12,9 +12,8 @@ namespace Aow.Game.Magic.Spells;
 public class Disjunction : Spell
 {
     // GlobalSpells.pas:931
-    public Disjunction(CustomNode? owner, EngineObject holder) : base(owner)
+    public Disjunction(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_disjunctionText);
         SpellId = 51;
         SpellType = SpellType.Global;

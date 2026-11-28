@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Spells;
 public class PestilenceStormSpell : StormSpell
 {
     // Storms.pas:999
-    public PestilenceStormSpell(CustomNode? owner, EngineObject holder) : base(owner)
+    public PestilenceStormSpell(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_pestilenceText);
         SpellId = 9;
         BaseManaCost = 5;

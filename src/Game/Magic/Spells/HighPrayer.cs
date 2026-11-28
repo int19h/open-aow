@@ -13,9 +13,8 @@ namespace Aow.Game.Magic.Spells;
 public class HighPrayer : CombatSpell
 {
     // CombatSpells.pas:996
-    public HighPrayer(CustomNode? owner, EngineObject holder) : base(owner)
+    public HighPrayer(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_highPrayerText);
         SpellId = 102;
         SpellCombatInfo spellCombatInfo = CombatInfo;

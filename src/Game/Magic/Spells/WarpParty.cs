@@ -18,9 +18,8 @@ namespace Aow.Game.Magic.Spells;
 public class WarpParty : Spell
 {
     // GlobalSpells.pas:632
-    public WarpParty(CustomNode? owner, EngineObject holder) : base(owner)
+    public WarpParty(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_warpPartyText);
         SpellId = 34;
         SpellType = SpellType.Global;

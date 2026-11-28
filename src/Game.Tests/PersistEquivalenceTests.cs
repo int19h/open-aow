@@ -61,10 +61,10 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void EventLogMatchesTheConverter()
     {
-        Check("EventLog", new EventLog(null) { Holder = EngineFixture.Engine });
-        Check("EventLog", new EventLog(null) { Holder = EngineFixture.Engine, Day = 0, Player = PlayerId.Independent, Id = 0 });
-        Check("EventLog", new EventLog(null) { Holder = EngineFixture.Engine, Day = int.MinValue, Player = PlayerId.FromOriginal(-128), Id = int.MaxValue });
-        Check("EventLog", new EventLog(null) { Holder = EngineFixture.Engine, Day = int.MaxValue, Player = PlayerId.FromOriginal(127), Id = int.MinValue });
+        Check("EventLog", new EventLog(null, holder: EngineFixture.Engine));
+        Check("EventLog", new EventLog(null, holder: EngineFixture.Engine) { Day = 0, Player = PlayerId.Independent, Id = 0 });
+        Check("EventLog", new EventLog(null, holder: EngineFixture.Engine) { Day = int.MinValue, Player = PlayerId.FromOriginal(-128), Id = int.MaxValue });
+        Check("EventLog", new EventLog(null, holder: EngineFixture.Engine) { Day = int.MaxValue, Player = PlayerId.FromOriginal(127), Id = int.MinValue });
     }
 
     [Fact]
@@ -711,7 +711,7 @@ public sealed partial class PersistEquivalenceTests
 
     private static ItemExplorationSiteEventLog ExplorationLog(int defaultValue, params int[] items)
     {
-        ItemExplorationSiteEventLog log = new(null) { Holder = EngineFixture.Engine };
+        ItemExplorationSiteEventLog log = new(null, holder: EngineFixture.Engine);
         log.ItemIds.Default = defaultValue;
         foreach (int item in items)
         {
@@ -1643,9 +1643,8 @@ public sealed partial class PersistEquivalenceTests
 
     private static Ability PlaceAbility(int id)
     {
-        Ability ability = new(null)
+        Ability ability = new(null, holder: EngineFixture.Engine)
         {
-            Holder = EngineFixture.Engine,
             AbilityId = id
         };
         List<Ability?> list = EngineFixture.Engine.GamePack.AbilityControl.Abilities;

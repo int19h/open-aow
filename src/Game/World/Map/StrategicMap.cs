@@ -2259,9 +2259,8 @@ public sealed partial class StrategicMap : GameMap
             if (RequestCombatType && Combat.EngineClass.ClassId != FastBattle.ClassId && Combat.CombatData.Round != 0 && Combat.ExplorationSite != 1 && Players.GetPlayers(CurrentPlayer).PlayerType == PlayerType.Human)
             {
                 LockExecuteEventLog();
-                NewTurnEventLog log = new(null)
+                NewTurnEventLog log = new(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     TurnPlayer = CurrentPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
                     DialogStyle = NewTurnEventLogDialogStyles.Closeable,

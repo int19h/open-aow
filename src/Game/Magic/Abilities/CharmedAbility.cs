@@ -6,9 +6,8 @@ namespace Aow.Game.Magic.Abilities;
 public class CharmedAbility : CommandedAbility
 {
     // AoWAb.PAS:5333
-    public CharmedAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public CharmedAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityId = 149;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_charmedText);
     }

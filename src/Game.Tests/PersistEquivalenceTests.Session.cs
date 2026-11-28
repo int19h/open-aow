@@ -260,8 +260,8 @@ public sealed partial class PersistEquivalenceTests
     public void AnEventLogListWithLogsMatchesTheConverter()
     {
         EventLogList list = new(null) { Holder = EngineFixture.Engine };
-        new TextEventLog(null) { Holder = EngineFixture.Engine, Text = "First" }.SetOwner(list);
-        new TextEventLog(null) { Holder = EngineFixture.Engine, Text = "Second" }.SetOwner(list);
+        new TextEventLog(null, holder: EngineFixture.Engine) { Text = "First" }.SetOwner(list);
+        new TextEventLog(null, holder: EngineFixture.Engine) { Text = "Second" }.SetOwner(list);
         Check("EventLogList", objectValue: list);
     }
 
@@ -437,7 +437,7 @@ public sealed partial class PersistEquivalenceTests
             Assert.Equal(7, unchecked((byte)player.View.X));
 
             using EventLogList list = new(null) { Holder = EngineFixture.Engine };
-            TextEventLog log = new(null) { Holder = EngineFixture.Engine, Text = "First" };
+            TextEventLog log = new(null, holder: EngineFixture.Engine) { Text = "First" };
             log.SetOwner(list);
             int changes = 0;
             list.Changed += (_, _) => changes++;

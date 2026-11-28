@@ -9,7 +9,7 @@ namespace Aow.Game.Magic.Abilities;
 public class LeadershipAbility : MultiLevelAbility
 {
     // AoWAb.PAS:965
-    public LeadershipAbility(CustomNode? owner) : base(owner)
+    public LeadershipAbility(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
         MaxLevel = 1;
         AbilityId = 46;

@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Events;
 
 // FX, FY, FL
-public partial class PrisonersJoinEventLog(CustomNode? owner) : JoinEventLog(owner)
+public partial class PrisonersJoinEventLog(CustomNode? owner, EngineObject holder) : JoinEventLog(owner, holder: holder)
 {
     public MapCoordinate Location { get; init; }
 

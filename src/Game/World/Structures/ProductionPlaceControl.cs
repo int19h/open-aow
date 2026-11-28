@@ -43,16 +43,17 @@ public sealed partial class ProductionPlaceControl(CustomNode? owner) : Producti
             enchantment.DispelResistance = (Settings.Unit.UnitLevel + 3).TruncateToSByte();
         }
 
-        ProductionPlaceEventLog log = new(null)
+        ProductionPlaceEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             Player = productionPlace.Player
         };
         string name = Settings.Unit.GetName();
         string fProductionPlaceName = ProductionPlace.GetName();
         log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ProducedFormat), args: [name, fProductionPlaceName]);
         log.SetLocation(y: productionPlace.HexY, x: productionPlace.HexX, level: productionPlace.HexLevel);
-        StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
+        // The log reads the day and player of its creator engine, so it lands on that engine's map too.
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
         _ = log.Release();
 
         return result;
@@ -63,9 +64,8 @@ public sealed partial class ProductionPlaceControl(CustomNode? owner) : Producti
     {
         base.UnitResearched();
         ProductionPlace productionPlace = ProductionPlace;
-        ProductionPlaceEventLog log = new(null)
+        ProductionPlaceEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             Player = productionPlace.Player
         };
         UnitProduction? unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
@@ -73,7 +73,9 @@ public sealed partial class ProductionPlaceControl(CustomNode? owner) : Producti
         string name = ProductionPlace.GetName();
         log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.InstalledFormat), args: [unitName, name]);
         log.SetLocation(y: productionPlace.HexY, x: productionPlace.HexX, level: productionPlace.HexLevel);
-        StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
+        // The log reads the day and player of its creator engine, so it lands on that engine's map too.
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
         _ = log.Release();
     }
 

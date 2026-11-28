@@ -110,9 +110,8 @@ public partial class Dungeon : ExplorationSite
         if (combatResult is CombatResult.Victory or CombatResult.NoDefenders)
         {
             ArmyHexSprite army = Owner.GetArmyHexSprite();
-            PrisonersJoinEventLog log = new(null)
+            PrisonersJoinEventLog log = new(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 Location = new MapCoordinate(HexX, HexY, HexLevel),
                 Player = army.Army.Player,
                 Selection = 255,
@@ -167,9 +166,8 @@ public partial class Dungeon : ExplorationSite
     // Dungeon.pas:178
     public void LiberatePrisoners(PlayerId? player)
     {
-        LocationTextEventLog locationLog = new(null)
+        LocationTextEventLog locationLog = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             Player = GetPlayer()
         };
         string name = GetName();
@@ -177,7 +175,7 @@ public partial class Dungeon : ExplorationSite
         locationLog.SetLocation(level: HexLevel, y: HexY, x: HexX);
         EventLog.DistributeLocationEventLog(y: HexY, level: HexLevel, log: locationLog, player: player, x: HexX, execute: false);
         _ = locationLog.Release();
-        ArmyInfoEventLog armyLog = new(null) { Holder = CreationHolder() };
+        ArmyInfoEventLog armyLog = new(null, holder: CreationHolder());
         armyLog.ArmyView.Setup(Prisoners, selection: 255);
         int hexX = HexX;
         armyLog.ArmyView.Location = armyLog.ArmyView.Location with { X = (sbyte)hexX };

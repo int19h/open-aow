@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.Events;
 
 // Location, CityName
-public partial class CityRebellionEventLog(CustomNode owner) : EventLog(owner)
+public partial class CityRebellionEventLog(CustomNode owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
 
     // City.pas:2675

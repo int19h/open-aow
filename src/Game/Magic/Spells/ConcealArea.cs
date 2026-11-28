@@ -21,9 +21,8 @@ namespace Aow.Game.Magic.Spells;
 public class ConcealArea : Spell
 {
     // GlobalSpells.pas:286
-    public ConcealArea(CustomNode? owner, EngineObject holder) : base(owner)
+    public ConcealArea(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_concealAreaText);
         SpellId = 1;
         SpellType = SpellType.Global;
@@ -66,9 +65,8 @@ public class ConcealArea : Spell
                             mapField.SetExplored(PlayerId.FromOriginal(player), value: false);
                             if (log is null)
                             {
-                                log = new LocationTextEventLog(null)
+                                log = new LocationTextEventLog(null, holder: CreationHolder())
                                 {
-                                    Holder = CreationHolder(),
                                     Location = new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)layer),
                                     Player = source.Player
                                 };
@@ -87,9 +85,8 @@ public class ConcealArea : Spell
             {
                 if (GetEngine().StrategicMap.VisibleForPlayer(x, y, layer, player: PlayerId.FromOriginal((sbyte)player)))
                 {
-                    log = new LocationTextEventLog(null)
+                    log = new LocationTextEventLog(null, holder: CreationHolder())
                     {
-                        Holder = CreationHolder(),
                         Location = new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)layer),
                         Player = source.Player
                     };

@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Spells;
 public class SummonGreatEagle : SummonSpell
 {
     // SummonSpells.pas:444
-    public SummonGreatEagle(CustomNode owner, EngineObject holder) : base(owner)
+    public SummonGreatEagle(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonGreatEagleText);
         SpellId = 23;
         BaseManaCost = 5;

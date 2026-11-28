@@ -161,7 +161,7 @@ internal static class GameClasses
         control.RegisterSpell(new ColdBreath(null, holder: engine));
         control.RegisterSpell(new Slow(null, holder: engine));
         control.RegisterSpell(new Entangle(null, holder: engine));
-        control.RegisterSpell(new Tremors(null) { Holder = engine });
+        control.RegisterSpell(new Tremors(null, holder: engine));
         control.RegisterSpell(new CallFlames(null, holder: engine));
         control.RegisterSpell(new FireBreath(null, holder: engine));
         control.RegisterSpell(new Swarm(null, holder: engine));
@@ -233,7 +233,7 @@ internal static class GameClasses
         engine.GamePack.AbilityControl.RegisterAbility(AbilityRules.CreateEnhancementAbility(68, name: engine.TranslateResourceString(GameText.PathOfDecayText), selectionTypes: AbilitySelectionTypes.Unit | AbilitySelectionTypes.HeadItem | AbilitySelectionTypes.TorsoItem | AbilitySelectionTypes.DefenseItem | AbilitySelectionTypes.RingItem, engine: engine));
         engine.GamePack.AbilityControl.RegisterAbility(AbilityRules.CreateEnhancementAbility(69, name: engine.TranslateResourceString(GameText.PathOfLifeText), selectionTypes: AbilitySelectionTypes.Unit | AbilitySelectionTypes.HeadItem | AbilitySelectionTypes.TorsoItem | AbilitySelectionTypes.DefenseItem | AbilitySelectionTypes.RingItem, engine: engine));
         engine.GamePack.AbilityControl.RegisterAbility(AbilityRules.CreateEnhancementAbility(109, name: engine.TranslateResourceString(GameText.PathOfFrostText), selectionTypes: AbilitySelectionTypes.Unit | AbilitySelectionTypes.HeadItem | AbilitySelectionTypes.TorsoItem | AbilitySelectionTypes.DefenseItem | AbilitySelectionTypes.RingItem, engine: engine));
-        engine.GamePack.AbilityControl.RegisterAbility(new VisionAbility(null) { Holder = engine });
+        engine.GamePack.AbilityControl.RegisterAbility(new VisionAbility(null, holder: engine));
         engine.GamePack.AbilityControl.RegisterAbility(new HolyChampionAbility(null, holder: engine));
         engine.GamePack.AbilityControl.RegisterAbility(new UnholyChampionAbility(null, holder: engine));
         engine.GamePack.AbilityControl.RegisterAbility(new WallClimbingAbility(null, holder: engine));

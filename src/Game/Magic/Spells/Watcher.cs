@@ -15,9 +15,8 @@ namespace Aow.Game.Magic.Spells;
 public class Watcher : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1498
-    public Watcher(CustomNode? owner, EngineObject holder) : base(owner)
+    public Watcher(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_watcherText);
         SpellId = 57;
         AboveGroundOnly = false;

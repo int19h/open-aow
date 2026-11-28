@@ -19,9 +19,8 @@ namespace Aow.Game.Magic.Spells;
 public class Crusade : Spell
 {
     // GlobalSpells.pas:1302
-    public Crusade(CustomNode? owner, EngineObject holder) : base(owner)
+    public Crusade(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_crusadeText);
         SpellId = 75;
         SpellType = SpellType.Global;

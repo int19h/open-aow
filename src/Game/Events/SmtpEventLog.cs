@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Events;
 
 // message
-public partial class SmtpEventLog(CustomNode owner) : EventLog(owner)
+public partial class SmtpEventLog(CustomNode owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
 
     public string ToAddress { get; } = "";

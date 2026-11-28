@@ -13,9 +13,8 @@ namespace Aow.Game.Magic.Spells;
 public class Slow : CombatSpell
 {
     // CombatSpells.pas:1284
-    public Slow(CustomNode? owner, EngineObject holder) : base(owner)
+    public Slow(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SlowText);
         SpellId = 110;
         SpellCombatInfo spellCombatInfo = CombatInfo;

@@ -17,9 +17,8 @@ namespace Aow.Game.Magic.Spells;
 
 public class PoisonPlantSpell : GlobalTargetSpell
 {
-    public PoisonPlantSpell(CustomNode? owner, EngineObject holder) : base(owner)
+    public PoisonPlantSpell(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_poisonPlantsText);
         SpellId = 12;
         BaseManaCost = 5;

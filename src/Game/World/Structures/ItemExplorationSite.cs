@@ -83,9 +83,8 @@ public class ItemExplorationSite : ExplorationSite
         if (combatResult is CombatResult.Victory or CombatResult.NoDefenders)
         {
             ArmyHexSprite army = Owner.GetArmyHexSprite();
-            ItemExplorationSiteEventLog log = new(null)
+            ItemExplorationSiteEventLog log = new(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 Player = army.Army.Player,
                 Title = AbilityRules.TranslateResourceString(GetEngine(), S: s_itemsFoundText),
                 Location = new MapCoordinate(X: HexX, Y: HexY, MapLevel: HexLevel)

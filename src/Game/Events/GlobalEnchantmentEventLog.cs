@@ -8,7 +8,7 @@ using Aow.Game.Session;
 namespace Aow.Game.Events;
 
 // (enchantment player)
-public class GlobalEnchantmentEventLog(CustomNode owner) : LocationTextEventLog(owner)
+public class GlobalEnchantmentEventLog(CustomNode owner, EngineObject holder) : LocationTextEventLog(owner, holder: holder)
 {
     public new const int ClassId = 131_819;
 

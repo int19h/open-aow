@@ -45,7 +45,7 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
                 {
                     if (strategicMap.GameType == GameType.Custom)
                     {
-                        ShowBookEventLog log = new(null) { Holder = CreationHolder() };
+                        ShowBookEventLog log = new(null, holder: CreationHolder());
                         strategicMap.TriggerExecuteEventLog(log, immediate: false, done: null);
                         _ = log.Release();
                     }
@@ -57,9 +57,8 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
                         engineStrategicMap.Players.GetPlayers(player).MagicControl.ListResearchSpells(spells, spellTypes: SpellTypes.Combat | SpellTypes.Unit | SpellTypes.Global);
                         if (spells.GetCount() > 0)
                         {
-                            PlayerMagicEventLog research = new(null)
+                            PlayerMagicEventLog research = new(null, holder: CreationHolder())
                             {
-                                Holder = CreationHolder(),
                                 Mode = PlayerMagicEventLog.EventMode.StartResearch
                             };
                             GetEngine().StrategicMap.TriggerExecuteEventLog(research, immediate: false, done: null);
@@ -134,9 +133,8 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
         engineStrategicMap.ResetSeatedPlayerView();
         StrategicMap activateTacticalBattleStrategicMap = GetEngine().StrategicMap;
         activateTacticalBattleStrategicMap.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(activateTacticalBattleStrategicMap.CurrentPlayer));
-        NewTurnEventLog log = new(null)
+        NewTurnEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             TurnPlayer = GetEngine().StrategicMap.SeatedPlayer,
             Mode = NewTurnEventLogMode.Dialog,
             DialogStyle = NewTurnEventLogDialogStyles.Closeable,
@@ -240,7 +238,7 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
                         getPlayersStrategicMap.AIExecutor.DeactivatePlayer(PlayerId.FromOriginal((sbyte)i));
                     }
 
-                    EndTurnEventLog log = new(null) { Holder = CreationHolder() };
+                    EndTurnEventLog log = new(null, holder: CreationHolder());
                     GetEngine().StrategicMap.Players.GetPlayers(i).EventLogbook.AddEvent(log);
                     _ = log.Release();
                 }
@@ -296,9 +294,8 @@ public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl
         }
 
         getPlayersStrategicMap.TokenManager.TokenExecutor.ActivateTacticalBattle(PlayerIdExtensions.ToOriginal(getPlayersStrategicMap.CurrentPlayer));
-        NewTurnEventLog log = new(null)
+        NewTurnEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             TurnPlayer = GetEngine().StrategicMap.SeatedPlayer,
             Mode = NewTurnEventLogMode.Dialog,
             DialogStyle = NewTurnEventLogDialogStyles.Closeable,

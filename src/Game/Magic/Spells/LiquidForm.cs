@@ -13,9 +13,8 @@ namespace Aow.Game.Magic.Spells;
 public class LiquidForm : UnitSpell
 {
     // UnitSpells.pas:741
-    public LiquidForm(CustomNode owner, EngineObject holder) : base(owner)
+    public LiquidForm(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.LiquidFormText);
         SpellId = 49;
         BaseManaCost = 5;

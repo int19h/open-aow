@@ -7,7 +7,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Events;
 
 // tower
-public partial class EnterWizardsTowerEventLog(CustomNode? owner) : EventLog(owner)
+public partial class EnterWizardsTowerEventLog(CustomNode? owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
     public WizardsTower Tower { get; init; }
 }

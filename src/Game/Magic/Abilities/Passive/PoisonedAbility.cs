@@ -8,9 +8,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class PoisonedAbility : DurationAbility
 {
     // PassiveAb.pas:571
-    public PoisonedAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public PoisonedAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_poisonedText);
         AbilityId = 96;
         AbilityType = AbilityType.Handicap;

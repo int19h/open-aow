@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Spells;
 public class DeathRay : CombatSpell
 {
     // CombatSpells.pas:1130
-    public DeathRay(CustomNode owner, EngineObject holder) : base(owner)
+    public DeathRay(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_deathRayText);
         SpellId = 103;
         SpellCombatInfo spellCombatInfo = CombatInfo;

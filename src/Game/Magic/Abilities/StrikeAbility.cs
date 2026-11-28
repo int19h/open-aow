@@ -11,9 +11,8 @@ public class StrikeAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:1210
-    public StrikeAbility(CustomNode? owner, EngineObject holder) : base(owner)
+    public StrikeAbility(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.AttackItem;
         AbilityType = AbilityType.Combat;
         AbilityId = 21;

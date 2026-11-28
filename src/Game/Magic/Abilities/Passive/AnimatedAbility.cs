@@ -7,9 +7,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class AnimatedAbility : AdjustableAbility
 {
     // PassiveAb.pas:902
-    public AnimatedAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public AnimatedAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_animatedText);
         AbilityId = 129;
         AbilityType = AbilityType.Handicap;

@@ -29,11 +29,15 @@ public class Ability : EngineObject
 {
 
     // Ability.PAS:1238
-    public Ability(CustomNode? owner) : base(owner)
+    public Ability(CustomNode? owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         Description = [];
         SfxLibrary = new SfxLibrary(null) { Holder = CreationHolder() };
-        ImageSequences = new ImageSequenceList(GamePack.Current.ImageLibraryManager, imageLibrary: null);
+        // An ability is built for one engine and takes the image library manager of that engine's pack.
+        // Construction needs a holder or an owner that reaches an engine, and no global pack stands in.
+        GameEngine engine = GetEngine() ?? throw new InvalidOperationException($"{GetType().Name} is built with no holder or owner that reaches an engine.");
+        ImageSequences = new ImageSequenceList(engine.GamePack.ImageLibraryManager, imageLibrary: null);
     }
 
     public string AbilityName { get; init; } = "";

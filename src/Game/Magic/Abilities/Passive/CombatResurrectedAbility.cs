@@ -7,9 +7,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class CombatResurrectedAbility : AdjustableAbility
 {
     // PassiveAb.pas:912
-    public CombatResurrectedAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public CombatResurrectedAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ResurrectedText);
         AbilityId = 130;
         AbilityType = AbilityType.Handicap;

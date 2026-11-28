@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.Events;
 
 // UnitId. _emergeDay. Text. Mode. LocationName
-public partial class HeroEmergeEventLog(CustomNode? owner) : EventLog(owner)
+public partial class HeroEmergeEventLog(CustomNode? owner, EngineObject holder) : EventLog(owner, holder: holder)
 {
     public new const int ClassId = 131_832;
 
@@ -112,9 +112,8 @@ public partial class HeroEmergeEventLog(CustomNode? owner) : EventLog(owner)
         HeroJoinEventLog result;
         if (hero is not null && hero.Player == PlayerId.Independent && hero.OfferToJoin(Player) && hero.ArmyOwner is { } army)
         {
-            result = new HeroJoinEventLog(null)
+            result = new HeroJoinEventLog(null, holder: CreationHolder())
             {
-                Holder = CreationHolder(),
                 JoinIndex = Id
             };
             switch (_mode)

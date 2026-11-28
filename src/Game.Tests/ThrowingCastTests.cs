@@ -138,10 +138,10 @@ public sealed class ThrowingCastTests
         scope.Map.UnitControl.RegisterUnit(troop);
         scope.Map.UnitControl.RegisterUnit(hero);
 
-        HeroUpgradeEventLog skipped = new(null) { Holder = EngineFixture.Engine, UnitId = 42 };
+        HeroUpgradeEventLog skipped = new(null, holder: EngineFixture.Engine) { UnitId = 42 };
         Assert.False(skipped.Execute(false, trigger: ExecuteTrigger.User, done: null));
 
-        HeroUpgradeEventLog resolved = new(null) { Holder = EngineFixture.Engine, UnitId = 43 };
+        HeroUpgradeEventLog resolved = new(null, holder: EngineFixture.Engine) { UnitId = 43 };
         Assert.False(resolved.Execute(false, trigger: ExecuteTrigger.User, done: null));
 
         SpellTokenEvent spell = new(null) { Holder = EngineFixture.Engine, EventSourceId = 42 };
@@ -350,7 +350,7 @@ public sealed class ThrowingCastTests
         JoiningHero hero = new() { Holder = EngineFixture.Engine, UnitId = 42, Player = PlayerId.Independent };
         hero.SetOwnerWithoutNotify(units);
         scope.Map.UnitControl.RegisterUnit(hero);
-        HeroEmergeEventLog emerge = new(null) { Holder = EngineFixture.Engine, UnitId = 42, Player = PlayerId.Player1 };
+        HeroEmergeEventLog emerge = new(null, holder: EngineFixture.Engine) { UnitId = 42, Player = PlayerId.Player1 };
         HeroJoinEventLog? log = null;
         Exception error = Record.Exception(() => log = emerge.CreateHeroJoinEventLog());
         Assert.Null(error);
@@ -407,7 +407,7 @@ public sealed class ThrowingCastTests
         Troop target = new(null) { Holder = EngineFixture.Engine, UnitId = 9, Player = PlayerId.Player1 };
         _ = units.Units.AddUnit(source);
         _ = units.Units.AddUnit(target);
-        UnitSpell spell = new(null) { Holder = EngineFixture.Engine };
+        UnitSpell spell = new(null, holder: EngineFixture.Engine);
         UnitSpellCaster caster = new(null) { Holder = EngineFixture.Engine };
         Exception error = Record.Exception(() => spell.SetupUnitSelectionControl(caster, source, targets: source.OwnerUnits));
         Assert.Null(error);

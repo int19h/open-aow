@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class FireAuraEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1294
-    public FireAuraEnchantment(CustomNode owner, EngineObject holder) : base(owner)
+    public FireAuraEnchantment(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FireAuraText);
         AbilityId = 163;
     }

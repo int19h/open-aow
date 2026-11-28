@@ -162,14 +162,15 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         Player? player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
         player.MagicControl.SetMana(player.MagicControl.Mana + _amount);
 
-        LocationTextEventLog log = new(null)
+        LocationTextEventLog log = new(null, holder: CreationHolder())
         {
-            Holder = CreationHolder(),
             Player = PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player)),
             Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_manaCrystalsFoundFormat), args: [_amount.ToString(CultureInfo.InvariantCulture)])
         };
         log.SetLocation(level: HexLevel, y: HexY, x: HexX);
-        StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(log);
+        // The log reads the day and player of its creator engine, so it lands on that engine's map too.
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        strategicMap.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(log);
         _ = log.Release();
         Dispose();
     }

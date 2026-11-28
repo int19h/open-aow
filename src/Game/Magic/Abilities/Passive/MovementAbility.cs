@@ -12,7 +12,7 @@ public class MovementAbility : AdjustableAbility
     public MoveTypes MoveTypes { get; init; }
 
     // PassiveAb.pas:1409
-    public MovementAbility(CustomNode owner) : base(owner)
+    public MovementAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
         SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.RingItem;
         AbilityType = AbilityType.Movement;

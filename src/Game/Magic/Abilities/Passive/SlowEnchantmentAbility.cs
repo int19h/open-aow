@@ -10,9 +10,8 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class SlowEnchantmentAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:601
-    public SlowEnchantmentAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public SlowEnchantmentAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SlowText);
         AbilityId = 132;
         SelectionTypes = AbilitySelectionTypes.None;

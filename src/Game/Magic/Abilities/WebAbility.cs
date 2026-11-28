@@ -13,9 +13,8 @@ namespace Aow.Game.Magic.Abilities;
 public class WebAbility : TouchAbility
 {
     // AoWAb.PAS:2806
-    public WebAbility(CustomNode? owner, EngineObject holder) : base(owner)
+    public WebAbility(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         AbilityId = 27;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_webText);
         SelectionTypes = AbilitySelectionTypes.Unit;

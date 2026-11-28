@@ -12,7 +12,7 @@ public class ImmunityAbility : EnhancementAbility
     public DamageTypes ImmunityTypes { get; init; }
 
     // PassiveAb.pas:1428
-    public ImmunityAbility(CustomNode owner) : base(owner)
+    public ImmunityAbility(CustomNode owner, EngineObject holder) : base(owner, holder: holder)
     {
         SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.DefenseItem | AbilitySelectionTypes.RingItem;
         AbilityType = AbilityType.Enhancement;

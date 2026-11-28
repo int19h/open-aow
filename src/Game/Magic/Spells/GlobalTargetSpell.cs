@@ -29,7 +29,7 @@ public class GlobalTargetSpell : Spell
     public bool AboveGroundOnly { get; protected init; }
 
     // GlobalTargetSpells.pas:439
-    public GlobalTargetSpell(CustomNode owner) : base(owner) => SpellType = SpellType.Global;
+    public GlobalTargetSpell(CustomNode owner, EngineObject holder) : base(owner, holder: holder) => SpellType = SpellType.Global;
 
     // GlobalTargetSpells.pas:569
     public override bool CanActivate(Troop source, ref string messageText)

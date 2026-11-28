@@ -246,9 +246,8 @@ public sealed class PlayerMagicControl : EngineObject
             if (index != -1)
             {
                 mana -= Enchantments.GetEnchantments(index).Upkeep;
-                PlayerMagicEventLog log = new(null)
+                PlayerMagicEventLog log = new(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     Player = Player.PlayerIndex,
                     Mode = PlayerMagicEventLog.EventMode.OutOfMana
                 };
@@ -347,9 +346,8 @@ public sealed class PlayerMagicControl : EngineObject
                         Mana += Math.Abs(ResearchPointsLeft);
                     }
 
-                    PlayerMagicEventLog log = new(null)
+                    PlayerMagicEventLog log = new(null, holder: CreationHolder())
                     {
-                        Holder = CreationHolder(),
                         Player = Player.PlayerIndex,
                         Mode = PlayerMagicEventLog.EventMode.SpellResearched,
                         SpellId = ResearchSpellId

@@ -11,9 +11,8 @@ namespace Aow.Game.Magic.Spells;
 public class DeathStormSpell : StormSpell
 {
     // Storms.pas:969
-    public DeathStormSpell(CustomNode? owner, EngineObject holder) : base(owner)
+    public DeathStormSpell(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.DeathStormText);
         SpellId = 5;
         BaseManaCost = 5;

@@ -5,7 +5,7 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Events;
 
-public partial class ProductionPlaceEventLog(CustomNode owner) : ProductionEventLog(owner)
+public partial class ProductionPlaceEventLog(CustomNode owner, EngineObject holder) : ProductionEventLog(owner, holder: holder)
 {
 
     // PrdPlace.pas:736

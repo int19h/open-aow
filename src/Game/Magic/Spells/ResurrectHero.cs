@@ -21,9 +21,8 @@ namespace Aow.Game.Magic.Spells;
 public class ResurrectHero : Spell
 {
     // GlobalSpells.pas:980
-    public ResurrectHero(CustomNode? owner, EngineObject holder) : base(owner)
+    public ResurrectHero(CustomNode? owner, EngineObject holder) : base(owner, holder: holder)
     {
-        Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_resurrectHeroText);
         SpellId = 66;
         SpellType = SpellType.Global;
@@ -76,9 +75,8 @@ public class ResurrectHero : Spell
                 Hero hero = heroes.GetHero(GetEngine().StrategicMap.Random(count));
                 hero.Resurrect();
                 ArmyHexSprite? army = hero.Place(x, y, L: layer, player: PlayerId.Independent, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);
-                LocationTextEventLog log = new(null)
+                LocationTextEventLog log = new(null, holder: CreationHolder())
                 {
-                    Holder = CreationHolder(),
                     Player = source.Player,
                     Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_resurrectedFormat), args: [hero.HeroName])
                 };
@@ -87,14 +85,14 @@ public class ResurrectHero : Spell
                 _ = log.Release();
                 if (hero.OfferToJoin(source.Player))
                 {
-                    HeroEmergeEventLog emergeLog = new(null) { Holder = CreationHolder() };
+                    HeroEmergeEventLog emergeLog = new(null, holder: CreationHolder());
                     emergeLog.Setup(hero, source.Player, mode: HeroEmergeEventLog.HeroJoinMode.Resurrected);
                     _ = emergeLog.Execute(true, trigger: ExecuteTrigger.Event, done: null);
                     _ = emergeLog.Release();
                 }
                 else
                 {
-                    ArmyInfoEventLog infoLog = new(null) { Holder = CreationHolder() };
+                    ArmyInfoEventLog infoLog = new(null, holder: CreationHolder());
                     int indexOf = army.Army.Units.IndexOf(hero);
                     infoLog.ArmyView.Setup(army.Army, selection: (1 << indexOf).TruncateToByte());
                     infoLog.Selection = 255;
