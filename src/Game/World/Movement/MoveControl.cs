@@ -104,7 +104,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
                     MovePointsLimit = Settings.MovePointsMax;
                 }
 
-                StrategicMap.Current.AIExecutor.UseProcessTime(MovePointsLimit);
+                Map.GetEngine().StrategicMap.AIExecutor.UseProcessTime(MovePointsLimit);
             }
 
             Settings.SetMovePoints(Source.X, Source.Y, Source.MapLevel, value: 0);
@@ -121,7 +121,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
             }
 
             pathFindingStep.Owner = Settings.SubMoves;
-            StrategicMap.Current.AIExecutor.UseProcessTime(100);
+            Map.GetEngine().StrategicMap.AIExecutor.UseProcessTime(100);
         }
         else
         {
@@ -363,7 +363,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
             int processed = _processedCount;
             ProcessHex(MapLevel.GetField(x, y), direction, count: count - 1);
             processed = _processedCount - processed;
-            StrategicMap.Current.AIExecutor.UseProcessTime(Round((double)((double)processed / 430) * 1_000));
+            Map.GetEngine().StrategicMap.AIExecutor.UseProcessTime(Round((double)((double)processed / 430) * 1_000));
         }
 
         return pathFindingStep.MovePointLines.Count == 0;

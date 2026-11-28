@@ -31,7 +31,7 @@ public sealed record Fortify : ProductionOrder
             return base.CanExecute(control, ref reason);
         }
 
-        if (StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).Gems >= city.FortifyCost())
+        if (control.GetEngine().StrategicMap.Players.GetPlayers(control.GetPlayer()).Gems >= city.FortifyCost())
         {
             return true;
         }
@@ -52,8 +52,9 @@ public sealed record Fortify : ProductionOrder
         control.Settings.TurnsLeft = control.Settings.TurnsTotal;
         control.Settings.Player = control.GetPlayer();
         control.Settings.Gold = city.FortifyCost();
-        Player playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
-        StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems - control.Settings.Gold);
+        StrategicMap strategicMap = control.GetEngine().StrategicMap;
+        Player playerGems = strategicMap.Players.GetPlayers(control.GetPlayer());
+        strategicMap.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems - control.Settings.Gold);
         control.Status = ProductionControlStatus.Producing;
     }
 

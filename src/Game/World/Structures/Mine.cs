@@ -7,7 +7,6 @@ using Aow.Game.AI;
 using Aow.Game.Combat;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 
@@ -49,7 +48,7 @@ public partial class Mine : PlayerStructure
         base.Activate();
         if (Player is not null)
         {
-            StrategicMap.Current.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).RegisterIncomeSource(_incomeSource);
+            GetEngine().StrategicMap.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).RegisterIncomeSource(_incomeSource);
         }
     }
 
@@ -58,7 +57,7 @@ public partial class Mine : PlayerStructure
     {
         if (Player is not null)
         {
-            StrategicMap.Current.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).UnregisterIncomeSource(_incomeSource);
+            GetEngine().StrategicMap.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).UnregisterIncomeSource(_incomeSource);
         }
 
         base.Deactivate();
@@ -106,7 +105,7 @@ public partial class Mine : PlayerStructure
                         {
                             if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: PlayerId.FromOriginal((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)), targetRace: 0, engine: GetEngine()!))
                             {
-                                candidatePriority = 50 - (StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2);
+                                candidatePriority = 50 - (GetEngine().StrategicMap.Players.GetPlayers(info.Player).Income / 2);
                                 if (candidatePriority < 25)
                                 {
                                     candidatePriority = 25;
@@ -156,13 +155,13 @@ public partial class Mine : PlayerStructure
             {
                 if (Player is not null)
                 {
-                    StrategicMap.Current.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).UnregisterIncomeSource(_incomeSource);
+                    GetEngine().StrategicMap.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).UnregisterIncomeSource(_incomeSource);
                 }
 
                 base.SetPlayer(player);
                 if (Player is not null)
                 {
-                    StrategicMap.Current.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).RegisterIncomeSource(_incomeSource);
+                    GetEngine().StrategicMap.Players.GetPlayers((sbyte)(byte)PlayerIdExtensions.ToOriginal(Player)).RegisterIncomeSource(_incomeSource);
                 }
             }
             else

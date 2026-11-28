@@ -86,7 +86,7 @@ public class Crop(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
     // Crops.pas:189
     public override void Deactivate()
     {
-        if (CropOwner is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
+        if (CropOwner is not null && !GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
             PlayerCropStructure playerCropStructure = CropOwner;
             CropOwner = null;
@@ -144,7 +144,7 @@ public class Crop(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
         sbyte playerIndex = (sbyte)PlayerIdExtensions.ToOriginal(player);
         if (army is not null && PlayerIdExtensions.ToOriginal(army.Army.Player) == playerIndex && PlayerIdExtensions.ToOriginal(CropOwner.Player) > 0 && playerIndex != PlayerIdExtensions.ToOriginal(CropOwner.Player))
         {
-            if (StrategicMap.Current.Players.GetDiplomaticRelation(CropOwner.Player, otherPlayer: PlayerId.FromOriginal(playerIndex)) == DiplomaticRelation.War)
+            if (GetEngine().StrategicMap.Players.GetDiplomaticRelation(CropOwner.Player, otherPlayer: PlayerId.FromOriginal(playerIndex)) == DiplomaticRelation.War)
             {
                 CropOwner.CropTrampled(PlayerId.FromOriginal(playerIndex));
                 Dispose();
@@ -190,7 +190,7 @@ public class Crop(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
             result.SetResource(this);
             result.ResourceLinked = true;
             result.CropOwner = cropOwner;
-            if (!StrategicMap.Current.PlaceHex(result, X, Y, L))
+            if (!GetEngine().StrategicMap.PlaceHex(result, X, Y, L))
             {
                 result?.Dispose();
                 return null;

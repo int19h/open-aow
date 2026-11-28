@@ -84,7 +84,7 @@ public sealed partial class CityProductionControl(CustomNode? owner) : Productio
             Player = city.Player
         };
         UnitProduction? unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
-        string unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
+        string unitName = GetEngine().GamePack.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         string name = City.GetName();
         log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.InstalledFormat), args: [unitName, name]);
         log.SetLocation(level: city.HexLevel, y: city.HexY, x: city.HexX);
@@ -120,7 +120,7 @@ public sealed partial class CityProductionControl(CustomNode? owner) : Productio
     public override int UnitProductionTime(int index)
     {
         int unitIndex = UnitProductions.GetItem(index).UnitIndex;
-        UnitResource? unitResource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
+        UnitResource? unitResource = GetEngine().GamePack.UnitResources.GetUnitResource(unitIndex);
         int size = City.Size;
         int result = unitResource.Level - (size / 2) + 1;
         return result < 1 ? 1 : result;

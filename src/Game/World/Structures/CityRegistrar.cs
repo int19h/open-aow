@@ -10,9 +10,10 @@ public sealed class CityRegistrar
     // City.pas:3306
     public static void MapLoaded(GameMap sender)
     {
-        if (sender == StrategicMap.Current)
+        StrategicMap? strategicMap = sender.GetEngine()?.StrategicMap;
+        if (strategicMap is not null && sender == strategicMap)
         {
-            StrategicMap.Current.AIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<CityAIPlayerAction>()]);
+            strategicMap.AIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<CityAIPlayerAction>()]);
         }
     }
 

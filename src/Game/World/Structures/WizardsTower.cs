@@ -50,15 +50,15 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
         ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
         if (tokenEvent.Action == 1 && CanBuy(PlayerId.FromOriginal((sbyte)tokenEvent.Param), ref reason))
         {
-            Player? player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
+            Player? player = GetEngine().StrategicMap.Players.GetPlayers(tokenEvent.Param);
             int buyCost = BuyCost();
             player.SetGems(player.Gems - buyCost);
             _ = player.MagicControl.Spells.Add(SpellId);
-            if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == tokenEvent.Param)
+            if (PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.SeatedPlayer) == tokenEvent.Param)
             {
-                Spell? spell = GamePack.Current.SpellControl[SpellId];
+                Spell? spell = GetEngine().GamePack.SpellControl[SpellId];
                 string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_theyTaughtYouSpellFormat), args: [spell.SpellName]);
-                StrategicMap.Current.ShowMessage(format);
+                GetEngine().StrategicMap.ShowMessage(format);
             }
         }
 
@@ -69,7 +69,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     public override void NewDay()
     {
         base.NewDay();
-        if (StrategicMap.Current.Day == 1 && (_generateSpell || SpellId == 0))
+        if (GetEngine().StrategicMap.Day == 1 && (_generateSpell || SpellId == 0))
         {
             GenerateSettings();
         }
@@ -79,7 +79,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     public override void ArmyPlaced(ArmyHexSprite? placedArmy)
     {
         base.ArmyPlaced(placedArmy);
-        Player? player = StrategicMap.Current.Players.GetPlayers(placedArmy.Army.Player);
+        Player? player = GetEngine().StrategicMap.Players.GetPlayers(placedArmy.Army.Player);
         if (player.PlayerType is (>= PlayerType.Cpu1 and <= PlayerType.Cpu3) or PlayerType.Cpu4 or PlayerType.Cpu5 && ValidAITarget(placedArmy.Army.Player))
         {
             Army army = placedArmy.Army;
@@ -99,9 +99,10 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
             if (found && CanBuy(army.Player, ref reason))
             {
                 group.ReturnTargetExpense();
-                Player? playerGems = StrategicMap.Current.Players.GetPlayers(army.Player);
-                StrategicMap.Current.Players.GetPlayers(army.Player).SetGems(playerGems.Gems - cost);
-                _ = StrategicMap.Current.Players.GetPlayers(army.Player).MagicControl.Spells.Add(SpellId);
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                Player? playerGems = strategicMap.Players.GetPlayers(army.Player);
+                strategicMap.Players.GetPlayers(army.Player).SetGems(playerGems.Gems - cost);
+                _ = GetEngine().StrategicMap.Players.GetPlayers(army.Player).MagicControl.Spells.Add(SpellId);
             }
         }
     }
@@ -142,13 +143,13 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     }
 
     // WizardsTower.pas:96
-    public override bool CanDoubleClick() => CanEnter(StrategicMap.Current.SeatedPlayer);
+    public override bool CanDoubleClick() => CanEnter(GetEngine().StrategicMap.SeatedPlayer);
 
     // WizardsTower.pas:99
-    public bool ValidAITarget(PlayerId? player) => PlayerIdExtensions.ToOriginal(player) > 0 && !GetRazed() && SpellId != 0 && StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1 && GamePack.Current.SpellControl[SpellId].CastDuration > 0;
+    public bool ValidAITarget(PlayerId? player) => PlayerIdExtensions.ToOriginal(player) > 0 && !GetRazed() && SpellId != 0 && GetEngine().StrategicMap.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1 && GetEngine().GamePack.SpellControl[SpellId].CastDuration > 0;
 
     // WizardsTower.pas:163
-    public void GenerateSettings() => SpellId = GamePack.Current.SpellControl.GetRandomSpell(_spellLevel, _spellLevel, spheres: _magicSpheres);
+    public void GenerateSettings() => SpellId = GetEngine().GamePack.SpellControl.GetRandomSpell(_spellLevel, _spellLevel, spheres: _magicSpheres);
 
     // WizardsTower.pas:174
     public bool CanEnter(PlayerId? player)
@@ -160,7 +161,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     // WizardsTower.pas:182
     public bool Enter()
     {
-        if (CanEnter(StrategicMap.Current.SeatedPlayer))
+        if (CanEnter(GetEngine().StrategicMap.SeatedPlayer))
         {
             EnterWizardsTowerEventLog log = new(null, holder: CreationHolder())
             {
@@ -177,7 +178,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     }
 
     // WizardsTower.pas:215
-    public int BuyCost() => SpellId != 0 ? GamePack.Current.SpellControl[SpellId].ResearchCost : -1;
+    public int BuyCost() => SpellId != 0 ? GetEngine().GamePack.SpellControl[SpellId].ResearchCost : -1;
 
     // WizardsTower.pas:221
     public bool CanBuy(PlayerId? player, ref string reason)
@@ -185,9 +186,9 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
         bool result;
         if (SpellId != 0)
         {
-            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1)
+            if (GetEngine().StrategicMap.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1)
             {
-                Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+                Player? playerLocal = GetEngine().StrategicMap.Players.GetPlayers(player);
                 int buyCost = BuyCost();
                 if (playerLocal.Gems >= buyCost)
                 {
@@ -217,13 +218,13 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     public bool Buy(PlayerId? player, out string reason)
     {
         reason = "";
-        if (CanBuy(player, ref reason) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
+        if (CanBuy(player, ref reason) && !GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy())
         {
             StructureTokenEvent tokenEvent = CreateTokenEvent();
             SetupTokenEvent(tokenEvent);
             tokenEvent.Action = 1;
             tokenEvent.Param = PlayerIdExtensions.ToOriginal(player);
-            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
             return true;
         }

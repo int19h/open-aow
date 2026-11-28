@@ -74,9 +74,10 @@ public partial class MoveControl
             _ = path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
         }
 
-        if (StrategicMap.Current.AIExecutor.Status.Contains(AIExecutorStatuses.Executing))
+        StrategicMap strategicMap = Map.GetEngine().StrategicMap;
+        if (strategicMap.AIExecutor.Status.Contains(AIExecutorStatuses.Executing))
         {
-            StrategicMap.Current.AIExecutor.UseProcessTime(path.Count);
+            strategicMap.AIExecutor.UseProcessTime(path.Count);
         }
     }
 

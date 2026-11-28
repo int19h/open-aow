@@ -69,46 +69,46 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
                 switch (message.MessageId)
                 {
                     case 200704:
-                        GamePack.Current.AbilityControl[65].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        GetEngine().GamePack.AbilityControl[65].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int executeDamageRole = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, attackDefense: abilityInfo.Attack - _defense);
                         SetHitPoints(_hitPoints - executeDamageRole);
                         break;
                     case 200705:
-                        GamePack.Current.AbilityControl[24].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        GetEngine().GamePack.AbilityControl[24].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int executeDamageRole2 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, attackDefense: abilityInfo.Attack - _defense);
                         SetHitPoints(_hitPoints - executeDamageRole2);
                         break;
                     case 200706:
-                        GamePack.Current.AbilityControl[44].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        GetEngine().GamePack.AbilityControl[44].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int executeDamageRole3 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, attackDefense: abilityInfo.Attack - _defense);
                         SetHitPoints(_hitPoints - executeDamageRole3);
                         break;
                     case 200707:
-                        GamePack.Current.SpellControl[117].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        GetEngine().GamePack.SpellControl[117].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int executeDamageRole4 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, attackDefense: spellInfo.Attack - _defense);
                         SetHitPoints(_hitPoints - executeDamageRole4);
                         break;
                     case 200714:
-                        GamePack.Current.AbilityControl[31].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        GetEngine().GamePack.AbilityControl[31].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int executeDamageRole5 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, attackDefense: abilityInfo.Attack - _defense);
                         SetHitPoints(_hitPoints - executeDamageRole5);
                         break;
                     case 200715:
-                        GamePack.Current.SpellControl[113].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        GetEngine().GamePack.SpellControl[113].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int executeDamageRole6 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, attackDefense: spellInfo.Attack - _defense);
                         SetHitPoints(_hitPoints - executeDamageRole6);
                         break;
                     case 200722:
                         if (message.Param[1].Int is 30 or 86)
                         {
-                            GamePack.Current.AbilityControl[message.Param[1].Int].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
-                            RandSeed = StrategicMap.Current.Random(16777215);
+                            GetEngine().GamePack.AbilityControl[message.Param[1].Int].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
+                            RandSeed = GetEngine().StrategicMap.Random(16777215);
                             int executeDamageRole7 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, attackDefense: abilityInfo.Attack - _defense);
                             SetHitPoints(_hitPoints - executeDamageRole7);
                         }
@@ -117,34 +117,34 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
                     case 200723:
                         if (message.Param[1].Int == 114)
                         {
-                            GamePack.Current.SpellControl[message.Param[1].Int].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
-                            RandSeed = StrategicMap.Current.Random(16777215);
+                            GetEngine().GamePack.SpellControl[message.Param[1].Int].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
+                            RandSeed = GetEngine().StrategicMap.Random(16777215);
                             int executeDamageRole7 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, attackDefense: spellInfo.Attack - _defense);
                             SetHitPoints(_hitPoints - executeDamageRole7);
                         }
 
                         break;
                     case 200710:
-                        GamePack.Current.SpellControl[116].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        GetEngine().GamePack.SpellControl[116].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int executeDamageRole8 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, attackDefense: spellInfo.Attack - _defense);
                         SetHitPoints(_hitPoints - executeDamageRole8);
                         break;
                     case 200717:
-                        GamePack.Current.SpellControl[127].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        GetEngine().GamePack.SpellControl[127].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int executeDamageRole9 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, attackDefense: spellInfo.Attack - _defense);
                         SetHitPoints(_hitPoints - executeDamageRole9);
                         break;
                     case 200718:
-                        GamePack.Current.SpellControl[128].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        GetEngine().GamePack.SpellControl[128].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int executeDamageRole10 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, attackDefense: spellInfo.Attack - _defense);
                         SetHitPoints(_hitPoints - executeDamageRole10);
                         break;
                     case 200708:
-                        GamePack.Current.SpellControl[112].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        GetEngine().GamePack.SpellControl[112].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int executeDamageRole11 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, attackDefense: spellInfo.Attack - _defense);
                         SetHitPoints(_hitPoints - executeDamageRole11);
                         MapFieldMessageParameters param = message.Param;
@@ -152,7 +152,7 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
                         message.Param = param;
                         break;
                     case 200711:
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int executeDamageRole12 = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[1], attackDefense: TacticalTables.TacticalBattleAttack[1] - _defense);
                         SetHitPoints(_hitPoints - executeDamageRole12);
                         break;
@@ -232,7 +232,7 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
     }
 
     // CombatTerrain.pas:91
-    public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => engine.GamePack.CombatResources;
 
     // CombatTerrain.pas:106
     public override bool CanPlaceOnHexSprite(HexSprite hexSprite) => base.CanPlaceOnHexSprite(hexSprite) || hexSprite is AbstractRoad;
@@ -262,7 +262,8 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
                 DestroyShadow();
             }
 
-            if (StrategicMap.Current is null || StrategicMap.Current.ShowUnitShadows)
+            StrategicMap? strategicMap = GetEngine()?.StrategicMap;
+            if (strategicMap is null || strategicMap.ShowUnitShadows)
             {
                 _shadow = new CombatTerrainShadow(null)
                 {

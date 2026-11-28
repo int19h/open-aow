@@ -66,8 +66,9 @@ public sealed record Loot : ProductionOrder
 
         control.BeginUpdate();
         Log(control, city, text: Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_cityLootedFormat), args: [city.GetName(), (city.Income * 3).ToString(CultureInfo.InvariantCulture)]));
-        Player? playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
-        StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems + (city.Income * 3));
+        StrategicMap strategicMap = control.GetEngine().StrategicMap;
+        Player? playerGems = strategicMap.Players.GetPlayers(control.GetPlayer());
+        strategicMap.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems + (city.Income * 3));
         city.Overlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);
         city.SetRazed(true);
         control.EndUpdate();

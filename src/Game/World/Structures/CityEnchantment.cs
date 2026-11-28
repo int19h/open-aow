@@ -68,7 +68,7 @@ public class CityEnchantment : GlobalEnchantment
     public override bool VisibleForPlayer(PlayerId? player) => GetCity().VisibleForPlayer(player);
 
     // City.pas:2756
-    public City GetCity() => StrategicMap.Current.MapContainer.GetField(EnchantmentLocation.X, EnchantmentLocation.Y, EnchantmentLocation.MapLevel).FindNoneTransparentHexSprite<City>();
+    public City GetCity() => GetEngine().StrategicMap.MapContainer.GetField(EnchantmentLocation.X, EnchantmentLocation.Y, EnchantmentLocation.MapLevel).FindNoneTransparentHexSprite<City>();
 
     private static readonly ImmutableArray<string> s_cityEnchantmentIdTexts = ["Fountain Of Life", "Gold Rush", "Anti Magic Shell", "Warmonger"];
 

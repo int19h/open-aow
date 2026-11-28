@@ -27,8 +27,8 @@ public class IncomeSource(CustomNode owner) : EngineObject(owner)
         int l = coordinate33.MapLevel;
         if (x != -1)
         {
-            StrategicMap.Current.CenterViewTo(x, y, l);
-            StrategicMap.Current.PlayCenterAnimation(x, y, l);
+            GetEngine().StrategicMap.CenterViewTo(x, y, l);
+            GetEngine().StrategicMap.PlayCenterAnimation(x, y, l);
         }
     }
 }

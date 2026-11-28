@@ -35,7 +35,8 @@ public partial class Sign(CustomNode? owner) : Structure(owner)
     {
         base.PersistFields(persister);
         persister.Lines(name: "Text", lines: Text);
-        if (StrategicMap.Current is not null && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
+        StrategicMap? strategicMap = GetEngine()?.StrategicMap;
+        if (strategicMap is not null && strategicMap.ConnectionType != PlayerConnectionType.Network)
         {
             _ = persister.BitList(name: "TextSeen", list: TextSeen);
         }
@@ -53,9 +54,10 @@ public partial class Sign(CustomNode? owner) : Structure(owner)
     public override void Select()
     {
         base.Select();
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (!strategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
-            TextSeen[PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer)] = true;
+            TextSeen[PlayerIdExtensions.ToOriginal(strategicMap.SeatedPlayer)] = true;
         }
     }
 
@@ -73,13 +75,13 @@ public partial class Sign(CustomNode? owner) : Structure(owner)
     public bool CanChangeText()
     {
         ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
-        return armyHexSprite is not null && (byte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player) == (byte)PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer);
+        return armyHexSprite is not null && (byte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player) == (byte)PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.SeatedPlayer);
     }
 
     // Sign.pas:134
     public bool ChangeText(PlayerId? player, DelphiStringCollection text)
     {
-        if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && CanChangeText())
+        if (!GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy() && CanChangeText())
         {
             UpdateSignTokenEvent eventValue = new(null)
             {
@@ -87,7 +89,7 @@ public partial class Sign(CustomNode? owner) : Structure(owner)
                 Location = new MapCoordinate(HexX, HexY, HexLevel)
             };
             eventValue.Text.Assign(text);
-            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -119,16 +121,17 @@ public partial class Sign(CustomNode? owner) : Structure(owner)
                 int index = structure.ImageIndex;
                 int offset = structure.Owner.HexX + (structure.Owner.HexY * 16);
                 // Show takes every structure. This resource draws a sign, and another kind fails here.
-                bool animate = PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) < 0 || !((Sign)structure).GetTextSeen(StrategicMap.Current.SeatedPlayer);
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                bool animate = PlayerIdExtensions.ToOriginal(strategicMap.SeatedPlayer) < 0 || !((Sign)structure).GetTextSeen(strategicMap.SeatedPlayer);
                 ImageSequence? sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
 
                 while (sequence is not null)
                 {
-                    int image = animate ? sequence.GetFrameIndex(StrategicMap.Current.Frame, offset) : sequence.GetUnloopedFrameIndex(0);
+                    int image = animate ? sequence.GetFrameIndex(GetEngine().StrategicMap.Frame, offset) : sequence.GetUnloopedFrameIndex(0);
 
                     if (image != -1)
                     {
-                        if (structure.GetSelected() && (StrategicMap.Current.Frame & 0b0110) == 0b0110)
+                        if (structure.GetSelected() && (GetEngine().StrategicMap.Frame & 0b0110) == 0b0110)
                         {
                             sequence.ImageLibrary[image].ShowTransparent(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
                         }

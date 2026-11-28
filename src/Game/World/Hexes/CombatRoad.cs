@@ -54,7 +54,7 @@ public class CombatRoad(CustomNode owner) : AbstractRoad(owner)
     }
 
     // CombatRoad.pas:54
-    public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => engine.GamePack.CombatResources;
 
     // CombatRoad.pas:57
     public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel) => hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount && !(mapContainer.GetField(hexX, hexY, hexLevel).OverlayType == OverlayType.Road || mapContainer.GetField(hexX, hexY, hexLevel).Terrain == TerrainType.Border);

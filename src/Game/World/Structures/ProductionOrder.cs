@@ -108,8 +108,9 @@ public abstract record ProductionOrder
     // Changes the relation of City's race to the control's player by Change.
     protected static void ChangeRelation(ProductionControl control, City city, int change)
     {
-        int playerRelationValue = StrategicMap.Current.Races.GetRace(city.Race).GetPlayerRelationValue(control.GetPlayer());
-        StrategicMap.Current.Races.GetRace(city.Race).SetPlayerRelationValue(control.GetPlayer(), value: playerRelationValue + change);
+        StrategicMap strategicMap = control.GetEngine().StrategicMap;
+        int playerRelationValue = strategicMap.Races.GetRace(city.Race).GetPlayerRelationValue(control.GetPlayer());
+        strategicMap.Races.GetRace(city.Race).SetPlayerRelationValue(control.GetPlayer(), value: playerRelationValue + change);
     }
 
     // Adds Text at City to the logbook of the control's player.
@@ -130,7 +131,7 @@ public abstract record ProductionOrder
     // Charges the settings' costs to the settings' player.
     protected static void Pay(ProductionControl control)
     {
-        Player? player = StrategicMap.Current.Players.GetPlayers(control.Settings.Player);
+        Player? player = control.GetEngine().StrategicMap.Players.GetPlayers(control.Settings.Player);
         player.SetGems(player.Gems - control.Settings.Gold);
         player.MagicControl.SetMana(player.MagicControl.Mana - control.Settings.Mana);
     }

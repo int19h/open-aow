@@ -66,9 +66,10 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
             if (executor.ExecuteCount == 0 && CanTarget(ref reason))
             {
                 _storm = CreateStorm();
-                Player? player = StrategicMap.Current.Players.GetPlayers(Player);
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                Player? player = strategicMap.Players.GetPlayers(Player);
                 int targetMana = TargetMana();
-                StrategicMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(player.MagicControl.Mana - targetMana);
+                strategicMap.Players.GetPlayers(Player).MagicControl.SetMana(player.MagicControl.Mana - targetMana);
                 RechargeDays = 0;
                 _storm.InitializeStorm(Player, (tokenEvent.Param & 0xFF).TruncateToSByte(), ((tokenEvent.Param >>> 8) & 0xFF).TruncateToSByte(), L: ((tokenEvent.Param >>> 16) & 0xFF).TruncateToSByte());
             }
@@ -134,28 +135,30 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
                 int value = damage.EnemyDamage - damage.FriendlyDamage;
                 if (value > TargetMana() * 0.75)
                 {
-                    Player? playerAIBudget = StrategicMap.Current.Players.GetPlayers(player);
+                    StrategicMap requestMap = GetEngine().StrategicMap;
+                    Player? playerAIBudget = requestMap.Players.GetPlayers(player);
                     int targetMana = TargetMana();
-                    if (StrategicMap.Current.Players.GetPlayers(player).AIBudget.RequestBudgetExpense(0, mana: targetMana, budget: playerAIBudget.AIBudget.DefaultBudget, usePool: true))
+                    if (requestMap.Players.GetPlayers(player).AIBudget.RequestBudgetExpense(0, mana: targetMana, budget: playerAIBudget.AIBudget.DefaultBudget, usePool: true))
                     {
                         BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo friendly, player, relation: 0, requests: BattleFieldInfoRequests.None, damageTypes: AbilityRules.AllDamageTypes & ~DamageTypes.Wall);
                         friendly.EnemyRelations = DiplomaticRelations.None;
                         int hexLevel2 = HexLevel;
                         int hexY2 = HexY;
                         int hexX = HexX;
-                        StrategicMap.Current.RetrieveBattleFieldInfo(hexX, hexY2, hexLevel2, radius: 1, info: ref friendly);
+                        requestMap.RetrieveBattleFieldInfo(hexX, hexY2, hexLevel2, radius: 1, info: ref friendly);
                         BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo enemy, player, relation: 0, requests: BattleFieldInfoRequests.None, damageTypes: AbilityRules.AllDamageTypes & ~DamageTypes.Wall);
                         int hexLevel3 = HexLevel;
                         int hexY3 = HexY;
                         int hexX2 = HexX;
-                        StrategicMap.Current.RetrieveBattleFieldInfo(hexX2, hexY3, hexLevel3, radius: 8, info: ref enemy);
+                        GetEngine().StrategicMap.RetrieveBattleFieldInfo(hexX2, hexY3, hexLevel3, radius: 8, info: ref enemy);
                         if (friendly.FriendlyStrength < enemy.Strength || value > 100)
                         {
                             if (StormTargetSelected(target.X, target.Y, L: target.MapLevel))
                             {
-                                Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+                                StrategicMap expenseMap = GetEngine().StrategicMap;
+                                Player? playerLocal = expenseMap.Players.GetPlayers(player);
                                 int targetMana2 = TargetMana();
-                                _ = StrategicMap.Current.Players.GetPlayers(player).AIBudget.BudgetExpenseMade(0, mana: targetMana2, budget: playerLocal.AIBudget.DefaultBudget, mode: AIBudgetManager.ExpenseMode.PoolThenBudget);
+                                _ = expenseMap.Players.GetPlayers(player).AIBudget.BudgetExpenseMade(0, mana: targetMana2, budget: playerLocal.AIBudget.DefaultBudget, mode: AIBudgetManager.ExpenseMode.PoolThenBudget);
                             }
                         }
                     }
@@ -174,9 +177,9 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
         if (player != Player)
         {
             base.SetPlayer(player);
-            if (player == Player && this == StrategicMap.Current.TargetSelection.Source)
+            if (player == Player && this == GetEngine().StrategicMap.TargetSelection.Source)
             {
-                StrategicMap.Current.TargetSelection.Deactivate();
+                GetEngine().StrategicMap.TargetSelection.Deactivate();
             }
         }
     }
@@ -191,13 +194,13 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     public virtual bool StormTargetSelected(int X, int Y, int L)
     {
         string reason = "";
-        if (CanTarget(ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
+        if (CanTarget(ref reason) && !GetEngine().StrategicMap.Players.GetPlayers(Player).GetBusy())
         {
             StructureTokenEvent eventValue = CreateTokenEvent();
             SetupTokenEvent(eventValue);
             eventValue.Param = X + (Y << 8) + (L << 16);
             eventValue.Action = 0;
-            StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -213,7 +216,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     // Altar.pas:153
     public virtual bool CanTarget(ref string reason)
     {
-        if (TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana)
+        if (TargetMana() <= GetEngine().StrategicMap.Players.GetPlayers(Player).MagicControl.Mana)
         {
             return true;
         }
@@ -229,8 +232,9 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     public virtual bool Target()
     {
         string reason = "";
-        TargetSelectionControl selection = StrategicMap.Current.TargetSelection;
-        if (!GetRazed() && PlayerIdExtensions.ToOriginal(Player) >= 0 && TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm is null)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        TargetSelectionControl selection = strategicMap.TargetSelection;
+        if (!GetRazed() && PlayerIdExtensions.ToOriginal(Player) >= 0 && TargetMana() <= strategicMap.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm is null)
         {
             selection.Initialize(this);
             selection.TargetMode |= TargetSelectionModes.ValidateDistance | TargetSelectionModes.ExternalFloater;
@@ -238,7 +242,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
             selection.Range = 12;
             selection.Changed += TargetSelection_Changed;
             _storm = CreateStorm();
-            _storm.UpdateTargetSelection(StrategicMap.Current.TargetSelection);
+            _storm.UpdateTargetSelection(GetEngine().StrategicMap.TargetSelection);
             string name = _storm.Name();
             string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SelectTargetLocationForOnMapFormat), args: [name]);
             selection.Text.Text = format;
@@ -264,7 +268,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     {
         if (Targeting)
         {
-            StrategicMap.Current.TargetSelection.Deactivate();
+            GetEngine().StrategicMap.TargetSelection.Deactivate();
             return true;
         }
         else
@@ -307,7 +311,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     }
 
     // Altar.pas:196
-    public bool Targeting => StrategicMap.Current.TargetSelection.Status.Contains(TargetSelectionStatuses.Activated) && this == StrategicMap.Current.TargetSelection.Source;
+    public bool Targeting => GetEngine().StrategicMap.TargetSelection.Status.Contains(TargetSelectionStatuses.Activated) && this == GetEngine().StrategicMap.TargetSelection.Source;
 
     private static readonly string s_chargingText = "Charging";
     private static readonly string s_readyText = "Ready";

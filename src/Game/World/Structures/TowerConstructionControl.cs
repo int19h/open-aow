@@ -42,7 +42,7 @@ public class TowerConstructionControl(CustomNode owner) : StructureConstructionC
     }
 
     // Tower.pas:133
-    public override StructureResource StructureResource(Troop troop) => GamePack.Current.MapObjectResourceList.FindChild<StructureResource>(Tower.Resource.ClassId);
+    public override StructureResource StructureResource(Troop troop) => GetEngine().GamePack.MapObjectResourceList.FindChild<StructureResource>(Tower.Resource.ClassId);
 
     // Tower.pas:130
     public override int Id() => 3;

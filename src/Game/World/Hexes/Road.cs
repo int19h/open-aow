@@ -187,7 +187,7 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
 
         if (oldTransitions != Transitions)
         {
-            StrategicMap.Current.InvalidateStaticScene(Owner.HexX, Owner.HexY, Owner.HexLevel);
+            GetEngine().StrategicMap.InvalidateStaticScene(Owner.HexX, Owner.HexY, Owner.HexLevel);
         }
     }
 }

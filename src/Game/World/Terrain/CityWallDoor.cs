@@ -24,7 +24,8 @@ public class CityWallDoor(CustomNode? owner) : CityWall(owner)
     // CityWall.pas:431
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) || CombatMap.Current.Combat is null)
+        CombatMap statusCombatMap = GetEngine().CombatMap;
+        if (statusCombatMap.Status.Contains(HexSpriteMapStatuses.Editting) || statusCombatMap.Combat is null)
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -32,7 +33,8 @@ public class CityWallDoor(CustomNode? owner) : CityWall(owner)
         {
             int hexY = HexY;
             int hexX = HexX;
-            TacticalBattleUnitHexSprite? combatUnit = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
+            CombatMap doorCombatMap = GetEngine().CombatMap;
+            TacticalBattleUnitHexSprite? combatUnit = doorCombatMap.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
             if (combatUnit is not null)
             {
                 if (combatUnit.Unit.Side != CombatSideIndex.Defender)
@@ -44,8 +46,8 @@ public class CityWallDoor(CustomNode? owner) : CityWall(owner)
             bool condition = HitPoints == 0;
             if (!condition)
             {
-                int indexOfPlayer = CombatMap.Current.Combat.CombatData.Players.IndexOfPlayer((byte)PlayerIdExtensions.ToOriginal(CombatMap.Current.CurrentPlayer));
-                condition = CombatMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)indexOfPlayer).SideIndex != 1 && combatUnit is null;
+                int indexOfPlayer = doorCombatMap.Combat.CombatData.Players.IndexOfPlayer((byte)PlayerIdExtensions.ToOriginal(doorCombatMap.CurrentPlayer));
+                condition = GetEngine().CombatMap.Combat.CombatData.Players.GetPlayers((sbyte)indexOfPlayer).SideIndex != 1 && combatUnit is null;
             }
 
             if (condition)

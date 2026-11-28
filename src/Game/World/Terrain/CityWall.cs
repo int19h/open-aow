@@ -47,29 +47,29 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
             switch (message.MessageId)
             {
                 case 200704:
-                    GamePack.Current.AbilityControl[65].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
-                    RandSeed = StrategicMap.Current.Random(16777215);
+                    GetEngine().GamePack.AbilityControl[65].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
+                    RandSeed = GetEngine().StrategicMap.Random(16777215);
                     int defense = GetDefense();
                     int executeDamageRole = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, attackDefense: abilityInfo.Attack - defense);
                     SetHitPoints(HitPoints - executeDamageRole);
                     break;
                 case 200705:
-                    GamePack.Current.AbilityControl[24].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
-                    RandSeed = StrategicMap.Current.Random(16777215);
+                    GetEngine().GamePack.AbilityControl[24].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
+                    RandSeed = GetEngine().StrategicMap.Random(16777215);
                     int defense2 = GetDefense();
                     int executeDamageRole2 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, attackDefense: abilityInfo.Attack - defense2);
                     SetHitPoints(HitPoints - executeDamageRole2);
                     break;
                 case 200706:
-                    GamePack.Current.AbilityControl[44].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
-                    RandSeed = StrategicMap.Current.Random(16777215);
+                    GetEngine().GamePack.AbilityControl[44].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
+                    RandSeed = GetEngine().StrategicMap.Random(16777215);
                     int defense3 = GetDefense();
                     int executeDamageRole3 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, attackDefense: abilityInfo.Attack - defense3);
                     SetHitPoints(HitPoints - executeDamageRole3);
                     break;
                 case 200707:
-                    GamePack.Current.SpellControl[117].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
-                    RandSeed = StrategicMap.Current.Random(16777215);
+                    GetEngine().GamePack.SpellControl[117].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
+                    RandSeed = GetEngine().StrategicMap.Random(16777215);
                     int defense4 = GetDefense();
                     int executeDamageRole4 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, attackDefense: spellInfo.Attack - defense4);
                     SetHitPoints(HitPoints - executeDamageRole4);
@@ -77,8 +77,8 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
                 case 200714:
                     if (WallType == 1)
                     {
-                        GamePack.Current.AbilityControl[31].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        GetEngine().GamePack.AbilityControl[31].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref abilityInfo);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int defense5 = GetDefense();
                         int executeDamageRole5 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, attackDefense: abilityInfo.Attack - defense5);
                         SetHitPoints(HitPoints - executeDamageRole5);
@@ -88,8 +88,8 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
                 case 200715:
                     if (WallType == 1)
                     {
-                        GamePack.Current.SpellControl[113].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        GetEngine().GamePack.SpellControl[113].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int defense5 = GetDefense();
                         int executeDamageRole5 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, attackDefense: spellInfo.Attack - defense5);
                         SetHitPoints(HitPoints - executeDamageRole5);
@@ -97,15 +97,15 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
 
                     break;
                 case 200710:
-                    GamePack.Current.SpellControl[116].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
-                    RandSeed = StrategicMap.Current.Random(16777215);
+                    GetEngine().GamePack.SpellControl[116].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
+                    RandSeed = GetEngine().StrategicMap.Random(16777215);
                     int defense6 = GetDefense();
                     int executeDamageRole6 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, attackDefense: spellInfo.Attack - defense6);
                     SetHitPoints(HitPoints - executeDamageRole6);
                     break;
                 case 200717:
-                    GamePack.Current.SpellControl[127].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
-                    RandSeed = StrategicMap.Current.Random(16777215);
+                    GetEngine().GamePack.SpellControl[127].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
+                    RandSeed = GetEngine().StrategicMap.Random(16777215);
                     int defense7 = GetDefense();
                     int executeDamageRole7 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, attackDefense: spellInfo.Attack - defense7);
                     SetHitPoints(HitPoints - executeDamageRole7);
@@ -113,8 +113,8 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
                 case 200718:
                     if (WallType == 1)
                     {
-                        GamePack.Current.SpellControl[128].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        GetEngine().GamePack.SpellControl[128].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int defense5 = GetDefense();
                         int executeDamageRole5 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, attackDefense: spellInfo.Attack - defense5);
                         SetHitPoints(HitPoints - executeDamageRole5);
@@ -123,8 +123,8 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
                     break;
                 case 200708:
                     _playSound = message.Param[1].Int == 0;
-                    GamePack.Current.SpellControl[112].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
-                    RandSeed = StrategicMap.Current.Random(16777215);
+                    GetEngine().GamePack.SpellControl[112].GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, info: ref spellInfo);
+                    RandSeed = GetEngine().StrategicMap.Random(16777215);
                     int defense8 = GetDefense();
                     int executeDamageRole8 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, attackDefense: spellInfo.Attack - defense8);
                     SetHitPoints(HitPoints - executeDamageRole8);
@@ -135,7 +135,7 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
                 case 200711:
                     if (WallType == 1)
                     {
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int defense5 = GetDefense();
                         int executeDamageRole5 = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[1], attackDefense: TacticalTables.TacticalBattleAttack[1] - defense5);
                         SetHitPoints(HitPoints - executeDamageRole5);
@@ -196,17 +196,18 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
     public override void Activate()
     {
         base.Activate();
-        if (!CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (!GetEngine().CombatMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             bool razed = false;
             _playSound = true;
-            MapField field = StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation);
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            MapField field = strategicMap.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation);
             City city = field.FindNoneTransparentHexSprite<City>();
             if (city is not null)
             {
                 WallType = city.WallType;
                 razed = city.GetRazed();
-                _flagId = city.Player is null ? -1 : StrategicMap.Current.Players.GetPlayers(city.Player).PlayerRace;
+                _flagId = city.Player is null ? -1 : strategicMap.Players.GetPlayers(city.Player).PlayerRace;
             }
             else
             {
@@ -215,7 +216,7 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
                 {
                     WallType = 1;
                     razed = tower.GetRazed();
-                    _flagId = tower.Player is null ? -1 : StrategicMap.Current.Players.GetPlayers(tower.Player).PlayerRace;
+                    _flagId = tower.Player is null ? -1 : strategicMap.Players.GetPlayers(tower.Player).PlayerRace;
                 }
                 else
                 {
@@ -228,7 +229,7 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
                 RemoveFromMap();
                 int hexY = HexY;
                 int hexX = HexX;
-                UpdateMapFields(CombatMap.Current.MapContainer.GetMapLevel(0), hexX, hexY);
+                UpdateMapFields(GetEngine().CombatMap.MapContainer.GetMapLevel(0), hexX, hexY);
                 Dispose();
             }
             else
@@ -247,7 +248,7 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
                     _flagId = 32;
                 }
 
-                CombatMap.Current.Walls.Add(this);
+                GetEngine().CombatMap.Walls.Add(this);
             }
         }
         else
@@ -295,13 +296,14 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
         {
             if (value == 0)
             {
-                CombatMap.Current.Combat.CombatData.WallBreached = true;
-                if (_playSound && CombatMap.Current.PlaySounds)
+                CombatMap combatMap = GetEngine().CombatMap;
+                combatMap.Combat.CombatData.WallBreached = true;
+                if (_playSound && combatMap.PlaySounds)
                 {
                     _ = AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                 }
 
-                BattleEffectSprite effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
+                BattleEffectSprite effect = GetEngine().CombatMap.AddEffect(BattleEffectType.WallSmoke);
                 Point3D point = new();
                 effect.Path.Add(point);
                 _ = point.X;
@@ -314,7 +316,7 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
             }
             else
             {
-                if (_playSound && CombatMap.Current.PlaySounds)
+                if (_playSound && GetEngine().CombatMap.PlaySounds)
                 {
                     _ = AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
                 }
@@ -336,7 +338,7 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
         pixelYSurface = pixelY - pixelYSurface;
         int hexY = HexY;
         int hexX = HexX;
-        int terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainNumber switch
+        int terrainOffset = GetEngine().CombatMap.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainNumber switch
         {
             3 => 10,
             5 or 7 or 12 => 20,
@@ -351,14 +353,14 @@ public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
                 switch (sequence.Layer)
                 {
                     case 7:
-                        imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
+                        imageIndex = sequence.GetFrameIndex(GetEngine().CombatMap.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                         if (imageIndex != -1)
                         {
-                            if (!CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+                            if (!GetEngine().CombatMap.Status.Contains(HexSpriteMapStatuses.Editting))
                             {
                                 int hexX2 = HexX;
                                 int hexY2 = HexY;
-                                GamePack.Current.FlagControl.ShowFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, frameOffset: hexX2 + StrategicMap.Current.Frame + (hexY2 * 100), flagId: (byte)_flagId, lockedSurface, showBase: false);
+                                GetEngine().GamePack.FlagControl.ShowFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, frameOffset: hexX2 + GetEngine().StrategicMap.Frame + (hexY2 * 100), flagId: (byte)_flagId, lockedSurface, showBase: false);
                             }
                         }
 

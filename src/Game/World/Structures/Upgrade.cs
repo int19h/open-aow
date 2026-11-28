@@ -31,7 +31,7 @@ public sealed record Upgrade : ProductionOrder
             return base.CanExecute(control, ref reason);
         }
 
-        if (StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).Gems >= city.UpgradeCost())
+        if (control.GetEngine().StrategicMap.Players.GetPlayers(control.GetPlayer()).Gems >= city.UpgradeCost())
         {
             return true;
         }
@@ -52,8 +52,9 @@ public sealed record Upgrade : ProductionOrder
         control.Settings.TurnsLeft = control.Settings.TurnsTotal;
         control.Settings.Player = control.GetPlayer();
         control.Settings.Gold = city.UpgradeCost();
-        Player player = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
-        StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(player.Gems - control.Settings.Gold);
+        StrategicMap strategicMap = control.GetEngine().StrategicMap;
+        Player player = strategicMap.Players.GetPlayers(control.GetPlayer());
+        strategicMap.Players.GetPlayers(control.GetPlayer()).SetGems(player.Gems - control.Settings.Gold);
         control.Status = ProductionControlStatus.Producing;
     }
 

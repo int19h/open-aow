@@ -27,11 +27,11 @@ public partial class WaterHex
                 if (_animationFrame == 0)
                 {
                     // { Original tests the Flood enchantment. }
-                    _animationIndex = StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.Flood)
-                        ? OpenSides == 0 && Random(300) == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting)
+                    _animationIndex = GetEngine().StrategicMap.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.Flood)
+                        ? OpenSides == 0 && Random(300) == 0 && !GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting)
                             ? (byte)(Random(10) + 30)
                             : Random(10) < 3 ? (byte)(Random(9) + 50) : (byte)(Random(10) + 20)
-                        : OpenSides == 0 && Random(700) == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting)
+                        : OpenSides == 0 && Random(700) == 0 && !GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting)
                             ? (byte)(Random(10) + 30)
                             : (byte)(Random(10) + 20);
                 }

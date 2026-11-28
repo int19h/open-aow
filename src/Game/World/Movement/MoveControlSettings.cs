@@ -157,7 +157,7 @@ public partial class MoveControlSettings : EngineObject
         _ = MovePointTable;
         MovePointTable movePointTable = army.Army.CreateMovePointTable(selection);
         MovePointTable = movePointTable;
-        if (HeadlessHooks.HandSeatToAI(StrategicMap.Current.Players.GetPlayers(Player).PlayerType))
+        if (HeadlessHooks.HandSeatToAI(GetEngine().StrategicMap.Players.GetPlayers(Player).PlayerType))
         {
             Mode |= MoveModes.AI;
         }

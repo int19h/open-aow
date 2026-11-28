@@ -108,7 +108,7 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     }
 
     // CombatObstacle.pas:107
-    public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => engine.GamePack.CombatResources;
 
     // CombatObstacle.pas:104
     public override bool CanPlace(MapContainer? mapContainer, int hexX, int hexY, int hexLevel) => true;
@@ -126,7 +126,8 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
                 DestroyShadow();
             }
 
-            if (StrategicMap.Current is null || StrategicMap.Current.ShowUnitShadows)
+            StrategicMap? strategicMap = GetEngine()?.StrategicMap;
+            if (strategicMap is null || strategicMap.ShowUnitShadows)
             {
                 _shadow = new CombatObstacleShadow(null)
                 {
@@ -144,7 +145,7 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
         {
             if (Visible)
             {
-                _ = CombatMap.Current.DynamicVisibleHexSprite.RemoveChild(_shadow);
+                _ = GetEngine().CombatMap.DynamicVisibleHexSprite.RemoveChild(_shadow);
             }
 
             _shadow?.Dispose();
@@ -162,7 +163,8 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
                 DestroyOverlay();
             }
 
-            if (StrategicMap.Current is null || StrategicMap.Current.ShowUnitShadows)
+            StrategicMap? strategicMap = GetEngine()?.StrategicMap;
+            if (strategicMap is null || strategicMap.ShowUnitShadows)
             {
                 _overlay = new CombatObstacleOverlay(null)
                 {
@@ -180,7 +182,7 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
         {
             if (Visible)
             {
-                _ = CombatMap.Current.DynamicVisibleHexSprite.RemoveChild(_overlay);
+                _ = GetEngine().CombatMap.DynamicVisibleHexSprite.RemoveChild(_overlay);
             }
 
             _overlay?.Dispose();

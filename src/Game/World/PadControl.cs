@@ -3,8 +3,6 @@
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
-using Aow.Game.World.Map;
-
 using Aow.Game.World.Terrain;
 
 namespace Aow.Game.World;
@@ -71,7 +69,7 @@ public sealed class PadControl : ControlStyleObject
         if (resource is not null)
         {
             ImageLibraryTerrainMapObject pad = resource.CreateResourceUser<ImageLibraryTerrainMapObject>();
-            result = pad.CanPlace(StrategicMap.Current.MapContainer, X, Y, L);
+            result = pad.CanPlace(GetEngine().StrategicMap.MapContainer, X, Y, L);
             pad?.Dispose();
         }
         else
@@ -86,6 +84,6 @@ public sealed class PadControl : ControlStyleObject
     public ImageLibraryTerrainMapObject? PlacePad(int X, int Y, int L, int size)
     {
         MapObjectResource? resource = GetPadResource(size);
-        return resource?.PlaceResourceUser<ImageLibraryTerrainMapObject>(StrategicMap.Current, X, Y, L);
+        return resource?.PlaceResourceUser<ImageLibraryTerrainMapObject>(GetEngine().StrategicMap, X, Y, L);
     }
 }

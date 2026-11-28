@@ -1123,24 +1123,24 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:759
     public virtual void ShowBackHexSelector(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (_selectorX != -1 && _selectorY != -1 && StrategicMap.Current.Mouse.Capture == StrategicMap.Current.SelectedArmy)
+        if (_selectorX != -1 && _selectorY != -1 && GetEngine().StrategicMap.Mouse.Capture == GetEngine().StrategicMap.SelectedArmy)
         {
             HexGeometry.HexToPixel(_selectorX, _selectorY, out int pixelX, out int pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY = pixelY - pixelYSurface - 32 + 2;
-            GamePack.Current.GeneralImages[7].Show(pixelX, pixelY, lockedSurface);
+            GetEngine().GamePack.GeneralImages[7].Show(pixelX, pixelY, lockedSurface);
         }
     }
 
     // AoWHSMap.PAS:772
     public virtual void ShowFrontHexSelector(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (_selectorX != -1 && _selectorY != -1 && StrategicMap.Current.Mouse.Capture == StrategicMap.Current.SelectedArmy)
+        if (_selectorX != -1 && _selectorY != -1 && GetEngine().StrategicMap.Mouse.Capture == GetEngine().StrategicMap.SelectedArmy)
         {
             HexGeometry.HexToPixel(_selectorX, _selectorY, out int pixelX, out int pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY = pixelY - pixelYSurface - 32 + 2;
-            GamePack.Current.GeneralImages[6].Show(pixelX, pixelY, lockedSurface);
+            GetEngine().GamePack.GeneralImages[6].Show(pixelX, pixelY, lockedSurface);
         }
     }
 
@@ -1227,7 +1227,7 @@ public partial class GameMap : OwningNode
         int l = coordinate31.MapLevel;
         if (x != -1)
         {
-            ItemHexSprite items = StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(ItemHexSprite.ClassId);
+            ItemHexSprite items = GetEngine().StrategicMap.MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(ItemHexSprite.ClassId);
             if (items is not null)
             {
                 return items.Items;
@@ -1281,7 +1281,7 @@ public partial class GameMap : OwningNode
     public void PlayCenterAnimation(int X, int Y, int L)
     {
         ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-        animation.SetImageSequence(GamePack.Current.ImageSequences.GetImageSequence(11));
+        animation.SetImageSequence(GetEngine().GamePack.ImageSequences.GetImageSequence(11));
         _ = PlaceHex(animation, X, Y, L);
         _ = AudioPlayback.PlaySample("SFX\\INT\\CENTER.WAV");
     }
@@ -1621,7 +1621,7 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:666 advances a pointer one row. GetField retains that row order.
     public void DrawFog(in LockedSurface surface)
     {
-        bool exploration = ExplorationEnabled || StrategicMap.Current.SeatedPlayer is null;
+        bool exploration = ExplorationEnabled || GetEngine().StrategicMap.SeatedPlayer is null;
         if (!FogEnabled && !exploration)
         {
             return;
@@ -1639,11 +1639,11 @@ public partial class GameMap : OwningNode
                 bool unexplored = exploration && (SeatedPlayer is null || !field.GetExplored(SeatedPlayer));
                 if (unexplored)
                 {
-                    GamePack.Current.GeneralImages[3].Show(pixelX, pixelY, lockedSurface: surface);
+                    GetEngine().GamePack.GeneralImages[3].Show(pixelX, pixelY, lockedSurface: surface);
                 }
                 else if (FogEnabled && field.FogCount == 0)
                 {
-                    GamePack.Current.GeneralImages[1].Show(pixelX, pixelY, lockedSurface: surface);
+                    GetEngine().GamePack.GeneralImages[1].Show(pixelX, pixelY, lockedSurface: surface);
                 }
             }
         }
@@ -1662,7 +1662,7 @@ public partial class GameMap : OwningNode
             {
                 if (level.GetField(x, y).Terrain != TerrainType.Border)
                 {
-                    GamePack.Current.FlagControl.Flags[7].Show(pixelX, pixelY, lockedSurface: surface);
+                    GetEngine().GamePack.FlagControl.Flags[7].Show(pixelX, pixelY, lockedSurface: surface);
                 }
             }
         }

@@ -17,7 +17,7 @@ public class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(owner)
     public new const int ClassId = 2_229_514;
 
     // IsoCombatHex.pas:43
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => engine.GamePack.CombatResources;
 
     // IsoCombatHex.pas:46
     public override void ShowDynamic(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

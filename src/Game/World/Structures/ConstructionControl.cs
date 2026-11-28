@@ -4,8 +4,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Game.World.Map;
-
 namespace Aow.Game.World.Structures;
 
 public class ConstructionControl(CustomNode owner) : EngineObject(owner)
@@ -23,7 +21,7 @@ public class ConstructionControl(CustomNode owner) : EngineObject(owner)
     public virtual bool CanConstruct(Troop troop, ref string reason)
     {
         GetInfo(troop, text: out _, out int gold, days: out _);
-        if (StrategicMap.Current.Players.GetPlayers(troop.Player).Gems < gold)
+        if (GetEngine().StrategicMap.Players.GetPlayers(troop.Player).Gems < gold)
         {
             reason = AbilityRules.TranslateResourceString(GetEngine(), S: s_notEnoughGoldText);
             return false;

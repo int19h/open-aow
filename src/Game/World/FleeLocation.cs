@@ -50,17 +50,18 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
     public override void Activate()
     {
         base.Activate();
-        CombatMap.Current.FrameStarted += NewFrame;
-        _highlighted = CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting);
+        CombatMap combatMap = GetEngine().CombatMap;
+        combatMap.FrameStarted += NewFrame;
+        _highlighted = combatMap.Status.Contains(HexSpriteMapStatuses.Editting);
         _alpha = _highlighted ? 50 : 0;
 
-        CombatMap.Current.FleeLocations.Add(this);
+        combatMap.FleeLocations.Add(this);
     }
 
     // FleeLoc.pas:65
     public override void Deactivate()
     {
-        CombatMap.Current.FrameStarted -= NewFrame;
+        GetEngine().CombatMap.FrameStarted -= NewFrame;
         base.Deactivate();
     }
 
@@ -68,7 +69,7 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
     public override bool CanSelect(int pixelX, int pixelY) => true;
 
     // FleeLoc.pas:79
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => engine.GamePack.CombatResources;
 
     // FleeLoc.pas:87
     public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel) => true;
@@ -83,7 +84,7 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
             if (oldHex is not null)
             {
                 oldHex?.Dispose();
-                _ = GamePack.Current.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, L: 0, terrainType: 1);
+                _ = GetEngine().GamePack.CombatHexes.Place(GetEngine().CombatMap.MapContainer, hexX, hexY, L: 0, terrainType: 1);
             }
         }
 
@@ -94,13 +95,14 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
     public void NewFrame(object sender)
     {
         bool highlight = false;
-        if (CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        CombatMap combatMap = GetEngine().CombatMap;
+        if (combatMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             highlight = true;
         }
         else
         {
-            if (CombatMap.Current.UnitSelection.TacticalBattleUnitHexSprite is not null && CombatMap.Current.UnitSelection.TacticalBattleUnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer && CombatMap.Current.UnitSelection.TacticalBattleUnitHexSprite.Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
+            if (combatMap.UnitSelection.TacticalBattleUnitHexSprite is not null && combatMap.UnitSelection.TacticalBattleUnitHexSprite.Unit.CombatPlayer == combatMap.SeatedCombatPlayer && combatMap.UnitSelection.TacticalBattleUnitHexSprite.Unit.CombatPlayer != combatMap.Combat.CombatData.DefenderPlayer)
             {
                 highlight = true;
             }

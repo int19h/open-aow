@@ -69,7 +69,7 @@ public sealed partial class ProductionPlaceControl(CustomNode? owner) : Producti
             Player = productionPlace.Player
         };
         UnitProduction? unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
-        string unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
+        string unitName = GetEngine().GamePack.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         string name = ProductionPlace.GetName();
         log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.InstalledFormat), args: [unitName, name]);
         log.SetLocation(y: productionPlace.HexY, x: productionPlace.HexX, level: productionPlace.HexLevel);
@@ -104,7 +104,7 @@ public sealed partial class ProductionPlaceControl(CustomNode? owner) : Producti
         if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
         {
             UnitProduction? unitProduction = UnitProductions.GetItem(index);
-            return GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 5;
+            return GetEngine().GamePack.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 5;
         }
         else
         {
@@ -116,7 +116,7 @@ public sealed partial class ProductionPlaceControl(CustomNode? owner) : Producti
     public override int UnitProductionTime(int index)
     {
         index = UnitProductions.GetItem(index).UnitIndex;
-        int result = GamePack.Current.UnitResources.GetUnitResource(index).Level * 2;
+        int result = GetEngine().GamePack.UnitResources.GetUnitResource(index).Level * 2;
         if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
         {
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(ProductionPlace.Player);
@@ -124,7 +124,7 @@ public sealed partial class ProductionPlaceControl(CustomNode? owner) : Producti
             if (player > 0)
             {
                 MagicSphere magicSphere = ProductionPlace.GetMagicSphere();
-                picks = StrategicMap.Current.Players.GetPlayers(player).Leader.GetSpherePicks(magicSphere);
+                picks = GetEngine().StrategicMap.Players.GetPlayers(player).Leader.GetSpherePicks(magicSphere);
             }
             else
             {

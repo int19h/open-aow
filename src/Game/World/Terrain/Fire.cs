@@ -95,7 +95,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     {
         if (_explosionFrame != 0)
         {
-            int frame = StrategicMap.Current.Frame - _explosionFrame;
+            int frame = GetEngine().StrategicMap.Frame - _explosionFrame;
             if (frame >= 0 && frame < base.Resource.ImageSequenceList.GetImageSequence(20).TotalSequenceFrames)
             {
                 HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
@@ -142,7 +142,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // Structur.PAS:3589
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (message.MessageId != 16 || StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (message.MessageId != 16 || GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             base.MapFieldMessageProc(ref message);
         }
@@ -182,10 +182,10 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // Structur.PAS:3509
     public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!Status.Contains(MapObjectStatuses.Visible) && _explosionFrame != 0 && StrategicMap.Current.Frame == _explosionFrame)
+        if (!Status.Contains(MapObjectStatuses.Visible) && _explosionFrame != 0 && GetEngine().StrategicMap.Frame == _explosionFrame)
         {
             int hexX = HexX;
-            _ = AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[(hexX + StrategicMap.Current.Frame) % 2]);
+            _ = AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[(hexX + GetEngine().StrategicMap.Frame) % 2]);
         }
 
         base.MakeVisible(visibilityList);
@@ -274,7 +274,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     {
         if (base.Resource.ImageSequenceList.GetImageSequence(20) is not null)
         {
-            _explosionFrame = delay + StrategicMap.Current.Frame;
+            _explosionFrame = delay + GetEngine().StrategicMap.Frame;
         }
     }
 
@@ -308,7 +308,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // Structur.PAS:3584
     public void ArmyPlaced(ArmyHexSprite? armyHexSprite)
     {
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (!GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             armyHexSprite.Army.TriggerFireDamage();
         }
@@ -338,11 +338,11 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
                 if (walk.X >= 0 && walk.X < mapLevel.Width && walk.Y > 0 && walk.Y < mapLevel.Height)
                 {
                     int chance = MapField.IgnitionChance(mapLevel.GetField(walk.X, walk.Y));
-                    if (chance > StrategicMap.Current.Random(1_000))
+                    if (chance > GetEngine().StrategicMap.Random(1_000))
                     {
-                        RandSeed = StrategicMap.Current.Random(16777215);
+                        RandSeed = GetEngine().StrategicMap.Random(16777215);
                         int hexLevel = HexLevel;
-                        Fire? fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, L: hexLevel, fireType: FireType.Large);
+                        Fire? fire = GetEngine().GamePack.FireControl.PlaceFire(walk.X, walk.Y, L: hexLevel, fireType: FireType.Large);
                         if (fire is not null)
                         {
                             fire.Player = Player;
@@ -400,9 +400,9 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         // FireType
         public override void Dispose()
         {
-            if (Engine is not null && !GamePack.Current.Status.Contains(HexSpriteSetStatuses.Destroying))
+            if (Engine is not null && !GetEngine().GamePack.Status.Contains(HexSpriteSetStatuses.Destroying))
             {
-                GamePack.Current.FireControl.UnregisterFireResource(this);
+                GetEngine().GamePack.FireControl.UnregisterFireResource(this);
             }
 
             base.Dispose();
@@ -421,7 +421,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             base.MessageProc(ref message, sender);
             if (message.MessageId == 536870920)
             {
-                GamePack.Current.FireControl.RegisterFireResource(this);
+                GetEngine().GamePack.FireControl.RegisterFireResource(this);
             }
         }
 

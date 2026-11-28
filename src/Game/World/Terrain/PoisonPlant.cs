@@ -157,7 +157,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     public void TriggerArmyDamage(ArmyHexSprite? armyHexSprite)
     {
         int count = 0;
-        RandSeed = StrategicMap.Current.Random(16777215);
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
         ArmyEventLog log = new(null, holder: CreationHolder())
         {
             ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: s_poisonPlantDamageText),
@@ -216,7 +216,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
     // PoisonP.pas:168
     public void ArmyPlaced(ArmyHexSprite? armyHexSprite)
     {
-        if (PoisonPlantActive() && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (PoisonPlantActive() && !GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             TriggerArmyDamage(armyHexSprite);
         }
@@ -230,7 +230,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
         Dispose();
         if (originalOverlay > 0)
         {
-            StrategicMap.Current.PlaceTerrain(mapField.HexX, mapField.HexY, L: mapField.HexLevel, terrainType: mapField.TerrainNumber, overlayType: originalOverlay);
+            GetEngine().StrategicMap.PlaceTerrain(mapField.HexX, mapField.HexY, L: mapField.HexLevel, terrainType: mapField.TerrainNumber, overlayType: originalOverlay);
         }
     }
 
@@ -262,21 +262,22 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
         int hexLevel = animation.HexLevel;
         int hexY = animation.HexY;
         int hexX = animation.HexX;
-        MapField mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        MapField mapField = strategicMap.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == mapField.FindOwnedChild(ClassId) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
-            bool condition = PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == animation.Tag;
+            bool condition = PlayerIdExtensions.ToOriginal(strategicMap.SeatedPlayer) == animation.Tag;
             if (!condition)
             {
                 int hexLevel2 = HexLevel;
                 int hexY2 = HexY;
                 int hexX2 = HexX;
-                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
+                condition = strategicMap.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
             }
 
             if (condition)
             {
-                _ = GamePack.Current.SpellControl[12].CastSounds.Play(0);
+                _ = GetEngine().GamePack.SpellControl[12].CastSounds.Play(0);
             }
         }
     }
@@ -287,7 +288,7 @@ public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner
         int hexLevel = animation.HexLevel;
         int hexY = animation.HexY;
         int hexX = animation.HexX;
-        MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        MapField field = GetEngine().StrategicMap.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(ClassId) && frameCounter == 9)
         {
             PlantStatus &= ~PoisonPlantStatuses.Summoning;

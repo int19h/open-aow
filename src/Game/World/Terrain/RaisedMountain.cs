@@ -77,7 +77,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         Dispose();
         if (overlay > 0)
         {
-            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, L: field.HexLevel, terrainType: field.TerrainNumber, overlayType: overlay);
+            GetEngine().StrategicMap.PlaceTerrain(field.HexX, field.HexY, L: field.HexLevel, terrainType: field.TerrainNumber, overlayType: overlay);
         }
     }
 
@@ -100,22 +100,23 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         int hexLevel = animation.HexLevel;
         int hexY = animation.HexY;
         int hexX = animation.HexX;
-        MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        MapField field = strategicMap.MapContainer.GetField(hexX, hexY, hexLevel);
         // { Original tests the base mountain ID, although this object is raised terrain. }
         if (this == field.FindOwnedChild(MountainMapObject.ClassId) && animation.FrameCounter == 0)
         {
-            bool condition = PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == animation.Tag;
+            bool condition = PlayerIdExtensions.ToOriginal(strategicMap.SeatedPlayer) == animation.Tag;
             if (!condition)
             {
                 int hexLevel2 = HexLevel;
                 int hexY2 = HexY;
                 int hexX2 = HexX;
-                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
+                condition = strategicMap.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
             }
 
             if (condition)
             {
-                _ = GamePack.Current.SpellControl[19].CastSounds.Play(0);
+                _ = GetEngine().GamePack.SpellControl[19].CastSounds.Play(0);
             }
         }
     }
@@ -126,7 +127,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         int hexLevel = animation.HexLevel;
         int hexY = animation.HexY;
         int hexX = animation.HexX;
-        MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        MapField field = GetEngine().StrategicMap.MapContainer.GetField(hexX, hexY, hexLevel);
         if (field.FindOwnedChild(ClassId) == this && frameCounter == 9)
         {
             Mode &= ~RaisedMountainModes.Raising;

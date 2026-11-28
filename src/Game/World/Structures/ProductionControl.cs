@@ -105,12 +105,12 @@ public partial class ProductionControl : EngineObject
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
             if (player > -1)
             {
-                Player? players = StrategicMap.Current.Players.GetPlayers(player);
+                Player? players = GetEngine().StrategicMap.Players.GetPlayers(player);
                 int cancelProductionReturnGold = CancelProductionReturnGold();
-                StrategicMap.Current.Players.GetPlayers(player).SetGems(players.Gems + cancelProductionReturnGold);
-                Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
+                GetEngine().StrategicMap.Players.GetPlayers(player).SetGems(players.Gems + cancelProductionReturnGold);
+                Player? fPlayersPlayers = GetEngine().StrategicMap.Players.GetPlayers(player);
                 int cancelProductionReturnMana = CancelProductionReturnMana();
-                StrategicMap.Current.Players.GetPlayers(player).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + cancelProductionReturnMana);
+                GetEngine().StrategicMap.Players.GetPlayers(player).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + cancelProductionReturnMana);
             }
 
             Settings.Clear();
@@ -329,7 +329,7 @@ public partial class ProductionControl : EngineObject
         {
             Unit unit = new(null) { Holder = CreationHolder() };
             UnitProduction? unitProduction = UnitProductions.GetItem(index);
-            unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
+            unit.SetUnitResource(GetEngine().GamePack.UnitResources.GetUnitResource(unitProduction.UnitIndex));
             return unit;
         }
         else
@@ -408,7 +408,7 @@ public partial class ProductionControl : EngineObject
         if (condition)
         {
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-            condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
+            condition = !GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy();
         }
         if (condition)
         {
@@ -416,7 +416,7 @@ public partial class ProductionControl : EngineObject
             eventValue.Command = 1;
             eventValue.Index = index;
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-            StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -433,14 +433,14 @@ public partial class ProductionControl : EngineObject
         if (condition)
         {
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-            condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
+            condition = !GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy();
         }
         if (condition)
         {
             ProductionTokenEvent eventValue = CreateProductionTokenEvent();
             eventValue.Command = 2;
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-            StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -460,7 +460,7 @@ public partial class ProductionControl : EngineObject
     public virtual int UnitProductionGold(int index)
     {
         int unitIndex = UnitProductions.GetItem(index).UnitIndex;
-        return GamePack.Current.UnitResources.GetUnitResource(unitIndex).ObtainValue;
+        return GetEngine().GamePack.UnitResources.GetUnitResource(unitIndex).ObtainValue;
     }
 
     // Structur.PAS:590
@@ -470,7 +470,7 @@ public partial class ProductionControl : EngineObject
     public virtual int UnitProductionGoldUpkeep(int index)
     {
         UnitProduction? unitProduction = UnitProductions.GetItem(index);
-        return (GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level + 1) * 2;
+        return (GetEngine().GamePack.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level + 1) * 2;
     }
 
     // Structur.PAS:593
@@ -480,7 +480,7 @@ public partial class ProductionControl : EngineObject
     public virtual int UnitProductionTime(int index)
     {
         int unitIndex = UnitProductions.GetItem(index).UnitIndex;
-        return GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level;
+        return GetEngine().GamePack.UnitResources.GetUnitResource(unitIndex).Level;
     }
 
     // Structur.PAS:604
@@ -494,7 +494,7 @@ public partial class ProductionControl : EngineObject
         if (condition)
         {
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-            condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
+            condition = !GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy();
         }
         if (condition)
         {
@@ -508,7 +508,7 @@ public partial class ProductionControl : EngineObject
             };
 
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-            StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -525,7 +525,7 @@ public partial class ProductionControl : EngineObject
     public virtual int UnitResearchGold(int index)
     {
         int unitIndex = UnitProductions.GetItem(index).UnitIndex;
-        return GamePack.Current.UnitResources.GetUnitResource(unitIndex).ObtainValue;
+        return GetEngine().GamePack.UnitResources.GetUnitResource(unitIndex).ObtainValue;
     }
 
     // Structur.PAS:649
@@ -535,7 +535,7 @@ public partial class ProductionControl : EngineObject
     public virtual int UnitResearchTime(int index)
     {
         int unitIndex = UnitProductions.GetItem(index).UnitIndex;
-        return GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level;
+        return GetEngine().GamePack.UnitResources.GetUnitResource(unitIndex).Level;
     }
 
     // Structur.PAS:660
@@ -561,7 +561,7 @@ public partial class ProductionControl : EngineObject
         if (condition)
         {
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-            condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
+            condition = !GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy();
         }
         if (condition)
         {
@@ -575,7 +575,7 @@ public partial class ProductionControl : EngineObject
             };
 
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-            StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
             _ = eventValue.Release();
             // { Original returns False after successfully queueing research. }
             return false;
@@ -604,7 +604,7 @@ public partial class ProductionControl : EngineObject
     {
         if (Status == ProductionControlStatus.Producing && Settings.GroupId != 0)
         {
-            AIGroup? group = StrategicMap.Current.AIGroupManager.Groups.FindId(Settings.GroupId);
+            AIGroup? group = GetEngine().StrategicMap.AIGroupManager.Groups.FindId(Settings.GroupId);
             group?.Productions.Add(this, troop: Settings.Unit);
         }
     }
@@ -614,7 +614,7 @@ public partial class ProductionControl : EngineObject
     {
         if (Status == ProductionControlStatus.Producing && Settings.GroupId != 0)
         {
-            AIGroup? group = StrategicMap.Current.AIGroupManager.Groups.FindId(Settings.GroupId);
+            AIGroup? group = GetEngine().StrategicMap.AIGroupManager.Groups.FindId(Settings.GroupId);
             group?.Productions.DeleteUnit(Settings.Unit);
 
             Settings.GroupId = 0;
@@ -625,7 +625,7 @@ public partial class ProductionControl : EngineObject
     public void GroupProductionProduced(Troop? troop, int groupId)
     {
         sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-        AIGroup group = StrategicMap.Current.Players.GetPlayers(player).AIGroups.FindId(groupId);
+        AIGroup group = GetEngine().StrategicMap.Players.GetPlayers(player).AIGroups.FindId(groupId);
         group?.UnitProduced(this, troop);
     }
 
@@ -633,14 +633,14 @@ public partial class ProductionControl : EngineObject
     public bool Produce(ProductionItem item, bool queue)
     {
         sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-        if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy())
+        if (!GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy())
         {
             ProductionTokenEvent eventValue = CreateProductionTokenEvent();
             eventValue.Command = 0;
             eventValue.Queue = queue;
             eventValue.Item = item.Copy<ProductionItem>(GetEngine());
             sbyte player2 = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-            StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player2)).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(PlayerId.FromOriginal(player2)).AddEvent(eventValue);
             _ = eventValue.Release();
             // { Original returns False after successfully queueing production. }
             return false;
@@ -658,7 +658,7 @@ public partial class ProductionControl : EngineObject
         if (condition)
         {
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-            condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
+            condition = !GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy();
         }
         if (condition)
         {
@@ -667,7 +667,7 @@ public partial class ProductionControl : EngineObject
                 ProductionTokenEvent eventValue = CreateProductionTokenEvent();
                 eventValue.Command = 3;
                 sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-                StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
+                GetEngine().StrategicMap.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
                 _ = eventValue.Release();
                 return true;
             }
@@ -689,7 +689,7 @@ public partial class ProductionControl : EngineObject
         if (condition)
         {
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-            condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
+            condition = !GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy();
         }
         if (condition)
         {
@@ -698,7 +698,7 @@ public partial class ProductionControl : EngineObject
             eventValue.Index = value ? 1 : 0;
 
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-            StrategicMap.Current.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(PlayerId.FromOriginal(player)).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -738,7 +738,7 @@ public partial class ProductionControl : EngineObject
     public int FindOptimalResearchProduction(CombatPredictor? predictor, int gold)
     {
         sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(GetPlayer());
-        Player? playerPlayer = StrategicMap.Current.Players.GetPlayers(player);
+        Player? playerPlayer = GetEngine().StrategicMap.Players.GetPlayers(player);
         Unit unit = new(null) { Holder = CreationHolder() };
         DoubleItemList productions = [];
         for (int i = UnitProductions.Count - 1; i >= 0; i--)
@@ -750,7 +750,7 @@ public partial class ProductionControl : EngineObject
                 if (predictor is not null)
                 {
                     UnitProduction? unitProduction = UnitProductions.GetItem(i);
-                    unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
+                    unit.SetUnitResource(GetEngine().GamePack.UnitResources.GetUnitResource(unitProduction.UnitIndex));
                     priority = predictor.Usefullness(unit);
                     // { Original replaces the affordability check here. }
                     include = (priority & 0b1000_0000_0000_0000_0000_0000) != 0;
@@ -778,7 +778,7 @@ public partial class ProductionControl : EngineObject
                 result += 1;
             }
 
-            result = StrategicMap.Current.Random(2) == 1 ? 0 : StrategicMap.Current.Random(result + 1);
+            result = GetEngine().StrategicMap.Random(2) == 1 ? 0 : GetEngine().StrategicMap.Random(result + 1);
 
             result = productions[result].First;
         }

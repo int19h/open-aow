@@ -23,10 +23,16 @@ public class FlagControl : ControlStyleObject
 
     public CustomImageLibrary? Flags { get; set; }
 
-    // PlayerC.PAS:1920
+    // PlayerC.PAS:1920. The flags go back to the pack that owns this control, the one the
+    // constructor linked them from (issue 335, second-engine ownership). A detached or already
+    // disposed control has no pack to release from.
     public override void Dispose()
     {
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "Flags.ILB");
+        if (Owner is GamePack gamePack)
+        {
+            gamePack.ImageLibraryManager?.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "Flags.ILB");
+        }
+
         Flags = null;
         base.Dispose();
     }

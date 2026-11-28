@@ -633,7 +633,8 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             if (mapField.FindNoneTransparentHexSprite(typeof(Structure)) is not null)
             {
                 result += 5;
-                if (StrategicMap.Current is not null && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.FireMastery))
+                StrategicMap? strategicMap = mapField.GetEngine()?.StrategicMap;
+                if (strategicMap is not null && strategicMap.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.FireMastery))
                 {
                     result += 5;
                 }

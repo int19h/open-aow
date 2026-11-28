@@ -33,10 +33,11 @@ public class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
         _helpFileName = persister.String("HelpFileName", value: _helpFileName);
     }
 
-    // FlagEvents.pas:204
+    // FlagEvents.pas:204. The seated player check reads the creator engine's map to match the
+    // log destination below (issue 335, second-engine ownership).
     public override bool Trigger(PlayerId? player)
     {
-        if (StrategicMap.Current.SeatedPlayer == player)
+        if (GetEngine().StrategicMap.SeatedPlayer == player)
         {
             FlagMessageEventLog log = new(null, holder: CreationHolder())
             {

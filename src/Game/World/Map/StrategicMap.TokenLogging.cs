@@ -35,7 +35,7 @@ public sealed partial class StrategicMap
 
     public void StartTokenEventLogging()
     {
-        if (TokenEventLogging || Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (TokenEventLogging || GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             return;
         }
@@ -55,9 +55,9 @@ public sealed partial class StrategicMap
                 HostLog.FallbackAtCallSite(RtlHost.Logger, error: error);
             }
             WriteTokenLog($"Map Session: {MapName}");
-            int player = Current.Players.LocalHumanPlayers[0];
+            int player = GetEngine().StrategicMap.Players.LocalHumanPlayers[0];
             WriteTokenLog($"Local Player: {player.ToString(CultureInfo.InvariantCulture)}");
-            WriteTokenLog($"Local Race: {AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[Current.Players.GetPlayers((sbyte)player).PlayerRace])}");
+            WriteTokenLog($"Local Race: {AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[GetEngine().StrategicMap.Players.GetPlayers((sbyte)player).PlayerRace])}");
             TokenEventLogging = true;
         }
         catch (Exception error)
@@ -94,7 +94,8 @@ public sealed partial class StrategicMap
 
         if (TokenEventLogging && TokenManager.TokenExecutor.ExecuteCount == 0)
         {
-            WriteTokenLog($"{token.GetType().Name} (P:{TokenManager.TokenExecutor.ActiveTacticalBattleIndex.ToString(CultureInfo.InvariantCulture)}/T:{token.TokenCounter.ToString(CultureInfo.InvariantCulture)}/S:{DefendersSeed.ToString(CultureInfo.InvariantCulture)}/D:{Current.Day.ToString(CultureInfo.InvariantCulture)}/AIPC:{Current.AIExecutor.ProcessCycles.ToString(CultureInfo.InvariantCulture)}", flush: true);
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            WriteTokenLog($"{token.GetType().Name} (P:{TokenManager.TokenExecutor.ActiveTacticalBattleIndex.ToString(CultureInfo.InvariantCulture)}/T:{token.TokenCounter.ToString(CultureInfo.InvariantCulture)}/S:{DefendersSeed.ToString(CultureInfo.InvariantCulture)}/D:{strategicMap.Day.ToString(CultureInfo.InvariantCulture)}/AIPC:{strategicMap.AIExecutor.ProcessCycles.ToString(CultureInfo.InvariantCulture)}", flush: true);
         }
     }
 

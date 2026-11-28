@@ -18,16 +18,17 @@ public sealed class AowHexSpriteMapMouse : GameMapMouse
     // AoWHSMap.PAS:1148
     public override int GetCursor()
     {
-        CombatMap combatMap = StrategicMap.Current.CombatMap;
+        CombatMap combatMap = HexSpriteMap.GetEngine().StrategicMap.CombatMap;
         return combatMap is not null ? combatMap.Mouse.GetCursor() : base.GetCursor();
     }
 
     // AoWHSMap.PAS:1157
     public override void Down(MouseButton button, ShiftStates shift, int X, int Y)
     {
-        if (StrategicMap.Current.CombatMap is not null)
+        StrategicMap strategicMap = HexSpriteMap.GetEngine().StrategicMap;
+        if (strategicMap.CombatMap is not null)
         {
-            StrategicMap.Current.CombatMap.Mouse.Down(button, shift, X, Y);
+            strategicMap.CombatMap.Mouse.Down(button, shift, X, Y);
         }
         else
         {
@@ -45,9 +46,10 @@ public sealed class AowHexSpriteMapMouse : GameMapMouse
     // AoWHSMap.PAS:1167
     public override void Up(MouseButton button, ShiftStates shift, int X, int Y)
     {
-        if (StrategicMap.Current.CombatMap is not null)
+        StrategicMap strategicMap = HexSpriteMap.GetEngine().StrategicMap;
+        if (strategicMap.CombatMap is not null)
         {
-            StrategicMap.Current.CombatMap.Mouse.Up(button, shift, X, Y);
+            strategicMap.CombatMap.Mouse.Up(button, shift, X, Y);
         }
         else
         {
@@ -58,7 +60,7 @@ public sealed class AowHexSpriteMapMouse : GameMapMouse
     // AoWHSMap.PAS:1175
     public override void Move(ShiftStates shift, int X, int Y)
     {
-        CombatMap combatMap = StrategicMap.Current.CombatMap;
+        CombatMap combatMap = HexSpriteMap.GetEngine().StrategicMap.CombatMap;
         if (combatMap is not null)
         {
             combatMap.Mouse.Move(shift, X, Y);
@@ -72,7 +74,7 @@ public sealed class AowHexSpriteMapMouse : GameMapMouse
     // AoWHSMap.PAS:1184
     public override void DoubleClick()
     {
-        CombatMap combatMap = StrategicMap.Current.CombatMap;
+        CombatMap combatMap = HexSpriteMap.GetEngine().StrategicMap.CombatMap;
         if (combatMap is not null)
         {
             combatMap.Mouse.DoubleClick();
@@ -80,20 +82,21 @@ public sealed class AowHexSpriteMapMouse : GameMapMouse
         }
 
         bool selectStructure = Capture is null;
-        if (Capture == StrategicMap.Current.SelectedArmy)
+        StrategicMap strategicMap = HexSpriteMap.GetEngine().StrategicMap;
+        if (Capture == strategicMap.SelectedArmy)
         {
-            selectStructure = StrategicMap.Current.SelectedArmy.ArmyHexSprite is not null && StrategicMap.Current.SelectedArmy.MoveSettingsList.Count == 1 && StrategicMap.Current.SelectedArmy.ArmyHexSprite.HexX == HexX && StrategicMap.Current.SelectedArmy.ArmyHexSprite.HexY == HexY && StrategicMap.Current.SelectedArmy.ArmyHexSprite.HexLevel == StrategicMap.Current.ViewMapLevel;
+            selectStructure = strategicMap.SelectedArmy.ArmyHexSprite is not null && strategicMap.SelectedArmy.MoveSettingsList.Count == 1 && strategicMap.SelectedArmy.ArmyHexSprite.HexX == HexX && strategicMap.SelectedArmy.ArmyHexSprite.HexY == HexY && strategicMap.SelectedArmy.ArmyHexSprite.HexLevel == strategicMap.ViewMapLevel;
         }
 
         if (selectStructure && HexX != -1)
         {
             int hexY = HexY;
             int hexX = HexX;
-            Structure structure = StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).FindNoneTransparentHexSprite<Structure>();
+            Structure structure = strategicMap.MapContainer.GetField(hexX, hexY, strategicMap.ViewMapLevel).FindNoneTransparentHexSprite<Structure>();
             if (structure is not null && structure.CanDoubleClick())
             {
-                StrategicMap.Current.Selection.UnselectLocation();
-                StrategicMap.Current.Selection.SelectLocationHexSprite(structure);
+                strategicMap.Selection.UnselectLocation();
+                HexSpriteMap.GetEngine().StrategicMap.Selection.SelectLocationHexSprite(structure);
             }
         }
 

@@ -84,7 +84,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
                         {
                             if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: 0, engine: GetEngine()!))
                             {
-                                priority = 50 - (StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2);
+                                priority = 50 - (GetEngine().StrategicMap.Players.GetPlayers(info.Player).Income / 2);
                                 if (priority < 25)
                                 {
                                     priority = 25;
@@ -131,7 +131,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
         {
             int count = GetRazed() || TerrainType == 5
                 ? 0
-                : StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting)
+                : GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting)
                     ? base.Resource.CropLocations.Count
                     : -1;
 

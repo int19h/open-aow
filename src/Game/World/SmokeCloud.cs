@@ -91,7 +91,7 @@ public class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:300
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (_visibleForSeatedPlayer || StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (_visibleForSeatedPlayer || GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -120,7 +120,7 @@ public class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:245
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (message.MessageId != 16 || StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (message.MessageId != 16 || GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             base.MapFieldMessageProc(ref message);
         }
@@ -149,7 +149,7 @@ public class SmokeCloud : MultiHexMapObject
         base.Activate();
         if (_direction == 0)
         {
-            _direction = (StrategicMap.Current.Random(6) + 1).TruncateToByte();
+            _direction = (GetEngine().StrategicMap.Random(6) + 1).TruncateToByte();
         }
 
         SmokeCloudEnchantment smokeCloudEnchantment = Enchantment;
@@ -199,7 +199,7 @@ public class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:216
     public void UpdateConcealment(int hexX, int hexY, int hexLevel)
     {
-        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[hexLevel];
+        MapLevel level = GetEngine().StrategicMap.MapContainer.MapLevels[hexLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
         while (base.Resource.TerrainList.Count > walk.HexNumber)
         {
@@ -220,11 +220,12 @@ public class SmokeCloud : MultiHexMapObject
         int hexLevel = HexLevel;
         int hexY = HexY;
         int hexX = HexX;
-        bool visible = StrategicMap.Current.Visible(hexX, hexY, L: hexLevel, radius: 3) || Enchantment.PlayerIndex == StrategicMap.Current.SeatedPlayer;
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        bool visible = strategicMap.Visible(hexX, hexY, L: hexLevel, radius: 3) || Enchantment.PlayerIndex == strategicMap.SeatedPlayer;
         if (_visibleForSeatedPlayer ^ visible)
         {
             _visibleForSeatedPlayer = visible;
-            StrategicMap.Current.GlobalMagicControl.TriggerChangedEvent();
+            strategicMap.GlobalMagicControl.TriggerChangedEvent();
         }
     }
 
@@ -263,7 +264,7 @@ public class SmokeCloud : MultiHexMapObject
 
                 while (directions.Count != 0 && !valid)
                 {
-                    direction = directions[StrategicMap.Current.Random(directions.Count)];
+                    direction = directions[GetEngine().StrategicMap.Random(directions.Count)];
                     valid = ValidMoveDirection(direction);
                     if (!valid)
                     {
@@ -275,7 +276,7 @@ public class SmokeCloud : MultiHexMapObject
                     int tries = 20;
                     while (!valid && tries != 0)
                     {
-                        direction = StrategicMap.Current.Random(6) + 1;
+                        direction = GetEngine().StrategicMap.Random(6) + 1;
                         valid = ValidMoveDirection(direction);
                         tries -= 1;
                     }
@@ -294,7 +295,7 @@ public class SmokeCloud : MultiHexMapObject
                     UpdateConcealment(StoredHexX, StoredHexY, hexLevel.TruncateToSByte());
                     StoredHexX = hexX.TruncateToSByte();
                     StoredHexY = hexY.TruncateToSByte();
-                    Owner = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+                    Owner = GetEngine().StrategicMap.MapContainer.GetField(hexX, hexY, hexLevel);
                     Connect();
                     UpdateConcealment(StoredHexX, StoredHexY, hexLevel.TruncateToSByte());
                 }
