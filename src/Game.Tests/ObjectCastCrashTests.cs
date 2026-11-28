@@ -87,7 +87,7 @@ public sealed class ObjectCastCrashTests
 
         public bool Destroyed { get; private set; }
 
-        public override MapObjectResourceList GetResourceList(GameEngine? engine) => Resources;
+        public override MapObjectResourceList GetResourceList(GameEngine engine) => Resources;
 
         public override void Dispose() => Destroyed = true;
     }

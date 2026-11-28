@@ -70,9 +70,12 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         }
 
         base.Dispose();
-        if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
+        // The structure has left its owner here. It tests the map of its remembered engine and
+        // skips the notice when no engine or map is reached (G5 guard rule).
+        StrategicMap? strategicMap = GetEngine()?.StrategicMap;
+        if (strategicMap is not null && !strategicMap.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
-            StrategicMap.Current.NotifyStructureDestroyed(this);
+            strategicMap.NotifyStructureDestroyed(this);
         }
     }
 
@@ -267,7 +270,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
                                             {
                                                 if (message.MessageId == 4364 && message.HexNumber == 0)
                                                 {
-                                                    if (Resource.TerrainList.Terrain[message.HexNumber].Value is not null && (!StrategicMap.Current.FogEnabled || !Fogged))
+                                                    if (Resource.TerrainList.Terrain[message.HexNumber].Value is not null && (!GetEngine().StrategicMap.FogEnabled || !Fogged))
                                                     {
                                                         MapFieldMessageParameters param2 = message.Param;
                                                         param2[0] = param2[0].Int + 3584;
@@ -290,8 +293,8 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     public override void Activate()
     {
         base.Activate();
-        StrategicMap.Current.StructureControl.Register(this);
-        if (StrategicMap.Current.ShowUnitShadows && Resource.CastsShadow && !EditMode)
+        GetEngine().StrategicMap.StructureControl.Register(this);
+        if (GetEngine().StrategicMap.ShowUnitShadows && Resource.CastsShadow && !EditMode)
         {
             CreateShadow();
         }
@@ -300,7 +303,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     // Structur.PAS:1593
     public override void Deactivate()
     {
-        StrategicMap.Current.StructureControl.Unregister(this);
+        GetEngine().StrategicMap.StructureControl.Unregister(this);
         base.Deactivate();
     }
 
@@ -316,7 +319,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     // Structur.PAS:1184
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        if (!StrategicMap.Current.FogEnabled || !Fogged)
+        if (!GetEngine().StrategicMap.FogEnabled || !Fogged)
         {
             HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int x, out int y);
             int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, x, y);
@@ -332,7 +335,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     public override void Select()
     {
         base.Select();
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (!GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             PlaySelectSample();
         }
@@ -345,7 +348,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel)
     {
         return Resource.TerrainBound
-            ? GamePack.Current.PadControl.CanPlacePad(hexX, hexY, L: hexLevel, size: Resource.FlagType)
+            ? GetEngine().GamePack.PadControl.CanPlacePad(hexX, hexY, L: hexLevel, size: Resource.FlagType)
             : base.CanPlace(mapContainer, hexX, hexY, hexLevel);
     }
 
@@ -356,7 +359,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         {
             if (Resource.TerrainBound)
             {
-                ImageLibraryTerrainMapObject? pad = !EditMode ? GamePack.Current.PadControl.PlacePad(hexX, hexY, L: hexLevel, size: Resource.FlagType) : null;
+                ImageLibraryTerrainMapObject? pad = !EditMode ? GetEngine().GamePack.PadControl.PlacePad(hexX, hexY, L: hexLevel, size: Resource.FlagType) : null;
 
                 if (pad is not null || EditMode)
                 {
@@ -384,7 +387,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     }
 
     // Structur.PAS:1292
-    public override bool ValidTerrainType(int terrainType) => (Resource.TerrainBound && GamePack.Current.PadControl.TerrainTypes[terrainType]) || base.ValidTerrainType(terrainType);
+    public override bool ValidTerrainType(int terrainType) => (Resource.TerrainBound && GetEngine().GamePack.PadControl.TerrainTypes[terrainType]) || base.ValidTerrainType(terrainType);
 
     // Structur.PAS:1053
     public override int GetTerrainTypeImage(int terrainType)
@@ -445,13 +448,13 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     public virtual bool RazeWithoutConfirmation(PlayerId? player)
     {
         string reason = "";
-        if (CanRaze(player, ref reason) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
+        if (CanRaze(player, ref reason) && !GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy())
         {
             StructureTokenEvent eventValue = CreateTokenEvent();
             SetupTokenEvent(eventValue);
             eventValue.Action = -1;
             eventValue.Param = PlayerIdExtensions.ToOriginal(player);
-            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -465,7 +468,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     public virtual void SetupRazeDefenderAIGroup(UnitUserList attackers, UnitUserList defenders)
     {
         int unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(defenders, defaultRelation: 5);
-        HuntAIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup<HuntAIGroup>(PlayerId.Independent, relation: unitsToIndependentRelation);
+        HuntAIGroup group = GetEngine().StrategicMap.AIGroupManager.CreateGroup<HuntAIGroup>(PlayerId.Independent, relation: unitsToIndependentRelation);
         _ = group.AddUnits(defenders.Units);
         for (int i = attackers.Count - 1; i >= 0; i--)
         {
@@ -496,7 +499,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         {
             if (tokenEvent.Action == -2)
             {
-                Troop? troop = StrategicMap.Current.UnitControl.FindUnit(tokenEvent.Param);
+                Troop? troop = GetEngine().StrategicMap.UnitControl.FindUnit(tokenEvent.Param);
                 if (troop is not null && ExecuteRebuild(troop))
                 {
                     troop.Killed();
@@ -639,8 +642,9 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         if (CanRebuild(troop, ref reason))
         {
             GetRebuildInfo(out int cost, out int time);
-            Player? players = StrategicMap.Current.Players.GetPlayers(troop.Player);
-            StrategicMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - cost);
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            Player? players = strategicMap.Players.GetPlayers(troop.Player);
+            strategicMap.Players.GetPlayers(troop.Player).SetGems(players.Gems - cost);
             BuildingDays = time.TruncateToByte();
             BuildingPlayer = troop.Player;
             _ = ValidateObservation(troop.Player);
@@ -668,7 +672,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     {
         int hexX = HexX;
         int hexY = HexY;
-        RandSeed = hexX + StrategicMap.Current.InitialRandomSeed + hexY;
+        RandSeed = hexX + GetEngine().StrategicMap.InitialRandomSeed + hexY;
         int collection = Resource.Defenders.GetRandomCollection();
         if (collection != -1)
         {
@@ -749,7 +753,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
                 int hexLevel3 = HexLevel;
                 int hexY3 = HexY;
                 int hexX = HexX;
-                _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY3, L: hexLevel3);
+                _ = GetEngine().StrategicMap.PlaceHex(animation, hexX, hexY3, L: hexLevel3);
             }
 
             if (Resource.ImageSequenceList.GetImageSequence(21) is not null)
@@ -763,7 +767,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
                 int hexLevel3 = HexLevel;
                 int hexY3 = HexY;
                 int hexX = HexX;
-                _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY3, L: hexLevel3);
+                _ = GetEngine().StrategicMap.PlaceHex(animation, hexX, hexY3, L: hexLevel3);
             }
 
             _ = ValidateObservation(player);
@@ -817,7 +821,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     {
         if (UpdateCount == 0)
         {
-            StrategicMap.Current.NotifyStructureChanged(this);
+            GetEngine().StrategicMap.NotifyStructureChanged(this);
         }
     }
 
@@ -839,7 +843,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
                 if (Resource.TerrainList.Used[walk.HexNumber])
                 {
                     int hexLevel = HexLevel;
-                    result = StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, hexLevel, player);
+                    result = GetEngine().StrategicMap.VisibleForPlayer(walk.X, walk.Y, hexLevel, player);
                 }
 
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -920,7 +924,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
             if (!Building)
             {
                 GetRebuildInfo(out int cost, time: out _);
-                if (StrategicMap.Current.Players.GetPlayers(troop.Player).Gems >= cost)
+                if (GetEngine().StrategicMap.Players.GetPlayers(troop.Player).Gems >= cost)
                 {
                     return true;
                 }
@@ -945,13 +949,13 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     public virtual bool Rebuild(Troop troop)
     {
         string reason = "";
-        if (CanRebuild(troop, ref reason) && !StrategicMap.Current.Players.GetPlayers(troop.Player).GetBusy())
+        if (CanRebuild(troop, ref reason) && !GetEngine().StrategicMap.Players.GetPlayers(troop.Player).GetBusy())
         {
             StructureTokenEvent eventValue = CreateTokenEvent();
             SetupTokenEvent(eventValue);
             eventValue.Action = -2;
             eventValue.Param = troop.UnitId;
-            StrategicMap.Current.TokenManager.GetTokenControl(troop.Player).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(troop.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -965,9 +969,9 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     public virtual bool Raze(PlayerId? player)
     {
         string reason = "";
-        if (CanRaze(player, ref reason) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
+        if (CanRaze(player, ref reason) && !GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy())
         {
-            if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
+            if (GetEngine().StrategicMap.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
                 RazeStructureEventLog log = new(null, holder: CreationHolder())
                 {
@@ -1046,7 +1050,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         UpdateCount -= 1;
         if (UpdateCount == 0)
         {
-            StrategicMap.Current.NotifyStructureChanged(this);
+            GetEngine().StrategicMap.NotifyStructureChanged(this);
         }
     }
 
@@ -1075,7 +1079,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     // Structur.PAS:1217
     public void FogChanged()
     {
-        Fogged = StrategicMap.Current.FogEnabled;
+        Fogged = GetEngine().StrategicMap.FogEnabled;
         if (Fogged)
         {
             int count = TerrainCount;
@@ -1111,7 +1115,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
             if (Resource.TerrainList.Used[walk.HexNumber] && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 int hexLevel = HexLevel;
-                result = StrategicMap.Current.ValidateObservation(player, walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), hexLevel, radius: 0);
+                result = GetEngine().StrategicMap.ValidateObservation(player, walk.X.TruncateToSByte(), walk.Y.TruncateToSByte(), hexLevel, radius: 0);
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);

@@ -104,53 +104,53 @@ public sealed class HexSpriteMapKeyboard(CustomNode? owner) : EngineObject(owner
                     switch (translatedKey)
                     {
                         case 79:
-                            StrategicMap.Current.ShowIndependentMoves = !StrategicMap.Current.ShowIndependentMoves;
-                            if (StrategicMap.Current.ShowIndependentMoves)
+                            GetEngine().StrategicMap.ShowIndependentMoves = !GetEngine().StrategicMap.ShowIndependentMoves;
+                            if (GetEngine().StrategicMap.ShowIndependentMoves)
                             {
                                 string observeEnabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_observeEnabledText);
-                                StrategicMap.Current.ShowMessage(observeEnabled);
+                                GetEngine().StrategicMap.ShowMessage(observeEnabled);
                             }
                             else
                             {
                                 string observeDisabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_observeDisabledText);
-                                StrategicMap.Current.ShowMessage(observeDisabled);
+                                GetEngine().StrategicMap.ShowMessage(observeDisabled);
                             }
 
                             break;
                         case 78:
                         case 188:
-                            _ = StrategicMap.Current.SelectNextArmy();
+                            _ = GetEngine().StrategicMap.SelectNextArmy();
                             break;
                         case 80:
                         case 190:
-                            _ = StrategicMap.Current.SelectPreviousArmy();
+                            _ = GetEngine().StrategicMap.SelectPreviousArmy();
                             break;
                         case 72:
-                            _ = StrategicMap.Current.SelectNextHero();
+                            _ = GetEngine().StrategicMap.SelectNextHero();
                             break;
                         case 77:
-                            StrategicMap.Current.SelectedArmy.ExecuteMove();
+                            GetEngine().StrategicMap.SelectedArmy.ExecuteMove();
                             break;
                         case 68:
-                            StrategicMap.Current.SelectedArmy.TurnDone();
+                            GetEngine().StrategicMap.SelectedArmy.TurnDone();
                             break;
                         case 71:
-                            StrategicMap.Current.SelectedArmy.ToggleGuard();
+                            GetEngine().StrategicMap.SelectedArmy.ToggleGuard();
                             break;
                         case 76:
-                            StrategicMap.Current.CenterOnLeader(StrategicMap.Current.SeatedPlayer, select: true, animate: false);
+                            GetEngine().StrategicMap.CenterOnLeader(GetEngine().StrategicMap.SeatedPlayer, select: true, animate: false);
                             break;
                         case 67:
                             if (!shift.Contains(ShiftStates.Ctrl))
                             {
-                                StrategicMap.Current.SelectedArmy.Center();
+                                GetEngine().StrategicMap.SelectedArmy.Center();
                             }
 
                             break;
                         case 82:
                             if (GetEngine().Debug)
                             {
-                                GetEngine().OutputDebugString($"Random Seed: {StrategicMap.Current.DefendersSeed.ToString(CultureInfo.InvariantCulture)}");
+                                GetEngine().OutputDebugString($"Random Seed: {GetEngine().StrategicMap.DefendersSeed.ToString(CultureInfo.InvariantCulture)}");
                             }
 
                             break;
@@ -162,9 +162,10 @@ public sealed class HexSpriteMapKeyboard(CustomNode? owner) : EngineObject(owner
 
                             break;
                         case 65:
-                            if (GetEngine().Registry.Developer && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerType != PlayerType.Human)
+                            if (GetEngine().Registry.Developer && GetEngine().StrategicMap.Players.GetPlayers(GetEngine().StrategicMap.SeatedPlayer).PlayerType != PlayerType.Human)
                             {
-                                _ = StrategicMap.Current.AIExecutor.ActivatePlayer(StrategicMap.Current.SeatedPlayer);
+                                StrategicMap strategicMap = GetEngine().StrategicMap;
+                                _ = strategicMap.AIExecutor.ActivatePlayer(strategicMap.SeatedPlayer);
                             }
 
                             break;
@@ -172,7 +173,7 @@ public sealed class HexSpriteMapKeyboard(CustomNode? owner) : EngineObject(owner
                             if (GetEngine().Debug)
                             {
                                 HeapStatus heapStatus = new(unchecked((int)GC.GetTotalMemory(false)));
-                                StrategicMap.Current.ShowMessage($"Allocated Memory: {heapStatus.TotalAllocated.ToString(CultureInfo.InvariantCulture)}");
+                                GetEngine().StrategicMap.ShowMessage($"Allocated Memory: {heapStatus.TotalAllocated.ToString(CultureInfo.InvariantCulture)}");
                             }
 
                             break;
@@ -198,15 +199,16 @@ public sealed class HexSpriteMapKeyboard(CustomNode? owner) : EngineObject(owner
                     complete = CompareText(_cheatText, s_cheatNames[i]) == 0;
                 }
 
-                if (complete && StrategicMap.Current.SeatedPlayer is not null && !StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetBusy())
+                if (complete && GetEngine().StrategicMap.SeatedPlayer is not null && !GetEngine().StrategicMap.Players.GetPlayers(GetEngine().StrategicMap.SeatedPlayer).GetBusy())
                 {
+                    StrategicMap strategicMap = GetEngine().StrategicMap;
                     CheatTokenEvent cheat = new(null)
                     {
                         Holder = CreationHolder(),
-                        Player = StrategicMap.Current.SeatedPlayer,
+                        Player = strategicMap.SeatedPlayer,
                         CheatId = i
                     };
-                    StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(cheat);
+                    strategicMap.TokenManager.GetTokenControl(strategicMap.SeatedPlayer).AddEvent(cheat);
                     _ = cheat.Release();
                     _cheatText = "";
                     Mode = HexSpriteMapKeyboardMode.Default;
@@ -226,7 +228,7 @@ public sealed class HexSpriteMapKeyboard(CustomNode? owner) : EngineObject(owner
         }
 
         string[] commandLine = Environment.GetCommandLineArgs();
-        if (key == 67 && ((ShiftStates.Shift | ShiftStates.Ctrl) & shift) == (ShiftStates.Shift | ShiftStates.Ctrl) && commandLine.Length > 1 && CompareText(commandLine[1], "beatrix") == 0 && StrategicMap.Current.ConnectionType is not PlayerConnectionType.Network and not PlayerConnectionType.Email && !GetEngine().Demo)
+        if (key == 67 && ((ShiftStates.Shift | ShiftStates.Ctrl) & shift) == (ShiftStates.Shift | ShiftStates.Ctrl) && commandLine.Length > 1 && CompareText(commandLine[1], "beatrix") == 0 && GetEngine().StrategicMap.ConnectionType is not PlayerConnectionType.Network and not PlayerConnectionType.Email && !GetEngine().Demo)
         {
             _ = AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB02.WAV");
             Mode = HexSpriteMapKeyboardMode.Cheat;

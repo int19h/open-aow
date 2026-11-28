@@ -19,7 +19,7 @@ public class RebuildConstructionControl(CustomNode? owner) : ConstructionControl
         int x = coordinate36.X;
         int y = coordinate36.Y;
         int l = coordinate36.MapLevel;
-        Structure result = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<Structure>();
+        Structure result = GetEngine().StrategicMap.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<Structure>();
         if (result is not null)
         {
             if (!result.GetRazed() || result.Building)

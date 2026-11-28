@@ -3,7 +3,6 @@
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 
 using Aow.Rtl;
 
@@ -28,7 +27,7 @@ public sealed record ResearchSpell(int Index) : ProductionOrder
             return AbilityRules.TranslateResourceString(control.GetEngine(), S: GameTables.UnknownText);
         }
 
-        string unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
+        string unitName = control.GetEngine().GamePack.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: GameText.InstallFormat), arguments: [unitName]);
     }
 
@@ -40,14 +39,14 @@ public sealed record ResearchSpell(int Index) : ProductionOrder
             return AbilityRules.TranslateResourceString(control.GetEngine(), S: GameTables.UnknownText);
         }
 
-        string unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
+        string unitName = control.GetEngine().GamePack.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_installingFormat), arguments: [unitName]);
     }
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
         Waiting(control, ref reason);
-        Player players = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
+        Player players = control.GetEngine().StrategicMap.Players.GetPlayers(control.GetPlayer());
         if (control.UnitResearchGold(Index) <= players.Gems)
         {
             return true;

@@ -49,7 +49,7 @@ public class MoveSelector : IDisposable
     {
         HexSpriteMapMouse mouse = Map.Mouse;
         object? capture = mouse.Capture;
-        if ((capture != this && capture != StrategicMap.Current.TargetSelection) || mouse.Button == MouseButton.Right)
+        if ((capture != this && capture != Creator.GetEngine().StrategicMap.TargetSelection) || mouse.Button == MouseButton.Right)
         {
             Unselect();
         }
@@ -195,11 +195,11 @@ public class MoveSelector : IDisposable
                                     HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
                                     if (CurrentMove == i || CurrentMove == -1)
                                     {
-                                        GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
+                                        Creator.GetEngine().GamePack.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
                                     }
                                     else
                                     {
-                                        GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
+                                        Creator.GetEngine().GamePack.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
                                     }
                                 }
                             }
@@ -210,13 +210,14 @@ public class MoveSelector : IDisposable
                                     imageIndex = pointsLeft <= settings.MovePoints ? 41 : 48;
 
                                     HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
-                                    GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
+                                    GamePack gamePack = Creator.GetEngine().GamePack;
+                                    gamePack.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
                                     if (pointsLeft - settings.Path[j].MoveCost != 0 && settings.Path[j + 1].Location.MapLevel == Map.ViewMapLevel)
                                     {
                                         imageIndex = pointsLeft - settings.Path[j].MoveCost <= settings.MovePoints ? 41 : 48;
 
                                         HexGeometry.HexToPixel(x2, y2, out pixelX, out pixelY);
-                                        GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
+                                        gamePack.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
                                     }
                                 }
                                 else
@@ -224,11 +225,12 @@ public class MoveSelector : IDisposable
                                     imageIndex = pointsLeft <= settings.MovePoints ? 41 : 48;
 
                                     HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
-                                    GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
+                                    GamePack gamePack = Creator.GetEngine().GamePack;
+                                    gamePack.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
                                     imageIndex = pointsLeft - settings.Path[j].MoveCost <= settings.MovePoints ? 41 : 48;
 
                                     HexGeometry.HexToPixel(x2, y2, out pixelX, out pixelY);
-                                    GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
+                                    gamePack.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
                                 }
                             }
                         }
@@ -248,7 +250,7 @@ public class MoveSelector : IDisposable
                         if (settings.MovePoints < settings.PathMovePoints)
                         {
                             imageIndex = 48;
-                            GamePack.Current.CursorImages[imageIndex].Show(pixelX, pixelY, lockedSurface: surface);
+                            Creator.GetEngine().GamePack.CursorImages[imageIndex].Show(pixelX, pixelY, lockedSurface: surface);
                             // { Original sets the font color before checking the font for nil. }
                             Creator.GetEngine().CombatFont.Color = Color.Black;
                             Creator.GetEngine().CombatFont?.SetTextCentered(pixelX + 25, pixelY + 9, text: (((settings.PathMovePoints - settings.MovePoints - 1) / settings.Moves) + 1).ToString(CultureInfo.InvariantCulture), lockedSurface: surface);
@@ -258,11 +260,11 @@ public class MoveSelector : IDisposable
                             imageIndex = 41;
                             if (CurrentMove == i || CurrentMove == -1)
                             {
-                                GamePack.Current.CursorImages[imageIndex].Show(pixelX, pixelY, lockedSurface: surface);
+                                Creator.GetEngine().GamePack.CursorImages[imageIndex].Show(pixelX, pixelY, lockedSurface: surface);
                             }
                             else
                             {
-                                GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX, pixelY, lockedSurface: surface);
+                                Creator.GetEngine().GamePack.CursorImages[imageIndex].ShowTransparent(pixelX, pixelY, lockedSurface: surface);
                             }
                         }
                     }
@@ -279,18 +281,18 @@ public class MoveSelector : IDisposable
                             imageIndex = 41;
                             if (CurrentMove == i || CurrentMove == -1)
                             {
-                                GamePack.Current.CursorImages[imageIndex].Show(pixelX, pixelY, lockedSurface: surface);
+                                Creator.GetEngine().GamePack.CursorImages[imageIndex].Show(pixelX, pixelY, lockedSurface: surface);
                             }
                             else
                             {
-                                GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX, pixelY, lockedSurface: surface);
+                                Creator.GetEngine().GamePack.CursorImages[imageIndex].ShowTransparent(pixelX, pixelY, lockedSurface: surface);
                             }
                         }
                     }
                 }
                 else
                 {
-                    if (settings.Path.Count == 1 && StrategicMap.Current.Combat is not null)
+                    if (settings.Path.Count == 1 && Creator.GetEngine().StrategicMap.Combat is not null)
                     {
                         PathStep item = settings.Path[0];
                         PathStep fPathItem = settings.Path[0];
@@ -299,7 +301,7 @@ public class MoveSelector : IDisposable
                         HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out pixelX, out pixelY);
                         pixelX = pixelX - Map.ViewPixelX - 8;
                         pixelY = pixelY - Map.ViewPixelY - 8;
-                        GamePack.Current.CursorImages[41].Show(pixelX, pixelY, lockedSurface: surface);
+                        Creator.GetEngine().GamePack.CursorImages[41].Show(pixelX, pixelY, lockedSurface: surface);
                     }
                 }
             }

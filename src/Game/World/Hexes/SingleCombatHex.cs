@@ -25,7 +25,7 @@ public class SingleCombatHex(CustomNode owner) : AbstractHexagon(owner)
     }
 
     // SingleCombatHex.pas:44
-    public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => engine.GamePack.CombatResources;
 
     public new class Resource(CustomNode owner) : AbstractHexagonResource(owner)
     {

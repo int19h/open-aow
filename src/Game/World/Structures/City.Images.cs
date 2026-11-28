@@ -14,7 +14,7 @@ public partial class City
         base.Activate();
         UpdateVisibleForSeatedPlayer();
         Production.Activate();
-        StrategicMap? map = StrategicMap.Current;
+        StrategicMap? map = GetEngine().StrategicMap;
         if (Player is not null)
         {
             _ = map.Players.GetPlayers(Player).ProductionControls.Add(Production);
@@ -39,7 +39,7 @@ public partial class City
         {
             if (Race >= 0)
             {
-                RaceResource? race = GamePack.Current.RaceResources.GetRaceResource(Race);
+                RaceResource? race = GetEngine().GamePack.RaceResources.GetRaceResource(Race);
                 int size = GetResource<Resource>().Size;
                 if (race is not null)
                 {

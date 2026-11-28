@@ -71,7 +71,7 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:217
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (!GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
             return Owner.HexX == hexX && Owner.HexY == hexY && base.CanSelect(pixelX, pixelY);
@@ -85,7 +85,7 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:96
     public override int GetTerrainTypeImage(int terrainType)
     {
-        if (!Explored || StrategicMap.Current.Day == 0)
+        if (!Explored || GetEngine().StrategicMap.Day == 0)
         {
             return terrainType;
         }
@@ -107,7 +107,7 @@ public partial class ExplorationSite : Structure
     public override void NewDay()
     {
         base.NewDay();
-        if (StrategicMap.Current.Day == 1 && _defendersMode != ExplorationSiteDefendersMode.UserDefined)
+        if (GetEngine().StrategicMap.Day == 1 && _defendersMode != ExplorationSiteDefendersMode.UserDefined)
         {
             GenerateDefenders();
         }
@@ -164,8 +164,9 @@ public partial class ExplorationSite : Structure
                 CombatEventLog eventValue;
                 if (combatType == CombatType.Fast)
                 {
-                    StrategicMap.Current.LockGameOverEvent();
-                    combat = StrategicMap.Current.CreateCombat(FastBattle.ClassId);
+                    StrategicMap combatStartMap = GetEngine().StrategicMap;
+                    combatStartMap.LockGameOverEvent();
+                    combat = combatStartMap.CreateCombat(FastBattle.ClassId);
                     SetupCombat(combat, army: armyHexSprite);
                     combat.LockExecuted();
                     combat.Initialize();
@@ -178,21 +179,21 @@ public partial class ExplorationSite : Structure
                     eventValue = new CombatEventLog(null, holder: CreationHolder());
                     eventValue.SetCombatLogbook(combat.Logbook);
                     // The log reads the day and player of its creator engine, so it lands on that engine's map too.
-                    StrategicMap strategicMap = GetEngine().StrategicMap;
-                    strategicMap.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
-                    if (PlayerIdExtensions.ToOriginal(strategicMap.SeatedPlayer) == player && strategicMap.Players.GetPlayers(player).PlayerType == PlayerType.Human)
+                    StrategicMap eventLogMap = GetEngine().StrategicMap;
+                    eventLogMap.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
+                    if (PlayerIdExtensions.ToOriginal(eventLogMap.SeatedPlayer) == player && eventLogMap.Players.GetPlayers(player).PlayerType == PlayerType.Human)
                     {
                         _ = eventValue.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                     }
 
                     _ = eventValue.Release();
                     combat.UnlockExecuted();
-                    StrategicMap.Current.DestroyCombat();
-                    StrategicMap.Current.UnlockGameOverEvent();
+                    GetEngine().StrategicMap.DestroyCombat();
+                    GetEngine().StrategicMap.UnlockGameOverEvent();
                 }
                 else
                 {
-                    combat = StrategicMap.Current.CreateCombat(TacticalBattle.ClassId);
+                    combat = GetEngine().StrategicMap.CreateCombat(TacticalBattle.ClassId);
                     SetupCombat(combat, army: armyHexSprite);
                     combat.Initialize();
                     combat.Activate();
@@ -213,7 +214,7 @@ public partial class ExplorationSite : Structure
                         }
 
                         _ = eventValue.Release();
-                        StrategicMap.Current.DestroyCombat();
+                        GetEngine().StrategicMap.DestroyCombat();
                     }
                 }
             }
@@ -232,8 +233,10 @@ public partial class ExplorationSite : Structure
         ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
         if (armyHexSprite is not null && CanSearch(armyHexSprite.Army.Player))
         {
-            PlayerCollection playerList = StrategicMap.Current.Players;
-            if (playerList.LocalPlayers.Count == 1 || StrategicMap.Current.RequestCombatType)
+            // The log reads the day and player of its creator engine, so it lands on that engine's map too.
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            PlayerCollection playerList = strategicMap.Players;
+            if (playerList.LocalPlayers.Count == 1 || strategicMap.RequestCombatType)
             {
                 CombatTypeRequestEventLog request = new(null, holder: CreationHolder());
                 int hexLevel = HexLevel;
@@ -241,8 +244,6 @@ public partial class ExplorationSite : Structure
                 request.SetCenterLocation(HexX.TruncateToByte(), hexY.TruncateToByte(), L: hexLevel);
                 request.AttackerPlayer = (sbyte)PlayerIdExtensions.ToOriginal(armyHexSprite.Army.Player);
                 request.DefenderPlayer = 0;
-                // The log reads the day and player of its creator engine, so it lands on that engine's map too.
-                StrategicMap strategicMap = GetEngine().StrategicMap;
                 strategicMap.TriggerTypedExecuteEventLog(request, immediate: true, done: RequestCombatTypeCallback);
                 _ = request.Release();
                 return true;
@@ -255,7 +256,7 @@ public partial class ExplorationSite : Structure
                     SetupTokenEvent(tokenEvent);
                     tokenEvent.Action = 0;
                     tokenEvent.Param = 1;
-                    StrategicMap.Current.TokenManager.GetTokenControl(tokenEvent.Player).AddEvent(tokenEvent);
+                    GetEngine().StrategicMap.TokenManager.GetTokenControl(tokenEvent.Player).AddEvent(tokenEvent);
                     _ = tokenEvent.Release();
                     return true;
                 }
@@ -307,7 +308,7 @@ public partial class ExplorationSite : Structure
             SetupTokenEvent(tokenEvent);
             tokenEvent.Action = 0;
             tokenEvent.Param = (int)log.CombatType;
-            StrategicMap.Current.TokenManager.GetTokenControl(tokenEvent.Player).AddEvent(tokenEvent);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(tokenEvent.Player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
         }
     }
@@ -329,7 +330,7 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:300
     public void GenerateDefenders()
     {
-        RandSeed = StrategicMap.Current.DefendersSeed;
+        RandSeed = GetEngine().StrategicMap.DefendersSeed;
         if (_defendersMode == ExplorationSiteDefendersMode.Random)
         {
             _defendersMode = (ExplorationSiteDefendersMode)(Random(3) + 1);

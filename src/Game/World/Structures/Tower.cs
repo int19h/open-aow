@@ -90,7 +90,7 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
         if (!Building)
         {
             result = 12;
-            if (HexLevel != 0 || (PlayerIdExtensions.ToOriginal(Player) > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0))
+            if (HexLevel != 0 || (PlayerIdExtensions.ToOriginal(Player) > 0 && (((byte)GetEngine().StrategicMap.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0))
             {
                 return (result + 1) >>> 1;
             }

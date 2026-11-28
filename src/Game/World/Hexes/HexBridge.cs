@@ -113,7 +113,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
                 {
                     int sideB = _sideB[i];
                     HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: sideB, ref hexX, ref hexY);
-                    mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
+                    mapField = GetEngine().StrategicMap.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
                     ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: mapField, movePoints: ((MoveControl)info.Sender).MovePointTable[mapField.TerrainNumber][mapField.OverlayType.ToOriginal() - MovementTables.FirstOverlay]);
                 }
             }
@@ -125,7 +125,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
                     {
                         int sideA = _sideA[i];
                         HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: sideA, ref hexX, ref hexY);
-                        mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
+                        mapField = GetEngine().StrategicMap.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
                         ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: mapField, movePoints: ((MoveControl)info.Sender).MovePointTable[mapField.TerrainNumber][mapField.OverlayType.ToOriginal() - MovementTables.FirstOverlay]);
                     }
                 }
@@ -212,7 +212,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
                     }
                     else
                     {
-                        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+                        if (GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
                         {
                             Direction = -1;
                         }

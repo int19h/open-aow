@@ -30,4 +30,44 @@ public sealed class EventLogDestinationTests
         Assert.Equal(7, Assert.Single(engineLogs).Day);
         Assert.Empty(globalLogs);
     }
+
+    [Fact]
+    public void AFlagMessageSkipsWhenOnlyTheGlobalMapMatchesThePlayer()
+    {
+        GameEngine engine = EngineFixture.Engine;
+        StrategicMap engineMap = new(null, holder: engine) { Day = 7, SeatedPlayer = PlayerId.Player2 };
+        using IDisposable scope = EngineFixture.UseMap(engineMap);
+        StrategicMap globalMap = new(null, holder: engine) { Day = 3, SeatedPlayer = PlayerId.Player1 };
+        StrategicMap.Current = globalMap;
+        List<EventLog> engineLogs = [];
+        List<EventLog> globalLogs = [];
+        engineMap.ExecutingEventLog += notification => engineLogs.Add(notification.Info.Log);
+        globalMap.ExecutingEventLog += notification => globalLogs.Add(notification.Info.Log);
+        FlagMessageEvent flag = new(null!) { Holder = engine };
+
+        Assert.True(flag.Trigger(PlayerId.Player1));
+
+        Assert.Empty(engineLogs);
+        Assert.Empty(globalLogs);
+    }
+
+    [Fact]
+    public void AFlagMessageFiresWhenOnlyTheCreatorMapMatchesThePlayer()
+    {
+        GameEngine engine = EngineFixture.Engine;
+        StrategicMap engineMap = new(null, holder: engine) { Day = 7, SeatedPlayer = PlayerId.Player1 };
+        using IDisposable scope = EngineFixture.UseMap(engineMap);
+        StrategicMap globalMap = new(null, holder: engine) { Day = 3, SeatedPlayer = PlayerId.Player2 };
+        StrategicMap.Current = globalMap;
+        List<EventLog> engineLogs = [];
+        List<EventLog> globalLogs = [];
+        engineMap.ExecutingEventLog += notification => engineLogs.Add(notification.Info.Log);
+        globalMap.ExecutingEventLog += notification => globalLogs.Add(notification.Info.Log);
+        FlagMessageEvent flag = new(null!) { Holder = engine };
+
+        Assert.True(flag.Trigger(PlayerId.Player1));
+
+        Assert.Equal(7, Assert.Single(engineLogs).Day);
+        Assert.Empty(globalLogs);
+    }
 }

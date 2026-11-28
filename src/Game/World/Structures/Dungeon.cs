@@ -88,7 +88,7 @@ public partial class Dungeon : ExplorationSite
     public override void NewDay()
     {
         base.NewDay();
-        if (StrategicMap.Current.Day == 1)
+        if (GetEngine().StrategicMap.Day == 1)
         {
             GeneratePrisoners();
         }
@@ -143,7 +143,7 @@ public partial class Dungeon : ExplorationSite
     // Dungeon.pas:156
     public void GeneratePrisoners()
     {
-        RandSeed = StrategicMap.Current.DefendersSeed;
+        RandSeed = GetEngine().StrategicMap.DefendersSeed;
         if (_prisonersMode == DungeonPrisonersMode.Random)
         {
             _prisonersMode = (DungeonPrisonersMode)(Random(3) + 1);
@@ -193,7 +193,7 @@ public partial class Dungeon : ExplorationSite
             if (Prisoners.Units.Count == 1)
             {
                 armyLog.Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_onePrisonerLiberatedText);
-                string name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
+                string name2 = GetEngine().StrategicMap.Players.GetPlayers(player).GetName();
                 string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_afterLiberationOneUnitJoinedForcesFormat), args: [name2]);
                 armyLog.Messages.Text = format;
             }
@@ -202,7 +202,7 @@ public partial class Dungeon : ExplorationSite
                 int count = Prisoners.Units.Count;
                 armyLog.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_prisonersLiberatedFormat), args: [count.ToString(CultureInfo.InvariantCulture)]);
                 int fPrisonersCount = Prisoners.Units.Count;
-                string name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
+                string name2 = GetEngine().StrategicMap.Players.GetPlayers(player).GetName();
                 string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_afterLiberationUnitsJoinedForcesFormat), args: [fPrisonersCount, name2]);
                 armyLog.Messages.Text = format;
             }
@@ -210,7 +210,7 @@ public partial class Dungeon : ExplorationSite
         else
         {
             armyLog.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_liberatedFormat), args: [hero.HeroName]);
-            string name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
+            string name2 = GetEngine().StrategicMap.Players.GetPlayers(player).GetName();
             string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_afterLiberationJoinedForcesFormat), args: [hero.HeroName, name2]);
             armyLog.Messages.Text = format;
         }

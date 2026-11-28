@@ -44,7 +44,7 @@ public class PlayerCropStructure : PlayerStructure
     // Crops.pas:528
     public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo info)
     {
-        if (((HexSpriteMapStatuses.Editting | HexSpriteMapStatuses.Activated) & ~StrategicMap.Current.Status) == HexSpriteMapStatuses.None && !_changingCrops)
+        if (((HexSpriteMapStatuses.Editting | HexSpriteMapStatuses.Activated) & ~GetEngine().StrategicMap.Status) == HexSpriteMapStatuses.None && !_changingCrops)
         {
             UpdateCrops();
         }
@@ -68,7 +68,7 @@ public class PlayerCropStructure : PlayerStructure
         sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Player);
         if (player != -1)
         {
-            StrategicMap.Current.Players.GetPlayers(player).RegisterIncomeSource(_incomeSource);
+            GetEngine().StrategicMap.Players.GetPlayers(player).RegisterIncomeSource(_incomeSource);
         }
 
         if (!EditMode)
@@ -84,7 +84,7 @@ public class PlayerCropStructure : PlayerStructure
         sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Player);
         if (player != -1)
         {
-            StrategicMap.Current.Players.GetPlayers(player).UnregisterIncomeSource(_incomeSource);
+            GetEngine().StrategicMap.Players.GetPlayers(player).UnregisterIncomeSource(_incomeSource);
         }
 
         base.Deactivate();
@@ -158,14 +158,14 @@ public class PlayerCropStructure : PlayerStructure
         {
             if (Player is not null)
             {
-                StrategicMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(_incomeSource);
+                GetEngine().StrategicMap.Players.GetPlayers(Player).UnregisterIncomeSource(_incomeSource);
             }
 
             base.SetPlayer(player);
             UpdateCrops();
             if (Player is not null)
             {
-                StrategicMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(_incomeSource);
+                GetEngine().StrategicMap.Players.GetPlayers(Player).RegisterIncomeSource(_incomeSource);
             }
         }
     }
@@ -177,7 +177,7 @@ public class PlayerCropStructure : PlayerStructure
         if (!GetRazed())
         {
             ArmyHexSprite army = field.GetArmyHexSprite();
-            result = army is null || StrategicMap.Current.Players.GetDiplomaticRelation(army.Army.Player, otherPlayer: Player) != DiplomaticRelation.War;
+            result = army is null || GetEngine().StrategicMap.Players.GetDiplomaticRelation(army.Army.Player, otherPlayer: Player) != DiplomaticRelation.War;
             if (result)
             {
                 HexSprite? hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
@@ -229,7 +229,7 @@ public class PlayerCropStructure : PlayerStructure
     {
         if (!EditMode && Status.Contains(MapObjectStatuses.Activated))
         {
-            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+            if (GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
             {
                 if (CropsEnabled())
                 {
@@ -243,7 +243,7 @@ public class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:413
-    public virtual int GetRace() => PlayerIdExtensions.ToOriginal(Player) > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : -1;
+    public virtual int GetRace() => PlayerIdExtensions.ToOriginal(Player) > 0 ? GetEngine().StrategicMap.Players.GetPlayers(Player).PlayerRace : -1;
 
     // Crops.pas:339
     public virtual void CropsChanged() => UpdateIncome();
@@ -253,9 +253,10 @@ public class PlayerCropStructure : PlayerStructure
     {
         if (player != Player && PlayerIdExtensions.ToOriginal(Player) > 0 && PlayerIdExtensions.ToOriginal(player) > 0)
         {
-            int race = StrategicMap.Current.Players.GetPlayers(Player).PlayerRace;
-            int playerRelationValue = StrategicMap.Current.Races.GetRace(race).GetPlayerRelationValue(player);
-            StrategicMap.Current.Races.GetRace(race).SetPlayerRelationValue(player, value: playerRelationValue - -5);
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            int race = strategicMap.Players.GetPlayers(Player).PlayerRace;
+            int playerRelationValue = strategicMap.Races.GetRace(race).GetPlayerRelationValue(player);
+            strategicMap.Races.GetRace(race).SetPlayerRelationValue(player, value: playerRelationValue - -5);
         }
     }
 
@@ -268,7 +269,7 @@ public class PlayerCropStructure : PlayerStructure
             sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(Player);
             if (player != -1)
             {
-                StrategicMap.Current.Players.GetPlayers(player).UpdateIncome();
+                GetEngine().StrategicMap.Players.GetPlayers(player).UpdateIncome();
             }
         }
     }
@@ -360,7 +361,7 @@ public class PlayerCropStructure : PlayerStructure
                 {
                     while (crops.Count != value && locations.Count != 0)
                     {
-                        i = StrategicMap.Current.Random(locations.Count);
+                        i = GetEngine().StrategicMap.Random(locations.Count);
                         HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, hexNumber: locations.List[i], ref x, ref y);
                         crop = resource.PlaceCrop(x.TruncateToSByte(), y.TruncateToSByte(), L: mapLevel.HexLevel.TruncateToSByte(), cropOwner: this);
                         if (crop is not null)
@@ -379,7 +380,7 @@ public class PlayerCropStructure : PlayerStructure
                 {
                     while (crops.Count != value && crops.Count != 0)
                     {
-                        i = StrategicMap.Current.Random(crops.Count);
+                        i = GetEngine().StrategicMap.Random(crops.Count);
                         ((crops[i] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
                         crops.Delete(i);
                     }

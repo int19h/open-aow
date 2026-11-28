@@ -28,14 +28,14 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                _ = base.Resource.Engine.GamePack.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: message.TerrainNumber);
+                _ = base.Resource.Engine.GamePack.CombatHexes.Place(GetEngine().CombatMap.MapContainer, hexX, hexY, L: hexLevel, terrainType: message.TerrainNumber);
             }
             else
             {
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                _ = base.Resource.Engine.GamePack.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: 0);
+                _ = base.Resource.Engine.GamePack.CombatHexes.Place(GetEngine().CombatMap.MapContainer, hexX, hexY, L: hexLevel, terrainType: 0);
             }
         }
     }
@@ -91,7 +91,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
     }
 
     // CombatHex.pas:73
-    public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => engine.GamePack.CombatResources;
 
     // CombatHex.pas:134
     public override void UpdateTransitions()
@@ -230,7 +230,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
 
             if (message.MessageId == 536870920)
             {
-                TransitionLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TCombat\\Base_Hex\\CTransHx.ILB");
+                TransitionLibrary = GetEngine().GamePack.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TCombat\\Base_Hex\\CTransHx.ILB");
             }
         }
 

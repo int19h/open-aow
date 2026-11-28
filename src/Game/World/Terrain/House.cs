@@ -22,14 +22,15 @@ public class House(CustomNode owner) : CombatStructure(owner)
     public override void Activate()
     {
         base.Activate();
-        if (!CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (!GetEngine().CombatMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
-            PlayerStructure structure = StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite<PlayerStructure>();
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            PlayerStructure structure = strategicMap.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite<PlayerStructure>();
             if (structure is not null)
             {
                 _race = structure is City city ? city.Race : 0;
 
-                _flagId = structure.Player is null ? -1 : StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
+                _flagId = structure.Player is null ? -1 : strategicMap.Players.GetPlayers(structure.Player).PlayerRace;
 
                 if (_flagId == -1)
                 {
@@ -49,10 +50,10 @@ public class House(CustomNode owner) : CombatStructure(owner)
         int terrainOffset;
         if (HitPoints == 0)
         {
-            sequence = GamePack.Current.ImageSequences.GetImageSequence(50);
+            sequence = GetEngine().GamePack.ImageSequences.GetImageSequence(50);
             int hexY = HexY;
             int hexX = HexX;
-            terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainNumber switch
+            terrainOffset = GetEngine().CombatMap.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainNumber switch
             {
                 3 => 1,
                 5 or 7 or 12 => 2,
@@ -77,7 +78,7 @@ public class House(CustomNode owner) : CombatStructure(owner)
         {
             int hexY = HexY;
             int hexX = HexX;
-            terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainNumber switch
+            terrainOffset = GetEngine().CombatMap.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainNumber switch
             {
                 3 => 20,
                 5 or 7 or 12 => 40,
@@ -91,21 +92,21 @@ public class House(CustomNode owner) : CombatStructure(owner)
                     switch (sequence.Layer)
                     {
                         case 7:
-                            imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
+                            imageIndex = sequence.GetFrameIndex(GetEngine().CombatMap.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                             if (imageIndex != -1)
                             {
-                                if (!CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+                                if (!GetEngine().CombatMap.Status.Contains(HexSpriteMapStatuses.Editting))
                                 {
                                     int hexX2 = HexX;
                                     int hexY2 = HexY;
-                                    GamePack.Current.FlagControl.ShowStructureFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, frameOffset: hexX2 + StrategicMap.Current.Frame + (hexY2 * 100), flagId: (byte)_flagId, lockedSurface, showBase: false);
+                                    GetEngine().GamePack.FlagControl.ShowStructureFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, frameOffset: hexX2 + GetEngine().StrategicMap.Frame + (hexY2 * 100), flagId: (byte)_flagId, lockedSurface, showBase: false);
                                 }
                             }
 
                             break;
                         default:
                             {
-                                imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
+                                imageIndex = sequence.GetFrameIndex(GetEngine().CombatMap.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                                 if (imageIndex != -1)
                                 {
                                     sequence.ImageLibrary[imageIndex].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);
@@ -134,7 +135,7 @@ public class House(CustomNode owner) : CombatStructure(owner)
             {
                 do
                 {
-                    int imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
+                    int imageIndex = sequence.GetFrameIndex(GetEngine().CombatMap.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                     if (imageIndex != -1)
                     {
                         sequence.ImageLibrary[imageIndex].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);

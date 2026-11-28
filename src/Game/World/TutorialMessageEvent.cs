@@ -34,7 +34,7 @@ public class TutorialMessageEvent(CustomNode owner) : FlagEvent(owner)
     // FlagEvents.pas:256
     public override bool Trigger(PlayerId? player)
     {
-        if (StrategicMap.Current.SeatedPlayer == player)
+        if (GetEngine().StrategicMap.SeatedPlayer == player)
         {
             TutorialMessageEventLog log = new(null, holder: CreationHolder());
             string text = _message.Text;

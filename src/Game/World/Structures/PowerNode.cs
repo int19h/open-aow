@@ -8,8 +8,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-
-using Aow.Game.World.Map;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Structures;
@@ -50,7 +48,7 @@ public partial class PowerNode : PlayerStructure
         base.Activate();
         if (Player is not null)
         {
-            _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
+            _ = GetEngine().StrategicMap.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
         }
     }
 
@@ -59,7 +57,7 @@ public partial class PowerNode : PlayerStructure
     {
         if (Player is not null)
         {
-            _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
+            _ = GetEngine().StrategicMap.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
         }
 
         base.Deactivate();
@@ -108,7 +106,7 @@ public partial class PowerNode : PlayerStructure
                     {
                         if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: 0, engine: GetEngine()!))
                         {
-                            p = 50 - (StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2);
+                            p = 50 - (GetEngine().StrategicMap.Players.GetPlayers(info.Player).Income / 2);
                             if (p < 25)
                             {
                                 p = 25;
@@ -150,13 +148,13 @@ public partial class PowerNode : PlayerStructure
             {
                 if (Player is not null)
                 {
-                    _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
+                    _ = GetEngine().StrategicMap.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
                 }
 
                 base.SetPlayer(player);
                 if (Player is not null)
                 {
-                    _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
+                    _ = GetEngine().StrategicMap.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
                 }
             }
             else

@@ -61,7 +61,7 @@ public class ItemExplorationSite : ExplorationSite
     public override void NewDay()
     {
         base.NewDay();
-        if (StrategicMap.Current.Day == 1)
+        if (GetEngine().StrategicMap.Day == 1)
         {
             Generate();
         }
@@ -93,7 +93,7 @@ public class ItemExplorationSite : ExplorationSite
             {
                 Item? item = _items.GetItem(i);
                 _ = log.ItemIds.Add(item.ItemId);
-                _ = item.PlaceOnMap(level: HexLevel, y: HexY, x: HexX, map: StrategicMap.Current);
+                _ = item.PlaceOnMap(level: HexLevel, y: HexY, x: HexX, map: GetEngine().StrategicMap);
             }
 
             // { Original parses the formatted text as CSV. }
@@ -112,16 +112,16 @@ public class ItemExplorationSite : ExplorationSite
     {
         if (_itemCount != 0)
         {
-            RandSeed = StrategicMap.Current.Random(16777215);
+            RandSeed = GetEngine().StrategicMap.Random(16777215);
             if (_itemCount == 4)
             {
-                _itemCount = (StrategicMap.Current.Random(3) + 1).TruncateToByte();
+                _itemCount = (GetEngine().StrategicMap.Random(3) + 1).TruncateToByte();
             }
 
             _items.Clear();
             for (int itemOrdinal = 1, last = _itemCount; itemOrdinal <= last; itemOrdinal++)
             {
-                Item? item = StrategicMap.Current.ItemControl.GenerateItem(s_itAll, 0, 65535);
+                Item? item = GetEngine().StrategicMap.ItemControl.GenerateItem(s_itAll, 0, 65535);
                 item?.Owner = _items;
             }
         }

@@ -37,7 +37,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
-        if (message.MessageId == 537001985 && StrategicMap.Current.Day == 1)
+        if (message.MessageId == 537001985 && GetEngine().StrategicMap.Day == 1)
         {
             GenerateGemsAmount();
         }
@@ -83,19 +83,19 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     {
         if (_generateMode == GemsGenerateMode.Random)
         {
-            _generateMode = (GemsGenerateMode)(StrategicMap.Current.Random(3) + 1);
+            _generateMode = (GemsGenerateMode)(GetEngine().StrategicMap.Random(3) + 1);
         }
 
         switch (_generateMode)
         {
             case GemsGenerateMode.Low:
-                _amount = StrategicMap.Current.Random(25) + 25;
+                _amount = GetEngine().StrategicMap.Random(25) + 25;
                 break;
             case GemsGenerateMode.Normal:
-                _amount = StrategicMap.Current.Random(25) + 50;
+                _amount = GetEngine().StrategicMap.Random(25) + 50;
                 break;
             case GemsGenerateMode.High:
-                _amount = StrategicMap.Current.Random(50) + 100;
+                _amount = GetEngine().StrategicMap.Random(50) + 100;
                 break;
             case GemsGenerateMode.UserDefined:
             case GemsGenerateMode.Random:
@@ -139,13 +139,14 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     {
         if (armyHexSprite.Army.Player != PlayerId.Independent)
         {
-            bool condition = StrategicMap.Current.SeatedPlayer == armyHexSprite.Army.Player;
+            StrategicMap watchMap = GetEngine().StrategicMap;
+            bool condition = watchMap.SeatedPlayer == armyHexSprite.Army.Player;
             if (!condition)
             {
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                condition = StrategicMap.Current.Watching(hexX, hexY, L: hexLevel, radius: 0);
+                condition = watchMap.Watching(hexX, hexY, L: hexLevel, radius: 0);
             }
 
             if (condition)
@@ -153,7 +154,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
                 _ = AudioPlayback.PlaySample("SFX\\EVENTS\\GOLD.WAV");
             }
 
-            Player? player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
+            Player? player = GetEngine().StrategicMap.Players.GetPlayers(armyHexSprite.Army.Player);
             player.SetGems(player.Gems + _amount);
 
             LocationTextEventLog eventValue = new(null, holder: CreationHolder())
@@ -163,8 +164,8 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             };
             eventValue.SetLocation(level: HexLevel, y: HexY, x: HexX);
             // The log reads the day and player of its creator engine, so it lands on that engine's map too.
-            StrategicMap strategicMap = GetEngine().StrategicMap;
-            strategicMap.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);
+            StrategicMap eventLogMap = GetEngine().StrategicMap;
+            eventLogMap.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);
             _ = eventValue.Release();
             Dispose();
         }

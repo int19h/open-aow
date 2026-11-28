@@ -17,7 +17,7 @@ public class CenterViewLocation(CustomNode owner) : MapObject(owner)
     // CenterViewLoc.pas:80
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (GetEngine().CombatMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -29,9 +29,9 @@ public class CenterViewLocation(CustomNode owner) : MapObject(owner)
         base.Activate();
         if (!EditMode)
         {
-            CombatMap.Current.CenterViewLocation?.Dispose();
+            GetEngine().CombatMap.CenterViewLocation?.Dispose();
 
-            CombatMap.Current.CenterViewLocation = this;
+            GetEngine().CombatMap.CenterViewLocation = this;
         }
     }
 
@@ -41,9 +41,10 @@ public class CenterViewLocation(CustomNode owner) : MapObject(owner)
         base.Deactivate();
         if (!EditMode)
         {
-            if (CombatMap.Current.CenterViewLocation == this)
+            CombatMap combatMap = GetEngine().CombatMap;
+            if (combatMap.CenterViewLocation == this)
             {
-                CombatMap.Current.CenterViewLocation = null;
+                combatMap.CenterViewLocation = null;
             }
         }
     }
@@ -52,7 +53,7 @@ public class CenterViewLocation(CustomNode owner) : MapObject(owner)
     public override bool CanSelect(int pixelX, int pixelY) => true;
 
     // CenterViewLoc.pas:49
-    public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => engine.GamePack.CombatResources;
 
     // CenterViewLoc.pas:52
     public override bool CanPlace(MapContainer? mapContainer, int hexX, int hexY, int hexLevel) => true;

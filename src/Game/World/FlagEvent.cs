@@ -37,7 +37,7 @@ public class FlagEvent(CustomNode owner) : MapObject(owner)
     // FlagEvents.pas:164
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -54,7 +54,7 @@ public class FlagEvent(CustomNode owner) : MapObject(owner)
     }
 
     // FlagEvents.pas:110
-    public override bool CanSelect(int pixelX, int pixelY) => StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting);
+    public override bool CanSelect(int pixelX, int pixelY) => GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting);
 
     // FlagEvents.pas:105
     public override bool CanPlace(MapContainer mapContainer, int hexX, int hexY, int hexLevel) => true;

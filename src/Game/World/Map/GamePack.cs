@@ -154,7 +154,7 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
         enabled[12] = true;
         RaceResources = new RaceResourceList(this);
         FlagControl = FlagControl.Create(this);
-        FireControl = new FireControl();
+        FireControl = new FireControl(this);
         UnitResources = new UnitResourceList(this);
         UnitGraphicsResources = new UnitGFXResourceList(this);
         HeroResources = new HeroResourceList(this);

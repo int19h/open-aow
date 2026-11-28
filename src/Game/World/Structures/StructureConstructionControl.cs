@@ -22,7 +22,7 @@ public class StructureConstructionControl(CustomNode owner) : ConstructionContro
     public override bool Construct(Troop troop)
     {
         string reason = "";
-        if (CanConstruct(troop, ref reason) && !StrategicMap.Current.Players.GetPlayers(troop.Player).GetBusy())
+        if (CanConstruct(troop, ref reason) && !GetEngine().StrategicMap.Players.GetPlayers(troop.Player).GetBusy())
         {
             ConstructStructureTokenEvent eventValue = new(null)
             {
@@ -31,7 +31,7 @@ public class StructureConstructionControl(CustomNode owner) : ConstructionContro
                 Player = troop.Player,
                 ControlId = Id()
             };
-            StrategicMap.Current.TokenManager.GetTokenControl(troop.Player).AddEvent(eventValue);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(troop.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -50,7 +50,7 @@ public class StructureConstructionControl(CustomNode owner) : ConstructionContro
         int x = coordinate39.X;
         int y = coordinate39.Y;
         int l = coordinate39.MapLevel;
-        MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(l);
+        MapLevel level = GetEngine().StrategicMap.MapContainer.GetMapLevel(l);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 0);
         while (resource.TerrainList.Count > walk.HexNumber && result)
         {

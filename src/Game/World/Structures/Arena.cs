@@ -39,27 +39,28 @@ public partial class Arena(CustomNode owner) : Structure(owner)
                 for (int i = 0, last = arenaTokenEvent.UnitIds.Count - 1; i <= last; i++)
                 {
                     int unitId = arenaTokenEvent.UnitIds[i];
-                    Troop? troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
+                    StrategicMap strategicMap = GetEngine().StrategicMap;
+                    Troop? troop = strategicMap.UnitControl.FindUnit(unitId);
                     if (troop is not null)
                     {
-                        Player? player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
+                        Player? player = strategicMap.Players.GetPlayers(tokenEvent.Param);
                         int unitTrainCost = UnitTrainCost(troop);
-                        StrategicMap.Current.Players.GetPlayers(tokenEvent.Param).SetGems(player.Gems - unitTrainCost);
+                        strategicMap.Players.GetPlayers(tokenEvent.Param).SetGems(player.Gems - unitTrainCost);
                         ExecuteTrainUnit(troop);
                     }
                 }
 
-                if (PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == tokenEvent.Param)
+                if (PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.SeatedPlayer) == tokenEvent.Param)
                 {
                     if (arenaTokenEvent.UnitIds.Count == 1)
                     {
                         string oneUnitTrained = AbilityRules.TranslateResourceString(GetEngine(), S: s_oneUnitTrainedText);
-                        StrategicMap.Current.ShowMessage(oneUnitTrained);
+                        GetEngine().StrategicMap.ShowMessage(oneUnitTrained);
                     }
                     else
                     {
                         string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_unitsTrainedFormat), args: [arenaTokenEvent.UnitIds.Count.ToString(CultureInfo.InvariantCulture)]);
-                        StrategicMap.Current.ShowMessage(format);
+                        GetEngine().StrategicMap.ShowMessage(format);
                     }
                 }
             }
@@ -69,7 +70,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
     }
 
     // Arena.pas:98
-    public override bool CanDoubleClick() => CanEnter(StrategicMap.Current.SeatedPlayer);
+    public override bool CanDoubleClick() => CanEnter(GetEngine().StrategicMap.SeatedPlayer);
 
     // Arena.pas:101
     public int UnitTrainCost(Troop? troop)
@@ -116,7 +117,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
             {
                 i -= 1;
                 int unit = units[i];
-                Troop? troop = StrategicMap.Current.UnitControl.FindUnit(unit);
+                Troop? troop = GetEngine().StrategicMap.UnitControl.FindUnit(unit);
                 if (troop is not null)
                 {
                     int cost = UnitTrainCost(troop);
@@ -137,7 +138,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
 
             if (result)
             {
-                if (StrategicMap.Current.Players.GetPlayers(player).Gems >= total)
+                if (GetEngine().StrategicMap.Players.GetPlayers(player).Gems >= total)
                 {
                     return true;
                 }
@@ -161,14 +162,14 @@ public partial class Arena(CustomNode owner) : Structure(owner)
     public bool TrainUnits(PlayerId? player, Int32List units, out string errorText)
     {
         errorText = "";
-        if (CanTrainUnits(player, units, ref errorText) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
+        if (CanTrainUnits(player, units, ref errorText) && !GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy())
         {
             ArenaTokenEvent tokenEvent = CreateTokenEvent();
             SetupTokenEvent(tokenEvent);
             tokenEvent.UnitIds.Assign(units);
             tokenEvent.Param = PlayerIdExtensions.ToOriginal(player);
             tokenEvent.Action = 1;
-            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
+            GetEngine().StrategicMap.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
             return true;
         }
@@ -188,7 +189,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
     // Arena.pas:223
     public bool Enter()
     {
-        if (CanEnter(StrategicMap.Current.SeatedPlayer))
+        if (CanEnter(GetEngine().StrategicMap.SeatedPlayer))
         {
             EnterArenaEventLog log = new(null, holder: CreationHolder())
             {

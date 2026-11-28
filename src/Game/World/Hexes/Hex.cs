@@ -45,19 +45,19 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
         if (message.HexNumber == 0 && (GetTerrain(0) is not { IsCovered: true } terrainCell || terrainCell.Value != message.Terrain))
         {
             int classId = base.Resource.EngineClass.ClassId;
-            MapObjectResource r = GamePack.Current.HexControl.GetRandomResource(terrainType: message.TerrainNumber, classId);
+            MapObjectResource r = GetEngine().GamePack.HexControl.GetRandomResource(terrainType: message.TerrainNumber, classId);
             if (r is not null)
             {
                 SetResource(r);
                 UpdateTransitions();
-                StrategicMap.Current.InvalidateStaticScene(Owner.HexX, Owner.HexY, Owner.HexLevel);
+                GetEngine().StrategicMap.InvalidateStaticScene(Owner.HexX, Owner.HexY, Owner.HexLevel);
             }
             else
             {
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                _ = base.Resource.Engine.GamePack.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: message.TerrainNumber);
+                _ = base.Resource.Engine.GamePack.HexControl.Place(GetEngine().StrategicMap.MapContainer, hexX, hexY, L: hexLevel, terrainType: message.TerrainNumber);
             }
         }
     }
@@ -72,14 +72,14 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                _ = base.Resource.Engine.GamePack.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: message.TerrainNumber);
+                _ = base.Resource.Engine.GamePack.HexControl.Place(GetEngine().StrategicMap.MapContainer, hexX, hexY, L: hexLevel, terrainType: message.TerrainNumber);
             }
             else
             {
                 int hexLevel = HexLevel;
                 int hexY = HexY;
                 int hexX = HexX;
-                _ = base.Resource.Engine.GamePack.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: 0);
+                _ = base.Resource.Engine.GamePack.HexControl.Place(GetEngine().StrategicMap.MapContainer, hexX, hexY, L: hexLevel, terrainType: 0);
             }
         }
     }

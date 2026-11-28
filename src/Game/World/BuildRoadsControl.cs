@@ -47,7 +47,7 @@ public class BuildRoadsControl(CustomNode owner) : ConstructionControl(owner)
         string reason = "";
         if (CanConstruct(troop, ref reason))
         {
-            StrategicMap.Current.SelectedArmy.SelectBuildRoad(troop);
+            GetEngine().StrategicMap.SelectedArmy.SelectBuildRoad(troop);
             return true;
         }
         else

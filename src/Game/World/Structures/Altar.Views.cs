@@ -20,7 +20,7 @@ public partial class Altar
             }
             else
             {
-                Map.StrategicMap.Current.ShowWarning(reason);
+                GetEngine().StrategicMap.ShowWarning(reason);
             }
         }
         else

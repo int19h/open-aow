@@ -86,7 +86,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     // PoisonC.pas:182
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (message.MessageId != 16 || StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (message.MessageId != 16 || GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             base.MapFieldMessageProc(ref message);
         }
@@ -129,7 +129,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         base.Activate();
         if (_direction == 0)
         {
-            _direction = (StrategicMap.Current.Random(6) + 1).TruncateToByte();
+            _direction = (GetEngine().StrategicMap.Random(6) + 1).TruncateToByte();
         }
     }
 
@@ -191,7 +191,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     // PoisonC.pas:142
     public void ArmyPlaced(ArmyHexSprite? armyHexSprite)
     {
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && !armyHexSprite.Owner.GetMagicShieldActive())
+        if (!GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting) && !armyHexSprite.Owner.GetMagicShieldActive())
         {
             armyHexSprite.Army.IncomingStorm(StormType.Pestilence, distance: 0, armyHexSprite.Army.Player);
         }
@@ -262,7 +262,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
 
                 while (directions.Count != 0 && !valid)
                 {
-                    direction = directions[StrategicMap.Current.Random(directions.Count)];
+                    direction = directions[GetEngine().StrategicMap.Random(directions.Count)];
                     valid = ValidMoveDirection(direction);
                     if (!valid)
                     {
@@ -274,7 +274,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
                     int tries = 20;
                     while (!valid && tries != 0)
                     {
-                        direction = StrategicMap.Current.Random(6) + 1;
+                        direction = GetEngine().StrategicMap.Random(6) + 1;
                         valid = ValidMoveDirection(direction);
                         tries -= 1;
                     }
@@ -292,12 +292,13 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
                     HexGeometry.CenterHexNumberToHex(HexX, yhx, hexNumber: direction, ref hexX, ref hexY);
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: direction, ref hexX, ref hexY);
                     Disconnect();
-                    UpdateMapFields(StrategicMap.Current.MapContainer.GetMapLevel(hexLevel), oldHexX, oldHexY);
+                    StrategicMap strategicMap = GetEngine().StrategicMap;
+                    UpdateMapFields(strategicMap.MapContainer.GetMapLevel(hexLevel), oldHexX, oldHexY);
                     StoredHexX = hexX.TruncateToSByte();
                     StoredHexY = hexY.TruncateToSByte();
-                    Owner = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+                    Owner = strategicMap.MapContainer.GetField(hexX, hexY, hexLevel);
                     Connect();
-                    UpdateMapFields(StrategicMap.Current.MapContainer.GetMapLevel(hexLevel), hexX, hexY);
+                    UpdateMapFields(GetEngine().StrategicMap.MapContainer.GetMapLevel(hexLevel), hexX, hexY);
                 }
             }
 

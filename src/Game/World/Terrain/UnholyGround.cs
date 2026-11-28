@@ -142,7 +142,7 @@ public class UnholyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owne
     public void TriggerArmyDamage(ArmyHexSprite? army)
     {
         int damaged = 0;
-        RandSeed = StrategicMap.Current.Random(16777215);
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
         ArmyEventLog log = new(null, holder: CreationHolder())
         {
             ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: s_unholyGroundDamageText)
@@ -202,7 +202,7 @@ public class UnholyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owne
     // UnHolyG.pas:142
     public void ArmyPlaced(ArmyHexSprite? army)
     {
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
+        if (!GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             TriggerArmyDamage(army);
         }
@@ -216,7 +216,7 @@ public class UnholyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owne
         Dispose();
         if (overlay > 0)
         {
-            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, L: field.HexLevel, terrainType: field.TerrainNumber, overlayType: overlay);
+            GetEngine().StrategicMap.PlaceTerrain(field.HexX, field.HexY, L: field.HexLevel, terrainType: field.TerrainNumber, overlayType: overlay);
         }
     }
 
@@ -267,21 +267,22 @@ public class UnholyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owne
         int hexLevel = animation.HexLevel;
         int hexY = animation.HexY;
         int hexX = animation.HexX;
-        MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        MapField field = strategicMap.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(ClassId) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
-            bool condition = PlayerIdExtensions.ToOriginal(StrategicMap.Current.SeatedPlayer) == animation.Tag;
+            bool condition = PlayerIdExtensions.ToOriginal(strategicMap.SeatedPlayer) == animation.Tag;
             if (!condition)
             {
                 int hexLevel2 = HexLevel;
                 int hexY2 = HexY;
                 int hexX2 = HexX;
-                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
+                condition = strategicMap.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
             }
 
             if (condition)
             {
-                _ = GamePack.Current.SpellControl[14].CastSounds.Play(0);
+                _ = GetEngine().GamePack.SpellControl[14].CastSounds.Play(0);
             }
         }
     }
@@ -292,7 +293,7 @@ public class UnholyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owne
         int hexLevel = animation.HexLevel;
         int hexY = animation.HexY;
         int hexX = animation.HexX;
-        MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        MapField field = GetEngine().StrategicMap.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(ClassId) && frameCounter == 9)
         {
             Mode &= ~UnholySummonings.Summoning;

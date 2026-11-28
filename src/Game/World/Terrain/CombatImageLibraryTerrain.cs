@@ -71,7 +71,7 @@ public class CombatImageLibraryTerrain(CustomNode? owner) : ImageLibraryTerrainM
     }
 
     // CombatILTer.pas:163
-    public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => engine.GamePack.CombatResources;
 
     // CombatILTer.pas:93
     public override bool CanPlaceOnHexSprite(HexSprite hexSprite) => base.CanPlaceOnHexSprite(hexSprite) || hexSprite is AbstractRoad;
@@ -116,7 +116,8 @@ public class CombatImageLibraryTerrain(CustomNode? owner) : ImageLibraryTerrainM
                 DestroyShadow();
             }
 
-            if (StrategicMap.Current is null || StrategicMap.Current.ShowUnitShadows)
+            StrategicMap? strategicMap = GetEngine()?.StrategicMap;
+            if (strategicMap is null || strategicMap.ShowUnitShadows)
             {
                 _shadow = new CombatImageLibraryTerrainShadow(null)
                 {

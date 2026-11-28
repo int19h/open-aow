@@ -1,7 +1,6 @@
 #nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 
 using Aow.Game.Units;
-using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
@@ -20,7 +19,7 @@ public partial class ProductionControl
                 continue;
             }
 
-            UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex);
+            UnitResource resource = GetEngine().GamePack.UnitResources.GetUnitResource(production.UnitIndex);
             if (resource is not null && result < resource.Level)
             {
                 result = resource.Level;

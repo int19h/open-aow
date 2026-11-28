@@ -266,9 +266,12 @@ public sealed partial class StrategicMap : GameMap
         LockMapChangedEvent();
         SetViewLevelHandler(null);
         SetCenterViewHandler(null);
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "GENERAL.ILB");
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "CURSORS.ILB");
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "COMBAT.ILB");
+        // The libraries go back to the pack of this map's engine (issue 335, second-engine
+        // ownership). An engine with no pack has none to release.
+        ImageLibraryManager? imageLibraryManager = GetEngine()?.GamePack?.ImageLibraryManager;
+        imageLibraryManager?.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "GENERAL.ILB");
+        imageLibraryManager?.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "CURSORS.ILB");
+        imageLibraryManager?.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "COMBAT.ILB");
         MoveControl?.Dispose();
         for (int i = Effects.Count - 1; i >= 0; i--)
         {
@@ -640,7 +643,7 @@ public sealed partial class StrategicMap : GameMap
         ItemControl.MessageProc(ref message, sender);
         HeroControl.MessageProc(ref message, sender);
         AIGroupManager.MessageProc(ref message, sender);
-        if (message.MessageId == 537001986 && message.Payload.Int == PlayerIdExtensions.ToOriginal(Current.SeatedPlayer))
+        if (message.MessageId == 537001986 && message.Payload.Int == PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.SeatedPlayer))
         {
             if (SelectedArmy.ArmyHexSprite is not null)
             {
@@ -724,16 +727,16 @@ public sealed partial class StrategicMap : GameMap
             InitializeMapLevel(l.TruncateToSByte());
         }
 
-        for (int i = 0, last = GamePack.Current.ItemLibraries.SystemLibrary.Items.Count - 1; i <= last; i++)
+        for (int i = 0, last = GetEngine().GamePack.ItemLibraries.SystemLibrary.Items.Count - 1; i <= last; i++)
         {
-            Item copiedItem = GamePack.Current.ItemLibraries.SystemLibrary.Items.GetItem(i).Copy<Item>(GetEngine());
+            Item copiedItem = GetEngine().GamePack.ItemLibraries.SystemLibrary.Items.GetItem(i).Copy<Item>(GetEngine());
             ItemControl.RegisterItem(copiedItem);
             _ = copiedItem.Release();
         }
 
-        for (int i = 0, last = GamePack.Current.HeroLibraries.SystemLibrary.Heroes.Count - 1; i <= last; i++)
+        for (int i = 0, last = GetEngine().GamePack.HeroLibraries.SystemLibrary.Heroes.Count - 1; i <= last; i++)
         {
-            Hero heroValue = GamePack.Current.HeroLibraries.SystemLibrary.Heroes.GetHero(i).Copy<Hero>(GetEngine());
+            Hero heroValue = GetEngine().GamePack.HeroLibraries.SystemLibrary.Heroes.GetHero(i).Copy<Hero>(GetEngine());
             _ = HeroControl.RegisterHero(heroValue);
             _ = heroValue.Release();
         }
@@ -760,11 +763,11 @@ public sealed partial class StrategicMap : GameMap
         if (Day == 0 || GameSongs.Songs.Count == 0)
         {
             GameSongs.Songs.Clear();
-            for (int i = 0, last = Current.StartupSongs.Songs.Count - 1; i <= last; i++)
+            for (int i = 0, last = GetEngine().StrategicMap.StartupSongs.Songs.Count - 1; i <= last; i++)
             {
-                if (CompareText(b: AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FileNotFoundText), a: Current.StartupSongs.SongNames[i]) != 0)
+                if (CompareText(b: AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FileNotFoundText), a: GetEngine().StrategicMap.StartupSongs.SongNames[i]) != 0)
                 {
-                    string item = Current.StartupSongs.Songs[i];
+                    string item = GetEngine().StrategicMap.StartupSongs.Songs[i];
                     _ = GameSongs.Songs.Add(item);
                 }
             }
@@ -779,7 +782,7 @@ public sealed partial class StrategicMap : GameMap
         {
             if (Players.GetPlayers(i).Behavior == PlayerBehavior.Random)
             {
-                int random = Current.Random(5);
+                int random = GetEngine().StrategicMap.Random(5);
                 Players.GetPlayers(i).Behavior = (PlayerBehavior)random;
             }
         }
@@ -829,14 +832,14 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:3130
     public override int ChangeTerrain(EngineObject? mapObject, int X, int Y, int L, int radius, int terrainType)
     {
-        RandSeed = Current.Random(16777215);
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
         return base.ChangeTerrain(mapObject, X, Y, L, radius, terrainType);
     }
 
     // AoWHSMap.PAS:3137
     public override int ChangeTerrain(EngineObject? mapObject, int X, int Y, int L, int radius, ChangeTerrainProc changeTerrainProc, TerrainChangedProc? terrainChangedProc)
     {
-        RandSeed = Current.Random(16777215);
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
         return base.ChangeTerrain(mapObject, X, Y, L, radius, changeTerrainProc, terrainChangedProc);
     }
 
@@ -1027,7 +1030,8 @@ public sealed partial class StrategicMap : GameMap
         get
         {
             StrategicMapIndependentAIMode result = _independentAIMode;
-            return !Current.Status.Contains(HexSpriteMapStatuses.Editting) && Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.FireMastery)
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            return !strategicMap.Status.Contains(HexSpriteMapStatuses.Editting) && strategicMap.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.FireMastery)
                 ? result == StrategicMapIndependentAIMode.Off ? StrategicMapIndependentAIMode.Normal : StrategicMapIndependentAIMode.Aggressive
                 : result;
         }
@@ -1036,14 +1040,15 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:1534
     public bool SaveGame(string fileName)
     {
-        if (Current.SeatedPlayer is not null)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.SeatedPlayer is not null)
         {
             SaveGameTokenEvent eventValue = new(null)
             {
                 Holder = CreationHolder(),
                 FileName = ExpandFileName(fileName)
             };
-            Current.TokenManager.GetTokenControl(Current.SeatedPlayer).AddEvent(eventValue);
+            strategicMap.TokenManager.GetTokenControl(strategicMap.SeatedPlayer).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }
@@ -1057,7 +1062,8 @@ public sealed partial class StrategicMap : GameMap
     public bool TerrainVisible(int X, int Y, int L, int radius)
     {
         // { Original returns true immediately when exploration is enabled. }
-        bool result = Current.ExplorationEnabled;
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        bool result = strategicMap.ExplorationEnabled;
         MapLevel mapLevel = MapContainer.GetMapLevel(L);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);
         while (walk.Radius <= radius && !result)
@@ -1065,7 +1071,7 @@ public sealed partial class StrategicMap : GameMap
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 MapField field = mapLevel.GetField(walk.X, walk.Y);
-                result = field.GetExplored(Current.SeatedPlayer);
+                result = field.GetExplored(strategicMap.SeatedPlayer);
             }
 
             if (!result)
@@ -1088,7 +1094,7 @@ public sealed partial class StrategicMap : GameMap
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 MapField field = mapLevel.GetField(walk.X, walk.Y);
-                result = (field.FogCount != 0 || !Current.FogEnabled) && (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled);
+                result = (field.FogCount != 0 || !GetEngine().StrategicMap.FogEnabled) && (field.GetExplored(GetEngine().StrategicMap.SeatedPlayer) || !GetEngine().StrategicMap.ExplorationEnabled);
             }
 
             if (!result)
@@ -1111,7 +1117,8 @@ public sealed partial class StrategicMap : GameMap
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 MapField field = mapLevel.GetField(walk.X, walk.Y);
-                result = (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled) && Viewing(walk.X, walk.Y, L);
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                result = (field.GetExplored(strategicMap.SeatedPlayer) || !strategicMap.ExplorationEnabled) && Viewing(walk.X, walk.Y, L);
             }
 
             if (!result)
@@ -1134,7 +1141,7 @@ public sealed partial class StrategicMap : GameMap
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 MapField field = mapLevel.GetField(walk.X, walk.Y);
-                result = (field.FogCount != 0 || !Current.FogEnabled) && (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled) && Viewing(walk.X, walk.Y, L);
+                result = (field.FogCount != 0 || !GetEngine().StrategicMap.FogEnabled) && (field.GetExplored(GetEngine().StrategicMap.SeatedPlayer) || !GetEngine().StrategicMap.ExplorationEnabled) && Viewing(walk.X, walk.Y, L);
             }
 
             if (!result)
@@ -1150,7 +1157,7 @@ public sealed partial class StrategicMap : GameMap
     public bool ValidateTerrainObservation(PlayerId? player, int X, int Y, int L, int radius)
     {
         bool result;
-        if (ShowIndependentMoves && player != Current.SeatedPlayer)
+        if (ShowIndependentMoves && player != GetEngine().StrategicMap.SeatedPlayer)
         {
             result = false;
             MapLevel mapLevel = MapContainer.GetMapLevel(L);
@@ -1161,7 +1168,8 @@ public sealed partial class StrategicMap : GameMap
                 if (wx >= 0 && walk.Y >= 0 && wx < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     MapField field = mapLevel.GetField(wx, walk.Y);
-                    result = field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled;
+                    StrategicMap strategicMap = GetEngine().StrategicMap;
+                    result = field.GetExplored(strategicMap.SeatedPlayer) || !strategicMap.ExplorationEnabled;
                 }
 
                 if (!result)
@@ -1334,7 +1342,7 @@ public sealed partial class StrategicMap : GameMap
         MapContainer.SendMessage(ref message, sender: this);
         NotifyEvent<StrategicMap>? handlers = SeatedPlayerChanged;
         EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(SeatedPlayerChanged));
-        handlers?.Invoke(Current);
+        handlers?.Invoke(GetEngine().StrategicMap);
         ShowMessage("");
     }
 
@@ -1363,7 +1371,7 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:1838
     public void NotifyUnitDestroyed(Troop troop)
     {
-        if (!Current.Status.Contains(HexSpriteMapStatuses.Destroying))
+        if (!GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
             NotifyEvent<Troop>? handlers = UnitDestroyed;
             EventChecks.AtMostOneHandler(handlers, owner: this, eventName: nameof(UnitDestroyed));
@@ -1568,16 +1576,16 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:2024
     public void ExecuteGameOverEvent(GameOverEventLog eventValue)
     {
-        for (int i = 1, last = Current.Players.Count - 1; i <= last; i++)
+        for (int i = 1, last = GetEngine().StrategicMap.Players.Count - 1; i <= last; i++)
         {
-            Player? player = Current.Players.GetPlayers(i);
+            Player? player = GetEngine().StrategicMap.Players.GetPlayers(i);
             if (i == PlayerIdExtensions.ToOriginal(eventValue.Player) || player.GameOverStatus == GameOverStatus.None)
             {
                 GameOverEventLog log = eventValue.Copy<GameOverEventLog>(GetEngine());
                 if (_gameOverLockCount == 0)
                 {
                     player.EventLogbook.AddEvent(log);
-                    if (i == PlayerIdExtensions.ToOriginal(Current.SeatedPlayer))
+                    if (i == PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.SeatedPlayer))
                     {
                         _ = log.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                     }
@@ -1605,8 +1613,8 @@ public sealed partial class StrategicMap : GameMap
                 GameOverEventLog stored = _executeEventLogBuffer.GetChild<GameOverEventLog>(0);
                 sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(stored.TargetPlayer);
                 EventLog log = stored.Copy<EventLog>(GetEngine());
-                Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
-                if (player == PlayerIdExtensions.ToOriginal(Current.SeatedPlayer))
+                GetEngine().StrategicMap.Players.GetPlayers(player).EventLogbook.AddEvent(log);
+                if (player == PlayerIdExtensions.ToOriginal(GetEngine().StrategicMap.SeatedPlayer))
                 {
                     _ = log.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                 }
@@ -1643,7 +1651,7 @@ public sealed partial class StrategicMap : GameMap
         Array4<int> data = message.Data;
         data[0] = 0;
         message.Data = data;
-        Current.SendMessage(ref message, sender: this);
+        GetEngine().StrategicMap.SendMessage(ref message, sender: this);
         bool result = message.Data[0] == 0;
         _ = result
             ? messages.Add(AbilityRules.TranslateResourceString(GetEngine(), S: s_mapSuccessfullyValidatedText))
@@ -1759,12 +1767,13 @@ public sealed partial class StrategicMap : GameMap
                     field.SendMapFieldMessage(ref message);
                     if (message.Result.Int != -1 && message.Result.Int != PlayerIdExtensions.ToOriginal(player))
                     {
-                        Current.Players.GetPlayers(player).PlayerSeen(PlayerId.FromOriginal((sbyte)message.Result.Int));
+                        StrategicMap strategicMap = GetEngine().StrategicMap;
+                        strategicMap.Players.GetPlayers(player).PlayerSeen(PlayerId.FromOriginal((sbyte)message.Result.Int));
                         for (int i = 0, last = Players.Count - 1; i <= last; i++)
                         {
                             if (i != PlayerIdExtensions.ToOriginal(player) && Players.GetDiplomaticRelation(PlayerId.FromOriginal((sbyte)PlayerIdExtensions.ToOriginal(player)), otherPlayer: PlayerId.FromOriginal((sbyte)i)) == DiplomaticRelation.Alliance)
                             {
-                                Current.Players.GetPlayers(i).PlayerSeen(PlayerId.FromOriginal((sbyte)message.Result.Int));
+                                strategicMap.Players.GetPlayers(i).PlayerSeen(PlayerId.FromOriginal((sbyte)message.Result.Int));
                             }
                         }
                     }
@@ -1825,7 +1834,7 @@ public sealed partial class StrategicMap : GameMap
         {
             if (FogEnabled)
             {
-                if (player != Current.SeatedPlayer)
+                if (player != GetEngine().StrategicMap.SeatedPlayer)
                 {
                     message.MessageId = 4362;
                     message.Result = 0;
@@ -1854,7 +1863,7 @@ public sealed partial class StrategicMap : GameMap
                 }
                 else
                 {
-                    MapField fieldValue = Current.MapContainer.GetField(X, Y, L);
+                    MapField fieldValue = GetEngine().StrategicMap.MapContainer.GetField(X, Y, L);
                     return fieldValue.FogCount == 0;
                 }
             }
@@ -1879,12 +1888,13 @@ public sealed partial class StrategicMap : GameMap
             int hexY = Mouse.HexY;
             int hexX = Mouse.HexX;
             MapField field = MapContainer.GetField(hexX, hexY, ViewMapLevel);
-            if (Current.ExplorationEnabled && !field.GetExplored(Current.SeatedPlayer))
+            StrategicMap strategicMap = GetEngine().StrategicMap;
+            if (strategicMap.ExplorationEnabled && !field.GetExplored(strategicMap.SeatedPlayer))
             {
                 return;
             }
 
-            if (!Current.FogEnabled || field.FogCount != 0)
+            if (!strategicMap.FogEnabled || field.FogCount != 0)
             {
                 int pixelY = Mouse.PixelY;
                 int pixelX = Mouse.PixelX;
@@ -2051,7 +2061,7 @@ public sealed partial class StrategicMap : GameMap
     public int Random(int range)
     {
         int result;
-        if (!Current.Status.Contains(HexSpriteMapStatuses.Destroying))
+        if (!GetEngine().StrategicMap.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
             if (Synchronized)
             {
@@ -2121,9 +2131,9 @@ public sealed partial class StrategicMap : GameMap
             {
                 LockMapChangedEvent();
                 EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537001992, sender: this);
-                Current.SendMessage(ref message, sender: this);
+                GetEngine().StrategicMap.SendMessage(ref message, sender: this);
                 UnlockMapChangedEvent();
-                Current.InvalidateMap();
+                GetEngine().StrategicMap.InvalidateMap();
             }
 
             _visibilityChanged = false;
@@ -2197,8 +2207,9 @@ public sealed partial class StrategicMap : GameMap
 
             if (classId == 2_228_496)
             {
-                Current.Mouse.ResetRectangleSelection();
-                Current.Selection.UnselectLocation();
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                strategicMap.Mouse.ResetRectangleSelection();
+                strategicMap.Selection.UnselectLocation();
                 TargetSelection.Deactivate();
                 DisableTurnTimer();
             }
@@ -2214,7 +2225,7 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:2922
     public void ShowSeatedPlayerCallback(EventLog log)
     {
-        SetSeatedPlayer(Current.CurrentPlayer);
+        SetSeatedPlayer(GetEngine().StrategicMap.CurrentPlayer);
         EnableTurnTimer();
     }
 
@@ -2223,7 +2234,7 @@ public sealed partial class StrategicMap : GameMap
     {
         if (Combat is not null)
         {
-            Current.LockGameOverEvent();
+            GetEngine().StrategicMap.LockGameOverEvent();
             if (Combat.Status.Contains(CombatStatuses.Activated))
             {
                 Combat.Deactivate();
@@ -2233,14 +2244,15 @@ public sealed partial class StrategicMap : GameMap
             {
                 Combat.Finalize();
                 sbyte player = Combat.CombatData.Players.GetPlayers(Combat.CombatData.AttackerPlayer).Player;
-                if (Current.ConnectionType == PlayerConnectionType.Network && PlayMode == PlayMode.Simultaneous)
+                StrategicMap strategicMap = GetEngine().StrategicMap;
+                if (strategicMap.ConnectionType == PlayerConnectionType.Network && PlayMode == PlayMode.Simultaneous)
                 {
-                    int count = Current.Players.Count;
+                    int count = strategicMap.Players.Count;
                     player = Combat.CombatData.Players.GetPlayers(Combat.CombatData.AttackerPlayer).Player;
-                    while (count != 0 && Current.Players.GetPlayers(player).Status != PlayerStatus.Playing)
+                    while (count != 0 && strategicMap.Players.GetPlayers(player).Status != PlayerStatus.Playing)
                     {
                         player = (sbyte)(player + 1);
-                        if (player == Current.Players.Count)
+                        if (player == strategicMap.Players.Count)
                         {
                             player = 0;
                         }
@@ -2249,10 +2261,10 @@ public sealed partial class StrategicMap : GameMap
                     }
                 }
 
-                Current.TokenManager.TokenExecutor.ActivateTacticalBattle(player);
+                strategicMap.TokenManager.TokenExecutor.ActivateTacticalBattle(player);
                 if (PlayMode == PlayMode.Simultaneous)
                 {
-                    Current.TokenManager.TokenExecutor.HoldTacticalBattle = false;
+                    GetEngine().StrategicMap.TokenManager.TokenExecutor.HoldTacticalBattle = false;
                 }
             }
 
@@ -2384,22 +2396,23 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:3144
     public void CenterOnLeader(PlayerId? player, bool select, bool animate)
     {
-        if (Current.Players.GetPlayers(player).Leader is not null)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (strategicMap.Players.GetPlayers(player).Leader is not null)
         {
-            MapCoordinate coordinate32 = Current.Players.GetPlayers(player).Leader.GetLocation();
+            MapCoordinate coordinate32 = strategicMap.Players.GetPlayers(player).Leader.GetLocation();
             int x = coordinate32.X;
             int y = coordinate32.Y;
             int l = coordinate32.MapLevel;
             // { Original excludes X = 0. }
             if (x > 0)
             {
-                Current.CenterViewTo(x, y, l);
+                strategicMap.CenterViewTo(x, y, l);
                 if (animate)
                 {
-                    Current.PlayCenterAnimation(x, y, l);
+                    GetEngine().StrategicMap.PlayCenterAnimation(x, y, l);
                 }
 
-                ArmyHexSprite army = Current.MapContainer.GetField(x, y, l).GetArmyHexSprite();
+                ArmyHexSprite army = GetEngine().StrategicMap.MapContainer.GetField(x, y, l).GetArmyHexSprite();
                 if (army is not null)
                 {
                     Selection.UnselectLocation();
@@ -2412,8 +2425,8 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:3167
     public void PlaceTerrain(int X, int Y, int L, int terrainType, int overlayType)
     {
-        RandSeed = Current.Random(16777215);
-        MapObjectResourceList resources = GamePack.Current.MapObjectResourceList;
+        RandSeed = GetEngine().StrategicMap.Random(16777215);
+        MapObjectResourceList resources = GetEngine().GamePack.MapObjectResourceList;
         if ((byte)overlayType is not (4 or 5))
         {
             DelphiList<MapObjectResource> candidates = [];
@@ -2429,12 +2442,12 @@ public sealed partial class StrategicMap : GameMap
 
             if (candidates.Count != 0)
             {
-                _ = candidates[Random(candidates.Count)].PlaceResourceUser(Current, X, Y, L);
+                _ = candidates[Random(candidates.Count)].PlaceResourceUser(GetEngine().StrategicMap, X, Y, L);
             }
         }
         else
         {
-            _ = GamePack.Current.RoadControl.Place(Current.MapContainer, X, Y, L, terrainType);
+            _ = GetEngine().GamePack.RoadControl.Place(GetEngine().StrategicMap.MapContainer, X, Y, L, terrainType);
         }
     }
 
@@ -2475,7 +2488,7 @@ public sealed partial class StrategicMap : GameMap
 
     public bool ValidateObservation(PlayerId? player, int x, int y, int level, int radius)
     {
-        if (!ShowIndependentMoves || player == Current.SeatedPlayer)
+        if (!ShowIndependentMoves || player == GetEngine().StrategicMap.SeatedPlayer)
         {
             return false;
         }
@@ -2493,8 +2506,8 @@ public sealed partial class StrategicMap : GameMap
                 if (walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     MapField field = mapLevel.GetField(walk.X, walk.Y);
-                    result = (field.FogCount != 0 || !Current.FogEnabled) &&
-                        (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled);
+                    result = (field.FogCount != 0 || !GetEngine().StrategicMap.FogEnabled) &&
+                        (field.GetExplored(GetEngine().StrategicMap.SeatedPlayer) || !GetEngine().StrategicMap.ExplorationEnabled);
                 }
             }
             if (!result)
@@ -2526,20 +2539,21 @@ public sealed partial class StrategicMap : GameMap
 
     private static readonly string s_destroyingLevelText = "Destroying Level ";
 
-    private bool TryEndPlayerTurn(PlayerId? player) => player is not null && !Current.Players.GetPlayers(player).GetBusy() && !Current.Players.GetPlayers(player).SingleProcessCycle && AbilityRules.EndPlayerTurn(player, engine: GetEngine());
+    private bool TryEndPlayerTurn(PlayerId? player) => player is not null && !GetEngine().StrategicMap.Players.GetPlayers(player).GetBusy() && !GetEngine().StrategicMap.Players.GetPlayers(player).SingleProcessCycle && AbilityRules.EndPlayerTurn(player, engine: GetEngine());
 
     private bool CancelPlayerTurn(PlayerId? player)
     {
-        if (!Current.Players.GetPlayers(player).GetBusy() && Current.Players.GetPlayers(player).SingleProcessCycle)
+        StrategicMap strategicMap = GetEngine().StrategicMap;
+        if (!strategicMap.Players.GetPlayers(player).GetBusy() && strategicMap.Players.GetPlayers(player).SingleProcessCycle)
         {
             EndTurnTokenEvent eventValue = new(null)
             {
                 Holder = CreationHolder(),
                 Player = player,
-                Day = Current.Day,
+                Day = strategicMap.Day,
                 Mode = EndTurnTokenEventMode.CancelEndTurn
             };
-            Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            strategicMap.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
         }

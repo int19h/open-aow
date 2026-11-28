@@ -62,7 +62,7 @@ public class Terrain(CustomNode owner) : TerrainMapObject(owner)
     {
         if (Owner.FindOwnedChild(Fire.ClassId) is null)
         {
-            if (StrategicMap.Current.Random(20) == 0)
+            if (GetEngine().StrategicMap.Random(20) == 0)
             {
                 TerrainMapObjectResource? r = FindCompatibleResource(base.Resource.TerrainType, overlayType: 1, decorationType: 0);
                 if (r is not null)

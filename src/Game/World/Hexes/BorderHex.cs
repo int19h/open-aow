@@ -78,7 +78,7 @@ public class BorderHex(CustomNode owner) : AbstractBorderHexagon(owner)
     // AoWHex.pas:261
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (info.HexNumber == 0 && StrategicMap.Current is not null && StrategicMap.Current.Day == 0)
+        if (info.HexNumber == 0 && GetEngine()?.StrategicMap is { Day: 0 })
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags & ~MapField.ExploredFlags;
         }

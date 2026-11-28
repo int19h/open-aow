@@ -6,14 +6,13 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
 
-// Resources
-public sealed class FireControl : IDisposable
+// Resources. Structur.PAS:3720. The game set that creates the control is its creator, through
+// which a placed fire reaches the world map of the game set's engine.
+public sealed class FireControl(GamePack creator) : IDisposable
 {
-    // Structur.PAS:3720
-    // Resources
-    public FireControl() => _resources = [];
+    private GamePack Creator { get; } = creator;
 
-    private readonly List<Fire.Resource> _resources;
+    private readonly List<Fire.Resource> _resources = [];
 
     // Structur.PAS:3726
     public void Dispose() => _resources?.Clear();
@@ -37,8 +36,9 @@ public sealed class FireControl : IDisposable
         if (resource is not null)
         {
             Fire fire = resource.CreateResourceUser<Fire>();
-            fire.Player = StrategicMap.Current.CurrentPlayer;
-            if (!StrategicMap.Current.PlaceHex(fire, X, Y, L))
+            StrategicMap strategicMap = Creator.GetEngine().StrategicMap;
+            fire.Player = strategicMap.CurrentPlayer;
+            if (!strategicMap.PlaceHex(fire, X, Y, L))
             {
                 fire?.Dispose();
                 return null;

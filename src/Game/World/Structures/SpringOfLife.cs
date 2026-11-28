@@ -46,13 +46,14 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
             _ = armyHexSprite.Army.Units.GetUnit(i).ExpandAbility(99);
         }
 
-        bool condition = armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer;
+        StrategicMap watchMap = GetEngine().StrategicMap;
+        bool condition = armyHexSprite.Army.Player == watchMap.SeatedPlayer;
         if (!condition)
         {
             int hexLevel = HexLevel;
             int hexY = HexY;
             int hexX = HexX;
-            condition = StrategicMap.Current.Watching(hexX, hexY, L: hexLevel, radius: 0);
+            condition = watchMap.Watching(hexX, hexY, L: hexLevel, radius: 0);
         }
 
         if (condition)
@@ -63,7 +64,8 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
         int hexLevel2 = HexLevel;
         int hexY2 = HexY;
         int hexX2 = HexX;
-        if (StrategicMap.Current.Visible(hexX2, hexY2, L: hexLevel2, radius: 0))
+        StrategicMap animationMap = GetEngine().StrategicMap;
+        if (animationMap.Visible(hexX2, hexY2, L: hexLevel2, radius: 0))
         {
             SpringOfLifeAnimation animation = new(null, show: ShowBlessingAnimation) { Holder = CreationHolder() };
             Rect r = new(-16, -8, 32, 40);
@@ -72,7 +74,7 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
             int hexLevel = HexLevel;
             int hexY = HexY;
             int hexX = HexX;
-            _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, L: hexLevel);
+            _ = animationMap.PlaceHex(animation, hexX, hexY, L: hexLevel);
         }
     }
 
