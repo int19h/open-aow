@@ -11,6 +11,7 @@ using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Events;
 using Aow.Game.Host;
+using Aow.Game.Recording;
 using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
@@ -79,6 +80,9 @@ internal static class Program
         RunEnd end = null;
         StreamWriter? fileLog = null;
         RandomTrace? randomTrace = null;
+        StreamWriter? recordedEvents = null, recordedTrace = null;
+        TokenRecorder? recorder = null;
+        string? recordingClose = null;
         try
         {
             HostRequest request = HostRequest.Parse(arguments);
@@ -102,6 +106,7 @@ internal static class Program
             string randomTracePath = request.RandomTracePath;
             string fileLogPath = request.FileLogPath;
             bool traceMovement = request.TraceMovement;
+            bool recordTokens = request.RecordTokens, recordSites = request.RecordSites;
             animationFps = request.AnimationFps;
             viewportWidth = request.ViewportWidth;
             viewportHeight = request.ViewportHeight;
@@ -282,13 +287,20 @@ internal static class Program
                 }
 
                 playedMap = map;
+                if (recordTokens)
+                {
+                    // Recordings, step 1 (issue 343): the token stream of the run next to its day saves.
+                    recordedEvents = new StreamWriter(Path.Combine(output, "events.jsonl"), append: false, encoding: new UTF8Encoding(false)) { NewLine = "\n", AutoFlush = true };
+                    recordedTrace = new StreamWriter(Path.Combine(output, "trace.jsonl"), append: false, encoding: new UTF8Encoding(false)) { NewLine = "\n", AutoFlush = true };
+                    recorder = new TokenRecorder(map, events: recordedEvents, trace: recordedTrace, site: recordSites ? TokenSites.Describe : null);
+                }
 
                 _ = map.SetViewPort(map.ViewPixelX, map.ViewPixelY, lHitPoints: map.ViewMapLevel, 0, 0);
                 DelphiRandom.RandSeed = seed;
                 DelphiRandom.SuppressRandomize = true;
                 HeadlessHooks.Tactical = tactical;
                 HeadlessHooks.TacticalBattles = tacticalBattles;
-                directed = new(map, items: exerciseItems, spell: globalSpell, dispel: dispel, endEnchantment: endEnchantment, leaderAttack: leaderAttack, captureLocations: captureLocations);
+                directed = new(map, items: exerciseItems, spell: globalSpell, dispel: dispel, endEnchantment: endEnchantment, leaderAttack: leaderAttack, captureLocations: captureLocations, recorder: recorder);
                 if (directed.HasTurnInputs)
                 {
                     HeadlessHooks.BeforeAIPlayerProcess = directed.BeforeFrame;
@@ -302,7 +314,7 @@ internal static class Program
                         throw new ArgumentException(refusal);
                     }
 
-                    pbemTurn = new(map, order: pbemAttack);
+                    pbemTurn = new(map, order: pbemAttack, recorder: recorder);
                 }
 
                 map.GameEnded += _ =>
@@ -524,6 +536,18 @@ internal static class Program
                 end = RunEnd.Capture(playedMap, ended);
             }
 
+            // A recording fault never keeps run.json from being written.
+            try
+            {
+                recorder?.Dispose();
+                recordedEvents?.Dispose();
+                recordedTrace?.Dispose();
+            }
+            catch (Exception recordingError)
+            {
+                recordingClose = recordingError.ToString();
+            }
+
             if (writeManifest && output is not null && Directory.Exists(output))
             {
                 File.WriteAllText(Path.Combine(output, "run.json"), contents: JsonSerializer.Serialize(new
@@ -577,6 +601,16 @@ internal static class Program
                     capture_locations = directed?.CaptureRecord,
                     tactical_selections = HeadlessHooks.TacticalSelections,
                     tactical_executions = HeadlessHooks.TacticalExecutions,
+                    token_recording = recorder is null ? null : new
+                    {
+                        inputs = recorder.InputCount,
+                        executed = recorder.ExecutedCount,
+                        derived = recorder.DerivedCount,
+                        nested = recorder.NestedCount,
+                        faults = recorder.FaultCount,
+                        fault = recorder.Fault,
+                        close_error = recordingClose,
+                    },
                     complete,
                     game_ended = ended,
                     first_day = firstDay,

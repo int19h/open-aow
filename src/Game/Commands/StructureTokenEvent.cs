@@ -44,9 +44,17 @@ public class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
     }
 
     // Structur.PAS:3077
+    // Validate runs on the first execution only, as the original's short circuit has it.
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        return tokenEvent.ExecuteCount != 0 || Validate()
+        bool valid = tokenEvent.ExecuteCount != 0;
+        if (!valid)
+        {
+            valid = Validate();
+            tokenEvent.ReportValidated(this, isValid: valid);
+        }
+
+        return valid
             ? GetEngine().StrategicMap.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Structure>(_structureClassId).ExecuteTokenEvent(this, executor: tokenEvent)
             : ExecuteResult.DoneHalt;
     }

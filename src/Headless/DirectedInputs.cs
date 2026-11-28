@@ -4,6 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
+using Aow.Game.Recording;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
@@ -15,7 +16,10 @@ namespace Aow.Headless;
 // end_test_global, leader_attack_turn and capture_locations_turn in playtest.py. One
 // player can own more than one input. The pending set is re-armed after each day save,
 // and each input runs once on that player's turn.
-internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, int dispel, string endEnchantment, LeaderAttackTarget? leaderAttack, int captureLocations)
+//
+// Each input runs as a host action of the token recorder (issue 343). Those that change the game
+// state outside the token stream say so, so their marker line is written even with no add.
+internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, int dispel, string endEnchantment, LeaderAttackTarget? leaderAttack, int captureLocations, TokenRecorder? recorder = null)
 {
     public List<object> ItemActions { get; } = [];
     public List<object> GlobalRequests { get; } = [];
@@ -113,7 +117,8 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
 
         if (items)
         {
-            EquipItems();
+            // Generates and places items directly, which also draws from RandSeed.
+            Act("equip-items", changesState: true, action: EquipItems);
         }
 
         if (spell != 0 || dispel != 0 || endEnchantment is not null)
@@ -123,8 +128,8 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
 
         if (spell != 0)
         {
-            _ = map.Players.GetPlayers(_caster).MagicControl.ExecuteSpellResearched(spell);
-            CastGlobal();
+            Act("research-spell", changesState: true, action: () => _ = map.Players.GetPlayers(_caster).MagicControl.ExecuteSpellResearched(spell));
+            Act("cast-global", changesState: true, action: CastGlobal);
         }
 
         if (dispel != 0)
@@ -138,7 +143,15 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
             _dispellerLevel = (byte)map.Players.GetPlayers(_dispeller).Leader.Level;
             _baseMana = spellObject.BaseManaCost;
             _researchCost = spellObject.ResearchCost;
-            _ = map.Players.GetPlayers(_dispeller).MagicControl.ExecuteSpellResearched(dispel);
+            Act("research-spell", changesState: true, action: () => _ = map.Players.GetPlayers(_dispeller).MagicControl.ExecuteSpellResearched(dispel));
+        }
+    }
+
+    private void Act(string name, bool changesState, Action action)
+    {
+        using (recorder?.HostInput(name, changesState: changesState))
+        {
+            action();
         }
     }
 
@@ -179,31 +192,32 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell, in
         if (_pendingGlobal && current == _caster)
         {
             _pendingGlobal = false;
-            CastGlobal();
+            Act("cast-global", changesState: true, action: CastGlobal);
         }
 
         if (_pendingEnd && current == _caster)
         {
             _pendingEnd = false;
-            EndEnchantment();
+            Act("end-enchantment", changesState: true, action: EndEnchantment);
         }
 
         if (_pendingDispel && current == _dispeller)
         {
             _pendingDispel = false;
-            Dispel();
+            Act("dispel", changesState: true, action: Dispel);
         }
 
         if (_pendingAttack && leaderAttack is { } target && current == target.Player)
         {
             _pendingAttack = false;
-            AttackWithLeader(target);
+            Act("leader-attack", changesState: true, action: () => AttackWithLeader(target));
         }
 
         if (_pendingCapture && current == captureLocations)
         {
             _pendingCapture = false;
-            CaptureLocations();
+            // Sets the owner of each victory location directly.
+            Act("capture-locations", changesState: true, action: CaptureLocations);
         }
     }
 

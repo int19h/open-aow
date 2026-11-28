@@ -64,7 +64,9 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
         _ = base.Execute(tokenEvent);
         if (_status == MoveStatus.Idle)
         {
-            if (Validate())
+            bool valid = Validate();
+            tokenEvent.ReportValidated(this, isValid: valid);
+            if (valid)
             {
                 _status = MoveStatus.Moving;
                 InitializeMove();

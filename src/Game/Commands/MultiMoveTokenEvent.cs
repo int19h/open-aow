@@ -53,6 +53,8 @@ public class MultiMoveTokenEvent : TokenEvent
                 // { The original retains only the final validation result. }
                 valid = events[i].Validate();
             }
+
+            tokenEvent.ReportValidated(this, isValid: valid);
         }
         else
         {

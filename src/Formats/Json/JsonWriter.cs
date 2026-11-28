@@ -102,6 +102,56 @@ public static class JsonWriter
         _ = builder.Append(']');
     }
 
+    /// <summary>
+    /// One line with no space at all and no final LF: the minimal JSON of a recording line or a
+    /// snapshot (issue 404). Scalars and strings are written as the canonical writer writes them.
+    /// </summary>
+    public static string ToMinimalText(JsonValue value)
+    {
+        StringBuilder builder = new();
+        WriteMinimal(builder, value);
+        return builder.ToString();
+    }
+
+    /// <summary>Appends the minimal JSON of <paramref name="value"/>, see <see cref="ToMinimalText"/>.</summary>
+    public static void WriteMinimal(StringBuilder builder, JsonValue value)
+    {
+        switch (value)
+        {
+            case JsonObject objectValue:
+                _ = builder.Append('{');
+                for (int i = 0; i < objectValue.Members.Count; i++)
+                {
+                    if (i > 0)
+                    {
+                        _ = builder.Append(',');
+                    }
+
+                    WriteString(builder, value: objectValue.Members[i].Name);
+                    _ = builder.Append(':');
+                    WriteMinimal(builder, value: objectValue.Members[i].Value);
+                }
+                _ = builder.Append('}');
+                return;
+            case JsonArray array:
+                _ = builder.Append('[');
+                for (int i = 0; i < array.Items.Count; i++)
+                {
+                    if (i > 0)
+                    {
+                        _ = builder.Append(',');
+                    }
+
+                    WriteMinimal(builder, value: array.Items[i]);
+                }
+                _ = builder.Append(']');
+                return;
+            default:
+                WriteScalar(builder, value);
+                return;
+        }
+    }
+
     /// <summary>One line, one space after colons and commas.</summary>
     public static void WriteCompact(StringBuilder builder, JsonValue value)
     {
