@@ -65,10 +65,10 @@ dictionaries (`.mld`). `Release/` and `Scenario/` hold maps and campaign data. `
 
 ## 2. Language: C#
 
-The port is written in C# 15 on .NET 11. SDK 11.0.100-rc.3 is installed since 2026-10-25 and the
-release is weeks away. C# 15 is the default language version for `net11.0` projects, and the
-features the port uses (`union` types, collection expression arguments, labeled `break` and
-`continue`, extension indexers, static abstract interface members) need no preview flag.
+The port is written in C# 15 on .NET 11. The build uses the stable SDK 11.0.100, pinned in
+`global.json`. C# 15 is the default language version for `net11.0` projects, and the features
+the port uses (`union` types, collection expression arguments, labeled `break` and `continue`,
+extension indexers, static abstract interface members) need no preview flag.
 `tests/toolchain/cs15probe` (private repository, section 8) compiles and runs each of them, and
 `closed` hierarchies besides, and is the first thing to run after an SDK update. The port declares
 no `closed` type (section 9). The memory safety preview is not used.
