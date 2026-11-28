@@ -62,9 +62,12 @@ internal static class TacticalTables
         return 1;
     }
 
-    internal static ReadOnlySpan<int> TacticalBattleAttack => [0, 0];
+    // AoWTC.pas:566. The image initializes TCAttack to (6, 10) and TCDamage to (6, 1).
+    // Ability 117 reads index 0 (CombatTE.pas:708).
+    // Index 1 is message 200711. CityWall (CityWall.pas:317), CombatStructure (CombatStructure.pas:203) and CombatTerrain (CombatTerrain.pas:242) read it.
+    internal static ReadOnlySpan<int> TacticalBattleAttack => [6, 10];
 
-    internal static ReadOnlySpan<int> TacticalBattleDamage => [0, 0];
+    internal static ReadOnlySpan<int> TacticalBattleDamage => [6, 1];
 
     internal static ReadOnlySpan<int> RangedAttackDirection => [0, 0, 0, 1, 0, 2, 3, 4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0];
 

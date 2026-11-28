@@ -3,7 +3,6 @@
 using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
@@ -2852,6 +2851,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                         cityWall = mapContainerCombatMap.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild<CityWall>(CityWall.ClassId) ?? mapContainerCombatMap.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2_229_510) as CityWall;
                                         if (settings.Path.Count == 2 && move.MoveType == BattleAIMoveType.MoveRanged && cityWall is not null)
                                         {
+                                            // AoWTC.pas:2057 spends the move points and does not step onto the wall.
                                             move.UnitHexSprite.Unit.MovePoints = 0;
                                         }
                                         else

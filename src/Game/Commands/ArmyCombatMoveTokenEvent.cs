@@ -306,7 +306,6 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
     // MoveT.PAS:2600
     public void SetupCombat()
     {
-        MapFieldMessage message = default;
         MapField field = GetMapField(Path[0].Location);
         if (_combatType == CombatType.None)
         {
@@ -532,40 +531,12 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
 
         if (_combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType || (_combatType == CombatType.Tactical && _combatMode == ArmyCombatMoveTokenEventMode.SetupReady))
         {
-            Battle combat = new(null) { Holder = CreationHolder() };
-            int hexY = ArmyHexSprite.HexY;
-            int hexLevel = ArmyHexSprite.HexLevel;
-            sbyte player = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
-            int independentRelation = field.GetIndependentRelation();
-            PathStep item = Path[0];
-            PathStep fPathItem = Path[0];
-            PathStep item2 = Path[0];
-            int hexX = ArmyHexSprite.HexX;
-            _ = combat.Setup((byte)PlayerIdExtensions.ToOriginal(ArmyHexSprite.Army.Player), attackerRelation: ((sbyte)ArmyHexSprite.Army.IndependentRelation).TruncateToByte(), hexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)player, defenderRelation: independentRelation, item.Location.X, fPathItem.Location.Y, L: item2.Location.MapLevel, logActions: false);
-            message.MessageId = 4359;
-            MapFieldMessageParameters param = message.Param;
-            param[0] = combat;
-            message.Param = param;
-            MapFieldMessageParameters param2 = message.Param;
-            param2[1] = ArmyHexSprite;
-            message.Param = param2;
-            message.Result = 0;
-            field.SendMapFieldMessage(ref message);
-            if (message.Result.Int == 0)
-            {
-                int fArmyHexSpriteHexLevel = ArmyHexSprite.HexLevel;
-                int fArmyHexSpriteHexY = ArmyHexSprite.HexY;
-                int fArmyHexSpriteHexX = ArmyHexSprite.HexX;
-                combat.InitializeDefaultArmies(ArmyHexSprite.Army, fArmyHexSpriteHexX, fArmyHexSpriteHexY, L: fArmyHexSpriteHexLevel);
-            }
-
-            if (!combat.DefendersAvailable() || !combat.PlayerTypeInvolved(PlayerTypes.Human))
+            (bool defendersAvailable, bool humanInvolved) = ProbeCombatParties();
+            if (!defendersAvailable || !humanInvolved)
             {
                 _combatType = CombatType.Fast;
                 _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
             }
-
-            combat?.Dispose();
         }
 
         // { Original uses connection type here too. }
@@ -690,6 +661,58 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
 
             GetEngine().StrategicMap.TriggerTypedExecuteEventLog(request, immediate: false, done: RequestCombatTypeCallback);
             _ = request.Release();
+        }
+    }
+
+    // MoveT.PAS:2696. The probe fills the parties the same way ExecuteCombat does next.
+    // An empty walled city has no defender-side object, so the caller stores a fast battle.
+    // PlayerTypeInvolved runs only when a defender is present, matching the original test.
+    private (bool DefendersAvailable, bool HumanInvolved) ProbeCombatParties()
+    {
+        Battle battle = new(null) { Holder = CreationHolder() };
+        try
+        {
+            MapField field = GetMapField(Path[0].Location);
+            PathStep destination = Path[0];
+            int attackerX = ArmyHexSprite.HexX;
+            int attackerY = ArmyHexSprite.HexY;
+            int attackerLevel = ArmyHexSprite.HexLevel;
+            sbyte defenderPlayer = (sbyte)PlayerIdExtensions.ToOriginal(field.GetPlayer());
+            int defenderRelation = field.GetIndependentRelation();
+            _ = battle.Setup(
+                (byte)PlayerIdExtensions.ToOriginal(ArmyHexSprite.Army.Player),
+                attackerRelation: ((sbyte)ArmyHexSprite.Army.IndependentRelation).TruncateToByte(),
+                attackerX: attackerX,
+                attackerY: attackerY,
+                attackerL: attackerLevel,
+                defenderPlayer: (byte)defenderPlayer,
+                defenderRelation: defenderRelation,
+                X: destination.Location.X,
+                Y: destination.Location.Y,
+                L: destination.Location.MapLevel,
+                logActions: false);
+            MapFieldMessage probeMessage = default;
+            probeMessage.MessageId = 4359;
+            MapFieldMessageParameters battleSlot = probeMessage.Param;
+            battleSlot[0] = battle;
+            probeMessage.Param = battleSlot;
+            MapFieldMessageParameters spriteSlot = probeMessage.Param;
+            spriteSlot[1] = ArmyHexSprite;
+            probeMessage.Param = spriteSlot;
+            probeMessage.Result = 0;
+            field.SendMapFieldMessage(ref probeMessage);
+            if (probeMessage.Result.Int == 0)
+            {
+                battle.InitializeDefaultArmies(ArmyHexSprite.Army, attackerX, attackerY, L: attackerLevel);
+            }
+
+            bool defendersAvailable = battle.DefendersAvailable();
+            bool humanInvolved = defendersAvailable && battle.PlayerTypeInvolved(PlayerTypes.Human);
+            return (defendersAvailable, humanInvolved);
+        }
+        finally
+        {
+            battle.Dispose();
         }
     }
 
